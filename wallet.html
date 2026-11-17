@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>My Wallet | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d5ad55;
+  --gold2:#f0d48b;
+  --white:#fff;
+  --bg:#f3f5f9;
+  --text:#18263a;
+  --muted:#718096;
+  --border:#e4e9f1;
+  --green:#16865b;
+  --red:#d64b4b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;background:var(--navy);color:white;
+  padding:24px 16px;flex-shrink:0
+}
+.brand{
+  font-size:21px;font-weight:900;color:var(--gold2);
+  padding:5px 10px 25px;letter-spacing:1px
+}
+.brand small{
+  display:block;font-size:10px;letter-spacing:4px;
+  color:#fff;margin-top:5px
+}
+.menu-title{
+  color:#8495ad;font-size:10px;font-weight:bold;
+  padding:15px 12px 8px;letter-spacing:1.5px
+}
+.menu a{
+  display:block;padding:12px;margin:3px 0;
+  border-radius:8px;color:#d8e0ec;font-size:13px
+}
+.menu a:hover,.menu a.active{
+  background:#18375e;color:var(--gold2)
+}
+.main{flex:1;min-width:0}
+.topbar{
+  height:68px;background:white;display:flex;
+  justify-content:space-between;align-items:center;
+  padding:0 30px;border-bottom:1px solid var(--border)
+}
+.topbar strong{color:var(--navy)}
+.member{font-size:12px;color:var(--muted)}
+.content{padding:28px;max-width:1250px;margin:auto}
+.heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+  margin-bottom:22px
+}
+.heading h1{font-size:25px;color:var(--navy)}
+.heading p{font-size:13px;color:var(--muted);margin-top:7px}
+.demo-tag{
+  background:#fff4d8;color:#8a651c;padding:8px 13px;
+  border-radius:20px;font-size:11px;font-weight:bold
+}
+.notice{
+  background:#fff8e8;border:1px solid #f0dca9;
+  border-left:4px solid var(--gold);border-radius:10px;
+  padding:15px;margin-bottom:22px;
+  font-size:12px;line-height:1.7;color:#755719
+}
+.wallet-hero{
+  background:linear-gradient(125deg,#071a35,#173b68);
+  border-radius:16px;padding:28px;color:white;
+  position:relative;overflow:hidden;margin-bottom:22px
+}
+.wallet-hero:after{
+  content:"";position:absolute;width:240px;height:240px;
+  border:35px solid rgba(213,173,85,.12);
+  border-radius:50%;right:-65px;top:-95px
+}
+.wallet-label{font-size:12px;color:#c4d1e3}
+.wallet-amount{
+  font-size:38px;font-weight:900;
+  color:var(--gold2);margin:13px 0
+}
+.wallet-id{font-size:11px;color:#b5c4d9}
+.wallet-actions{
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:22px
+}
+.btn{
+  padding:11px 17px;border-radius:8px;
+  font-size:12px;font-weight:bold;display:inline-block;
+  border:1px solid transparent
+}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-outline{border-color:#7187a5;color:white}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:15px;margin-bottom:24px
+}
+.stat{
+  background:white;padding:20px;border:1px solid var(--border);
+  border-radius:12px
+}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{
+  font-size:24px;font-weight:800;color:var(--navy);
+  margin:12px 0 7px
+}
+.stat small{font-size:11px;color:var(--muted)}
+.card{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:21px;margin-bottom:22px
+}
+.card-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px
+}
+.card h2{font-size:16px;color:var(--navy)}
+.card-head p{font-size:11px;color:var(--muted);margin-top:5px}
+.status{
+  background:#fff4d8;color:#8a651c;
+  padding:6px 10px;border-radius:20px;
+  font-size:10px;font-weight:bold
+}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:17px}
+.filters input,.filters select{
+  border:1px solid var(--border);background:white;
+  padding:10px 12px;border-radius:8px;
+  outline:none;color:var(--text);font-size:12px
+}
+.filters input{flex:1;min-width:170px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{
+  text-align:left;background:#f6f7fa;color:#68778c;
+  padding:13px;font-size:11px
+}
+td{padding:14px 13px;border-bottom:1px solid var(--border);font-size:12px}
+td strong{color:var(--navy)}
+.credit{color:var(--green);font-weight:bold}
+.debit{color:var(--red);font-weight:bold}
+.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.info-box{
+  padding:16px;border:1px solid var(--border);
+  background:#f8f9fc;border-radius:9px
+}
+.info-box strong{font-size:13px;color:var(--navy)}
+.info-box p{font-size:11px;color:var(--muted);line-height:1.6;margin-top:7px}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+
+@media(max-width:950px){
+  .sidebar{width:210px}
+  .stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:650px){
+  .layout{display:block}
+  .sidebar{width:100%;padding:15px}
+  .brand{padding:5px 8px 15px}
+  .menu-title{display:none}
+  .menu{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}
+  .menu a{white-space:nowrap;font-size:11px;padding:10px}
+  .topbar{height:55px;padding:0 16px}
+  .content{padding:17px 13px}
+  .heading h1{font-size:21px}
+  .wallet-hero{padding:22px}
+  .wallet-amount{font-size:31px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:15px}
+  .stat-value{font-size:20px}
+  .card{padding:15px}
+  .info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    RUBALIA
+    <small>NETWORK</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="menu">
+    <a href="dashboard.html">⌂ Dashboard</a>
+    <a href="profile.html">♙ My Profile</a>
+    <a href="products.html">▣ Products</a>
+    <a href="orders.html">▤ My Orders</a>
+    <a href="team.html">♧ My Team</a>
+    <a href="income.html">৳ Income Details</a>
+    <a href="wallet.html" class="active">◈ My Wallet</a>
+    <a href="withdraw.html">⇧ Withdraw</a>
+  </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+  <nav class="menu">
+    <a href="settings.html">⚙ Settings</a>
+    <a href="contact.html">✉ Contact Support</a>
+    <a href="login.html">↪ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <strong>My Wallet</strong>
+  <span class="member">Member Panel · Demo</span>
+</header>
+
+<div class="content">
+
+  <div class="heading">
+    <div>
+      <h1>My Wallet</h1>
+      <p>Manage and review your wallet information.</p>
+    </div>
+    <span class="demo-tag">DEMO WALLET</span>
+  </div>
+
+  <div class="notice">
+    <strong>⚠ Demo Wallet — Real Transactions Disabled</strong>
+    This is a frontend demonstration only. No real money is stored,
+    deposited, transferred or withdrawn. All balances are illustrative
+    and will remain unavailable until a secure backend and legally
+    compliant payment system are implemented.
+  </div>
+
+  <section class="wallet-hero">
+    <div class="wallet-label">TOTAL WALLET BALANCE</div>
+    <div class="wallet-amount">৳0.00</div>
+    <div class="wallet-id">Wallet ID: Not Assigned</div>
+
+    <div class="wallet-actions">
+      <a href="deposit.html" class="btn btn-gold">＋ Deposit</a>
+      <a href="withdraw.html" class="btn btn-outline">⇧ Withdraw</a>
+      <a href="income.html" class="btn btn-outline">Income Details</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Available Balance</div>
+      <div class="stat-value">৳0.00</div>
+      <small>Not activated</small>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Pending Balance</div>
+      <div class="stat-value">৳0.00</div>
+      <small>No pending transactions</small>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Total Received</div>
+      <div class="stat-value">৳0.00</div>
+      <small>No real deposits or credits</small>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Wallet Transactions</h2>
+        <p>Review your wallet transaction history.</p>
+      </div>
+      <span class="status">NOT CONNECTED</span>
+    </div>
+
+    <div class="filters">
+      <input type="search" id="searchInput"
+        placeholder="Search transaction ID or description...">
+
+      <select id="typeFilter">
+        <option value="all">All Transactions</option>
+        <option value="credit">Credit</option>
+        <option value="debit">Debit</option>
+      </select>
+
+      <select id="statusFilter">
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Transaction ID</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="transactionTable">
+          <tr>
+            <td colspan="6" class="empty">
+              No real wallet transactions available.
+              Backend connection is not activated.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>Wallet Information</h2>
+        <p>Basic wallet information and future features.</p>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <strong>Deposit</strong>
+        <p>Future deposits will require a secure payment process and verified transaction records.</p>
+      </div>
+
+      <div class="info-box">
+        <strong>Withdraw</strong>
+        <p>Withdrawals will be available only after the wallet and payment system are securely implemented.</p>
+      </div>
+
+      <div class="info-box">
+        <strong>Transaction Security</strong>
+        <p>Future transactions should be verified and recorded on the server, not trusted to browser data.</p>
+      </div>
+
+      <div class="info-box">
+        <strong>Member Support</strong>
+        <p>Contact the support team for assistance once the real wallet service is activated.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  Frontend Demo Version · No real financial transactions.
+</footer>
+
+</main>
+</div>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+const typeFilter = document.getElementById("typeFilter");
+const statusFilter = document.getElementById("statusFilter");
+
+function filterTransactions(){
+  // Wallet transaction data will be loaded from the secure backend
+  // in a future development stage.
+  document.getElementById("transactionTable").innerHTML =
+    '<tr><td colspan="6" class="empty">' +
+    'No matching real wallet transactions found.' +
+    '</td></tr>';
+}
+
+searchInput.addEventListener("input",filterTransactions);
+typeFilter.addEventListener("change",filterTransactions);
+statusFilter.addEventListener("change",filterTransactions);
+</script>
+
+</body>
+</html>
