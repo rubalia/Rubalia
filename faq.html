@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>FAQ - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f4f6fa;
+  --white:#fff;
+  --text:#26344a;
+  --muted:#718096;
+  --border:#e5eaf1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.brand{
+  padding:5px 12px 25px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand strong{
+  display:block;
+  color:var(--gold);
+  font-size:19px;
+  letter-spacing:1.3px;
+}
+.brand small{
+  display:block;
+  color:#b8c4d7;
+  margin-top:6px;
+  font-size:10px;
+  letter-spacing:2px;
+}
+.menu-title{
+  color:#8393aa;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:8px;
+  color:#dce5f2;
+  font-size:13px;
+  margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff14;
+  color:#f4dfaa;
+}
+.nav a.active{border-left:3px solid var(--gold)}
+.nav .ico{width:20px;text-align:center}
+.main{flex:1;min-width:0}
+.topbar{
+  height:72px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.top-user{font-size:12px;color:var(--muted)}
+.content{
+  padding:28px;
+  max-width:1050px;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+}
+h1{font-size:26px;color:var(--navy);margin:0 0 8px}
+.subtitle{font-size:13px;color:var(--muted)}
+.demo{
+  background:#fff5dc;
+  color:#8a641a;
+  border:1px solid #f0dfb8;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+}
+.hero{
+  background:linear-gradient(120deg,var(--navy),#173d69);
+  color:white;
+  border-radius:13px;
+  padding:27px;
+  margin-bottom:20px;
+}
+.hero h2{font-size:21px;margin:0 0 9px}
+.hero p{
+  color:#d1dbea;
+  font-size:13px;
+  line-height:1.7;
+  margin:0;
+}
+.search-wrap{
+  position:relative;
+  margin-top:18px;
+}
+.search-wrap input{
+  width:100%;
+  border:1px solid #ffffff40;
+  border-radius:8px;
+  background:white;
+  color:var(--text);
+  padding:14px 15px;
+  font-size:13px;
+  outline:none;
+}
+.categories{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:20px 0;
+}
+.category{
+  background:white;
+  border:1px solid var(--border);
+  color:#536176;
+  border-radius:20px;
+  padding:9px 14px;
+  font-size:11px;
+  cursor:pointer;
+}
+.category.active{
+  background:var(--navy);
+  color:white;
+  border-color:var(--navy);
+}
+.section-title{
+  color:var(--navy);
+  font-size:16px;
+  margin:25px 0 12px;
+}
+.faq-group{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  overflow:hidden;
+  margin-bottom:15px;
+}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:0}
+.question{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  width:100%;
+  background:white;
+  border:0;
+  padding:17px 19px;
+  text-align:left;
+  color:var(--navy);
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.question:hover{background:#fafbfd}
+.symbol{
+  color:var(--gold);
+  font-size:20px;
+  flex-shrink:0;
+  transition:.2s;
+}
+.answer{
+  display:none;
+  padding:0 19px 17px;
+  color:#657286;
+  font-size:12px;
+  line-height:1.8;
+}
+.faq-item.open .answer{display:block}
+.faq-item.open .symbol{transform:rotate(45deg)}
+.faq-item.hidden{display:none}
+.empty{
+  display:none;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:35px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+.contact-box{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:23px;
+  margin-top:25px;
+  text-align:center;
+}
+.contact-box h3{color:var(--navy);font-size:17px;margin:0 0 8px}
+.contact-box p{color:var(--muted);font-size:12px;line-height:1.7}
+.btn{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--navy);
+  padding:11px 18px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+  margin-top:8px;
+}
+.footer{
+  text-align:center;
+  color:#929eae;
+  font-size:10px;
+  padding:20px;
+}
+.mobile-brand{display:none}
+@media(max-width:800px){
+  .sidebar{width:205px}
+  .content{padding:20px}
+}
+@media(max-width:600px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .topbar{height:60px;padding:0 16px}
+  .mobile-brand{
+    display:block;
+    color:var(--gold);
+    font-weight:bold;
+    font-size:15px;
+  }
+  .topbar-title{display:none}
+  .content{padding:18px 12px}
+  .heading{align-items:flex-start;flex-direction:column}
+  h1{font-size:22px}
+  .hero{padding:20px}
+  .question{padding:15px;font-size:12px}
+  .answer{padding:0 15px 15px;font-size:11px}
+  .category{font-size:10px;padding:8px 11px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    <strong>RUBALIA NETWORK</strong>
+    <small>MEMBER PORTAL</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="nav">
+    <a href="dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="profile.html"><span class="ico">👤</span> My Profile</a>
+    <a href="products.html"><span class="ico">▣</span> Products</a>
+    <a href="orders.html"><span class="ico">📦</span> My Orders</a>
+    <a href="team.html"><span class="ico">♧</span> My Team</a>
+    <a href="income.html"><span class="ico">৳</span> Income</a>
+    <a href="wallet.html"><span class="ico">▤</span> Wallet</a>
+    <a href="withdraw.html"><span class="ico">↗</span> Withdraw</a>
+    <a href="deposit.html"><span class="ico">＋</span> Deposit</a>
+    <a href="notifications.html"><span class="ico">🔔</span> Notifications</a>
+    <a href="settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="support.html"><span class="ico">🎧</span> Customer Support</a>
+    <a href="terms.html"><span class="ico">📄</span> Terms & Conditions</a>
+    <a href="privacy.html"><span class="ico">🔒</span> Privacy Policy</a>
+    <a href="faq.html" class="active"><span class="ico">❔</span> FAQ</a>
+    <a href="login.html"><span class="ico">↪</span> Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="mobile-brand">RUBALIA NETWORK</div>
+    <div class="topbar-title">Frequently Asked Questions</div>
+    <div class="top-user">Member Portal</div>
+  </header>
+
+  <section class="content">
+
+    <div class="heading">
+      <div>
+        <h1>Frequently Asked Questions</h1>
+        <div class="subtitle">Find answers to common questions about our platform.</div>
+      </div>
+      <span class="demo">DEMO CONTENT</span>
+    </div>
+
+    <div class="hero">
+      <h2>How can we help you?</h2>
+      <p>
+        Search for a question or select a category below.
+        We have organized common topics to help you understand
+        the RUBALIA NETWORK platform.
+      </p>
+      <div class="search-wrap">
+        <input id="searchInput" type="search"
+          placeholder="Search questions...">
+      </div>
+    </div>
+
+    <div class="categories">
+      <button class="category active" data-category="all">All Questions</button>
+      <button class="category" data-category="account">Account</button>
+      <button class="category" data-category="products">Products & Orders</button>
+      <button class="category" data-category="business">Business Model</button>
+      <button class="category" data-category="payment">Payment & Wallet</button>
+      <button class="category" data-category="security">Security</button>
+    </div>
+
+    <div id="faqContainer">
+
+      <h3 class="section-title">Account & Registration</h3>
+      <div class="faq-group">
+
+        <div class="faq-item" data-category="account">
+          <button class="question">
+            How can I register?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Visit the Register page and complete the required fields.
+            Real account registration will be available after backend
+            authentication is implemented.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="account">
+          <button class="question">
+            How can I update my profile?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Open My Profile from the member dashboard.
+            Profile editing is currently a frontend demonstration
+            and does not save information to a server.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="account">
+          <button class="question">
+            What should I do if I forget my password?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Use the Forgot Password page. Real password recovery
+            will require secure backend verification and email integration.
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Products & Orders</h3>
+      <div class="faq-group">
+
+        <div class="faq-item" data-category="products">
+          <button class="question">
+            What does RUBALIA NETWORK sell?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            The proposed business focuses on purchasing genuine products
+            from suppliers or other companies and reselling those products
+            to customers.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="products">
+          <button class="question">
+            How can I place an order?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Browse the Products page and select the products you want.
+            The current interface is a demonstration and does not
+            create real orders.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="products">
+          <button class="question">
+            How can I track my order?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            The planned My Orders page will display order information
+            after the order management backend is connected.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="products">
+          <button class="question">
+            What if my product arrives damaged?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Contact customer support with the order reference and
+            relevant details. The final return and replacement policy
+            will be published before the official launch.
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Business & Referral Model</h3>
+      <div class="faq-group">
+
+        <div class="faq-item" data-category="business">
+          <button class="question">
+            What is the proposed business model?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            The proposed model is product-focused: the company plans
+            to source genuine products and resell them to customers.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="business">
+          <button class="question">
+            What is a Unilevel structure?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Unilevel is a referral structure in which a member can
+            introduce people directly, while the organization may
+            display multiple levels of referrals. Any compensation
+            arrangement requires separate legal review and approval.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="business">
+          <button class="question">
+            Will there be a 10-level commission plan?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            A 10-level Unilevel structure has been discussed as a
+            proposal. It is not an active commission plan.
+            It must not be activated unless it is independently
+            reviewed and confirmed lawful under applicable regulations.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="business">
+          <button class="question">
+            Is income guaranteed?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            No. RUBALIA NETWORK does not promise guaranteed income,
+            profit or financial returns. Any future lawful compensation
+            would depend on actual qualifying activity and published rules.
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Payment & Wallet</h3>
+      <div class="faq-group">
+
+        <div class="faq-item" data-category="payment">
+          <button class="question">
+            Can I deposit money right now?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            No. The current Deposit page is only a demonstration.
+            No real deposit or payment is accepted through this website.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="payment">
+          <button class="question">
+            Can I withdraw money?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            The Wallet and Withdraw pages are frontend demonstrations.
+            No real wallet balance or withdrawal service is active.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="payment">
+          <button class="question">
+            What happens if a payment fails?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Once a real payment system is introduced, the official
+            payment policy will explain verification, failed transactions
+            and refund procedures.
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="section-title">Security & Privacy</h3>
+      <div class="faq-group">
+
+        <div class="faq-item" data-category="security">
+          <button class="question">
+            Is my personal information safe?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            The operational platform is planned to use secure server-side
+            storage and appropriate access controls. The final security
+            practices will be documented before launch.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="security">
+          <button class="question">
+            Should I share my OTP or PIN with support?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Never. Do not share your password, OTP, PIN, CVV or
+            banking credentials with anyone, including someone
+            claiming to be a company representative.
+          </div>
+        </div>
+
+        <div class="faq-item" data-category="security">
+          <button class="question">
+            Where can I read the Privacy Policy?
+            <span class="symbol">＋</span>
+          </button>
+          <div class="answer">
+            Visit the Privacy Policy page for information about
+            planned data collection, use, security and user privacy rights.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="empty" id="emptyState">
+      <strong>No matching questions found.</strong>
+      <p>Try another search term or choose a different category.</p>
+    </div>
+
+    <div class="contact-box">
+      <h3>Still need help?</h3>
+      <p>
+        If you cannot find the answer, visit our Customer Support page
+        to learn how to contact the support team.
+      </p>
+      <a href="support.html" class="btn">Visit Support Center →</a>
+    </div>
+
+    <div class="footer">
+      RUBALIA NETWORK • Frequently Asked Questions
+    </div>
+
+  </section>
+</main>
+</div>
+
+<script>
+let activeCategory="all";
+
+const searchInput=document.getElementById("searchInput");
+const faqItems=[...document.querySelectorAll(".faq-item")];
+const emptyState=document.getElementById("emptyState");
+const sectionTitles=[...document.querySelectorAll(".section-title")];
+const groups=[...document.querySelectorAll(".faq-group")];
+
+function filterFAQs(){
+  const query=searchInput.value.toLowerCase().trim();
+  let visibleCount=0;
+
+  faqItems.forEach(item=>{
+    const category=item.dataset.category;
+    const question=item.querySelector(".question").innerText.toLowerCase();
+    const answer=item.querySelector(".answer").innerText.toLowerCase();
+
+    const matchesCategory=
+      activeCategory==="all" || category===activeCategory;
+
+    const matchesSearch=
+      !query || question.includes(query) || answer.includes(query);
+
+    const visible=matchesCategory && matchesSearch;
+    item.classList.toggle("hidden",!visible);
+
+    if(visible) visibleCount++;
+  });
+
+  groups.forEach(group=>{
+    const visibleItems=[...group.querySelectorAll(".faq-item")]
+      .some(item=>!item.classList.contains("hidden"));
+    group.style.display=visibleItems?"block":"none";
+
+    const title=group.previousElementSibling;
+    if(title && title.classList.contains("section-title")){
+      title.style.display=visibleItems?"block":"none";
+    }
+  });
+
+  emptyState.style.display=visibleCount===0?"block":"none";
+}
+
+document.querySelectorAll(".category").forEach(button=>{
+  button.addEventListener("click",()=>{
+    document.querySelectorAll(".category")
+      .forEach(btn=>btn.classList.remove("active"));
+
+    button.classList.add("active");
+    activeCategory=button.dataset.category;
+    filterFAQs();
+  });
+});
+
+searchInput.addEventListener("input",filterFAQs);
+
+document.querySelectorAll(".question").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const item=button.closest(".faq-item");
+    item.classList.toggle("open");
+  });
+});
+
+filterFAQs();
+</script>
+</body>
+</html>
