@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Register - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --white:#ffffff;
+  --light:#f4f6fa;
+  --text:#26354a;
+  --muted:#758195;
+  --border:#e0e5ed;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+header{
+  background:var(--navy);
+  padding:17px 20px;
+  color:white;
+}
+.nav{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.logo{
+  font-size:21px;
+  font-weight:800;
+  color:white;
+  text-decoration:none;
+  letter-spacing:1px;
+}
+.logo span{color:var(--gold)}
+.nav a{
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  margin-left:16px;
+}
+.nav a:hover{color:var(--gold)}
+main{
+  padding:45px 15px 60px;
+}
+.register-card{
+  width:100%;
+  max-width:540px;
+  margin:auto;
+  background:white;
+  border-radius:16px;
+  padding:30px;
+  box-shadow:0 8px 35px rgba(7,26,53,.08);
+}
+.heading{text-align:center;margin-bottom:25px}
+.heading h1{
+  color:var(--navy);
+  font-size:27px;
+  margin:0 0 9px;
+}
+.heading p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin:0;
+}
+.gold-line{
+  width:55px;
+  height:3px;
+  background:var(--gold);
+  margin:15px auto 0;
+  border-radius:5px;
+}
+.form-group{margin-bottom:17px}
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:var(--navy);
+}
+input{
+  width:100%;
+  height:47px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:0 13px;
+  font-size:14px;
+  outline:none;
+  background:white;
+}
+input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(214,173,85,.13);
+}
+input::placeholder{color:#a4adba}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:65px}
+.show-btn{
+  position:absolute;
+  right:12px;
+  top:14px;
+  border:0;
+  background:none;
+  color:#8a713d;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.sponsor-note{
+  background:#f8f5ed;
+  border:1px solid #eadbb8;
+  color:#78602d;
+  padding:12px;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+.terms{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  margin:18px 0;
+  font-size:12px;
+  color:#647086;
+  line-height:1.6;
+}
+.terms input{
+  width:16px;
+  height:16px;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.terms a{color:#9b762e;font-weight:bold}
+.submit-btn{
+  width:100%;
+  border:0;
+  border-radius:8px;
+  height:49px;
+  background:var(--gold);
+  color:var(--navy);
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+}
+.submit-btn:hover{
+  background:#c69a3e;
+  transform:translateY(-1px);
+}
+.login-link{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  color:var(--muted);
+}
+.login-link a{
+  color:var(--navy);
+  font-weight:bold;
+  text-decoration:none;
+}
+.demo-notice{
+  margin-top:20px;
+  padding:12px;
+  background:#fff8e8;
+  border:1px solid #f0dfb7;
+  border-radius:8px;
+  color:#806329;
+  font-size:12px;
+  line-height:1.6;
+}
+footer{
+  background:var(--navy);
+  color:#c6cfdd;
+  text-align:center;
+  padding:22px 15px;
+  font-size:12px;
+}
+footer span{color:var(--gold)}
+@media(max-width:500px){
+  .nav{flex-wrap:wrap}
+  .nav a{margin-left:9px;font-size:12px}
+  .register-card{padding:23px 18px}
+  main{padding-top:25px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="index.html">RUBALIA <span>NETWORK</span></a>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="register-card">
+
+    <div class="heading">
+      <h1>Create Your Account</h1>
+      <p>Join RUBALIA NETWORK and create your member profile.</p>
+      <div class="gold-line"></div>
+    </div>
+
+    <div class="sponsor-note">
+      <strong>Important:</strong> Enter your Sponsor ID only if you have
+      received one from an existing member. Do not enter an unknown ID.
+    </div>
+
+    <form id="registerForm">
+
+      <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Enter your full name"
+          autocomplete="name"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number *</label>
+        <input
+          type="tel"
+          id="mobile"
+          placeholder="Enter your mobile number"
+          autocomplete="tel"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email address"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <div class="password-wrap">
+          <input
+            type="password"
+            id="password"
+            placeholder="Create a password (minimum 8 characters)"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+          <button type="button" class="show-btn"
+            onclick="togglePassword('password',this)">Show</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <div class="password-wrap">
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Enter your password again"
+            autocomplete="new-password"
+            minlength="8"
+            required
+          >
+          <button type="button" class="show-btn"
+            onclick="togglePassword('confirmPassword',this)">Show</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="sponsorId">Sponsor ID (Optional)</label>
+        <input
+          type="text"
+          id="sponsorId"
+          placeholder="Enter Sponsor ID"
+        >
+      </div>
+
+      <label class="terms">
+        <input type="checkbox" id="terms" required>
+        <span>
+          I agree to the RUBALIA NETWORK
+          <a href="terms.html" target="_blank">Terms & Conditions</a>
+          and understand that registration does not guarantee any income.
+        </span>
+      </label>
+
+      <button type="submit" class="submit-btn">
+        CREATE ACCOUNT
+      </button>
+
+    </form>
+
+    <div class="login-link">
+      Already have an account?
+      <a href="login.html">Login Here</a>
+    </div>
+
+    <div class="demo-notice">
+      <strong>Demo Notice:</strong> This registration page is currently
+      frontend-only. Your information will not be sent to a server or
+      saved in a database. Real registration will be activated after
+      backend development.
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  © <span>RUBALIA NETWORK</span> — All Rights Reserved.
+</footer>
+
+<script>
+function togglePassword(id,button){
+  const field=document.getElementById(id);
+
+  if(field.type==="password"){
+    field.type="text";
+    button.textContent="Hide";
+  }else{
+    field.type="password";
+    button.textContent="Show";
+  }
+}
+
+document.getElementById("registerForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const password=document.getElementById("password").value;
+  const confirmPassword=document.getElementById("confirmPassword").value;
+
+  if(password.length<8){
+    alert("Password must contain at least 8 characters.");
+    return;
+  }
+
+  if(password!==confirmPassword){
+    alert("Passwords do not match. Please check again.");
+    return;
+  }
+
+  if(!document.getElementById("terms").checked){
+    alert("Please accept the Terms & Conditions.");
+    return;
+  }
+
+  alert(
+    "Registration is not activated yet.\n\n" +
+    "This is a frontend demo. No account has been created."
+  );
+});
+</script>
+
+</body>
+</html>
