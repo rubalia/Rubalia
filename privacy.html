@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Privacy Policy - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f4f6fa;
+  --white:#fff;
+  --text:#26344a;
+  --muted:#718096;
+  --border:#e5eaf1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.brand{
+  padding:5px 12px 25px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand strong{
+  display:block;
+  color:var(--gold);
+  font-size:19px;
+  letter-spacing:1.3px;
+}
+.brand small{
+  display:block;
+  color:#b8c4d7;
+  margin-top:6px;
+  font-size:10px;
+  letter-spacing:2px;
+}
+.menu-title{
+  color:#8393aa;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:8px;
+  color:#dce5f2;
+  font-size:13px;
+  margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff14;
+  color:#f4dfaa;
+}
+.nav a.active{border-left:3px solid var(--gold)}
+.nav .ico{width:20px;text-align:center}
+.main{flex:1;min-width:0}
+.topbar{
+  height:72px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.top-user{font-size:12px;color:var(--muted)}
+.content{
+  padding:28px;
+  max-width:1050px;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+}
+h1{font-size:26px;color:var(--navy);margin:0 0 8px}
+.subtitle{font-size:13px;color:var(--muted)}
+.demo{
+  background:#fff5dc;
+  color:#8a641a;
+  border:1px solid #f0dfb8;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+}
+.notice{
+  background:#fff8e8;
+  border:1px solid #f0dfb8;
+  border-radius:10px;
+  padding:16px;
+  color:#775c24;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+.document{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:30px;
+}
+.document h2{
+  color:var(--navy);
+  font-size:16px;
+  margin:27px 0 10px;
+}
+.document h2:first-child{margin-top:0}
+.document p,.document li{
+  color:#5f6e82;
+  font-size:13px;
+  line-height:1.85;
+}
+.document ul{padding-left:22px}
+.document li{margin:5px 0}
+.updated{
+  color:var(--muted);
+  font-size:11px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:17px;
+  line-height:1.8;
+}
+.toc{
+  background:#f7f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  margin:22px 0;
+}
+.toc strong{
+  display:block;
+  color:var(--navy);
+  font-size:13px;
+  margin-bottom:12px;
+}
+.toc a{
+  display:block;
+  color:#53647c;
+  font-size:12px;
+  padding:6px 0;
+}
+.toc a:hover{color:#9b762e}
+.footer{
+  text-align:center;
+  color:#929eae;
+  font-size:10px;
+  padding:20px;
+}
+.mobile-brand{display:none}
+@media(max-width:800px){
+  .sidebar{width:205px}
+  .content{padding:20px}
+}
+@media(max-width:600px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .topbar{height:60px;padding:0 16px}
+  .mobile-brand{
+    display:block;
+    color:var(--gold);
+    font-weight:bold;
+    font-size:15px;
+  }
+  .topbar-title{display:none}
+  .content{padding:18px 12px}
+  .heading{align-items:flex-start;flex-direction:column}
+  h1{font-size:22px}
+  .document{padding:19px}
+  .document h2{font-size:15px}
+  .document p,.document li{font-size:12px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    <strong>RUBALIA NETWORK</strong>
+    <small>MEMBER PORTAL</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+
+  <nav class="nav">
+    <a href="dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="profile.html"><span class="ico">👤</span> My Profile</a>
+    <a href="products.html"><span class="ico">▣</span> Products</a>
+    <a href="orders.html"><span class="ico">📦</span> My Orders</a>
+    <a href="team.html"><span class="ico">♧</span> My Team</a>
+    <a href="income.html"><span class="ico">৳</span> Income</a>
+    <a href="wallet.html"><span class="ico">▤</span> Wallet</a>
+    <a href="withdraw.html"><span class="ico">↗</span> Withdraw</a>
+    <a href="deposit.html"><span class="ico">＋</span> Deposit</a>
+    <a href="notifications.html"><span class="ico">🔔</span> Notifications</a>
+    <a href="settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="support.html"><span class="ico">🎧</span> Customer Support</a>
+    <a href="terms.html"><span class="ico">📄</span> Terms & Conditions</a>
+    <a href="privacy.html" class="active"><span class="ico">🔒</span> Privacy Policy</a>
+    <a href="login.html"><span class="ico">↪</span> Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <div class="mobile-brand">RUBALIA NETWORK</div>
+    <div class="topbar-title">Privacy Policy</div>
+    <div class="top-user">Member Portal</div>
+  </header>
+
+  <section class="content">
+
+    <div class="heading">
+      <div>
+        <h1>Privacy Policy</h1>
+        <div class="subtitle">
+          Your privacy and personal information matter to us.
+        </div>
+      </div>
+      <span class="demo">DRAFT / DEMO</span>
+    </div>
+
+    <div class="notice">
+      <strong>Important Privacy Notice:</strong>
+      This is a preliminary Privacy Policy draft.
+      It does not describe a fully operational data-processing system.
+      Before collecting real customer or member information,
+      RUBALIA NETWORK must finalize this policy based on its actual
+      technology, service providers and applicable Bangladesh law.
+    </div>
+
+    <article class="document">
+
+      <div class="updated">
+        Document: Preliminary Privacy Policy<br>
+        Organization: RUBALIA NETWORK<br>
+        Effective Date: To be announced after approval<br>
+        Last Updated: Preliminary Draft
+      </div>
+
+      <div class="toc">
+        <strong>Privacy Policy Contents</strong>
+        <a href="#p1">1. Introduction</a>
+        <a href="#p2">2. Information We May Collect</a>
+        <a href="#p3">3. How Information May Be Used</a>
+        <a href="#p4">4. Information Sharing</a>
+        <a href="#p5">5. Data Storage and Security</a>
+        <a href="#p6">6. Payment Information</a>
+        <a href="#p7">7. Cookies and Website Technologies</a>
+        <a href="#p8">8. Data Retention and Deletion</a>
+        <a href="#p9">9. User Privacy Rights</a>
+        <a href="#p10">10. Children's Privacy</a>
+        <a href="#p11">11. External Websites</a>
+        <a href="#p12">12. Policy Updates</a>
+        <a href="#p13">13. Contact and Complaints</a>
+      </div>
+
+      <section id="p1">
+        <h2>1. Introduction</h2>
+        <p>
+          RUBALIA NETWORK respects the privacy of its customers,
+          members and website visitors.
+        </p>
+        <p>
+          This preliminary policy explains the categories of personal
+          information that the company may collect, how that information
+          may be used, and the safeguards intended to protect it.
+        </p>
+        <p>
+          The final policy will apply to the services and website
+          features that are actually launched by the company.
+        </p>
+      </section>
+
+      <section id="p2">
+        <h2>2. Information We May Collect</h2>
+        <p>
+          Depending on the services used, the company may collect
+          the following categories of information:
+        </p>
+
+        <ul>
+          <li><strong>Account Information:</strong> Name, username, email address and phone number.</li>
+          <li><strong>Profile Information:</strong> Profile photo and other details voluntarily provided by the user.</li>
+          <li><strong>Order Information:</strong> Purchased products, order references, delivery address and order status.</li>
+          <li><strong>Support Information:</strong> Messages and details submitted through customer support.</li>
+          <li><strong>Transaction References:</strong> Limited payment confirmation information needed to verify a transaction.</li>
+          <li><strong>Technical Information:</strong> Browser type, device information, security logs and website activity where appropriate.</li>
+        </ul>
+
+        <p>
+          The company should collect only information necessary
+          for a specific and legitimate business purpose.
+        </p>
+      </section>
+
+      <section id="p3">
+        <h2>3. How Information May Be Used</h2>
+        <p>Personal information may be used for purposes such as:</p>
+        <ul>
+          <li>Creating and managing customer or member accounts.</li>
+          <li>Processing and managing genuine product orders.</li>
+          <li>Communicating order updates and important service notices.</li>
+          <li>Responding to customer support requests.</li>
+          <li>Preventing fraud, abuse and unauthorized access.</li>
+          <li>Maintaining accurate business and transaction records.</li>
+          <li>Meeting applicable legal and regulatory obligations.</li>
+        </ul>
+        <p>
+          Information should not be used for unrelated purposes
+          without an appropriate legal basis or required consent.
+        </p>
+      </section>
+
+      <section id="p4">
+        <h2>4. Information Sharing</h2>
+        <p>
+          Personal information should not be sold to unrelated parties.
+          It may be shared only where necessary and legally permitted,
+          including with:
+        </p>
+        <ul>
+          <li>Product suppliers and delivery partners, where required to fulfil an order.</li>
+          <li>Technology providers supporting hosting, security or website operations.</li>
+          <li>Payment service providers for authorized transaction processing.</li>
+          <li>Professional advisers and authorities where legally required.</li>
+        </ul>
+        <p>
+          Appropriate safeguards and contractual arrangements should
+          be used when third-party service providers process information.
+        </p>
+      </section>
+
+      <section id="p5">
+        <h2>5. Data Storage and Security</h2>
+        <p>
+          The planned operational platform is intended to use a secure
+          server and database rather than relying on browser LocalStorage
+          for long-term account and transaction records.
+        </p>
+        <p>
+          Security measures should include, where appropriate:
+        </p>
+        <ul>
+          <li>Encrypted connections using HTTPS.</li>
+          <li>Secure password hashing.</li>
+          <li>Restricted administrative access.</li>
+          <li>Access controls for sensitive customer information.</li>
+          <li>Backups and appropriate recovery procedures.</li>
+          <li>Monitoring for suspicious access and security incidents.</li>
+        </ul>
+        <p>
+          No website or electronic storage method can guarantee
+          absolute security. The final policy must describe the
+          safeguards actually implemented.
+        </p>
+      </section>
+
+      <section id="p6">
+        <h2>6. Payment Information</h2>
+        <p>
+          Any future payment system must use appropriate payment
+          channels and security procedures.
+        </p>
+        <ul>
+          <li>Users should never be asked to share their banking PIN.</li>
+          <li>Users should never disclose OTP or verification codes.</li>
+          <li>Card CVV and banking passwords must not be collected through support forms.</li>
+          <li>Transaction references should be accessible only to authorized personnel when necessary.</li>
+          <li>Payment records should be retained only as required for legitimate and legal purposes.</li>
+        </ul>
+        <p>
+          The current demonstration website does not process real
+          payments, deposits or withdrawals.
+        </p>
+      </section>
+
+      <section id="p7">
+        <h2>7. Cookies and Website Technologies</h2>
+        <p>
+          The operational website may use cookies or similar technologies
+          for login sessions, security, essential functionality and
+          user preferences.
+        </p>
+        <p>
+          The final policy should explain which cookies are used,
+          their purpose, duration and available user controls.
+        </p>
+        <p>
+          Any non-essential tracking technology should be used only
+          where permitted by applicable law and required consent rules.
+        </p>
+      </section>
+
+      <section id="p8">
+        <h2>8. Data Retention and Deletion</h2>
+        <p>
+          Personal information should be kept only for as long as
+          necessary for its stated purpose, subject to applicable
+          legal, accounting and regulatory requirements.
+        </p>
+        <p>
+          When information is no longer required, it should be securely
+          deleted, anonymized or otherwise handled according to
+          applicable legal requirements.
+        </p>
+      </section>
+
+      <section id="p9">
+        <h2>9. User Privacy Rights</h2>
+        <p>
+          Subject to applicable law, users may have rights to:
+        </p>
+        <ul>
+          <li>Request access to their personal information.</li>
+          <li>Request correction of inaccurate information.</li>
+          <li>Request deletion where legally permitted.</li>
+          <li>Ask questions about how their information is used.</li>
+          <li>Raise concerns about unauthorized processing or disclosure.</li>
+          <li>Withdraw consent where processing is based on consent and withdrawal is legally available.</li>
+        </ul>
+        <p>
+          A verified procedure for receiving and responding to these
+          requests must be established before the operational launch.
+        </p>
+      </section>
+
+      <section id="p10">
+        <h2>10. Children's Privacy</h2>
+        <p>
+          The company does not intend to knowingly collect personal
+          information from children in violation of applicable law.
+          Age requirements and any necessary parental consent
+          procedures must be established before registration is enabled.
+        </p>
+      </section>
+
+      <section id="p11">
+        <h2>11. External Websites</h2>
+        <p>
+          The website may contain links to external websites or
+          third-party services. Those services may have their own
+          privacy policies and data practices.
+        </p>
+        <p>
+          Users should review the privacy terms of external services
+          before providing personal information to them.
+        </p>
+      </section>
+
+      <section id="p12">
+        <h2>12. Policy Updates</h2>
+        <p>
+          This policy may be updated when services, technology,
+          legal requirements or data practices change.
+        </p>
+        <p>
+          The final published policy should display its effective date
+          and explain how important changes will be communicated.
+        </p>
+      </section>
+
+      <section id="p13">
+        <h2>13. Contact and Privacy Complaints</h2>
+        <p>
+          Users may use the official support channel to ask questions
+          or raise privacy concerns.
+        </p>
+        <p>
+          Official company contact details and a designated privacy
+          contact should be published before the website launches.
+        </p>
+        <p>
+          <a href="contact.html" style="color:#98722b;font-weight:bold">
+            Contact Page
+          </a>
+          &nbsp;|&nbsp;
+          <a href="support.html" style="color:#98722b;font-weight:bold">
+            Support Center
+          </a>
+        </p>
+      </section>
+
+    </article>
+
+    <div class="footer">
+      RUBALIA NETWORK • Preliminary Privacy Policy Draft
+    </div>
+
+  </section>
+</main>
+</div>
+</body>
+</html>
