@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Partner Agreement | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d5ad55;
+  --gold-light:#f3d990;
+  --white:#fff;
+  --bg:#f4f6fa;
+  --text:#27364b;
+  --muted:#718096;
+  --border:#e3e8ef;
+  --green:#198754;
+  --red:#b83232;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+.header{
+  background:linear-gradient(120deg,var(--navy),var(--navy2));
+  color:white;
+  padding:17px 20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 4px 15px #071a3525;
+}
+.header-inner{
+  max-width:1150px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.logo{font-size:21px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--gold)}
+.header-sub{
+  font-size:10px;
+  color:#cbd5e1;
+  letter-spacing:2px;
+  margin-top:4px;
+}
+.menu-btn{
+  background:#ffffff18;
+  border:1px solid #ffffff35;
+  color:white;
+  border-radius:9px;
+  padding:9px 13px;
+  font-size:19px;
+  cursor:pointer;
+}
+.layout{
+  max-width:1150px;
+  margin:25px auto;
+  padding:0 16px;
+  display:grid;
+  grid-template-columns:245px 1fr;
+  gap:22px;
+}
+.sidebar{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px;
+  height:max-content;
+  position:sticky;
+  top:88px;
+}
+.side-title{
+  font-size:11px;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:1.5px;
+  margin:5px 8px 13px;
+}
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 12px;
+  border-radius:9px;
+  font-size:13px;
+  color:#43536a;
+  margin-bottom:4px;
+}
+.nav-link:hover,.nav-link.active{
+  background:#eef2f8;
+  color:var(--navy);
+  font-weight:700;
+}
+.nav-link.active{border-left:3px solid var(--gold)}
+.content{min-width:0}
+.hero{
+  background:linear-gradient(120deg,#071a35,#173b68);
+  color:white;
+  border-radius:17px;
+  padding:28px;
+  margin-bottom:18px;
+}
+.hero-tag{
+  color:var(--gold-light);
+  font-size:11px;
+  letter-spacing:2px;
+  font-weight:800;
+}
+.hero h1{font-size:28px;margin:12px 0 9px}
+.hero p{
+  font-size:13px;
+  line-height:1.8;
+  color:#d5deea;
+  max-width:700px;
+  margin:0;
+}
+.alert{
+  border-radius:11px;
+  padding:15px 16px;
+  font-size:12px;
+  line-height:1.8;
+  margin-bottom:17px;
+}
+.alert.warning{
+  background:#fff8e8;
+  border:1px solid #eed69e;
+  color:#795b19;
+}
+.alert.danger{
+  background:#fff0f0;
+  border:1px solid #f0c5c5;
+  color:#8f3030;
+}
+.document{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:25px;
+  margin-bottom:17px;
+}
+.document-title{
+  text-align:center;
+  border-bottom:2px solid var(--gold);
+  padding-bottom:20px;
+  margin-bottom:20px;
+}
+.document-title .company{
+  color:var(--gold);
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+.document-title h2{
+  color:var(--navy);
+  font-size:23px;
+  margin:10px 0;
+}
+.document-title p{
+  color:var(--muted);
+  font-size:11px;
+  margin:0;
+}
+.party-box{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+  margin-bottom:22px;
+}
+.party{
+  background:#f7f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+}
+.party h3{
+  font-size:13px;
+  color:var(--navy);
+  margin:0 0 12px;
+}
+.field{
+  font-size:11px;
+  color:#5c6879;
+  padding:7px 0;
+  border-bottom:1px dashed #dce2eb;
+}
+.field:last-child{border:0}
+.blank{
+  display:inline-block;
+  min-width:75px;
+  border-bottom:1px solid #9ca8b8;
+  height:13px;
+}
+.clause{margin:22px 0}
+.clause h3{
+  color:var(--navy);
+  font-size:15px;
+  margin:0 0 9px;
+}
+.clause p,.clause li{
+  font-size:12px;
+  color:#536176;
+  line-height:1.9;
+}
+.clause ul{padding-left:20px;margin:8px 0}
+.clause li{padding:2px 0}
+.sub{
+  font-weight:700;
+  color:#34455d;
+}
+.table-wrap{overflow-x:auto;margin:13px 0}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:440px;
+}
+th,td{
+  padding:11px;
+  border:1px solid var(--border);
+  text-align:left;
+  font-size:11px;
+  line-height:1.6;
+}
+th{background:#f0f3f8;color:var(--navy)}
+.signature-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:30px;
+}
+.signature{
+  padding-top:50px;
+  border-bottom:1px solid #8792a3;
+  font-size:11px;
+  color:#5c6879;
+  line-height:2;
+}
+.signature strong{
+  display:block;
+  color:var(--navy);
+  margin-top:8px;
+}
+.action-panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:17px;
+}
+.action-panel h3{
+  color:var(--navy);
+  font-size:15px;
+  margin:0 0 9px;
+}
+.action-panel p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+}
+.check-row{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:12px;
+  color:#526176;
+  line-height:1.7;
+  margin:13px 0;
+}
+.check-row input{margin-top:2px;accent-color:var(--navy)}
+.btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:17px;
+}
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:#17243a}
+.btn-light{background:#edf1f6;color:var(--navy)}
+.status{
+  display:none;
+  margin-top:13px;
+  padding:12px;
+  background:#fff8e8;
+  border:1px solid #eed69e;
+  color:#795b19;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.7;
+}
+.footer{
+  text-align:center;
+  color:#8792a3;
+  font-size:11px;
+  line-height:1.8;
+  padding:22px 10px 35px;
+}
+.footer strong{color:var(--navy)}
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr;margin:15px auto}
+  .sidebar{position:static;display:none}
+  .sidebar.open{display:block}
+  .hero{padding:23px 19px}
+  .hero h1{font-size:23px}
+  .document{padding:17px}
+  .party-box,.signature-grid{grid-template-columns:1fr}
+}
+@media print{
+  body{background:white}
+  .header,.sidebar,.hero,.alert,.action-panel,.footer{display:none!important}
+  .layout{display:block;margin:0;padding:0}
+  .document{border:0;padding:0}
+  .clause{break-inside:avoid}
+  .signature-grid{break-inside:avoid}
+  @page{size:A4;margin:18mm}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="logo">RUBALIA <span>NETWORK</span></div>
+      <div class="header-sub">GROW TOGETHER • BUILD WITH TRUST</div>
+    </div>
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Toggle navigation">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-title">MAIN NAVIGATION</div>
+  <a class="nav-link" href="index.html">⌂ Home</a>
+  <a class="nav-link" href="about.html">◈ About Company</a>
+  <a class="nav-link" href="products.html">▣ Products</a>
+  <a class="nav-link" href="business.html">▤ Business Model</a>
+  <a class="nav-link" href="contact.html">✉ Contact</a>
+
+  <div class="side-title" style="margin-top:22px">PARTNER CENTER</div>
+  <a class="nav-link" href="become-partner.html">＋ Become a Partner</a>
+  <a class="nav-link" href="partner-guidelines.html">☷ Partner Guidelines</a>
+  <a class="nav-link active" href="partner-agreement.html">▤ Partner Agreement</a>
+  <a class="nav-link" href="dashboard.html">▦ Dashboard</a>
+  <a class="nav-link" href="team.html">♧ My Team</a>
+  <a class="nav-link" href="income.html">৳ Income</a>
+
+  <div class="side-title" style="margin-top:22px">ACCOUNT</div>
+  <a class="nav-link" href="login.html">⇥ Login</a>
+  <a class="nav-link" href="register.html">＋ Register</a>
+  <a class="nav-link" href="support.html">? Support Center</a>
+
+  <div class="side-title" style="margin-top:22px">LEGAL</div>
+  <a class="nav-link" href="terms.html">Terms & Conditions</a>
+  <a class="nav-link" href="privacy.html">Privacy Policy</a>
+  <a class="nav-link" href="legal-disclaimer.html">Legal Disclaimer</a>
+</aside>
+
+<main class="content">
+
+<section class="hero">
+  <div class="hero-tag">PARTNER CENTER</div>
+  <h1>Partner Agreement</h1>
+  <p>
+    A preliminary agreement draft describing the proposed relationship,
+    responsibilities and business conduct between RUBALIA NETWORK and
+    an independent partner.
+  </p>
+</section>
+
+<div class="alert warning">
+  <strong>Draft Document — Not Ready for Signing</strong><br>
+  This document is for website planning and demonstration only.
+  It has not been approved by a lawyer or confirmed as a legally
+  enforceable agreement. Company registration details, governing law,
+  commercial terms and operational policies must be verified before use.
+</div>
+
+<div class="alert danger">
+  <strong>No Active Commission Authorization:</strong>
+  This draft does not activate any recruitment-based reward, 10-level
+  commission, income plan, joining fee or payment obligation.
+  Any future compensation arrangement requires separate legal review
+  and written approval.
+</div>
+
+<section class="document" id="agreementDocument">
+
+  <div class="document-title">
+    <div class="company">RUBALIA NETWORK</div>
+    <h2>PARTNER AGREEMENT</h2>
+    <p>PRELIMINARY DRAFT • VERSION 1.0</p>
+  </div>
+
+  <div class="party-box">
+    <div class="party">
+      <h3>PARTY A — COMPANY</h3>
+      <div class="field">Company Name: RUBALIA NETWORK</div>
+      <div class="field">Legal Entity Name: <span class="blank"></span></div>
+      <div class="field">Registration Number: <span class="blank"></span></div>
+      <div class="field">Registered Address: <span class="blank"></span></div>
+      <div class="field">Authorized Representative: <span class="blank"></span></div>
+    </div>
+
+    <div class="party">
+      <h3>PARTY B — PARTNER</h3>
+      <div class="field">Full Name: <span class="blank"></span></div>
+      <div class="field">Partner ID: <span class="blank"></span></div>
+      <div class="field">Address: <span class="blank"></span></div>
+      <div class="field">Phone / Email: <span class="blank"></span></div>
+      <div class="field">Agreement Date: <span class="blank"></span></div>
+    </div>
+  </div>
+
+  <div class="clause">
+    <h3>1. Purpose of Agreement</h3>
+    <p>
+      This proposed agreement describes the basic terms under which an
+      eligible individual may apply to become an independent product
+      marketing or sales partner of RUBALIA NETWORK, subject to the
+      company's legal status, approved business policies and applicable law.
+    </p>
+    <p>
+      The relationship must not be represented as employment, a partnership
+      in the legal sense, a franchise or an agency unless a separate
+      authorized written agreement expressly establishes that relationship.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>2. Partner Eligibility</h3>
+    <ul>
+      <li>The applicant must meet the minimum legal age and eligibility requirements.</li>
+      <li>The applicant must provide accurate information required for lawful onboarding.</li>
+      <li>The applicant must agree to follow approved company policies.</li>
+      <li>The company may verify submitted information where lawful and necessary.</li>
+      <li>Approval is subject to the company's authorized onboarding process.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>3. Nature of Partner Relationship</h3>
+    <p>
+      A partner is expected to act independently and responsibly.
+      Unless separately agreed in writing, a partner cannot sign contracts,
+      incur liabilities, make commitments or represent that they have
+      authority to bind the company.
+    </p>
+    <p>
+      The partner is responsible for complying with applicable tax,
+      licensing, consumer protection and other legal obligations relevant
+      to their activities.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>4. Product Sales Responsibilities</h3>
+    <ul>
+      <li>Promote only products approved for sale by the company.</li>
+      <li>Provide accurate product descriptions and approved claims.</li>
+      <li>Explain the total price and relevant delivery charges before purchase.</li>
+      <li>Do not misrepresent product quality, origin, certification or benefits.</li>
+      <li>Do not create fictitious orders or manipulate sales records.</li>
+      <li>Follow approved order, delivery, return and refund procedures.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>5. Customer Protection</h3>
+    <p>
+      The partner must treat customers fairly and respectfully.
+      Customers must receive clear information about products, prices,
+      delivery arrangements, applicable return conditions and available
+      support channels before completing a purchase.
+    </p>
+    <ul>
+      <li>No coercion, harassment or misleading advertising.</li>
+      <li>No false scarcity or fabricated testimonials.</li>
+      <li>No unauthorized collection of customer payments.</li>
+      <li>Customer complaints must be directed through approved channels.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>6. Pricing, Payments and Orders</h3>
+    <p>
+      Product prices, payment methods, order confirmation procedures and
+      delivery charges must be communicated through official company
+      information. No partner may independently change official prices
+      or claim that an unauthorized payment method is company-approved.
+    </p>
+    <p>
+      The company must publish a separate approved payment policy before
+      accepting customer payments. Partners must never request a customer's
+      password, PIN, OTP, CVV or other confidential payment credentials.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>7. Partner Compensation</h3>
+    <p>
+      No salary, commission, bonus, referral reward or other income is
+      promised or activated by this draft agreement.
+    </p>
+    <p>
+      If the company proposes a compensation plan in the future, the
+      complete plan must be documented separately, including eligibility,
+      calculation method, payment timing, adjustments, refunds and
+      applicable restrictions. It must receive appropriate legal review
+      and authorization before being offered or implemented.
+    </p>
+    <p>
+      No partner may promise guaranteed income, fixed returns or
+      risk-free financial results.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>8. Marketing and Brand Use</h3>
+    <ul>
+      <li>Use company names, logos and promotional materials only as authorized.</li>
+      <li>Do not publish false claims about company registration or official approvals.</li>
+      <li>Do not modify official advertisements to create misleading impressions.</li>
+      <li>Do not use third-party intellectual property without permission.</li>
+      <li>Stop using company branding when authorization ends.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>9. Privacy and Confidentiality</h3>
+    <p>
+      Each party must handle personal and confidential information
+      responsibly and in accordance with applicable data protection laws
+      and the company's approved privacy policy.
+    </p>
+    <ul>
+      <li>Use personal information only for authorized purposes.</li>
+      <li>Protect account credentials and confidential business information.</li>
+      <li>Do not disclose customer or partner data without lawful authorization.</li>
+      <li>Report suspected data breaches through the designated support channel.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>10. Prohibited Conduct</h3>
+    <ul>
+      <li>Fraud, impersonation or falsification of records.</li>
+      <li>Misleading product or income claims.</li>
+      <li>Unauthorized collection of joining fees or deposits.</li>
+      <li>Fake accounts, fake referrals or fictitious sales.</li>
+      <li>Harassment, discrimination or abusive conduct.</li>
+      <li>Unauthorized use of company or customer information.</li>
+      <li>Any activity prohibited by applicable law.</li>
+    </ul>
+  </div>
+
+  <div class="clause">
+    <h3>11. Complaints and Disputes</h3>
+    <p>
+      The parties should first attempt to resolve genuine concerns through
+      the company's designated complaint process. Any formal dispute
+      resolution procedure, jurisdiction and governing law must be
+      specified in the final lawyer-reviewed agreement.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>12. Suspension and Termination</h3>
+    <p>
+      The final agreement must define the circumstances and procedure
+      for suspension or termination, including notice, opportunity to
+      respond where appropriate, outstanding legitimate obligations
+      and treatment of customer orders.
+    </p>
+    <p>
+      Any restriction or termination must comply with applicable law
+      and the final approved company policy.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>13. Amendments</h3>
+    <p>
+      Any change to this agreement must be recorded in writing and
+      communicated through an authorized company process. A material
+      change should not be treated as accepted merely because it appears
+      on a website.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>14. Governing Law and Legal Review</h3>
+    <p>
+      The governing law, jurisdiction and any mandatory legal requirements
+      must be confirmed by qualified legal counsel before this document
+      is finalized. The company's legal identity and authority to conduct
+      the proposed activities must also be verified.
+    </p>
+  </div>
+
+  <div class="clause">
+    <h3>15. Final Agreement and Signatures</h3>
+    <p>
+      This section is reserved for the final approved agreement.
+      No signature on this demonstration page creates an active partner
+      relationship or payment obligation.
+    </p>
+  </div>
+
+  <div class="signature-grid">
+    <div>
+      <div class="signature">
+        Signature: __________________________
+        <strong>For RUBALIA NETWORK</strong>
+        Name: ______________________________
+        Date: _______________________________
+      </div>
+    </div>
+    <div>
+      <div class="signature">
+        Signature: __________________________
+        <strong>Partner</strong>
+        Name: ______________________________
+        Date: _______________________________
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<section class="action-panel">
+  <h3>Draft Document Actions</h3>
+  <p>
+    You can print this preliminary draft for review. Printing does not
+    approve or activate the agreement.
+  </p>
+
+  <div class="check-row">
+    <input type="checkbox" id="understand">
+    <label for="understand">
+      I understand that this is a preliminary demonstration draft,
+      not an approved or legally active agreement.
+    </label>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="printDraft()">Print Draft</button>
+    <button class="btn btn-light" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top ↑</button>
+  </div>
+
+  <div class="status" id="status">
+    This page is for draft review only. No agreement has been signed,
+    submitted or activated.
+  </div>
+</section>
+
+<div class="alert warning">
+  <strong>Before Launching:</strong>
+  Fill in the verified legal company details, review the business model,
+  confirm all consumer and partner protections, and obtain qualified
+  legal advice in Bangladesh. Do not use this draft as a substitute
+  for a finalized legal agreement.
+</div>
+
+</main>
+</div>
+
+<footer class="footer">
+  <strong>RUBALIA NETWORK</strong><br>
+  Grow Together • Build With Trust<br>
+  © <span id="year"></span> RUBALIA NETWORK. All Rights Reserved.<br>
+  Partner Agreement — Preliminary Draft Version 1.0
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function printDraft(){
+  const accepted = document.getElementById("understand").checked;
+
+  if(!accepted){
+    alert("Please confirm that you understand this is a preliminary draft.");
+    return;
+  }
+
+  document.getElementById("status").style.display = "block";
+  window.print();
+}
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
