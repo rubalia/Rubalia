@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<meta name="description" content="RUBALIA NETWORK - Product Distribution and Business Platform">
+<title>RUBALIA NETWORK | Home</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#c6a45d;
+  --white:#ffffff;
+  --light:#f4f6fa;
+  --text:#25334a;
+  --muted:#718096;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--white);
+  color:var(--text);
+}
+
+a{text-decoration:none;color:inherit}
+
+header{
+  background:var(--navy);
+  color:white;
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(198,164,93,.3);
+}
+
+.navbar{
+  max-width:1200px;
+  margin:auto;
+  padding:17px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  color:var(--gold);
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.logo span{
+  display:block;
+  color:white;
+  font-size:10px;
+  letter-spacing:5px;
+  margin-top:3px;
+}
+
+.menu{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  font-size:14px;
+}
+
+.menu a:hover{color:var(--gold)}
+
+.btn{
+  display:inline-block;
+  background:var(--gold);
+  color:var(--navy);
+  padding:12px 22px;
+  border-radius:5px;
+  font-weight:bold;
+  border:1px solid var(--gold);
+  transition:.3s;
+}
+
+.btn:hover{
+  background:transparent;
+  color:var(--gold);
+}
+
+.menu-btn{
+  display:none;
+  font-size:26px;
+  color:white;
+  cursor:pointer;
+  background:none;
+  border:0;
+}
+
+.hero{
+  background:
+    linear-gradient(110deg,rgba(7,26,53,.97),rgba(16,43,80,.90));
+  color:white;
+  padding:105px 22px;
+  text-align:center;
+}
+
+.hero-content{
+  max-width:850px;
+  margin:auto;
+}
+
+.tag{
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:4px;
+  font-weight:bold;
+}
+
+.hero h1{
+  font-size:52px;
+  line-height:1.2;
+  margin:25px 0 18px;
+}
+
+.hero h1 span{color:var(--gold)}
+
+.hero p{
+  color:#d6deea;
+  line-height:1.8;
+  font-size:17px;
+  max-width:650px;
+  margin:0 auto 30px;
+}
+
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.btn-outline{
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:12px 22px;
+  border-radius:5px;
+}
+
+section{
+  padding:75px 22px;
+}
+
+.container{
+  max-width:1150px;
+  margin:auto;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.section-title small{
+  color:var(--gold);
+  letter-spacing:3px;
+  font-weight:bold;
+}
+
+.section-title h2{
+  color:var(--navy);
+  font-size:32px;
+  margin-top:12px;
+}
+
+.section-title p{
+  color:var(--muted);
+  margin-top:12px;
+  line-height:1.7;
+}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.feature-card{
+  background:white;
+  border:1px solid #e6eaf0;
+  padding:30px 24px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 5px 25px rgba(0,0,0,.04);
+}
+
+.feature-icon{
+  width:58px;
+  height:58px;
+  background:var(--navy);
+  color:var(--gold);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  margin:0 auto 18px;
+  font-size:25px;
+}
+
+.feature-card h3{
+  color:var(--navy);
+  margin-bottom:12px;
+}
+
+.feature-card p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+.products-section{background:var(--light)}
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.product-card{
+  background:white;
+  border-radius:10px;
+  padding:30px 20px;
+  text-align:center;
+  border:1px solid #e5eaf0;
+}
+
+.product-icon{
+  font-size:45px;
+  margin-bottom:18px;
+}
+
+.product-card h3{
+  color:var(--navy);
+  margin-bottom:10px;
+}
+
+.product-card p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.opportunity{
+  background:var(--navy);
+  color:white;
+  text-align:center;
+}
+
+.opportunity h2{
+  font-size:34px;
+  margin-bottom:18px;
+}
+
+.opportunity p{
+  color:#d3ddeb;
+  max-width:650px;
+  line-height:1.8;
+  margin:0 auto 28px;
+}
+
+.contact{
+  text-align:center;
+}
+
+footer{
+  background:#041225;
+  color:white;
+  padding:40px 22px;
+  text-align:center;
+}
+
+footer .logo{margin-bottom:18px}
+
+footer p{
+  color:#aab6c7;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.footer-links{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:22px;
+  margin:20px 0;
+  font-size:13px;
+}
+
+.footer-links a:hover{color:var(--gold)}
+
+@media(max-width:768px){
+
+  .menu-btn{display:block}
+
+  .menu{
+    display:none;
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:var(--navy);
+    padding:20px;
+    flex-direction:column;
+    align-items:stretch;
+    gap:20px;
+  }
+
+  .menu.active{display:flex}
+
+  .hero{padding:80px 18px}
+
+  .hero h1{font-size:36px}
+
+  .hero p{font-size:15px}
+
+  .features,.product-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-title h2{font-size:27px}
+
+  section{padding:55px 18px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+
+    <a href="index.html" class="logo">
+      RUBALIA
+      <span>NETWORK</span>
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <div class="menu" id="menu">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="products.html">Products</a>
+      <a href="business.html">Business</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="btn">Login</a>
+    </div>
+
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-content">
+
+    <div class="tag">WELCOME TO RUBALIA NETWORK</div>
+
+    <h1>
+      Building Trust.<br>
+      Creating <span>Opportunity.</span>
+    </h1>
+
+    <p>
+      Discover quality products, meaningful connections
+      and a new approach to product distribution.
+      Welcome to a network built around people and trust.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="products.html" class="btn">Explore Products</a>
+      <a href="about.html" class="btn-outline">Discover RUBALIA</a>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="container">
+
+    <div class="section-title">
+      <small>OUR FOUNDATION</small>
+      <h2>Why RUBALIA NETWORK?</h2>
+      <p>
+        A product-focused business platform built on
+        quality, transparency and customer satisfaction.
+      </p>
+    </div>
+
+    <div class="features">
+
+      <div class="feature-card">
+        <div class="feature-icon">✦</div>
+        <h3>Quality Products</h3>
+        <p>
+          We aim to offer genuine products
+          from reliable suppliers and brands.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">◎</div>
+        <h3>Trusted Network</h3>
+        <p>
+          A community built around genuine
+          product sales and responsible business.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">◆</div>
+        <h3>Transparency</h3>
+        <p>
+          Clear product information,
+          fair pricing and transparent policies.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="products-section">
+  <div class="container">
+
+    <div class="section-title">
+      <small>OUR CATEGORIES</small>
+      <h2>Explore Our Products</h2>
+      <p>
+        Discover products for everyday life.
+      </p>
+    </div>
+
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="product-icon">🧴</div>
+        <h3>Personal Care</h3>
+        <p>
+          Everyday personal care and
+          grooming products.
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">🏠</div>
+        <h3>Home Care</h3>
+        <p>
+          Useful household cleaning
+          and home care products.
+        </p>
+      </div>
+
+      <div class="product-card">
+        <div class="product-icon">📱</div>
+        <h3>Accessories</h3>
+        <p>
+          Selected lifestyle and
+          electronic accessories.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="opportunity">
+  <div class="container">
+
+    <div class="tag">GROW WITH RUBALIA</div>
+
+    <h2>Explore Business Opportunities</h2>
+
+    <p>
+      Learn about our product distribution model,
+      membership structure and business policies.
+      Build customer relationships through genuine sales.
+    </p>
+
+    <a href="business.html" class="btn">
+      Learn More
+    </a>
+
+  </div>
+</section>
+
+<section class="contact">
+  <div class="container">
+
+    <div class="section-title">
+      <small>GET IN TOUCH</small>
+      <h2>Connect With RUBALIA</h2>
+      <p>
+        Have questions about our company or products?
+        We look forward to hearing from you.
+      </p>
+    </div>
+
+    <a href="contact.html" class="btn">
+      Contact Us
+    </a>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+
+  <div class="logo">
+    RUBALIA
+    <span>NETWORK</span>
+  </div>
+
+  <p>
+    Building Trust. Creating Opportunity.
+  </p>
+
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="products.html">Products</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html">Login</a>
+  </div>
+
+  <p>
+    © <span id="year"></span> RUBALIA NETWORK.
+    All Rights Reserved.
+  </p>
+
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById("menu").classList.toggle("active");
+}
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+  </html>
