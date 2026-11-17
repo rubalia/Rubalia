@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Notifications - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f4dfaa;
+  --bg:#f4f6fa;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#718096;
+  --border:#e5eaf1;
+  --red:#dc5555;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,a{font:inherit}
+a{text-decoration:none;color:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.brand{
+  padding:5px 12px 25px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand strong{
+  display:block;
+  color:var(--gold);
+  font-size:19px;
+  letter-spacing:1.3px;
+}
+.brand small{
+  display:block;
+  color:#b8c4d7;
+  margin-top:6px;
+  font-size:10px;
+  letter-spacing:2px;
+}
+.menu-title{
+  color:#8393aa;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:8px;
+  color:#dce5f2;
+  font-size:13px;
+  margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff14;
+  color:var(--gold-light);
+}
+.nav a.active{border-left:3px solid var(--gold)}
+.nav .ico{width:20px;text-align:center}
+.main{flex:1;min-width:0}
+.topbar{
+  height:72px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.top-user{font-size:12px;color:var(--muted)}
+.content{padding:28px;max-width:1150px;margin:auto}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
+}
+h1{font-size:25px;color:var(--navy);margin:0 0 7px}
+.subtitle{color:var(--muted);font-size:13px}
+.demo-label{
+  background:#fff5dc;
+  color:#8a641a;
+  border:1px solid #f0dfb8;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+}
+.stat span{font-size:12px;color:var(--muted)}
+.stat strong{
+  display:block;
+  color:var(--navy);
+  font-size:25px;
+  margin-top:8px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  overflow:hidden;
+}
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  padding:17px 20px;
+  border-bottom:1px solid var(--border);
+}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{
+  border:1px solid var(--border);
+  background:white;
+  padding:9px 15px;
+  border-radius:7px;
+  font-size:12px;
+  color:#536176;
+  cursor:pointer;
+}
+.tab.active{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:white;
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--border);
+  background:white;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:11px;
+  cursor:pointer;
+  color:var(--navy);
+}
+.btn:hover{background:#f5f7fa}
+.btn.gold{
+  background:var(--gold);
+  border-color:var(--gold);
+  color:var(--navy);
+  font-weight:bold;
+}
+.btn.danger{color:var(--red)}
+.notification{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  padding:19px 20px;
+  border-bottom:1px solid var(--border);
+  transition:.2s;
+}
+.notification:last-child{border-bottom:0}
+.notification.unread{background:#fffdf7}
+.notify-icon{
+  width:43px;
+  height:43px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#edf2f9;
+  font-size:19px;
+  flex-shrink:0;
+}
+.notification.unread .notify-icon{background:#fff0cb}
+.notify-body{flex:1;min-width:0}
+.notify-title{
+  font-size:13px;
+  font-weight:bold;
+  color:var(--navy);
+  margin-bottom:6px;
+}
+.notify-message{
+  font-size:12px;
+  line-height:1.6;
+  color:#657286;
+}
+.notify-time{
+  font-size:10px;
+  color:#9aa5b5;
+  margin-top:8px;
+}
+.notify-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.unread-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--gold);
+}
+.small-action{
+  border:0;
+  background:transparent;
+  color:#738096;
+  cursor:pointer;
+  padding:5px;
+  font-size:17px;
+}
+.small-action:hover{color:var(--red)}
+.empty{
+  padding:55px 15px;
+  text-align:center;
+  color:var(--muted);
+  display:none;
+}
+.empty div{font-size:35px;margin-bottom:12px}
+.footer-note{
+  text-align:center;
+  color:#929eae;
+  font-size:10px;
+  padding:18px;
+}
+.mobile-brand{display:none}
+@media(max-width:800px){
+  .sidebar{width:205px}
+  .content{padding:20px}
+  .topbar{padding:0 20px}
+}
+@media(max-width:600px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .topbar{height:60px;padding:0 16px}
+  .mobile-brand{display:block;color:var(--gold);font-weight:bold;font-size:15px}
+  .topbar-title{display:none}
+  .content{padding:18px 12px}
+  .page-heading{align-items:flex-start;flex-direction:column}
+  h1{font-size:22px}
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .stat strong{font-size:20px}
+  .stat span{font-size:10px}
+  .toolbar{padding:13px}
+  .notification{padding:15px 12px;gap:10px}
+  .notify-icon{width:36px;height:36px;font-size:16px}
+  .notify-title{font-size:12px}
+  .notify-message{font-size:11px}
+  .actions{width:100%}
+  .actions .btn{flex:1}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    <strong>RUBALIA NETWORK</strong>
+    <small>MEMBER PORTAL</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="nav">
+    <a href="dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="profile.html"><span class="ico">👤</span> My Profile</a>
+    <a href="products.html"><span class="ico">▣</span> Products</a>
+    <a href="orders.html"><span class="ico">📦</span> My Orders</a>
+    <a href="team.html"><span class="ico">♧</span> My Team</a>
+    <a href="income.html"><span class="ico">৳</span> Income</a>
+    <a href="wallet.html"><span class="ico">▤</span> Wallet</a>
+    <a href="withdraw.html"><span class="ico">↗</span> Withdraw</a>
+    <a href="deposit.html"><span class="ico">＋</span> Deposit</a>
+    <a href="notifications.html" class="active"><span class="ico">🔔</span> Notifications</a>
+    <a href="settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="contact.html"><span class="ico">✉</span> Contact Support</a>
+    <a href="login.html"><span class="ico">↪</span> Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="mobile-brand">RUBALIA NETWORK</div>
+    <div class="topbar-title">Notification Center</div>
+    <div class="top-user">Member Account</div>
+  </header>
+
+  <section class="content">
+    <div class="page-heading">
+      <div>
+        <h1>Notifications</h1>
+        <div class="subtitle">Stay informed about your account and activities.</div>
+      </div>
+      <span class="demo-label">FRONTEND DEMO</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span>Total Notifications</span>
+        <strong id="totalCount">4</strong>
+      </div>
+      <div class="stat">
+        <span>Unread</span>
+        <strong id="unreadCount">3</strong>
+      </div>
+      <div class="stat">
+        <span>Read</span>
+        <strong id="readCount">1</strong>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="toolbar">
+        <div class="tabs">
+          <button class="tab active" data-filter="all">All</button>
+          <button class="tab" data-filter="unread">Unread</button>
+          <button class="tab" data-filter="read">Read</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn gold" id="markAll">✓ Mark All Read</button>
+          <button class="btn danger" id="clearAll">Clear All</button>
+        </div>
+      </div>
+
+      <div id="notificationList"></div>
+
+      <div class="empty" id="emptyState">
+        <div>🔔</div>
+        <strong>No notifications found</strong>
+        <p>You are all caught up!</p>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Sample notifications are displayed for demonstration only.
+      Real notifications will require backend integration.
+    </div>
+  </section>
+</main>
+</div>
+
+<script>
+const notifications = [
+  {
+    id:1,
+    icon:"🎉",
+    title:"Welcome to RUBALIA NETWORK",
+    message:"Welcome to our member portal. Explore the products and learn about our company.",
+    time:"Sample • Just now",
+    read:false
+  },
+  {
+    id:2,
+    icon:"📦",
+    title:"Product Order Update",
+    message:"This is a sample order notification. Actual order updates will appear after backend integration.",
+    time:"Sample • 2 hours ago",
+    read:false
+  },
+  {
+    id:3,
+    icon:"📢",
+    title:"Company Announcement",
+    message:"Important company announcements and official updates will be shown here.",
+    time:"Sample • Yesterday",
+    read:true
+  },
+  {
+    id:4,
+    icon:"🔐",
+    title:"Account Security",
+    message:"Keep your account credentials private. Never share your password or verification codes.",
+    time:"Sample • 2 days ago",
+    read:false
+  }
+];
+
+let currentFilter = "all";
+
+const list = document.getElementById("notificationList");
+const empty = document.getElementById("emptyState");
+
+function updateStats(){
+  const total = notifications.length;
+  const unread = notifications.filter(n=>!n.read).length;
+  document.getElementById("totalCount").textContent=total;
+  document.getElementById("unreadCount").textContent=unread;
+  document.getElementById("readCount").textContent=total-unread;
+}
+
+function renderNotifications(){
+  list.innerHTML="";
+
+  const filtered = notifications.filter(n=>{
+    if(currentFilter==="unread") return !n.read;
+    if(currentFilter==="read") return n.read;
+    return true;
+  });
+
+  empty.style.display=filtered.length ? "none" : "block";
+
+  filtered.forEach(n=>{
+    const item=document.createElement("div");
+    item.className="notification"+(n.read?"":" unread");
+
+    item.innerHTML=`
+      <div class="notify-icon">${n.icon}</div>
+      <div class="notify-body">
+        <div class="notify-title"></div>
+        <div class="notify-message"></div>
+        <div class="notify-time"></div>
+      </div>
+      <div class="notify-right">
+        ${n.read ? "" : '<span class="unread-dot" title="Unread"></span>'}
+        <button class="small-action" title="Delete notification" data-delete="${n.id}">×</button>
+      </div>
+    `;
+
+    item.querySelector(".notify-title").textContent=n.title;
+    item.querySelector(".notify-message").textContent=n.message;
+    item.querySelector(".notify-time").textContent=n.time;
+
+    const body=item.querySelector(".notify-body");
+    body.style.cursor="pointer";
+    body.addEventListener("click",()=>{
+      n.read=true;
+      renderNotifications();
+    });
+
+    item.querySelector("[data-delete]").addEventListener("click",()=>{
+      const index=notifications.findIndex(x=>x.id===n.id);
+      if(index!==-1) notifications.splice(index,1);
+      renderNotifications();
+    });
+
+    list.appendChild(item);
+  });
+
+  updateStats();
+}
+
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    tab.classList.add("active");
+    currentFilter=tab.dataset.filter;
+    renderNotifications();
+  });
+});
+
+document.getElementById("markAll").addEventListener("click",()=>{
+  notifications.forEach(n=>n.read=true);
+  renderNotifications();
+});
+
+document.getElementById("clearAll").addEventListener("click",()=>{
+  if(!notifications.length) return;
+  if(confirm("Clear all demo notifications?")){
+    notifications.length=0;
+    renderNotifications();
+  }
+});
+
+renderNotifications();
+</script>
+</body>
+</html>
