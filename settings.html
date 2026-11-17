@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Settings | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d5ad55;
+  --gold2:#f0d48b;
+  --bg:#f3f5f9;
+  --text:#18263a;
+  --muted:#718096;
+  --border:#e4e9f1;
+  --green:#16865b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;background:var(--navy);color:white;
+  padding:24px 16px;flex-shrink:0
+}
+.brand{
+  font-size:21px;font-weight:900;color:var(--gold2);
+  padding:5px 10px 25px;letter-spacing:1px
+}
+.brand small{
+  display:block;font-size:10px;letter-spacing:4px;
+  color:#fff;margin-top:5px
+}
+.menu-title{
+  color:#8495ad;font-size:10px;font-weight:bold;
+  padding:15px 12px 8px;letter-spacing:1.5px
+}
+.menu a{
+  display:block;padding:12px;margin:3px 0;
+  border-radius:8px;color:#d8e0ec;font-size:13px
+}
+.menu a:hover,.menu a.active{
+  background:#18375e;color:var(--gold2)
+}
+.main{flex:1;min-width:0}
+.topbar{
+  height:68px;background:white;display:flex;
+  justify-content:space-between;align-items:center;
+  padding:0 30px;border-bottom:1px solid var(--border)
+}
+.topbar strong{color:var(--navy)}
+.member{font-size:12px;color:var(--muted)}
+.content{padding:28px;max-width:1150px;margin:auto}
+.heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+  margin-bottom:22px
+}
+.heading h1{font-size:25px;color:var(--navy)}
+.heading p{font-size:13px;color:var(--muted);margin-top:7px}
+.demo-tag{
+  background:#fff4d8;color:#8a651c;padding:8px 13px;
+  border-radius:20px;font-size:11px;font-weight:bold
+}
+.notice{
+  background:#fff8e8;border:1px solid #f0dca9;
+  border-left:4px solid var(--gold);border-radius:10px;
+  padding:15px;margin-bottom:22px;
+  font-size:12px;line-height:1.7;color:#755719
+}
+.card{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:22px;margin-bottom:20px
+}
+.card h2{font-size:16px;color:var(--navy)}
+.sub{
+  font-size:11px;color:var(--muted);
+  margin-top:6px;margin-bottom:20px
+}
+.form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px
+}
+.form-group{margin-bottom:15px}
+.form-group label{
+  display:block;font-size:12px;font-weight:bold;
+  color:#44546a;margin-bottom:8px
+}
+.form-group input,.form-group select{
+  width:100%;padding:12px;border:1px solid var(--border);
+  border-radius:8px;background:white;outline:none;
+  font-size:13px;color:var(--text)
+}
+.form-group input:focus,.form-group select:focus{
+  border-color:var(--gold)
+}
+.help{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+.btn{
+  border:0;background:var(--navy);color:white;
+  padding:12px 18px;border-radius:8px;
+  font-size:12px;font-weight:bold;cursor:pointer
+}
+.btn:hover{background:var(--navy2)}
+.preference{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;padding:15px 0;
+  border-bottom:1px solid var(--border)
+}
+.preference:last-child{border-bottom:0}
+.preference strong{display:block;font-size:13px;color:var(--navy)}
+.preference p{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.switch{
+  width:43px;height:24px;position:relative;flex-shrink:0
+}
+.switch input{opacity:0;width:0;height:0}
+.slider{
+  position:absolute;inset:0;background:#cbd5e1;
+  border-radius:30px;cursor:pointer;transition:.2s
+}
+.slider:before{
+  content:"";position:absolute;width:18px;height:18px;
+  left:3px;top:3px;background:white;
+  border-radius:50%;transition:.2s
+}
+.switch input:checked + .slider{background:var(--green)}
+.switch input:checked + .slider:before{transform:translateX(19px)}
+.security-box{
+  padding:15px;border:1px solid var(--border);
+  border-radius:9px;margin-bottom:12px
+}
+.security-box strong{font-size:13px;color:var(--navy)}
+.security-box p{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6}
+.danger{
+  border:1px solid #f0caca;background:#fffafa;
+  border-radius:10px;padding:17px
+}
+.danger h3{font-size:14px;color:#b83232}
+.danger p{font-size:11px;color:#806060;margin:8px 0 14px;line-height:1.6}
+.danger button{
+  background:#fff;border:1px solid #d64b4b;
+  color:#c43e3e;padding:10px 14px;border-radius:7px;
+  font-size:11px;font-weight:bold
+}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+
+@media(max-width:650px){
+  .layout{display:block}
+  .sidebar{width:100%;padding:15px}
+  .brand{padding:5px 8px 15px}
+  .menu-title{display:none}
+  .menu{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}
+  .menu a{white-space:nowrap;font-size:11px;padding:10px}
+  .topbar{height:55px;padding:0 16px}
+  .content{padding:17px 13px}
+  .heading h1{font-size:21px}
+  .card{padding:16px}
+  .form-grid{grid-template-columns:1fr;gap:0}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    RUBALIA
+    <small>NETWORK</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="menu">
+    <a href="dashboard.html">⌂ Dashboard</a>
+    <a href="profile.html">♙ My Profile</a>
+    <a href="products.html">▣ Products</a>
+    <a href="orders.html">▤ My Orders</a>
+    <a href="team.html">♧ My Team</a>
+    <a href="income.html">৳ Income Details</a>
+    <a href="wallet.html">◈ My Wallet</a>
+    <a href="withdraw.html">⇧ Withdraw</a>
+  </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+  <nav class="menu">
+    <a href="settings.html" class="active">⚙ Settings</a>
+    <a href="contact.html">✉ Contact Support</a>
+    <a href="login.html">↪ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <strong>Account Settings</strong>
+  <span class="member">Member Panel · Demo</span>
+</header>
+
+<div class="content">
+
+  <div class="heading">
+    <div>
+      <h1>Account Settings</h1>
+      <p>Manage your account preferences and security.</p>
+    </div>
+    <span class="demo-tag">DEMO VERSION</span>
+  </div>
+
+  <div class="notice">
+    <strong>⚠ Frontend Demo Notice</strong>
+    Settings changes are not saved to a server or database.
+    Account security and notification preferences will become functional
+    after secure backend integration.
+  </div>
+
+  <section class="card">
+    <h2>Account Information</h2>
+    <p class="sub">Your basic account information</p>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Member ID</label>
+        <input type="text" value="Not Assigned" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Account Status</label>
+        <input type="text" value="Demo Account" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Registered Email</label>
+        <input type="email" value="demo@example.com" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Registered Mobile</label>
+        <input type="text" value="Not Connected" readonly>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Change Password</h2>
+    <p class="sub">Password update will be connected to the backend later.</p>
+
+    <form id="passwordForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Current Password</label>
+          <input type="password" id="currentPassword"
+            placeholder="Enter current password" required>
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" id="newPassword"
+            placeholder="Enter new password" required minlength="8">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input type="password" id="confirmPassword"
+            placeholder="Confirm new password" required minlength="8">
+        </div>
+      </div>
+
+      <button class="btn" type="submit">Update Password</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Notification Preferences</h2>
+    <p class="sub">Choose which notifications you would like to receive.</p>
+
+    <div class="preference">
+      <div>
+        <strong>Order Notifications</strong>
+        <p>Updates about product orders and delivery.</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="preference">
+      <div>
+        <strong>Team Notifications</strong>
+        <p>Updates about your team and member activity.</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="preference">
+      <div>
+        <strong>Promotional Notifications</strong>
+        <p>Product announcements and company offers.</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="preference">
+      <div>
+        <strong>Email Notifications</strong>
+        <p>Receive account updates through email.</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Language & Preferences</h2>
+    <p class="sub">Select your preferred website language.</p>
+
+    <div class="form-group">
+      <label for="language">Website Language</label>
+      <select id="language">
+        <option value="en" selected>English</option>
+        <option value="bn">বাংলা (Bangla)</option>
+      </select>
+      <p class="help">Language selection is a demo preference and is not saved.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Privacy & Security</h2>
+    <p class="sub">Important account security information.</p>
+
+    <div class="security-box">
+      <strong>Password Security</strong>
+      <p>Use a strong, unique password. Never share your password or OTP with anyone.</p>
+    </div>
+
+    <div class="security-box">
+      <strong>Account Verification</strong>
+      <p>Account verification features will be implemented after backend integration.</p>
+    </div>
+
+    <div class="security-box">
+      <strong>Login Sessions</strong>
+      <p>Secure session management and device logout controls are not yet activated.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Account Management</h2>
+    <p class="sub">Account-related options.</p>
+
+    <div class="danger">
+      <h3>Account Deactivation</h3>
+      <p>
+        Account deactivation is not available in this demo.
+        A future account closure process must include identity verification,
+        outstanding order handling and applicable legal requirements.
+      </p>
+      <button type="button" id="deactivateBtn">Request Account Deactivation</button>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  Frontend Demo Version · Account settings are not saved.
+</footer>
+
+</main>
+</div>
+
+<script>
+document.getElementById("passwordForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const current = document.getElementById("currentPassword").value;
+  const newPass = document.getElementById("newPassword").value;
+  const confirmPass = document.getElementById("confirmPassword").value;
+
+  if(!current || !newPass || !confirmPass){
+    alert("Please complete all password fields.");
+    return;
+  }
+
+  if(newPass.length < 8){
+    alert("New password must contain at least 8 characters.");
+    return;
+  }
+
+  if(newPass !== confirmPass){
+    alert("New password and confirmation do not match.");
+    return;
+  }
+
+  alert("Demo Only: Password cannot be changed because backend authentication is not connected.");
+});
+
+document.getElementById("deactivateBtn").addEventListener("click",function(){
+  alert("Demo Only: Account deactivation is not available yet.");
+});
+
+document.getElementById("language").addEventListener("change",function(){
+  alert("Demo Only: Language preference is not saved yet.");
+});
+</script>
+
+</body>
+</html>
