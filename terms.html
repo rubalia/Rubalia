@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Terms & Conditions - RUBALIA NETWORK</title>
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f4f6fa;
+  --white:#fff;
+  --text:#26344a;
+  --muted:#718096;
+  --border:#e5eaf1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.brand{
+  padding:5px 12px 25px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand strong{
+  display:block;
+  color:var(--gold);
+  font-size:19px;
+  letter-spacing:1.3px;
+}
+.brand small{
+  display:block;
+  color:#b8c4d7;
+  margin-top:6px;
+  font-size:10px;
+  letter-spacing:2px;
+}
+.menu-title{
+  color:#8393aa;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:8px;
+  color:#dce5f2;
+  font-size:13px;
+  margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff14;
+  color:#f4dfaa;
+}
+.nav a.active{border-left:3px solid var(--gold)}
+.nav .ico{width:20px;text-align:center}
+.main{flex:1;min-width:0}
+.topbar{
+  height:72px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.top-user{font-size:12px;color:var(--muted)}
+.content{
+  padding:28px;
+  max-width:1050px;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:22px;
+}
+h1{font-size:26px;color:var(--navy);margin:0 0 8px}
+.subtitle{font-size:13px;color:var(--muted)}
+.demo{
+  background:#fff5dc;
+  color:#8a641a;
+  border:1px solid #f0dfb8;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+}
+.notice{
+  background:#fff8e8;
+  border:1px solid #f0dfb8;
+  border-radius:10px;
+  padding:16px;
+  color:#775c24;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+.document{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:30px;
+}
+.document h2{
+  color:var(--navy);
+  font-size:16px;
+  margin:27px 0 10px;
+}
+.document h2:first-child{margin-top:0}
+.document p,.document li{
+  color:#5f6e82;
+  font-size:13px;
+  line-height:1.85;
+}
+.document ul{padding-left:22px}
+.document li{margin:5px 0}
+.updated{
+  color:var(--muted);
+  font-size:11px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:17px;
+}
+.toc{
+  background:#f7f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  margin-bottom:24px;
+}
+.toc strong{
+  display:block;
+  color:var(--navy);
+  font-size:13px;
+  margin-bottom:12px;
+}
+.toc a{
+  display:block;
+  color:#53647c;
+  font-size:12px;
+  padding:6px 0;
+}
+.toc a:hover{color:#9b762e}
+.footer{
+  text-align:center;
+  color:#929eae;
+  font-size:10px;
+  padding:20px;
+}
+.mobile-brand{display:none}
+@media(max-width:800px){
+  .sidebar{width:205px}
+  .content{padding:20px}
+}
+@media(max-width:600px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .topbar{height:60px;padding:0 16px}
+  .mobile-brand{
+    display:block;
+    color:var(--gold);
+    font-weight:bold;
+    font-size:15px;
+  }
+  .topbar-title{display:none}
+  .content{padding:18px 12px}
+  .heading{align-items:flex-start;flex-direction:column}
+  h1{font-size:22px}
+  .document{padding:19px}
+  .document h2{font-size:15px}
+  .document p,.document li{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    <strong>RUBALIA NETWORK</strong>
+    <small>MEMBER PORTAL</small>
+  </div>
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="nav">
+    <a href="dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="profile.html"><span class="ico">👤</span> My Profile</a>
+    <a href="products.html"><span class="ico">▣</span> Products</a>
+    <a href="orders.html"><span class="ico">📦</span> My Orders</a>
+    <a href="team.html"><span class="ico">♧</span> My Team</a>
+    <a href="income.html"><span class="ico">৳</span> Income</a>
+    <a href="wallet.html"><span class="ico">▤</span> Wallet</a>
+    <a href="withdraw.html"><span class="ico">↗</span> Withdraw</a>
+    <a href="deposit.html"><span class="ico">＋</span> Deposit</a>
+    <a href="notifications.html"><span class="ico">🔔</span> Notifications</a>
+    <a href="settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="support.html"><span class="ico">🎧</span> Customer Support</a>
+    <a href="terms.html" class="active"><span class="ico">📄</span> Terms & Conditions</a>
+    <a href="login.html"><span class="ico">↪</span> Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="mobile-brand">RUBALIA NETWORK</div>
+    <div class="topbar-title">Terms & Conditions</div>
+    <div class="top-user">Member Portal</div>
+  </header>
+
+  <section class="content">
+    <div class="heading">
+      <div>
+        <h1>Terms & Conditions</h1>
+        <div class="subtitle">Please read these terms before using our platform.</div>
+      </div>
+      <span class="demo">DRAFT / DEMO</span>
+    </div>
+
+    <div class="notice">
+      <strong>Important legal notice:</strong>
+      This is a preliminary website draft, not a finalized legal agreement.
+      It must be reviewed and approved by a qualified Bangladesh lawyer
+      before the company accepts customers, payments or members.
+    </div>
+
+    <article class="document">
+
+      <div class="updated">
+        Document: Preliminary Terms & Conditions<br>
+        Company: RUBALIA NETWORK<br>
+        Effective date: To be announced after legal approval
+      </div>
+
+      <div class="toc">
+        <strong>Contents</strong>
+        <a href="#s1">1. Introduction</a>
+        <a href="#s2">2. Eligibility and Member Accounts</a>
+        <a href="#s3">3. Products and Product Information</a>
+        <a href="#s4">4. Orders and Delivery</a>
+        <a href="#s5">5. Payments, Returns and Refunds</a>
+        <a href="#s6">6. Business and Referral Model</a>
+        <a href="#s7">7. Income and Commission Disclaimer</a>
+        <a href="#s8">8. Prohibited Activities</a>
+        <a href="#s9">9. Privacy and Account Security</a>
+        <a href="#s10">10. Website Availability</a>
+        <a href="#s11">11. Complaints and Disputes</a>
+        <a href="#s12">12. Changes to These Terms</a>
+        <a href="#s13">13. Contact</a>
+      </div>
+
+      <section id="s1">
+        <h2>1. Introduction</h2>
+        <p>
+          These preliminary Terms & Conditions describe the proposed rules
+          for accessing and using the RUBALIA NETWORK website and its
+          product-related services.
+        </p>
+        <p>
+          By using the operational platform after its official launch,
+          users may be required to accept the final approved Terms & Conditions.
+        </p>
+      </section>
+
+      <section id="s2">
+        <h2>2. Eligibility and Member Accounts</h2>
+        <ul>
+          <li>Users must provide accurate and current registration information.</li>
+          <li>Users must meet the applicable legal age and eligibility requirements.</li>
+          <li>Each member is responsible for protecting their login credentials.</li>
+          <li>Users must not impersonate another person or create fraudulent accounts.</li>
+          <li>Account sharing and unauthorized access may be restricted.</li>
+        </ul>
+      </section>
+
+      <section id="s3">
+        <h2>3. Products and Product Information</h2>
+        <p>
+          RUBALIA NETWORK intends to focus on genuine products sourced from
+          suppliers or other companies and offered for resale.
+        </p>
+        <ul>
+          <li>Product descriptions, images, specifications and prices should be accurate.</li>
+          <li>Product availability may change depending on supplier stock.</li>
+          <li>Customers should review product details before placing an order.</li>
+          <li>Any applicable warranty or product guarantee must be disclosed clearly.</li>
+          <li>Product claims must not be misleading or unsupported.</li>
+        </ul>
+      </section>
+
+      <section id="s4">
+        <h2>4. Orders and Delivery</h2>
+        <ul>
+          <li>An order should be considered confirmed only after the official order process is completed.</li>
+          <li>Delivery charges and estimated delivery times must be shown before checkout.</li>
+          <li>Delivery timelines may vary by location and supplier availability.</li>
+          <li>Customers should report damaged, missing or incorrect products through the official support channel.</li>
+        </ul>
+      </section>
+
+      <section id="s5">
+        <h2>5. Payments, Returns and Refunds</h2>
+        <p>
+          Final payment, cancellation, return and refund procedures will be
+          published before real transactions are enabled.
+        </p>
+        <ul>
+          <li>All product prices and applicable charges should be disclosed before purchase.</li>
+          <li>Customers must receive an appropriate transaction record.</li>
+          <li>Refund eligibility and timelines must follow applicable law.</li>
+          <li>No payment should be made to an unofficial personal account.</li>
+          <li>RUBALIA NETWORK must never ask users to disclose their PIN, OTP, CVV or banking password.</li>
+        </ul>
+        <p>
+          The current website demonstration does not process real payments,
+          deposits or refunds.
+        </p>
+      </section>
+
+      <section id="s6">
+        <h2>6. Business and Referral Model</h2>
+        <p>
+          The proposed business model is based on the sale of genuine products.
+          A proposed Unilevel structure with up to ten levels has been discussed
+          as a possible future referral arrangement.
+        </p>
+        <p>
+          Any referral, distributor or network compensation arrangement is
+          subject to independent legal review and all required approvals.
+          It must not be activated unless it is lawful and properly authorized.
+        </p>
+        <ul>
+          <li>Product sales must be genuine and supported by actual products.</li>
+          <li>Participation must not depend solely on recruiting new members.</li>
+          <li>Members must not be pressured to purchase unnecessary products.</li>
+          <li>All applicable prices, conditions and eligibility rules must be disclosed.</li>
+        </ul>
+      </section>
+
+      <section id="s7">
+        <h2>7. Income and Commission Disclaimer</h2>
+        <p>
+          No income, profit, commission or financial return is guaranteed.
+          Any future compensation, if legally approved, would depend on the
+          final published plan and actual qualifying activity.
+        </p>
+        <ul>
+          <li>Illustrative examples are not promises of income.</li>
+          <li>Recruitment alone must not be represented as a source of guaranteed earnings.</li>
+          <li>Members should not rely on hypothetical income projections when making financial decisions.</li>
+          <li>No commission is currently activated by this demonstration website.</li>
+        </ul>
+      </section>
+
+      <section id="s8">
+        <h2>8. Prohibited Activities</h2>
+        <p>Users must not:</p>
+        <ul>
+          <li>Provide false identity or transaction information.</li>
+          <li>Use the platform for unlawful activities.</li>
+          <li>Attempt to hack, damage or disrupt the website.</li>
+          <li>Publish misleading product or income claims.</li>
+          <li>Harass, threaten or defraud other users.</li>
+          <li>Misuse another person's account or personal information.</li>
+        </ul>
+      </section>
+
+      <section id="s9">
+        <h2>9. Privacy and Account Security</h2>
+        <p>
+          The company intends to protect member and customer information
+          using appropriate security practices.
+        </p>
+        <p>
+          A separate Privacy Policy must explain what information is collected,
+          why it is used, how long it is retained, and how users can exercise
+          their applicable privacy rights.
+        </p>
+        <p>
+          Users should never share passwords, OTPs, PINs or other confidential
+          authentication information with anyone.
+        </p>
+      </section>
+
+      <section id="s10">
+        <h2>10. Website Availability</h2>
+        <p>
+          The website may occasionally be unavailable because of maintenance,
+          technical problems or service interruptions. The company will make
+          reasonable efforts to maintain service availability after launch.
+        </p>
+        <p>
+          Demonstration pages, sample balances, sample tickets and sample
+          notifications do not represent actual account records or transactions.
+        </p>
+      </section>
+
+      <section id="s11">
+        <h2>11. Complaints and Disputes</h2>
+        <p>
+          Customers should first contact the official support channel to
+          report concerns about products, orders or services.
+        </p>
+        <p>
+          Any dispute resolution procedure and applicable governing law
+          must be finalized in accordance with the laws of Bangladesh
+          and reviewed by qualified legal counsel.
+        </p>
+      </section>
+
+      <section id="s12">
+        <h2>12. Changes to These Terms</h2>
+        <p>
+          The company may update these terms when necessary. The final
+          version should display its effective date and explain how users
+          will be informed of important changes.
+        </p>
+      </section>
+
+      <section id="s13">
+        <h2>13. Contact</h2>
+        <p>
+          For questions about these preliminary terms, visit the
+          <a href="contact.html" style="color:#98722b;font-weight:bold">
+            Contact Page
+          </a>
+          or the
+          <a href="support.html" style="color:#98722b;font-weight:bold">
+            Support Center
+          </a>.
+        </p>
+        <p>
+          Official company address, registration details and verified
+          contact information must be added before publication.
+        </p>
+      </section>
+
+    </article>
+
+    <div class="footer">
+      RUBALIA NETWORK • Preliminary Terms & Conditions Draft
+    </div>
+  </section>
+</main>
+</div>
+</body>
+</html>
