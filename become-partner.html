@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Become a Partner - RUBALIA NETWORK</title>
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f4dfaa;
+  --bg:#f4f6fa;
+  --text:#253247;
+  --muted:#718096;
+  --border:#e3e8ef;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(120deg,var(--navy),var(--navy2));
+  color:white;
+  padding:20px 16px;
+  border-bottom:3px solid var(--gold);
+}
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.brand span{color:var(--gold)}
+.home-link{
+  color:var(--gold-light);
+  text-decoration:none;
+  font-size:13px;
+}
+.container{
+  max-width:1100px;
+  margin:25px auto;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:245px 1fr;
+  gap:20px;
+}
+.sidebar,.content{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 5px 20px rgba(7,26,53,.05);
+}
+.sidebar{padding:16px;height:max-content}
+.sidebar h3{
+  color:var(--navy);
+  font-size:14px;
+  margin:4px 0 13px;
+}
+.sidebar a{
+  display:block;
+  padding:10px 11px;
+  margin:3px 0;
+  color:#526176;
+  text-decoration:none;
+  border-radius:7px;
+  font-size:13px;
+}
+.sidebar a:hover,.sidebar a.active{
+  background:#edf2f9;
+  color:var(--navy);
+  font-weight:700;
+}
+.content{padding:27px}
+.page-title{
+  margin:0;
+  color:var(--navy);
+  font-size:27px;
+}
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin:9px 0 22px;
+}
+.hero{
+  background:linear-gradient(125deg,var(--navy),var(--navy2));
+  color:white;
+  border-radius:12px;
+  padding:26px;
+  margin-bottom:20px;
+}
+.hero h2{font-size:23px;margin:0 0 10px}
+.hero p{
+  font-size:13px;
+  color:#dbe5f1;
+  line-height:1.8;
+  margin:0;
+}
+.notice{
+  background:#fff8e9;
+  border:1px solid #ead49e;
+  border-left:4px solid var(--gold);
+  padding:13px 15px;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+.section{
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+.section:last-child{border-bottom:0}
+.section h2{
+  color:var(--navy);
+  font-size:17px;
+  margin:0 0 10px;
+}
+.section p,.section li{
+  font-size:13px;
+  color:#586579;
+  line-height:1.85;
+}
+.section ul{padding-left:20px}
+.section a{color:#946c20}
+.cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.card{
+  background:#f8f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+}
+.card h3{
+  color:var(--navy);
+  font-size:14px;
+  margin:0 0 8px;
+}
+.card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  margin:0;
+}
+.action{
+  display:inline-block;
+  background:var(--navy);
+  color:white!important;
+  text-decoration:none;
+  padding:12px 18px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:700;
+  margin-top:8px;
+}
+.action:hover{background:var(--navy2)}
+.footer{
+  text-align:center;
+  color:#8a95a5;
+  font-size:12px;
+  padding:25px 12px;
+}
+@media(max-width:760px){
+  .container{grid-template-columns:1fr;margin:15px auto}
+  .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+  .sidebar h3{grid-column:1/-1}
+  .content{padding:20px 16px}
+  .page-title{font-size:23px}
+}
+@media(max-width:450px){
+  .sidebar,.cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+    <a class="home-link" href="index.html">← Back to Home</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h3>MEMBER MENU</h3>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="profile.html">My Profile</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html">My Orders</a>
+    <a href="team.html">My Team</a>
+    <a href="income.html">Income Summary</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="deposit.html">Deposit</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="settings.html">Settings</a>
+    <a href="support.html">Support Center</a>
+    <a href="faq.html">FAQ</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="delivery-policy.html">Delivery Policy</a>
+    <a href="return-refund-policy.html">Return & Refund</a>
+    <a href="legal-disclaimer.html">Legal Disclaimer</a>
+    <a href="company-information.html">Company Information</a>
+    <a href="careers.html">Careers</a>
+    <a class="active" href="become-partner.html">Become a Partner</a>
+  </aside>
+
+  <main class="content">
+
+    <h1 class="page-title">Become a Partner</h1>
+    <p class="subtitle">
+      Learn about the proposed independent product sales partnership
+      opportunity at RUBALIA NETWORK.
+    </p>
+
+    <div class="hero">
+      <h2>Grow Through Genuine Product Sales</h2>
+      <p>
+        Our proposed partnership concept focuses on product knowledge,
+        customer relationships and responsible sales practices.
+        A partner should create real customer value through genuine products.
+      </p>
+    </div>
+
+    <div class="notice">
+      <strong>Demo Status:</strong>
+      Partner registration is not currently active.
+      This page does not create an account, partnership agreement,
+      commission entitlement or payment obligation.
+    </div>
+
+    <section class="section">
+      <h2>1. What Is a Sales Partner?</h2>
+      <p>
+        An independent sales partner is a person who may promote or
+        sell approved products under a separately agreed commercial
+        arrangement.
+      </p>
+      <p>
+        A partnership does not automatically create an employment
+        relationship. The exact rights, responsibilities and legal
+        status must be defined in a written agreement.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>2. Partner Responsibilities</h2>
+      <ul>
+        <li>Understand the products being offered.</li>
+        <li>Provide honest and accurate product information.</li>
+        <li>Communicate prices and applicable charges clearly.</li>
+        <li>Respect customer privacy and consumer rights.</li>
+        <li>Avoid false advertising or misleading income claims.</li>
+        <li>Follow approved company policies and applicable laws.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>3. Potential Partnership Activities</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Product Promotion</h3>
+          <p>
+            Share accurate information about approved products
+            and their features.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Customer Relationships</h3>
+          <p>
+            Help customers understand products and access
+            appropriate support.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Sales Coordination</h3>
+          <p>
+            Coordinate genuine customer orders according
+            to approved procedures.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Responsible Marketing</h3>
+          <p>
+            Use approved promotional material and avoid
+            unsupported claims.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. Basic Eligibility</h2>
+      <p>
+        Final eligibility requirements will be published before
+        partner registration opens. They may include:
+      </p>
+      <ul>
+        <li>Meeting the applicable minimum legal age.</li>
+        <li>Providing accurate identity and contact information.</li>
+        <li>Accepting the approved partner agreement.</li>
+        <li>Following product sales and customer protection policies.</li>
+        <li>Meeting any lawful regulatory requirements.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>5. Compensation and Commission</h2>
+      <p>
+        No partner commission, referral reward or income is currently
+        activated through this demonstration page.
+      </p>
+      <p>
+        Any future compensation arrangement must be based on a
+        clearly documented and legally reviewed plan. Its calculation,
+        eligibility, payment conditions and possible deductions must
+        be explained before a partner accepts the arrangement.
+      </p>
+      <p>
+        No income amount or business result is guaranteed.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>6. Proposed Network Structure</h2>
+      <p>
+        A Unilevel structure with up to ten levels has been discussed
+        as a possible future distribution model.
+      </p>
+      <p>
+        This is a proposal only. It does not mean that ten levels
+        are currently operational or that any participant is entitled
+        to receive payments from those levels.
+      </p>
+      <p>
+        The structure must undergo legal review before any
+        compensation feature is implemented.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>7. Partnership Is Not a Job Offer</h2>
+      <p>
+        Independent sales partnership and employment are different
+        arrangements.
+      </p>
+      <ul>
+        <li>A partner operates under an agreed independent arrangement.</li>
+        <li>An employee works under defined employment terms.</li>
+        <li>Payment and responsibilities must be disclosed accurately.</li>
+        <li>A sales partnership must not be falsely advertised as a salaried job.</li>
+      </ul>
+      <p>
+        See our <a href="careers.html">Careers page</a> for potential
+        employment opportunities.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>8. Application Process</h2>
+      <p>
+        When partner registration becomes legally and operationally
+        available, the application process will explain:
+      </p>
+      <ul>
+        <li>Eligibility and verification requirements.</li>
+        <li>Partner responsibilities and agreement terms.</li>
+        <li>Approved product categories.</li>
+        <li>Applicable compensation conditions, if any.</li>
+        <li>Customer support and complaint procedures.</li>
+      </ul>
+      <p>
+        No application is being submitted or stored through this page.
+      </p>
+      <a class="action" href="support.html">Ask a Question</a>
+    </section>
+
+    <section class="section">
+      <h2>9. Prohibited Activities</h2>
+      <ul>
+        <li>Making false or guaranteed income promises.</li>
+        <li>Misrepresenting product features or prices.</li>
+        <li>Pressuring people to purchase products.</li>
+        <li>Using unauthorized advertising materials.</li>
+        <li>Collecting customer passwords, PINs or OTPs.</li>
+        <li>Operating an unauthorized compensation arrangement.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>10. Partner Policies</h2>
+      <p>
+        Any future partnership must follow the applicable company
+        agreement and published policies.
+      </p>
+      <ul>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="legal-disclaimer.html">Legal Disclaimer</a></li>
+        <li><a href="return-refund-policy.html">Return & Refund Policy</a></li>
+      </ul>
+    </section>
+
+    <div class="notice">
+      <strong>Before Partner Registration Opens:</strong>
+      RUBALIA NETWORK must finalize its legal business structure,
+      product supply arrangements, partner agreement, compensation
+      rules and applicable regulatory requirements.
+      Obtain qualified legal advice before activating any network
+      compensation system.
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  <a href="about.html">About</a> ·
+  <a href="company-information.html">Company</a> ·
+  <a href="careers.html">Careers</a> ·
+  <a href="legal-disclaimer.html">Disclaimer</a> ·
+  <a href="support.html">Support</a>
+</footer>
+
+</body>
+</html>
