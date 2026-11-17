@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<meta name="description" content="Learn about RUBALIA NETWORK, our vision, mission and values.">
+<title>About Us | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#c6a45d;
+  --white:#fff;
+  --light:#f4f6fa;
+  --text:#25334a;
+  --muted:#718096;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:white;
+}
+
+a{text-decoration:none;color:inherit}
+
+header{
+  background:var(--navy);
+  color:white;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.navbar{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  color:var(--gold);
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.logo span{
+  display:block;
+  color:white;
+  font-size:10px;
+  letter-spacing:5px;
+  margin-top:3px;
+}
+
+.menu{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  font-size:14px;
+}
+
+.menu a:hover,
+.menu a.active{
+  color:var(--gold);
+}
+
+.menu-btn{
+  display:none;
+  background:none;
+  border:0;
+  color:white;
+  font-size:26px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 22px;
+  background:var(--gold);
+  color:var(--navy);
+  border-radius:5px;
+  font-weight:bold;
+}
+
+.hero{
+  background:linear-gradient(120deg,var(--navy),var(--navy2));
+  color:white;
+  text-align:center;
+  padding:85px 20px;
+}
+
+.hero small{
+  color:var(--gold);
+  letter-spacing:4px;
+  font-weight:bold;
+}
+
+.hero h1{
+  font-size:45px;
+  margin:20px 0;
+}
+
+.hero h1 span{color:var(--gold)}
+
+.hero p{
+  color:#d5deeb;
+  line-height:1.8;
+  max-width:700px;
+  margin:auto;
+}
+
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:0 22px;
+}
+
+section{padding:75px 0}
+
+.section-title{
+  text-align:center;
+  margin-bottom:38px;
+}
+
+.section-title small{
+  color:var(--gold);
+  letter-spacing:3px;
+  font-weight:bold;
+}
+
+.section-title h2{
+  color:var(--navy);
+  font-size:32px;
+  margin-top:12px;
+}
+
+.section-title p{
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:12px;
+}
+
+.story{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:45px;
+  align-items:center;
+}
+
+.story-box{
+  background:var(--navy);
+  border-radius:12px;
+  min-height:300px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:30px;
+  color:white;
+  text-align:center;
+}
+
+.story-box h2{
+  color:var(--gold);
+  font-size:38px;
+  letter-spacing:3px;
+}
+
+.story-box h3{
+  font-size:15px;
+  letter-spacing:6px;
+  margin-top:10px;
+}
+
+.story-text small{
+  color:var(--gold);
+  letter-spacing:3px;
+  font-weight:bold;
+}
+
+.story-text h2{
+  color:var(--navy);
+  font-size:30px;
+  margin:15px 0;
+}
+
+.story-text p{
+  color:var(--muted);
+  line-height:1.9;
+  margin-bottom:14px;
+}
+
+.values-section{
+  background:var(--light);
+}
+
+.value-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.value-card{
+  background:white;
+  padding:30px 22px;
+  border:1px solid #e5eaf0;
+  border-radius:10px;
+  text-align:center;
+}
+
+.value-icon{
+  font-size:35px;
+  margin-bottom:15px;
+}
+
+.value-card h3{
+  color:var(--navy);
+  margin-bottom:12px;
+}
+
+.value-card p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+
+.promise{
+  background:var(--navy);
+  color:white;
+  text-align:center;
+}
+
+.promise h2{
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+.promise p{
+  max-width:750px;
+  margin:auto;
+  line-height:1.9;
+  color:#d5deeb;
+}
+
+.promise strong{color:var(--gold)}
+
+footer{
+  background:#041225;
+  color:white;
+  padding:40px 20px;
+  text-align:center;
+}
+
+footer .logo{margin-bottom:18px}
+
+footer p{
+  color:#aab6c7;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.footer-links{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:22px;
+  margin:20px 0;
+  font-size:13px;
+}
+
+.footer-links a:hover{color:var(--gold)}
+
+@media(max-width:768px){
+  .menu-btn{display:block}
+
+  .menu{
+    display:none;
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    padding:22px;
+    background:var(--navy);
+    flex-direction:column;
+    align-items:stretch;
+    gap:20px;
+  }
+
+  .menu.active{display:flex}
+
+  .hero h1{font-size:34px}
+
+  .story{grid-template-columns:1fr}
+
+  .value-grid{grid-template-columns:1fr}
+
+  .section-title h2{font-size:27px}
+
+  section{padding:55px 0}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav class="navbar">
+
+<a href="index.html" class="logo">
+RUBALIA
+<span>NETWORK</span>
+</a>
+
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+<div class="menu" id="menu">
+<a href="index.html">Home</a>
+<a href="about.html" class="active">About Us</a>
+<a href="products.html">Products</a>
+<a href="business.html">Business</a>
+<a href="contact.html">Contact</a>
+<a href="login.html" class="btn">Login</a>
+</div>
+
+</nav>
+</header>
+
+<main>
+
+<div class="hero">
+<small>GET TO KNOW US</small>
+<h1>About <span>RUBALIA</span></h1>
+<p>
+Discover our company, our purpose and the values
+that guide our product distribution journey.
+</p>
+</div>
+
+<section>
+<div class="container">
+
+<div class="story">
+
+<div class="story-box">
+<h2>RUBALIA</h2>
+<h3>NETWORK</h3>
+<p style="color:#d5deeb;margin-top:22px">
+Building Trust. Creating Opportunity.
+</p>
+</div>
+
+<div class="story-text">
+<small>WHO WE ARE</small>
+
+<h2>About Our Company</h2>
+
+<p>
+RUBALIA NETWORK is being developed as a
+product distribution and customer-focused
+business platform.
+</p>
+
+<p>
+Our goal is to connect customers with
+genuine products from reliable suppliers
+through a transparent distribution network.
+</p>
+
+<p>
+We believe that trust, product quality,
+responsible business practices and customer
+satisfaction are essential for long-term growth.
+</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section class="values-section">
+<div class="container">
+
+<div class="section-title">
+<small>OUR DIRECTION</small>
+<h2>Vision & Mission</h2>
+<p>
+The principles that guide our future.
+</p>
+</div>
+
+<div class="value-grid">
+
+<div class="value-card">
+<div class="value-icon">🌍</div>
+<h3>Our Vision</h3>
+<p>
+To build a trusted and responsible
+product distribution platform
+with a strong customer community.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">🎯</div>
+<h3>Our Mission</h3>
+<p>
+To make quality products accessible
+through reliable suppliers, fair pricing
+and transparent business practices.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">🤝</div>
+<h3>Our Commitment</h3>
+<p>
+To prioritize genuine product sales,
+customer satisfaction and responsible
+business relationships.
+</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="section-title">
+<small>WHAT WE BELIEVE</small>
+<h2>Our Core Values</h2>
+</div>
+
+<div class="value-grid">
+
+<div class="value-card">
+<div class="value-icon">◆</div>
+<h3>Integrity</h3>
+<p>
+We value honesty and transparency
+in every business relationship.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">✦</div>
+<h3>Quality</h3>
+<p>
+We aim to work with genuine products
+and reliable suppliers.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">♥</div>
+<h3>Customer First</h3>
+<p>
+Customer needs and satisfaction
+remain at the heart of our approach.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">◎</div>
+<h3>Responsibility</h3>
+<p>
+We support ethical selling and
+responsible business practices.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">↗</div>
+<h3>Growth</h3>
+<p>
+We believe in learning, improvement
+and sustainable development.
+</p>
+</div>
+
+<div class="value-card">
+<div class="value-icon">♧</div>
+<h3>Community</h3>
+<p>
+We aim to build positive and
+respectful business relationships.
+</p>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<section class="promise">
+<div class="container">
+
+<h2>Our Business Promise</h2>
+
+<p>
+At <strong>RUBALIA NETWORK</strong>, we aim to
+build our business around genuine product sales,
+clear information, fair treatment and customer trust.
+Our focus is on sustainable business rather than
+unrealistic income promises.
+</p>
+
+</div>
+</section>
+
+</main>
+
+<footer>
+
+<div class="logo">
+RUBALIA
+<span>NETWORK</span>
+</div>
+
+<p>Building Trust. Creating Opportunity.</p>
+
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="about.html">About Us</a>
+<a href="products.html">Products</a>
+<a href="contact.html">Contact</a>
+<a href="login.html">Login</a>
+</div>
+
+<p>
+© <span id="year"></span> RUBALIA NETWORK.
+All Rights Reserved.
+</p>
+
+</footer>
+
+<script>
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
+
+document.getElementById("year").textContent =
+new Date().getFullYear();
+</script>
+
+</body>
+</html>
