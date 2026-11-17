@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Partner Support | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d8ad55;
+  --gold-light:#f4d58b;
+  --white:#fff;
+  --bg:#f4f6fa;
+  --text:#17243a;
+  --muted:#718096;
+  --border:#e5eaf1;
+  --green:#16865b;
+  --red:#c44747;
+  --orange:#b7791f;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.sidebar{
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:25px 16px;
+  overflow-y:auto;
+  z-index:20;
+}
+.logo{
+  font-size:21px;
+  font-weight:900;
+  color:var(--gold-light);
+  padding:5px 10px 25px;
+  letter-spacing:1px;
+}
+.logo small{
+  display:block;
+  color:#c5d0df;
+  font-size:10px;
+  letter-spacing:3px;
+  margin-top:5px;
+}
+.nav-label{
+  color:#8293aa;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:16px 10px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  margin:3px 0;
+  border-radius:9px;
+  color:#d5deea;
+  font-size:13px;
+}
+.nav a:hover,.nav a.active{
+  background:#19395f;
+  color:var(--gold-light);
+}
+.main{
+  margin-left:245px;
+  min-height:100vh;
+}
+.topbar{
+  height:68px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  border-bottom:1px solid var(--border);
+}
+.top-title{
+  color:var(--navy);
+  font-weight:800;
+}
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:12px;
+}
+.avatar{
+  width:35px;height:35px;
+  border-radius:50%;
+  background:var(--navy);
+  color:var(--gold-light);
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+}
+.mobile-menu{
+  display:none;
+  border:0;
+  background:none;
+  color:var(--navy);
+  font-size:22px;
+}
+.content{
+  padding:28px;
+  max-width:1250px;
+  margin:auto;
+}
+.hero{
+  background:linear-gradient(120deg,#071a35,#193f6d);
+  border-radius:16px;
+  padding:27px;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+.hero:after{
+  content:"?";
+  position:absolute;
+  right:35px;
+  top:-50px;
+  font-size:200px;
+  font-weight:900;
+  color:#ffffff0b;
+}
+.hero h1{
+  margin:0 0 10px;
+  font-size:26px;
+}
+.hero p{
+  max-width:650px;
+  color:#d2ddec;
+  font-size:13px;
+  line-height:1.7;
+  margin:0;
+}
+.gold-line{
+  width:55px;
+  height:3px;
+  background:var(--gold);
+  margin:16px 0;
+}
+.notice{
+  margin:20px 0;
+  padding:13px 15px;
+  border-radius:10px;
+  background:#fff8e8;
+  border:1px solid #f0dfb8;
+  color:#76551b;
+  font-size:12px;
+  line-height:1.6;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin:20px 0;
+}
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:17px;
+}
+.stat-icon{font-size:20px}
+.stat-number{
+  display:block;
+  font-size:24px;
+  font-weight:900;
+  color:var(--navy);
+  margin:10px 0 5px;
+}
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin:27px 0 15px;
+}
+.section-head h2{
+  color:var(--navy);
+  font-size:18px;
+  margin:0;
+}
+.section-head span{
+  color:var(--muted);
+  font-size:11px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:21px;
+  margin-bottom:18px;
+}
+.panel h3{
+  color:var(--navy);
+  font-size:15px;
+  margin:0 0 18px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+.field{margin-bottom:14px}
+.field.full{grid-column:1/-1}
+.field label{
+  display:block;
+  font-size:11px;
+  font-weight:bold;
+  color:#42516a;
+  margin-bottom:7px;
+}
+.field input,.field select,.field textarea{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  background:#fff;
+  color:var(--text);
+  font-size:12px;
+  outline:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--gold);
+}
+.field textarea{
+  min-height:115px;
+  resize:vertical;
+  line-height:1.6;
+}
+.help-text{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.primary-btn{
+  background:var(--navy);
+  color:var(--gold-light);
+  border:0;
+  border-radius:8px;
+  padding:12px 18px;
+  font-size:12px;
+  font-weight:bold;
+}
+.secondary-btn{
+  background:#edf1f6;
+  color:#34445b;
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:11px;
+  font-weight:bold;
+}
+.ticket-list{
+  display:grid;
+  gap:11px;
+}
+.ticket{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+.ticket h4{
+  margin:0 0 7px;
+  color:var(--navy);
+  font-size:13px;
+}
+.ticket p{
+  margin:0;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
+.ticket-right{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
+.status{
+  font-size:9px;
+  padding:6px 9px;
+  border-radius:20px;
+  font-weight:bold;
+}
+.status.open{background:#fff3d9;color:#946715}
+.status.progress{background:#e8f0ff;color:#315eaa}
+.status.resolved{background:#e5f6ed;color:var(--green)}
+.ticket-id{
+  color:#8491a3;
+  font-size:10px;
+}
+.faq-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.faq{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+  background:#fff;
+}
+.faq h4{
+  margin:0 0 8px;
+  font-size:12px;
+  color:var(--navy);
+}
+.faq p{
+  margin:0;
+  font-size:11px;
+  line-height:1.6;
+  color:var(--muted);
+}
+.contact-row{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+.contact-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  background:#fff;
+}
+.contact-card strong{
+  color:var(--navy);
+  display:block;
+  font-size:12px;
+  margin-bottom:7px;
+}
+.contact-card span{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+.empty{
+  text-align:center;
+  padding:25px;
+  background:#f8fafc;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:12px;
+  display:none;
+}
+.footer{
+  text-align:center;
+  color:#8a96a7;
+  font-size:10px;
+  padding:30px 10px;
+}
+.modal{
+  position:fixed;
+  inset:0;
+  background:#071a35aa;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:50;
+}
+.modal.show{display:flex}
+.modal-box{
+  width:100%;
+  max-width:480px;
+  background:white;
+  border-radius:14px;
+  padding:23px;
+}
+.modal-box h3{
+  margin:0 0 12px;
+  color:var(--navy);
+}
+.modal-box p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:20px;
+}
+@media(max-width:950px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+    box-shadow:5px 0 20px #0002;
+  }
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .topbar{height:60px;padding:0 15px}
+  .mobile-menu{display:block}
+  .content{padding:17px}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:22px}
+  .hero:after{right:5px;font-size:130px}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .faq-grid,.contact-row{grid-template-columns:1fr}
+  .ticket{align-items:flex-start}
+  .ticket-right{min-width:90px}
+}
+@media(max-width:390px){
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .stat-number{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    RUBALIA
+    <small>NETWORK</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-label">MAIN MENU</div>
+    <a href="dashboard.html">▦ Dashboard</a>
+    <a href="profile.html">♙ My Profile</a>
+    <a href="products.html">▣ Products</a>
+    <a href="orders.html">▤ My Orders</a>
+
+    <div class="nav-label">MY NETWORK</div>
+    <a href="team.html">♧ My Team</a>
+    <a href="income.html">৳ Income Summary</a>
+    <a href="wallet.html">◈ Wallet</a>
+    <a href="withdraw.html">⇧ Withdraw</a>
+
+    <div class="nav-label">PARTNER CENTER</div>
+    <a href="become-partner.html">✦ Become a Partner</a>
+    <a href="partner-guidelines.html">☷ Guidelines</a>
+    <a href="partner-agreement.html">▤ Agreement</a>
+    <a href="partner-faq.html">? Partner FAQ</a>
+    <a href="partner-training.html">▣ Training Center</a>
+    <a href="partner-resources.html">▤ Resource Library</a>
+    <a class="active" href="partner-support.html">✉ Partner Support</a>
+
+    <div class="nav-label">ACCOUNT</div>
+    <a href="notifications.html">♢ Notifications</a>
+    <a href="settings.html">⚙ Settings</a>
+    <a href="index.html">⌂ Back to Website</a>
+    <a href="login.html">↪ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+    <div class="top-title">Partner Support Center</div>
+  </div>
+  <div class="top-right">
+    <span>Partner Help Desk</span>
+    <div class="avatar">R</div>
+  </div>
+</header>
+
+<div class="content">
+
+<section class="hero">
+  <h1>Partner Support Center</h1>
+  <div class="gold-line"></div>
+  <p>
+    Need help with your partner account, product information,
+    orders or platform features? Use this demonstration support
+    center to explore the ticket and help desk interface.
+  </p>
+</section>
+
+<div class="notice">
+  <strong>Demo Notice:</strong>
+  This support page is frontend-only. Ticket submissions are
+  temporary and are not sent to the company or stored on a server.
+  Do not enter passwords, OTPs, PINs or sensitive financial information.
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-icon">🎫</div>
+    <span class="stat-number" id="totalCount">3</span>
+    <span class="stat-label">Demo Tickets</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🟡</div>
+    <span class="stat-number" id="openCount">1</span>
+    <span class="stat-label">Open Tickets</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🔵</div>
+    <span class="stat-number" id="progressCount">1</span>
+    <span class="stat-label">In Progress</span>
+  </div>
+  <div class="stat">
+    <div class="stat-icon">🟢</div>
+    <span class="stat-number" id="resolvedCount">1</span>
+    <span class="stat-label">Resolved</span>
+  </div>
+</div>
+
+<div class="section-head">
+  <h2>Create a Support Ticket</h2>
+  <span>Frontend demonstration form</span>
+</div>
+
+<section class="panel">
+  <h3>Submit Your Question</h3>
+
+  <form id="ticketForm">
+    <div class="form-grid">
+
+      <div class="field">
+        <label for="subject">Ticket Subject *</label>
+        <input
+          id="subject"
+          type="text"
+          maxlength="100"
+          placeholder="Briefly describe your issue"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="category">Category *</label>
+        <select id="category" required>
+          <option value="">Select category</option>
+          <option>Partner Account</option>
+          <option>Product Information</option>
+          <option>Order & Delivery</option>
+          <option>Payment & Refund</option>
+          <option>Technical Issue</option>
+          <option>Training & Resources</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="priority">Priority *</label>
+        <select id="priority" required>
+          <option value="Normal">Normal</option>
+          <option value="High">High</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="email">Contact Email (Optional)</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="your@email.com"
+        >
+      </div>
+
+      <div class="field full">
+        <label for="message">Describe Your Issue *</label>
+        <textarea
+          id="message"
+          maxlength="1500"
+          placeholder="Explain your question or issue clearly..."
+          required
+        ></textarea>
+        <div class="help-text">Maximum 1500 characters.</div>
+      </div>
+
+    </div>
+
+    <button class="primary-btn" type="submit">
+      Submit Demo Ticket →
+    </button>
+  </form>
+</section>
+
+<div class="section-head">
+  <h2>My Support Tickets</h2>
+  <span>Sample demonstration records</span>
+</div>
+
+<div class="ticket-list" id="ticketList">
+
+  <article class="ticket">
+    <div>
+      <h4>How can I update my partner profile?</h4>
+      <p>Account Support · Normal Priority · 15 Nov 2026</p>
+    </div>
+    <div class="ticket-right">
+      <span class="status open">Open</span>
+      <span class="ticket-id">#RB-1001</span>
+    </div>
+  </article>
+
+  <article class="ticket">
+    <div>
+      <h4>Need information about product catalogue</h4>
+      <p>Product Information · Normal Priority · 14 Nov 2026</p>
+    </div>
+    <div class="ticket-right">
+      <span class="status progress">In Progress</span>
+      <span class="ticket-id">#RB-1002</span>
+    </div>
+  </article>
+
+  <article class="ticket">
+    <div>
+      <h4>Unable to find training materials</h4>
+      <p>Training & Resources · Low Priority · 12 Nov 2026</p>
+    </div>
+    <div class="ticket-right">
+      <span class="status resolved">Resolved</span>
+      <span class="ticket-id">#RB-1003</span>
+    </div>
+  </article>
+
+</div>
+
+<div class="empty" id="emptyTickets">
+  No tickets available.
+</div>
+
+<div class="section-head">
+  <h2>Frequently Asked Support Questions</h2>
+  <span>Quick help</span>
+</div>
+
+<div class="faq-grid">
+
+  <div class="faq">
+    <h4>How do I update my profile?</h4>
+    <p>Open the My Profile page and review the available profile information fields.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Where can I see my orders?</h4>
+    <p>Visit the My Orders page to explore the order history demonstration.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Where can I learn about products?</h4>
+    <p>Visit the Product Catalogue and Partner Resource Library. Some resources are not yet available.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Can I receive real support here?</h4>
+    <p>Not yet. This is a frontend demonstration. A working support system requires backend integration.</p>
+  </div>
+
+</div>
+
+<div class="section-head">
+  <h2>Other Help Options</h2>
+  <span>Useful pages</span>
+</div>
+
+<div class="contact-row">
+  <div class="contact-card">
+    <strong>📚 Partner FAQ</strong>
+    <span>Find answers to common partner questions.</span>
+    <p><a href="partner-faq.html" style="color:#9a7028;font-size:11px;font-weight:bold">OPEN FAQ →</a></p>
+  </div>
+
+  <div class="contact-card">
+    <strong>📖 Resource Library</strong>
+    <span>Explore partner guides and learning materials.</span>
+    <p><a href="partner-resources.html" style="color:#9a7028;font-size:11px;font-weight:bold">OPEN LIBRARY →</a></p>
+  </div>
+</div>
+
+<div class="notice" style="margin-top:22px">
+  <strong>Security Reminder:</strong>
+  RUBALIA NETWORK support should never require your account password,
+  banking PIN, card CVV or OTP. Never share these details with anyone.
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  Partner Support · Frontend Demo Version
+</footer>
+
+</div>
+</main>
+
+<div class="modal" id="successModal">
+  <div class="modal-box">
+    <h3>Demo Ticket Created</h3>
+    <p id="modalMessage">
+      Your sample ticket has been added to this page temporarily.
+    </p>
+    <p><strong>Reminder:</strong> This is not a real support request. It has not been sent to RUBALIA NETWORK.</p>
+    <div class="modal-actions">
+      <button class="primary-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let tickets = [
+  {
+    id:"RB-1001",
+    subject:"How can I update my partner profile?",
+    category:"Account Support",
+    priority:"Normal",
+    status:"Open",
+    date:"15 Nov 2026"
+  },
+  {
+    id:"RB-1002",
+    subject:"Need information about product catalogue",
+    category:"Product Information",
+    priority:"Normal",
+    status:"In Progress",
+    date:"14 Nov 2026"
+  },
+  {
+    id:"RB-1003",
+    subject:"Unable to find training materials",
+    category:"Training & Resources",
+    priority:"Low",
+    status:"Resolved",
+    date:"12 Nov 2026"
+  }
+];
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function updateStats(){
+  document.getElementById("totalCount").textContent =
+    tickets.length;
+
+  document.getElementById("openCount").textContent =
+    tickets.filter(t=>t.status==="Open").length;
+
+  document.getElementById("progressCount").textContent =
+    tickets.filter(t=>t.status==="In Progress").length;
+
+  document.getElementById("resolvedCount").textContent =
+    tickets.filter(t=>t.status==="Resolved").length;
+}
+
+function renderTickets(){
+  const list = document.getElementById("ticketList");
+  const empty = document.getElementById("emptyTickets");
+
+  list.innerHTML = "";
+
+  if(tickets.length===0){
+    empty.style.display="block";
+  }else{
+    empty.style.display="none";
+  }
+
+  tickets.forEach(ticket=>{
+    const article = document.createElement("article");
+    article.className="ticket";
+
+    const left = document.createElement("div");
+
+    const title = document.createElement("h4");
+    title.textContent=ticket.subject;
+
+    const details = document.createElement("p");
+    details.textContent=
+      ticket.category+" · "+ticket.priority+" Priority · "+ticket.date;
+
+    left.appendChild(title);
+    left.appendChild(details);
+
+    const right = document.createElement("div");
+    right.className="ticket-right";
+
+    const status = document.createElement("span");
+    status.className="status";
+
+    if(ticket.status==="Open"){
+      status.classList.add("open");
+    }else if(ticket.status==="In Progress"){
+      status.classList.add("progress");
+    }else{
+      status.classList.add("resolved");
+    }
+
+    status.textContent=ticket.status;
+
+    const id = document.createElement("span");
+    id.className="ticket-id";
+    id.textContent="#"+ticket.id;
+
+    right.appendChild(status);
+    right.appendChild(id);
+
+    article.appendChild(left);
+    article.appendChild(right);
+
+    list.appendChild(article);
+  });
+
+  updateStats();
+}
+
+function closeModal(){
+  document.getElementById("successModal").classList.remove("show");
+}
+
+document.getElementById("ticketForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const subject =
+    document.getElementById("subject").value.trim();
+
+  const category =
+    document.getElementById("category").value;
+
+  const priority =
+    document.getElementById("priority").value;
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const message =
+    document.getElementById("message").value.trim();
+
+  if(!subject || !category || !message){
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  const newId = "RB-" + (1001 + tickets.length);
+
+  const newTicket = {
+    id:newId,
+    subject:subject,
+    category:category,
+    priority:priority,
+    status:"Open",
+    date:new Date().toLocaleDateString("en-GB",{
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    })
+  };
+
+  tickets.unshift(newTicket);
+  renderTickets();
+
+  document.getElementById("ticketForm").reset();
+
+  document.getElementById("modalMessage").textContent =
+    "Your temporary demonstration ticket "+newId+
+    " has been added to the page. Your message and contact information have not been sent to a server.";
+
+  document.getElementById("successModal").classList.add("show");
+});
+
+document.getElementById("successModal").addEventListener("click",function(e){
+  if(e.target===this){
+    closeModal();
+  }
+});
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+updateStats();
+</script>
+
+</body>
+</html>
