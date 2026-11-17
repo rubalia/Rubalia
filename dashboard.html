@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Member Dashboard - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --white:#fff;
+  --light:#f3f5f9;
+  --text:#26354a;
+  --muted:#7a879a;
+  --border:#e4e8ef;
+  --green:#198754;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  background:var(--navy);
+  color:white;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+.logo{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.logo span{color:var(--gold)}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.member-name{
+  font-size:13px;
+  color:#e1e6ef;
+}
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--gold);
+  color:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+}
+
+/* LAYOUT */
+.layout{
+  display:flex;
+  min-height:calc(100vh - 65px);
+}
+.sidebar{
+  width:245px;
+  flex-shrink:0;
+  background:var(--navy2);
+  color:white;
+  padding:25px 15px;
+}
+.profile-mini{
+  text-align:center;
+  padding:5px 10px 24px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  margin-bottom:20px;
+}
+.profile-mini .avatar{
+  width:65px;
+  height:65px;
+  font-size:24px;
+  margin:0 auto 12px;
+  border:3px solid var(--gold);
+}
+.profile-mini h3{
+  margin:0 0 6px;
+  font-size:15px;
+}
+.profile-mini p{
+  margin:0;
+  color:#bdc8d8;
+  font-size:11px;
+}
+.menu-title{
+  font-size:10px;
+  color:#aebbd0;
+  letter-spacing:1.5px;
+  padding:12px 12px 8px;
+}
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin:4px 0;
+  color:#dce4ef;
+  font-size:13px;
+  border-radius:7px;
+  transition:.2s;
+}
+.menu a:hover,
+.menu a.active{
+  background:rgba(214,173,85,.17);
+  color:var(--gold);
+}
+.menu-icon{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* MAIN */
+main{
+  flex:1;
+  min-width:0;
+  padding:28px;
+}
+.welcome{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+.welcome h1{
+  font-size:25px;
+  color:var(--navy);
+  margin:0 0 7px;
+}
+.welcome p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+.date{
+  background:white;
+  border:1px solid var(--border);
+  padding:10px 14px;
+  border-radius:8px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* DEMO NOTICE */
+.demo-notice{
+  background:#fff8e8;
+  border:1px solid #efdfb9;
+  color:#806329;
+  padding:13px 15px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:23px;
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+  margin-bottom:25px;
+}
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:20px;
+  min-width:0;
+}
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+}
+.stat-icon{
+  width:38px;
+  height:38px;
+  border-radius:9px;
+  background:#f8f2e4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+.stat-value{
+  font-size:25px;
+  font-weight:800;
+  color:var(--navy);
+  margin-top:15px;
+}
+.stat-note{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:7px;
+}
+
+/* PANELS */
+.content-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+  margin-bottom:20px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:21px;
+  min-width:0;
+}
+.panel-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:20px;
+}
+.panel-heading h2{
+  font-size:16px;
+  color:var(--navy);
+  margin:0;
+}
+.panel-heading a{
+  font-size:11px;
+  color:#98752f;
+  font-weight:bold;
+}
+.balance-box{
+  background:linear-gradient(120deg,var(--navy),#183d68);
+  color:white;
+  padding:23px;
+  border-radius:10px;
+}
+.balance-box p{
+  color:#d2dbea;
+  font-size:12px;
+  margin:0 0 10px;
+}
+.balance-amount{
+  font-size:30px;
+  font-weight:800;
+  color:var(--gold);
+}
+.balance-note{
+  font-size:11px;
+  color:#d2dbea;
+  margin-top:10px;
+}
+.balance-actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.action-btn{
+  padding:10px 15px;
+  border-radius:6px;
+  background:var(--gold);
+  color:var(--navy);
+  font-size:11px;
+  font-weight:bold;
+}
+.action-btn.secondary{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.5);
+  color:white;
+}
+
+/* QUICK LINKS */
+.quick-links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px;
+}
+.quick-link{
+  background:#f8f9fb;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:15px 8px;
+  text-align:center;
+  transition:.2s;
+}
+.quick-link:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+.quick-link .q-icon{
+  font-size:23px;
+  margin-bottom:9px;
+}
+.quick-link span{
+  display:block;
+  font-size:11px;
+  font-weight:bold;
+  color:var(--navy);
+}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:430px;
+}
+th,td{
+  padding:13px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+th{
+  color:var(--muted);
+  font-size:11px;
+  background:#fafbfd;
+}
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+.status.pending{
+  background:#fff4db;
+  color:#947025;
+}
+.status.completed{
+  background:#e4f5eb;
+  color:#198754;
+}
+.status.demo{
+  background:#eaf0fa;
+  color:#46658e;
+}
+
+/* TEAM */
+.team-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.team-item{
+  background:#f8f9fb;
+  border:1px solid var(--border);
+  padding:15px;
+  border-radius:8px;
+}
+.team-item p{
+  font-size:11px;
+  color:var(--muted);
+  margin:0 0 8px;
+}
+.team-item strong{
+  color:var(--navy);
+  font-size:22px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:22px;
+}
+
+/* MOBILE */
+.mobile-menu{
+  display:none;
+  border:1px solid rgba(255,255,255,.3);
+  background:transparent;
+  color:white;
+  border-radius:6px;
+  padding:7px 10px;
+  font-size:18px;
+}
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  header{padding:0 15px}
+  .mobile-menu{display:block}
+  .header-right{gap:10px}
+  .member-name{display:none}
+  .layout{display:block}
+  .sidebar{
+    display:none;
+    width:100%;
+    padding:15px;
+  }
+  .sidebar.show{display:block}
+  .profile-mini{display:none}
+  main{padding:20px 14px}
+  .content-grid{grid-template-columns:1fr}
+  .welcome{align-items:flex-start;flex-direction:column}
+  .welcome h1{font-size:22px}
+}
+@media(max-width:420px){
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat-card{padding:14px}
+  .stat-value{font-size:21px}
+  .quick-links{grid-template-columns:repeat(2,1fr)}
+  .panel{padding:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:13px">
+    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+    <a href="dashboard.html" class="logo">RUBALIA <span>NETWORK</span></a>
+  </div>
+
+  <div class="header-right">
+    <span class="member-name">Welcome, Demo Member</span>
+    <div class="avatar">DM</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="profile-mini">
+      <div class="avatar">DM</div>
+      <h3>Demo Member</h3>
+      <p>Member ID: RN-DEMO-001</p>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <nav class="menu">
+      <a href="dashboard.html" class="active">
+        <span class="menu-icon">▦</span> Dashboard
+      </a>
+
+      <a href="profile.html">
+        <span class="menu-icon">👤</span> My Profile
+      </a>
+
+      <a href="products.html">
+        <span class="menu-icon">🛍️</span> Products
+      </a>
+
+      <a href="orders.html">
+        <span class="menu-icon">📦</span> My Orders
+      </a>
+
+      <a href="team.html">
+        <span class="menu-icon">👥</span> My Team
+      </a>
+
+      <a href="income.html">
+        <span class="menu-icon">💰</span> Income Details
+      </a>
+
+      <a href="wallet.html">
+        <span class="menu-icon">👛</span> My Wallet
+      </a>
+
+      <a href="withdraw.html">
+        <span class="menu-icon">💳</span> Withdraw
+      </a>
+    </nav>
+
+    <div class="menu-title">ACCOUNT</div>
+
+    <nav class="menu">
+      <a href="settings.html">
+        <span class="menu-icon">⚙️</span> Settings
+      </a>
+
+      <a href="contact.html">
+        <span class="menu-icon">☎</span> Support
+      </a>
+
+      <a href="login.html" onclick="return confirmLogout()">
+        <span class="menu-icon">↪</span> Logout
+      </a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <div class="welcome">
+      <div>
+        <h1>Member Dashboard</h1>
+        <p>Welcome back, Demo Member. Here's your account overview.</p>
+      </div>
+
+      <div class="date" id="currentDate">Loading date...</div>
+    </div>
+
+    <div class="demo-notice">
+      <strong>Demo Dashboard:</strong> All displayed member IDs,
+      balances, team numbers and transactions are sample information.
+      No real income, commissions, orders or withdrawals are recorded.
+    </div>
+
+    <!-- STATISTICS -->
+    <section class="stats">
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Total Orders</span>
+          <div class="stat-icon">📦</div>
+        </div>
+        <div class="stat-value">08</div>
+        <div class="stat-note">Sample order count</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Total Team</span>
+          <div class="stat-icon">👥</div>
+        </div>
+        <div class="stat-value">24</div>
+        <div class="stat-note">Sample team members</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Total Earnings</span>
+          <div class="stat-icon">💰</div>
+        </div>
+        <div class="stat-value">৳0.00</div>
+        <div class="stat-note">No real commission recorded</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Account Status</span>
+          <div class="stat-icon">🛡️</div>
+        </div>
+        <div class="stat-value" style="font-size:19px;color:#198754">
+          Demo
+        </div>
+        <div class="stat-note">Sample account status</div>
+      </div>
+
+    </section>
+
+    <section class="content-grid">
+
+      <!-- WALLET -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Wallet Overview</h2>
+          <a href="wallet.html">VIEW WALLET →</a>
+        </div>
+
+        <div class="balance-box">
+          <p>Available Balance (Demo)</p>
+          <div class="balance-amount">৳ 0.00</div>
+          <div class="balance-note">
+            Sample balance — not withdrawable.
+          </div>
+
+          <div class="balance-actions">
+            <a href="withdraw.html" class="action-btn">Withdraw</a>
+            <a href="income.html" class="action-btn secondary">
+              Income History
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Quick Access</h2>
+        </div>
+
+        <div class="quick-links">
+
+          <a href="products.html" class="quick-link">
+            <div class="q-icon">🛍️</div>
+            <span>Shop Products</span>
+          </a>
+
+          <a href="orders.html" class="quick-link">
+            <div class="q-icon">📦</div>
+            <span>My Orders</span>
+          </a>
+
+          <a href="team.html" class="quick-link">
+            <div class="q-icon">👥</div>
+            <span>My Team</span>
+          </a>
+
+          <a href="profile.html" class="quick-link">
+            <div class="q-icon">👤</div>
+            <span>My Profile</span>
+          </a>
+
+          <a href="wallet.html" class="quick-link">
+            <div class="q-icon">👛</div>
+            <span>My Wallet</span>
+          </a>
+
+          <a href="contact.html" class="quick-link">
+            <div class="q-icon">💬</div>
+            <span>Support</span>
+          </a>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TEAM SUMMARY -->
+    <section class="panel" style="margin-bottom:20px">
+
+      <div class="panel-heading">
+        <h2>Team Summary</h2>
+        <a href="team.html">VIEW TEAM →</a>
+      </div>
+
+      <div class="team-info">
+
+        <div class="team-item">
+          <p>Direct Members (Demo)</p>
+          <strong>05</strong>
+        </div>
+
+        <div class="team-item">
+          <p>Total Team Members (Demo)</p>
+          <strong>24</strong>
+        </div>
+
+        <div class="team-item">
+          <p>Active Members (Demo)</p>
+          <strong>00</strong>
+        </div>
+
+        <div class="team-item">
+          <p>Pending Members (Demo)</p>
+          <strong>00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- RECENT ORDERS -->
+    <section class="panel">
+
+      <div class="panel-heading">
+        <h2>Recent Orders</h2>
+        <a href="orders.html">ALL ORDERS →</a>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ORDER ID</th>
+              <th>DATE</th>
+              <th>AMOUNT</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>DEMO-1001</td>
+              <td>Sample Date</td>
+              <td>৳ 1,500</td>
+              <td><span class="status demo">Demo</span></td>
+            </tr>
+
+            <tr>
+              <td>DEMO-1002</td>
+              <td>Sample Date</td>
+              <td>৳ 2,200</td>
+              <td><span class="status demo">Demo</span></td>
+            </tr>
+
+            <tr>
+              <td>DEMO-1003</td>
+              <td>Sample Date</td>
+              <td>৳ 950</td>
+              <td><span class="status demo">Demo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <footer>
+      © <span style="color:#b58b3d">RUBALIA NETWORK</span>
+      — Member Dashboard Demo
+    </footer>
+
+  </main>
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("show");
+}
+
+function confirmLogout(){
+  return confirm("Do you want to return to the login page?");
+}
+
+const today=new Date();
+
+document.getElementById("currentDate").textContent=
+  today.toLocaleDateString("en-GB",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
+</script>
+
+</body>
+        </html>
