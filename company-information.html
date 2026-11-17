@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Company Information - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f4dfaa;
+  --bg:#f4f6fa;
+  --text:#253247;
+  --muted:#718096;
+  --border:#e3e8ef;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(120deg,var(--navy),var(--navy2));
+  color:white;
+  padding:20px 16px;
+  border-bottom:3px solid var(--gold);
+}
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.brand span{color:var(--gold)}
+.home-link{
+  color:var(--gold-light);
+  text-decoration:none;
+  font-size:13px;
+}
+.container{
+  max-width:1100px;
+  margin:25px auto;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:245px 1fr;
+  gap:20px;
+}
+.sidebar,.content{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 5px 20px rgba(7,26,53,.05);
+}
+.sidebar{
+  padding:16px;
+  height:max-content;
+}
+.sidebar h3{
+  color:var(--navy);
+  font-size:14px;
+  margin:4px 0 13px;
+}
+.sidebar a{
+  display:block;
+  padding:10px 11px;
+  margin:3px 0;
+  color:#526176;
+  text-decoration:none;
+  border-radius:7px;
+  font-size:13px;
+}
+.sidebar a:hover,.sidebar a.active{
+  background:#edf2f9;
+  color:var(--navy);
+  font-weight:700;
+}
+.content{padding:27px}
+.page-title{
+  margin:0;
+  color:var(--navy);
+  font-size:27px;
+}
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin:9px 0 22px;
+}
+.notice{
+  background:#fff8e9;
+  border:1px solid #ead49e;
+  border-left:4px solid var(--gold);
+  padding:13px 15px;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+.hero{
+  background:linear-gradient(125deg,var(--navy),var(--navy2));
+  color:white;
+  border-radius:12px;
+  padding:25px;
+  margin-bottom:20px;
+}
+.hero h2{
+  margin:0 0 10px;
+  font-size:23px;
+}
+.hero p{
+  color:#dbe5f1;
+  font-size:13px;
+  line-height:1.8;
+  margin:0;
+}
+.section{
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+.section:last-child{border-bottom:0}
+.section h2{
+  color:var(--navy);
+  font-size:17px;
+  margin:0 0 10px;
+}
+.section p,.section li{
+  font-size:13px;
+  color:#586579;
+  line-height:1.85;
+}
+.section ul{padding-left:20px}
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+.info-card{
+  background:#f8f9fc;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:14px;
+}
+.info-card small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:7px;
+}
+.info-card strong{
+  color:var(--navy);
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+.status{
+  display:inline-block;
+  margin-top:7px;
+  padding:4px 8px;
+  background:#fff2d6;
+  color:#805c17;
+  border-radius:5px;
+  font-size:10px;
+}
+.section a{color:#946c20}
+.footer{
+  text-align:center;
+  color:#8a95a5;
+  font-size:12px;
+  padding:25px 12px;
+}
+@media(max-width:760px){
+  .container{
+    grid-template-columns:1fr;
+    margin:15px auto;
+  }
+  .sidebar{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2px;
+  }
+  .sidebar h3{grid-column:1/-1}
+  .content{padding:20px 16px}
+  .page-title{font-size:23px}
+}
+@media(max-width:390px){
+  .sidebar{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+    <a class="home-link" href="index.html">← Back to Home</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h3>MEMBER MENU</h3>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="profile.html">My Profile</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html">My Orders</a>
+    <a href="team.html">My Team</a>
+    <a href="income.html">Income Summary</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="deposit.html">Deposit</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="settings.html">Settings</a>
+    <a href="support.html">Support Center</a>
+    <a href="faq.html">FAQ</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="delivery-policy.html">Delivery Policy</a>
+    <a href="return-refund-policy.html">Return & Refund</a>
+    <a href="legal-disclaimer.html">Legal Disclaimer</a>
+    <a class="active" href="company-information.html">Company Information</a>
+  </aside>
+
+  <main class="content">
+
+    <h1 class="page-title">Company Information</h1>
+
+    <p class="subtitle">
+      Learn about RUBALIA NETWORK, our business activities,
+      products and customer service principles.
+    </p>
+
+    <div class="notice">
+      <strong>Company Information Notice:</strong>
+      This page contains preliminary company information.
+      Official registration, licensing, address and contact details
+      must be added only after they are verified.
+    </div>
+
+    <div class="hero">
+      <h2>RUBALIA NETWORK</h2>
+      <p>
+        A proposed Bangladesh-focused product sales and distribution
+        business concept designed around genuine products, transparent
+        customer service and responsible business practices.
+      </p>
+    </div>
+
+    <section class="section">
+      <h2>1. About the Company</h2>
+      <p>
+        RUBALIA NETWORK is the proposed brand name for a product-focused
+        business initiative. The business concept is to source products
+        from suppliers and offer them to customers through an organized
+        sales and distribution platform.
+      </p>
+      <p>
+        The company aims to build customer trust through clear product
+        information, transparent pricing and responsible service.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>2. Company Details</h2>
+
+      <div class="info-grid">
+
+        <div class="info-card">
+          <small>Brand Name</small>
+          <strong>RUBALIA NETWORK</strong>
+        </div>
+
+        <div class="info-card">
+          <small>Business Focus</small>
+          <strong>Product Sales & Distribution</strong>
+        </div>
+
+        <div class="info-card">
+          <small>Primary Market</small>
+          <strong>Bangladesh</strong>
+        </div>
+
+        <div class="info-card">
+          <small>Business Structure</small>
+          <strong>To be legally confirmed</strong>
+        </div>
+
+        <div class="info-card">
+          <small>Registration Number</small>
+          <strong>Not yet provided</strong>
+          <span class="status">Verification required</span>
+        </div>
+
+        <div class="info-card">
+          <small>Registered Office</small>
+          <strong>Not yet provided</strong>
+          <span class="status">Verification required</span>
+        </div>
+
+        <div class="info-card">
+          <small>Official Email</small>
+          <strong>Not yet provided</strong>
+        </div>
+
+        <div class="info-card">
+          <small>Official Phone</small>
+          <strong>Not yet provided</strong>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. Business Activities</h2>
+      <p>The proposed business activities may include:</p>
+      <ul>
+        <li>Sourcing products from suppliers.</li>
+        <li>Offering products to customers.</li>
+        <li>Managing product orders and delivery coordination.</li>
+        <li>Providing customer support.</li>
+        <li>Developing an online product sales platform.</li>
+        <li>Building lawful distribution and sales relationships.</li>
+      </ul>
+      <p>
+        Actual activities will depend on the company's legal status,
+        supplier agreements and applicable permissions.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>4. Product Sales Model</h2>
+      <p>
+        The proposed model focuses on purchasing or sourcing genuine
+        products and reselling them to customers.
+      </p>
+      <p>
+        Product prices, availability, delivery charges and applicable
+        conditions should be communicated clearly before customers
+        confirm an order.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>5. Network and Referral Concept</h2>
+      <p>
+        RUBALIA NETWORK may explore a Unilevel referral structure
+        as a proposed distribution model.
+      </p>
+      <p>
+        Any referral compensation plan must be independently reviewed
+        for compliance with applicable laws before implementation.
+        No recruitment-based payment or commission should be activated
+        without the necessary legal review and authorization.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>6. Customer Service Principles</h2>
+      <ul>
+        <li>Provide clear and accurate product information.</li>
+        <li>Communicate applicable prices and charges.</li>
+        <li>Handle complaints through an identifiable support channel.</li>
+        <li>Protect customer information.</li>
+        <li>Publish understandable delivery and refund policies.</li>
+        <li>Avoid misleading product or income claims.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>7. Official Policies</h2>
+      <p>
+        Customers and members should review the relevant policies
+        before using the website or placing an order.
+      </p>
+      <ul>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="delivery-policy.html">Delivery Policy</a></li>
+        <li><a href="return-refund-policy.html">Return & Refund Policy</a></li>
+        <li><a href="legal-disclaimer.html">Legal Disclaimer</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>8. Registration and Legal Compliance</h2>
+      <p>
+        Before beginning commercial operations, the business must
+        determine its appropriate legal structure and complete
+        applicable registration, licensing, tax and other compliance
+        requirements.
+      </p>
+      <p>
+        Official registration and licensing details should be published
+        here only after the relevant documents have been obtained and verified.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>9. Contact and Support</h2>
+      <p>
+        For general questions, product inquiries or assistance,
+        please visit the
+        <a href="support.html">Support Center</a>.
+      </p>
+      <p>
+        Official contact information will be published here after
+        the company's communication channels are finalized.
+      </p>
+    </section>
+
+    <div class="notice">
+      <strong>Important Before Launch:</strong>
+      Confirm the company's legal identity, registration details,
+      business address, official contact channels, supplier agreements
+      and any required licenses before presenting this page as an
+      official company disclosure.
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  <a href="about.html">About</a> ·
+  <a href="terms.html">Terms</a> ·
+  <a href="privacy.html">Privacy</a> ·
+  <a href="legal-disclaimer.html">Disclaimer</a> ·
+  <a href="support.html">Support</a>
+</footer>
+
+</body>
+</html>
