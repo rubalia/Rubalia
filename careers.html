@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Careers - RUBALIA NETWORK</title>
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f4dfaa;
+  --bg:#f4f6fa;
+  --text:#253247;
+  --muted:#718096;
+  --border:#e3e8ef;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(120deg,var(--navy),var(--navy2));
+  color:white;
+  padding:20px 16px;
+  border-bottom:3px solid var(--gold);
+}
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.brand{
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.brand span{color:var(--gold)}
+.home-link{
+  color:var(--gold-light);
+  text-decoration:none;
+  font-size:13px;
+}
+.container{
+  max-width:1100px;
+  margin:25px auto;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:245px 1fr;
+  gap:20px;
+}
+.sidebar,.content{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 5px 20px rgba(7,26,53,.05);
+}
+.sidebar{padding:16px;height:max-content}
+.sidebar h3{
+  color:var(--navy);
+  font-size:14px;
+  margin:4px 0 13px;
+}
+.sidebar a{
+  display:block;
+  padding:10px 11px;
+  margin:3px 0;
+  color:#526176;
+  text-decoration:none;
+  border-radius:7px;
+  font-size:13px;
+}
+.sidebar a:hover,.sidebar a.active{
+  background:#edf2f9;
+  color:var(--navy);
+  font-weight:700;
+}
+.content{padding:27px}
+.page-title{
+  margin:0;
+  color:var(--navy);
+  font-size:27px;
+}
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin:9px 0 22px;
+}
+.hero{
+  background:linear-gradient(125deg,var(--navy),var(--navy2));
+  color:white;
+  border-radius:12px;
+  padding:26px;
+  margin-bottom:20px;
+}
+.hero h2{
+  font-size:23px;
+  margin:0 0 10px;
+}
+.hero p{
+  font-size:13px;
+  color:#dbe5f1;
+  line-height:1.8;
+  margin:0;
+}
+.notice{
+  background:#fff8e9;
+  border:1px solid #ead49e;
+  border-left:4px solid var(--gold);
+  padding:13px 15px;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+.section{
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+.section:last-child{border-bottom:0}
+.section h2{
+  color:var(--navy);
+  font-size:17px;
+  margin:0 0 10px;
+}
+.section p,.section li{
+  font-size:13px;
+  color:#586579;
+  line-height:1.85;
+}
+.section ul{padding-left:20px}
+.jobs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+.job{
+  border:1px solid var(--border);
+  background:#f8f9fc;
+  border-radius:10px;
+  padding:15px;
+}
+.job h3{
+  color:var(--navy);
+  font-size:14px;
+  margin:0 0 7px;
+}
+.job p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  margin:0;
+}
+.job small{
+  display:inline-block;
+  color:#805c17;
+  background:#fff2d6;
+  padding:5px 8px;
+  border-radius:5px;
+  margin-top:10px;
+  font-size:10px;
+}
+.apply{
+  display:inline-block;
+  background:var(--navy);
+  color:white;
+  text-decoration:none;
+  padding:12px 18px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:700;
+  margin-top:8px;
+}
+.apply:hover{background:var(--navy2)}
+.section a:not(.apply){color:#946c20}
+.footer{
+  text-align:center;
+  color:#8a95a5;
+  font-size:12px;
+  padding:25px 12px;
+}
+@media(max-width:760px){
+  .container{grid-template-columns:1fr;margin:15px auto}
+  .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+  .sidebar h3{grid-column:1/-1}
+  .content{padding:20px 16px}
+  .page-title{font-size:23px}
+}
+@media(max-width:450px){
+  .sidebar,.jobs{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+    <a class="home-link" href="index.html">← Back to Home</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h3>MEMBER MENU</h3>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="profile.html">My Profile</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html">My Orders</a>
+    <a href="team.html">My Team</a>
+    <a href="income.html">Income Summary</a>
+    <a href="wallet.html">Wallet</a>
+    <a href="deposit.html">Deposit</a>
+    <a href="withdraw.html">Withdraw</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="settings.html">Settings</a>
+    <a href="support.html">Support Center</a>
+    <a href="faq.html">FAQ</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="delivery-policy.html">Delivery Policy</a>
+    <a href="return-refund-policy.html">Return & Refund</a>
+    <a href="legal-disclaimer.html">Legal Disclaimer</a>
+    <a href="company-information.html">Company Information</a>
+    <a class="active" href="careers.html">Careers</a>
+  </aside>
+
+  <main class="content">
+
+    <h1 class="page-title">Careers at RUBALIA NETWORK</h1>
+    <p class="subtitle">
+      Explore potential opportunities to contribute to a growing
+      product-focused business.
+    </p>
+
+    <div class="hero">
+      <h2>Build Something Meaningful</h2>
+      <p>
+        We believe in responsible business practices, customer service,
+        teamwork and genuine product value. This page introduces
+        potential areas of work as the company develops.
+      </p>
+    </div>
+
+    <div class="notice">
+      <strong>Current Status:</strong>
+      This is an informational careers page. No vacancies are currently
+      confirmed through this demonstration website. Any real job opening
+      must be published with verified details and an official application process.
+    </div>
+
+    <section class="section">
+      <h2>1. Potential Work Areas</h2>
+      <p>
+        Depending on business needs, RUBALIA NETWORK may develop
+        opportunities in the following areas:
+      </p>
+
+      <div class="jobs">
+
+        <div class="job">
+          <h3>Customer Support</h3>
+          <p>
+            Help customers with product questions, orders,
+            delivery information and service requests.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+        <div class="job">
+          <h3>Sales & Product Management</h3>
+          <p>
+            Assist with product information, supplier coordination,
+            inventory and customer sales.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+        <div class="job">
+          <h3>Digital Marketing</h3>
+          <p>
+            Support lawful marketing campaigns, content creation
+            and brand communication.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+        <div class="job">
+          <h3>Technology & Web Development</h3>
+          <p>
+            Help maintain the website, improve user experience
+            and support digital operations.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+        <div class="job">
+          <h3>Operations & Logistics</h3>
+          <p>
+            Support order coordination, supplier communication
+            and delivery operations.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+        <div class="job">
+          <h3>Administration</h3>
+          <p>
+            Assist with documentation, records, coordination
+            and general business administration.
+          </p>
+          <small>Potential Department</small>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. General Skills</h2>
+      <p>
+        Requirements will depend on the specific position.
+        Potentially useful skills include:
+      </p>
+      <ul>
+        <li>Clear communication and teamwork.</li>
+        <li>Responsible customer service.</li>
+        <li>Basic computer and internet skills.</li>
+        <li>Relevant experience for the selected role.</li>
+        <li>Honesty, reliability and willingness to learn.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>3. Employment Opportunities vs. Independent Sales</h2>
+      <p>
+        A job opportunity and an independent product-selling
+        arrangement are not the same thing.
+      </p>
+      <ul>
+        <li>
+          <strong>Employment:</strong>
+          A formal job with defined responsibilities and agreed
+          employment terms.
+        </li>
+        <li>
+          <strong>Independent Sales:</strong>
+          A separate commercial arrangement that may involve
+          selling products under agreed conditions.
+        </li>
+      </ul>
+      <p>
+        Any independent sales arrangement must be explained separately.
+        It should not be advertised as a salaried job unless it genuinely
+        meets the applicable employment requirements.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>4. Application Process</h2>
+      <p>
+        When an official vacancy is published, the application process
+        should clearly explain:
+      </p>
+      <ul>
+        <li>Position title and responsibilities.</li>
+        <li>Required qualifications and experience.</li>
+        <li>Work location and working arrangements.</li>
+        <li>Compensation and employment conditions.</li>
+        <li>Application deadline and contact information.</li>
+      </ul>
+      <p>
+        No application should be treated as successful until the
+        applicant receives an official confirmation.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>5. Recruitment Safety</h2>
+      <ul>
+        <li>Do not pay an unofficial person to obtain a job.</li>
+        <li>Do not share passwords, PINs or OTPs.</li>
+        <li>Verify recruitment messages through official channels.</li>
+        <li>Read employment terms before accepting an offer.</li>
+        <li>Report suspicious recruitment requests to support.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>6. Submit an Inquiry</h2>
+      <p>
+        For general career inquiries, contact the support team.
+        This demonstration page does not currently accept or store
+        job applications.
+      </p>
+      <a class="apply" href="support.html">Contact Support</a>
+    </section>
+
+    <section class="section">
+      <h2>7. Equal and Fair Treatment</h2>
+      <p>
+        Recruitment decisions should be based on relevant qualifications,
+        skills and role requirements. The company should follow applicable
+        employment laws and fair recruitment practices.
+      </p>
+    </section>
+
+    <div class="notice">
+      <strong>Important:</strong>
+      Only advertise verified vacancies. Before hiring, define the
+      employer's legal identity, job responsibilities, compensation,
+      working conditions and applicable employment obligations.
+    </div>
+
+  </main>
+</div>
+
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  <a href="about.html">About</a> ·
+  <a href="company-information.html">Company</a> ·
+  <a href="legal-disclaimer.html">Disclaimer</a> ·
+  <a href="support.html">Support</a>
+</footer>
+
+</body>
+</html>
