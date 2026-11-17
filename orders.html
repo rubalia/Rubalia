@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>My Orders - RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --light:#f3f5f9;
+  --text:#26354a;
+  --muted:#7a879a;
+  --border:#e3e8ef;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  height:65px;
+  background:var(--navy);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+}
+.logo{
+  color:white;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.logo span{color:var(--gold)}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.header-right a{font-size:13px;color:white}
+.avatar{
+  width:36px;
+  height:36px;
+  background:var(--gold);
+  color:var(--navy);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* LAYOUT */
+.layout{
+  display:flex;
+  min-height:calc(100vh - 65px);
+}
+.sidebar{
+  width:235px;
+  flex-shrink:0;
+  background:var(--navy2);
+  color:white;
+  padding:24px 14px;
+}
+.profile-mini{
+  text-align:center;
+  padding-bottom:22px;
+  border-bottom:1px solid rgba(255,255,255,.15);
+  margin-bottom:18px;
+}
+.profile-mini .avatar{
+  width:62px;
+  height:62px;
+  margin:0 auto 10px;
+  font-size:22px;
+}
+.profile-mini h3{font-size:14px;margin:0 0 5px}
+.profile-mini p{font-size:11px;color:#bac7d8;margin:0}
+.menu-title{
+  font-size:10px;
+  letter-spacing:1.4px;
+  color:#aebbd0;
+  padding:12px;
+}
+.menu a{
+  display:block;
+  color:#dce4ef;
+  font-size:13px;
+  padding:12px;
+  margin:3px 0;
+  border-radius:7px;
+}
+.menu a:hover,.menu a.active{
+  color:var(--gold);
+  background:rgba(214,173,85,.16);
+}
+
+/* MAIN */
+main{
+  flex:1;
+  min-width:0;
+  padding:28px;
+}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
+}
+.page-heading h1{
+  color:var(--navy);
+  font-size:25px;
+  margin:0 0 7px;
+}
+.page-heading p{
+  color:var(--muted);
+  font-size:13px;
+  margin:0;
+}
+.shop-btn{
+  display:inline-block;
+  padding:12px 17px;
+  background:var(--gold);
+  color:var(--navy);
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* NOTICE */
+.demo-notice{
+  padding:13px 15px;
+  border-radius:8px;
+  background:#fff8e8;
+  border:1px solid #efdfb9;
+  color:#806329;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+/* SUMMARY */
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:22px;
+}
+.summary-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+}
+.summary-card p{
+  font-size:12px;
+  color:var(--muted);
+  margin:0 0 12px;
+}
+.summary-card strong{
+  color:var(--navy);
+  font-size:23px;
+}
+
+/* ORDER PANEL */
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:21px;
+  margin-bottom:20px;
+}
+.panel-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.panel-heading h2{
+  font-size:16px;
+  color:var(--navy);
+  margin:0;
+}
+.search-filter{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.search-filter input,
+.search-filter select{
+  height:41px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:0 12px;
+  outline:none;
+  background:white;
+  color:var(--text);
+  font-size:12px;
+}
+.search-filter input{
+  flex:1;
+  min-width:180px;
+}
+.search-filter select{min-width:145px}
+.search-filter input:focus,
+.search-filter select:focus{
+  border-color:var(--gold);
+}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+}
+th,td{
+  padding:14px 11px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+th{
+  background:#f8f9fb;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.4px;
+}
+td{color:var(--text)}
+.order-id{
+  color:#98752f;
+  font-weight:bold;
+}
+.product-name{
+  font-weight:bold;
+  color:var(--navy);
+}
+.status{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+.status.demo{
+  color:#46658e;
+  background:#eaf0fa;
+}
+.status.pending{
+  color:#947025;
+  background:#fff4db;
+}
+.status.delivered{
+  color:#198754;
+  background:#e4f5eb;
+}
+.details-btn{
+  border:1px solid var(--gold);
+  color:#876522;
+  background:white;
+  padding:7px 10px;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.empty-message{
+  display:none;
+  text-align:center;
+  padding:30px 10px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:22px;
+  color:var(--muted);
+  font-size:11px;
+}
+.mobile-menu{
+  display:none;
+  background:none;
+  border:1px solid #60718a;
+  color:white;
+  border-radius:6px;
+  padding:6px 10px;
+  font-size:18px;
+}
+
+@media(max-width:1000px){
+  .summary-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  header{padding:0 14px}
+  .mobile-menu{display:block}
+  .layout{display:block}
+  .sidebar{display:none;width:100%}
+  .sidebar.show{display:block}
+  .profile-mini{display:none}
+  main{padding:20px 14px}
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .page-heading h1{font-size:22px}
+  .panel{padding:15px}
+}
+@media(max-width:420px){
+  .summary-grid{gap:10px}
+  .summary-card{padding:13px}
+  .summary-card strong{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+    <a href="index.html" class="logo">RUBALIA <span>NETWORK</span></a>
+  </div>
+
+  <div class="header-right">
+    <a href="dashboard.html">Dashboard</a>
+    <div class="avatar">DM</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="profile-mini">
+      <div class="avatar">DM</div>
+      <h3>Demo Member</h3>
+      <p>Member ID: RN-DEMO-001</p>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <nav class="menu">
+      <a href="dashboard.html">▦ &nbsp; Dashboard</a>
+      <a href="profile.html">👤 &nbsp; My Profile</a>
+      <a href="products.html">🛍️ &nbsp; Products</a>
+      <a href="orders.html" class="active">📦 &nbsp; My Orders</a>
+      <a href="team.html">👥 &nbsp; My Team</a>
+      <a href="income.html">💰 &nbsp; Income Details</a>
+      <a href="wallet.html">👛 &nbsp; My Wallet</a>
+      <a href="withdraw.html">💳 &nbsp; Withdraw</a>
+    </nav>
+
+    <div class="menu-title">ACCOUNT</div>
+
+    <nav class="menu">
+      <a href="settings.html">⚙️ &nbsp; Settings</a>
+      <a href="contact.html">☎ &nbsp; Support</a>
+      <a href="login.html" onclick="return confirmLogout()">↪ &nbsp; Logout</a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <div class="page-heading">
+      <div>
+        <h1>My Orders</h1>
+        <p>View and manage your product orders.</p>
+      </div>
+
+      <a href="products.html" class="shop-btn">+ SHOP PRODUCTS</a>
+    </div>
+
+    <div class="demo-notice">
+      <strong>Demo Notice:</strong> All orders and amounts displayed
+      below are sample information. No real orders or payments have
+      been created. Live order tracking will require backend integration.
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <section class="summary-grid">
+
+      <div class="summary-card">
+        <p>Total Orders</p>
+        <strong>03</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Pending Orders</p>
+        <strong>01</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Delivered Orders</p>
+        <strong>01</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Sample Order Value</p>
+        <strong>৳4,650</strong>
+      </div>
+
+    </section>
+
+    <!-- ORDER TABLE -->
+    <section class="panel">
+
+      <div class="panel-heading">
+        <h2>Order History</h2>
+      </div>
+
+      <div class="search-filter">
+
+        <input
+          type="search"
+          id="searchOrder"
+          placeholder="Search by Order ID or Product..."
+        >
+
+        <select id="statusFilter">
+          <option value="all">All Status</option>
+          <option value="demo">Demo</option>
+          <option value="pending">Pending</option>
+          <option value="delivered">Delivered</option>
+        </select>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>ORDER ID</th>
+              <th>PRODUCT</th>
+              <th>DATE</th>
+              <th>QUANTITY</th>
+              <th>AMOUNT</th>
+              <th>STATUS</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+
+          <tbody id="orderTable">
+
+            <tr data-status="demo">
+              <td class="order-id">DEMO-1001</td>
+              <td class="product-name">Premium Product A</td>
+              <td>Sample Date</td>
+              <td>1</td>
+              <td>৳1,500</td>
+              <td><span class="status demo">Demo</span></td>
+              <td>
+                <button class="details-btn"
+                  onclick="showDetails('DEMO-1001','Premium Product A','৳1,500','Demo')">
+                  DETAILS
+                </button>
+              </td>
+            </tr>
+
+            <tr data-status="pending">
+              <td class="order-id">DEMO-1002</td>
+              <td class="product-name">Premium Product B</td>
+              <td>Sample Date</td>
+              <td>2</td>
+              <td>৳2,200</td>
+              <td><span class="status pending">Pending</span></td>
+              <td>
+                <button class="details-btn"
+                  onclick="showDetails('DEMO-1002','Premium Product B','৳2,200','Pending')">
+                  DETAILS
+                </button>
+              </td>
+            </tr>
+
+            <tr data-status="delivered">
+              <td class="order-id">DEMO-1003</td>
+              <td class="product-name">Premium Product C</td>
+              <td>Sample Date</td>
+              <td>1</td>
+              <td>৳950</td>
+              <td><span class="status delivered">Delivered</span></td>
+              <td>
+                <button class="details-btn"
+                  onclick="showDetails('DEMO-1003','Premium Product C','৳950','Delivered')">
+                  DETAILS
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="empty-message" id="emptyMessage">
+        No matching orders found.
+      </div>
+
+    </section>
+
+    <!-- ORDER INFORMATION -->
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Order Information</h2>
+      </div>
+
+      <div style="font-size:12px;line-height:1.9;color:#758195">
+        <p>
+          <strong style="color:#071a35">Order Processing:</strong>
+          Orders will be processed after successful order placement
+          and payment verification.
+        </p>
+
+        <p>
+          <strong style="color:#071a35">Delivery:</strong>
+          Delivery status and tracking information will be available
+          when the order management backend is activated.
+        </p>
+
+        <p style="margin-bottom:0">
+          <strong style="color:#071a35">Support:</strong>
+          For order-related questions, please visit the
+          <a href="contact.html" style="color:#98752f;font-weight:bold">
+            Contact Page
+          </a>.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      © <span style="color:#b58b3d">RUBALIA NETWORK</span>
+      — My Orders Demo
+    </footer>
+
+  </main>
+</div>
+
+<script>
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("show");
+}
+
+function confirmLogout(){
+  return confirm("Do you want to return to the login page?");
+}
+
+function showDetails(id,product,amount,status){
+  alert(
+    "ORDER DETAILS\n\n"+
+    "Order ID: "+id+"\n"+
+    "Product: "+product+"\n"+
+    "Amount: "+amount+"\n"+
+    "Status: "+status+
+    "\n\nThis is sample order information."
+  );
+}
+
+function filterOrders(){
+  const search=document.getElementById("searchOrder")
+    .value.toLowerCase();
+
+  const status=document.getElementById("statusFilter").value;
+
+  const rows=document.querySelectorAll("#orderTable tr");
+  let visible=0;
+
+  rows.forEach(row=>{
+    const text=row.textContent.toLowerCase();
+    const rowStatus=row.dataset.status;
+
+    const matchesSearch=text.includes(search);
+    const matchesStatus=status==="all" || rowStatus===status;
+
+    if(matchesSearch && matchesStatus){
+      row.style.display="";
+      visible++;
+    }else{
+      row.style.display="none";
+    }
+  });
+
+  document.getElementById("emptyMessage").style.display=
+    visible===0?"block":"none";
+}
+
+document.getElementById("searchOrder")
+  .addEventListener("input",filterOrders);
+
+document.getElementById("statusFilter")
+  .addEventListener("change",filterOrders);
+</script>
+
+</body>
+</html>
