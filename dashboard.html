@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +12,12 @@
   --navy:#071a35;
   --navy2:#102b50;
   --gold:#d6ad55;
-  --white:#fff;
   --light:#f3f5f9;
   --text:#26354a;
   --muted:#7a879a;
   --border:#e4e8ef;
   --green:#198754;
+  --red:#c0392b;
 }
 *{box-sizing:border-box}
 body{
@@ -26,20 +27,24 @@ body{
   color:var(--text);
 }
 a{text-decoration:none;color:inherit}
-
-/* HEADER */
+button{font-family:inherit}
 header{
   background:var(--navy);
   color:white;
-  height:65px;
+  min-height:65px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 24px;
+  padding:0 22px;
   position:sticky;
   top:0;
   z-index:10;
   box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+.header-left,.header-right{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 .logo{
   font-size:20px;
@@ -47,18 +52,13 @@ header{
   letter-spacing:1px;
 }
 .logo span{color:var(--gold)}
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
 .member-name{
   font-size:13px;
   color:#e1e6ef;
 }
 .avatar{
-  width:36px;
-  height:36px;
+  width:38px;
+  height:38px;
   border-radius:50%;
   background:var(--gold);
   color:var(--navy);
@@ -66,9 +66,18 @@ header{
   align-items:center;
   justify-content:center;
   font-weight:800;
+  flex-shrink:0;
 }
-
-/* LAYOUT */
+.mobile-menu{
+  display:none;
+  border:1px solid rgba(255,255,255,.3);
+  background:transparent;
+  color:white;
+  border-radius:6px;
+  padding:7px 10px;
+  font-size:18px;
+  cursor:pointer;
+}
 .layout{
   display:flex;
   min-height:calc(100vh - 65px);
@@ -101,6 +110,7 @@ header{
   margin:0;
   color:#bdc8d8;
   font-size:11px;
+  overflow-wrap:anywhere;
 }
 .menu-title{
   font-size:10px;
@@ -119,8 +129,7 @@ header{
   border-radius:7px;
   transition:.2s;
 }
-.menu a:hover,
-.menu a.active{
+.menu a:hover,.menu a.active{
   background:rgba(214,173,85,.17);
   color:var(--gold);
 }
@@ -129,8 +138,6 @@ header{
   text-align:center;
   font-size:16px;
 }
-
-/* MAIN */
 main{
   flex:1;
   min-width:0;
@@ -161,20 +168,16 @@ main{
   color:var(--muted);
   font-size:12px;
 }
-
-/* DEMO NOTICE */
-.demo-notice{
-  background:#fff8e8;
-  border:1px solid #efdfb9;
-  color:#806329;
-  padding:13px 15px;
+.account-banner{
+  background:#edf7f0;
+  border:1px solid #cce8d3;
+  color:#21633b;
+  padding:14px 16px;
   border-radius:9px;
-  font-size:12px;
+  font-size:13px;
   line-height:1.6;
   margin-bottom:23px;
 }
-
-/* STATS */
 .stats{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -209,21 +212,20 @@ main{
   font-size:18px;
 }
 .stat-value{
-  font-size:25px;
+  font-size:21px;
   font-weight:800;
   color:var(--navy);
   margin-top:15px;
+  overflow-wrap:anywhere;
 }
 .stat-note{
   font-size:11px;
   color:var(--muted);
   margin-top:7px;
 }
-
-/* PANELS */
 .content-grid{
   display:grid;
-  grid-template-columns:1.5fr 1fr;
+  grid-template-columns:1.3fr 1fr;
   gap:18px;
   margin-bottom:20px;
 }
@@ -251,28 +253,30 @@ main{
   color:#98752f;
   font-weight:bold;
 }
-.balance-box{
+.account-box{
   background:linear-gradient(120deg,var(--navy),#183d68);
   color:white;
   padding:23px;
   border-radius:10px;
 }
-.balance-box p{
+.account-box p{
   color:#d2dbea;
   font-size:12px;
   margin:0 0 10px;
 }
-.balance-amount{
-  font-size:30px;
-  font-weight:800;
+.account-email{
+  font-size:16px;
+  font-weight:bold;
   color:var(--gold);
+  overflow-wrap:anywhere;
 }
-.balance-note{
+.account-note{
   font-size:11px;
   color:#d2dbea;
-  margin-top:10px;
+  margin-top:12px;
+  line-height:1.7;
 }
-.balance-actions{
+.account-actions{
   display:flex;
   gap:10px;
   margin-top:18px;
@@ -291,8 +295,6 @@ main{
   border:1px solid rgba(255,255,255,.5);
   color:white;
 }
-
-/* QUICK LINKS */
 .quick-links{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -310,7 +312,7 @@ main{
   border-color:var(--gold);
   transform:translateY(-2px);
 }
-.quick-link .q-icon{
+.q-icon{
   font-size:23px;
   margin-bottom:9px;
 }
@@ -320,24 +322,45 @@ main{
   font-weight:bold;
   color:var(--navy);
 }
-
-/* TABLE */
-.table-wrap{overflow-x:auto}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:430px;
+.info-panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:21px;
+  margin-bottom:20px;
 }
-th,td{
-  padding:13px 10px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
+.info-panel h2{
+  font-size:16px;
+  color:var(--navy);
+  margin:0 0 12px;
 }
-th{
+.info-panel p{
   color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+  margin:0;
+}
+.account-details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.detail-item{
+  background:#f8f9fb;
+  border:1px solid var(--border);
+  padding:15px;
+  border-radius:8px;
+  min-width:0;
+}
+.detail-item p{
   font-size:11px;
-  background:#fafbfd;
+  color:var(--muted);
+  margin:0 0 8px;
+}
+.detail-item strong{
+  color:var(--navy);
+  font-size:14px;
+  overflow-wrap:anywhere;
 }
 .status{
   display:inline-block;
@@ -345,59 +368,94 @@ th{
   border-radius:20px;
   font-size:10px;
   font-weight:bold;
-}
-.status.pending{
-  background:#fff4db;
-  color:#947025;
-}
-.status.completed{
   background:#e4f5eb;
-  color:#198754;
+  color:var(--green);
 }
-.status.demo{
-  background:#eaf0fa;
-  color:#46658e;
-}
-
-/* TEAM */
-.team-info{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+.logout-btn{
+  border:0;
+  background:transparent;
+  color:#dce4ef;
+  cursor:pointer;
+  font-size:13px;
+  width:100%;
+  text-align:left;
+  display:flex;
+  align-items:center;
   gap:12px;
+  padding:12px;
+  border-radius:7px;
 }
-.team-item{
-  background:#f8f9fb;
-  border:1px solid var(--border);
-  padding:15px;
-  border-radius:8px;
+.logout-btn:hover{
+  background:rgba(255,255,255,.1);
+  color:var(--gold);
 }
-.team-item p{
-  font-size:11px;
-  color:var(--muted);
-  margin:0 0 8px;
-}
-.team-item strong{
-  color:var(--navy);
-  font-size:22px;
-}
-
-/* FOOTER */
 footer{
   text-align:center;
   color:var(--muted);
   font-size:11px;
   padding:22px;
 }
-
-/* MOBILE */
-.mobile-menu{
+.loading-screen{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:var(--light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:14px;
+  text-align:center;
+  padding:25px;
+}
+.spinner{
+  width:38px;
+  height:38px;
+  border:4px solid #dce2ea;
+  border-top-color:var(--gold);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-screen p{
+  color:var(--muted);
+  font-size:13px;
+}
+.error-screen{
   display:none;
-  border:1px solid rgba(255,255,255,.3);
-  background:transparent;
-  color:white;
+  position:fixed;
+  inset:0;
+  z-index:110;
+  background:var(--light);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.error-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px;
+  width:100%;
+  max-width:420px;
+  text-align:center;
+}
+.error-card h2{color:var(--navy);font-size:21px}
+.error-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+.error-card a,.error-card button{
+  display:inline-block;
+  margin-top:12px;
+  padding:12px 18px;
+  border:0;
   border-radius:6px;
-  padding:7px 10px;
-  font-size:18px;
+  background:var(--gold);
+  color:var(--navy);
+  font-weight:bold;
+  cursor:pointer;
 }
 @media(max-width:1000px){
   .stats{grid-template-columns:repeat(2,1fr)}
@@ -423,36 +481,56 @@ footer{
 @media(max-width:420px){
   .stats{grid-template-columns:1fr 1fr;gap:10px}
   .stat-card{padding:14px}
-  .stat-value{font-size:21px}
+  .stat-value{font-size:18px}
   .quick-links{grid-template-columns:repeat(2,1fr)}
-  .panel{padding:15px}
+  .panel,.info-panel{padding:15px}
+  .account-details{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying your account with the server...</p>
+</div>
+
+<div class="error-screen" id="errorScreen">
+  <div class="error-card">
+    <h2>Session Expired</h2>
+    <p id="errorMessage">
+      Please login again to access your dashboard.
+    </p>
+    <a href="login.html">Go to Login</a>
+  </div>
+</div>
+
+<div id="dashboardApp" hidden>
+
 <header>
-  <div style="display:flex;align-items:center;gap:13px">
+  <div class="header-left">
     <button class="mobile-menu" onclick="toggleMenu()">☰</button>
-    <a href="dashboard.html" class="logo">RUBALIA <span>NETWORK</span></a>
+    <a href="dashboard.html" class="logo">
+      RUBALIA <span>NETWORK</span>
+    </a>
   </div>
 
   <div class="header-right">
-    <span class="member-name">Welcome, Demo Member</span>
-    <div class="avatar">DM</div>
+    <span class="member-name" id="headerName">Member</span>
+    <div class="avatar" id="headerAvatar">R</div>
   </div>
 </header>
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
 
     <div class="profile-mini">
-      <div class="avatar">DM</div>
-      <h3>Demo Member</h3>
-      <p>Member ID: RN-DEMO-001</p>
+      <div class="avatar" id="sideAvatar">R</div>
+      <h3 id="sideName">Member</h3>
+      <p id="sideEmail">Loading...</p>
     </div>
 
     <div class="menu-title">MAIN MENU</div>
@@ -461,31 +539,24 @@ footer{
       <a href="dashboard.html" class="active">
         <span class="menu-icon">▦</span> Dashboard
       </a>
-
       <a href="profile.html">
         <span class="menu-icon">👤</span> My Profile
       </a>
-
       <a href="products.html">
         <span class="menu-icon">🛍️</span> Products
       </a>
-
       <a href="orders.html">
         <span class="menu-icon">📦</span> My Orders
       </a>
-
       <a href="team.html">
         <span class="menu-icon">👥</span> My Team
       </a>
-
       <a href="income.html">
         <span class="menu-icon">💰</span> Income Details
       </a>
-
       <a href="wallet.html">
         <span class="menu-icon">👛</span> My Wallet
       </a>
-
       <a href="withdraw.html">
         <span class="menu-icon">💳</span> Withdraw
       </a>
@@ -497,253 +568,305 @@ footer{
       <a href="settings.html">
         <span class="menu-icon">⚙️</span> Settings
       </a>
-
       <a href="contact.html">
         <span class="menu-icon">☎</span> Support
       </a>
-
-      <a href="login.html" onclick="return confirmLogout()">
+      <button class="logout-btn" onclick="logout()">
         <span class="menu-icon">↪</span> Logout
-      </a>
+      </button>
     </nav>
 
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main>
 
     <div class="welcome">
       <div>
-        <h1>Member Dashboard</h1>
-        <p>Welcome back, Demo Member. Here's your account overview.</p>
+        <h1 id="welcomeTitle">Member Dashboard</h1>
+        <p>Welcome to your RUBALIA NETWORK account.</p>
       </div>
-
-      <div class="date" id="currentDate">Loading date...</div>
+      <div class="date" id="currentDate"></div>
     </div>
 
-    <div class="demo-notice">
-      <strong>Demo Dashboard:</strong> All displayed member IDs,
-      balances, team numbers and transactions are sample information.
-      No real income, commissions, orders or withdrawals are recorded.
+    <div class="account-banner">
+      <strong>Account verified:</strong>
+      Your account information has been successfully loaded
+      from the Rubalia server.
     </div>
 
-    <!-- STATISTICS -->
     <section class="stats">
 
       <div class="stat-card">
         <div class="stat-top">
-          <span class="stat-label">Total Orders</span>
-          <div class="stat-icon">📦</div>
+          <span class="stat-label">Account ID</span>
+          <div class="stat-icon">👤</div>
         </div>
-        <div class="stat-value">08</div>
-        <div class="stat-note">Sample order count</div>
+        <div class="stat-value" id="userId">—</div>
+        <div class="stat-note">Server account identifier</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-top">
-          <span class="stat-label">Total Team</span>
-          <div class="stat-icon">👥</div>
+          <span class="stat-label">Account Role</span>
+          <div class="stat-icon">🛡️</div>
         </div>
-        <div class="stat-value">24</div>
-        <div class="stat-note">Sample team members</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-top">
-          <span class="stat-label">Total Earnings</span>
-          <div class="stat-icon">💰</div>
-        </div>
-        <div class="stat-value">৳0.00</div>
-        <div class="stat-note">No real commission recorded</div>
+        <div class="stat-value" id="userRole">—</div>
+        <div class="stat-note">Assigned by server</div>
       </div>
 
       <div class="stat-card">
         <div class="stat-top">
           <span class="stat-label">Account Status</span>
-          <div class="stat-icon">🛡️</div>
+          <div class="stat-icon">✓</div>
         </div>
-        <div class="stat-value" style="font-size:19px;color:#198754">
-          Demo
+        <div class="stat-value">
+          <span class="status" id="userStatus">—</span>
         </div>
-        <div class="stat-note">Sample account status</div>
+        <div class="stat-note">Current server status</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Registration</span>
+          <div class="stat-icon">📅</div>
+        </div>
+        <div class="stat-value" id="createdDate">—</div>
+        <div class="stat-note">Account creation date</div>
       </div>
 
     </section>
 
     <section class="content-grid">
 
-      <!-- WALLET -->
       <div class="panel">
         <div class="panel-heading">
-          <h2>Wallet Overview</h2>
-          <a href="wallet.html">VIEW WALLET →</a>
+          <h2>My Account</h2>
         </div>
 
-        <div class="balance-box">
-          <p>Available Balance (Demo)</p>
-          <div class="balance-amount">৳ 0.00</div>
-          <div class="balance-note">
-            Sample balance — not withdrawable.
+        <div class="account-box">
+          <p>Registered Email Address</p>
+          <div class="account-email" id="accountEmail">Loading...</div>
+          <div class="account-note">
+            This information was retrieved from the
+            Rubalia PostgreSQL database through the API.
           </div>
-
-          <div class="balance-actions">
-            <a href="withdraw.html" class="action-btn">Withdraw</a>
-            <a href="income.html" class="action-btn secondary">
-              Income History
+          <div class="account-actions">
+            <a href="profile.html" class="action-btn">My Profile</a>
+            <a href="settings.html" class="action-btn secondary">
+              Account Settings
             </a>
           </div>
         </div>
       </div>
 
-      <!-- QUICK LINKS -->
       <div class="panel">
         <div class="panel-heading">
           <h2>Quick Access</h2>
         </div>
 
         <div class="quick-links">
-
           <a href="products.html" class="quick-link">
             <div class="q-icon">🛍️</div>
-            <span>Shop Products</span>
+            <span>Products</span>
           </a>
-
           <a href="orders.html" class="quick-link">
             <div class="q-icon">📦</div>
             <span>My Orders</span>
           </a>
-
           <a href="team.html" class="quick-link">
             <div class="q-icon">👥</div>
             <span>My Team</span>
           </a>
-
           <a href="profile.html" class="quick-link">
             <div class="q-icon">👤</div>
             <span>My Profile</span>
           </a>
-
           <a href="wallet.html" class="quick-link">
             <div class="q-icon">👛</div>
             <span>My Wallet</span>
           </a>
-
           <a href="contact.html" class="quick-link">
             <div class="q-icon">💬</div>
             <span>Support</span>
           </a>
-
         </div>
       </div>
 
     </section>
 
-    <!-- TEAM SUMMARY -->
-    <section class="panel" style="margin-bottom:20px">
+    <section class="info-panel">
+      <h2>Account Information</h2>
+      <div class="account-details">
 
-      <div class="panel-heading">
-        <h2>Team Summary</h2>
-        <a href="team.html">VIEW TEAM →</a>
-      </div>
-
-      <div class="team-info">
-
-        <div class="team-item">
-          <p>Direct Members (Demo)</p>
-          <strong>05</strong>
+        <div class="detail-item">
+          <p>Full Name</p>
+          <strong id="detailName">—</strong>
         </div>
 
-        <div class="team-item">
-          <p>Total Team Members (Demo)</p>
-          <strong>24</strong>
+        <div class="detail-item">
+          <p>Email Address</p>
+          <strong id="detailEmail">—</strong>
         </div>
 
-        <div class="team-item">
-          <p>Active Members (Demo)</p>
-          <strong>00</strong>
+        <div class="detail-item">
+          <p>Account Role</p>
+          <strong id="detailRole">—</strong>
         </div>
 
-        <div class="team-item">
-          <p>Pending Members (Demo)</p>
-          <strong>00</strong>
+        <div class="detail-item">
+          <p>Account Status</p>
+          <strong id="detailStatus">—</strong>
         </div>
 
       </div>
-
     </section>
 
-    <!-- RECENT ORDERS -->
-    <section class="panel">
-
-      <div class="panel-heading">
-        <h2>Recent Orders</h2>
-        <a href="orders.html">ALL ORDERS →</a>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ORDER ID</th>
-              <th>DATE</th>
-              <th>AMOUNT</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>DEMO-1001</td>
-              <td>Sample Date</td>
-              <td>৳ 1,500</td>
-              <td><span class="status demo">Demo</span></td>
-            </tr>
-
-            <tr>
-              <td>DEMO-1002</td>
-              <td>Sample Date</td>
-              <td>৳ 2,200</td>
-              <td><span class="status demo">Demo</span></td>
-            </tr>
-
-            <tr>
-              <td>DEMO-1003</td>
-              <td>Sample Date</td>
-              <td>৳ 950</td>
-              <td><span class="status demo">Demo</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
+    <section class="info-panel">
+      <h2>Account & Business Information</h2>
+      <p>
+        Your account identity is managed by the Rubalia server.
+        Product orders, wallet balances, team information and
+        commission information will appear here after their
+        respective backend modules are implemented.
+        No estimated or sample financial figures are shown as
+        real account data.
+      </p>
     </section>
 
     <footer>
       © <span style="color:#b58b3d">RUBALIA NETWORK</span>
-      — Member Dashboard Demo
+      — Member Dashboard
     </footer>
 
   </main>
 </div>
+</div>
 
 <script>
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("show");
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+function showError(message){
+  document.getElementById("loadingScreen").style.display="none";
+  document.getElementById("dashboardApp").hidden=true;
+  document.getElementById("errorMessage").textContent=message;
+  document.getElementById("errorScreen").style.display="flex";
 }
 
-function confirmLogout(){
-  return confirm("Do you want to return to the login page?");
+function getInitial(name){
+  const value=String(name || "R").trim();
+  return value ? value.charAt(0).toUpperCase() : "R";
 }
 
-const today=new Date();
+function formatDate(value){
+  if(!value) return "—";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime())) return "—";
 
-document.getElementById("currentDate").textContent=
-  today.toLocaleDateString("en-GB",{
+  return date.toLocaleDateString("en-GB",{
     day:"2-digit",
     month:"short",
     year:"numeric"
   });
+}
+
+function setText(id,value){
+  document.getElementById(id).textContent =
+    value === null || value === undefined || value === ""
+      ? "—"
+      : String(value);
+}
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("show");
+}
+
+function logout(){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  window.location.replace("login.html");
+}
+
+async function loadDashboard(){
+  const token=sessionStorage.getItem("rubalia_token");
+
+  if(!token){
+    window.location.replace("login.html");
+    return;
+  }
+
+  try{
+    const response=await fetch(API_BASE+"/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer "+token,
+        "Accept":"application/json"
+      },
+      cache:"no-store"
+    });
+
+    const data=await response.json().catch(()=>({}));
+
+    if(response.status===401 || response.status===403){
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+      window.location.replace("login.html");
+      return;
+    }
+
+    if(!response.ok || !data.success || !data.user){
+      throw new Error(
+        data.message || "Unable to verify your account with the server."
+      );
+    }
+
+    const user=data.user;
+    const name=user.full_name || user.fullName || "Member";
+    const email=user.email || "";
+    const initial=getInitial(name);
+
+    // Display only data returned by the authenticated API.
+    setText("headerName",name);
+    setText("sideName",name);
+    setText("sideEmail",email);
+    setText("welcomeTitle","Welcome, "+name);
+    setText("accountEmail",email);
+    setText("userId",user.id);
+    setText("userRole",user.role);
+    setText("userStatus",user.status);
+    setText("createdDate",formatDate(user.created_at));
+    setText("detailName",name);
+    setText("detailEmail",email);
+    setText("detailRole",user.role);
+    setText("detailStatus",user.status);
+
+    document.getElementById("headerAvatar").textContent=initial;
+    document.getElementById("sideAvatar").textContent=initial;
+
+    document.getElementById("currentDate").textContent=
+      new Date().toLocaleDateString("en-GB",{
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      });
+
+    // Refresh cached basic user data from the server.
+    sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+
+    document.getElementById("loadingScreen").style.display="none";
+    document.getElementById("dashboardApp").hidden=false;
+
+  }catch(error){
+    showError(
+      error.message ||
+      "Could not connect to Rubalia server. Please try again."
+    );
+  }
+}
+
+loadDashboard();
 </script>
 
 </body>
-        </html>
+</html>
