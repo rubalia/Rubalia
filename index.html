@@ -1,21 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
-<meta name="description" content="RUBALIA NETWORK - Product Distribution and Business Platform">
-<title>RUBALIA NETWORK | Home</title>
+<meta name="theme-color" content="#b90012">
+<meta name="description" content="RUBALIA NETWORK - Shop Smart, Earn Together">
+<title>RUBALIA NETWORK | Shop Smart, Earn Together</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#c6a45d;
-  --white:#ffffff;
-  --light:#f4f6fa;
-  --text:#25334a;
-  --muted:#718096;
+  --red:#c90016;
+  --red-dark:#78000b;
+  --red-light:#ff2438;
+  --gold:#f5bd35;
+  --gold2:#ffe18a;
+  --white:#fff;
+  --cream:#fff8ed;
+  --dark:#26050a;
+  --text:#34242a;
+  --muted:#78666a;
 }
 
 *{
@@ -28,131 +32,271 @@ html{scroll-behavior:smooth}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--white);
+  background:#fff;
   color:var(--text);
+  overflow-x:hidden;
 }
 
-a{text-decoration:none;color:inherit}
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button{font-family:inherit}
+
+/* HEADER */
 
 header{
-  background:var(--navy);
-  color:white;
   position:sticky;
   top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(198,164,93,.3);
+  z-index:1000;
+  background:linear-gradient(135deg,#8e000c,#e00018,#a00010);
+  border-bottom:3px solid var(--gold);
+  box-shadow:0 7px 22px rgba(75,0,0,.35);
 }
 
 .navbar{
-  max-width:1200px;
+  max-width:1250px;
   margin:auto;
-  padding:17px 22px;
+  min-height:82px;
+  padding:14px 22px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
 }
 
 .logo{
-  color:var(--gold);
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:2px;
+  color:#fff;
+  font-size:30px;
+  font-weight:1000;
+  letter-spacing:3px;
+  text-shadow:
+    1px 1px 0 #9b000b,
+    2px 2px 0 #78000b,
+    3px 3px 0 #520008,
+    4px 5px 7px rgba(0,0,0,.55);
 }
 
 .logo span{
   display:block;
-  color:white;
-  font-size:10px;
-  letter-spacing:5px;
-  margin-top:3px;
+  color:var(--gold2);
+  font-size:11px;
+  letter-spacing:7px;
+  margin-top:4px;
+  text-align:center;
+  text-shadow:1px 2px 3px #420006;
 }
 
 .menu{
   display:flex;
   align-items:center;
-  gap:25px;
+  gap:24px;
+  color:white;
   font-size:14px;
-}
-
-.menu a:hover{color:var(--gold)}
-
-.btn{
-  display:inline-block;
-  background:var(--gold);
-  color:var(--navy);
-  padding:12px 22px;
-  border-radius:5px;
   font-weight:bold;
-  border:1px solid var(--gold);
-  transition:.3s;
 }
 
-.btn:hover{
-  background:transparent;
-  color:var(--gold);
+.menu a{
+  transition:.25s;
+}
+
+.menu a:hover{
+  color:var(--gold2);
+  transform:translateY(-2px);
 }
 
 .menu-btn{
   display:none;
-  font-size:26px;
   color:white;
-  cursor:pointer;
   background:none;
   border:0;
+  font-size:30px;
+  cursor:pointer;
 }
 
-.hero{
-  background:
-    linear-gradient(110deg,rgba(7,26,53,.97),rgba(16,43,80,.90));
+/* BUTTONS */
+
+.btn{
+  display:inline-block;
+  padding:14px 25px;
+  border-radius:9px;
+  color:#510008;
+  font-weight:900;
+  background:linear-gradient(145deg,#fff0a9,#f6bd37,#d88b08);
+  border:1px solid #fff0a9;
+  box-shadow:
+    0 5px 0 #a65a00,
+    0 9px 17px rgba(70,0,0,.3),
+    inset 0 2px 4px rgba(255,255,255,.8);
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 8px 0 #a65a00,
+    0 13px 22px rgba(70,0,0,.35);
+}
+
+.btn:active{
+  transform:translateY(3px);
+  box-shadow:0 2px 0 #a65a00;
+}
+
+.btn-outline{
+  display:inline-block;
+  padding:14px 25px;
+  border-radius:9px;
+  color:var(--gold2);
+  font-weight:bold;
+  border:2px solid var(--gold);
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.2));
+  box-shadow:0 5px 14px rgba(0,0,0,.3);
+  transition:.25s;
+}
+
+.btn-outline:hover{
   color:white;
-  padding:105px 22px;
+  background:var(--red);
+  transform:translateY(-3px);
+}
+
+/* HERO */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:610px;
+  padding:100px 20px 110px;
   text-align:center;
+  color:white;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(255,220,110,.28),transparent 50%),
+    linear-gradient(135deg,#610009 0%,#c90016 48%,#72000b 100%);
+  border-bottom:8px solid var(--gold);
+  box-shadow:inset 0 -18px 35px rgba(45,0,0,.35);
+}
+
+.hero:before,
+.hero:after{
+  content:"";
+  position:absolute;
+  width:360px;
+  height:360px;
+  border:2px solid rgba(255,210,90,.25);
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.hero:before{
+  top:-190px;
+  left:-140px;
+  box-shadow:
+    0 0 0 18px rgba(255,255,255,.04),
+    0 0 0 38px rgba(255,220,100,.05);
+}
+
+.hero:after{
+  right:-160px;
+  bottom:-220px;
+  box-shadow:
+    0 0 0 20px rgba(255,255,255,.04),
+    0 0 0 40px rgba(255,220,100,.05);
 }
 
 .hero-content{
-  max-width:850px;
+  position:relative;
+  z-index:2;
+  max-width:900px;
   margin:auto;
 }
 
 .tag{
-  color:var(--gold);
-  font-size:13px;
-  letter-spacing:4px;
-  font-weight:bold;
+  color:var(--gold2);
+  font-size:14px;
+  letter-spacing:5px;
+  font-weight:900;
+  text-shadow:0 2px 5px #500008;
 }
 
 .hero h1{
-  font-size:52px;
-  line-height:1.2;
-  margin:25px 0 18px;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.15;
+  margin:28px 0 22px;
+  font-weight:1000;
+  text-shadow:
+    1px 2px 0 #87000a,
+    2px 4px 0 #5c0007,
+    4px 7px 12px rgba(0,0,0,.55);
 }
 
-.hero h1 span{color:var(--gold)}
+.hero h1 span{
+  display:inline-block;
+  color:var(--gold2);
+  text-shadow:
+    1px 2px 0 #9b5500,
+    2px 4px 0 #6c3500,
+    4px 7px 12px rgba(0,0,0,.5);
+}
 
 .hero p{
-  color:#d6deea;
-  line-height:1.8;
+  color:#fff0ed;
+  line-height:1.9;
   font-size:17px;
-  max-width:650px;
-  margin:0 auto 30px;
+  max-width:680px;
+  margin:0 auto 35px;
+  text-shadow:0 2px 4px rgba(0,0,0,.3);
 }
 
 .hero-buttons{
   display:flex;
   justify-content:center;
+  align-items:center;
   flex-wrap:wrap;
-  gap:12px;
+  gap:18px;
 }
 
-.btn-outline{
-  border:1px solid var(--gold);
-  color:var(--gold);
-  padding:12px 22px;
-  border-radius:5px;
+/* GOLD BRAND STRIP */
+
+.brand-strip{
+  background:linear-gradient(180deg,#fff7e5,#f4c85f,#fff2d0);
+  border-bottom:3px solid #c18a20;
+  box-shadow:0 6px 15px rgba(80,30,0,.18);
 }
+
+.brand-strip-inner{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+
+.brand-item{
+  padding:25px 10px;
+  text-align:center;
+  border-right:1px solid rgba(160,0,15,.25);
+  color:#82000c;
+  font-weight:900;
+}
+
+.brand-item:last-child{border-right:0}
+
+.brand-item .symbol{
+  font-size:36px;
+  display:block;
+  margin-bottom:9px;
+  color:#c00015;
+  text-shadow:2px 3px 3px rgba(90,0,0,.25);
+}
+
+.brand-item span:last-child{
+  font-size:14px;
+}
+
+/* COMMON SECTIONS */
 
 section{
-  padding:75px 22px;
+  padding:78px 22px;
 }
 
 .container{
@@ -162,177 +306,307 @@ section{
 
 .section-title{
   text-align:center;
-  margin-bottom:40px;
+  margin-bottom:45px;
 }
 
 .section-title small{
-  color:var(--gold);
-  letter-spacing:3px;
-  font-weight:bold;
+  color:#bd0016;
+  letter-spacing:4px;
+  font-weight:900;
 }
 
 .section-title h2{
-  color:var(--navy);
-  font-size:32px;
-  margin-top:12px;
+  color:#8e0010;
+  font-size:35px;
+  margin-top:14px;
+  text-shadow:1px 2px 3px rgba(90,0,0,.12);
 }
 
 .section-title p{
   color:var(--muted);
-  margin-top:12px;
-  line-height:1.7;
+  margin-top:13px;
+  line-height:1.8;
 }
+
+/* FEATURE CARDS */
 
 .features{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:22px;
+  gap:25px;
 }
 
 .feature-card{
-  background:white;
-  border:1px solid #e6eaf0;
-  padding:30px 24px;
-  border-radius:10px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#fff,#fff3e5);
+  border:1px solid #f0d5a2;
+  border-radius:16px;
+  padding:35px 25px;
   text-align:center;
-  box-shadow:0 5px 25px rgba(0,0,0,.04);
+  box-shadow:
+    0 7px 0 #dfb35a,
+    0 12px 25px rgba(80,20,0,.12),
+    inset 0 2px 5px white;
+  transition:.3s;
+}
+
+.feature-card:hover{
+  transform:translateY(-9px);
+  box-shadow:
+    0 12px 0 #c28b2d,
+    0 19px 30px rgba(80,20,0,.2);
 }
 
 .feature-icon{
-  width:58px;
-  height:58px;
-  background:var(--navy);
-  color:var(--gold);
-  border-radius:50%;
+  width:72px;
+  height:72px;
+  background:linear-gradient(145deg,#ff4050,#a90013);
+  color:var(--gold2);
+  border-radius:20px;
   display:grid;
   place-items:center;
-  margin:0 auto 18px;
-  font-size:25px;
+  margin:0 auto 22px;
+  font-size:32px;
+  border:2px solid #ffb9a7;
+  box-shadow:
+    0 6px 0 #68000b,
+    0 10px 16px rgba(70,0,0,.25),
+    inset 0 2px 5px rgba(255,255,255,.4);
 }
 
 .feature-card h3{
-  color:var(--navy);
-  margin-bottom:12px;
+  color:#97000f;
+  margin-bottom:13px;
+  font-size:20px;
 }
 
 .feature-card p{
-  color:var(--muted);
-  line-height:1.7;
+  color:#76666a;
+  line-height:1.8;
   font-size:14px;
 }
 
-.products-section{background:var(--light)}
+/* PRODUCTS */
+
+.products-section{
+  background:
+    radial-gradient(circle at 20% 10%,#fff 0%,transparent 40%),
+    linear-gradient(135deg,#fff0dc,#fff9f1);
+  border-top:1px solid #f1d7a9;
+  border-bottom:1px solid #f1d7a9;
+}
 
 .product-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:22px;
+  gap:25px;
 }
 
 .product-card{
-  background:white;
-  border-radius:10px;
-  padding:30px 20px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#fff,#fff1e8);
+  border:1px solid #eacb9b;
+  border-radius:16px;
+  padding:35px 22px;
   text-align:center;
-  border:1px solid #e5eaf0;
+  box-shadow:
+    0 7px 0 #c98e32,
+    0 12px 24px rgba(90,20,0,.13);
+  transition:.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-8px) rotateX(2deg);
+  box-shadow:
+    0 12px 0 #a96716,
+    0 20px 30px rgba(90,20,0,.22);
 }
 
 .product-icon{
-  font-size:45px;
-  margin-bottom:18px;
+  font-size:55px;
+  margin-bottom:20px;
+  filter:drop-shadow(2px 5px 3px rgba(80,0,0,.2));
 }
 
 .product-card h3{
-  color:var(--navy);
-  margin-bottom:10px;
+  color:#a00012;
+  margin-bottom:12px;
+  font-size:21px;
 }
 
 .product-card p{
-  color:var(--muted);
+  color:#78666a;
   font-size:14px;
-  line-height:1.6;
+  line-height:1.8;
 }
 
+/* OPPORTUNITY */
+
 .opportunity{
-  background:var(--navy);
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,220,120,.25),transparent 50%),
+    linear-gradient(135deg,#76000b,#d00018,#78000b);
   color:white;
   text-align:center;
+  border-top:5px solid var(--gold);
+  border-bottom:5px solid var(--gold);
+}
+
+.opportunity .tag{
+  margin-bottom:20px;
 }
 
 .opportunity h2{
-  font-size:34px;
-  margin-bottom:18px;
+  font-size:clamp(28px,5vw,42px);
+  margin-bottom:20px;
+  text-shadow:2px 4px 7px rgba(0,0,0,.5);
 }
 
 .opportunity p{
-  color:#d3ddeb;
-  max-width:650px;
-  line-height:1.8;
-  margin:0 auto 28px;
+  color:#ffe8df;
+  max-width:700px;
+  line-height:1.9;
+  margin:0 auto 32px;
 }
+
+/* CONTACT */
 
 .contact{
   text-align:center;
+  background:#fff;
 }
+
+.contact .section-title h2{
+  color:#97000f;
+}
+
+/* FOOTER */
 
 footer{
-  background:#041225;
+  background:linear-gradient(135deg,#4e0007,#8b000e,#350005);
   color:white;
-  padding:40px 22px;
+  padding:48px 22px 28px;
   text-align:center;
+  border-top:5px solid var(--gold);
+  box-shadow:inset 0 10px 25px rgba(0,0,0,.25);
 }
 
-footer .logo{margin-bottom:18px}
+footer .logo{
+  display:inline-block;
+  margin-bottom:20px;
+  font-size:34px;
+}
 
 footer p{
-  color:#aab6c7;
+  color:#f4d9d4;
   font-size:13px;
-  line-height:1.8;
+  line-height:1.9;
 }
 
 .footer-links{
   display:flex;
   justify-content:center;
   flex-wrap:wrap;
-  gap:22px;
-  margin:20px 0;
+  gap:25px;
+  margin:23px 0;
   font-size:13px;
+  font-weight:bold;
 }
 
-.footer-links a:hover{color:var(--gold)}
+.footer-links a:hover{
+  color:var(--gold2);
+}
+
+/* MOBILE */
 
 @media(max-width:768px){
+
+  .navbar{
+    min-height:75px;
+    padding:12px 18px;
+  }
+
+  .logo{font-size:25px}
 
   .menu-btn{display:block}
 
   .menu{
     display:none;
     position:absolute;
-    top:70px;
+    top:100%;
     left:0;
     width:100%;
-    background:var(--navy);
-    padding:20px;
+    padding:22px;
+    background:linear-gradient(135deg,#79000b,#c90016);
     flex-direction:column;
     align-items:stretch;
-    gap:20px;
+    gap:19px;
+    border-top:2px solid var(--gold);
+    box-shadow:0 12px 20px rgba(0,0,0,.25);
   }
 
   .menu.active{display:flex}
 
-  .hero{padding:80px 18px}
+  .menu a{padding:5px 0}
 
-  .hero h1{font-size:36px}
+  .hero{
+    min-height:auto;
+    padding:80px 18px 85px;
+  }
+
+  .hero h1{font-size:39px}
 
   .hero p{font-size:15px}
+
+  .tag{
+    font-size:11px;
+    letter-spacing:3px;
+  }
+
+  .brand-strip-inner{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .brand-item{
+    border-bottom:1px solid rgba(160,0,15,.2);
+    padding:20px 5px;
+  }
+
+  .brand-item:nth-child(2){
+    border-right:0;
+  }
+
+  .brand-item .symbol{font-size:30px}
 
   .features,.product-grid{
     grid-template-columns:1fr;
   }
 
-  .section-title h2{font-size:27px}
+  .section-title h2{font-size:28px}
 
-  section{padding:55px 18px}
+  section{padding:58px 18px}
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .hero-buttons a{
+    width:100%;
+    max-width:310px;
+  }
+
+  .opportunity h2{font-size:30px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -340,25 +614,32 @@ footer p{
 <body>
 
 <header>
-  <nav class="navbar">
+<nav class="navbar">
 
-    <a href="index.html" class="logo">
-      RUBALIA
-      <span>NETWORK</span>
-    </a>
+  <a href="index.html" class="logo">
+    RUBALIA
+    <span>NETWORK</span>
+  </a>
 
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <button
+    class="menu-btn"
+    id="menuBtn"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+    onclick="toggleMenu()">
+    ☰
+  </button>
 
-    <div class="menu" id="menu">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="products.html">Products</a>
-      <a href="business.html">Business</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html" class="btn">Login</a>
-    </div>
+  <div class="menu" id="menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="products.html">Products</a>
+    <a href="business.html">Business</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html" class="btn">Login</a>
+  </div>
 
-  </nav>
+</nav>
 </header>
 
 <main>
@@ -369,14 +650,15 @@ footer p{
     <div class="tag">WELCOME TO RUBALIA NETWORK</div>
 
     <h1>
-      Building Trust.<br>
-      Creating <span>Opportunity.</span>
+      Shop Smart.<br>
+      <span>Earn Together.</span>
     </h1>
 
     <p>
       Discover quality products, meaningful connections
-      and a new approach to product distribution.
-      Welcome to a network built around people and trust.
+      and a product-focused distribution platform.
+      Welcome to a network built around people, trust
+      and responsible business.
     </p>
 
     <div class="hero-buttons">
@@ -386,6 +668,32 @@ footer p{
 
   </div>
 </section>
+
+<div class="brand-strip">
+  <div class="brand-strip-inner">
+
+    <div class="brand-item">
+      <span class="symbol">🛒</span>
+      <span>SHOP PRODUCTS</span>
+    </div>
+
+    <div class="brand-item">
+      <span class="symbol">👥</span>
+      <span>REFER CUSTOMERS</span>
+    </div>
+
+    <div class="brand-item">
+      <span class="symbol">📈</span>
+      <span>GROW TOGETHER</span>
+    </div>
+
+    <div class="brand-item">
+      <span class="symbol">🎁</span>
+      <span>DISCOVER REWARDS</span>
+    </div>
+
+  </div>
+</div>
 
 <section>
   <div class="container">
@@ -527,12 +835,13 @@ footer p{
   </div>
 
   <p>
-    Building Trust. Creating Opportunity.
+    Shop Smart, Earn Together.
   </p>
 
   <div class="footer-links">
     <a href="about.html">About</a>
     <a href="products.html">Products</a>
+    <a href="business.html">Business</a>
     <a href="contact.html">Contact</a>
     <a href="login.html">Login</a>
   </div>
@@ -546,12 +855,27 @@ footer p{
 
 <script>
 function toggleMenu(){
-  document.getElementById("menu").classList.toggle("active");
+  const menu = document.getElementById("menu");
+  const button = document.getElementById("menuBtn");
+
+  menu.classList.toggle("active");
+
+  button.setAttribute(
+    "aria-expanded",
+    menu.classList.contains("active") ? "true" : "false"
+  );
 }
+
+document.querySelectorAll("#menu a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    document.getElementById("menu").classList.remove("active");
+    document.getElementById("menuBtn").setAttribute("aria-expanded","false");
+  });
+});
 
 document.getElementById("year").textContent =
   new Date().getFullYear();
 </script>
 
 </body>
-  </html>
+</html>
