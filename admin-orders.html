@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Order Management | Rubalia Network</title>
+
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d7ad55;
+ --gold2:#f1d58b;
+ --bg:#f3f5f9;
+ --white:#fff;
+ --text:#17243a;
+ --muted:#7b8799;
+ --border:#e5e9f0;
+ --green:#16865b;
+ --red:#d64c4c;
+ --orange:#c47b19;
+ --blue:#3478c5;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);color:var(--text);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+
+.sidebar{
+ width:245px;background:var(--navy);color:#fff;
+ position:fixed;top:0;bottom:0;left:0;
+ overflow-y:auto;padding:22px 15px;z-index:20;
+}
+.brand{
+ display:flex;align-items:center;gap:10px;
+ padding:5px 8px 25px;border-bottom:1px solid #ffffff20;
+}
+.brand-icon{
+ width:39px;height:39px;border-radius:12px;
+ background:linear-gradient(135deg,var(--gold2),var(--gold));
+ color:var(--navy);display:grid;place-items:center;
+ font-weight:900;font-size:19px;
+}
+.brand h2{font-size:18px;margin:0;letter-spacing:1px}
+.brand small{display:block;color:#c3cddd;font-size:10px;margin-top:4px}
+.nav-title{
+ font-size:10px;color:#8496af;letter-spacing:1.5px;
+ margin:24px 10px 9px;
+}
+.nav-link{
+ display:flex;align-items:center;gap:11px;
+ padding:11px 12px;margin:4px 0;border-radius:8px;
+ text-decoration:none;color:#c8d3e3;font-size:13px;
+ transition:.2s;
+}
+.nav-link:hover,.nav-link.active{
+ background:#ffffff15;color:var(--gold2);
+}
+.nav-link.active{border-left:3px solid var(--gold)}
+.nav-icon{width:19px;text-align:center;font-size:16px}
+.sidebar-footer{
+ margin-top:25px;padding:15px 10px;
+ border-top:1px solid #ffffff20;
+ color:#9baac0;font-size:11px;line-height:1.6;
+}
+.main{margin-left:245px;width:calc(100% - 245px)}
+.topbar{
+ height:68px;background:#fff;border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 28px;position:sticky;top:0;z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{
+ display:none;border:0;background:#f1f3f7;
+ width:37px;height:37px;border-radius:8px;font-size:19px;
+}
+.breadcrumb{font-size:13px;color:var(--muted)}
+.breadcrumb strong{color:var(--navy)}
+.admin-user{display:flex;align-items:center;gap:10px}
+.admin-avatar{
+ width:35px;height:35px;border-radius:50%;
+ background:var(--navy);color:var(--gold2);
+ display:grid;place-items:center;font-weight:bold;
+}
+.admin-user b{font-size:12px;display:block}
+.admin-user small{font-size:10px;color:var(--muted)}
+
+.content{padding:27px;max-width:1500px;margin:auto}
+.page-heading{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px;flex-wrap:wrap;margin-bottom:23px;
+}
+.page-heading h1{font-size:24px;color:var(--navy);margin:0 0 7px}
+.page-heading p{margin:0;color:var(--muted);font-size:12px}
+.demo-label{
+ background:#fff4dc;color:#94651b;border:1px solid #f0d9a6;
+ padding:7px 11px;border-radius:20px;font-size:10px;font-weight:bold;
+}
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:15px;margin-bottom:22px;
+}
+.stat-card{
+ background:#fff;border:1px solid var(--border);
+ border-radius:12px;padding:18px;
+ box-shadow:0 3px 12px #0c244008;
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{
+ width:38px;height:38px;border-radius:10px;
+ display:grid;place-items:center;font-size:18px;
+ background:#f5edda;color:#9a722c;
+}
+.stat-card h3{font-size:24px;margin:14px 0 5px;color:var(--navy)}
+.stat-card p{margin:0;color:var(--muted);font-size:11px}
+.stat-note{font-size:10px;color:var(--muted)}
+
+.panel{
+ background:#fff;border:1px solid var(--border);
+ border-radius:12px;margin-bottom:20px;
+ box-shadow:0 3px 12px #0c244006;overflow:hidden;
+}
+.panel-head{
+ padding:17px 19px;display:flex;align-items:center;
+ justify-content:space-between;gap:12px;flex-wrap:wrap;
+ border-bottom:1px solid var(--border);
+}
+.panel-head h2{font-size:15px;margin:0;color:var(--navy)}
+.panel-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.toolbar{
+ display:flex;gap:9px;flex-wrap:wrap;padding:15px 19px;
+}
+.search-box{flex:1;min-width:190px;position:relative}
+.search-box input{
+ width:100%;padding:11px 12px 11px 35px;
+ border:1px solid var(--border);border-radius:8px;
+ outline:none;font-size:12px;background:#fff;
+}
+.search-box input:focus,.toolbar select:focus{border-color:var(--gold);outline:none}
+.search-symbol{position:absolute;left:12px;top:9px;color:#8994a4}
+.toolbar select{
+ padding:10px 12px;border:1px solid var(--border);
+ border-radius:8px;background:#fff;color:#445168;
+ font-size:12px;min-width:135px;
+}
+.btn{
+ border:0;border-radius:7px;padding:10px 14px;
+ font-size:11px;font-weight:bold;
+}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-dark{background:var(--navy);color:#fff}
+.btn-light{background:#f0f2f6;color:#39465a}
+.btn-red{background:#ffeded;color:var(--red)}
+.btn:hover{filter:brightness(.96)}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{
+ background:#f8f9fb;color:#738096;font-size:10px;
+ text-align:left;padding:13px 15px;white-space:nowrap;
+ letter-spacing:.3px;
+}
+td{
+ padding:14px 15px;border-top:1px solid #edf0f4;
+ font-size:11px;white-space:nowrap;
+}
+.order-id{font-weight:bold;color:var(--navy)}
+.order-date{font-size:10px;color:var(--muted);margin-top:4px}
+.customer-name{font-weight:bold;color:var(--navy)}
+.customer-email{font-size:10px;color:var(--muted);margin-top:4px}
+.status{
+ display:inline-block;padding:5px 9px;border-radius:20px;
+ font-size:10px;font-weight:bold;
+}
+.status.pending{background:#fff3d9;color:#a16d14}
+.status.processing{background:#e7f1ff;color:#3478c5}
+.status.shipped{background:#f0eaff;color:#7954b6}
+.status.delivered{background:#e5f6ed;color:#16865b}
+.status.cancelled{background:#ffeded;color:#d64c4c}
+.status.paid{background:#e5f6ed;color:#16865b}
+.status.unpaid{background:#fff3d9;color:#a16d14}
+.status.refunded{background:#eef0f4;color:#667085}
+.action-btn{
+ border:1px solid var(--border);background:#fff;
+ color:var(--navy);padding:7px 9px;border-radius:6px;
+ font-size:10px;font-weight:bold;
+}
+.action-btn:hover{border-color:var(--gold)}
+.empty-state{
+ text-align:center;padding:35px;color:var(--muted);
+ font-size:12px;display:none;
+}
+.table-footer{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;flex-wrap:wrap;padding:14px 18px;
+ border-top:1px solid var(--border);color:var(--muted);font-size:10px;
+}
+.pagination{display:flex;gap:6px}
+.page-number{
+ border:1px solid var(--border);background:#fff;
+ padding:6px 10px;border-radius:5px;font-size:10px;
+}
+.page-number.current{background:var(--navy);color:#fff}
+.notice{
+ padding:12px 14px;border-radius:8px;background:#fff6e6;
+ color:#88601e;font-size:10px;line-height:1.6;margin-bottom:20px;
+}
+
+.modal-backdrop{
+ position:fixed;inset:0;background:#071a3580;z-index:50;
+ display:none;align-items:center;justify-content:center;padding:15px;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+ width:100%;max-width:600px;max-height:92vh;
+ overflow-y:auto;background:#fff;border-radius:14px;
+ box-shadow:0 15px 50px #0003;
+}
+.modal-head{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:18px 20px;border-bottom:1px solid var(--border);
+}
+.modal-head h2{font-size:16px;color:var(--navy);margin:0}
+.close-btn{
+ border:0;background:#f0f2f6;border-radius:7px;
+ width:30px;height:30px;font-size:18px;
+}
+.modal-body{padding:20px}
+.order-summary{
+ background:#f8f9fb;border-radius:9px;padding:15px;
+ margin-bottom:17px;
+}
+.summary-top{
+ display:flex;justify-content:space-between;gap:10px;
+ align-items:center;margin-bottom:10px;
+}
+.summary-top strong{font-size:14px;color:var(--navy)}
+.summary-top span{font-size:10px;color:var(--muted)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.detail-item{
+ background:#f8f9fb;padding:12px;border-radius:8px;
+ min-width:0;
+}
+.detail-item span{
+ display:block;color:var(--muted);font-size:10px;margin-bottom:6px;
+}
+.detail-item strong{font-size:12px;color:var(--navy);overflow-wrap:anywhere}
+.section-title{
+ font-size:12px;font-weight:bold;color:var(--navy);
+ margin:19px 0 10px;
+}
+.order-products{
+ width:100%;border-collapse:collapse;min-width:0;
+}
+.order-products td{padding:10px 5px;font-size:11px}
+.total-row{
+ display:flex;justify-content:space-between;padding:8px 0;
+ font-size:11px;color:#59667a;
+}
+.total-row.final{
+ border-top:1px solid var(--border);
+ margin-top:5px;padding-top:12px;
+ font-size:14px;font-weight:bold;color:var(--navy);
+}
+.form-group{display:flex;flex-direction:column;gap:7px;margin-top:15px}
+.form-group label{font-size:11px;font-weight:bold;color:#46546a}
+.form-group select{
+ width:100%;padding:10px;border:1px solid var(--border);
+ border-radius:7px;background:#fff;font-size:12px;outline:none;
+}
+.form-actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.toast{
+ position:fixed;bottom:20px;right:20px;
+ background:var(--navy);color:#fff;padding:12px 17px;
+ border-radius:8px;font-size:12px;display:none;z-index:100;
+ box-shadow:0 5px 20px #0002;
+}
+.toast.show{display:block}
+
+@media(max-width:1050px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .menu-btn{display:block}
+ .topbar{padding:0 14px}
+ .content{padding:18px 12px}
+ .page-heading h1{font-size:21px}
+ .stats{gap:9px}
+ .stat-card{padding:13px}
+ .stat-card h3{font-size:21px}
+}
+@media(max-width:430px){
+ .detail-grid{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+ <div class="brand">
+  <div class="brand-icon">R</div>
+  <div><h2>RUBALIA</h2><small>NETWORK ADMIN PANEL</small></div>
+ </div>
+
+ <div class="nav-title">MAIN MENU</div>
+ <a class="nav-link" href="admin-dashboard.html"><span class="nav-icon">▦</span> Dashboard</a>
+ <a class="nav-link" href="admin-users.html"><span class="nav-icon">♙</span> User Management</a>
+ <a class="nav-link" href="admin-partners.html"><span class="nav-icon">♧</span> Partner Management</a>
+ <a class="nav-link" href="admin-applications.html"><span class="nav-icon">▤</span> Applications</a>
+
+ <div class="nav-title">BUSINESS MANAGEMENT</div>
+ <a class="nav-link" href="admin-products.html"><span class="nav-icon">◇</span> Products</a>
+ <a class="nav-link active" href="admin-orders.html"><span class="nav-icon">▣</span> Orders</a>
+ <a class="nav-link" href="admin-payments.html"><span class="nav-icon">৳</span> Payments</a>
+ <a class="nav-link" href="admin-withdrawals.html"><span class="nav-icon">⇧</span> Withdrawals</a>
+ <a class="nav-link" href="admin-commissions.html"><span class="nav-icon">％</span> Commissions</a>
+
+ <div class="nav-title">COMMUNICATION</div>
+ <a class="nav-link" href="admin-announcements.html"><span class="nav-icon">♢</span> Announcements</a>
+ <a class="nav-link" href="admin-support.html"><span class="nav-icon">☏</span> Support Tickets</a>
+
+ <div class="nav-title">SYSTEM</div>
+ <a class="nav-link" href="admin-settings.html"><span class="nav-icon">⚙</span> Settings</a>
+ <a class="nav-link" href="index.html"><span class="nav-icon">↗</span> Visit Website</a>
+
+ <div class="sidebar-footer">
+  <strong>RUBALIA NETWORK</strong><br>
+  Admin Interface · Frontend Demo
+ </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div class="top-left">
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  <div class="breadcrumb">Admin / <strong>Order Management</strong></div>
+ </div>
+ <div class="admin-user">
+  <div class="admin-avatar">A</div>
+  <div><b>Administrator</b><small>Demo Admin</small></div>
+ </div>
+</header>
+
+<div class="content">
+
+ <div class="page-heading">
+  <div>
+   <h1>Order Management</h1>
+   <p>View orders, customer details and update demo order status.</p>
+  </div>
+  <span class="demo-label">● DEMO DATA ONLY</span>
+ </div>
+
+ <section class="stats">
+  <div class="stat-card">
+   <div class="stat-top">
+    <span class="stat-note">Total Orders</span>
+    <span class="stat-icon">▣</span>
+   </div>
+   <h3 id="totalOrders">6</h3>
+   <p>Sample order records</p>
+  </div>
+
+  <div class="stat-card">
+   <div class="stat-top">
+    <span class="stat-note">Pending Orders</span>
+    <span class="stat-icon">◷</span>
+   </div>
+   <h3 id="pendingOrders">2</h3>
+   <p>Awaiting processing</p>
+  </div>
+
+  <div class="stat-card">
+   <div class="stat-top">
+    <span class="stat-note">Delivered Orders</span>
+    <span class="stat-icon">✓</span>
+   </div>
+   <h3 id="deliveredOrders">2</h3>
+   <p>Marked delivered in demo</p>
+  </div>
+
+  <div class="stat-card">
+   <div class="stat-top">
+    <span class="stat-note">Demo Order Value</span>
+    <span class="stat-icon">৳</span>
+   </div>
+   <h3 id="totalValue">৳0</h3>
+   <p>Sample order amounts only</p>
+  </div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h2>All Orders</h2>
+    <p>Search and manage customer orders.</p>
+   </div>
+   <button class="btn btn-gold" onclick="resetDemoOrders()">Reset Demo Data</button>
+  </div>
+
+  <div class="toolbar">
+   <div class="search-box">
+    <span class="search-symbol">⌕</span>
+    <input id="searchInput" type="search"
+     placeholder="Search order ID or customer..."
+     oninput="renderOrders()">
+   </div>
+
+   <select id="statusFilter" onchange="renderOrders()">
+    <option value="all">All Order Status</option>
+    <option>Pending</option>
+    <option>Processing</option>
+    <option>Shipped</option>
+    <option>Delivered</option>
+    <option>Cancelled</option>
+   </select>
+
+   <select id="paymentFilter" onchange="renderOrders()">
+    <option value="all">All Payment Status</option>
+    <option>Paid</option>
+    <option>Unpaid</option>
+    <option>Refunded</option>
+   </select>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>ORDER ID</th>
+      <th>CUSTOMER</th>
+      <th>DATE</th>
+      <th>ITEMS</th>
+      <th>TOTAL</th>
+      <th>PAYMENT</th>
+      <th>ORDER STATUS</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+    <tbody id="orderTable"></tbody>
+   </table>
+   <div class="empty-state" id="emptyState">No matching orders found.</div>
+  </div>
+
+  <div class="table-footer">
+   <span id="resultCount">Showing 6 sample orders</span>
+   <div class="pagination">
+    <button class="page-number current">1</button>
+    <button class="page-number" onclick="showToast('Demo page: No additional orders.')">2</button>
+    <button class="page-number" onclick="showToast('Demo page: No additional orders.')">›</button>
+   </div>
+  </div>
+ </section>
+
+ <div class="notice">
+  <strong>Demo Notice:</strong> All customer names, order IDs, dates and amounts are fictional sample records. This page does not receive real orders, process payments, update inventory or connect to a backend database. Status changes are temporary.
+ </div>
+
+</div>
+</main>
+</div>
+
+<!-- Order Details Modal -->
+<div class="modal-backdrop" id="detailsModal" onclick="detailsBackdropClose(event)">
+ <div class="modal">
+  <div class="modal-head">
+   <h2>Order Details</h2>
+   <button class="close-btn" onclick="closeDetails()">×</button>
+  </div>
+  <div class="modal-body" id="detailsContent"></div>
+ </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal-backdrop" id="statusModal" onclick="statusBackdropClose(event)">
+ <div class="modal" style="max-width:430px">
+  <div class="modal-head">
+   <h2>Update Order Status</h2>
+   <button class="close-btn" onclick="closeStatusModal()">×</button>
+  </div>
+  <div class="modal-body">
+   <p id="statusOrderLabel" style="font-size:12px;color:#718096"></p>
+   <div class="form-group">
+    <label for="newOrderStatus">Select New Status</label>
+    <select id="newOrderStatus">
+     <option>Pending</option>
+     <option>Processing</option>
+     <option>Shipped</option>
+     <option>Delivered</option>
+     <option>Cancelled</option>
+    </select>
+   </div>
+   <div class="form-actions">
+    <button class="btn btn-dark" onclick="saveOrderStatus()">Update Demo Status</button>
+    <button class="btn btn-light" onclick="closeStatusModal()">Cancel</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const originalOrders=[
+ {
+  id:"RB-ORD-1001",
+  customer:"Rahim Ahmed",
+  email:"rahim@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Dhaka",
+  date:"Sample Date 01",
+  items:[
+   {name:"Herbal Care Soap",qty:2,price:180},
+   {name:"Natural Honey",qty:1,price:450}
+  ],
+  subtotal:810,shipping:60,total:870,
+  paymentMethod:"Demo Mobile Wallet",
+  paymentStatus:"Paid",
+  status:"Delivered"
+ },
+ {
+  id:"RB-ORD-1002",
+  customer:"Nusrat Jahan",
+  email:"nusrat@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Rangpur",
+  date:"Sample Date 02",
+  items:[
+   {name:"Daily Care Shampoo",qty:2,price:320}
+  ],
+  subtotal:640,shipping:60,total:700,
+  paymentMethod:"Demo Bank Transfer",
+  paymentStatus:"Unpaid",
+  status:"Pending"
+ },
+ {
+  id:"RB-ORD-1003",
+  customer:"Karim Hasan",
+  email:"karim@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Chattogram",
+  date:"Sample Date 03",
+  items:[
+   {name:"Home Cleaning Kit",qty:1,price:650},
+   {name:"Organic Tea Pack",qty:2,price:250}
+  ],
+  subtotal:1150,shipping:80,total:1230,
+  paymentMethod:"Demo Mobile Wallet",
+  paymentStatus:"Paid",
+  status:"Processing"
+ },
+ {
+  id:"RB-ORD-1004",
+  customer:"Ayesha Akter",
+  email:"ayesha@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Sylhet",
+  date:"Sample Date 04",
+  items:[
+   {name:"Lifestyle Bottle",qty:2,price:280}
+  ],
+  subtotal:560,shipping:60,total:620,
+  paymentMethod:"Cash on Delivery (Demo)",
+  paymentStatus:"Unpaid",
+  status:"Shipped"
+ },
+ {
+  id:"RB-ORD-1005",
+  customer:"Sabbir Hossain",
+  email:"sabbir@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Khulna",
+  date:"Sample Date 05",
+  items:[
+   {name:"Natural Honey",qty:2,price:450}
+  ],
+  subtotal:900,shipping:60,total:960,
+  paymentMethod:"Demo Mobile Wallet",
+  paymentStatus:"Paid",
+  status:"Delivered"
+ },
+ {
+  id:"RB-ORD-1006",
+  customer:"Mim Sultana",
+  email:"mim@example.test",
+  phone:"01XXXXXXXXX",
+  address:"Sample address, Rajshahi",
+  date:"Sample Date 06",
+  items:[
+   {name:"Herbal Care Soap",qty:1,price:180},
+   {name:"Lifestyle Bottle",qty:1,price:280}
+  ],
+  subtotal:460,shipping:60,total:520,
+  paymentMethod:"Demo Bank Transfer",
+  paymentStatus:"Unpaid",
+  status:"Cancelled"
+ }
+];
+
+let orders=JSON.parse(JSON.stringify(originalOrders));
+let selectedOrderId=null;
+
+function safeText(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+function money(value){
+ return "৳"+Number(value).toLocaleString("en-BD");
+}
+
+function renderStats(){
+ document.getElementById("totalOrders").textContent=orders.length;
+ document.getElementById("pendingOrders").textContent=
+  orders.filter(o=>o.status==="Pending").length;
+ document.getElementById("deliveredOrders").textContent=
+  orders.filter(o=>o.status==="Delivered").length;
+
+ const total=orders.reduce((sum,o)=>sum+Number(o.total||0),0);
+ document.getElementById("totalValue").textContent=money(total);
+}
+
+function renderOrders(){
+ const query=document.getElementById("searchInput").value.toLowerCase().trim();
+ const status=document.getElementById("statusFilter").value;
+ const payment=document.getElementById("paymentFilter").value;
+
+ const filtered=orders.filter(o=>{
+  const searchMatch=
+   o.id.toLowerCase().includes(query)||
+   o.customer.toLowerCase().includes(query)||
+   o.email.toLowerCase().includes(query);
+
+  const statusMatch=status==="all"||o.status===status;
+  const paymentMatch=payment==="all"||o.paymentStatus===payment;
+
+  return searchMatch&&statusMatch&&paymentMatch;
+ });
+
+ const tbody=document.getElementById("orderTable");
+ tbody.innerHTML="";
+
+ filtered.forEach(o=>{
+  const itemCount=o.items.reduce((sum,item)=>sum+item.qty,0);
+  const tr=document.createElement("tr");
+
+  tr.innerHTML=`
+   <td>
+    <div class="order-id">${safeText(o.id)}</div>
+    <div class="order-date">Demo Order</div>
+   </td>
+   <td>
+    <div class="customer-name">${safeText(o.customer)}</div>
+    <div class="customer-email">${safeText(o.email)}</div>
+   </td>
+   <td>${safeText(o.date)}</td>
+   <td>${itemCount} item(s)</td>
+   <td><strong>${money(o.total)}</strong></td>
+   <td><span class="status ${o.paymentStatus.toLowerCase()}">${safeText(o.paymentStatus)}</span></td>
+   <td><span class="status ${o.status.toLowerCase()}">${safeText(o.status)}</span></td>
+   <td>
+    <div style="display:flex;gap:5px">
+     <button class="action-btn" onclick="viewOrder('${o.id}')">View</button>
+     <button class="action-btn" onclick="openStatusModal('${o.id}')">Update</button>
+    </div>
+   </td>
+  `;
+  tbody.appendChild(tr);
+ });
+
+ document.getElementById("emptyState").style.display=filtered.length?"none":"block";
+ document.getElementById("resultCount").textContent=
+  `Showing ${filtered.length} of ${orders.length} demo orders`;
+
+ renderStats();
+}
+
+function viewOrder(id){
+ const o=orders.find(x=>x.id===id);
+ if(!o)return;
+
+ const itemRows=o.items.map(item=>`
+  <tr>
+   <td>${safeText(item.name)}</td>
+   <td>${item.qty}</td>
+   <td>${money(item.price)}</td>
+   <td>${money(item.qty*item.price)}</td>
+  </tr>
+ `).join("");
+
+ document.getElementById("detailsContent").innerHTML=`
+  <div class="order-summary">
+   <div class="summary-top">
+    <strong>${safeText(o.id)}</strong>
+    <span>${safeText(o.date)}</span>
+   </div>
+   <span class="status ${o.status.toLowerCase()}">${safeText(o.status)}</span>
+   <span class="status ${o.paymentStatus.toLowerCase()}">${safeText(o.paymentStatus)}</span>
+  </div>
+
+  <div class="section-title">Customer Information</div>
+  <div class="detail-grid">
+   <div class="detail-item">
+    <span>Customer Name</span>
+    <strong>${safeText(o.customer)}</strong>
+   </div>
+   <div class="detail-item">
+    <span>Email</span>
+    <strong>${safeText(o.email)}</strong>
+   </div>
+   <div class="detail-item">
+    <span>Phone</span>
+    <strong>${safeText(o.phone)}</strong>
+   </div>
+   <div class="detail-item">
+    <span>Payment Method</span>
+    <strong>${safeText(o.paymentMethod)}</strong>
+   </div>
+   <div class="detail-item" style="grid-column:1/-1">
+    <span>Delivery Address</span>
+    <strong>${safeText(o.address)}</strong>
+   </div>
+  </div>
+
+  <div class="section-title">Ordered Products</div>
+  <table class="order-products">
+   <thead>
+    <tr>
+     <th>PRODUCT</th><th>QTY</th><th>PRICE</th><th>TOTAL</th>
+    </tr>
+   </thead>
+   <tbody>${itemRows}</tbody>
+  </table>
+
+  <div style="margin-top:15px">
+   <div class="total-row"><span>Subtotal</span><strong>${money(o.subtotal)}</strong></div>
+   <div class="total-row"><span>Shipping</span><strong>${money(o.shipping)}</strong></div>
+   <div class="total-row final"><span>Order Total</span><strong>${money(o.total)}</strong></div>
+  </div>
+
+  <div class="form-actions">
+   <button class="btn btn-dark" onclick="closeDetails();openStatusModal('${o.id}')">Update Order Status</button>
+   <button class="btn btn-light" onclick="closeDetails()">Close</button>
+  </div>
+ `;
+
+ document.getElementById("detailsModal").classList.add("show");
+}
+
+function openStatusModal(id){
+ const o=orders.find(x=>x.id===id);
+ if(!o)return;
+
+ selectedOrderId=id;
+ document.getElementById("statusOrderLabel").textContent=
+  "Order: "+o.id+" · Current status: "+o.status;
+ document.getElementById("newOrderStatus").value=o.status;
+ document.getElementById("statusModal").classList.add("show");
+}
+
+function saveOrderStatus(){
+ if(!selectedOrderId)return;
+
+ const order=orders.find(o=>o.id===selectedOrderId);
+ if(!order)return;
+
+ const newStatus=document.getElementById("newOrderStatus").value;
+ const allowed=["Pending","Processing","Shipped","Delivered","Cancelled"];
+
+ if(!allowed.includes(newStatus)){
+  showToast("Invalid order status.");
+  return;
+ }
+
+ order.status=newStatus;
+ closeStatusModal();
+ renderOrders();
+ showToast("Demo order status updated.");
+}
+
+function resetDemoOrders(){
+ orders=JSON.parse(JSON.stringify(originalOrders));
+ document.getElementById("searchInput").value="";
+ document.getElementById("statusFilter").value="all";
+ document.getElementById("paymentFilter").value="all";
+ renderOrders();
+ showToast("Demo orders restored.");
+}
+
+function closeDetails(){
+ document.getElementById("detailsModal").classList.remove("show");
+}
+function closeStatusModal(){
+ document.getElementById("statusModal").classList.remove("show");
+ selectedOrderId=null;
+}
+function detailsBackdropClose(event){
+ if(event.target.id==="detailsModal")closeDetails();
+}
+function statusBackdropClose(event){
+ if(event.target.id==="statusModal")closeStatusModal();
+}
+function toggleMenu(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+function showToast(message){
+ const toast=document.getElementById("toast");
+ toast.textContent=message;
+ toast.classList.add("show");
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2500);
+}
+
+document.addEventListener("keydown",function(event){
+ if(event.key==="Escape"){
+  closeDetails();
+  closeStatusModal();
+ }
+});
+
+renderOrders();
+</script>
+</body>
+</html>
