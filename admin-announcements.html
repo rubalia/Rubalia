@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Admin Announcements</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f5e4b5;
+  --white:#ffffff;
+  --bg:#f3f5f9;
+  --text:#18243a;
+  --muted:#718096;
+  --border:#e3e8f0;
+  --green:#16865b;
+  --red:#d94b4b;
+  --blue:#2675c9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:white;
+  padding:22px 15px;
+  position:fixed;
+  top:0;bottom:0;left:0;
+  overflow-y:auto;
+  z-index:20;
+}
+.brand{
+  padding:5px 10px 22px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand-name{
+  color:var(--gold);
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.brand small{color:#b9c6d8;font-size:11px}
+.nav-title{
+  color:#8fa2bd;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:13px 10px 8px;
+}
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  margin:3px 0;
+  color:#dce5f1;
+  text-decoration:none;
+  border-radius:8px;
+  font-size:13px;
+}
+.nav-link:hover,.nav-link.active{
+  background:#ffffff16;
+  color:var(--gold-light);
+}
+.nav-link.active{border-left:3px solid var(--gold)}
+.main{
+  width:calc(100% - 250px);
+  margin-left:250px;
+  min-width:0;
+}
+.topbar{
+  height:65px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.admin-label{font-size:12px;color:var(--muted)}
+.menu-btn{
+  display:none;
+  background:var(--navy);
+  color:white;
+  border:0;
+  border-radius:7px;
+  padding:8px 11px;
+}
+.content{padding:28px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
+}
+h1{font-size:25px;color:var(--navy);margin:0 0 6px}
+.subtitle{color:var(--muted);font-size:13px}
+.demo-notice{
+  background:#fff8e7;
+  border:1px solid #eed9a3;
+  color:#795a19;
+  padding:12px 14px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+.btn{
+  border:0;
+  border-radius:7px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:bold;
+  transition:.2s;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-primary:hover{background:var(--navy2)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf1f6;color:var(--navy)}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.btn-success{background:#e8f7ef;color:var(--green)}
+.btn-small{padding:7px 10px;font-size:11px}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:22px;
+}
+.stat-card{
+  background:white;
+  padding:19px;
+  border:1px solid var(--border);
+  border-radius:11px;
+}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-number{font-size:26px;font-weight:bold;color:var(--navy);margin-top:10px}
+.stat-note{font-size:10px;color:var(--muted);margin-top:5px}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  margin-bottom:22px;
+  overflow:hidden;
+}
+.panel-head{
+  padding:17px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+.panel-head h2{font-size:15px;color:var(--navy);margin:0}
+.panel-body{padding:20px}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:bold;color:#34435b}
+.field input,.field textarea,.field select,
+.filters input,.filters select{
+  width:100%;
+  border:1px solid #dce2eb;
+  border-radius:7px;
+  padding:11px 12px;
+  outline:none;
+  background:white;
+  color:var(--text);
+  font-size:12px;
+}
+.field input:focus,.field textarea:focus,
+.field select:focus,.filters input:focus,
+.filters select:focus{border-color:var(--gold)}
+.field textarea{min-height:115px;resize:vertical;line-height:1.6}
+.field small{color:var(--muted);font-size:10px}
+.form-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:18px;
+}
+.filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:800px}
+th{
+  background:#f7f9fc;
+  color:#65738a;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  text-align:left;
+  padding:13px 15px;
+  border-bottom:1px solid var(--border);
+}
+td{
+  padding:14px 15px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  vertical-align:middle;
+}
+tbody tr:hover{background:#fbfcfe}
+.announcement-title{font-weight:bold;color:var(--navy)}
+.muted{color:var(--muted);font-size:10px;margin-top:5px}
+.pill{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 9px;
+  font-size:10px;
+  font-weight:bold;
+}
+.status-published{background:#e7f7ee;color:#16865b}
+.status-draft{background:#edf1f6;color:#66758a}
+.status-scheduled{background:#fff4dd;color:#a16c12}
+.priority-high{background:#fff0f0;color:#cf4242}
+.priority-normal{background:#eaf2ff;color:#2868b2}
+.priority-low{background:#f0f2f5;color:#66758a}
+.category-tag{background:#f3edff;color:#7753a8}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
+.empty{
+  text-align:center;
+  padding:35px 15px;
+  color:var(--muted);
+  font-size:13px;
+}
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:#061329a8;
+  z-index:50;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  background:white;
+  width:100%;
+  max-width:650px;
+  max-height:90vh;
+  overflow-y:auto;
+  border-radius:13px;
+  box-shadow:0 20px 60px #0003;
+}
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px 20px;
+  border-bottom:1px solid var(--border);
+}
+.modal-head h3{margin:0;color:var(--navy);font-size:16px}
+.close-btn{
+  border:0;background:#edf1f6;color:var(--navy);
+  border-radius:6px;width:30px;height:30px;font-size:18px;
+}
+.modal-body{padding:22px}
+.preview-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+}
+.preview-top{
+  background:var(--navy);
+  color:white;
+  padding:20px;
+}
+.preview-top .brand-name{font-size:17px}
+.preview-content{padding:20px}
+.preview-content h2{color:var(--navy);font-size:20px;margin:0 0 12px}
+.preview-content p{font-size:13px;line-height:1.8;color:#526078;white-space:pre-wrap}
+.preview-meta{font-size:11px;color:var(--muted);margin-top:15px}
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--navy);
+  color:white;
+  padding:12px 17px;
+  border-radius:8px;
+  font-size:12px;
+  box-shadow:0 5px 20px #0002;
+  display:none;
+  z-index:100;
+}
+.toast.show{display:block}
+.footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+  font-size:10px;
+}
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{width:100%;margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:0 15px}
+  .content{padding:19px 13px}
+  .page-heading{align-items:flex-start;flex-direction:column}
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .filters{grid-template-columns:1fr}
+  .stats{gap:9px}
+  .stat-card{padding:14px}
+  .stat-number{font-size:22px}
+  .panel-body{padding:14px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-name">RUBALIA</div>
+    <small>NETWORK ADMINISTRATION</small>
+  </div>
+
+  <div class="nav-title">MAIN MENU</div>
+  <a class="nav-link" href="admin-dashboard.html">▦ Dashboard</a>
+
+  <div class="nav-title">MANAGEMENT</div>
+  <a class="nav-link" href="admin-users.html">♙ Users</a>
+  <a class="nav-link" href="admin-partners.html">♧ Partners</a>
+  <a class="nav-link" href="admin-applications.html">▤ Applications</a>
+  <a class="nav-link" href="admin-products.html">◇ Products</a>
+  <a class="nav-link" href="admin-orders.html">▣ Orders</a>
+
+  <div class="nav-title">FINANCE</div>
+  <a class="nav-link" href="admin-payments.html">৳ Payments</a>
+  <a class="nav-link" href="admin-withdrawals.html">⇧ Withdrawals</a>
+  <a class="nav-link" href="admin-commissions.html">％ Commissions</a>
+
+  <div class="nav-title">COMMUNICATION</div>
+  <a class="nav-link active" href="admin-announcements.html">▤ Announcements</a>
+  <a class="nav-link" href="admin-support.html">☏ Support</a>
+
+  <div class="nav-title">SYSTEM</div>
+  <a class="nav-link" href="admin-settings.html">⚙ Settings</a>
+  <a class="nav-link" href="index.html">↗ View Website</a>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">Announcement Management</div>
+    </div>
+    <div class="admin-label">ADMIN PANEL</div>
+  </header>
+
+  <div class="content">
+
+    <div class="page-heading">
+      <div>
+        <h1>Announcements</h1>
+        <div class="subtitle">Create and manage company announcement drafts and sample notices.</div>
+      </div>
+      <button class="btn btn-gold" onclick="newAnnouncement()">＋ Create Announcement</button>
+    </div>
+
+    <div class="demo-notice">
+      <strong>Frontend Demo Only:</strong> Announcements are temporary browser-page data.
+      Publishing here does not send real notifications, emails, SMS or push messages.
+      Scheduling is only a visual demonstration. Backend integration and authorized admin access are required for a live system.
+    </div>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Total Announcements</div>
+        <div class="stat-number" id="totalCount">0</div>
+        <div class="stat-note">Demo records</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Published</div>
+        <div class="stat-number" id="publishedCount">0</div>
+        <div class="stat-note">Demo status only</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Drafts</div>
+        <div class="stat-number" id="draftCount">0</div>
+        <div class="stat-note">Not published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Scheduled</div>
+        <div class="stat-number" id="scheduledCount">0</div>
+        <div class="stat-note">No automatic publishing</div>
+      </div>
+    </section>
+
+    <section class="panel" id="editorPanel">
+      <div class="panel-head">
+        <h2 id="editorHeading">Create New Announcement</h2>
+        <button class="btn btn-light btn-small" onclick="resetEditor()">Clear Form</button>
+      </div>
+
+      <div class="panel-body">
+        <form id="announcementForm">
+          <input type="hidden" id="editId">
+
+          <div class="form-grid">
+            <div class="field full">
+              <label for="title">Announcement Title *</label>
+              <input id="title" maxlength="100" required placeholder="Enter announcement title">
+            </div>
+
+            <div class="field full">
+              <label for="description">Description *</label>
+              <textarea id="description" maxlength="2000" required placeholder="Write announcement details..."></textarea>
+              <small>Maximum 2000 characters.</small>
+            </div>
+
+            <div class="field">
+              <label for="category">Category</label>
+              <select id="category">
+                <option value="General">General</option>
+                <option value="Product">Product Information</option>
+                <option value="Training">Training</option>
+                <option value="Meeting">Meeting</option>
+                <option value="Policy">Policy Update</option>
+                <option value="Important">Important Notice</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="priority">Priority</label>
+              <select id="priority">
+                <option value="Normal">Normal</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="audience">Target Audience</label>
+              <select id="audience">
+                <option value="All Users">All Users</option>
+                <option value="Partners">Partners Only</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="status">Publication Status</label>
+              <select id="status" onchange="toggleSchedule()">
+                <option value="Draft">Save as Draft</option>
+                <option value="Published">Publish Now (Demo)</option>
+                <option value="Scheduled">Schedule (Demo)</option>
+              </select>
+            </div>
+
+            <div class="field full" id="scheduleField" style="display:none">
+              <label for="scheduleDate">Scheduled Date & Time</label>
+              <input type="datetime-local" id="scheduleDate">
+              <small>This date is stored only in the current page session. No automatic publishing occurs.</small>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-light" onclick="showPreview()">Preview</button>
+            <button type="submit" class="btn btn-primary" id="saveButton">Save Announcement</button>
+            <button type="button" class="btn btn-light" onclick="resetEditor()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Announcement List</h2>
+        <span class="muted" id="resultCount">0 records</span>
+      </div>
+
+      <div class="panel-body">
+        <div class="filters">
+          <input id="searchInput" type="search" placeholder="Search title or description..." oninput="renderTable()">
+          <select id="statusFilter" onchange="renderTable()">
+            <option value="">All Statuses</option>
+            <option value="Published">Published</option>
+            <option value="Draft">Draft</option>
+            <option value="Scheduled">Scheduled</option>
+          </select>
+          <select id="categoryFilter" onchange="renderTable()">
+            <option value="">All Categories</option>
+            <option value="General">General</option>
+            <option value="Product">Product</option>
+            <option value="Training">Training</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Policy">Policy</option>
+            <option value="Important">Important</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Announcement</th>
+              <th>Category</th>
+              <th>Audience</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="announcementRows"></tbody>
+        </table>
+        <div class="empty" id="emptyMessage" style="display:none">
+          No announcements found.
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      RUBALIA NETWORK · ADMIN DEMO PANEL · NOT CONNECTED TO A LIVE BACKEND
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal-backdrop" id="previewModal" onclick="backdropClose(event,'previewModal')">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Announcement Preview</h3>
+      <button class="close-btn" onclick="closeModal('previewModal')">×</button>
+    </div>
+    <div class="modal-body" id="previewContent"></div>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-backdrop" id="detailsModal" onclick="backdropClose(event,'detailsModal')">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Announcement Details</h3>
+      <button class="close-btn" onclick="closeModal('detailsModal')">×</button>
+    </div>
+    <div class="modal-body" id="detailsContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let announcements = [
+  {
+    id:1,
+    title:"Sample: Welcome to Rubalia Network",
+    description:"Welcome to this demonstration of the Rubalia Network announcement system. This is sample content and does not represent an official company announcement.",
+    category:"General",
+    priority:"Normal",
+    audience:"All Users",
+    status:"Published",
+    date:"Demo record"
+  },
+  {
+    id:2,
+    title:"Sample: Partner Training Information",
+    description:"This sample notice demonstrates how an administrator could share training information with partners after the relevant details have been confirmed.",
+    category:"Training",
+    priority:"High",
+    audience:"Partners",
+    status:"Draft",
+    date:"Demo record"
+  },
+  {
+    id:3,
+    title:"Sample: Product Information Update",
+    description:"This is placeholder product information. Replace it with verified product details before creating a real announcement.",
+    category:"Product",
+    priority:"Normal",
+    audience:"All Users",
+    status:"Scheduled",
+    date:"Demo schedule"
+  }
+];
+
+let nextId = 4;
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),2400);
+}
+
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g,function(char){
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[char];
+  });
+}
+
+function statusClass(status){
+  if(status==="Published") return "status-published";
+  if(status==="Scheduled") return "status-scheduled";
+  return "status-draft";
+}
+
+function priorityClass(priority){
+  if(priority==="High") return "priority-high";
+  if(priority==="Low") return "priority-low";
+  return "priority-normal";
+}
+
+function updateStats(){
+  document.getElementById("totalCount").textContent=announcements.length;
+  document.getElementById("publishedCount").textContent=
+    announcements.filter(a=>a.status==="Published").length;
+  document.getElementById("draftCount").textContent=
+    announcements.filter(a=>a.status==="Draft").length;
+  document.getElementById("scheduledCount").textContent=
+    announcements.filter(a=>a.status==="Scheduled").length;
+}
+
+function renderTable(){
+  const search=document.getElementById("searchInput").value.toLowerCase().trim();
+  const status=document.getElementById("statusFilter").value;
+  const category=document.getElementById("categoryFilter").value;
+
+  const filtered=announcements.filter(a=>{
+    const matchesSearch=
+      a.title.toLowerCase().includes(search) ||
+      a.description.toLowerCase().includes(search);
+
+    return matchesSearch &&
+      (!status || a.status===status) &&
+      (!category || a.category===category);
+  });
+
+  const tbody=document.getElementById("announcementRows");
+  const empty=document.getElementById("emptyMessage");
+
+  document.getElementById("resultCount").textContent=
+    filtered.length+" records";
+
+  tbody.innerHTML=filtered.map(a=>`
+    <tr>
+      <td>
+        <div class="announcement-title">${escapeHTML(a.title)}</div>
+        <div class="muted">${escapeHTML(a.description.slice(0,65))}${a.description.length>65?"...":""}</div>
+      </td>
+      <td><span class="pill category-tag">${escapeHTML(a.category)}</span></td>
+      <td>${escapeHTML(a.audience)}</td>
+      <td><span class="pill ${priorityClass(a.priority)}">${escapeHTML(a.priority)}</span></td>
+      <td><span class="pill ${statusClass(a.status)}">${escapeHTML(a.status)}</span></td>
+      <td>${escapeHTML(a.date)}</td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-light btn-small" onclick="viewAnnouncement(${a.id})">View</button>
+          <button class="btn btn-primary btn-small" onclick="editAnnouncement(${a.id})">Edit</button>
+          <button class="btn btn-danger btn-small" onclick="deleteAnnouncement(${a.id})">Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+
+  empty.style.display=filtered.length?"none":"block";
+  updateStats();
+}
+
+function toggleSchedule(){
+  const scheduled=document.getElementById("status").value==="Scheduled";
+  document.getElementById("scheduleField").style.display=
+    scheduled?"flex":"none";
+}
+
+function newAnnouncement(){
+  resetEditor();
+  document.getElementById("editorPanel").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+function resetEditor(){
+  document.getElementById("announcementForm").reset();
+  document.getElementById("editId").value="";
+  document.getElementById("editorHeading").textContent=
+    "Create New Announcement";
+  document.getElementById("saveButton").textContent=
+    "Save Announcement";
+  document.getElementById("scheduleField").style.display="none";
+}
+
+function getFormData(){
+  const title=document.getElementById("title").value.trim();
+  const description=document.getElementById("description").value.trim();
+  const status=document.getElementById("status").value;
+  const schedule=document.getElementById("scheduleDate").value;
+
+  if(!title || !description){
+    showToast("Please enter a title and description.");
+    return null;
+  }
+
+  if(status==="Scheduled" && !schedule){
+    showToast("Please select a schedule date and time.");
+    return null;
+  }
+
+  if(status==="Scheduled" && new Date(schedule).getTime()<=Date.now()){
+    showToast("Please select a future date and time.");
+    return null;
+  }
+
+  let date="Demo record";
+  if(status==="Scheduled"){
+    date=new Date(schedule).toLocaleString();
+  }else if(status==="Published"){
+    date="Demo: "+new Date().toLocaleDateString();
+  }
+
+  return {
+    title,
+    description,
+    category:document.getElementById("category").value,
+    priority:document.getElementById("priority").value,
+    audience:document.getElementById("audience").value,
+    status,
+    date
+  };
+}
+
+document.getElementById("announcementForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const data=getFormData();
+  if(!data)return;
+
+  const editId=document.getElementById("editId").value;
+
+  if(editId){
+    const index=announcements.findIndex(a=>a.id===Number(editId));
+    if(index!==-1){
+      announcements[index]={...announcements[index],...data};
+      showToast("Announcement updated in this demo.");
+    }
+  }else{
+    announcements.unshift({
+      id:nextId++,
+      ...data
+    });
+    showToast("Announcement created in this demo.");
+  }
+
+  resetEditor();
+  renderTable();
+});
+
+function editAnnouncement(id){
+  const a=announcements.find(item=>item.id===id);
+  if(!a)return;
+
+  document.getElementById("editId").value=a.id;
+  document.getElementById("title").value=a.title;
+  document.getElementById("description").value=a.description;
+  document.getElementById("category").value=a.category;
+  document.getElementById("priority").value=a.priority;
+  document.getElementById("audience").value=a.audience;
+  document.getElementById("status").value=a.status;
+
+  document.getElementById("editorHeading").textContent=
+    "Edit Announcement";
+  document.getElementById("saveButton").textContent=
+    "Update Announcement";
+
+  toggleSchedule();
+
+  if(a.status==="Scheduled" && a.date!=="Demo schedule"){
+    const parsed=new Date(a.date);
+    if(!isNaN(parsed.getTime())){
+      const local=new Date(parsed.getTime()-parsed.getTimezoneOffset()*60000);
+      document.getElementById("scheduleDate").value=
+        local.toISOString().slice(0,16);
+    }
+  }
+
+  document.getElementById("editorPanel").scrollIntoView({
+    behavior:"smooth"
+  });
+}
+
+function deleteAnnouncement(id){
+  const a=announcements.find(item=>item.id===id);
+  if(!a)return;
+
+  if(!confirm("Delete this demo announcement?"))return;
+
+  announcements=announcements.filter(item=>item.id!==id);
+  renderTable();
+  showToast("Announcement deleted from this demo.");
+}
+
+function previewHTML(data){
+  return `
+    <div class="preview-card">
+      <div class="preview-top">
+        <div class="brand-name">RUBALIA NETWORK</div>
+        <div style="font-size:10px;color:#d4ddeb;margin-top:5px">
+          ANNOUNCEMENT PREVIEW · DEMO
+        </div>
+      </div>
+      <div class="preview-content">
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px">
+          <span class="pill category-tag">${escapeHTML(data.category)}</span>
+          <span class="pill ${priorityClass(data.priority)}">${escapeHTML(data.priority)} Priority</span>
+        </div>
+        <h2>${escapeHTML(data.title)}</h2>
+        <p>${escapeHTML(data.description)}</p>
+        <div class="preview-meta">
+          Audience: ${escapeHTML(data.audience)} · Status: ${escapeHTML(data.status)}
+        </div>
+        <div style="margin-top:15px;font-size:10px;color:#9aa4b3">
+          This is a demonstration preview, not a live notification.
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function showPreview(){
+  const data=getFormData();
+  if(!data)return;
+
+  document.getElementById("previewContent").innerHTML=
+    previewHTML(data);
+
+  document.getElementById("previewModal").classList.add("show");
+}
+
+function viewAnnouncement(id){
+  const a=announcements.find(item=>item.id===id);
+  if(!a)return;
+
+  document.getElementById("detailsContent").innerHTML=
+    previewHTML(a)+`
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="closeModal('detailsModal');editAnnouncement(${a.id})">
+          Edit Announcement
+        </button>
+        <button class="btn btn-light" onclick="closeModal('detailsModal')">
+          Close
+        </button>
+      </div>
+    `;
+
+  document.getElementById("detailsModal").classList.add("show");
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+}
+
+function backdropClose(event,id){
+  if(event.target.id===id)closeModal(id);
+}
+
+renderTable();
+</script>
+</body>
+</html>
