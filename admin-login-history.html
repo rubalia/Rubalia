@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Login History</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#087acb;
+  --bg:#f3f6fb;
+  --text:#172b45;
+  --muted:#718096;
+  --border:#e3eaf3;
+  --green:#16a36a;
+  --red:#dc4c4c;
+  --orange:#e99a25;
+  --shadow:0 5px 20px rgba(20,45,80,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;background:var(--navy);color:white;
+  padding:22px 15px;flex-shrink:0;
+}
+.brand{
+  font-size:21px;font-weight:800;
+  padding:8px 12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.brand span{color:#42b5ff}
+.admin-label{
+  color:#8da9ca;font-size:11px;
+  letter-spacing:1.5px;padding:22px 12px 10px;
+}
+.nav a{
+  display:flex;gap:11px;align-items:center;
+  color:#c5d4e7;text-decoration:none;
+  padding:12px;border-radius:9px;
+  font-size:13px;margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#123b68;color:white;
+}
+.nav a.active{border-left:3px solid #36aaff}
+.main{flex:1;min-width:0}
+.topbar{
+  height:68px;background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;padding:0 26px;
+}
+.top-title{font-size:17px;font-weight:700}
+.top-right{display:flex;align-items:center;gap:12px}
+.admin-avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:#dceeff;color:#087acb;
+  display:grid;place-items:center;font-weight:800;
+}
+.content{padding:25px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+h1{font-size:23px;margin:0 0 6px}
+.subtitle{font-size:13px;color:var(--muted)}
+.demo-note{
+  background:#fff7e8;border:1px solid #f3dfb8;
+  color:#91631c;padding:11px 14px;
+  border-radius:9px;font-size:12px;margin-bottom:20px;
+}
+.btn{
+  border:0;border-radius:8px;padding:10px 14px;
+  font-size:12px;font-weight:700;
+}
+.btn-primary{background:var(--blue);color:white}
+.btn-light{background:#edf4fc;color:#1768a7}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin-bottom:20px;
+}
+.stat-card{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;box-shadow:var(--shadow);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;font-size:18px;
+  background:#eaf4ff;
+}
+.stat-value{font-size:25px;font-weight:800;margin:13px 0 5px}
+.stat-name{font-size:12px;color:var(--muted)}
+.stat-foot{font-size:11px;color:var(--muted);margin-top:10px}
+.panel{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;
+  box-shadow:var(--shadow);margin-bottom:20px;
+}
+.panel-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.panel-heading h2{font-size:16px;margin:0}
+.filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;
+  gap:10px;margin-bottom:15px;
+}
+.field{
+  width:100%;padding:10px 11px;
+  border:1px solid var(--border);border-radius:8px;
+  outline:none;background:white;color:var(--text);
+  font-size:12px;min-width:0;
+}
+.field:focus{border-color:var(--blue)}
+.badge{
+  display:inline-block;padding:5px 8px;
+  border-radius:20px;font-size:10px;font-weight:700;
+  white-space:nowrap;
+}
+.badge.green{background:#e7f8ef;color:#168452}
+.badge.blue{background:#e9f3ff;color:#176bb0}
+.badge.orange{background:#fff4df;color:#a66b12}
+.badge.red{background:#ffeded;color:#c53c3c}
+.badge.gray{background:#edf0f4;color:#68778a}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:950px}
+th{
+  text-align:left;padding:12px 10px;
+  font-size:11px;color:#718096;
+  background:#f7f9fc;border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+td{
+  padding:13px 10px;border-bottom:1px solid #edf1f6;
+  font-size:12px;vertical-align:middle;
+}
+tr:last-child td{border-bottom:0}
+.user-cell{display:flex;align-items:center;gap:9px}
+.user-avatar{
+  width:32px;height:32px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#e6f2ff;color:#087acb;
+  font-size:11px;font-weight:800;flex-shrink:0;
+}
+.user-name{font-weight:700}
+.user-email{font-size:10px;color:var(--muted);margin-top:3px}
+.device-name{font-weight:700}
+.device-sub{font-size:10px;color:var(--muted);margin-top:3px}
+.action-btn{
+  border:0;background:#edf4fc;color:#1768a7;
+  border-radius:7px;padding:7px 10px;font-size:11px;
+}
+.empty{
+  text-align:center;padding:30px;color:var(--muted);
+  font-size:13px;
+}
+.pagination{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-top:15px;
+  font-size:11px;color:var(--muted);flex-wrap:wrap;
+}
+.pagination button{
+  border:1px solid var(--border);background:white;
+  padding:7px 10px;border-radius:6px;
+}
+.summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+}
+.summary-item{margin:15px 0}
+.summary-info{
+  display:flex;justify-content:space-between;
+  font-size:11px;margin-bottom:7px;
+}
+.track{
+  height:9px;background:#edf1f6;
+  border-radius:20px;overflow:hidden;
+}
+.fill{height:100%;border-radius:20px;background:#2196e8}
+.modal-bg{
+  position:fixed;inset:0;background:rgba(4,18,38,.6);
+  display:none;align-items:center;justify-content:center;
+  padding:15px;z-index:50;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:white;border-radius:13px;
+  width:100%;max-width:520px;padding:22px;
+  max-height:90vh;overflow:auto;
+}
+.modal-head{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:18px;
+}
+.modal-head h3{margin:0;font-size:17px}
+.close{
+  border:0;background:#edf1f6;border-radius:50%;
+  width:30px;height:30px;font-size:18px;
+}
+.detail-row{
+  display:flex;justify-content:space-between;
+  gap:15px;padding:11px 0;
+  border-bottom:1px solid var(--border);font-size:12px;
+}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row span:last-child{text-align:right;font-weight:700}
+.footer{
+  text-align:center;padding:18px;
+  color:var(--muted);font-size:11px;
+}
+@media(max-width:1100px){
+  .sidebar{width:215px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:repeat(3,1fr)}
+  .filters .search-field{grid-column:span 2}
+}
+@media(max-width:700px){
+  .sidebar{width:62px;padding:15px 7px}
+  .brand{font-size:0;padding:10px 5px 20px;text-align:center}
+  .brand:first-letter{font-size:22px}
+  .admin-label{font-size:0;padding:15px 0}
+  .nav a{font-size:0;justify-content:center;padding:13px 5px}
+  .nav a span{font-size:18px}
+  .topbar{padding:0 14px}
+  .content{padding:16px 12px}
+  .stats{gap:9px}
+  .stat-card{padding:13px}
+  .stat-value{font-size:21px}
+  .filters{grid-template-columns:1fr 1fr}
+  .filters .search-field{grid-column:1/-1}
+  .summary-grid{grid-template-columns:1fr}
+  .panel{padding:13px}
+  h1{font-size:20px}
+}
+@media(max-width:390px){
+  .filters{grid-template-columns:1fr}
+  .filters .search-field{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+  <div class="admin-label">ADMIN CONTROL PANEL</div>
+
+  <nav class="nav">
+    <a href="admin-dashboard.html"><span>📊</span> Dashboard</a>
+    <a href="admin-users.html"><span>👥</span> Users</a>
+    <a href="admin-partners.html"><span>🤝</span> Partners</a>
+    <a href="admin-applications.html"><span>📋</span> Applications</a>
+    <a href="admin-products.html"><span>📦</span> Products</a>
+    <a href="admin-orders.html"><span>🛒</span> Orders</a>
+    <a href="admin-payments.html"><span>💳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span>💸</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span>📈</span> Commissions</a>
+    <a href="admin-announcements.html"><span>📢</span> Announcements</a>
+    <a href="admin-support.html"><span>🎧</span> Support</a>
+    <a href="admin-reports.html"><span>📑</span> Reports</a>
+    <a href="admin-audit-logs.html"><span>🧾</span> Audit Logs</a>
+    <a href="admin-roles.html"><span>🔐</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span>🛡️</span> Security Center</a>
+    <a href="admin-backup.html"><span>💾</span> Backup & Restore</a>
+    <a href="admin-database.html"><span>🗄️</span> Database</a>
+    <a href="admin-system-health.html"><span>💻</span> System Health</a>
+    <a href="admin-api-management.html"><span>🔌</span> API Management</a>
+    <a href="admin-email-management.html"><span>✉️</span> Email Management</a>
+    <a href="admin-sms-management.html"><span>📱</span> SMS Management</a>
+    <a href="admin-activity-monitor.html"><span>📡</span> Activity Monitor</a>
+    <a href="admin-system-notifications.html"><span>🔔</span> System Notifications</a>
+    <a class="active" href="admin-login-history.html"><span>🔑</span> Login History</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-title">Login History</div>
+  <div class="top-right">
+    <span style="font-size:12px;color:#718096">Super Admin</span>
+    <div class="admin-avatar">SA</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Login History</h1>
+      <div class="subtitle">Review account login attempts, devices, and access history.</div>
+    </div>
+    <button class="btn btn-primary" onclick="exportCSV()">⬇ Export Login History</button>
+  </div>
+
+  <div class="demo-note">
+    ⚠ DEMO MODE: All login records, IP addresses, devices, locations, and security statistics below are fictional examples. This page does not access real login sessions or track actual users.
+  </div>
+
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Total Login Attempts</span><div class="stat-icon">🔑</div></div>
+      <div class="stat-value" id="totalLogins">12</div>
+      <div class="stat-foot">Sample login records</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Successful Logins</span><div class="stat-icon">✅</div></div>
+      <div class="stat-value" id="successLogins">8</div>
+      <div class="stat-foot">Illustrative successful events</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Failed Attempts</span><div class="stat-icon">❌</div></div>
+      <div class="stat-value" id="failedLogins">3</div>
+      <div class="stat-foot">Illustrative failed events</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Blocked Attempts</span><div class="stat-icon">🛡️</div></div>
+      <div class="stat-value" id="blockedLogins">1</div>
+      <div class="stat-foot">Sample blocked events</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Login Activity Summary</h2>
+      <span class="badge blue">Sample Analytics</span>
+    </div>
+
+    <div class="summary-grid">
+      <div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Successful Logins</span><b>67%</b></div>
+          <div class="track"><div class="fill" style="width:67%"></div></div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Failed Logins</span><b>25%</b></div>
+          <div class="track"><div class="fill" style="width:25%;background:#e99a25"></div></div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Blocked Attempts</span><b>8%</b></div>
+          <div class="track"><div class="fill" style="width:8%;background:#dc4c4c"></div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Mobile Devices</span><b>58%</b></div>
+          <div class="track"><div class="fill" style="width:58%"></div></div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Desktop Devices</span><b>34%</b></div>
+          <div class="track"><div class="fill" style="width:34%;background:#16a36a"></div></div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-info"><span>Tablet Devices</span><b>8%</b></div>
+          <div class="track"><div class="fill" style="width:8%;background:#e99a25"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;color:#718096;margin-top:15px">
+      Percentages are illustrative and are not calculated from live authentication data.
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Login Records</h2>
+      <span class="badge gray" id="recordCount">12 Records</span>
+    </div>
+
+    <div class="filters">
+      <input class="field search-field" id="searchInput" placeholder="Search name, email, IP, device..." oninput="renderTable()">
+
+      <select class="field" id="statusFilter" onchange="renderTable()">
+        <option value="">All Statuses</option>
+        <option value="Success">Success</option>
+        <option value="Failed">Failed</option>
+        <option value="Blocked">Blocked</option>
+      </select>
+
+      <select class="field" id="roleFilter" onchange="renderTable()">
+        <option value="">All Roles</option>
+        <option value="Admin">Admin</option>
+        <option value="Partner">Partner</option>
+        <option value="User">User</option>
+      </select>
+
+      <select class="field" id="deviceFilter" onchange="renderTable()">
+        <option value="">All Devices</option>
+        <option value="Mobile">Mobile</option>
+        <option value="Desktop">Desktop</option>
+        <option value="Tablet">Tablet</option>
+      </select>
+
+      <input type="date" class="field" id="dateFilter" onchange="renderTable()">
+
+      <button class="btn btn-light" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>USER</th>
+            <th>ROLE</th>
+            <th>IP ADDRESS</th>
+            <th>DEVICE / BROWSER</th>
+            <th>LOCATION</th>
+            <th>LOGIN TIME</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="loginTable"></tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <span id="paginationText">Showing sample records</span>
+      <div>
+        <button onclick="changePage(-1)">← Previous</button>
+        <button onclick="changePage(1)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Login Security Guidelines</h2>
+      <span class="badge orange">Production Requirements</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+      <div class="detail-row"><span>Failed login tracking</span><span>Not Connected</span></div>
+      <div class="detail-row"><span>Login rate limiting</span><span>Not Connected</span></div>
+      <div class="detail-row"><span>IP risk monitoring</span><span>Not Connected</span></div>
+      <div class="detail-row"><span>Device identification</span><span>Not Connected</span></div>
+      <div class="detail-row"><span>Session management</span><span>Not Connected</span></div>
+      <div class="detail-row"><span>Admin login alerts</span><span>Not Connected</span></div>
+    </div>
+
+    <p style="font-size:11px;line-height:1.6;color:#718096;margin:16px 0 0">
+      Production implementation should record security-relevant login events on the server, protect log access with role-based permissions, and apply a defined data-retention policy. Avoid storing passwords, OTPs, tokens, or other authentication secrets in login logs.
+    </p>
+  </section>
+
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> Rubalia Network · Login History · Frontend Demo
+</footer>
+
+</main>
+</div>
+
+<div class="modal-bg" id="detailModal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Login Details</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div id="detailContent"></div>
+    <div style="margin-top:20px;text-align:right">
+      <button class="btn btn-light" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+const loginRecords=[
+ {
+  id:"LOG-1001",name:"Rahim Ahmed",email:"rahim@example.com",
+  initials:"RA",role:"User",ip:"192.0.2.10",
+  device:"Android Mobile",deviceType:"Mobile",
+  browser:"Chrome",os:"Android",
+  location:"Dhaka, Bangladesh",
+  time:"Today · 10:25 AM",date:"2026-11-18",
+  status:"Success",reason:"Login successful",
+  details:"Sample successful login event. No actual account was accessed."
+ },
+ {
+  id:"LOG-1002",name:"Admin Demo",email:"admin@example.com",
+  initials:"AD",role:"Admin",ip:"192.0.2.20",
+  device:"Windows Desktop",deviceType:"Desktop",
+  browser:"Chrome",os:"Windows",
+  location:"Dhaka, Bangladesh",
+  time:"Today · 10:12 AM",date:"2026-11-18",
+  status:"Success",reason:"Login successful",
+  details:"Illustrative administrator login event."
+ },
+ {
+  id:"LOG-1003",name:"Karim Hasan",email:"karim@example.com",
+  initials:"KH",role:"Partner",ip:"192.0.2.30",
+  device:"Android Mobile",deviceType:"Mobile",
+  browser:"Firefox",os:"Android",
+  location:"Rangpur, Bangladesh",
+  time:"Today · 09:48 AM",date:"2026-11-18",
+  status:"Success",reason:"Login successful",
+  details:"Sample partner login event."
+ },
+ {
+  id:"LOG-1004",name:"Nusrat Jahan",email:"nusrat@example.com",
+  initials:"NJ",role:"User",ip:"192.0.2.40",
+  device:"iPhone",deviceType:"Mobile",
+  browser:"Safari",os:"iOS",
+  location:"Chattogram, Bangladesh",
+  time:"Today · 09:30 AM",date:"2026-11-18",
+  status:"Success",reason:"Login successful",
+  details:"Illustrative user login event."
+ },
+ {
+  id:"LOG-1005",name:"Demo User",email:"demo@example.com",
+  initials:"DU",role:"User",ip:"192.0.2.50",
+  device:"Unknown Device",deviceType:"Desktop",
+  browser:"Unknown",os:"Unknown",
+  location:"Unknown",
+  time:"Today · 08:55 AM",date:"2026-11-18",
+  status:"Failed",reason:"Incorrect password",
+  details:"Sample failed login. No real password was submitted."
+ },
+ {
+  id:"LOG-1006",name:"Demo Partner",email:"partner@example.com",
+  initials:"DP",role:"Partner",ip:"192.0.2.60",
+  device:"Windows Desktop",deviceType:"Desktop",
+  browser:"Edge",os:"Windows",
+  location:"Sylhet, Bangladesh",
+  time:"Yesterday · 08:20 PM",date:"2026-11-17",
+  status:"Failed",reason:"Invalid credentials",
+  details:"Illustrative failed authentication event."
+ },
+ {
+  id:"LOG-1007",name:"Admin Demo",email:"admin@example.com",
+  initials:"AD",role:"Admin",ip:"192.0.2.20",
+  device:"Windows Desktop",deviceType:"Desktop",
+  browser:"Chrome",os:"Windows",
+  location:"Dhaka, Bangladesh",
+  time:"Yesterday · 07:45 PM",date:"2026-11-17",
+  status:"Success",reason:"Login successful",
+  details:"Sample administrator login event."
+ },
+ {
+  id:"LOG-1008",name:"Sample User",email:"sample@example.com",
+  initials:"SU",role:"User",ip:"192.0.2.70",
+  device:"Android Tablet",deviceType:"Tablet",
+  browser:"Chrome",os:"Android",
+  location:"Khulna, Bangladesh",
+  time:"Yesterday · 06:15 PM",date:"2026-11-17",
+  status:"Success",reason:"Login successful",
+  details:"Illustrative tablet login event."
+ },
+ {
+  id:"LOG-1009",name:"Demo User 2",email:"user2@example.com",
+  initials:"U2",role:"User",ip:"192.0.2.80",
+  device:"Android Mobile",deviceType:"Mobile",
+  browser:"Chrome",os:"Android",
+  location:"Rajshahi, Bangladesh",
+  time:"Yesterday · 04:40 PM",date:"2026-11-17",
+  status:"Failed",reason:"Incorrect password",
+  details:"Sample failed login attempt."
+ },
+ {
+  id:"LOG-1010",name:"Admin Demo",email:"admin@example.com",
+  initials:"AD",role:"Admin",ip:"192.0.2.90",
+  device:"Unknown Device",deviceType:"Desktop",
+  browser:"Unknown",os:"Unknown",
+  location:"Unknown",
+  time:"Yesterday · 03:10 PM",date:"2026-11-17",
+  status:"Blocked",reason:"Sample security policy block",
+  details:"Illustrative blocked login event. No real security system action occurred."
+ },
+ {
+  id:"LOG-1011",name:"Rahim Ahmed",email:"rahim@example.com",
+  initials:"RA",role:"User",ip:"192.0.2.10",
+  device:"Android Mobile",deviceType:"Mobile",
+  browser:"Chrome",os:"Android",
+  location:"Dhaka, Bangladesh",
+  time:"Yesterday · 01:20 PM",date:"2026-11-17",
+  status:"Success",reason:"Login successful",
+  details:"Sample user login event."
+ },
+ {
+  id:"LOG-1012",name:"Karim Hasan",email:"karim@example.com",
+  initials:"KH",role:"Partner",ip:"192.0.2.30",
+  device:"Android Mobile",deviceType:"Mobile",
+  browser:"Firefox",os:"Android",
+  location:"Rangpur, Bangladesh",
+  time:"Yesterday · 11:15 AM",date:"2026-11-17",
+  status:"Success",reason:"Login successful",
+  details:"Sample partner login event."
+ }
+];
+
+let currentPage=1;
+const pageSize=7;
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,char=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[char]));
+}
+
+function statusClass(status){
+ if(status==="Success")return "green";
+ if(status==="Failed")return "orange";
+ if(status==="Blocked")return "red";
+ return "gray";
+}
+
+function updateStats(){
+ document.getElementById("totalLogins").textContent=loginRecords.length;
+ document.getElementById("successLogins").textContent=
+  loginRecords.filter(r=>r.status==="Success").length;
+ document.getElementById("failedLogins").textContent=
+  loginRecords.filter(r=>r.status==="Failed").length;
+ document.getElementById("blockedLogins").textContent=
+  loginRecords.filter(r=>r.status==="Blocked").length;
+}
+
+function getFiltered(){
+ const search=document.getElementById("searchInput").value.toLowerCase();
+ const status=document.getElementById("statusFilter").value;
+ const role=document.getElementById("roleFilter").value;
+ const device=document.getElementById("deviceFilter").value;
+ const date=document.getElementById("dateFilter").value;
+
+ return loginRecords.filter(r=>{
+  const searchable=[
+   r.id,r.name,r.email,r.ip,r.device,
+   r.browser,r.os,r.location,r.reason
+  ].join(" ").toLowerCase();
+
+  return searchable.includes(search)&&
+   (!status||r.status===status)&&
+   (!role||r.role===role)&&
+   (!device||r.deviceType===device)&&
+   (!date||r.date===date);
+ });
+}
+
+function renderTable(){
+ const filtered=getFiltered();
+ const totalPages=Math.max(1,Math.ceil(filtered.length/pageSize));
+ currentPage=Math.min(currentPage,totalPages);
+
+ const start=(currentPage-1)*pageSize;
+ const rows=filtered.slice(start,start+pageSize);
+
+ document.getElementById("recordCount").textContent=
+  filtered.length+" Records";
+
+ document.getElementById("paginationText").textContent=
+  filtered.length?
+  "Showing "+(start+1)+"-"+Math.min(start+pageSize,filtered.length)+" of "+filtered.length+" records":
+  "No records found";
+
+ document.getElementById("loginTable").innerHTML=rows.length?
+ rows.map(r=>`
+  <tr>
+   <td>
+    <div class="user-cell">
+     <div class="user-avatar">${escapeHTML(r.initials)}</div>
+     <div>
+      <div class="user-name">${escapeHTML(r.name)}</div>
+      <div class="user-email">${escapeHTML(r.email)}</div>
+     </div>
+    </div>
+   </td>
+   <td><span class="badge blue">${escapeHTML(r.role)}</span></td>
+   <td>${escapeHTML(r.ip)}</td>
+   <td>
+    <div class="device-name">${escapeHTML(r.device)}</div>
+    <div class="device-sub">${escapeHTML(r.browser)} · ${escapeHTML(r.os)}</div>
+   </td>
+   <td>${escapeHTML(r.location)}</td>
+   <td>${escapeHTML(r.time)}</td>
+   <td><span class="badge ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td>
+   <td><button class="action-btn" onclick="showDetails('${r.id}')">View</button></td>
+  </tr>
+ `).join(""):
+ `<tr><td colspan="8" class="empty">No matching login records found.</td></tr>`;
+
+ updateStats();
+}
+
+function showDetails(id){
+ const r=loginRecords.find(item=>item.id===id);
+ if(!r)return;
+
+ const fields=[
+  ["Login ID",r.id],
+  ["Name",r.name],
+  ["Email",r.email],
+  ["Role",r.role],
+  ["IP Address",r.ip],
+  ["Device",r.device],
+  ["Device Type",r.deviceType],
+  ["Browser",r.browser],
+  ["Operating System",r.os],
+  ["Location",r.location],
+  ["Login Time",r.time],
+  ["Status",r.status],
+  ["Reason",r.reason],
+  ["Details",r.details]
+ ];
+
+ document.getElementById("detailContent").innerHTML=
+ fields.map(([label,value])=>`
+  <div class="detail-row">
+   <span>${escapeHTML(label)}</span>
+   <span>${escapeHTML(value)}</span>
+  </div>
+ `).join("");
+
+ document.getElementById("detailModal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("detailModal").classList.remove("show");
+}
+
+function closeOutside(event){
+ if(event.target.id==="detailModal")closeModal();
+}
+
+function resetFilters(){
+ document.getElementById("searchInput").value="";
+ document.getElementById("statusFilter").value="";
+ document.getElementById("roleFilter").value="";
+ document.getElementById("deviceFilter").value="";
+ document.getElementById("dateFilter").value="";
+ currentPage=1;
+ renderTable();
+}
+
+function changePage(direction){
+ const totalPages=Math.max(1,Math.ceil(getFiltered().length/pageSize));
+ currentPage=Math.max(1,Math.min(totalPages,currentPage+direction));
+ renderTable();
+}
+
+function exportCSV(){
+ const rows=getFiltered();
+
+ if(!rows.length){
+  alert("No login records available to export.");
+  return;
+ }
+
+ const headers=[
+  "Login ID","Name","Email","Role","IP Address",
+  "Device","Device Type","Browser","Operating System",
+  "Location","Login Time","Date","Status","Reason","Details"
+ ];
+
+ const escapeCSV=value=>'"'+String(value).replace(/"/g,'""')+'"';
+
+ const csv=[
+  headers.map(escapeCSV).join(","),
+  ...rows.map(r=>[
+   r.id,r.name,r.email,r.role,r.ip,r.device,
+   r.deviceType,r.browser,r.os,r.location,
+   r.time,r.date,r.status,r.reason,r.details
+  ].map(escapeCSV).join(","))
+ ].join("\n");
+
+ const blob=new Blob(["\uFEFF"+csv],{
+  type:"text/csv;charset=utf-8;"
+ });
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;
+ link.download="rubalia-demo-login-history.csv";
+ link.click();
+ URL.revokeObjectURL(url);
+}
+
+renderTable();
+</script>
+</body>
+</html>
