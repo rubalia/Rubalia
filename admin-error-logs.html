@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Error Logs</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#1677e8;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#718096;
+  --border:#e3eaf3;
+  --red:#e5484d;
+  --orange:#e58a20;
+  --green:#15966b;
+  --shadow:0 5px 20px rgba(15,35,65,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:#fff;
+  padding:20px 14px;
+  position:fixed;
+  inset:0 auto 0 0;
+  overflow-y:auto;
+  z-index:20;
+  transition:.25s;
+}
+.brand{
+  font-size:21px;
+  font-weight:800;
+  padding:8px 12px 22px;
+  border-bottom:1px solid #ffffff20;
+}
+.brand span{color:#55a6ff}
+.nav-title{
+  color:#8fa6c5;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:20px 12px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:#c8d6e8;
+  text-decoration:none;
+  padding:11px 12px;
+  border-radius:8px;
+  font-size:13px;
+  margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#1b4779;
+  color:#fff;
+}
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  min-width:0;
+}
+.topbar{
+  background:#fff;
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:14px}
+.menu-btn{
+  border:0;background:#edf3fa;
+  width:36px;height:36px;border-radius:8px;
+  font-size:19px;
+}
+.top-title{font-size:14px;font-weight:bold}
+.admin{
+  font-size:12px;
+  color:var(--muted);
+}
+.content{padding:25px;max-width:1500px;margin:auto}
+.page-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+h1{font-size:24px;margin:0 0 7px}
+.subtitle{font-size:13px;color:var(--muted)}
+.btn{
+  border:0;border-radius:7px;
+  padding:10px 14px;font-size:12px;
+  font-weight:bold;
+}
+.primary{background:var(--blue);color:#fff}
+.secondary{background:#edf3fa;color:#34445b}
+.danger{background:#fff0f0;color:var(--red)}
+.dark{background:var(--navy);color:#fff}
+.demo-note{
+  background:#fff8e8;
+  border:1px solid #f5dfaa;
+  color:#8a611b;
+  padding:12px 14px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;margin-bottom:20px;
+}
+.stat{
+  background:#fff;
+  padding:18px;
+  border-radius:11px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-icon{
+  width:35px;height:35px;
+  border-radius:9px;display:grid;
+  place-items:center;font-size:17px;
+}
+.stat-value{font-size:26px;font-weight:800;margin-top:12px}
+.stat-foot{font-size:11px;color:var(--muted);margin-top:5px}
+.red-bg{background:#fff0f0;color:var(--red)}
+.orange-bg{background:#fff5e8;color:var(--orange)}
+.blue-bg{background:#edf5ff;color:var(--blue)}
+.green-bg{background:#e9f8f1;color:var(--green)}
+.panel{
+  background:#fff;border:1px solid var(--border);
+  border-radius:11px;box-shadow:var(--shadow);
+  margin-bottom:20px;overflow:hidden;
+}
+.panel-head{
+  padding:17px 18px;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);
+}
+.panel-head h2{font-size:15px;margin:0}
+.filters{
+  padding:15px 18px;
+  display:flex;gap:10px;flex-wrap:wrap;
+}
+.field{
+  min-width:150px;flex:1;
+  padding:10px 11px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:#fff;color:var(--text);
+  outline:none;font-size:12px;
+}
+.field:focus{border-color:var(--blue)}
+.search{min-width:220px}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;border-collapse:collapse;
+  min-width:850px;
+}
+th{
+  background:#f8fafd;
+  color:#718096;font-size:10px;
+  text-align:left;padding:13px 15px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+td{
+  padding:14px 15px;
+  border-top:1px solid #edf1f6;
+  font-size:12px;
+}
+tbody tr:hover{background:#fafcff}
+.level{
+  padding:5px 8px;border-radius:20px;
+  font-size:10px;font-weight:bold;
+  display:inline-block;
+}
+.critical{background:#ffe9e9;color:#c52d37}
+.error{background:#fff0e8;color:#c65b21}
+.warning{background:#fff6df;color:#a36b0a}
+.info{background:#eaf3ff;color:#246ac2}
+.status{font-weight:bold}
+.status-open{color:var(--red)}
+.status-resolved{color:var(--green)}
+.action{
+  border:0;background:#edf4ff;
+  color:#1767c1;padding:7px 10px;
+  border-radius:6px;font-size:11px;
+}
+.empty{
+  text-align:center;padding:35px;
+  color:var(--muted);font-size:13px;
+}
+.footer{
+  text-align:center;color:#8a96a8;
+  font-size:11px;padding:15px;
+}
+.modal-bg{
+  position:fixed;inset:0;
+  background:#071a3580;
+  display:none;align-items:center;
+  justify-content:center;
+  z-index:100;padding:15px;
+}
+.modal{
+  background:#fff;width:100%;
+  max-width:600px;max-height:90vh;
+  overflow-y:auto;border-radius:12px;
+  box-shadow:0 20px 60px #0003;
+}
+.modal-head{
+  padding:17px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  align-items:center;
+}
+.modal-head h3{margin:0;font-size:16px}
+.close{
+  border:0;background:#edf1f6;
+  width:30px;height:30px;border-radius:7px;
+}
+.modal-body{padding:20px}
+.detail-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin-bottom:18px;
+}
+.detail-label{font-size:10px;color:var(--muted);margin-bottom:5px}
+.detail-value{font-size:12px;font-weight:bold;word-break:break-word}
+.log-code{
+  background:#101c30;color:#c7e3ff;
+  padding:15px;border-radius:8px;
+  font-family:monospace;font-size:11px;
+  line-height:1.7;white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.modal-actions{
+  display:flex;gap:8px;justify-content:flex-end;
+  margin-top:18px;flex-wrap:wrap;
+}
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:#102b50;color:#fff;
+  padding:12px 17px;border-radius:8px;
+  font-size:12px;display:none;z-index:200;
+  box-shadow:var(--shadow);
+}
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.show{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .content{padding:16px 12px}
+  .topbar{padding:0 13px}
+  h1{font-size:21px}
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .stat-value{font-size:22px}
+  .detail-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+
+  <div class="nav-title">MAIN MENU</div>
+  <nav class="nav">
+    <a href="admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ User Management</a>
+    <a href="admin-partners.html">♧ Partner Management</a>
+    <a href="admin-applications.html">▤ Applications</a>
+    <a href="admin-products.html">▣ Products</a>
+    <a href="admin-orders.html">▤ Orders</a>
+    <a href="admin-payments.html">৳ Payments</a>
+    <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a href="admin-commissions.html">％ Commissions</a>
+  </nav>
+
+  <div class="nav-title">COMMUNICATION</div>
+  <nav class="nav">
+    <a href="admin-announcements.html">▣ Announcements</a>
+    <a href="admin-support.html">☏ Support Tickets</a>
+    <a href="admin-email-management.html">✉ Email Management</a>
+    <a href="admin-sms-management.html">▤ SMS Management</a>
+    <a href="admin-system-notifications.html">♢ System Notifications</a>
+  </nav>
+
+  <div class="nav-title">SYSTEM MANAGEMENT</div>
+  <nav class="nav">
+    <a href="admin-reports.html">▥ Reports & Analytics</a>
+    <a href="admin-audit-logs.html">▤ Audit Logs</a>
+    <a href="admin-activity-monitor.html">◷ Activity Monitor</a>
+    <a href="admin-login-history.html">⇥ Login History</a>
+    <a href="admin-error-logs.html" class="active">⚠ Error Logs</a>
+    <a href="admin-roles.html">♙ Roles & Permissions</a>
+    <a href="admin-security.html">♧ Security Center</a>
+    <a href="admin-backup.html">▣ Backup & Restore</a>
+    <a href="admin-database.html">▤ Database Management</a>
+    <a href="admin-system-health.html">♥ System Health</a>
+    <a href="admin-api-management.html">⌘ API Management</a>
+    <a href="admin-settings.html">⚙ Admin Settings</a>
+    <a href="admin-help-center.html">❔ Help Center</a>
+  </nav>
+
+  <div class="nav-title">ACCOUNT</div>
+  <nav class="nav">
+    <a href="index.html">⌂ View Website</a>
+    <a href="login.html">⇥ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="top-title">Admin Control Panel</div>
+  </div>
+  <div class="admin">Administrator</div>
+</header>
+
+<div class="content">
+
+  <div class="page-head">
+    <div>
+      <h1>Error Logs & Exception Monitor</h1>
+      <div class="subtitle">Review and manage application error records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn secondary" onclick="exportCSV()">↓ Export CSV</button>
+      <button class="btn danger" onclick="clearResolved()">Clear Resolved</button>
+    </div>
+  </div>
+
+  <div class="demo-note">
+    <strong>Demo Mode:</strong> এই পেজের Error Logs সম্পূর্ণ Sample Data।
+    কোনো বাস্তব সার্ভার, API, PostgreSQL বা অ্যাপ্লিকেশন লগ এখানে সংযুক্ত নেই।
+    এখানে পরিবর্তন করলে শুধু বর্তমান পেজের অস্থায়ী Demo Data পরিবর্তিত হবে।
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Total Errors</span>
+        <span class="stat-icon red-bg">⚠</span>
+      </div>
+      <div class="stat-value" id="totalCount">0</div>
+      <div class="stat-foot">Sample log records</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Critical Errors</span>
+        <span class="stat-icon red-bg">✖</span>
+      </div>
+      <div class="stat-value" id="criticalCount">0</div>
+      <div class="stat-foot">Critical sample records</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Unresolved</span>
+        <span class="stat-icon orange-bg">◷</span>
+      </div>
+      <div class="stat-value" id="openCount">0</div>
+      <div class="stat-foot">Awaiting review</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Resolved</span>
+        <span class="stat-icon green-bg">✓</span>
+      </div>
+      <div class="stat-value" id="resolvedCount">0</div>
+      <div class="stat-foot">Marked resolved in demo</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Log Overview</h2>
+      <span class="subtitle">Sample application events</span>
+    </div>
+    <div class="filters">
+      <input class="field search" id="searchInput"
+        placeholder="Search error, code, module..."
+        oninput="renderLogs()">
+
+      <select class="field" id="severityFilter" onchange="renderLogs()">
+        <option value="all">All Severity</option>
+        <option value="Critical">Critical</option>
+        <option value="Error">Error</option>
+        <option value="Warning">Warning</option>
+        <option value="Info">Info</option>
+      </select>
+
+      <select class="field" id="statusFilter" onchange="renderLogs()">
+        <option value="all">All Status</option>
+        <option value="Open">Open</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+
+      <select class="field" id="moduleFilter" onchange="renderLogs()">
+        <option value="all">All Modules</option>
+        <option value="Authentication">Authentication</option>
+        <option value="Products">Products</option>
+        <option value="Orders">Orders</option>
+        <option value="Payments">Payments</option>
+        <option value="Database">Database</option>
+        <option value="API">API</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Log ID</th>
+            <th>Severity</th>
+            <th>Error Message</th>
+            <th>Module</th>
+            <th>Error Code</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="logsTable"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="emptyState" style="display:none">
+      No matching error logs found.
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Error Management Guide</h2>
+      <span class="level info">Reference</span>
+    </div>
+    <div style="padding:18px">
+      <div style="font-size:12px;line-height:1.8;color:#64748b">
+        <p><strong>1. Critical:</strong> গুরুতর সমস্যা। Production system-এ দ্রুত তদন্ত প্রয়োজন।</p>
+        <p><strong>2. Error:</strong> কোনো request বা operation ব্যর্থ হয়েছে।</p>
+        <p><strong>3. Warning:</strong> সম্ভাব্য সমস্যা বা অস্বাভাবিক আচরণ।</p>
+        <p><strong>4. Info:</strong> সাধারণ তথ্যভিত্তিক event record।</p>
+        <p><strong>Security:</strong> বাস্তব লগে কখনো password, OTP, API secret, access token বা payment credentials সংরক্ষণ করা উচিত নয়।</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · Admin Error Logs · Demo Interface
+  </div>
+
+</div>
+</main>
+</div>
+
+<!-- DETAILS MODAL -->
+<div class="modal-bg" id="detailModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Error Log Details</h3>
+      <button class="close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let logs = [
+  {
+    id:"ERR-1001",
+    severity:"Critical",
+    message:"Database connection unavailable",
+    module:"Database",
+    code:"DB_CONN_001",
+    time:"Sample date · 10:45 AM",
+    status:"Open",
+    path:"/api/users",
+    method:"GET",
+    description:"The sample database connection could not be established.",
+    stack:"DatabaseConnectionError: Unable to establish database connection\n at Database.connect()\n at UserController.getUsers()"
+  },
+  {
+    id:"ERR-1002",
+    severity:"Error",
+    message:"Authentication request failed",
+    module:"Authentication",
+    code:"AUTH_401",
+    time:"Sample date · 10:30 AM",
+    status:"Open",
+    path:"/api/auth/login",
+    method:"POST",
+    description:"A sample authentication request returned an unauthorized response.",
+    stack:"AuthenticationError: Unauthorized request\n at AuthController.login()"
+  },
+  {
+    id:"ERR-1003",
+    severity:"Warning",
+    message:"Product stock value is low",
+    module:"Products",
+    code:"PROD_STOCK_010",
+    time:"Sample date · 09:55 AM",
+    status:"Resolved",
+    path:"/api/products",
+    method:"GET",
+    description:"A sample product inventory record reached its low-stock threshold.",
+    stack:"InventoryWarning: Low stock threshold reached\n at ProductService.checkStock()"
+  },
+  {
+    id:"ERR-1004",
+    severity:"Error",
+    message:"Order processing failed",
+    module:"Orders",
+    code:"ORDER_500",
+    time:"Sample date · 09:20 AM",
+    status:"Open",
+    path:"/api/orders",
+    method:"POST",
+    description:"The sample order processing operation failed.",
+    stack:"OrderProcessingError: Unable to process order\n at OrderService.create()"
+  },
+  {
+    id:"ERR-1005",
+    severity:"Critical",
+    message:"Payment verification service unavailable",
+    module:"Payments",
+    code:"PAY_SERVICE_503",
+    time:"Sample date · 08:45 AM",
+    status:"Open",
+    path:"/api/payments/verify",
+    method:"POST",
+    description:"The sample payment verification service returned an unavailable response.",
+    stack:"PaymentServiceError: Service unavailable\n at PaymentService.verify()"
+  },
+  {
+    id:"ERR-1006",
+    severity:"Info",
+    message:"API request completed successfully",
+    module:"API",
+    code:"API_INFO_200",
+    time:"Sample date · 08:10 AM",
+    status:"Resolved",
+    path:"/api/status",
+    method:"GET",
+    description:"An informational sample event.",
+    stack:"Info: Request completed successfully"
+  },
+  {
+    id:"ERR-1007",
+    severity:"Warning",
+    message:"API response time exceeded threshold",
+    module:"API",
+    code:"API_SLOW_001",
+    time:"Sample date · 07:40 AM",
+    status:"Open",
+    path:"/api/products",
+    method:"GET",
+    description:"The sample API response time exceeded the configured threshold.",
+    stack:"PerformanceWarning: Response time threshold exceeded\n at ApiMonitor.checkLatency()"
+  }
+];
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("show");
+}
+
+function severityClass(value){
+  return value.toLowerCase();
+}
+
+function updateStats(){
+  document.getElementById("totalCount").textContent=logs.length;
+  document.getElementById("criticalCount").textContent=
+    logs.filter(x=>x.severity==="Critical").length;
+  document.getElementById("openCount").textContent=
+    logs.filter(x=>x.status==="Open").length;
+  document.getElementById("resolvedCount").textContent=
+    logs.filter(x=>x.status==="Resolved").length;
+}
+
+function renderLogs(){
+  const search=document.getElementById("searchInput").value.toLowerCase();
+  const severity=document.getElementById("severityFilter").value;
+  const status=document.getElementById("statusFilter").value;
+  const module=document.getElementById("moduleFilter").value;
+
+  const filtered=logs.filter(log=>{
+    const matchesSearch=[
+      log.id,log.message,log.module,log.code,log.path
+    ].join(" ").toLowerCase().includes(search);
+
+    return matchesSearch &&
+      (severity==="all"||log.severity===severity) &&
+      (status==="all"||log.status===status) &&
+      (module==="all"||log.module===module);
+  });
+
+  const tbody=document.getElementById("logsTable");
+  const empty=document.getElementById("emptyState");
+
+  tbody.innerHTML="";
+
+  filtered.forEach(log=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td><strong>${escapeHTML(log.id)}</strong></td>
+      <td><span class="level ${severityClass(log.severity)}">${escapeHTML(log.severity)}</span></td>
+      <td>${escapeHTML(log.message)}</td>
+      <td>${escapeHTML(log.module)}</td>
+      <td>${escapeHTML(log.code)}</td>
+      <td>${escapeHTML(log.time)}</td>
+      <td><span class="status ${log.status==="Open"?"status-open":"status-resolved"}">${escapeHTML(log.status)}</span></td>
+      <td><button class="action" onclick="viewLog('${log.id}')">View Details</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  empty.style.display=filtered.length?"none":"block";
+  updateStats();
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[char]));
+}
+
+function viewLog(id){
+  const log=logs.find(x=>x.id===id);
+  if(!log)return;
+
+  document.getElementById("modalContent").innerHTML=`
+    <div class="detail-grid">
+      <div>
+        <div class="detail-label">LOG ID</div>
+        <div class="detail-value">${escapeHTML(log.id)}</div>
+      </div>
+      <div>
+        <div class="detail-label">SEVERITY</div>
+        <span class="level ${severityClass(log.severity)}">${escapeHTML(log.severity)}</span>
+      </div>
+      <div>
+        <div class="detail-label">MODULE</div>
+        <div class="detail-value">${escapeHTML(log.module)}</div>
+      </div>
+      <div>
+        <div class="detail-label">ERROR CODE</div>
+        <div class="detail-value">${escapeHTML(log.code)}</div>
+      </div>
+      <div>
+        <div class="detail-label">REQUEST METHOD</div>
+        <div class="detail-value">${escapeHTML(log.method)}</div>
+      </div>
+      <div>
+        <div class="detail-label">STATUS</div>
+        <div class="detail-value">${escapeHTML(log.status)}</div>
+      </div>
+      <div>
+        <div class="detail-label">REQUEST PATH</div>
+        <div class="detail-value">${escapeHTML(log.path)}</div>
+      </div>
+      <div>
+        <div class="detail-label">TIME</div>
+        <div class="detail-value">${escapeHTML(log.time)}</div>
+      </div>
+    </div>
+
+    <div class="detail-label">ERROR MESSAGE</div>
+    <p style="font-size:13px">${escapeHTML(log.message)}</p>
+
+    <div class="detail-label">DESCRIPTION</div>
+    <p style="font-size:12px;color:#64748b">${escapeHTML(log.description)}</p>
+
+    <div class="detail-label">SAMPLE STACK TRACE</div>
+    <div class="log-code">${escapeHTML(log.stack)}</div>
+
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="closeModal()">Close</button>
+      ${
+        log.status==="Open"
+        ? `<button class="btn primary" onclick="resolveLog('${log.id}')">Mark Resolved</button>`
+        : `<button class="btn secondary" onclick="reopenLog('${log.id}')">Reopen Log</button>`
+      }
+    </div>
+  `;
+
+  document.getElementById("detailModal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("detailModal").style.display="none";
+}
+
+function resolveLog(id){
+  const log=logs.find(x=>x.id===id);
+  if(!log)return;
+  log.status="Resolved";
+  closeModal();
+  renderLogs();
+  showToast("Demo log marked as resolved.");
+}
+
+function reopenLog(id){
+  const log=logs.find(x=>x.id===id);
+  if(!log)return;
+  log.status="Open";
+  closeModal();
+  renderLogs();
+  showToast("Demo log reopened.");
+}
+
+function clearResolved(){
+  const count=logs.filter(x=>x.status==="Resolved").length;
+
+  if(!count){
+    showToast("No resolved demo logs to clear.");
+    return;
+  }
+
+  if(!confirm("Clear all resolved demo logs from this page?"))return;
+
+  logs=logs.filter(x=>x.status!=="Resolved");
+  renderLogs();
+  showToast(count+" resolved demo log(s) cleared.");
+}
+
+function exportCSV(){
+  const search=document.getElementById("searchInput").value.toLowerCase();
+  const severity=document.getElementById("severityFilter").value;
+  const status=document.getElementById("statusFilter").value;
+  const module=document.getElementById("moduleFilter").value;
+
+  const filtered=logs.filter(log=>{
+    return [
+      log.id,log.message,log.module,log.code,log.path
+    ].join(" ").toLowerCase().includes(search) &&
+    (severity==="all"||log.severity===severity) &&
+    (status==="all"||log.status===status) &&
+    (module==="all"||log.module===module);
+  });
+
+  const columns=["Log ID","Severity","Message","Module","Error Code","Time","Status","Path","Method"];
+
+  const rows=filtered.map(log=>[
+    log.id,log.severity,log.message,log.module,
+    log.code,log.time,log.status,log.path,log.method
+  ]);
+
+  const csv=[columns,...rows].map(row=>
+    row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(",")
+  ).join("\n");
+
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download="rubalia-demo-error-logs.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+
+  showToast("Demo CSV exported.");
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.style.display="block";
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>{
+    toast.style.display="none";
+  },2500);
+}
+
+document.getElementById("detailModal").addEventListener("click",function(e){
+  if(e.target===this)closeModal();
+});
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+renderLogs();
+</script>
+</body>
+</html>
