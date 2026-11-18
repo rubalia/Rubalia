@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Database Management | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#1765a8;
+  --gold:#d6ad55;
+  --gold2:#f1d58e;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17263d;
+  --muted:#7b8798;
+  --border:#e4eaf2;
+  --green:#16865b;
+  --red:#d84b4b;
+  --orange:#d58a25;
+  --shadow:0 8px 24px rgba(7,26,53,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+a{text-decoration:none;color:inherit}
+.app{min-height:100vh}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:white;
+  position:fixed;
+  left:0;top:0;bottom:0;
+  overflow-y:auto;
+  padding:22px 15px;
+  z-index:20;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:5px 8px 25px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:20px;
+}
+.brand-logo{
+  width:42px;height:42px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--gold),#fff0bd);
+  color:var(--navy);
+  display:grid;place-items:center;
+  font-weight:900;font-size:22px;
+}
+.brand h2{font-size:17px;letter-spacing:1px}
+.brand small{display:block;color:#b9c8dc;font-size:10px;margin-top:4px}
+.nav-title{
+  color:#8498b5;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:13px 10px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  margin:3px 0;
+  border-radius:9px;
+  color:#c5d2e4;
+  font-size:12px;
+  transition:.2s;
+}
+.nav a:hover,.nav a.active{
+  background:rgba(214,173,85,.15);
+  color:var(--gold2);
+}
+.nav .ico{width:20px;text-align:center;font-size:15px}
+.sidebar-note{
+  margin:22px 5px 5px;
+  padding:13px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  color:#b9c8dc;
+  font-size:10px;
+  line-height:1.7;
+}
+.main{margin-left:250px;min-height:100vh}
+.topbar{
+  background:white;
+  height:70px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{
+  display:none;
+  border:0;background:#edf2f8;
+  padding:9px 12px;border-radius:8px;
+  cursor:pointer;
+}
+.topbar h3{font-size:16px}
+.topbar small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.top-right{display:flex;align-items:center;gap:12px}
+.demo-tag{
+  background:#fff3d7;color:#986b16;
+  border:1px solid #f0dfb7;
+  border-radius:30px;
+  padding:7px 11px;
+  font-size:10px;font-weight:bold;
+}
+.admin-avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:var(--navy2);color:var(--gold2);
+  display:grid;place-items:center;font-weight:bold;
+}
+.content{padding:25px 28px 40px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap:15px;
+  margin-bottom:20px;
+}
+.page-heading h1{font-size:23px;color:var(--navy)}
+.page-heading p{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.6}
+.btn{
+  border:0;border-radius:8px;padding:10px 14px;
+  cursor:pointer;font-size:11px;font-weight:bold;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf2f8;color:var(--navy)}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.notice{
+  padding:13px 15px;border-radius:10px;
+  border:1px solid #f0dfb7;
+  background:#fff9e9;color:#87651e;
+  font-size:11px;line-height:1.7;
+  margin-bottom:20px;
+}
+.notice strong{color:#6f5012}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;margin-bottom:20px;
+}
+.stat{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:17px;
+  box-shadow:var(--shadow);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-icon{
+  width:34px;height:34px;border-radius:10px;
+  background:#edf3fa;display:grid;place-items:center;
+  font-size:16px;
+}
+.stat-value{font-size:23px;font-weight:800;color:var(--navy);margin-top:13px}
+.stat-foot{font-size:10px;color:var(--muted);margin-top:6px}
+.section{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;
+  box-shadow:var(--shadow);margin-bottom:18px;
+}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.section-head h3{font-size:14px;color:var(--navy)}
+.section-head p{font-size:10px;color:var(--muted);margin-top:5px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{
+  text-align:left;background:#f6f8fb;
+  color:#738096;font-size:10px;
+  padding:12px 11px;white-space:nowrap;
+}
+td{
+  padding:13px 11px;border-bottom:1px solid #edf0f5;
+  font-size:11px;white-space:nowrap;
+}
+tr:last-child td{border-bottom:0}
+.table-name{font-weight:bold;color:var(--navy)}
+.muted{color:var(--muted)}
+.status{
+  display:inline-block;padding:5px 8px;
+  border-radius:30px;font-size:9px;font-weight:bold;
+}
+.status.demo{background:#fff3d7;color:#956b17}
+.status.good{background:#e8f7ef;color:#16865b}
+.status.warn{background:#fff2df;color:#bd791c}
+.status.off{background:#f1f2f5;color:#697587}
+.status.bad{background:#fff0f0;color:#d84b4b}
+.progress{
+  height:7px;background:#edf0f5;
+  border-radius:20px;overflow:hidden;
+}
+.progress span{display:block;height:100%;background:var(--gold);border-radius:20px}
+.health-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.health-item{
+  border:1px solid var(--border);border-radius:10px;padding:14px;
+}
+.health-item small{font-size:10px;color:var(--muted)}
+.health-item strong{display:block;font-size:15px;margin:9px 0;color:var(--navy)}
+.health-item p{font-size:10px;color:var(--muted);line-height:1.5}
+.two-col{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;
+}
+.info-row{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;
+  padding:12px 0;border-bottom:1px solid #edf0f5;
+  font-size:11px;
+}
+.info-row:last-child{border:0}
+.info-row span:first-child{color:var(--muted)}
+.query-box{
+  background:#101f35;color:#d7e7fb;
+  border-radius:9px;padding:15px;
+  font-family:monospace;font-size:11px;
+  line-height:1.8;overflow-x:auto;
+}
+.query-box .comment{color:#7d9cbd}
+.maintenance-list{display:grid;gap:10px}
+.maintenance-item{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;
+  border:1px solid var(--border);
+  border-radius:9px;padding:13px;
+}
+.maintenance-item strong{font-size:11px;color:var(--navy)}
+.maintenance-item p{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5}
+.footer{
+  text-align:center;color:#9aa5b4;
+  font-size:10px;padding:20px 0 5px;
+}
+.modal-backdrop{
+  display:none;position:fixed;inset:0;
+  background:rgba(4,15,31,.6);
+  z-index:50;align-items:center;justify-content:center;
+  padding:15px;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  width:100%;max-width:440px;
+  background:white;border-radius:14px;padding:22px;
+  box-shadow:0 15px 50px rgba(0,0,0,.2);
+}
+.modal h3{font-size:16px;color:var(--navy);margin-bottom:10px}
+.modal p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:var(--navy);color:white;
+  padding:12px 17px;border-radius:9px;
+  font-size:11px;z-index:80;
+  opacity:0;transform:translateY(10px);
+  transition:.25s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:850px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:0 16px}
+  .content{padding:20px 15px 35px}
+}
+@media(max-width:600px){
+  .page-heading{flex-direction:column}
+  .grid{gap:10px}
+  .stat{padding:13px}
+  .stat-value{font-size:20px}
+  .two-col{grid-template-columns:1fr}
+  .health-grid{grid-template-columns:1fr}
+  .topbar h3{font-size:13px}
+  .demo-tag{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">R</div>
+    <div>
+      <h2>RUBALIA</h2>
+      <small>NETWORK ADMIN PANEL</small>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="admin-dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="admin-users.html"><span class="ico">♙</span> Users</a>
+    <a href="admin-partners.html"><span class="ico">♧</span> Partners</a>
+    <a href="admin-applications.html"><span class="ico">▤</span> Applications</a>
+
+    <div class="nav-title">BUSINESS MANAGEMENT</div>
+    <a href="admin-products.html"><span class="ico">▣</span> Products</a>
+    <a href="admin-orders.html"><span class="ico">▤</span> Orders</a>
+    <a href="admin-payments.html"><span class="ico">৳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span class="ico">⇧</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span class="ico">％</span> Commissions</a>
+
+    <div class="nav-title">COMMUNICATION</div>
+    <a href="admin-announcements.html"><span class="ico">♢</span> Announcements</a>
+    <a href="admin-support.html"><span class="ico">✉</span> Support</a>
+
+    <div class="nav-title">SYSTEM MANAGEMENT</div>
+    <a href="admin-settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="admin-reports.html"><span class="ico">▥</span> Reports</a>
+    <a href="admin-audit-logs.html"><span class="ico">◷</span> Audit Logs</a>
+    <a href="admin-roles.html"><span class="ico">♙</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span class="ico">⬡</span> Security Center</a>
+    <a href="admin-backup.html"><span class="ico">▧</span> Backup & Restore</a>
+    <a class="active" href="admin-database.html"><span class="ico">▤</span> Database Management</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="index.html"><span class="ico">⌂</span> Visit Website</a>
+  </nav>
+
+  <div class="sidebar-note">
+    <strong>DEMO ADMIN PANEL</strong><br>
+    This interface is a frontend demonstration. No real database is connected.
+  </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div>
+      <h3>Database Management</h3>
+      <small>System Management / Database</small>
+    </div>
+  </div>
+  <div class="top-right">
+    <span class="demo-tag">DEMO MODE</span>
+    <div class="admin-avatar">A</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Database Management Center</h1>
+      <p>Monitor the planned database structure, connection interface and system health.</p>
+    </div>
+    <button class="btn btn-gold" onclick="showDemo('Demo refresh completed. No real database was contacted.')">
+      ↻ Refresh Demo
+    </button>
+  </div>
+
+  <div class="notice">
+    <strong>Important — Frontend Demo Only:</strong>
+    This page does not connect to PostgreSQL or any live database.
+    All values, table records, connection indicators and monitoring information below are illustrative.
+    No SQL queries, database changes, deletion or maintenance operations are performed.
+  </div>
+
+  <!-- DATABASE OVERVIEW -->
+  <div class="grid">
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Database Connection</span>
+        <span class="stat-icon">🔌</span>
+      </div>
+      <div class="stat-value" style="font-size:18px">Not Connected</div>
+      <div class="stat-foot"><span class="status off">DEMO ONLY</span></div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Planned Tables</span>
+        <span class="stat-icon">▤</span>
+      </div>
+      <div class="stat-value">12</div>
+      <div class="stat-foot">Illustrative architecture count</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Sample Records</span>
+        <span class="stat-icon">▦</span>
+      </div>
+      <div class="stat-value">0</div>
+      <div class="stat-foot">No live records retrieved</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Database Health</span>
+        <span class="stat-icon">♥</span>
+      </div>
+      <div class="stat-value" style="font-size:18px">Unknown</div>
+      <div class="stat-foot">Live monitoring not configured</div>
+    </div>
+  </div>
+
+  <!-- CONNECTION STATUS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Connection Status</h3>
+        <p>Connection information placeholder — no credentials are configured here.</p>
+      </div>
+      <span class="status off">NOT CONNECTED</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="info-row">
+          <span>Database Engine</span>
+          <strong>PostgreSQL (Planned)</strong>
+        </div>
+        <div class="info-row">
+          <span>Connection Status</span>
+          <strong>Not configured</strong>
+        </div>
+        <div class="info-row">
+          <span>Database Host</span>
+          <strong>Not provided</strong>
+        </div>
+        <div class="info-row">
+          <span>Database Name</span>
+          <strong>Not configured</strong>
+        </div>
+        <div class="info-row">
+          <span>Last Connection Test</span>
+          <strong>Not available</strong>
+        </div>
+      </div>
+
+      <div>
+        <div class="query-box">
+          <div class="comment">-- Planned database configuration</div>
+          DB_ENGINE = PostgreSQL<br>
+          DB_HOST = Not configured<br>
+          DB_PORT = 5432 (default)<br>
+          DB_NAME = Not configured<br>
+          DB_USER = Not configured<br>
+          DB_PASSWORD = [SERVER SECRET]<br><br>
+          <div class="comment">-- Credentials must remain on the backend.</div>
+          <div class="comment">-- Never place database passwords in HTML.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE OVERVIEW -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Tables Overview</h3>
+        <p>Proposed table structure for the Rubalia Network platform.</p>
+      </div>
+      <span class="status demo">PROPOSED STRUCTURE</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>TABLE NAME</th>
+            <th>DESCRIPTION</th>
+            <th>RECORDS</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="tablesBody">
+          <tr>
+            <td class="table-name">users</td>
+            <td>Member account information</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('users')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">partners</td>
+            <td>Partner profiles and status</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('partners')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">partner_applications</td>
+            <td>Partner application records</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('partner_applications')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">products</td>
+            <td>Product catalogue</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('products')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">orders</td>
+            <td>Customer purchase orders</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('orders')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">order_items</td>
+            <td>Products within each order</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('order_items')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">payments</td>
+            <td>Payment verification records</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('payments')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">withdrawals</td>
+            <td>Withdrawal request records</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('withdrawals')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">commissions</td>
+            <td>Commission ledger (if legally approved)</td>
+            <td>—</td>
+            <td><span class="status warn">NOT ACTIVE</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('commissions')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">notifications</td>
+            <td>Member notification records</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('notifications')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">support_tickets</td>
+            <td>Customer support conversations</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('support_tickets')">Details</button></td>
+          </tr>
+          <tr>
+            <td class="table-name">admin_activity_logs</td>
+            <td>Administrative audit trail</td>
+            <td>—</td>
+            <td><span class="status demo">PLANNED</span></td>
+            <td><button class="btn btn-light" onclick="tableDetails('admin_activity_logs')">Details</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- HEALTH MONITORING -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Health Monitoring</h3>
+        <p>These checks are planned features, not live measurements.</p>
+      </div>
+      <span class="status off">LIVE MONITORING OFF</span>
+    </div>
+
+    <div class="health-grid">
+      <div class="health-item">
+        <small>Connection Pool</small>
+        <strong>Not measured</strong>
+        <p>Backend connection pool monitoring is not configured.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Size</small>
+        <strong>Not measured</strong>
+        <p>Actual PostgreSQL storage usage is unavailable.</p>
+      </div>
+      <div class="health-item">
+        <small>Query Performance</small>
+        <strong>Not measured</strong>
+        <p>No live query statistics have been collected.</p>
+      </div>
+      <div class="health-item">
+        <small>Active Connections</small>
+        <strong>Unknown</strong>
+        <p>Live connection count is not available.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Backups</small>
+        <strong>Not verified</strong>
+        <p>Use a real backend backup process and verify restore tests.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Security</small>
+        <strong>Not audited</strong>
+        <p>Production security checks must be completed separately.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECORD SUMMARY + QUERY MONITOR -->
+  <div class="two-col">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Table Records Summary</h3>
+          <p>Live record counts are unavailable.</p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span>User Records</span>
+        <strong>Not available</strong>
+      </div>
+      <div class="info-row">
+        <span>Partner Records</span>
+        <strong>Not available</strong>
+      </div>
+      <div class="info-row">
+        <span>Product Records</span>
+        <strong>Not available</strong>
+      </div>
+      <div class="info-row">
+        <span>Order Records</span>
+        <strong>Not available</strong>
+      </div>
+      <div class="info-row">
+        <span>Payment Records</span>
+        <strong>Not available</strong>
+      </div>
+      <div class="info-row">
+        <span>Commission Records</span>
+        <strong>Not active</strong>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Query Monitor</h3>
+          <p>Example of the future monitoring interface.</p>
+        </div>
+        <span class="status off">INACTIVE</span>
+      </div>
+
+      <div class="query-box">
+        <div class="comment">-- Example only; not executed</div>
+        SELECT id, name, email<br>
+        FROM users<br>
+        ORDER BY created_at DESC;<br><br>
+        <div class="comment">-- Execution status: NOT RUN</div>
+        <div class="comment">-- Execution time: Not measured</div>
+        <div class="comment">-- Returned rows: Not available</div>
+      </div>
+
+      <div style="margin-top:13px">
+        <button class="btn btn-light" onclick="showDemo('Query execution is disabled in this frontend demo.')">
+          View Demo Query
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- MAINTENANCE -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Maintenance</h3>
+        <p>Future maintenance controls. No database operation will run from this page.</p>
+      </div>
+      <span class="status warn">DISABLED</span>
+    </div>
+
+    <div class="maintenance-list">
+
+      <div class="maintenance-item">
+        <div>
+          <strong>Database Health Check</strong>
+          <p>Review database availability, connections and performance.</p>
+        </div>
+        <button class="btn btn-light" onclick="confirmDemo('Health check')">Preview</button>
+      </div>
+
+      <div class="maintenance-item">
+        <div>
+          <strong>Optimize Database</strong>
+          <p>Future maintenance workflow for reviewing indexes and query performance.</p>
+        </div>
+        <button class="btn btn-light" onclick="confirmDemo('Database optimization')">Preview</button>
+      </div>
+
+      <div class="maintenance-item">
+        <div>
+          <strong>Check Database Indexes</strong>
+          <p>Review indexes to help improve search and query performance.</p>
+        </div>
+        <button class="btn btn-light" onclick="confirmDemo('Index inspection')">Preview</button>
+      </div>
+
+      <div class="maintenance-item">
+        <div>
+          <strong>Backup Verification</strong>
+          <p>Check whether real backup files are valid and restorable.</p>
+        </div>
+        <button class="btn btn-light" onclick="confirmDemo('Backup verification')">Preview</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Production Database Checklist</h3>
+        <p>Items to complete before connecting a real PostgreSQL database.</p>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span>PostgreSQL database provisioned</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Backend environment variables configured</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Database migrations prepared and tested</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Authentication and role-based access secured</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Automated backup and restore tested</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Audit logging and monitoring implemented</span>
+      <span class="status off">NOT VERIFIED</span>
+    </div>
+    <div class="info-row">
+      <span>Commission model legally reviewed</span>
+      <span class="status warn">PENDING</span>
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · Admin Database Management · Frontend Demo
+  </div>
+
+</div>
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle">Database Information</h3>
+    <p id="modalText">Demo information.</p>
+    <div class="modal-actions">
+      <button class="btn btn-light" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" onclick="closeModal()">Understood</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tableDescriptions = {
+  users:"Stores member account information such as name, email, password hash, account status and creation time. Passwords must never be stored in plain text.",
+  partners:"Stores partner profile information, approval status and account relationship details.",
+  partner_applications:"Stores applications submitted by users who want to become partners.",
+  products:"Stores product names, descriptions, prices, stock quantities and product status.",
+  orders:"Stores customer orders, order totals, delivery details and order status.",
+  order_items:"Stores individual product items and quantities belonging to each order.",
+  payments:"Stores payment references, payment methods, verification status and transaction metadata. Never store PIN, OTP or CVV.",
+  withdrawals:"Stores withdrawal requests, approved amounts, processing status and transaction references.",
+  commissions:"Reserved for a legally reviewed and approved commission system. No commission system is active.",
+  notifications:"Stores user notifications, read status and notification timestamps.",
+  support_tickets:"Stores customer support tickets, messages and resolution status.",
+  admin_activity_logs:"Stores security-focused records of administrative actions for accountability."
+};
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showModal(title,text){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalText").textContent=text;
+  document.getElementById("modalBackdrop").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("modalBackdrop").classList.remove("show");
+}
+
+function tableDetails(name){
+  const description=tableDescriptions[name] || "Proposed database table.";
+  showModal("Table: "+name,description+" This is a proposed structure only. No live table has been inspected.");
+}
+
+function showDemo(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),3000);
+}
+
+function confirmDemo(action){
+  showModal(
+    action+" — Demo",
+    "This action is only a preview. No database query, update, deletion, backup or maintenance operation has been performed. A secure backend implementation is required."
+  );
+}
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+document.getElementById("modalBackdrop").addEventListener("click",function(e){
+  if(e.target===this) closeModal();
+});
+</script>
+</body>
+</html>
