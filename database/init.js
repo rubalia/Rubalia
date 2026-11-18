@@ -20,8 +20,6 @@ async function initializeDatabase() {
     ON users(email);
   `);
 
-  // SPONSOR RELATIONSHIP
-  // Existing users remain unchanged; sponsor_id is initially NULL.
   await pool.query(`
     ALTER TABLE users
     ADD COLUMN IF NOT EXISTS sponsor_id BIGINT
@@ -116,6 +114,68 @@ async function initializeDatabase() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_order_items_order_id
     ON order_items(order_id);
+  `);
+
+  // WALLETS
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS wallets (
+      id BIGSERIAL PRIMARY KEY,
+      user_id BIGINT NOT NULL UNIQUE REFERENCES users(id),
+      balance NUMERIC(14, 2) NOT NULL DEFAULT 0,
+      currency VARCHAR(3) NOT NULL DEFAULT 'BDT',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT wallets_balance_nonnegative CHECK (balance >= 0)
+    );
+  `);
+
+  // WALLET TRANSACTION HISTORY
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS wallet_transactions (
+      id BIGSERIAL PRIMARY KEY,
+      wallet_id BIGINT NOT NULL REFERENCES wallets(id),
+      transaction_type VARCHAR(30) NOT NULL,
+      amount NUMERIC(14, 2) NOT NULL,
+      reference VARCHAR(100) UNIQUE,
+      description TEXT,
+      status VARCHAR(20) NOT NULL DEFAULT 'pending',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT wallet_transaction_amount_positive
+        CHECK (amount > 0),
+
+      CONSTRAINT wallet_transaction_type_valid
+        CHECK (
+          transaction_type IN (
+            'deposit',
+            'withdrawal',
+            'purchase',
+            'refund',
+            'adjustment'
+          )
+        ),
+
+      CONSTRAINT wallet_transaction_status_valid
+        CHECK (
+          status IN (
+            'pending',
+            'approved',
+            'rejected',
+            'completed'
+          )
+        )
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_wallet_transactions_wallet_id
+    ON wallet_transactions(wallet_id);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_wallet_transactions_created_at
+    ON wallet_transactions(created_at DESC);
   `);
 
   console.log("Database initialization completed.");
