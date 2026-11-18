@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>System Health | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#1765a8;
+  --gold:#d6ad55;
+  --gold2:#f1d58e;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17263d;
+  --muted:#7b8798;
+  --border:#e4eaf2;
+  --green:#16865b;
+  --red:#d84b4b;
+  --orange:#d58a25;
+  --shadow:0 8px 24px rgba(7,26,53,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button{font:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:white;
+  position:fixed;
+  left:0;top:0;bottom:0;
+  overflow-y:auto;
+  padding:22px 15px;
+  z-index:20;
+}
+.brand{
+  display:flex;align-items:center;gap:11px;
+  padding:5px 8px 25px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:20px;
+}
+.brand-logo{
+  width:42px;height:42px;border-radius:13px;
+  background:linear-gradient(135deg,var(--gold),#fff0bd);
+  color:var(--navy);display:grid;place-items:center;
+  font-weight:900;font-size:22px;
+}
+.brand h2{font-size:17px;letter-spacing:1px}
+.brand small{display:block;color:#b9c8dc;font-size:10px;margin-top:4px}
+.nav-title{
+  color:#8498b5;font-size:10px;font-weight:bold;
+  letter-spacing:1.5px;padding:13px 10px 8px;
+}
+.nav a{
+  display:flex;align-items:center;gap:11px;
+  padding:11px 12px;margin:3px 0;border-radius:9px;
+  color:#c5d2e4;font-size:12px;transition:.2s;
+}
+.nav a:hover,.nav a.active{
+  background:rgba(214,173,85,.15);color:var(--gold2);
+}
+.nav .ico{width:20px;text-align:center;font-size:15px}
+.sidebar-note{
+  margin:22px 5px 5px;padding:13px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;color:#b9c8dc;
+  font-size:10px;line-height:1.7;
+}
+.main{margin-left:250px;min-height:100vh}
+.topbar{
+  background:white;height:70px;padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{
+  display:none;border:0;background:#edf2f8;
+  padding:9px 12px;border-radius:8px;
+}
+.topbar h3{font-size:16px}
+.topbar small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.top-right{display:flex;align-items:center;gap:12px}
+.demo-tag{
+  background:#fff3d7;color:#986b16;
+  border:1px solid #f0dfb7;border-radius:30px;
+  padding:7px 11px;font-size:10px;font-weight:bold;
+}
+.admin-avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:var(--navy2);color:var(--gold2);
+  display:grid;place-items:center;font-weight:bold;
+}
+.content{padding:25px 28px 40px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap:15px;margin-bottom:20px;
+}
+.page-heading h1{font-size:23px;color:var(--navy)}
+.page-heading p{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.6}
+.btn{
+  border:0;border-radius:8px;padding:10px 14px;
+  font-size:11px;font-weight:bold;display:inline-flex;
+  align-items:center;gap:7px;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf2f8;color:var(--navy)}
+.notice{
+  padding:13px 15px;border-radius:10px;
+  border:1px solid #f0dfb7;background:#fff9e9;
+  color:#87651e;font-size:11px;line-height:1.7;
+  margin-bottom:20px;
+}
+.notice strong{color:#6f5012}
+.grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;margin-bottom:20px;
+}
+.stat{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:17px;box-shadow:var(--shadow);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-icon{
+  width:34px;height:34px;border-radius:10px;
+  background:#edf3fa;display:grid;place-items:center;font-size:16px;
+}
+.stat-value{font-size:23px;font-weight:800;color:var(--navy);margin-top:13px}
+.stat-foot{font-size:10px;color:var(--muted);margin-top:6px}
+.section{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+.section-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;
+}
+.section-head h3{font-size:14px;color:var(--navy)}
+.section-head p{font-size:10px;color:var(--muted);margin-top:5px}
+.status{
+  display:inline-block;padding:5px 8px;border-radius:30px;
+  font-size:9px;font-weight:bold;
+}
+.status.good{background:#e8f7ef;color:#16865b}
+.status.warn{background:#fff2df;color:#bd791c}
+.status.off{background:#f1f2f5;color:#697587}
+.status.bad{background:#fff0f0;color:#d84b4b}
+.status.demo{background:#fff3d7;color:#956b17}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.service{
+  border:1px solid var(--border);border-radius:10px;padding:14px;
+}
+.service-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.service strong{font-size:12px;color:var(--navy)}
+.service p{font-size:10px;color:var(--muted);line-height:1.5;margin-top:10px}
+.service small{display:block;font-size:9px;color:var(--muted);margin-top:9px}
+.metric{
+  border:1px solid var(--border);border-radius:10px;padding:15px;
+}
+.metric-label{font-size:10px;color:var(--muted)}
+.metric-value{font-size:20px;color:var(--navy);font-weight:bold;margin:10px 0}
+.metric-note{font-size:10px;color:var(--muted)}
+.progress{
+  height:8px;background:#edf0f5;border-radius:20px;
+  overflow:hidden;margin:12px 0 7px;
+}
+.progress span{display:block;height:100%;border-radius:20px;background:var(--gold)}
+.progress.blue span{background:var(--blue)}
+.progress.red span{background:var(--red)}
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.health-item{
+  border:1px solid var(--border);border-radius:10px;padding:14px;
+}
+.health-item small{font-size:10px;color:var(--muted)}
+.health-item strong{display:block;font-size:15px;margin:9px 0;color:var(--navy)}
+.health-item p{font-size:10px;color:var(--muted);line-height:1.5}
+.info-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;padding:12px 0;border-bottom:1px solid #edf0f5;
+  font-size:11px;
+}
+.info-row:last-child{border:0}
+.info-row span:first-child{color:var(--muted)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:580px}
+th{
+  text-align:left;background:#f6f8fb;color:#738096;
+  font-size:10px;padding:12px 11px;white-space:nowrap;
+}
+td{
+  padding:13px 11px;border-bottom:1px solid #edf0f5;
+  font-size:11px;white-space:nowrap;
+}
+tr:last-child td{border-bottom:0}
+.chart{
+  height:150px;display:flex;align-items:flex-end;
+  gap:9px;padding:15px 5px 0;border-bottom:1px solid var(--border);
+}
+.bar-wrap{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:7px}
+.bar{
+  width:100%;max-width:32px;border-radius:5px 5px 0 0;
+  background:linear-gradient(180deg,#e7c66f,#b58a37);
+  min-height:5px;
+}
+.bar-wrap small{font-size:9px;color:var(--muted)}
+.legend{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:12px}
+.legend span{font-size:10px;color:var(--muted)}
+.alert-list{display:grid;gap:10px}
+.alert{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px;border-radius:9px;background:#f8f9fb;
+  border:1px solid var(--border);
+}
+.alert-icon{font-size:17px}
+.alert strong{font-size:11px;color:var(--navy)}
+.alert p{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5}
+.footer{text-align:center;color:#9aa5b4;font-size:10px;padding:20px 0 5px}
+.modal-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(4,15,31,.6);
+  z-index:50;align-items:center;justify-content:center;padding:15px;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  width:100%;max-width:440px;background:white;
+  border-radius:14px;padding:22px;
+}
+.modal h3{font-size:16px;color:var(--navy);margin-bottom:10px}
+.modal p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+.toast{
+  position:fixed;bottom:20px;right:20px;background:var(--navy);
+  color:white;padding:12px 17px;border-radius:9px;
+  font-size:11px;z-index:80;opacity:0;
+  transform:translateY(10px);transition:.25s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .service-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:850px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:0 16px}
+  .content{padding:20px 15px 35px}
+}
+@media(max-width:600px){
+  .page-heading{flex-direction:column}
+  .two-col,.health-grid{grid-template-columns:1fr}
+  .service-grid{grid-template-columns:1fr}
+  .grid{gap:10px}
+  .stat{padding:13px}
+  .stat-value{font-size:20px}
+  .topbar h3{font-size:13px}
+  .demo-tag{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">R</div>
+    <div>
+      <h2>RUBALIA</h2>
+      <small>NETWORK ADMIN PANEL</small>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="admin-dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="admin-users.html"><span class="ico">♙</span> Users</a>
+    <a href="admin-partners.html"><span class="ico">♧</span> Partners</a>
+    <a href="admin-applications.html"><span class="ico">▤</span> Applications</a>
+
+    <div class="nav-title">BUSINESS MANAGEMENT</div>
+    <a href="admin-products.html"><span class="ico">▣</span> Products</a>
+    <a href="admin-orders.html"><span class="ico">▤</span> Orders</a>
+    <a href="admin-payments.html"><span class="ico">৳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span class="ico">⇧</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span class="ico">％</span> Commissions</a>
+
+    <div class="nav-title">COMMUNICATION</div>
+    <a href="admin-announcements.html"><span class="ico">♢</span> Announcements</a>
+    <a href="admin-support.html"><span class="ico">✉</span> Support</a>
+
+    <div class="nav-title">SYSTEM MANAGEMENT</div>
+    <a href="admin-settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="admin-reports.html"><span class="ico">▥</span> Reports</a>
+    <a href="admin-audit-logs.html"><span class="ico">◷</span> Audit Logs</a>
+    <a href="admin-roles.html"><span class="ico">♙</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span class="ico">⬡</span> Security Center</a>
+    <a href="admin-backup.html"><span class="ico">▧</span> Backup & Restore</a>
+    <a href="admin-database.html"><span class="ico">▤</span> Database Management</a>
+    <a class="active" href="admin-system-health.html"><span class="ico">♥</span> System Health</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="index.html"><span class="ico">⌂</span> Visit Website</a>
+  </nav>
+
+  <div class="sidebar-note">
+    <strong>DEMO ADMIN PANEL</strong><br>
+    Server and API metrics on this page are illustrative only.
+  </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div>
+      <h3>System Health Monitoring</h3>
+      <small>System Management / Health Monitor</small>
+    </div>
+  </div>
+  <div class="top-right">
+    <span class="demo-tag">DEMO MODE</span>
+    <div class="admin-avatar">A</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>System Health Center</h1>
+      <p>Overview of planned server, API, performance and application monitoring.</p>
+    </div>
+    <button class="btn btn-gold" onclick="showDemo('Demo display refreshed. No live server checks were performed.')">
+      ↻ Refresh Demo
+    </button>
+  </div>
+
+  <div class="notice">
+    <strong>Important — Demo Only:</strong>
+    This page does not communicate with the hosting server, Render, PostgreSQL or any API.
+    CPU, RAM, uptime, response time, error and service values are not live measurements.
+    Real monitoring requires backend instrumentation and a monitoring service.
+  </div>
+
+  <!-- TOP STATS -->
+  <div class="grid">
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Server Status</span>
+        <span class="stat-icon">🖥️</span>
+      </div>
+      <div class="stat-value" style="font-size:18px">Unknown</div>
+      <div class="stat-foot"><span class="status off">NOT CONNECTED</span></div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">API Status</span>
+        <span class="stat-icon">🔗</span>
+      </div>
+      <div class="stat-value" style="font-size:18px">Not Tested</div>
+      <div class="stat-foot">No live API request made</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Server Uptime</span>
+        <span class="stat-icon">◷</span>
+      </div>
+      <div class="stat-value" style="font-size:18px">Unknown</div>
+      <div class="stat-foot">No uptime data available</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">System Alerts</span>
+        <span class="stat-icon">⚠</span>
+      </div>
+      <div class="stat-value">0</div>
+      <div class="stat-foot">No live alert source connected</div>
+    </div>
+  </div>
+
+  <!-- SERVICE STATUS -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Service Status Overview</h3>
+        <p>Planned services for the Rubalia Network platform.</p>
+      </div>
+      <span class="status off">LIVE STATUS UNAVAILABLE</span>
+    </div>
+
+    <div class="service-grid">
+      <div class="service">
+        <div class="service-top">
+          <strong>Backend Server</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>Node.js / Express backend availability.</p>
+        <small>Live health endpoint not connected</small>
+      </div>
+
+      <div class="service">
+        <div class="service-top">
+          <strong>REST API</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>API request handling and endpoint availability.</p>
+        <small>No API checks configured</small>
+      </div>
+
+      <div class="service">
+        <div class="service-top">
+          <strong>PostgreSQL</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>Database connectivity and query availability.</p>
+        <small>No database connection test</small>
+      </div>
+
+      <div class="service">
+        <div class="service-top">
+          <strong>Frontend Website</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>Website availability and page delivery.</p>
+        <small>External uptime monitoring not connected</small>
+      </div>
+
+      <div class="service">
+        <div class="service-top">
+          <strong>Media Storage</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>Product image and media storage service.</p>
+        <small>Storage API check not configured</small>
+      </div>
+
+      <div class="service">
+        <div class="service-top">
+          <strong>Email Service</strong>
+          <span class="status off">UNKNOWN</span>
+        </div>
+        <p>Email delivery provider and notification service.</p>
+        <small>Email delivery monitoring not connected</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- CPU RAM DISK -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Server Resource Monitoring</h3>
+        <p>Actual CPU, memory and disk usage require server-side monitoring.</p>
+      </div>
+      <span class="status off">NO LIVE METRICS</span>
+    </div>
+
+    <div class="health-grid">
+      <div class="metric">
+        <div class="metric-label">CPU Usage</div>
+        <div class="metric-value">Not measured</div>
+        <div class="progress"><span style="width:0%"></span></div>
+        <div class="metric-note">Live CPU metrics unavailable</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">RAM Usage</div>
+        <div class="metric-value">Not measured</div>
+        <div class="progress blue"><span style="width:0%"></span></div>
+        <div class="metric-note">Live memory metrics unavailable</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Disk Usage</div>
+        <div class="metric-value">Not measured</div>
+        <div class="progress red"><span style="width:0%"></span></div>
+        <div class="metric-note">Live disk metrics unavailable</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <div class="two-col">
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>API Response Time</h3>
+          <p>Illustrative chart layout — no real measurements.</p>
+        </div>
+        <span class="status off">NO DATA</span>
+      </div>
+
+      <div class="chart">
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Mon</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Tue</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Wed</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Thu</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Fri</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Sat</small></div>
+        <div class="bar-wrap"><div class="bar" style="height:5%"></div><small>Sun</small></div>
+      </div>
+      <div class="legend">
+        <span>Response time: Not available</span>
+        <span>Request history: None</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Server Information</h3>
+          <p>Planned server configuration overview.</p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span>Hosting Provider</span>
+        <strong>Not verified</strong>
+      </div>
+      <div class="info-row">
+        <span>Runtime</span>
+        <strong>Node.js (planned)</strong>
+      </div>
+      <div class="info-row">
+        <span>Backend Framework</span>
+        <strong>Express (planned)</strong>
+      </div>
+      <div class="info-row">
+        <span>Database</span>
+        <strong>PostgreSQL (planned)</strong>
+      </div>
+      <div class="info-row">
+        <span>Environment</span>
+        <strong>Not detected</strong>
+      </div>
+      <div class="info-row">
+        <span>Last Deployment</span>
+        <strong>Not available</strong>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ERROR MONITOR -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Error Monitoring</h3>
+        <p>Future application error and exception monitoring interface.</p>
+      </div>
+      <span class="status off">NO ERROR SOURCE</span>
+    </div>
+
+    <div class="grid">
+      <div class="metric">
+        <div class="metric-label">Critical Errors</div>
+        <div class="metric-value">Unknown</div>
+        <div class="metric-note">No live error tracking</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">API Errors</div>
+        <div class="metric-value">Unknown</div>
+        <div class="metric-note">No API error logs</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Failed Requests</div>
+        <div class="metric-value">Unknown</div>
+        <div class="metric-note">No request log source</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Database Errors</div>
+        <div class="metric-value">Unknown</div>
+        <div class="metric-note">No database logs</div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ERROR TYPE</th>
+            <th>DESCRIPTION</th>
+            <th>OCCURRENCES</th>
+            <th>LAST SEEN</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Server Exceptions</td>
+            <td>Backend error tracking not connected</td>
+            <td>—</td>
+            <td>Not available</td>
+            <td><span class="status off">NO DATA</span></td>
+          </tr>
+          <tr>
+            <td>API Failures</td>
+            <td>Request failure monitoring not connected</td>
+            <td>—</td>
+            <td>Not available</td>
+            <td><span class="status off">NO DATA</span></td>
+          </tr>
+          <tr>
+            <td>Database Errors</td>
+            <td>Database logging not connected</td>
+            <td>—</td>
+            <td>Not available</td>
+            <td><span class="status off">NO DATA</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SYSTEM ALERTS -->
+  <div class="two-col">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>System Alerts</h3>
+          <p>Example alert categories for future monitoring.</p>
+        </div>
+        <span class="status off">NO LIVE ALERTS</span>
+      </div>
+
+      <div class="alert-list">
+        <div class="alert">
+          <div class="alert-icon">ℹ️</div>
+          <div>
+            <strong>Monitoring Not Configured</strong>
+            <p>Connect a secure monitoring service to receive actual server alerts.</p>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="alert-icon">🔒</div>
+          <div>
+            <strong>Production Security Review</strong>
+            <p>Verify environment variables, access permissions and secret management before launch.</p>
+          </div>
+        </div>
+        <div class="alert">
+          <div class="alert-icon">💾</div>
+          <div>
+            <strong>Backup Verification Required</strong>
+            <p>Confirm that real backups exist and restoration has been tested.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Monitoring Configuration</h3>
+          <p>Future monitoring features.</p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <span>Server Uptime Checks</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+      <div class="info-row">
+        <span>API Health Endpoint</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+      <div class="info-row">
+        <span>CPU / RAM Monitoring</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+      <div class="info-row">
+        <span>Error Tracking</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+      <div class="info-row">
+        <span>Email Alerts</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+      <div class="info-row">
+        <span>Performance History</span>
+        <span class="status off">NOT CONFIGURED</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- FUTURE CHECKLIST -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Production Monitoring Checklist</h3>
+        <p>Implementation requirements before enabling live monitoring.</p>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span>Backend health endpoint implemented</span>
+      <span class="status off">PENDING</span>
+    </div>
+    <div class="info-row">
+      <span>External uptime monitoring configured</span>
+      <span class="status off">PENDING</span>
+    </div>
+    <div class="info-row">
+      <span>Server resource metrics collected securely</span>
+      <span class="status off">PENDING</span>
+    </div>
+    <div class="info-row">
+      <span>Centralized error logging configured</span>
+      <span class="status off">PENDING</span>
+    </div>
+    <div class="info-row">
+      <span>Alert notifications configured</span>
+      <span class="status off">PENDING</span>
+    </div>
+    <div class="info-row">
+      <span>Monitoring access protected by admin permissions</span>
+      <span class="status off">PENDING</span>
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · System Health Center · Frontend Demo
+  </div>
+
+</div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle">System Information</h3>
+    <p id="modalText">Demo information.</p>
+    <div class="modal-actions">
+      <button class="btn btn-light" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" onclick="closeModal()">Understood</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showModal(title,text){
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalText").textContent=text;
+  document.getElementById("modalBackdrop").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("modalBackdrop").classList.remove("show");
+}
+
+function showDemo(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),3000);
+}
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+document.getElementById("modalBackdrop").addEventListener("click",function(e){
+  if(e.target===this) closeModal();
+});
+</script>
+
+</body>
+</html>
