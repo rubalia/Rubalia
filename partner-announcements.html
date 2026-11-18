@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Partner Announcements | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold2:#f1d48c;
+  --white:#ffffff;
+  --bg:#f3f6fb;
+  --text:#17243a;
+  --muted:#718096;
+  --border:#e4eaf2;
+  --green:#16845b;
+  --blue:#2875c7;
+  --red:#c34b4b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.topbar{
+  background:var(--navy);
+  color:white;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+.brand{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.brand span{color:var(--gold)}
+.topbar small{color:#cbd5e1}
+
+.layout{
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  min-height:calc(100vh - 58px);
+}
+.sidebar{
+  background:var(--navy2);
+  color:white;
+  padding:20px 14px;
+}
+.side-title{
+  font-size:11px;
+  color:#aebed2;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  margin:17px 10px 9px;
+}
+.nav-link{
+  display:block;
+  padding:11px 12px;
+  margin:4px 0;
+  border-radius:9px;
+  color:#e4ebf5;
+  font-size:13px;
+  transition:.2s;
+}
+.nav-link:hover,.nav-link.active{
+  background:rgba(214,173,85,.18);
+  color:var(--gold2);
+}
+.main{
+  padding:27px;
+  max-width:1200px;
+  width:100%;
+  margin:auto;
+}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.page-heading h1{
+  margin:0 0 7px;
+  font-size:25px;
+  color:var(--navy);
+}
+.page-heading p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
+.demo-label{
+  display:inline-block;
+  background:#fff3d8;
+  color:#805b13;
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+.notice-banner{
+  background:linear-gradient(120deg,var(--navy),#183c68);
+  color:white;
+  padding:23px;
+  border-radius:15px;
+  margin-bottom:22px;
+  position:relative;
+  overflow:hidden;
+}
+.notice-banner:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border:25px solid rgba(214,173,85,.15);
+  border-radius:50%;
+  right:-55px;
+  top:-80px;
+}
+.notice-banner h2{
+  margin:0 0 8px;
+  font-size:20px;
+}
+.notice-banner p{
+  margin:0;
+  color:#d4dfed;
+  font-size:13px;
+  line-height:1.6;
+  max-width:650px;
+}
+.banner-tag{
+  display:inline-block;
+  color:var(--gold2);
+  font-size:10px;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:22px;
+}
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  padding:17px;
+  border-radius:12px;
+}
+.stat-card small{
+  color:var(--muted);
+  font-size:12px;
+}
+.stat-card strong{
+  display:block;
+  margin-top:7px;
+  font-size:22px;
+  color:var(--navy);
+}
+.stat-card span{
+  font-size:11px;
+  color:var(--muted);
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:19px;
+  margin-bottom:20px;
+}
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+.panel-head h3{
+  margin:0;
+  color:var(--navy);
+  font-size:16px;
+}
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.filter-btn{
+  border:1px solid var(--border);
+  background:white;
+  color:#526176;
+  padding:9px 13px;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:12px;
+}
+.filter-btn.active{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:white;
+}
+.announcement-list{
+  display:grid;
+  gap:13px;
+}
+.announcement{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:17px;
+  display:grid;
+  grid-template-columns:48px minmax(0,1fr);
+  gap:13px;
+  transition:.2s;
+}
+.announcement:hover{
+  border-color:#d5bd84;
+  box-shadow:0 5px 16px rgba(7,26,53,.05);
+}
+.ann-icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#f0f3f9;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:21px;
+}
+.ann-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.category{
+  display:inline-block;
+  font-size:10px;
+  padding:5px 9px;
+  border-radius:20px;
+  font-weight:bold;
+  background:#edf3fc;
+  color:#2866a5;
+}
+.category.important{background:#fff0ed;color:#b94b3e}
+.category.product{background:#e9f7ef;color:#16845b}
+.category.meeting{background:#f2edff;color:#7152ad}
+.category.training{background:#fff4df;color:#926619}
+.ann-date{
+  color:var(--muted);
+  font-size:11px;
+}
+.announcement h3{
+  margin:10px 0 7px;
+  color:var(--navy);
+  font-size:15px;
+}
+.announcement p{
+  margin:0;
+  color:#66758a;
+  font-size:12px;
+  line-height:1.6;
+}
+.ann-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:13px;
+}
+.read-btn{
+  border:0;
+  background:transparent;
+  color:#9a7429;
+  font-weight:bold;
+  font-size:12px;
+  cursor:pointer;
+  padding:5px 0;
+}
+.read-btn:hover{text-decoration:underline}
+.sample-text{
+  color:#9aa5b5;
+  font-size:10px;
+}
+.empty{
+  text-align:center;
+  padding:35px 10px;
+  color:var(--muted);
+  font-size:13px;
+  display:none;
+}
+.guideline{
+  background:#fffaf0;
+  border:1px solid #f0dfb7;
+  border-radius:12px;
+  padding:16px;
+  color:#72551d;
+  font-size:12px;
+  line-height:1.7;
+}
+.guideline strong{color:#5f4515}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(3,13,29,.68);
+  z-index:20;
+  padding:18px;
+  align-items:center;
+  justify-content:center;
+}
+.modal.show{display:flex}
+.modal-box{
+  background:white;
+  border-radius:15px;
+  width:100%;
+  max-width:560px;
+  max-height:85vh;
+  overflow:auto;
+  padding:23px;
+  position:relative;
+}
+.modal-close{
+  position:absolute;
+  right:15px;
+  top:12px;
+  border:0;
+  background:#f1f3f7;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  cursor:pointer;
+  font-size:18px;
+}
+.modal-box h2{
+  color:var(--navy);
+  font-size:20px;
+  padding-right:30px;
+}
+.modal-box p{
+  color:#59697f;
+  font-size:13px;
+  line-height:1.8;
+  white-space:pre-line;
+}
+.modal-note{
+  background:#fff6e4;
+  padding:11px;
+  border-radius:9px;
+  color:#795c20;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:17px;
+}
+.footer{
+  text-align:center;
+  color:#9aa5b5;
+  font-size:11px;
+  padding:20px;
+}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{
+    display:flex;
+    overflow-x:auto;
+    gap:5px;
+    padding:10px;
+    white-space:nowrap;
+  }
+  .side-title{display:none}
+  .nav-link{padding:9px 11px;margin:0}
+  .main{padding:17px}
+}
+@media(max-width:520px){
+  .stats{grid-template-columns:1fr}
+  .page-heading h1{font-size:21px}
+  .announcement{grid-template-columns:38px minmax(0,1fr);padding:13px}
+  .ann-icon{width:37px;height:37px;font-size:18px}
+  .panel{padding:14px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+  <small>Partner Center</small>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="side-title">Partner Menu</div>
+  <a class="nav-link" href="dashboard.html">Dashboard</a>
+  <a class="nav-link" href="team.html">My Team</a>
+  <a class="nav-link" href="income.html">Income Summary</a>
+  <a class="nav-link" href="orders.html">My Orders</a>
+
+  <div class="side-title">Partner Center</div>
+  <a class="nav-link" href="partner-guidelines.html">Partner Guidelines</a>
+  <a class="nav-link" href="partner-agreement.html">Partner Agreement</a>
+  <a class="nav-link" href="partner-faq.html">Partner FAQ</a>
+  <a class="nav-link" href="partner-training.html">Training Center</a>
+  <a class="nav-link" href="partner-resources.html">Resources</a>
+  <a class="nav-link" href="partner-support.html">Partner Support</a>
+  <a class="nav-link" href="partner-performance.html">Performance</a>
+  <a class="nav-link active" href="partner-announcements.html">Announcements</a>
+
+  <div class="side-title">Account</div>
+  <a class="nav-link" href="profile.html">My Profile</a>
+  <a class="nav-link" href="settings.html">Settings</a>
+  <a class="nav-link" href="index.html">Visit Website</a>
+</aside>
+
+<main class="main">
+
+  <div class="page-heading">
+    <div>
+      <h1>Partner Announcements</h1>
+      <p>Company news, important updates and partner information.</p>
+    </div>
+    <span class="demo-label">DEMO CONTENT</span>
+  </div>
+
+  <section class="notice-banner">
+    <span class="banner-tag">Partner Information Center</span>
+    <h2>Stay Connected With Rubalia Network</h2>
+    <p>
+      Find sample company announcements, product launch information,
+      partner meeting notices and training updates in one place.
+    </p>
+  </section>
+
+  <section class="stats">
+    <div class="stat-card">
+      <small>Total Sample Announcements</small>
+      <strong id="totalCount">6</strong>
+      <span>Illustrative content only</span>
+    </div>
+    <div class="stat-card">
+      <small>Announcement Categories</small>
+      <strong>5</strong>
+      <span>Available demo categories</span>
+    </div>
+    <div class="stat-card">
+      <small>Latest Update</small>
+      <strong>Sample</strong>
+      <span>No official update published</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>All Announcements</h3>
+      <span class="sample-text">Sample announcement feed</span>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="important">Important Updates</button>
+      <button class="filter-btn" data-filter="product">Product News</button>
+      <button class="filter-btn" data-filter="meeting">Meetings</button>
+      <button class="filter-btn" data-filter="training">Training</button>
+      <button class="filter-btn" data-filter="company">Company News</button>
+    </div>
+
+    <div class="announcement-list" id="announcementList">
+
+      <article class="announcement" data-category="important">
+        <div class="ann-icon">📢</div>
+        <div>
+          <div class="ann-top">
+            <span class="category important">Important Update</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Partner Information and Policy Review</h3>
+          <p>
+            An example notice reminding partners to review company policies,
+            product information and partner responsibilities.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Partner Information and Policy Review"
+              data-body="This is an illustrative announcement, not an official company notice.\n\nPartners should review the applicable partner guidelines, product information, customer service responsibilities and relevant company policies before participating in any business activity.\n\nAny actual policy changes must be communicated through an official company channel after approval.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="announcement" data-category="product">
+        <div class="ann-icon">📦</div>
+        <div>
+          <div class="ann-top">
+            <span class="category product">Product News</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Upcoming Product Information Session</h3>
+          <p>
+            A sample notice about a future session explaining product
+            specifications, pricing and customer benefits.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Upcoming Product Information Session"
+              data-body="This is a sample product announcement for demonstration purposes only.\n\nA real product information session could explain product specifications, quality information, pricing, availability, warranty terms and customer suitability.\n\nNo new product launch or session is confirmed by this sample notice.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="announcement" data-category="meeting">
+        <div class="ann-icon">🤝</div>
+        <div>
+          <div class="ann-top">
+            <span class="category meeting">Partner Meeting</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Monthly Partner Meeting Notice</h3>
+          <p>
+            An example meeting announcement covering sales support,
+            customer service and partner feedback.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Monthly Partner Meeting Notice"
+              data-body="This is an illustrative meeting notice only.\n\nA real meeting announcement should include the confirmed date, time, location or online meeting link, agenda and contact person.\n\nNo actual meeting has been scheduled through this demo page.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="announcement" data-category="training">
+        <div class="ann-icon">🎓</div>
+        <div>
+          <div class="ann-top">
+            <span class="category training">Training</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Product Knowledge Training</h3>
+          <p>
+            A sample training update about understanding product features,
+            usage instructions and responsible customer communication.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Product Knowledge Training"
+              data-body="This is a sample training announcement.\n\nA product knowledge training program may cover product features, ingredients or materials where relevant, instructions for use, safety information, pricing and frequently asked customer questions.\n\nActual training dates and materials must be published separately after confirmation.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="announcement" data-category="company">
+        <div class="ann-icon">🏢</div>
+        <div>
+          <div class="ann-top">
+            <span class="category">Company News</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Company Information and Communication</h3>
+          <p>
+            A sample company notice explaining where partners can find
+            official information and support resources.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Company Information and Communication"
+              data-body="This is an illustrative company communication notice.\n\nPartners should use official company channels to verify company information, product details, customer policies and business announcements.\n\nDo not treat unofficial messages, forwarded screenshots or demo content as confirmed company instructions.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="announcement" data-category="important">
+        <div class="ann-icon">🛡️</div>
+        <div>
+          <div class="ann-top">
+            <span class="category important">Important Update</span>
+            <span class="ann-date">Sample Date</span>
+          </div>
+          <h3>Responsible Partner Business Practices</h3>
+          <p>
+            A sample reminder about transparent product sales, accurate
+            information and responsible business conduct.
+          </p>
+          <div class="ann-bottom">
+            <span class="sample-text">Sample announcement</span>
+            <button class="read-btn" data-title="Responsible Partner Business Practices"
+              data-body="This is a sample educational notice.\n\nPartners should provide accurate product information, explain prices and applicable terms clearly, respect customer rights and avoid misleading income claims.\n\nNo guaranteed income should be promised. Any proposed network compensation plan must receive appropriate legal review and approval before implementation.">
+              Read More Details →
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="empty" id="emptyState">
+      No announcements found in this category.
+    </div>
+  </section>
+
+  <section class="guideline">
+    <strong>Important Notice:</strong><br>
+    This page currently contains sample/demo announcements only.
+    They are not official company notices, confirmed product launches,
+    meeting invitations or training schedules. Official announcements
+    should be published only by authorized company representatives.
+  </section>
+
+</main>
+</div>
+
+<div class="footer">
+  © <span id="year"></span> Rubalia Network. All Rights Reserved.
+  <br>Partner Announcements — Frontend Demo
+</div>
+
+<div class="modal" id="detailsModal">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal" aria-label="Close">×</button>
+    <span class="demo-label">SAMPLE DETAILS</span>
+    <h2 id="modalTitle">Announcement Details</h2>
+    <p id="modalBody"></p>
+    <div class="modal-note">
+      Demo information only. This is not an official company announcement.
+    </div>
+  </div>
+</div>
+
+<script>
+const filterButtons = document.querySelectorAll(".filter-btn");
+const announcements = document.querySelectorAll(".announcement");
+const emptyState = document.getElementById("emptyState");
+
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach(item => item.classList.remove("active"));
+    button.classList.add("active");
+
+    const selected = button.dataset.filter;
+    let visible = 0;
+
+    announcements.forEach(item => {
+      const match = selected === "all" ||
+                    item.dataset.category === selected;
+
+      item.style.display = match ? "grid" : "none";
+      if(match) visible++;
+    });
+
+    emptyState.style.display = visible === 0 ? "block" : "none";
+  });
+});
+
+const modal = document.getElementById("detailsModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+
+document.querySelectorAll(".read-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    modalTitle.textContent = button.dataset.title;
+    modalBody.textContent = button.dataset.body;
+    modal.classList.add("show");
+  });
+});
+
+function closeModal(){
+  modal.classList.remove("show");
+}
+
+document.getElementById("closeModal").addEventListener("click", closeModal);
+
+modal.addEventListener("click", event => {
+  if(event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") closeModal();
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
