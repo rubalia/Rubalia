@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Admin Help Center</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#1677e8;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#718096;
+  --border:#e3eaf3;
+  --green:#15966b;
+  --orange:#e58a20;
+  --red:#e5484d;
+  --shadow:0 5px 20px rgba(15,35,65,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:#fff;
+  padding:20px 14px;
+  position:fixed;
+  inset:0 auto 0 0;
+  overflow-y:auto;
+  z-index:20;
+  transition:.25s;
+}
+.brand{
+  font-size:21px;font-weight:800;
+  padding:8px 12px 22px;
+  border-bottom:1px solid #ffffff20;
+}
+.brand span{color:#55a6ff}
+.nav-title{
+  color:#8fa6c5;font-size:10px;
+  font-weight:bold;letter-spacing:1.5px;
+  padding:20px 12px 8px;
+}
+.nav a{
+  display:flex;align-items:center;gap:11px;
+  color:#c8d6e8;text-decoration:none;
+  padding:11px 12px;border-radius:8px;
+  font-size:13px;margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#1b4779;color:#fff;
+}
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  min-width:0;
+}
+.topbar{
+  background:#fff;height:65px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:14px}
+.menu-btn{
+  border:0;background:#edf3fa;
+  width:36px;height:36px;border-radius:8px;
+  font-size:19px;
+}
+.top-title{font-size:14px;font-weight:bold}
+.admin{font-size:12px;color:var(--muted)}
+.content{padding:25px;max-width:1450px;margin:auto}
+.page-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+h1{font-size:24px;margin:0 0 7px}
+.subtitle{font-size:13px;color:var(--muted)}
+.btn{
+  border:0;border-radius:7px;
+  padding:10px 14px;font-size:12px;
+  font-weight:bold;
+}
+.primary{background:var(--blue);color:#fff}
+.secondary{background:#edf3fa;color:#34445b}
+.demo-note{
+  background:#fff8e8;border:1px solid #f5dfaa;
+  color:#8a611b;padding:12px 14px;
+  border-radius:9px;font-size:12px;
+  line-height:1.6;margin-bottom:20px;
+}
+.hero{
+  background:linear-gradient(120deg,#071a35,#164c83);
+  border-radius:14px;color:#fff;
+  padding:30px;margin-bottom:22px;
+  position:relative;overflow:hidden;
+}
+.hero:after{
+  content:"?";position:absolute;
+  right:35px;top:-35px;
+  font-size:190px;font-weight:bold;
+  color:#ffffff0d;
+}
+.hero h2{font-size:24px;margin:0 0 10px}
+.hero p{
+  font-size:13px;color:#c8d9ee;
+  line-height:1.7;margin:0 0 18px;
+  max-width:600px;
+}
+.search-wrap{max-width:600px;position:relative;z-index:1}
+.search{
+  width:100%;padding:14px 16px;
+  border:1px solid #ffffff50;
+  border-radius:8px;background:#fff;
+  color:var(--text);outline:none;
+  font-size:13px;
+}
+.section-title{
+  font-size:17px;font-weight:bold;
+  margin:25px 0 14px;
+}
+.category-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.category{
+  background:#fff;border:1px solid var(--border);
+  border-radius:11px;padding:18px;
+  cursor:pointer;transition:.2s;
+  box-shadow:var(--shadow);
+}
+.category:hover,.category.active{
+  border-color:var(--blue);
+  transform:translateY(-2px);
+}
+.cat-icon{
+  width:42px;height:42px;
+  border-radius:10px;background:#edf5ff;
+  display:grid;place-items:center;
+  font-size:20px;margin-bottom:12px;
+}
+.category h3{font-size:13px;margin:0 0 7px}
+.category p{
+  color:var(--muted);font-size:11px;
+  line-height:1.5;margin:0;
+}
+.category small{
+  display:block;color:var(--blue);
+  font-size:10px;margin-top:12px;
+}
+.panel{
+  background:#fff;border:1px solid var(--border);
+  border-radius:11px;box-shadow:var(--shadow);
+  margin-bottom:20px;overflow:hidden;
+}
+.panel-head{
+  padding:17px 18px;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);
+}
+.panel-head h2{font-size:15px;margin:0}
+.faq-list{padding:5px 18px 15px}
+.faq-item{border-bottom:1px solid #edf1f6}
+.faq-item:last-child{border-bottom:0}
+.faq-question{
+  width:100%;border:0;background:none;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;
+  padding:17px 0;text-align:left;
+  font-size:13px;font-weight:bold;
+  color:var(--text);
+}
+.faq-question span:last-child{
+  color:var(--blue);font-size:18px;
+}
+.faq-answer{
+  display:none;color:#64748b;
+  font-size:12px;line-height:1.8;
+  padding:0 25px 16px 0;
+}
+.faq-item.open .faq-answer{display:block}
+.faq-item.open .faq-question span:last-child{transform:rotate(45deg)}
+.guide-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.guide{
+  background:#fff;border:1px solid var(--border);
+  border-radius:10px;padding:17px;
+}
+.guide-icon{font-size:22px;margin-bottom:12px}
+.guide h3{font-size:13px;margin:0 0 8px}
+.guide p{
+  font-size:11px;color:var(--muted);
+  line-height:1.6;margin:0 0 12px;
+}
+.guide a{
+  color:var(--blue);font-size:11px;
+  text-decoration:none;font-weight:bold;
+}
+.support-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+.support-card{
+  padding:20px;border:1px solid var(--border);
+  border-radius:10px;background:#fff;
+}
+.support-card h3{font-size:14px;margin:0 0 9px}
+.support-card p{
+  font-size:12px;color:var(--muted);
+  line-height:1.7;margin:0 0 14px;
+}
+.field{
+  width:100%;padding:11px;
+  border:1px solid var(--border);
+  border-radius:7px;font-size:12px;
+  outline:none;background:#fff;
+  margin-bottom:11px;
+}
+.field:focus{border-color:var(--blue)}
+textarea.field{min-height:100px;resize:vertical}
+.footer{
+  text-align:center;color:#8a96a8;
+  font-size:11px;padding:15px;
+}
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:#102b50;color:#fff;
+  padding:12px 17px;border-radius:8px;
+  font-size:12px;display:none;z-index:200;
+  box-shadow:var(--shadow);
+}
+.no-results{
+  display:none;text-align:center;
+  padding:25px;color:var(--muted);
+  font-size:12px;
+}
+@media(max-width:1050px){
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+  .guide-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.show{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .content{padding:16px 12px}
+  .topbar{padding:0 13px}
+  h1{font-size:21px}
+  .hero{padding:23px 18px}
+  .hero h2{font-size:21px}
+  .hero:after{right:5px;font-size:130px}
+  .category-grid{gap:9px}
+  .category{padding:13px}
+  .guide-grid{grid-template-columns:1fr}
+  .support-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+
+  <div class="nav-title">MAIN MENU</div>
+  <nav class="nav">
+    <a href="admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ User Management</a>
+    <a href="admin-partners.html">♧ Partner Management</a>
+    <a href="admin-applications.html">▤ Applications</a>
+    <a href="admin-products.html">▣ Products</a>
+    <a href="admin-orders.html">▤ Orders</a>
+    <a href="admin-payments.html">৳ Payments</a>
+    <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a href="admin-commissions.html">％ Commissions</a>
+  </nav>
+
+  <div class="nav-title">COMMUNICATION</div>
+  <nav class="nav">
+    <a href="admin-announcements.html">▣ Announcements</a>
+    <a href="admin-support.html">☏ Support Tickets</a>
+    <a href="admin-email-management.html">✉ Email Management</a>
+    <a href="admin-sms-management.html">▤ SMS Management</a>
+    <a href="admin-system-notifications.html">♢ System Notifications</a>
+  </nav>
+
+  <div class="nav-title">SYSTEM MANAGEMENT</div>
+  <nav class="nav">
+    <a href="admin-reports.html">▥ Reports & Analytics</a>
+    <a href="admin-audit-logs.html">▤ Audit Logs</a>
+    <a href="admin-activity-monitor.html">◷ Activity Monitor</a>
+    <a href="admin-login-history.html">⇥ Login History</a>
+    <a href="admin-error-logs.html">⚠ Error Logs</a>
+    <a href="admin-roles.html">♙ Roles & Permissions</a>
+    <a href="admin-security.html">♧ Security Center</a>
+    <a href="admin-backup.html">▣ Backup & Restore</a>
+    <a href="admin-database.html">▤ Database Management</a>
+    <a href="admin-system-health.html">♥ System Health</a>
+    <a href="admin-api-management.html">⌘ API Management</a>
+    <a href="admin-settings.html">⚙ Admin Settings</a>
+    <a href="admin-help-center.html" class="active">❔ Help Center</a>
+  </nav>
+
+  <div class="nav-title">ACCOUNT</div>
+  <nav class="nav">
+    <a href="index.html">⌂ View Website</a>
+    <a href="login.html">⇥ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="top-title">Admin Control Panel</div>
+  </div>
+  <div class="admin">Administrator</div>
+</header>
+
+<div class="content">
+
+  <div class="page-head">
+    <div>
+      <h1>Admin Help Center</h1>
+      <div class="subtitle">Guides, documentation and frequently asked questions</div>
+    </div>
+  </div>
+
+  <div class="demo-note">
+    <strong>Demo Mode:</strong> এটি একটি প্রাথমিক Admin Help Center UI।
+    এখানে দেওয়া নির্দেশনা সাধারণ প্রশাসনিক সহায়তার জন্য।
+    Support form জমা দিলে কোনো বাস্তব টিকিট তৈরি বা ইমেইল পাঠানো হবে না।
+  </div>
+
+  <section class="hero">
+    <h2>How can we help you?</h2>
+    <p>
+      Search the help articles, explore admin guides and find answers
+      to common questions about managing Rubalia Network.
+    </p>
+    <div class="search-wrap">
+      <input class="search" id="helpSearch"
+        placeholder="Search help articles, settings, users, payments..."
+        oninput="searchHelp()">
+    </div>
+  </section>
+
+  <h2 class="section-title">Browse Help Categories</h2>
+
+  <section class="category-grid" id="categoryGrid">
+
+    <div class="category" data-category="account" onclick="filterCategory('account',this)">
+      <div class="cat-icon">♙</div>
+      <h3>Account Management</h3>
+      <p>Admin accounts, user profiles and partner management.</p>
+      <small>Explore account help →</small>
+    </div>
+
+    <div class="category" data-category="products" onclick="filterCategory('products',this)">
+      <div class="cat-icon">▣</div>
+      <h3>Products & Orders</h3>
+      <p>Product listings, inventory and order workflows.</p>
+      <small>Explore product help →</small>
+    </div>
+
+    <div class="category" data-category="payments" onclick="filterCategory('payments',this)">
+      <div class="cat-icon">৳</div>
+      <h3>Payments & Wallet</h3>
+      <p>Payment review, withdrawal and wallet information.</p>
+      <small>Explore payment help →</small>
+    </div>
+
+    <div class="category" data-category="network" onclick="filterCategory('network',this)">
+      <div class="cat-icon">♧</div>
+      <h3>Partner Network</h3>
+      <p>Partner applications, team and proposed network rules.</p>
+      <small>Explore network help →</small>
+    </div>
+
+    <div class="category" data-category="security" onclick="filterCategory('security',this)">
+      <div class="cat-icon">♢</div>
+      <h3>Security & Access</h3>
+      <p>Roles, permissions, login security and access control.</p>
+      <small>Explore security help →</small>
+    </div>
+
+    <div class="category" data-category="system" onclick="filterCategory('system',this)">
+      <div class="cat-icon">⚙</div>
+      <h3>System Management</h3>
+      <p>Database, backup, API and system health guidance.</p>
+      <small>Explore system help →</small>
+    </div>
+
+    <div class="category" data-category="communication" onclick="filterCategory('communication',this)">
+      <div class="cat-icon">✉</div>
+      <h3>Communication</h3>
+      <p>Announcements, support, email and SMS management.</p>
+      <small>Explore communication help →</small>
+    </div>
+
+    <div class="category" data-category="reports" onclick="filterCategory('reports',this)">
+      <div class="cat-icon">▥</div>
+      <h3>Reports & Logs</h3>
+      <p>Reports, audit logs, error logs and activity monitoring.</p>
+      <small>Explore reports help →</small>
+    </div>
+
+  </section>
+
+  <div class="section-title" id="faqTitle">Frequently Asked Questions</div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Help Articles</h2>
+      <button class="btn secondary" onclick="resetFilters()">Show All</button>
+    </div>
+
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item" data-category="account">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How can I manage user accounts?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Open Admin User Management to review user records, search accounts
+          and inspect available account information. Real account changes
+          require a properly secured backend and permission checks.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="account">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I review partner applications?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Open Partner Applications from the admin menu. Review submitted
+          information and supporting documents before making a decision.
+          Approval or rejection should only be performed by authorized staff.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="products">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How can I add a new product?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Open Product Management and use the product creation interface.
+          Before publishing a real product, verify its name, description,
+          price, stock, images and applicable product information.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="products">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How should I manage customer orders?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Use Order Management to inspect order details and monitor order
+          status. In production, every status change must be validated and
+          saved securely on the server.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="payments">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How should payment verification work?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Authorized administrators should compare the submitted transaction
+          reference with trusted payment records before approving a payment.
+          Never ask users for PIN, OTP, password, CVV or card security details.
+          The current payment page is only a demo interface.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="payments">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How are withdrawal requests reviewed?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Review the user's eligible balance, withdrawal amount, account
+          information and applicable policy. A real transfer requires a
+          secure server-side workflow and authorized approval.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="network">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What is the proposed Unilevel structure?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          The proposed business model illustrates a Unilevel network with
+          up to 10 levels. This is a planning concept only. No commission
+          should be activated until the business model has been reviewed
+          for legal compliance and formally approved.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="network">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can partners earn money just by recruiting people?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          The business should focus on genuine product sales to real customers.
+          Recruitment-only rewards, guaranteed income claims and misleading
+          earnings promises should not be used.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="security">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Why are admin roles and permissions important?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Different staff members should receive only the permissions needed
+          for their work. Production permissions must be enforced by the
+          backend, not merely hidden or shown in the frontend.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="security">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is the current Security Center protecting real accounts?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          No. The current Security Center is a frontend demonstration.
+          Real authentication, password hashing, multi-factor authentication,
+          session management and access controls require backend implementation.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="system">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is the database connected to this admin panel?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          No. The current database management page is a UI demonstration.
+          A production version will require a secure backend connection
+          to PostgreSQL with restricted database permissions.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="system">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Does the Backup page create real backups?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          No. The current backup page only demonstrates the interface.
+          Real backups must be generated, stored securely, monitored and
+          periodically tested through backend infrastructure.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="system">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What should I do if the website shows an error?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Record the visible error message and approximate time. Check the
+          hosting provider's server logs and application logs. Avoid exposing
+          credentials or sensitive user information while sharing error details.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="communication">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do announcements reach real users?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Not in the current demo. Real announcements require backend
+          storage and a notification delivery mechanism.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="communication">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Are emails and SMS messages sent from these pages?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          No. Email and SMS management pages are frontend demonstrations.
+          A real provider integration, secure credentials and server-side
+          delivery tracking are required.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="reports">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Are the current reports based on real transactions?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          No. Current reports and analytics contain demonstration data.
+          Production reports must be calculated from verified server-side records.
+        </div>
+      </div>
+
+      <div class="faq-item" data-category="reports">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What is the difference between audit logs and error logs?
+          <span>+</span>
+        </button>
+        <div class="faq-answer">
+          Audit logs record administrative or user actions. Error logs record
+          application failures, exceptions and technical problems. Both should
+          be protected against unauthorized modification.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="no-results" id="noResults">
+      No matching help articles found. Try another search.
+    </div>
+  </section>
+
+  <h2 class="section-title">Admin Documentation</h2>
+
+  <section class="guide-grid">
+    <div class="guide">
+      <div class="guide-icon">♙</div>
+      <h3>User & Partner Guide</h3>
+      <p>Learn how to review accounts, manage partner applications and understand partner records.</p>
+      <a href="admin-users.html">Open User Management →</a>
+    </div>
+
+    <div class="guide">
+      <div class="guide-icon">▣</div>
+      <h3>Product & Order Guide</h3>
+      <p>Understand product information, stock management and order processing workflows.</p>
+      <a href="admin-products.html">Open Product Management →</a>
+    </div>
+
+    <div class="guide">
+      <div class="guide-icon">৳</div>
+      <h3>Payment & Withdrawal Guide</h3>
+      <p>Review the proposed administrative payment and withdrawal workflows.</p>
+      <a href="admin-payments.html">Open Payment Management →</a>
+    </div>
+
+    <div class="guide">
+      <div class="guide-icon">♢</div>
+      <h3>Security Guide</h3>
+      <p>Review security settings, sessions and the importance of server-side access control.</p>
+      <a href="admin-security.html">Open Security Center →</a>
+    </div>
+
+    <div class="guide">
+      <div class="guide-icon">▤</div>
+      <h3>Database & Backup Guide</h3>
+      <p>Understand the planned database and backup management interfaces.</p>
+      <a href="admin-database.html">Open Database Management →</a>
+    </div>
+
+    <div class="guide">
+      <div class="guide-icon">⚠</div>
+      <h3>Error & Activity Guide</h3>
+      <p>Review the demonstration error logs, activity records and login history.</p>
+      <a href="admin-error-logs.html">Open Error Logs →</a>
+    </div>
+  </section>
+
+  <h2 class="section-title">Need More Help?</h2>
+
+  <section class="support-grid">
+    <div class="support-card">
+      <h3>Contact Admin Support</h3>
+      <p>
+        Describe your issue below. This form is a demonstration and does
+        not send a real support request.
+      </p>
+      <form id="supportForm">
+        <input class="field" id="supportName"
+          placeholder="Your name" required>
+        <select class="field" id="supportTopic" required>
+          <option value="">Select issue category</option>
+          <option>Account Management</option>
+          <option>Products & Orders</option>
+          <option>Payments</option>
+          <option>Security</option>
+          <option>Technical Issue</option>
+          <option>Other</option>
+        </select>
+        <textarea class="field" id="supportMessage"
+          placeholder="Describe your issue..." required></textarea>
+        <button class="btn primary" type="submit">Submit Demo Request</button>
+      </form>
+    </div>
+
+    <div class="support-card">
+      <h3>Support Guidelines</h3>
+      <p>
+        Before reporting an issue, check the relevant help article and
+        note the page where the problem occurred.
+      </p>
+      <ul style="font-size:12px;color:#64748b;line-height:2;padding-left:18px">
+        <li>Describe the issue clearly.</li>
+        <li>Include the affected module or page.</li>
+        <li>Do not share passwords or OTP codes.</li>
+        <li>Never share API keys or secret credentials.</li>
+        <li>Remove private customer information from screenshots.</li>
+      </ul>
+      <a href="admin-support.html"
+        style="font-size:12px;color:#1677e8;text-decoration:none;font-weight:bold">
+        Open Support Ticket Management →
+      </a>
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · Admin Help Center · Demo Interface
+  </div>
+
+</div>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("show");
+}
+
+function toggleFaq(button){
+  const item=button.parentElement;
+  item.classList.toggle("open");
+}
+
+function searchHelp(){
+  const query=document.getElementById("helpSearch").value
+    .trim().toLowerCase();
+
+  let visible=0;
+
+  document.querySelectorAll(".faq-item").forEach(item=>{
+    const text=item.innerText.toLowerCase();
+    const match=text.includes(query);
+    item.style.display=match?"block":"none";
+    if(match)visible++;
+  });
+
+  document.getElementById("noResults").style.display=
+    visible?"none":"block";
+
+  document.getElementById("faqTitle").textContent=
+    query?"Search Results":"Frequently Asked Questions";
+
+  document.querySelectorAll(".category").forEach(card=>{
+    card.classList.remove("active");
+  });
+}
+
+function filterCategory(category,element){
+  document.getElementById("helpSearch").value="";
+
+  document.querySelectorAll(".category").forEach(card=>{
+    card.classList.remove("active");
+  });
+
+  element.classList.add("active");
+
+  let visible=0;
+
+  document.querySelectorAll(".faq-item").forEach(item=>{
+    const match=item.dataset.category===category;
+    item.style.display=match?"block":"none";
+    if(match)visible++;
+  });
+
+  document.getElementById("noResults").style.display=
+    visible?"none":"block";
+
+  document.getElementById("faqTitle").textContent=
+    element.querySelector("h3").textContent+" Help";
+}
+
+function resetFilters(){
+  document.getElementById("helpSearch").value="";
+
+  document.querySelectorAll(".faq-item").forEach(item=>{
+    item.style.display="block";
+    item.classList.remove("open");
+  });
+
+  document.querySelectorAll(".category").forEach(card=>{
+    card.classList.remove("active");
+  });
+
+  document.getElementById("faqTitle").textContent=
+    "Frequently Asked Questions";
+
+  document.getElementById("noResults").style.display="none";
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.style.display="block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    toast.style.display="none";
+  },2800);
+}
+
+document.getElementById("supportForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const name=document.getElementById("supportName").value.trim();
+  const topic=document.getElementById("supportTopic").value;
+  const message=document.getElementById("supportMessage").value.trim();
+
+  if(!name||!topic||!message){
+    showToast("Please complete all fields.");
+    return;
+  }
+
+  showToast("Demo request completed. No real ticket was sent.");
+  this.reset();
+});
+
+document.getElementById("year").textContent=
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
