@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Admin Dashboard | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f3dfa9;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#18263c;
+  --muted:#78869a;
+  --border:#e5eaf1;
+  --green:#16845b;
+  --red:#c34b4b;
+  --blue:#2875c7;
+  --orange:#c17a24;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer}
+
+.topbar{
+  height:65px;
+  background:var(--navy);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.brand span{color:var(--gold)}
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.admin-label{
+  font-size:11px;
+  background:rgba(214,173,85,.17);
+  color:var(--gold-light);
+  border:1px solid rgba(214,173,85,.4);
+  padding:7px 11px;
+  border-radius:20px;
+}
+.admin-avatar{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:var(--gold);
+  color:var(--navy);
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+}
+.layout{
+  display:grid;
+  grid-template-columns:245px minmax(0,1fr);
+  min-height:calc(100vh - 65px);
+}
+.sidebar{
+  background:var(--navy2);
+  color:white;
+  padding:20px 13px;
+}
+.side-heading{
+  color:#9eafc5;
+  font-size:10px;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1.3px;
+  margin:19px 11px 9px;
+}
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:12px;
+  color:#dce6f2;
+  transition:.2s;
+}
+.nav-link:hover,.nav-link.active{
+  background:rgba(214,173,85,.17);
+  color:var(--gold-light);
+}
+.nav-icon{
+  width:19px;
+  text-align:center;
+  font-size:15px;
+}
+.main{
+  padding:25px;
+  width:100%;
+  max-width:1450px;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.heading h1{
+  color:var(--navy);
+  font-size:25px;
+  margin:0 0 7px;
+}
+.heading p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+}
+.demo-badge{
+  display:inline-block;
+  background:#fff1d5;
+  color:#865f18;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+}
+.welcome{
+  background:linear-gradient(115deg,#071a35,#193d68);
+  color:white;
+  border-radius:14px;
+  padding:23px;
+  margin-bottom:21px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  overflow:hidden;
+}
+.welcome h2{
+  margin:0 0 8px;
+  font-size:20px;
+}
+.welcome p{
+  margin:0;
+  color:#c8d5e5;
+  font-size:12px;
+  line-height:1.6;
+}
+.welcome-icon{
+  font-size:47px;
+  opacity:.85;
+  padding-right:15px;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:21px;
+}
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:17px;
+  min-width:0;
+}
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.stat-name{
+  color:var(--muted);
+  font-size:11px;
+}
+.stat-icon{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#f1f4f9;
+  font-size:17px;
+}
+.stat-value{
+  display:block;
+  font-size:25px;
+  color:var(--navy);
+  font-weight:800;
+  margin:12px 0 5px;
+}
+.stat-note{
+  font-size:10px;
+  color:var(--muted);
+}
+.section-title{
+  color:var(--navy);
+  font-size:16px;
+  margin:0;
+}
+.grid-two{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:17px;
+  margin-bottom:20px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  min-width:0;
+  margin-bottom:18px;
+}
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:17px;
+}
+.panel-head h3{
+  margin:0;
+  color:var(--navy);
+  font-size:14px;
+}
+.view-link{
+  color:#a17a2d;
+  font-size:11px;
+  font-weight:bold;
+}
+.activity-list{
+  display:grid;
+  gap:0;
+}
+.activity{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  padding:12px 0;
+  border-bottom:1px solid #edf0f5;
+}
+.activity:last-child{border-bottom:0}
+.activity-icon{
+  width:34px;
+  height:34px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#f1f4f9;
+}
+.activity strong{
+  display:block;
+  font-size:12px;
+  color:var(--text);
+  margin:1px 0 5px;
+}
+.activity small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.quick-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  display:block;
+  transition:.2s;
+}
+.quick-card:hover{
+  border-color:var(--gold);
+  background:#fffcf5;
+}
+.quick-card span{
+  font-size:20px;
+}
+.quick-card strong{
+  display:block;
+  color:var(--navy);
+  font-size:12px;
+  margin:9px 0 4px;
+}
+.quick-card small{
+  color:var(--muted);
+  font-size:10px;
+}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:520px;
+}
+th{
+  text-align:left;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:700;
+  background:#f7f9fc;
+  padding:12px 10px;
+}
+td{
+  padding:13px 10px;
+  border-bottom:1px solid #edf0f5;
+  font-size:11px;
+}
+td strong{color:var(--navy)}
+.status{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:bold;
+}
+.pending{background:#fff2dc;color:#a16b14}
+.review{background:#eaf2ff;color:#2866a5}
+.complete{background:#e7f7ef;color:#16845b}
+.demo-note{
+  background:#fff9eb;
+  border:1px solid #f0dfb8;
+  border-radius:10px;
+  padding:14px;
+  color:#76591e;
+  font-size:11px;
+  line-height:1.7;
+  margin-top:5px;
+}
+.footer{
+  text-align:center;
+  padding:20px;
+  color:#9aa5b5;
+  font-size:10px;
+}
+.mobile-menu{
+  display:none;
+  border:1px solid rgba(255,255,255,.25);
+  background:transparent;
+  color:white;
+  border-radius:7px;
+  padding:7px 10px;
+}
+@media(max-width:1100px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid-two{grid-template-columns:1fr}
+}
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{
+    display:none;
+    padding:12px;
+  }
+  .sidebar.open{display:block}
+  .side-heading{margin-top:12px}
+  .mobile-menu{display:block}
+  .main{padding:17px}
+}
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr 1fr;gap:9px}
+  .stat-card{padding:13px}
+  .stat-value{font-size:21px}
+  .welcome{padding:18px}
+  .welcome h2{font-size:17px}
+  .welcome-icon{font-size:35px;padding:0}
+  .topbar{padding:0 13px}
+  .brand{font-size:17px}
+  .admin-label{font-size:9px;padding:6px 8px}
+  .main{padding:13px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="mobile-menu" id="menuBtn">☰</button>
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+  </div>
+  <div class="top-right">
+    <span class="admin-label">ADMIN PANEL</span>
+    <div class="admin-avatar">A</div>
+  </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="side-heading">Main Menu</div>
+  <a href="admin-dashboard.html" class="nav-link active">
+    <span class="nav-icon">▦</span> Dashboard
+  </a>
+
+  <div class="side-heading">Management</div>
+  <a href="admin-users.html" class="nav-link">
+    <span class="nav-icon">👥</span> Users Management
+  </a>
+  <a href="admin-partners.html" class="nav-link">
+    <span class="nav-icon">🤝</span> Partners Management
+  </a>
+  <a href="admin-applications.html" class="nav-link">
+    <span class="nav-icon">📋</span> Partner Applications
+  </a>
+  <a href="admin-products.html" class="nav-link">
+    <span class="nav-icon">📦</span> Products Management
+  </a>
+  <a href="admin-orders.html" class="nav-link">
+    <span class="nav-icon">🛒</span> Orders Management
+  </a>
+
+  <div class="side-heading">Finance</div>
+  <a href="admin-payments.html" class="nav-link">
+    <span class="nav-icon">💳</span> Payment Records
+  </a>
+  <a href="admin-withdrawals.html" class="nav-link">
+    <span class="nav-icon">💸</span> Withdraw Requests
+  </a>
+  <a href="admin-commissions.html" class="nav-link">
+    <span class="nav-icon">📊</span> Commission Settings
+  </a>
+
+  <div class="side-heading">Communication</div>
+  <a href="admin-announcements.html" class="nav-link">
+    <span class="nav-icon">📢</span> Announcements
+  </a>
+  <a href="admin-support.html" class="nav-link">
+    <span class="nav-icon">🎧</span> Support Requests
+  </a>
+
+  <div class="side-heading">System</div>
+  <a href="admin-settings.html" class="nav-link">
+    <span class="nav-icon">⚙️</span> Admin Settings
+  </a>
+  <a href="index.html" class="nav-link">
+    <span class="nav-icon">🌐</span> Visit Website
+  </a>
+
+</aside>
+
+<main class="main">
+
+  <div class="heading">
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p>Welcome to the Rubalia Network administration panel.</p>
+    </div>
+    <span class="demo-badge">FRONTEND DEMO</span>
+  </div>
+
+  <section class="welcome">
+    <div>
+      <h2>Welcome, Administrator!</h2>
+      <p>
+        Manage your website overview, product operations, partner information
+        and customer services from one place.
+        <br>All figures shown below are illustrative demo values.
+      </p>
+    </div>
+    <div class="welcome-icon">👑</div>
+  </section>
+
+  <section class="stats">
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Total Users</span>
+        <span class="stat-icon">👥</span>
+      </div>
+      <strong class="stat-value">1,250</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Total Partners</span>
+        <span class="stat-icon">🤝</span>
+      </div>
+      <strong class="stat-value">320</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Total Products</span>
+        <span class="stat-icon">📦</span>
+      </div>
+      <strong class="stat-value">48</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Total Orders</span>
+        <span class="stat-icon">🛒</span>
+      </div>
+      <strong class="stat-value">860</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Pending Applications</span>
+        <span class="stat-icon">📋</span>
+      </div>
+      <strong class="stat-value">12</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Pending Orders</span>
+        <span class="stat-icon">⏳</span>
+      </div>
+      <strong class="stat-value">25</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Support Requests</span>
+        <span class="stat-icon">🎧</span>
+      </div>
+      <strong class="stat-value">08</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Pending Reviews</span>
+        <span class="stat-icon">🔍</span>
+      </div>
+      <strong class="stat-value">06</strong>
+      <span class="stat-note">Sample dashboard figure</span>
+    </div>
+
+  </section>
+
+  <div class="grid-two">
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Recent Activities</h3>
+        <a href="#" class="view-link">Demo Feed</a>
+      </div>
+
+      <div class="activity-list">
+
+        <div class="activity">
+          <div class="activity-icon">👤</div>
+          <div>
+            <strong>New User Registration</strong>
+            <small>Sample activity — a new user account was registered.</small>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">🤝</div>
+          <div>
+            <strong>Partner Application Received</strong>
+            <small>Sample activity — a partner application is awaiting review.</small>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">🛒</div>
+          <div>
+            <strong>New Product Order</strong>
+            <small>Sample activity — an order was placed in the demo system.</small>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">🎧</div>
+          <div>
+            <strong>New Support Request</strong>
+            <small>Sample activity — a customer requested assistance.</small>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">📢</div>
+          <div>
+            <strong>Announcement Draft</strong>
+            <small>Sample activity — an announcement draft was prepared.</small>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Quick Actions</h3>
+        <span class="demo-badge">Demo Links</span>
+      </div>
+
+      <div class="quick-grid">
+
+        <a href="admin-users.html" class="quick-card">
+          <span>👥</span>
+          <strong>Manage Users</strong>
+          <small>View user records</small>
+        </a>
+
+        <a href="admin-partners.html" class="quick-card">
+          <span>🤝</span>
+          <strong>Manage Partners</strong>
+          <small>Partner information</small>
+        </a>
+
+        <a href="admin-products.html" class="quick-card">
+          <span>📦</span>
+          <strong>Add Products</strong>
+          <small>Product management</small>
+        </a>
+
+        <a href="admin-orders.html" class="quick-card">
+          <span>🛒</span>
+          <strong>View Orders</strong>
+          <small>Order management</small>
+        </a>
+
+        <a href="admin-applications.html" class="quick-card">
+          <span>📋</span>
+          <strong>Applications</strong>
+          <small>Review applications</small>
+        </a>
+
+        <a href="admin-announcements.html" class="quick-card">
+          <span>📢</span>
+          <strong>Announcements</strong>
+          <small>Communication center</small>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Pending Partner Applications</h3>
+      <a href="admin-applications.html" class="view-link">View All →</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>APPLICATION ID</th>
+            <th>APPLICANT</th>
+            <th>SUBMISSION</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>APP-1001</strong></td>
+            <td>Sample Applicant A</td>
+            <td>Sample Date</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td><strong>APP-1002</strong></td>
+            <td>Sample Applicant B</td>
+            <td>Sample Date</td>
+            <td><span class="status review">Under Review</span></td>
+          </tr>
+          <tr>
+            <td><strong>APP-1003</strong></td>
+            <td>Sample Applicant C</td>
+            <td>Sample Date</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Recent Orders</h3>
+      <a href="admin-orders.html" class="view-link">View All →</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ORDER ID</th>
+            <th>CUSTOMER</th>
+            <th>ORDER TYPE</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ORD-2001</strong></td>
+            <td>Sample Customer A</td>
+            <td>Product Order</td>
+            <td><span class="status pending">Processing</span></td>
+          </tr>
+          <tr>
+            <td><strong>ORD-2002</strong></td>
+            <td>Sample Customer B</td>
+            <td>Product Order</td>
+            <td><span class="status complete">Delivered</span></td>
+          </tr>
+          <tr>
+            <td><strong>ORD-2003</strong></td>
+            <td>Sample Customer C</td>
+            <td>Product Order</td>
+            <td><span class="status review">Pending Review</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="demo-note">
+    <strong>Demo & Security Notice:</strong><br>
+    This Admin Dashboard is a frontend prototype. The displayed users,
+    partners, products, orders and activities are fictional sample data.
+    No real administrative access, approval, payment processing,
+    financial transaction or database operation is available yet.
+    A secure backend, role-based permissions, audit logs and server-side
+    validation will be required before production use.
+  </div>
+
+</main>
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> Rubalia Network. All Rights Reserved.
+  <br>Admin Dashboard — Frontend Demo
+</footer>
+
+<script>
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+
+menuBtn.addEventListener("click", function(){
+  sidebar.classList.toggle("open");
+});
+</script>
+
+</body>
+</html>
