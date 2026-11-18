@@ -16,8 +16,7 @@ async function initializeDatabase() {
   `);
 
   await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_users_email
-    ON users(email);
+    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
   `);
 
   await pool.query(`
@@ -43,7 +42,6 @@ async function initializeDatabase() {
       status VARCHAR(20) NOT NULL DEFAULT 'draft',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
       CONSTRAINT products_price_nonnegative CHECK (price >= 0),
       CONSTRAINT products_stock_nonnegative CHECK (stock >= 0),
       CONSTRAINT products_status_valid
@@ -69,24 +67,18 @@ async function initializeDatabase() {
       status VARCHAR(30) NOT NULL DEFAULT 'pending',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
       CONSTRAINT orders_amount_nonnegative CHECK (total_amount >= 0),
       CONSTRAINT orders_status_valid CHECK (
         status IN (
-          'pending',
-          'confirmed',
-          'processing',
-          'shipped',
-          'delivered',
-          'cancelled'
+          'pending', 'confirmed', 'processing',
+          'shipped', 'delivered', 'cancelled'
         )
       )
     );
   `);
 
   await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_orders_user_id
-    ON orders(user_id);
+    CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
   `);
 
   await pool.query(`
@@ -104,7 +96,6 @@ async function initializeDatabase() {
       unit_price NUMERIC(12, 2) NOT NULL,
       quantity INTEGER NOT NULL,
       subtotal NUMERIC(12, 2) NOT NULL,
-
       CONSTRAINT order_items_price_nonnegative CHECK (unit_price >= 0),
       CONSTRAINT order_items_quantity_positive CHECK (quantity > 0),
       CONSTRAINT order_items_subtotal_nonnegative CHECK (subtotal >= 0)
@@ -125,12 +116,11 @@ async function initializeDatabase() {
       currency VARCHAR(3) NOT NULL DEFAULT 'BDT',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
       CONSTRAINT wallets_balance_nonnegative CHECK (balance >= 0)
     );
   `);
 
-  // WALLET TRANSACTION HISTORY
+  // WALLET TRANSACTIONS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS wallet_transactions (
       id BIGSERIAL PRIMARY KEY,
@@ -141,30 +131,16 @@ async function initializeDatabase() {
       description TEXT,
       status VARCHAR(20) NOT NULL DEFAULT 'pending',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-      CONSTRAINT wallet_transaction_amount_positive
-        CHECK (amount > 0),
-
-      CONSTRAINT wallet_transaction_type_valid
-        CHECK (
-          transaction_type IN (
-            'deposit',
-            'withdrawal',
-            'purchase',
-            'refund',
-            'adjustment'
-          )
-        ),
-
-      CONSTRAINT wallet_transaction_status_valid
-        CHECK (
-          status IN (
-            'pending',
-            'approved',
-            'rejected',
-            'completed'
-          )
+      CONSTRAINT wallet_transaction_amount_positive CHECK (amount > 0),
+      CONSTRAINT wallet_transaction_type_valid CHECK (
+        transaction_type IN (
+          'deposit', 'withdrawal', 'purchase',
+          'refund', 'adjustment'
         )
+      ),
+      CONSTRAINT wallet_transaction_status_valid CHECK (
+        status IN ('pending', 'approved', 'rejected', 'completed')
+      )
     );
   `);
 
@@ -176,6 +152,30 @@ async function initializeDatabase() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_wallet_transactions_created_at
     ON wallet_transactions(created_at DESC);
+  `);
+
+  // NOTIFICATIONS
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS notifications (
+      id BIGSERIAL PRIMARY KEY,
+      user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      title VARCHAR(180) NOT NULL,
+      message TEXT NOT NULL,
+      notification_type VARCHAR(40) NOT NULL DEFAULT 'general',
+      is_read BOOLEAN NOT NULL DEFAULT FALSE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_notifications_user_created
+    ON notifications(user_id, created_at DESC);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_notifications_unread
+    ON notifications(user_id, is_read)
+    WHERE is_read = FALSE;
   `);
 
   console.log("Database initialization completed.");
