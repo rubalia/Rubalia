@@ -12,6 +12,7 @@ const { initializeDatabase } = require("./database/init");
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
 const productRoutes = require("./routes/product.routes");
+const packageRoutes = require("./routes/package.routes");
 const orderRoutes = require("./routes/order.routes");
 const teamRoutes = require("./routes/team.routes");
 const walletRoutes = require("./routes/wallet.routes");
@@ -26,7 +27,6 @@ const {
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Allowed frontend origins
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map((origin) => origin.trim())
@@ -38,7 +38,6 @@ const localOrigins = [
   "http://127.0.0.1:5500"
 ];
 
-// Security middleware
 app.use(helmet());
 
 app.use(cors({
@@ -60,7 +59,6 @@ app.use(cors({
 
 app.use(express.json({ limit: "1mb" }));
 
-// Authentication rate limiter
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 10,
@@ -72,8 +70,8 @@ const authLimiter = rateLimit({
   }
 });
 
-// Health check
-app.get("/api/health", async (req, res, next) => {
+// API Health Check
+app.get("/api/health", async (req, res) => {
   try {
     await pool.query("SELECT 1");
 
@@ -93,27 +91,21 @@ app.get("/api/health", async (req, res, next) => {
   }
 });
 
-// API routes
+// API Routes
 app.use("/api/auth", authLimiter, authRoutes);
-
 app.use("/api/profile", profileRoutes);
-
 app.use("/api/products", productRoutes);
-
+app.use("/api/packages", packageRoutes);
 app.use("/api/orders", orderRoutes);
-
 app.use("/api/team", teamRoutes);
-
 app.use("/api/wallet", walletRoutes);
-
 app.use("/api/admin", adminRoutes);
-
 app.use("/api/notifications", notificationRoutes);
 
-// 404 handler
+// 404 Handler
 app.use(notFoundHandler);
 
-// General error handler
+// Global Error Handler
 app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(error);
@@ -129,7 +121,7 @@ app.use((error, req, res, next) => {
   return errorHandler(error, req, res, next);
 });
 
-// Start server after database initialization
+// Start Server
 async function startServer() {
   try {
     await initializeDatabase();
