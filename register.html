@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,6 @@
   --navy:#071a35;
   --navy2:#102b50;
   --gold:#d6ad55;
-  --white:#ffffff;
   --light:#f4f6fa;
   --text:#26354a;
   --muted:#758195;
@@ -52,9 +52,7 @@ header{
   margin-left:16px;
 }
 .nav a:hover{color:var(--gold)}
-main{
-  padding:45px 15px 60px;
-}
+main{padding:45px 15px 60px}
 .register-card{
   width:100%;
   max-width:540px;
@@ -119,16 +117,6 @@ input::placeholder{color:#a4adba}
   font-weight:bold;
   cursor:pointer;
 }
-.sponsor-note{
-  background:#f8f5ed;
-  border:1px solid #eadbb8;
-  color:#78602d;
-  padding:12px;
-  border-radius:8px;
-  font-size:12px;
-  line-height:1.5;
-  margin-bottom:18px;
-}
 .terms{
   display:flex;
   align-items:flex-start;
@@ -155,11 +143,11 @@ input::placeholder{color:#a4adba}
   font-size:15px;
   font-weight:800;
   cursor:pointer;
-  transition:.2s;
 }
-.submit-btn:hover{
-  background:#c69a3e;
-  transform:translateY(-1px);
+.submit-btn:hover{background:#c69a3e}
+.submit-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 .login-link{
   text-align:center;
@@ -172,13 +160,34 @@ input::placeholder{color:#a4adba}
   font-weight:bold;
   text-decoration:none;
 }
-.demo-notice{
+.message{
+  display:none;
+  margin-top:16px;
+  padding:13px;
+  border-radius:8px;
+  font-size:13px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.message.error{
+  display:block;
+  color:#9b2525;
+  background:#fff0f0;
+  border:1px solid #f2cccc;
+}
+.message.success{
+  display:block;
+  color:#17633b;
+  background:#effaf3;
+  border:1px solid #c6ead2;
+}
+.info-note{
   margin-top:20px;
   padding:12px;
-  background:#fff8e8;
-  border:1px solid #f0dfb7;
+  background:#f8f5ed;
+  border:1px solid #eadbb8;
   border-radius:8px;
-  color:#806329;
+  color:#78602d;
   font-size:12px;
   line-height:1.6;
 }
@@ -212,123 +221,100 @@ footer span{color:var(--gold)}
 </header>
 
 <main>
-  <section class="register-card">
+<section class="register-card">
 
-    <div class="heading">
-      <h1>Create Your Account</h1>
-      <p>Join RUBALIA NETWORK and create your member profile.</p>
-      <div class="gold-line"></div>
+  <div class="heading">
+    <h1>Create Your Account</h1>
+    <p>Join RUBALIA NETWORK and create your member profile.</p>
+    <div class="gold-line"></div>
+  </div>
+
+  <form id="registerForm">
+
+    <div class="form-group">
+      <label for="fullName">Full Name *</label>
+      <input
+        type="text"
+        id="fullName"
+        placeholder="Enter your full name"
+        autocomplete="name"
+        minlength="2"
+        maxlength="120"
+        required>
     </div>
 
-    <div class="sponsor-note">
-      <strong>Important:</strong> Enter your Sponsor ID only if you have
-      received one from an existing member. Do not enter an unknown ID.
+    <div class="form-group">
+      <label for="email">Email Address *</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email address"
+        autocomplete="email"
+        maxlength="255"
+        required>
     </div>
 
-    <form id="registerForm">
-
-      <div class="form-group">
-        <label for="fullName">Full Name *</label>
+    <div class="form-group">
+      <label for="password">Password *</label>
+      <div class="password-wrap">
         <input
-          type="text"
-          id="fullName"
-          placeholder="Enter your full name"
-          autocomplete="name"
-          required
-        >
+          type="password"
+          id="password"
+          placeholder="Create a password (8–72 characters)"
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
+        <button type="button" class="show-btn"
+          onclick="togglePassword('password',this)">Show</button>
       </div>
-
-      <div class="form-group">
-        <label for="mobile">Mobile Number *</label>
-        <input
-          type="tel"
-          id="mobile"
-          placeholder="Enter your mobile number"
-          autocomplete="tel"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email Address *</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email address"
-          autocomplete="email"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password *</label>
-        <div class="password-wrap">
-          <input
-            type="password"
-            id="password"
-            placeholder="Create a password (minimum 8 characters)"
-            autocomplete="new-password"
-            minlength="8"
-            required
-          >
-          <button type="button" class="show-btn"
-            onclick="togglePassword('password',this)">Show</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password *</label>
-        <div class="password-wrap">
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Enter your password again"
-            autocomplete="new-password"
-            minlength="8"
-            required
-          >
-          <button type="button" class="show-btn"
-            onclick="togglePassword('confirmPassword',this)">Show</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="sponsorId">Sponsor ID (Optional)</label>
-        <input
-          type="text"
-          id="sponsorId"
-          placeholder="Enter Sponsor ID"
-        >
-      </div>
-
-      <label class="terms">
-        <input type="checkbox" id="terms" required>
-        <span>
-          I agree to the RUBALIA NETWORK
-          <a href="terms.html" target="_blank">Terms & Conditions</a>
-          and understand that registration does not guarantee any income.
-        </span>
-      </label>
-
-      <button type="submit" class="submit-btn">
-        CREATE ACCOUNT
-      </button>
-
-    </form>
-
-    <div class="login-link">
-      Already have an account?
-      <a href="login.html">Login Here</a>
     </div>
 
-    <div class="demo-notice">
-      <strong>Demo Notice:</strong> This registration page is currently
-      frontend-only. Your information will not be sent to a server or
-      saved in a database. Real registration will be activated after
-      backend development.
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password *</label>
+      <div class="password-wrap">
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Enter your password again"
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
+        <button type="button" class="show-btn"
+          onclick="togglePassword('confirmPassword',this)">Show</button>
+      </div>
     </div>
 
-  </section>
+    <label class="terms">
+      <input type="checkbox" id="terms" required>
+      <span>
+        I agree to the RUBALIA NETWORK
+        <a href="terms.html" target="_blank">Terms & Conditions</a>
+        and understand that registration does not guarantee any income.
+      </span>
+    </label>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      CREATE ACCOUNT
+    </button>
+
+    <div id="formMessage" class="message" role="status" aria-live="polite"></div>
+
+  </form>
+
+  <div class="login-link">
+    Already have an account?
+    <a href="login.html">Login Here</a>
+  </div>
+
+  <div class="info-note">
+    <strong>Secure Registration:</strong>
+    Your account will be created through the RUBALIA NETWORK server.
+    Your password is processed by the server and stored as a secure hash.
+  </div>
+
+</section>
 </main>
 
 <footer>
@@ -336,6 +322,8 @@ footer span{color:var(--gold)}
 </footer>
 
 <script>
+const API_BASE = "https://rubalia.onrender.com/api";
+
 function togglePassword(id,button){
   const field=document.getElementById(id);
 
@@ -348,31 +336,90 @@ function togglePassword(id,button){
   }
 }
 
-document.getElementById("registerForm").addEventListener("submit",function(e){
+const form=document.getElementById("registerForm");
+const message=document.getElementById("formMessage");
+const submitBtn=document.getElementById("submitBtn");
+
+function showMessage(type,text){
+  message.className="message "+type;
+  message.textContent=text;
+}
+
+form.addEventListener("submit",async function(e){
   e.preventDefault();
 
+  const fullName=document.getElementById("fullName").value.trim();
+  const email=document.getElementById("email").value.trim().toLowerCase();
   const password=document.getElementById("password").value;
   const confirmPassword=document.getElementById("confirmPassword").value;
 
-  if(password.length<8){
-    alert("Password must contain at least 8 characters.");
+  if(password.length<8 || password.length>72){
+    showMessage("error","Password must contain 8 to 72 characters.");
     return;
   }
 
   if(password!==confirmPassword){
-    alert("Passwords do not match. Please check again.");
+    showMessage("error","Passwords do not match. Please check again.");
     return;
   }
 
   if(!document.getElementById("terms").checked){
-    alert("Please accept the Terms & Conditions.");
+    showMessage("error","Please accept the Terms & Conditions.");
     return;
   }
 
-  alert(
-    "Registration is not activated yet.\n\n" +
-    "This is a frontend demo. No account has been created."
-  );
+  submitBtn.disabled=true;
+  submitBtn.textContent="CREATING ACCOUNT...";
+  message.className="message";
+  message.textContent="";
+
+  try{
+    const response=await fetch(API_BASE+"/auth/register",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        fullName:fullName,
+        email:email,
+        password:password
+      })
+    });
+
+    const data=await response.json().catch(()=>({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.message || "Registration failed. Please try again.");
+    }
+
+    if(data.token){
+      sessionStorage.setItem("rubalia_token",data.token);
+    }
+
+    if(data.user){
+      sessionStorage.setItem("rubalia_user",JSON.stringify(data.user));
+    }
+
+    showMessage(
+      "success",
+      "Your Rubalia account has been created successfully. Redirecting to your dashboard..."
+    );
+
+    form.reset();
+
+    setTimeout(function(){
+      window.location.href="dashboard.html";
+    },1500);
+
+  }catch(error){
+    showMessage(
+      "error",
+      error.message || "Unable to connect to the server. Please try again."
+    );
+  }finally{
+    submitBtn.disabled=false;
+    submitBtn.textContent="CREATE ACCOUNT";
+  }
 });
 </script>
 
