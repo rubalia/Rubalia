@@ -1,6 +1,8 @@
+
 const pool = require("../config/database");
 
 async function initializeDatabase() {
+
   // USERS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -16,7 +18,8 @@ async function initializeDatabase() {
   `);
 
   await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+    CREATE INDEX IF NOT EXISTS idx_users_email
+    ON users(email);
   `);
 
   await pool.query(`
@@ -54,6 +57,57 @@ async function initializeDatabase() {
     ON products(status);
   `);
 
+  // PACKAGES
+  // Every package must contain exactly three different products.
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS packages (
+      id BIGSERIAL PRIMARY KEY,
+
+      name VARCHAR(180) NOT NULL,
+      category VARCHAR(100),
+      description TEXT,
+      image_url TEXT,
+
+      product_1_id BIGINT NOT NULL REFERENCES products(id),
+      product_2_id BIGINT NOT NULL REFERENCES products(id),
+      product_3_id BIGINT NOT NULL REFERENCES products(id),
+
+      price NUMERIC(12, 2) NOT NULL DEFAULT 0,
+      stock INTEGER NOT NULL DEFAULT 0,
+
+      status VARCHAR(20) NOT NULL DEFAULT 'draft',
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT packages_price_nonnegative
+        CHECK (price >= 0),
+
+      CONSTRAINT packages_stock_nonnegative
+        CHECK (stock >= 0),
+
+      CONSTRAINT packages_three_different_products
+        CHECK (
+          product_1_id <> product_2_id
+          AND product_1_id <> product_3_id
+          AND product_2_id <> product_3_id
+        ),
+
+      CONSTRAINT packages_status_valid
+        CHECK (status IN ('draft', 'active', 'inactive', 'archived'))
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_packages_status
+    ON packages(status);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_packages_category
+    ON packages(category);
+  `);
+
   // ORDERS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
@@ -67,7 +121,10 @@ async function initializeDatabase() {
       status VARCHAR(30) NOT NULL DEFAULT 'pending',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      CONSTRAINT orders_amount_nonnegative CHECK (total_amount >= 0),
+
+      CONSTRAINT orders_amount_nonnegative
+        CHECK (total_amount >= 0),
+
       CONSTRAINT orders_status_valid CHECK (
         status IN (
           'pending', 'confirmed', 'processing',
@@ -78,7 +135,8 @@ async function initializeDatabase() {
   `);
 
   await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
+    CREATE INDEX IF NOT EXISTS idx_orders_user_id
+    ON orders(user_id);
   `);
 
   await pool.query(`
@@ -96,9 +154,15 @@ async function initializeDatabase() {
       unit_price NUMERIC(12, 2) NOT NULL,
       quantity INTEGER NOT NULL,
       subtotal NUMERIC(12, 2) NOT NULL,
-      CONSTRAINT order_items_price_nonnegative CHECK (unit_price >= 0),
-      CONSTRAINT order_items_quantity_positive CHECK (quantity > 0),
-      CONSTRAINT order_items_subtotal_nonnegative CHECK (subtotal >= 0)
+
+      CONSTRAINT order_items_price_nonnegative
+        CHECK (unit_price >= 0),
+
+      CONSTRAINT order_items_quantity_positive
+        CHECK (quantity > 0),
+
+      CONSTRAINT order_items_subtotal_nonnegative
+        CHECK (subtotal >= 0)
     );
   `);
 
@@ -116,7 +180,9 @@ async function initializeDatabase() {
       currency VARCHAR(3) NOT NULL DEFAULT 'BDT',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      CONSTRAINT wallets_balance_nonnegative CHECK (balance >= 0)
+
+      CONSTRAINT wallets_balance_nonnegative
+        CHECK (balance >= 0)
     );
   `);
 
@@ -131,13 +197,17 @@ async function initializeDatabase() {
       description TEXT,
       status VARCHAR(20) NOT NULL DEFAULT 'pending',
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      CONSTRAINT wallet_transaction_amount_positive CHECK (amount > 0),
+
+      CONSTRAINT wallet_transaction_amount_positive
+        CHECK (amount > 0),
+
       CONSTRAINT wallet_transaction_type_valid CHECK (
         transaction_type IN (
           'deposit', 'withdrawal', 'purchase',
           'refund', 'adjustment'
         )
       ),
+
       CONSTRAINT wallet_transaction_status_valid CHECK (
         status IN ('pending', 'approved', 'rejected', 'completed')
       )
