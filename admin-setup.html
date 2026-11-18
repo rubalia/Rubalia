@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071426">
+<title>Rubalia - Admin Setup</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#071426;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+.container{
+  width:100%;
+  max-width:430px;
+  background:#10233d;
+  border:1px solid #263d5b;
+  border-radius:18px;
+  padding:26px;
+  box-shadow:0 15px 45px #0006;
+}
+.logo{
+  text-align:center;
+  font-size:27px;
+  font-weight:800;
+  color:#e6bd69;
+  margin-bottom:8px;
+}
+.subtitle{
+  text-align:center;
+  color:#aebdd0;
+  font-size:14px;
+  margin-bottom:28px;
+}
+h2{font-size:21px;margin:0 0 22px}
+label{
+  display:block;
+  font-size:13px;
+  color:#cbd5e1;
+  margin:17px 0 8px;
+}
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #405775;
+  border-radius:9px;
+  background:#09182b;
+  color:white;
+  outline:none;
+  font-size:15px;
+}
+input:focus{border-color:#e6bd69}
+button{
+  width:100%;
+  padding:15px;
+  margin-top:23px;
+  border:0;
+  border-radius:9px;
+  background:linear-gradient(135deg,#e6bd69,#bd8b36);
+  color:#172235;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+}
+button:disabled{opacity:.6;cursor:not-allowed}
+.message{
+  display:none;
+  margin-top:18px;
+  padding:13px;
+  border-radius:9px;
+  font-size:14px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.success{display:block;background:#123e30;color:#a8f0c9}
+.error{display:block;background:#4a2028;color:#ffc1c8}
+.note{
+  margin-top:22px;
+  color:#91a2b8;
+  font-size:12px;
+  line-height:1.7;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+  <div class="logo">RUBALIA</div>
+  <div class="subtitle">Network Administration</div>
+
+  <h2>Create First Admin Account</h2>
+
+  <form id="setupForm">
+
+    <label for="email">Registered Email</label>
+    <input
+      id="email"
+      type="email"
+      value="dc71bd@gmail.com"
+      readonly
+      required
+    >
+
+    <label for="setupKey">Admin Setup Key</label>
+    <input
+      id="setupKey"
+      type="password"
+      placeholder="Enter your secret setup key"
+      autocomplete="off"
+      required
+    >
+
+    <button id="submitButton" type="submit">
+      Create Admin Account
+    </button>
+
+  </form>
+
+  <div id="message" class="message" role="status"></div>
+
+  <div class="note">
+    Secure one-time administrator setup.<br>
+    Never share your Admin Setup Key with anyone.
+  </div>
+
+</main>
+
+<script>
+const API_URL = "https://rubalia.onrender.com/api";
+
+const form = document.getElementById("setupForm");
+const emailInput = document.getElementById("email");
+const keyInput = document.getElementById("setupKey");
+const button = document.getElementById("submitButton");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", async function(event){
+
+  event.preventDefault();
+
+  const email = emailInput.value.trim().toLowerCase();
+  const setupKey = keyInput.value;
+
+  if(!email || !setupKey){
+    showMessage("Please enter your setup key.", false);
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Creating Admin...";
+  message.className = "message";
+  message.textContent = "";
+
+  try{
+
+    const response = await fetch(
+      API_URL + "/admin/setup",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "x-admin-setup-key":setupKey
+        },
+        body:JSON.stringify({email})
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(
+        data.message || "Admin setup failed."
+      );
+    }
+
+    showMessage(
+      "Admin account created successfully! Please log out of Rubalia and log in again. Your new Admin access will be available after login.",
+      true
+    );
+
+    keyInput.value = "";
+    button.textContent = "Setup Completed";
+
+  }catch(error){
+
+    showMessage(
+      error.message || "Connection failed. Please try again.",
+      false
+    );
+
+    button.disabled = false;
+    button.textContent = "Create Admin Account";
+
+  }
+
+});
+
+function showMessage(text,success){
+  message.textContent = text;
+  message.className = success
+    ? "message success"
+    : "message error";
+}
+</script>
+
+</body>
+</html>
