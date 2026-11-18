@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,36 +12,20 @@
   --navy:#071a35;
   --navy2:#102b50;
   --gold:#c6a45d;
-  --white:#fff;
   --light:#f4f6fa;
   --text:#25334a;
   --muted:#718096;
   --border:#e5eaf0;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:var(--light);
   color:var(--text);
   min-height:100vh;
 }
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-header{
-  background:var(--navy);
-  color:white;
-}
-
+a{text-decoration:none;color:inherit}
+header{background:var(--navy);color:white}
 .navbar{
   max-width:1200px;
   margin:auto;
@@ -49,14 +34,12 @@ header{
   justify-content:space-between;
   align-items:center;
 }
-
 .logo{
   color:var(--gold);
   font-size:25px;
   font-weight:900;
   letter-spacing:2px;
 }
-
 .logo span{
   display:block;
   color:white;
@@ -64,16 +47,8 @@ header{
   letter-spacing:5px;
   margin-top:3px;
 }
-
-.home-link{
-  color:white;
-  font-size:14px;
-}
-
-.home-link:hover{
-  color:var(--gold);
-}
-
+.home-link{color:white;font-size:14px}
+.home-link:hover{color:var(--gold)}
 .main{
   min-height:calc(100vh - 85px);
   display:flex;
@@ -81,7 +56,6 @@ header{
   align-items:center;
   padding:45px 18px;
 }
-
 .login-wrapper{
   width:100%;
   max-width:980px;
@@ -92,7 +66,6 @@ header{
   overflow:hidden;
   box-shadow:0 12px 45px rgba(7,26,53,.09);
 }
-
 .login-banner{
   background:linear-gradient(145deg,var(--navy),var(--navy2));
   padding:55px 38px;
@@ -101,36 +74,28 @@ header{
   justify-content:center;
   color:white;
 }
-
 .banner-label{
   color:var(--gold);
   letter-spacing:3px;
   font-size:12px;
   font-weight:bold;
 }
-
 .login-banner h1{
   font-size:38px;
   line-height:1.25;
   margin:25px 0 18px;
 }
-
-.login-banner h1 span{
-  color:var(--gold);
-}
-
+.login-banner h1 span{color:var(--gold)}
 .login-banner p{
   color:#d5deeb;
   font-size:14px;
   line-height:1.9;
 }
-
 .banner-features{
   margin-top:35px;
   display:grid;
   gap:18px;
 }
-
 .banner-feature{
   display:flex;
   align-items:center;
@@ -138,7 +103,6 @@ header{
   font-size:13px;
   color:#e2e8f0;
 }
-
 .feature-icon{
   width:32px;
   height:32px;
@@ -148,31 +112,19 @@ header{
   color:var(--gold);
   border-radius:6px;
 }
-
-.login-form-area{
-  padding:48px 38px;
-}
-
-.form-heading{
-  margin-bottom:30px;
-}
-
+.login-form-area{padding:48px 38px}
+.form-heading{margin-bottom:30px}
 .form-heading h2{
   color:var(--navy);
   font-size:29px;
   margin-bottom:10px;
 }
-
 .form-heading p{
   color:var(--muted);
   font-size:13px;
   line-height:1.7;
 }
-
-.form-group{
-  margin-bottom:21px;
-}
-
+.form-group{margin-bottom:21px}
 .form-group label{
   display:block;
   color:var(--navy);
@@ -180,7 +132,6 @@ header{
   font-weight:bold;
   margin-bottom:10px;
 }
-
 .form-group input{
   width:100%;
   padding:15px;
@@ -190,19 +141,9 @@ header{
   outline:none;
   font-family:inherit;
 }
-
-.form-group input:focus{
-  border-color:var(--gold);
-}
-
-.password-wrap{
-  position:relative;
-}
-
-.password-wrap input{
-  padding-right:65px;
-}
-
+.form-group input:focus{border-color:var(--gold)}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:65px}
 .show-password{
   position:absolute;
   right:12px;
@@ -215,7 +156,6 @@ header{
   font-size:12px;
   font-weight:bold;
 }
-
 .form-options{
   display:flex;
   justify-content:space-between;
@@ -224,27 +164,15 @@ header{
   margin-bottom:25px;
   font-size:12px;
 }
-
 .remember{
   display:flex;
   align-items:center;
   gap:7px;
   color:var(--muted);
 }
-
-.remember input{
-  accent-color:var(--gold);
-}
-
-.forgot{
-  color:var(--navy);
-  font-weight:bold;
-}
-
-.forgot:hover{
-  color:var(--gold);
-}
-
+.remember input{accent-color:var(--gold)}
+.forgot{color:var(--navy);font-weight:bold}
+.forgot:hover{color:var(--gold)}
 .login-btn{
   width:100%;
   padding:16px;
@@ -256,39 +184,37 @@ header{
   font-weight:bold;
   cursor:pointer;
 }
-
-.login-btn:hover{
-  background:var(--navy);
-  color:white;
-}
-
+.login-btn:hover{background:var(--navy);color:white}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
 .form-message{
   display:none;
   margin-top:16px;
   padding:13px;
-  background:#fff8e8;
-  color:#74591f;
   border-radius:6px;
   font-size:12px;
   line-height:1.7;
+  overflow-wrap:anywhere;
 }
-
+.form-message.error{
+  display:block;
+  background:#fff0f0;
+  color:#9b2525;
+  border:1px solid #f2cccc;
+}
+.form-message.success{
+  display:block;
+  background:#effaf3;
+  color:#17633b;
+  border:1px solid #c6ead2;
+}
 .register-text{
   text-align:center;
   font-size:13px;
   color:var(--muted);
   margin-top:25px;
 }
-
-.register-text a{
-  color:var(--navy);
-  font-weight:bold;
-}
-
-.register-text a:hover{
-  color:var(--gold);
-}
-
+.register-text a{color:var(--navy);font-weight:bold}
+.register-text a:hover{color:var(--gold)}
 .security-note{
   border-top:1px solid var(--border);
   margin-top:28px;
@@ -298,51 +224,29 @@ header{
   font-size:11px;
   line-height:1.8;
 }
-
 footer{
   text-align:center;
   padding:20px;
   color:var(--muted);
   font-size:12px;
 }
-
 @media(max-width:750px){
-
   .login-wrapper{
     max-width:460px;
     grid-template-columns:1fr;
   }
-
-  .login-banner{
-    padding:35px 27px;
-  }
-
-  .login-banner h1{
-    font-size:29px;
-    margin:15px 0;
-  }
-
+  .login-banner{padding:35px 27px}
+  .login-banner h1{font-size:29px;margin:15px 0}
   .banner-features{
     grid-template-columns:1fr 1fr;
     gap:12px;
     margin-top:22px;
   }
-
-  .login-form-area{
-    padding:35px 25px;
-  }
+  .login-form-area{padding:35px 25px}
 }
-
 @media(max-width:380px){
-
-  .banner-features{
-    grid-template-columns:1fr;
-  }
-
-  .form-options{
-    align-items:flex-start;
-    flex-direction:column;
-  }
+  .banner-features{grid-template-columns:1fr}
+  .form-options{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
@@ -351,202 +255,234 @@ footer{
 
 <header>
 <nav class="navbar">
-
-<a href="index.html" class="logo">
-RUBALIA
-<span>NETWORK</span>
-</a>
-
-<a href="index.html" class="home-link">
-← Back to Home
-</a>
-
+  <a href="index.html" class="logo">
+    RUBALIA
+    <span>NETWORK</span>
+  </a>
+  <a href="index.html" class="home-link">← Back to Home</a>
 </nav>
 </header>
 
 <main class="main">
-
 <div class="login-wrapper">
 
-<div class="login-banner">
+  <div class="login-banner">
+    <div class="banner-label">MEMBER PORTAL</div>
 
-<div class="banner-label">
-MEMBER PORTAL
+    <h1>
+      Welcome Back to
+      <span>RUBALIA</span>
+    </h1>
+
+    <p>
+      Access your member account and manage
+      your product distribution activities
+      through the RUBALIA NETWORK platform.
+    </p>
+
+    <div class="banner-features">
+      <div class="banner-feature">
+        <span class="feature-icon">✦</span>
+        <span>Member Dashboard</span>
+      </div>
+      <div class="banner-feature">
+        <span class="feature-icon">◎</span>
+        <span>Product Orders</span>
+      </div>
+      <div class="banner-feature">
+        <span class="feature-icon">◆</span>
+        <span>Account Management</span>
+      </div>
+      <div class="banner-feature">
+        <span class="feature-icon">✓</span>
+        <span>Secure Access</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-form-area">
+
+    <div class="form-heading">
+      <h2>Member Login</h2>
+      <p>
+        Enter your registered email and password
+        to access your account.
+      </p>
+    </div>
+
+    <form id="loginForm">
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your registered email"
+          autocomplete="username"
+          maxlength="255"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <div class="password-wrap">
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required>
+
+          <button
+            type="button"
+            class="show-password"
+            id="showPassword">
+            SHOW
+          </button>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          Remember Me
+        </label>
+
+        <a href="forgot-password.html" class="forgot">
+          Forgot Password?
+        </a>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">
+        SIGN IN
+      </button>
+
+      <div
+        class="form-message"
+        id="formMessage"
+        role="status"
+        aria-live="polite">
+      </div>
+
+    </form>
+
+    <div class="register-text">
+      Don't have an account?
+      <a href="register.html">Create Account</a>
+    </div>
+
+    <div class="security-note">
+      🔒 Your account security matters.
+      <br>
+      Never share your password or verification codes
+      with anyone.
+    </div>
+
+  </div>
 </div>
-
-<h1>
-Welcome Back to
-<span>RUBALIA</span>
-</h1>
-
-<p>
-Access your member account and manage
-your product distribution activities
-through the RUBALIA NETWORK platform.
-</p>
-
-<div class="banner-features">
-
-<div class="banner-feature">
-<span class="feature-icon">✦</span>
-<span>Member Dashboard</span>
-</div>
-
-<div class="banner-feature">
-<span class="feature-icon">◎</span>
-<span>Product Orders</span>
-</div>
-
-<div class="banner-feature">
-<span class="feature-icon">◆</span>
-<span>Account Management</span>
-</div>
-
-<div class="banner-feature">
-<span class="feature-icon">✓</span>
-<span>Secure Access</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="login-form-area">
-
-<div class="form-heading">
-
-<h2>Member Login</h2>
-
-<p>
-Enter your registered Member ID or Email
-to access your account.
-</p>
-
-</div>
-
-<form id="loginForm">
-
-<div class="form-group">
-
-<label for="identity">
-Member ID / Email Address
-</label>
-
-<input
-type="text"
-id="identity"
-placeholder="Enter Member ID or Email"
-autocomplete="username"
-required>
-
-</div>
-
-<div class="form-group">
-
-<label for="password">
-Password
-</label>
-
-<div class="password-wrap">
-
-<input
-type="password"
-id="password"
-placeholder="Enter your password"
-autocomplete="current-password"
-required>
-
-<button
-type="button"
-class="show-password"
-onclick="togglePassword()">
-SHOW
-</button>
-
-</div>
-
-</div>
-
-<div class="form-options">
-
-<label class="remember">
-<input type="checkbox" id="remember">
-Remember Me
-</label>
-
-<a href="forgot-password.html" class="forgot">
-Forgot Password?
-</a>
-
-</div>
-
-<button type="submit" class="login-btn">
-SIGN IN
-</button>
-
-<div class="form-message" id="formMessage"></div>
-
-</form>
-
-<div class="register-text">
-Don't have an account?
-<a href="register.html">Create Account</a>
-</div>
-
-<div class="security-note">
-🔒 Your account security matters.
-
-<br>
-
-Never share your password or verification codes
-with anyone.
-</div>
-
-</div>
-
-</div>
-
 </main>
 
 <footer>
-© <span id="year"></span> RUBALIA NETWORK.
-All Rights Reserved.
+  © <span id="year"></span> RUBALIA NETWORK.
+  All Rights Reserved.
 </footer>
 
 <script>
+"use strict";
 
-function togglePassword(){
+const API_BASE = "https://rubalia.onrender.com/api";
 
-  const password = document.getElementById("password");
-  const button = document.querySelector(".show-password");
-
-  if(password.type === "password"){
-    password.type = "text";
-    button.textContent = "HIDE";
-  }else{
-    password.type = "password";
-    button.textContent = "SHOW";
-  }
-
-}
-
-document.getElementById("loginForm")
-.addEventListener("submit",function(e){
-
-  e.preventDefault();
-
-  const message = document.getElementById("formMessage");
-
-  message.style.display = "block";
-
-  message.textContent =
-  "Login is not activated yet. The secure backend authentication system will be connected in a future development phase.";
-
-});
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const formMessage = document.getElementById("formMessage");
+const showPasswordBtn = document.getElementById("showPassword");
 
 document.getElementById("year").textContent =
-new Date().getFullYear();
+  new Date().getFullYear();
 
+showPasswordBtn.addEventListener("click", function(){
+  const isPassword = passwordInput.type === "password";
+
+  passwordInput.type = isPassword ? "text" : "password";
+  showPasswordBtn.textContent = isPassword ? "HIDE" : "SHOW";
+});
+
+function showMessage(type, text){
+  formMessage.className = "form-message " + type;
+  formMessage.textContent = text;
+}
+
+loginForm.addEventListener("submit", async function(event){
+  event.preventDefault();
+
+  const email = emailInput.value.trim().toLowerCase();
+  const password = passwordInput.value;
+
+  if(!email || !password){
+    showMessage("error", "Please enter your email and password.");
+    return;
+  }
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = "SIGNING IN...";
+  formMessage.className = "form-message";
+  formMessage.textContent = "";
+
+  try{
+    const response = await fetch(API_BASE + "/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+
+    const data = await response.json().catch(function(){
+      return {};
+    });
+
+    if(!response.ok || !data.success){
+      throw new Error(
+        data.message || "Login failed. Please check your details."
+      );
+    }
+
+    if(!data.token || !data.user){
+      throw new Error("The server returned an incomplete login response.");
+    }
+
+    // Store only the temporary access token and basic user data.
+    // The password is never stored in browser storage.
+    sessionStorage.setItem("rubalia_token", data.token);
+    sessionStorage.setItem("rubalia_user", JSON.stringify(data.user));
+
+    showMessage(
+      "success",
+      "Login successful. Redirecting to your dashboard..."
+    );
+
+    loginForm.reset();
+
+    window.setTimeout(function(){
+      window.location.href = "dashboard.html";
+    }, 900);
+
+  }catch(error){
+    showMessage(
+      "error",
+      error.message || "Unable to connect to Rubalia Server. Please try again."
+    );
+  }finally{
+    loginBtn.disabled = false;
+    loginBtn.textContent = "SIGN IN";
+  }
+});
 </script>
 
 </body>
