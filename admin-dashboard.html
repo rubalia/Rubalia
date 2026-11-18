@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,6 @@
   --navy:#071a35;
   --navy2:#102b50;
   --gold:#d6ad55;
-  --gold-light:#f3dfa9;
   --bg:#f3f6fb;
   --white:#fff;
   --text:#18263c;
@@ -19,8 +19,6 @@
   --border:#e5eaf1;
   --green:#16845b;
   --red:#c34b4b;
-  --blue:#2875c7;
-  --orange:#c17a24;
 }
 *{box-sizing:border-box}
 body{
@@ -32,8 +30,56 @@ body{
 a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
 
+.loading-screen,.error-screen{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  padding:20px;
+}
+.loading-box,.error-card{
+  width:100%;
+  max-width:420px;
+  padding:28px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  text-align:center;
+}
+.loading-box strong{color:var(--navy)}
+.loading-box p,.error-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+.spinner{
+  width:38px;
+  height:38px;
+  border:4px solid #e3e8ef;
+  border-top-color:var(--gold);
+  border-radius:50%;
+  margin:0 auto 17px;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-screen{display:none}
+.error-card h2{color:var(--navy)}
+.error-card a,.error-card button{
+  display:inline-block;
+  margin:7px 4px 0;
+  padding:11px 17px;
+  border:0;
+  border-radius:7px;
+  background:var(--gold);
+  color:var(--navy);
+  font-weight:bold;
+}
+
 .topbar{
-  height:65px;
+  min-height:65px;
   background:var(--navy);
   color:white;
   display:flex;
@@ -53,25 +99,33 @@ button{font:inherit;cursor:pointer}
 .top-right{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:12px;
 }
 .admin-label{
   font-size:11px;
   background:rgba(214,173,85,.17);
-  color:var(--gold-light);
+  color:#f3dfa9;
   border:1px solid rgba(214,173,85,.4);
   padding:7px 11px;
   border-radius:20px;
 }
 .admin-avatar{
-  width:35px;
-  height:35px;
+  width:36px;
+  height:36px;
   border-radius:50%;
   background:var(--gold);
   color:var(--navy);
   display:grid;
   place-items:center;
   font-weight:bold;
+}
+.mobile-menu{
+  display:none;
+  border:1px solid rgba(255,255,255,.25);
+  background:transparent;
+  color:white;
+  border-radius:7px;
+  padding:7px 10px;
 }
 .layout{
   display:grid;
@@ -83,6 +137,21 @@ button{font:inherit;cursor:pointer}
   color:white;
   padding:20px 13px;
 }
+.admin-profile{
+  padding:8px 10px 20px;
+  margin-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.admin-profile strong{
+  display:block;
+  font-size:14px;
+  margin-bottom:6px;
+}
+.admin-profile small{
+  color:#b8c7d9;
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
 .side-heading{
   color:#9eafc5;
   font-size:10px;
@@ -91,7 +160,7 @@ button{font:inherit;cursor:pointer}
   letter-spacing:1.3px;
   margin:19px 11px 9px;
 }
-.nav-link{
+.nav-link,.logout-btn{
   display:flex;
   align-items:center;
   gap:11px;
@@ -101,15 +170,21 @@ button{font:inherit;cursor:pointer}
   font-size:12px;
   color:#dce6f2;
   transition:.2s;
+  width:100%;
 }
-.nav-link:hover,.nav-link.active{
+.nav-link:hover,.nav-link.active,.logout-btn:hover{
   background:rgba(214,173,85,.17);
-  color:var(--gold-light);
+  color:#f3dfa9;
 }
 .nav-icon{
   width:19px;
   text-align:center;
   font-size:15px;
+}
+.logout-btn{
+  background:transparent;
+  border:0;
+  text-align:left;
 }
 .main{
   padding:25px;
@@ -135,10 +210,10 @@ button{font:inherit;cursor:pointer}
   color:var(--muted);
   font-size:12px;
 }
-.demo-badge{
+.live-badge{
   display:inline-block;
-  background:#fff1d5;
-  color:#865f18;
+  background:#e7f7ef;
+  color:var(--green);
   border-radius:20px;
   padding:8px 12px;
   font-size:10px;
@@ -154,23 +229,15 @@ button{font:inherit;cursor:pointer}
   justify-content:space-between;
   align-items:center;
   gap:20px;
-  overflow:hidden;
 }
-.welcome h2{
-  margin:0 0 8px;
-  font-size:20px;
-}
+.welcome h2{margin:0 0 8px;font-size:20px}
 .welcome p{
   margin:0;
   color:#c8d5e5;
   font-size:12px;
-  line-height:1.6;
+  line-height:1.7;
 }
-.welcome-icon{
-  font-size:47px;
-  opacity:.85;
-  padding-right:15px;
-}
+.welcome-icon{font-size:45px}
 .stats{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -190,10 +257,7 @@ button{font:inherit;cursor:pointer}
   align-items:center;
   gap:8px;
 }
-.stat-name{
-  color:var(--muted);
-  font-size:11px;
-}
+.stat-name{color:var(--muted);font-size:11px}
 .stat-icon{
   width:35px;
   height:35px;
@@ -210,18 +274,10 @@ button{font:inherit;cursor:pointer}
   font-weight:800;
   margin:12px 0 5px;
 }
-.stat-note{
-  font-size:10px;
-  color:var(--muted);
-}
-.section-title{
-  color:var(--navy);
-  font-size:16px;
-  margin:0;
-}
+.stat-note{font-size:10px;color:var(--muted)}
 .grid-two{
   display:grid;
-  grid-template-columns:1.4fr 1fr;
+  grid-template-columns:1fr 1fr;
   gap:17px;
   margin-bottom:20px;
 }
@@ -251,39 +307,6 @@ button{font:inherit;cursor:pointer}
   font-size:11px;
   font-weight:bold;
 }
-.activity-list{
-  display:grid;
-  gap:0;
-}
-.activity{
-  display:flex;
-  align-items:flex-start;
-  gap:11px;
-  padding:12px 0;
-  border-bottom:1px solid #edf0f5;
-}
-.activity:last-child{border-bottom:0}
-.activity-icon{
-  width:34px;
-  height:34px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  background:#f1f4f9;
-}
-.activity strong{
-  display:block;
-  font-size:12px;
-  color:var(--text);
-  margin:1px 0 5px;
-}
-.activity small{
-  display:block;
-  font-size:10px;
-  color:var(--muted);
-  line-height:1.5;
-}
 .quick-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -300,19 +323,14 @@ button{font:inherit;cursor:pointer}
   border-color:var(--gold);
   background:#fffcf5;
 }
-.quick-card span{
-  font-size:20px;
-}
+.quick-card span{font-size:20px}
 .quick-card strong{
   display:block;
   color:var(--navy);
   font-size:12px;
   margin:9px 0 4px;
 }
-.quick-card small{
-  color:var(--muted);
-  font-size:10px;
-}
+.quick-card small{color:var(--muted);font-size:10px}
 .table-wrap{overflow-x:auto}
 table{
   width:100%;
@@ -323,7 +341,6 @@ th{
   text-align:left;
   font-size:10px;
   color:var(--muted);
-  font-weight:700;
   background:#f7f9fc;
   padding:12px 10px;
 }
@@ -339,11 +356,19 @@ td strong{color:var(--navy)}
   border-radius:20px;
   font-size:9px;
   font-weight:bold;
+  background:#eef2f7;
+  color:#526176;
 }
-.pending{background:#fff2dc;color:#a16b14}
-.review{background:#eaf2ff;color:#2866a5}
-.complete{background:#e7f7ef;color:#16845b}
-.demo-note{
+.status.pending{background:#fff2dc;color:#a16b14}
+.status.complete{background:#e7f7ef;color:#16845b}
+.status.cancelled{background:#fceaea;color:#c34b4b}
+.empty-state{
+  padding:22px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+.notice{
   background:#fff9eb;
   border:1px solid #f0dfb8;
   border-radius:10px;
@@ -351,21 +376,22 @@ td strong{color:var(--navy)}
   color:#76591e;
   font-size:11px;
   line-height:1.7;
-  margin-top:5px;
 }
+.refresh-btn{
+  border:1px solid var(--border);
+  background:white;
+  color:var(--navy);
+  padding:8px 12px;
+  border-radius:7px;
+  font-size:11px;
+  font-weight:bold;
+}
+.refresh-btn:disabled{opacity:.5}
 .footer{
   text-align:center;
   padding:20px;
   color:#9aa5b5;
   font-size:10px;
-}
-.mobile-menu{
-  display:none;
-  border:1px solid rgba(255,255,255,.25);
-  background:transparent;
-  color:white;
-  border-radius:7px;
-  padding:7px 10px;
 }
 @media(max-width:1100px){
   .stats{grid-template-columns:repeat(2,1fr)}
@@ -373,12 +399,8 @@ td strong{color:var(--navy)}
 }
 @media(max-width:800px){
   .layout{grid-template-columns:1fr}
-  .sidebar{
-    display:none;
-    padding:12px;
-  }
+  .sidebar{display:none;padding:12px}
   .sidebar.open{display:block}
-  .side-heading{margin-top:12px}
   .mobile-menu{display:block}
   .main{padding:17px}
 }
@@ -388,7 +410,7 @@ td strong{color:var(--navy)}
   .stat-value{font-size:21px}
   .welcome{padding:18px}
   .welcome h2{font-size:17px}
-  .welcome-icon{font-size:35px;padding:0}
+  .welcome-icon{font-size:35px}
   .topbar{padding:0 13px}
   .brand{font-size:17px}
   .admin-label{font-size:9px;padding:6px 8px}
@@ -399,20 +421,45 @@ td strong{color:var(--navy)}
 
 <body>
 
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <strong>RUBALIA NETWORK</strong>
+    <p>Verifying administrator access...</p>
+  </div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+  <div class="error-card">
+    <h2 id="errorTitle">Access Error</h2>
+    <p id="errorMessage">Unable to verify administrator access.</p>
+    <a href="login.html">Login</a>
+    <button type="button" onclick="location.reload()">Try Again</button>
+  </div>
+</div>
+
+<div id="adminApp" hidden>
+
 <header class="topbar">
   <div style="display:flex;align-items:center;gap:12px">
-    <button class="mobile-menu" id="menuBtn">☰</button>
+    <button class="mobile-menu" id="menuBtn" type="button">☰</button>
     <div class="brand">RUBALIA <span>NETWORK</span></div>
   </div>
+
   <div class="top-right">
     <span class="admin-label">ADMIN PANEL</span>
-    <div class="admin-avatar">A</div>
+    <div class="admin-avatar" id="adminAvatar">A</div>
   </div>
 </header>
 
 <div class="layout">
 
 <aside class="sidebar" id="sidebar">
+
+  <div class="admin-profile">
+    <strong id="adminName">Administrator</strong>
+    <small id="adminEmail">Loading...</small>
+  </div>
 
   <div class="side-heading">Main Menu</div>
   <a href="admin-dashboard.html" class="nav-link active">
@@ -462,6 +509,9 @@ td strong{color:var(--navy)}
   <a href="index.html" class="nav-link">
     <span class="nav-icon">🌐</span> Visit Website
   </a>
+  <button class="logout-btn" id="logoutBtn" type="button">
+    <span class="nav-icon">↪</span> Logout
+  </button>
 
 </aside>
 
@@ -472,16 +522,15 @@ td strong{color:var(--navy)}
       <h1>Admin Dashboard</h1>
       <p>Welcome to the Rubalia Network administration panel.</p>
     </div>
-    <span class="demo-badge">FRONTEND DEMO</span>
+    <span class="live-badge">● LIVE SERVER DATA</span>
   </div>
 
   <section class="welcome">
     <div>
-      <h2>Welcome, Administrator!</h2>
+      <h2 id="welcomeTitle">Welcome, Administrator!</h2>
       <p>
-        Manage your website overview, product operations, partner information
-        and customer services from one place.
-        <br>All figures shown below are illustrative demo values.
+        Manage Rubalia Network from one place.
+        Dashboard figures are loaded from your PostgreSQL database.
       </p>
     </div>
     <div class="welcome-icon">👑</div>
@@ -494,17 +543,17 @@ td strong{color:var(--navy)}
         <span class="stat-name">Total Users</span>
         <span class="stat-icon">👥</span>
       </div>
-      <strong class="stat-value">1,250</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="totalUsers">—</strong>
+      <span class="stat-note">All registered accounts</span>
     </div>
 
     <div class="stat-card">
       <div class="stat-top">
-        <span class="stat-name">Total Partners</span>
-        <span class="stat-icon">🤝</span>
+        <span class="stat-name">Active Users</span>
+        <span class="stat-icon">🟢</span>
       </div>
-      <strong class="stat-value">320</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="activeUsers">—</strong>
+      <span class="stat-note">Currently active accounts</span>
     </div>
 
     <div class="stat-card">
@@ -512,8 +561,17 @@ td strong{color:var(--navy)}
         <span class="stat-name">Total Products</span>
         <span class="stat-icon">📦</span>
       </div>
-      <strong class="stat-value">48</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="totalProducts">—</strong>
+      <span class="stat-note">All products in database</span>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Active Products</span>
+        <span class="stat-icon">🛍️</span>
+      </div>
+      <strong class="stat-value" id="activeProducts">—</strong>
+      <span class="stat-note">Products available</span>
     </div>
 
     <div class="stat-card">
@@ -521,17 +579,8 @@ td strong{color:var(--navy)}
         <span class="stat-name">Total Orders</span>
         <span class="stat-icon">🛒</span>
       </div>
-      <strong class="stat-value">860</strong>
-      <span class="stat-note">Sample dashboard figure</span>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Pending Applications</span>
-        <span class="stat-icon">📋</span>
-      </div>
-      <strong class="stat-value">12</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="totalOrders">—</strong>
+      <span class="stat-note">All recorded orders</span>
     </div>
 
     <div class="stat-card">
@@ -539,26 +588,17 @@ td strong{color:var(--navy)}
         <span class="stat-name">Pending Orders</span>
         <span class="stat-icon">⏳</span>
       </div>
-      <strong class="stat-value">25</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="pendingOrders">—</strong>
+      <span class="stat-note">Orders awaiting processing</span>
     </div>
 
     <div class="stat-card">
       <div class="stat-top">
-        <span class="stat-name">Support Requests</span>
-        <span class="stat-icon">🎧</span>
+        <span class="stat-name">Delivered Orders</span>
+        <span class="stat-icon">✅</span>
       </div>
-      <strong class="stat-value">08</strong>
-      <span class="stat-note">Sample dashboard figure</span>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Pending Reviews</span>
-        <span class="stat-icon">🔍</span>
-      </div>
-      <strong class="stat-value">06</strong>
-      <span class="stat-note">Sample dashboard figure</span>
+      <strong class="stat-value" id="deliveredOrders">—</strong>
+      <span class="stat-note">Successfully delivered</span>
     </div>
 
   </section>
@@ -567,59 +607,7 @@ td strong{color:var(--navy)}
 
     <section class="panel">
       <div class="panel-head">
-        <h3>Recent Activities</h3>
-        <a href="#" class="view-link">Demo Feed</a>
-      </div>
-
-      <div class="activity-list">
-
-        <div class="activity">
-          <div class="activity-icon">👤</div>
-          <div>
-            <strong>New User Registration</strong>
-            <small>Sample activity — a new user account was registered.</small>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-icon">🤝</div>
-          <div>
-            <strong>Partner Application Received</strong>
-            <small>Sample activity — a partner application is awaiting review.</small>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-icon">🛒</div>
-          <div>
-            <strong>New Product Order</strong>
-            <small>Sample activity — an order was placed in the demo system.</small>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-icon">🎧</div>
-          <div>
-            <strong>New Support Request</strong>
-            <small>Sample activity — a customer requested assistance.</small>
-          </div>
-        </div>
-
-        <div class="activity">
-          <div class="activity-icon">📢</div>
-          <div>
-            <strong>Announcement Draft</strong>
-            <small>Sample activity — an announcement draft was prepared.</small>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
         <h3>Quick Actions</h3>
-        <span class="demo-badge">Demo Links</span>
       </div>
 
       <div class="quick-grid">
@@ -630,85 +618,48 @@ td strong{color:var(--navy)}
           <small>View user records</small>
         </a>
 
-        <a href="admin-partners.html" class="quick-card">
-          <span>🤝</span>
-          <strong>Manage Partners</strong>
-          <small>Partner information</small>
-        </a>
-
         <a href="admin-products.html" class="quick-card">
           <span>📦</span>
-          <strong>Add Products</strong>
+          <strong>Manage Products</strong>
           <small>Product management</small>
         </a>
 
         <a href="admin-orders.html" class="quick-card">
           <span>🛒</span>
-          <strong>View Orders</strong>
+          <strong>Manage Orders</strong>
           <small>Order management</small>
-        </a>
-
-        <a href="admin-applications.html" class="quick-card">
-          <span>📋</span>
-          <strong>Applications</strong>
-          <small>Review applications</small>
         </a>
 
         <a href="admin-announcements.html" class="quick-card">
           <span>📢</span>
           <strong>Announcements</strong>
-          <small>Communication center</small>
+          <small>Send notifications</small>
         </a>
 
       </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h3>Administrator Account</h3>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 12px">
+        Signed in as:
+      </p>
+      <strong id="accountName" style="color:var(--navy);font-size:14px">—</strong>
+      <p id="accountEmail" style="font-size:12px;color:var(--muted);overflow-wrap:anywhere">—</p>
+      <span class="live-badge">Verified Admin</span>
     </section>
 
   </div>
 
   <section class="panel">
     <div class="panel-head">
-      <h3>Pending Partner Applications</h3>
-      <a href="admin-applications.html" class="view-link">View All →</a>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>APPLICATION ID</th>
-            <th>APPLICANT</th>
-            <th>SUBMISSION</th>
-            <th>STATUS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>APP-1001</strong></td>
-            <td>Sample Applicant A</td>
-            <td>Sample Date</td>
-            <td><span class="status pending">Pending</span></td>
-          </tr>
-          <tr>
-            <td><strong>APP-1002</strong></td>
-            <td>Sample Applicant B</td>
-            <td>Sample Date</td>
-            <td><span class="status review">Under Review</span></td>
-          </tr>
-          <tr>
-            <td><strong>APP-1003</strong></td>
-            <td>Sample Applicant C</td>
-            <td>Sample Date</td>
-            <td><span class="status pending">Pending</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-head">
       <h3>Recent Orders</h3>
-      <a href="admin-orders.html" class="view-link">View All →</a>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
+        <a href="admin-orders.html" class="view-link">View All →</a>
+      </div>
     </div>
 
     <div class="table-wrap">
@@ -717,42 +668,24 @@ td strong{color:var(--navy)}
           <tr>
             <th>ORDER ID</th>
             <th>CUSTOMER</th>
-            <th>ORDER TYPE</th>
+            <th>EMAIL</th>
+            <th>AMOUNT</th>
             <th>STATUS</th>
+            <th>DATE</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><strong>ORD-2001</strong></td>
-            <td>Sample Customer A</td>
-            <td>Product Order</td>
-            <td><span class="status pending">Processing</span></td>
-          </tr>
-          <tr>
-            <td><strong>ORD-2002</strong></td>
-            <td>Sample Customer B</td>
-            <td>Product Order</td>
-            <td><span class="status complete">Delivered</span></td>
-          </tr>
-          <tr>
-            <td><strong>ORD-2003</strong></td>
-            <td>Sample Customer C</td>
-            <td>Product Order</td>
-            <td><span class="status review">Pending Review</span></td>
-          </tr>
+        <tbody id="ordersBody">
+          <tr><td colspan="6" class="empty-state">Loading orders...</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <div class="demo-note">
-    <strong>Demo & Security Notice:</strong><br>
-    This Admin Dashboard is a frontend prototype. The displayed users,
-    partners, products, orders and activities are fictional sample data.
-    No real administrative access, approval, payment processing,
-    financial transaction or database operation is available yet.
-    A secure backend, role-based permissions, audit logs and server-side
-    validation will be required before production use.
+  <div class="notice">
+    <strong>Important:</strong>
+    This dashboard displays information returned by the Rubalia server.
+    Commission, wallet and payment figures are not displayed here because
+    their live financial reporting endpoints have not yet been connected.
   </div>
 
 </main>
@@ -760,19 +693,258 @@ td strong{color:var(--navy)}
 
 <footer class="footer">
   © <span id="year"></span> Rubalia Network. All Rights Reserved.
-  <br>Admin Dashboard — Frontend Demo
+  <br>Administrator Dashboard
 </footer>
 
+</div>
+
 <script>
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+"use strict";
 
-const menuBtn = document.getElementById("menuBtn");
-const sidebar = document.getElementById("sidebar");
+const API_BASE = "https://rubalia.onrender.com/api";
 
-menuBtn.addEventListener("click", function(){
-  sidebar.classList.toggle("open");
+let adminToken = "";
+let adminUser = null;
+
+const $ = (id) => document.getElementById(id);
+
+function showError(title,message){
+  $("loadingScreen").style.display="none";
+  $("adminApp").hidden=true;
+  $("errorTitle").textContent=title;
+  $("errorMessage").textContent=message;
+  $("errorScreen").style.display="flex";
+}
+
+function formatNumber(value){
+  const number=Number(value);
+  return Number.isFinite(number)
+    ? number.toLocaleString("en-US")
+    : "—";
+}
+
+function formatMoney(value){
+  const number=Number(value);
+  if(!Number.isFinite(number)) return "—";
+  return "৳"+number.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+
+function formatDate(value){
+  if(!value) return "—";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString("en-GB",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
+}
+
+function initials(name){
+  const value=String(name || "A").trim();
+  return value ? value.charAt(0).toUpperCase() : "A";
+}
+
+async function apiRequest(path){
+  const response=await fetch(API_BASE+path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer "+adminToken,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data=await response.json().catch(()=>({}));
+
+  if(response.status===401){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    window.location.replace("login.html");
+    throw new Error("Your session has expired. Please login again.");
+  }
+
+  if(response.status===403){
+    throw new Error("Your account does not have administrator permission.");
+  }
+
+  if(!response.ok || data.success===false){
+    throw new Error(data.message || "Unable to load server information.");
+  }
+
+  return data;
+}
+
+function setStat(id,value){
+  $(id).textContent=formatNumber(value);
+}
+
+function showOrders(orders){
+  const body=$("ordersBody");
+  body.replaceChildren();
+
+  if(!Array.isArray(orders) || orders.length===0){
+    const row=document.createElement("tr");
+    const cell=document.createElement("td");
+    cell.colSpan=6;
+    cell.className="empty-state";
+    cell.textContent="No orders found in the database.";
+    row.appendChild(cell);
+    body.appendChild(row);
+    return;
+  }
+
+  orders.forEach(order=>{
+    const row=document.createElement("tr");
+
+    const values=[
+      order.order_number || ("#"+order.id),
+      order.customer_name || "—",
+      order.customer_email || "—",
+      formatMoney(order.total_amount),
+      order.status || "—",
+      formatDate(order.created_at)
+    ];
+
+    values.forEach((value,index)=>{
+      const cell=document.createElement("td");
+
+      if(index===0){
+        const strong=document.createElement("strong");
+        strong.textContent=String(value);
+        cell.appendChild(strong);
+      }else if(index===4){
+        const badge=document.createElement("span");
+        badge.className="status";
+        const status=String(value).toLowerCase();
+        if(status==="pending" || status==="processing"){
+          badge.classList.add("pending");
+        }else if(status==="delivered" || status==="completed"){
+          badge.classList.add("complete");
+        }else if(status==="cancelled"){
+          badge.classList.add("cancelled");
+        }
+        badge.textContent=String(value);
+        cell.appendChild(badge);
+      }else{
+        cell.textContent=String(value);
+      }
+
+      row.appendChild(cell);
+    });
+
+    body.appendChild(row);
+  });
+}
+
+async function loadDashboardData(){
+  $("refreshBtn").disabled=true;
+  $("refreshBtn").textContent="Loading...";
+
+  try{
+    const results=await Promise.all([
+      apiRequest("/admin/dashboard"),
+      apiRequest("/admin/orders")
+    ]);
+
+    const dashboard=results[0].dashboard || {};
+    const orders=results[1].orders || [];
+
+    setStat("totalUsers",dashboard.total_users);
+    setStat("activeUsers",dashboard.active_users);
+    setStat("totalProducts",dashboard.total_products);
+    setStat("activeProducts",dashboard.active_products);
+    setStat("totalOrders",dashboard.total_orders);
+    setStat("pendingOrders",dashboard.pending_orders);
+    setStat("deliveredOrders",dashboard.delivered_orders);
+
+    showOrders(orders);
+
+  }catch(error){
+    if(error.message.includes("administrator permission")){
+      showError("Access Denied",error.message);
+    }else if(error.message.includes("session has expired")){
+      return;
+    }else{
+      showOrders([]);
+      showError(
+        "Dashboard Data Error",
+        error.message+" Please check the backend deployment and try again."
+      );
+    }
+  }finally{
+    $("refreshBtn").disabled=false;
+    $("refreshBtn").textContent="↻ Refresh";
+  }
+}
+
+async function initializeAdmin(){
+  adminToken=sessionStorage.getItem("rubalia_token") || "";
+
+  if(!adminToken){
+    window.location.replace("login.html");
+    return;
+  }
+
+  try{
+    const data=await apiRequest("/auth/me");
+    const user=data.user;
+
+    if(!user){
+      throw new Error("The server did not return account information.");
+    }
+
+    if(String(user.role).toLowerCase()!=="admin"){
+      window.location.replace("dashboard.html");
+      return;
+    }
+
+    adminUser=user;
+
+    const name=user.full_name || user.fullName || "Administrator";
+    const email=user.email || "";
+
+    $("adminName").textContent=name;
+    $("adminEmail").textContent=email;
+    $("accountName").textContent=name;
+    $("accountEmail").textContent=email;
+    $("adminAvatar").textContent=initials(name);
+    $("welcomeTitle").textContent="Welcome, "+name+"!";
+
+    $("year").textContent=new Date().getFullYear();
+
+    $("loadingScreen").style.display="none";
+    $("adminApp").hidden=false;
+
+    await loadDashboardData();
+
+  }catch(error){
+    if(error.message.includes("administrator permission")){
+      showError("Access Denied",error.message);
+    }else{
+      showError("Unable to Verify Account",error.message);
+    }
+  }
+}
+
+function logout(){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  window.location.replace("login.html");
+}
+
+$("menuBtn").addEventListener("click",()=>{
+  $("sidebar").classList.toggle("open");
 });
+
+$("logoutBtn").addEventListener("click",logout);
+
+$("refreshBtn").addEventListener("click",loadDashboardData);
+
+initializeAdmin();
 </script>
 
 </body>
