@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>User Management | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f3dfa9;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#18263c;
+  --muted:#78869a;
+  --border:#e5eaf1;
+  --green:#16845b;
+  --red:#c34b4b;
+  --blue:#2875c7;
+  --orange:#bd7a21;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.topbar{
+  min-height:65px;
+  background:var(--navy);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 22px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.brand{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+.brand span{color:var(--gold)}
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.admin-label{
+  background:rgba(214,173,85,.17);
+  border:1px solid rgba(214,173,85,.4);
+  color:var(--gold-light);
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+.avatar{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--gold);
+  color:var(--navy);
+  font-weight:bold;
+}
+.layout{
+  display:grid;
+  grid-template-columns:245px minmax(0,1fr);
+  min-height:calc(100vh - 65px);
+}
+.sidebar{
+  background:var(--navy2);
+  color:white;
+  padding:20px 13px;
+}
+.side-heading{
+  color:#9eafc5;
+  font-size:10px;
+  font-weight:bold;
+  text-transform:uppercase;
+  letter-spacing:1.3px;
+  margin:19px 11px 9px;
+}
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:12px;
+  color:#dce6f2;
+}
+.nav-link:hover,.nav-link.active{
+  background:rgba(214,173,85,.17);
+  color:var(--gold-light);
+}
+.nav-icon{
+  width:19px;
+  text-align:center;
+  font-size:15px;
+}
+.main{
+  padding:25px;
+  max-width:1450px;
+  width:100%;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:22px;
+}
+.heading h1{
+  color:var(--navy);
+  font-size:25px;
+  margin:0 0 7px;
+}
+.heading p{
+  color:var(--muted);
+  font-size:12px;
+  margin:0;
+}
+.demo-badge{
+  background:#fff1d5;
+  color:#865f18;
+  border-radius:20px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:bold;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+}
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
+.stat small{
+  color:var(--muted);
+  font-size:11px;
+}
+.stat-icon{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  background:#f0f3f8;
+  border-radius:10px;
+  font-size:17px;
+}
+.stat strong{
+  display:block;
+  font-size:24px;
+  color:var(--navy);
+  margin:11px 0 4px;
+}
+.stat .note{
+  color:var(--muted);
+  font-size:10px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:19px;
+}
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:16px;
+}
+.panel-head h3{
+  margin:0;
+  color:var(--navy);
+  font-size:15px;
+}
+.tools{
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) 180px 160px;
+  gap:10px;
+  margin-bottom:15px;
+}
+.field{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:8px;
+  color:var(--text);
+  outline:none;
+  font-size:12px;
+}
+.field:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 2px rgba(214,173,85,.12);
+}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+}
+th{
+  text-align:left;
+  background:#f6f8fb;
+  color:var(--muted);
+  font-size:10px;
+  padding:13px 10px;
+  white-space:nowrap;
+}
+td{
+  padding:13px 10px;
+  border-bottom:1px solid #edf0f5;
+  font-size:11px;
+  white-space:nowrap;
+}
+.user-cell{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.user-avatar{
+  width:33px;
+  height:33px;
+  border-radius:50%;
+  background:#eaf0f8;
+  color:var(--navy);
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+}
+.user-name{
+  color:var(--navy);
+  font-weight:bold;
+}
+.user-email{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+.role{
+  background:#edf3fc;
+  color:#2866a5;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:bold;
+}
+.role.partner{
+  background:#fff4df;
+  color:#926619;
+}
+.role.customer{
+  background:#eaf7ef;
+  color:#16845b;
+}
+.status{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:bold;
+}
+.status.active{
+  background:#e7f7ef;
+  color:#16845b;
+}
+.status.inactive{
+  background:#f0f1f4;
+  color:#687487;
+}
+.status.suspended{
+  background:#fff0ed;
+  color:#b94b3e;
+}
+.action-btn{
+  background:white;
+  border:1px solid var(--border);
+  color:var(--navy);
+  border-radius:6px;
+  padding:7px 10px;
+  font-size:10px;
+}
+.action-btn:hover{
+  border-color:var(--gold);
+  color:#9a7429;
+}
+.empty{
+  display:none;
+  text-align:center;
+  padding:28px;
+  color:var(--muted);
+  font-size:12px;
+}
+.pagination{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:15px;
+}
+.pagination small{
+  color:var(--muted);
+  font-size:10px;
+}
+.page-btn{
+  border:1px solid var(--border);
+  background:white;
+  color:var(--navy);
+  padding:7px 11px;
+  border-radius:6px;
+  font-size:10px;
+}
+.page-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+.notice{
+  background:#fff9eb;
+  border:1px solid #f0dfb8;
+  color:#76591e;
+  padding:14px;
+  border-radius:10px;
+  font-size:11px;
+  line-height:1.7;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(3,13,29,.68);
+  z-index:30;
+  align-items:center;
+  justify-content:center;
+  padding:17px;
+}
+.modal.show{display:flex}
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:480px;
+  max-height:85vh;
+  overflow:auto;
+  border-radius:14px;
+  padding:22px;
+  position:relative;
+}
+.modal-box h2{
+  color:var(--navy);
+  font-size:19px;
+  margin:0 35px 18px 0;
+}
+.close{
+  position:absolute;
+  right:14px;
+  top:13px;
+  width:31px;
+  height:31px;
+  border:0;
+  border-radius:50%;
+  background:#f0f2f6;
+  font-size:18px;
+}
+.detail-row{
+  padding:11px 0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:12px;
+}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row strong{
+  color:var(--navy);
+  text-align:right;
+}
+.modal-note{
+  margin-top:17px;
+  background:#fff6e4;
+  border-radius:8px;
+  padding:11px;
+  font-size:11px;
+  color:#795c20;
+  line-height:1.6;
+}
+.footer{
+  text-align:center;
+  color:#9aa5b5;
+  font-size:10px;
+  padding:20px;
+}
+.mobile-menu{
+  display:none;
+  border:1px solid rgba(255,255,255,.25);
+  background:transparent;
+  color:white;
+  border-radius:7px;
+  padding:7px 10px;
+}
+@media(max-width:1050px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none;padding:12px}
+  .sidebar.open{display:block}
+  .side-heading{margin-top:12px}
+  .mobile-menu{display:block}
+  .main{padding:17px}
+}
+@media(max-width:580px){
+  .tools{grid-template-columns:1fr}
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .stat strong{font-size:21px}
+  .main{padding:13px}
+  .topbar{padding:10px 13px}
+  .brand{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="mobile-menu" id="menuBtn">☰</button>
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+  </div>
+  <div class="top-right">
+    <span class="admin-label">ADMIN PANEL</span>
+    <div class="avatar">A</div>
+  </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="side-heading">Main Menu</div>
+  <a href="admin-dashboard.html" class="nav-link">
+    <span class="nav-icon">▦</span> Dashboard
+  </a>
+
+  <div class="side-heading">Management</div>
+  <a href="admin-users.html" class="nav-link active">
+    <span class="nav-icon">👥</span> Users Management
+  </a>
+  <a href="admin-partners.html" class="nav-link">
+    <span class="nav-icon">🤝</span> Partners Management
+  </a>
+  <a href="admin-applications.html" class="nav-link">
+    <span class="nav-icon">📋</span> Partner Applications
+  </a>
+  <a href="admin-products.html" class="nav-link">
+    <span class="nav-icon">📦</span> Products Management
+  </a>
+  <a href="admin-orders.html" class="nav-link">
+    <span class="nav-icon">🛒</span> Orders Management
+  </a>
+
+  <div class="side-heading">Finance</div>
+  <a href="admin-payments.html" class="nav-link">
+    <span class="nav-icon">💳</span> Payment Records
+  </a>
+  <a href="admin-withdrawals.html" class="nav-link">
+    <span class="nav-icon">💸</span> Withdraw Requests
+  </a>
+  <a href="admin-commissions.html" class="nav-link">
+    <span class="nav-icon">📊</span> Commission Settings
+  </a>
+
+  <div class="side-heading">Communication</div>
+  <a href="admin-announcements.html" class="nav-link">
+    <span class="nav-icon">📢</span> Announcements
+  </a>
+  <a href="admin-support.html" class="nav-link">
+    <span class="nav-icon">🎧</span> Support Requests
+  </a>
+
+  <div class="side-heading">System</div>
+  <a href="admin-settings.html" class="nav-link">
+    <span class="nav-icon">⚙️</span> Admin Settings
+  </a>
+  <a href="index.html" class="nav-link">
+    <span class="nav-icon">🌐</span> Visit Website
+  </a>
+
+</aside>
+
+<main class="main">
+
+  <div class="heading">
+    <div>
+      <h1>User Management</h1>
+      <p>View and manage registered user information.</p>
+    </div>
+    <span class="demo-badge">FRONTEND DEMO</span>
+  </div>
+
+  <section class="stats">
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Total Users</small>
+        <span class="stat-icon">👥</span>
+      </div>
+      <strong id="totalUsers">6</strong>
+      <span class="note">Sample records</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Active Users</small>
+        <span class="stat-icon">✅</span>
+      </div>
+      <strong id="activeUsers">4</strong>
+      <span class="note">Sample records</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Inactive Users</small>
+        <span class="stat-icon">⏸️</span>
+      </div>
+      <strong id="inactiveUsers">1</strong>
+      <span class="note">Sample records</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Partners</small>
+        <span class="stat-icon">🤝</span>
+      </div>
+      <strong id="partnerUsers">2</strong>
+      <span class="note">Sample records</span>
+    </div>
+
+  </section>
+
+  <section class="panel">
+
+    <div class="panel-head">
+      <h3>Registered Users</h3>
+      <span class="demo-badge">Sample Data</span>
+    </div>
+
+    <div class="tools">
+      <input
+        type="search"
+        class="field"
+        id="searchInput"
+        placeholder="Search name, email or user ID..."
+      >
+
+      <select class="field" id="roleFilter">
+        <option value="all">All User Roles</option>
+        <option value="Customer">Customer</option>
+        <option value="Partner">Partner</option>
+        <option value="Admin">Admin</option>
+      </select>
+
+      <select class="field" id="statusFilter">
+        <option value="all">All Statuses</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+        <option value="Suspended">Suspended</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>USER</th>
+            <th>USER ID</th>
+            <th>ROLE</th>
+            <th>REGISTRATION</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+      </table>
+    </div>
+
+    <div class="empty" id="emptyState">
+      No matching users found.
+    </div>
+
+    <div class="pagination">
+      <small id="resultCount">Showing 6 sample users</small>
+      <div>
+        <button class="page-btn" id="prevBtn" disabled>Previous</button>
+        <button class="page-btn" id="nextBtn" disabled>Next</button>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="notice">
+    <strong>Admin Security Notice:</strong><br>
+    User account status changes must be authorized, recorded and processed
+    securely on the backend. Admins should never view user passwords,
+    OTPs, PINs or other authentication secrets.
+    This demo does not provide real account controls.
+  </div>
+
+</main>
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> Rubalia Network. All Rights Reserved.
+  <br>User Management — Frontend Demo
+</footer>
+
+<div class="modal" id="userModal">
+  <div class="modal-box">
+    <button class="close" id="closeModal">×</button>
+    <h2>User Details</h2>
+    <div id="userDetails"></div>
+    <div class="modal-note">
+      These are fictional demonstration records. No real user profile
+      or account information is connected to this page.
+    </div>
+  </div>
+</div>
+
+<script>
+const users = [
+  {
+    id:"USR-1001",
+    name:"Rahim Ahmed",
+    email:"rahim@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Partner",
+    status:"Active",
+    date:"Sample Date",
+    location:"Bangladesh"
+  },
+  {
+    id:"USR-1002",
+    name:"Karim Hasan",
+    email:"karim@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Customer",
+    status:"Active",
+    date:"Sample Date",
+    location:"Bangladesh"
+  },
+  {
+    id:"USR-1003",
+    name:"Nusrat Jahan",
+    email:"nusrat@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Partner",
+    status:"Active",
+    date:"Sample Date",
+    location:"Bangladesh"
+  },
+  {
+    id:"USR-1004",
+    name:"Sample Admin",
+    email:"admin@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Admin",
+    status:"Active",
+    date:"Sample Date",
+    location:"Bangladesh"
+  },
+  {
+    id:"USR-1005",
+    name:"Sadia Akter",
+    email:"sadia@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Customer",
+    status:"Inactive",
+    date:"Sample Date",
+    location:"Bangladesh"
+  },
+  {
+    id:"USR-1006",
+    name:"Hasan Mahmud",
+    email:"hasan@example.com",
+    phone:"01XXXXXXXXX",
+    role:"Customer",
+    status:"Suspended",
+    date:"Sample Date",
+    location:"Bangladesh"
+  }
+];
+
+const table = document.getElementById("userTable");
+const searchInput = document.getElementById("searchInput");
+const roleFilter = document.getElementById("roleFilter");
+const statusFilter = document.getElementById("statusFilter");
+const emptyState = document.getElementById("emptyState");
+const resultCount = document.getElementById("resultCount");
+
+let filteredUsers = [...users];
+
+function updateStats(){
+  document.getElementById("totalUsers").textContent = users.length;
+
+  document.getElementById("activeUsers").textContent =
+    users.filter(user => user.status === "Active").length;
+
+  document.getElementById("inactiveUsers").textContent =
+    users.filter(user => user.status === "Inactive").length;
+
+  document.getElementById("partnerUsers").textContent =
+    users.filter(user => user.role === "Partner").length;
+}
+
+function roleClass(role){
+  if(role === "Partner") return "role partner";
+  if(role === "Customer") return "role customer";
+  return "role";
+}
+
+function statusClass(status){
+  return "status " + status.toLowerCase();
+}
+
+function renderUsers(){
+  const query = searchInput.value.trim().toLowerCase();
+  const selectedRole = roleFilter.value;
+  const selectedStatus = statusFilter.value;
+
+  filteredUsers = users.filter(user => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(query) ||
+      user.email.toLowerCase().includes(query) ||
+      user.id.toLowerCase().includes(query);
+
+    const matchesRole =
+      selectedRole === "all" || user.role === selectedRole;
+
+    const matchesStatus =
+      selectedStatus === "all" || user.status === selectedStatus;
+
+    return matchesSearch && matchesRole && matchesStatus;
+  });
+
+  table.innerHTML = "";
+
+  filteredUsers.forEach(user => {
+    const row = document.createElement("tr");
+
+    const userCell = document.createElement("td");
+    const userWrap = document.createElement("div");
+    userWrap.className = "user-cell";
+
+    const avatar = document.createElement("div");
+    avatar.className = "user-avatar";
+    avatar.textContent = user.name.charAt(0);
+
+    const nameWrap = document.createElement("div");
+    const name = document.createElement("span");
+    name.className = "user-name";
+    name.textContent = user.name;
+
+    const email = document.createElement("span");
+    email.className = "user-email";
+    email.textContent = user.email;
+
+    nameWrap.append(name, email);
+    userWrap.append(avatar, nameWrap);
+    userCell.append(userWrap);
+
+    const idCell = document.createElement("td");
+    idCell.textContent = user.id;
+
+    const roleCell = document.createElement("td");
+    const role = document.createElement("span");
+    role.className = roleClass(user.role);
+    role.textContent = user.role;
+    roleCell.append(role);
+
+    const dateCell = document.createElement("td");
+    dateCell.textContent = user.date;
+
+    const statusCell = document.createElement("td");
+    const status = document.createElement("span");
+    status.className = statusClass(user.status);
+    status.textContent = user.status;
+    statusCell.append(status);
+
+    const actionCell = document.createElement("td");
+    const viewButton = document.createElement("button");
+    viewButton.className = "action-btn";
+    viewButton.textContent = "View Details";
+    viewButton.addEventListener("click", () => showDetails(user.id));
+    actionCell.append(viewButton);
+
+    row.append(
+      userCell,
+      idCell,
+      roleCell,
+      dateCell,
+      statusCell,
+      actionCell
+    );
+
+    table.append(row);
+  });
+
+  emptyState.style.display =
+    filteredUsers.length === 0 ? "block" : "none";
+
+  resultCount.textContent =
+    "Showing " + filteredUsers.length +
+    " of " + users.length + " sample users";
+
+  document.getElementById("prevBtn").disabled = true;
+  document.getElementById("nextBtn").disabled = true;
+}
+
+function showDetails(userId){
+  const user = users.find(item => item.id === userId);
+  if(!user) return;
+
+  const details = document.getElementById("userDetails");
+  details.innerHTML = "";
+
+  const rows = [
+    ["Full Name", user.name],
+    ["User ID", user.id],
+    ["Email", user.email],
+    ["Phone", user.phone],
+    ["Role", user.role],
+    ["Account Status", user.status],
+    ["Registration", user.date],
+    ["Location", user.location]
+  ];
+
+  rows.forEach(([label,value]) => {
+    const row = document.createElement("div");
+    row.className = "detail-row";
+
+    const labelElement = document.createElement("span");
+    labelElement.textContent = label;
+
+    const valueElement = document.createElement("strong");
+    valueElement.textContent = value;
+
+    row.append(labelElement,valueElement);
+    details.append(row);
+  });
+
+  document.getElementById("userModal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("userModal").classList.remove("show");
+}
+
+searchInput.addEventListener("input", renderUsers);
+roleFilter.addEventListener("change", renderUsers);
+statusFilter.addEventListener("change", renderUsers);
+
+document.getElementById("closeModal")
+  .addEventListener("click", closeModal);
+
+document.getElementById("userModal")
+  .addEventListener("click", event => {
+    if(event.target.id === "userModal") closeModal();
+  });
+
+document.addEventListener("keydown", event => {
+  if(event.key === "Escape") closeModal();
+});
+
+document.getElementById("menuBtn").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.toggle("open");
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+updateStats();
+renderUsers();
+</script>
+
+</body>
+</html>
