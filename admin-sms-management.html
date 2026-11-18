@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - SMS Management</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --navy3:#183b68;
+  --gold:#d9ad55;
+  --gold2:#f0ce83;
+  --white:#fff;
+  --bg:#f3f6fb;
+  --text:#17253b;
+  --muted:#718096;
+  --border:#e3e9f1;
+  --green:#15966b;
+  --red:#d94b58;
+  --blue:#3679d8;
+  --shadow:0 5px 20px rgba(7,26,53,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:255px;
+  background:var(--navy);
+  color:#fff;
+  position:fixed;
+  top:0;bottom:0;left:0;
+  overflow-y:auto;
+  z-index:50;
+  transition:.25s;
+}
+.brand{
+  padding:23px 20px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.brand h2{
+  margin:0;color:var(--gold2);
+  font-size:22px;letter-spacing:1px;
+}
+.brand small{color:#aebbd0;font-size:11px}
+.nav-title{
+  padding:20px 20px 8px;
+  color:#8ea1bd;font-size:10px;
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+.nav a{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 18px;color:#c8d3e3;
+  text-decoration:none;font-size:13px;
+  border-left:3px solid transparent;
+}
+.nav a:hover,.nav a.active{
+  background:rgba(217,173,85,.12);
+  color:var(--gold2);border-left-color:var(--gold);
+}
+.nav .ico{width:20px;text-align:center}
+.sidebar-footer{
+  padding:18px;border-top:1px solid rgba(255,255,255,.1);
+  margin-top:20px;
+}
+.sidebar-footer a{
+  color:#c8d3e3;text-decoration:none;font-size:13px;
+}
+.main{margin-left:255px;width:calc(100% - 255px);min-width:0}
+.topbar{
+  background:#fff;height:67px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:20;
+}
+.top-left{display:flex;align-items:center;gap:14px}
+.menu-btn{
+  border:0;background:#f0f3f8;width:36px;height:36px;
+  border-radius:8px;display:none;font-size:19px;color:var(--navy);
+}
+.top-title{font-size:14px;font-weight:bold}
+.admin{display:flex;align-items:center;gap:10px}
+.avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:var(--gold2);
+  display:grid;place-items:center;font-weight:bold;
+}
+.admin small{display:block;color:var(--muted);font-size:10px}
+.content{padding:25px;max-width:1600px;margin:auto}
+.page-head{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:22px;
+}
+.page-head h1{font-size:23px;margin:0 0 7px;color:var(--navy)}
+.page-head p{font-size:12px;color:var(--muted);margin:0}
+.demo-alert{
+  background:#fff8e9;border:1px solid #f0d9a8;
+  color:#805b18;border-radius:9px;padding:12px 15px;
+  font-size:12px;line-height:1.6;margin-bottom:20px;
+}
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:15px;margin-bottom:20px;
+}
+.stat{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:17px;box-shadow:var(--shadow);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:#f1f4fa;display:grid;place-items:center;
+}
+.stat-value{
+  font-size:24px;font-weight:bold;color:var(--navy);margin:12px 0 5px;
+}
+.stat-note{font-size:10px;color:var(--muted)}
+.card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;box-shadow:var(--shadow);
+  margin-bottom:20px;overflow:hidden;
+}
+.card-head{
+  padding:17px 19px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+}
+.card-head h3{margin:0;font-size:14px;color:var(--navy)}
+.card-body{padding:19px}
+.tabs{
+  display:flex;gap:5px;overflow-x:auto;
+  border-bottom:1px solid var(--border);padding:0 15px;
+}
+.tab{
+  border:0;background:none;padding:14px 13px;
+  white-space:nowrap;color:var(--muted);
+  font-size:12px;border-bottom:3px solid transparent;
+}
+.tab.active{color:var(--navy);font-weight:bold;border-color:var(--gold)}
+.panel{display:none;padding:19px}
+.panel.active{display:block}
+.btn{
+  border:0;border-radius:7px;padding:10px 14px;
+  font-size:11px;font-weight:bold;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-gold{background:var(--gold);color:#17253b}
+.btn-light{background:#edf1f7;color:var(--navy)}
+.btn-danger{background:#fff0f1;color:var(--red)}
+.btn-success{background:#e9f8f1;color:var(--green)}
+.btn:hover{filter:brightness(.96)}
+.toolbar{
+  display:flex;gap:9px;flex-wrap:wrap;
+  align-items:center;margin-bottom:15px;
+}
+.field{
+  display:flex;flex-direction:column;gap:6px;
+  margin-bottom:14px;min-width:0;
+}
+.field label{font-size:11px;font-weight:bold;color:#43536b}
+.field input,.field select,.field textarea{
+  width:100%;border:1px solid #dce3ed;
+  border-radius:7px;padding:11px;
+  background:#fff;outline:none;font-size:12px;color:var(--text);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  border-color:var(--gold);
+}
+.field textarea{min-height:95px;resize:vertical}
+.field small{font-size:10px;color:var(--muted);line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th{
+  text-align:left;padding:12px;background:#f7f9fc;
+  color:#738198;font-size:10px;text-transform:uppercase;
+  letter-spacing:.4px;
+}
+td{padding:13px 12px;border-top:1px solid #edf0f5;font-size:11px}
+td strong{color:var(--navy)}
+.muted{color:var(--muted)}
+.badge{
+  display:inline-block;padding:5px 8px;
+  border-radius:20px;font-size:9px;font-weight:bold;
+}
+.badge-green{background:#e5f7ef;color:#12805a}
+.badge-red{background:#fff0f0;color:#c33e4c}
+.badge-yellow{background:#fff6e3;color:#9a6a12}
+.badge-blue{background:#eaf2ff;color:#326dc2}
+.badge-gray{background:#edf0f4;color:#64748b}
+.template-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.template{
+  border:1px solid var(--border);border-radius:10px;
+  padding:15px;transition:.2s;
+}
+.template:hover{border-color:var(--gold);transform:translateY(-2px)}
+.template-icon{
+  width:39px;height:39px;border-radius:9px;
+  display:grid;place-items:center;background:#f4f0e6;
+  font-size:18px;margin-bottom:12px;
+}
+.template h4{font-size:13px;margin:0 0 7px;color:var(--navy)}
+.template p{
+  font-size:10px;line-height:1.5;color:var(--muted);min-height:30px;
+}
+.template-actions{display:flex;gap:6px;flex-wrap:wrap}
+.template-actions button{font-size:10px;padding:8px}
+.switch-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;padding:13px 0;border-bottom:1px solid #edf0f5;
+}
+.switch-row:last-child{border-bottom:0}
+.switch-row strong{font-size:12px}
+.switch-row small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.switch{position:relative;width:39px;height:21px;flex-shrink:0}
+.switch input{display:none}
+.slider{
+  position:absolute;inset:0;border-radius:20px;
+  background:#cbd3df;transition:.2s;cursor:pointer;
+}
+.slider:before{
+  content:"";position:absolute;width:15px;height:15px;
+  left:3px;top:3px;background:white;border-radius:50%;transition:.2s;
+}
+.switch input:checked+.slider{background:var(--green)}
+.switch input:checked+.slider:before{transform:translateX(18px)}
+.notice{
+  padding:12px;border-radius:8px;font-size:11px;
+  line-height:1.6;margin-bottom:15px;
+}
+.notice-blue{background:#edf5ff;color:#315e9b;border:1px solid #d6e7ff}
+.notice-gold{background:#fff8e9;color:#805b18;border:1px solid #f0d9a8}
+.empty{
+  text-align:center;padding:35px 15px;color:var(--muted);font-size:12px;
+}
+.empty div{font-size:27px;margin-bottom:8px}
+.preview{
+  border:1px solid var(--border);border-radius:9px;
+  overflow:hidden;background:#f5f6f9;
+}
+.preview-head{
+  background:var(--navy);padding:18px;text-align:center;color:white;
+}
+.preview-head strong{color:var(--gold2);letter-spacing:1px}
+.preview-body{padding:25px;background:white;max-width:580px;margin:auto}
+.preview-body h2{font-size:19px;color:var(--navy)}
+.preview-body p{font-size:12px;line-height:1.8;color:#526176}
+.preview-footer{
+  background:#f7f8fb;text-align:center;padding:15px;
+  font-size:10px;color:#8290a2;
+}
+.sms-preview{
+  max-width:310px;margin:auto;background:#e8edf3;
+  padding:18px;border-radius:18px;
+}
+.sms-bubble{
+  background:#fff;padding:13px;border-radius:12px;
+  font-size:12px;line-height:1.6;box-shadow:0 2px 5px #0001;
+}
+.sms-time{text-align:right;font-size:9px;color:#8994a5;margin-top:6px}
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(3,14,30,.65);
+  display:none;align-items:center;justify-content:center;
+  z-index:100;padding:15px;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  width:100%;max-width:600px;max-height:90vh;
+  overflow-y:auto;background:#fff;border-radius:12px;
+}
+.modal-head{
+  padding:16px 19px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-head h3{font-size:14px;margin:0;color:var(--navy)}
+.close{
+  border:0;background:#f0f2f6;border-radius:6px;
+  width:30px;height:30px;font-size:18px;
+}
+.modal-body{padding:19px}
+.modal-foot{
+  padding:14px 19px;border-top:1px solid var(--border);
+  display:flex;justify-content:flex-end;gap:8px;
+}
+.toast{
+  position:fixed;bottom:20px;right:20px;
+  background:var(--navy);color:white;padding:13px 18px;
+  border-radius:8px;font-size:12px;box-shadow:var(--shadow);
+  z-index:200;display:none;max-width:300px;
+}
+.toast.show{display:block;animation:fade .2s}
+@keyframes fade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+.footer{text-align:center;color:#8a97a9;font-size:10px;padding:20px}
+@media(max-width:1100px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .template-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .menu-btn{display:block}
+  .content{padding:16px}
+  .topbar{padding:0 15px}
+}
+@media(max-width:550px){
+  .stats{grid-template-columns:1fr 1fr;gap:9px}
+  .stat{padding:13px}
+  .stat-value{font-size:20px}
+  .template-grid{grid-template-columns:1fr}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .page-head h1{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <h2>RUBALIA</h2>
+    <small>NETWORK ADMINISTRATION</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">Main Menu</div>
+    <a href="admin-dashboard.html"><span class="ico">▦</span>Dashboard</a>
+
+    <div class="nav-title">Management</div>
+    <a href="admin-users.html"><span class="ico">♙</span>Users</a>
+    <a href="admin-partners.html"><span class="ico">♧</span>Partners</a>
+    <a href="admin-applications.html"><span class="ico">▤</span>Applications</a>
+    <a href="admin-products.html"><span class="ico">◇</span>Products</a>
+    <a href="admin-orders.html"><span class="ico">▣</span>Orders</a>
+    <a href="admin-payments.html"><span class="ico">৳</span>Payments</a>
+    <a href="admin-withdrawals.html"><span class="ico">⇧</span>Withdrawals</a>
+    <a href="admin-commissions.html"><span class="ico">％</span>Commissions</a>
+
+    <div class="nav-title">Communication</div>
+    <a href="admin-announcements.html"><span class="ico">▣</span>Announcements</a>
+    <a href="admin-support.html"><span class="ico">☏</span>Support Tickets</a>
+    <a href="admin-email-management.html"><span class="ico">✉</span>Email Management</a>
+    <a href="admin-sms-management.html" class="active"><span class="ico">▤</span>SMS Management</a>
+
+    <div class="nav-title">Administration</div>
+    <a href="admin-settings.html"><span class="ico">⚙</span>Settings</a>
+    <a href="admin-reports.html"><span class="ico">▥</span>Reports</a>
+    <a href="admin-audit-logs.html"><span class="ico">☷</span>Audit Logs</a>
+    <a href="admin-roles.html"><span class="ico">♧</span>Roles & Permissions</a>
+    <a href="admin-security.html"><span class="ico">♜</span>Security Center</a>
+
+    <div class="nav-title">System</div>
+    <a href="admin-backup.html"><span class="ico">◫</span>Backup & Restore</a>
+    <a href="admin-database.html"><span class="ico">▤</span>Database</a>
+    <a href="admin-system-health.html"><span class="ico">♥</span>System Health</a>
+    <a href="admin-api-management.html"><span class="ico">⌘</span>API Management</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="index.html">← Visit Website</a>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <span class="top-title">SMS Management</span>
+  </div>
+  <div class="admin">
+    <div class="avatar">A</div>
+    <div>
+      <strong style="font-size:12px">Administrator</strong>
+      <small>Demo Admin Account</small>
+    </div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-head">
+    <div>
+      <h1>SMS Management</h1>
+      <p>Manage SMS templates, provider settings and notification preferences.</p>
+    </div>
+    <button class="btn btn-gold" onclick="openTestModal()">▤ SMS Test UI</button>
+  </div>
+
+  <div class="demo-alert">
+    <strong>DEMO MODE:</strong> This page is a frontend demonstration only.
+    No real SMS messages are sent. No SMS provider is connected.
+    No API credentials, phone numbers or settings are stored on a server.
+    Never enter real passwords, OTPs or API secrets here.
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Demo Templates</span>
+        <span class="stat-icon">▤</span>
+      </div>
+      <div class="stat-value" id="templateCount">6</div>
+      <div class="stat-note">Illustrative template records</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Demo Sent</span>
+        <span class="stat-icon">➤</span>
+      </div>
+      <div class="stat-value">0</div>
+      <div class="stat-note">No actual SMS sent</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Demo Failed</span>
+        <span class="stat-icon">⚠</span>
+      </div>
+      <div class="stat-value">0</div>
+      <div class="stat-note">No live delivery connection</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <span class="stat-label">Provider Status</span>
+        <span class="stat-icon">⚙</span>
+      </div>
+      <div class="stat-value" style="font-size:17px">Not Connected</div>
+      <div class="stat-note">SMS service not configured</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('overview',this)">Overview</button>
+      <button class="tab" onclick="showTab('templates',this)">SMS Templates</button>
+      <button class="tab" onclick="showTab('configuration',this)">Provider Configuration</button>
+      <button class="tab" onclick="showTab('notifications',this)">Notifications</button>
+      <button class="tab" onclick="showTab('logs',this)">Delivery Logs</button>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="overview">
+      <div class="notice notice-blue">
+        SMS services are currently unconfigured. These are planning indicators,
+        not live provider or delivery information.
+      </div>
+
+      <div class="grid2">
+        <div class="card" style="margin:0;box-shadow:none">
+          <div class="card-head"><h3>Provider Configuration</h3></div>
+          <div class="card-body">
+            <div class="switch-row">
+              <div><strong>SMS Provider</strong><small>No provider connected</small></div>
+              <span class="badge badge-yellow">Not Configured</span>
+            </div>
+            <div class="switch-row">
+              <div><strong>API Connection</strong><small>Not tested or connected</small></div>
+              <span class="badge badge-gray">Inactive</span>
+            </div>
+            <div class="switch-row">
+              <div><strong>Sender ID</strong><small>Not verified</small></div>
+              <span class="badge badge-gray">Unavailable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin:0;box-shadow:none">
+          <div class="card-head"><h3>SMS Categories</h3></div>
+          <div class="card-body">
+            <div class="switch-row">
+              <div><strong>Account SMS</strong><small>Verification and account alerts</small></div>
+              <span class="badge badge-blue">Planned</span>
+            </div>
+            <div class="switch-row">
+              <div><strong>Order SMS</strong><small>Order confirmation and updates</small></div>
+              <span class="badge badge-blue">Planned</span>
+            </div>
+            <div class="switch-row">
+              <div><strong>Partner SMS</strong><small>Application and partner updates</small></div>
+              <span class="badge badge-blue">Planned</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;box-shadow:none">
+        <div class="card-head"><h3>SMS Setup Checklist</h3></div>
+        <div class="card-body">
+          <div class="switch-row">
+            <div><strong>Select an SMS provider</strong><small>Choose a suitable provider for the target country.</small></div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="switch-row">
+            <div><strong>Verify sender ID</strong><small>Complete the provider's sender verification requirements.</small></div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="switch-row">
+            <div><strong>Configure backend credentials</strong><small>Store API credentials securely on the server.</small></div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+          <div class="switch-row">
+            <div><strong>Test message delivery</strong><small>Perform controlled tests with consent and spending limits.</small></div>
+            <span class="badge badge-yellow">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="panel" id="templates">
+      <div class="toolbar">
+        <input id="templateSearch" placeholder="Search SMS templates..."
+          style="flex:1;min-width:180px;border:1px solid #dce3ed;padding:10px;border-radius:7px;font-size:12px"
+          oninput="renderTemplates()">
+
+        <select id="templateCategory" onchange="renderTemplates()"
+          style="border:1px solid #dce3ed;padding:10px;border-radius:7px;font-size:12px">
+          <option value="all">All Categories</option>
+          <option value="Account">Account</option>
+          <option value="Orders">Orders</option>
+          <option value="Partners">Partners</option>
+          <option value="System">System</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="openTemplateModal()">＋ New Template</button>
+      </div>
+
+      <div class="template-grid" id="templateGrid"></div>
+    </div>
+
+    <!-- CONFIGURATION -->
+    <div class="panel" id="configuration">
+      <div class="notice notice-gold">
+        This is a visual configuration form only. Do not enter actual API keys,
+        passwords, tokens or provider secrets. Real credentials must be stored
+        securely on the backend.
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>SMS Provider</label>
+          <select id="provider">
+            <option value="">Select Provider</option>
+            <option value="Twilio (Not Connected)">Twilio (Not Connected)</option>
+            <option value="Other Provider (Not Connected)">Other Provider (Not Connected)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Environment</label>
+          <select id="environment">
+            <option>Development</option>
+            <option>Staging</option>
+            <option>Production (Not Configured)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Sender Display Name</label>
+          <input id="senderName" placeholder="Example: Rubalia">
+        </div>
+
+        <div class="field">
+          <label>Sender ID</label>
+          <input id="senderId" placeholder="Not configured">
+          <small>Sender IDs may require provider and country approval.</small>
+        </div>
+
+        <div class="field">
+          <label>Target Country</label>
+          <select id="targetCountry">
+            <option>Bangladesh</option>
+            <option>International</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Daily SMS Limit (Planning Only)</label>
+          <input id="dailyLimit" type="number" min="0" placeholder="Example: 100">
+        </div>
+      </div>
+
+      <div class="notice notice-blue">
+        Production note: SMS provider API credentials must be stored in
+        server-side environment variables or a secure secret manager.
+        Do not put API keys in public HTML or browser JavaScript.
+      </div>
+
+      <button class="btn btn-primary" onclick="saveConfiguration()">Save Demo Configuration</button>
+      <button class="btn btn-light" onclick="resetConfiguration()">Reset Form</button>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="panel" id="notifications">
+      <div class="notice notice-blue">
+        These controls illustrate possible SMS notification preferences.
+        They do not activate a provider or send messages.
+      </div>
+
+      <h3 style="font-size:13px;color:var(--navy)">Account Notifications</h3>
+
+      <div class="switch-row">
+        <div><strong>Registration Confirmation</strong><small>Notify users after successful registration.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="switch-row">
+        <div><strong>Phone Verification</strong><small>Send a verification code through a secure backend flow.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="switch-row">
+        <div><strong>Security Alerts</strong><small>Notify users about important account security events.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <h3 style="font-size:13px;color:var(--navy);margin-top:24px">Order Notifications</h3>
+
+      <div class="switch-row">
+        <div><strong>Order Confirmation</strong><small>Notify customers after placing an order.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="switch-row">
+        <div><strong>Order Status Update</strong><small>Notify customers about order progress.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <h3 style="font-size:13px;color:var(--navy);margin-top:24px">Partner Notifications</h3>
+
+      <div class="switch-row">
+        <div><strong>Application Status</strong><small>Partner application decisions and updates.</small></div>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+
+      <div class="switch-row">
+        <div><strong>Important Announcements</strong><small>Send important company notices to opted-in partners.</small></div>
+        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+
+      <div style="margin-top:18px">
+        <button class="btn btn-primary" onclick="saveNotifications()">Save Demo Preferences</button>
+      </div>
+    </div>
+
+    <!-- DELIVERY LOGS -->
+    <div class="panel" id="logs">
+      <div class="toolbar">
+        <select id="logStatus" onchange="renderLogs()"
+          style="border:1px solid #dce3ed;padding:10px;border-radius:7px;font-size:12px">
+          <option value="all">All Statuses</option>
+          <option value="Sent">Sent</option>
+          <option value="Failed">Failed</option>
+          <option value="Pending">Pending</option>
+        </select>
+
+        <input id="logSearch" placeholder="Search logs..."
+          oninput="renderLogs()"
+          style="flex:1;min-width:160px;border:1px solid #dce3ed;padding:10px;border-radius:7px;font-size:12px">
+
+        <button class="btn btn-light" onclick="clearLogs()">Clear Demo Logs</button>
+      </div>
+
+      <div class="notice notice-gold">
+        No real delivery logs are available. This table starts empty and
+        represents the planned structure of a future backend SMS log.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Recipient</th>
+              <th>Message</th>
+              <th>Template</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="logsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    RUBALIA NETWORK • ADMIN SMS MANAGEMENT • FRONTEND DEMO
+  </div>
+
+</div>
+</main>
+</div>
+
+<!-- TEMPLATE MODAL -->
+<div class="modal-backdrop" id="templateModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="templateModalTitle">Create SMS Template</h3>
+      <button class="close" onclick="closeModal('templateModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+      <input type="hidden" id="editTemplateId">
+
+      <div class="field">
+        <label>Template Name</label>
+        <input id="newTemplateName" placeholder="Example: Order Confirmation">
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <select id="newTemplateCategory">
+          <option>Account</option>
+          <option>Orders</option>
+          <option>Partners</option>
+          <option>System</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>SMS Message</label>
+        <textarea id="newTemplateBody" maxlength="1000"
+          placeholder="Write your SMS message..."></textarea>
+        <small>
+          Demo variables: {{name}}, {{code}}, {{order_id}}.
+          SMS character and segment counts depend on the provider and encoding.
+        </small>
+      </div>
+
+      <div style="font-size:11px;color:var(--muted)">
+        Characters: <strong id="charCount">0</strong>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-light" onclick="closeModal('templateModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTemplate()">Save Demo Template</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-backdrop" id="previewModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>SMS Template Preview</h3>
+      <button class="close" onclick="closeModal('previewModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="sms-preview">
+        <div class="sms-bubble">
+          <strong id="previewName">Rubalia Network</strong>
+          <p id="previewContent"></p>
+          <div class="sms-time">Demo preview</div>
+        </div>
+      </div>
+      <div class="notice notice-gold" style="margin-top:15px">
+        This is only a visual preview. No message was sent.
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-light" onclick="closeModal('previewModal')">Close Preview</button>
+    </div>
+  </div>
+</div>
+
+<!-- TEST MODAL -->
+<div class="modal-backdrop" id="testModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>SMS Test UI</h3>
+      <button class="close" onclick="closeModal('testModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="notice notice-gold">
+        Demo only. This form will not send SMS. Use a fictional sample
+        recipient number only. Do not enter OTPs or secret credentials.
+      </div>
+
+      <div class="field">
+        <label>Sample Recipient Number</label>
+        <input id="testRecipient" placeholder="Example: 01XXXXXXXXX">
+      </div>
+
+      <div class="field">
+        <label>Choose Template</label>
+        <select id="testTemplate"></select>
+      </div>
+
+      <div class="field">
+        <label>Message Preview</label>
+        <textarea id="testMessage" readonly placeholder="Select a template"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-light" onclick="closeModal('testModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="simulateTest()">Run Demo Test</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const initialTemplates=[
+  {
+    id:1,
+    name:"Registration Confirmation",
+    category:"Account",
+    body:"Welcome to Rubalia Network, {{name}}. Your account registration has been completed."
+  },
+  {
+    id:2,
+    name:"Phone Verification",
+    category:"Account",
+    body:"Your Rubalia verification code is {{code}}. Never share your code with anyone."
+  },
+  {
+    id:3,
+    name:"Security Alert",
+    category:"Account",
+    body:"A security-related event was detected on your Rubalia account. Please review your account."
+  },
+  {
+    id:4,
+    name:"Order Confirmation",
+    category:"Orders",
+    body:"Your order {{order_id}} has been received. Please visit your account for order details."
+  },
+  {
+    id:5,
+    name:"Order Status Update",
+    category:"Orders",
+    body:"Your Rubalia order {{order_id}} has a status update. Please check your account."
+  },
+  {
+    id:6,
+    name:"Partner Application",
+    category:"Partners",
+    body:"Hello {{name}}, there is an update regarding your Rubalia partner application."
+  }
+];
+
+let templates=initialTemplates.map(t=>({...t}));
+let demoLogs=[];
+let nextId=7;
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showTab(id,button){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  button.classList.add("active");
+
+  if(id==="templates")renderTemplates();
+  if(id==="logs")renderLogs();
+}
+
+function toast(message){
+  const el=document.getElementById("toast");
+  el.textContent=message;
+  el.classList.add("show");
+  setTimeout(()=>el.classList.remove("show"),2600);
+}
+
+function openModal(id){
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+}
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[c]);
+}
+
+function categoryIcon(category){
+  const icons={
+    Account:"♙",
+    Orders:"▣",
+    Partners:"♧",
+    System:"⚙"
+  };
+  return icons[category]||"▤";
+}
+
+function renderTemplates(){
+  const search=document.getElementById("templateSearch").value.toLowerCase();
+  const category=document.getElementById("templateCategory").value;
+
+  const filtered=templates.filter(t=>{
+    const textMatch=(t.name+" "+t.body).toLowerCase().includes(search);
+    const categoryMatch=category==="all"||t.category===category;
+    return textMatch&&categoryMatch;
+  });
+
+  document.getElementById("templateCount").textContent=templates.length;
+  const grid=document.getElementById("templateGrid");
+
+  if(!filtered.length){
+    grid.innerHTML='<div class="empty" style="grid-column:1/-1"><div>▤</div>No matching SMS templates found.</div>';
+    return;
+  }
+
+  grid.innerHTML=filtered.map(t=>`
+    <div class="template">
+      <div class="template-icon">${categoryIcon(t.category)}</div>
+      <h4>${escapeHTML(t.name)}</h4>
+      <span class="badge badge-blue">${escapeHTML(t.category)}</span>
+      <p>${escapeHTML(t.body)}</p>
+      <div class="template-actions">
+        <button class="btn btn-light" onclick="previewTemplate(${t.id})">Preview</button>
+        <button class="btn btn-gold" onclick="editTemplate(${t.id})">Edit</button>
+        <button class="btn btn-danger" onclick="deleteTemplate(${t.id})">Delete</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function openTemplateModal(){
+  document.getElementById("templateModalTitle").textContent="Create SMS Template";
+  document.getElementById("editTemplateId").value="";
+  document.getElementById("newTemplateName").value="";
+  document.getElementById("newTemplateCategory").value="Account";
+  document.getElementById("newTemplateBody").value="";
+  updateCharCount();
+  openModal("templateModal");
+}
+
+function updateCharCount(){
+  const body=document.getElementById("newTemplateBody").value;
+  document.getElementById("charCount").textContent=body.length;
+}
+
+document.getElementById("newTemplateBody").addEventListener("input",updateCharCount);
+
+function saveTemplate(){
+  const id=document.getElementById("editTemplateId").value;
+  const name=document.getElementById("newTemplateName").value.trim();
+  const category=document.getElementById("newTemplateCategory").value;
+  const body=document.getElementById("newTemplateBody").value.trim();
+
+  if(!name||!body){
+    toast("Please complete all template fields.");
+    return;
+  }
+
+  if(id){
+    const item=templates.find(t=>t.id===Number(id));
+    if(item){
+      item.name=name;
+      item.category=category;
+      item.body=body;
+    }
+    toast("Demo template updated in this page session.");
+  }else{
+    templates.push({id:nextId++,name,category,body});
+    toast("Demo template added in this page session.");
+  }
+
+  closeModal("templateModal");
+  renderTemplates();
+}
+
+function editTemplate(id){
+  const t=templates.find(x=>x.id===id);
+  if(!t)return;
+
+  document.getElementById("templateModalTitle").textContent="Edit SMS Template";
+  document.getElementById("editTemplateId").value=t.id;
+  document.getElementById("newTemplateName").value=t.name;
+  document.getElementById("newTemplateCategory").value=t.category;
+  document.getElementById("newTemplateBody").value=t.body;
+  updateCharCount();
+  openModal("templateModal");
+}
+
+function deleteTemplate(id){
+  if(!confirm("Delete this demo template from the current page session?"))return;
+  templates=templates.filter(t=>t.id!==id);
+  renderTemplates();
+  toast("Demo template removed.");
+}
+
+function previewTemplate(id){
+  const t=templates.find(x=>x.id===id);
+  if(!t)return;
+
+  document.getElementById("previewName").textContent=t.name;
+  document.getElementById("previewContent").textContent=t.body;
+  openModal("previewModal");
+}
+
+function saveConfiguration(){
+  const provider=document.getElementById("provider").value;
+  if(!provider){
+    toast("Please select a demo provider option.");
+    return;
+  }
+  toast("Demo configuration acknowledged. No provider was connected.");
+}
+
+function resetConfiguration(){
+  [
+    "provider","environment","senderName",
+    "senderId","targetCountry","dailyLimit"
+  ].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.selectedIndex!==undefined?el.selectedIndex=0:el.value="";
+  });
+  toast("Configuration form reset.");
+}
+
+function saveNotifications(){
+  toast("Demo notification preferences acknowledged. Nothing was saved.");
+}
+
+function openTestModal(){
+  const select=document.getElementById("testTemplate");
+  select.innerHTML=templates.map(t=>
+    `<option value="${t.id}">${escapeHTML(t.name)}</option>`
+  ).join("");
+
+  document.getElementById("testRecipient").value="";
+  document.getElementById("testMessage").value=templates[0]?.body||"";
+  select.onchange=()=>{
+    const t=templates.find(x=>x.id===Number(select.value));
+    document.getElementById("testMessage").value=t?t.body:"";
+  };
+  openModal("testModal");
+}
+
+function simulateTest(){
+  const templateId=Number(document.getElementById("testTemplate").value);
+  const t=templates.find(x=>x.id===templateId);
+
+  if(!t){
+    toast("Select a demo template first.");
+    return;
+  }
+
+  toast("Demo test completed. No SMS was sent.");
+  closeModal("testModal");
+}
+
+function renderLogs(){
+  const status=document.getElementById("logStatus").value;
+  const search=document.getElementById("logSearch").value.toLowerCase();
+
+  const filtered=demoLogs.filter(log=>{
+    const statusMatch=status==="all"||log.status===status;
+    const textMatch=(log.recipient+" "+log.message+" "+log.template).toLowerCase().includes(search);
+    return statusMatch&&textMatch;
+  });
+
+  const body=document.getElementById("logsBody");
+
+  if(!filtered.length){
+    body.innerHTML='<tr><td colspan="6"><div class="empty"><div>📭</div>No demo delivery logs available.</div></td></tr>';
+    return;
+  }
+
+  body.innerHTML=filtered.map(log=>`
+    <tr>
+      <td>${escapeHTML(log.recipient)}</td>
+      <td>${escapeHTML(log.message)}</td>
+      <td>${escapeHTML(log.template)}</td>
+      <td>${escapeHTML(log.date)}</td>
+      <td><span class="badge badge-gray">${escapeHTML(log.status)}</span></td>
+      <td><button class="btn btn-light" onclick="viewLog(${log.id})">View</button></td>
+    </tr>
+  `).join("");
+}
+
+function clearLogs(){
+  if(!confirm("Clear all temporary demo logs?"))return;
+  demoLogs=[];
+  renderLogs();
+  toast("Temporary demo logs cleared.");
+}
+
+function viewLog(id){
+  const log=demoLogs.find(x=>x.id===id);
+  if(log)toast("Demo log: "+log.status+". No actual SMS delivery occurred.");
+}
+
+document.querySelectorAll(".modal-backdrop").forEach(modal=>{
+  modal.addEventListener("click",function(e){
+    if(e.target===modal)modal.classList.remove("show");
+  });
+});
+
+renderTemplates();
+renderLogs();
+</script>
+</body>
+</html>
