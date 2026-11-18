@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - System Notifications</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#087acb;
+  --blue2:#2196e8;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#172b45;
+  --muted:#718096;
+  --border:#e3eaf3;
+  --green:#16a36a;
+  --red:#dc4c4c;
+  --orange:#e99a25;
+  --shadow:0 5px 20px rgba(20,45,80,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;background:var(--navy);color:white;
+  padding:22px 15px;flex-shrink:0;
+}
+.brand{
+  font-size:21px;font-weight:800;
+  padding:8px 12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.brand span{color:#42b5ff}
+.admin-label{
+  color:#8da9ca;font-size:11px;
+  letter-spacing:1.5px;padding:22px 12px 10px;
+}
+.nav a{
+  display:flex;gap:11px;align-items:center;
+  color:#c5d4e7;text-decoration:none;
+  padding:12px;border-radius:9px;
+  font-size:13px;margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+  background:#123b68;color:white;
+}
+.nav a.active{border-left:3px solid #36aaff}
+.main{flex:1;min-width:0}
+.topbar{
+  height:68px;background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;padding:0 26px;
+}
+.top-title{font-size:17px;font-weight:700}
+.top-right{display:flex;align-items:center;gap:12px}
+.admin-avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:#dceeff;color:#087acb;
+  display:grid;place-items:center;font-weight:800;
+}
+.content{padding:25px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+h1{font-size:23px;margin:0 0 6px}
+.subtitle{font-size:13px;color:var(--muted)}
+.demo-note{
+  background:#fff7e8;border:1px solid #f3dfb8;
+  color:#91631c;padding:11px 14px;
+  border-radius:9px;font-size:12px;margin-bottom:20px;
+}
+.btn{
+  border:0;border-radius:8px;
+  padding:10px 14px;font-size:12px;font-weight:700;
+}
+.btn-primary{background:var(--blue);color:white}
+.btn-light{background:#edf4fc;color:#1768a7}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.btn-success{background:#e7f8ef;color:#168452}
+.btn:hover{filter:brightness(.96)}
+.stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;margin-bottom:20px;
+}
+.stat-card{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;box-shadow:var(--shadow);
+}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:grid;place-items:center;font-size:18px;
+  background:#eaf4ff;
+}
+.stat-value{font-size:25px;font-weight:800;margin:13px 0 5px}
+.stat-name{font-size:12px;color:var(--muted)}
+.stat-foot{font-size:11px;color:var(--muted);margin-top:10px}
+.panel{
+  background:white;border:1px solid var(--border);
+  border-radius:12px;padding:18px;
+  box-shadow:var(--shadow);margin-bottom:20px;
+}
+.panel-heading{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.panel-heading h2{font-size:16px;margin:0}
+.badge{
+  display:inline-block;padding:5px 8px;
+  border-radius:20px;font-size:10px;font-weight:700;
+  white-space:nowrap;
+}
+.badge.green{background:#e7f8ef;color:#168452}
+.badge.blue{background:#e9f3ff;color:#176bb0}
+.badge.orange{background:#fff4df;color:#a66b12}
+.badge.red{background:#ffeded;color:#c53c3c}
+.badge.gray{background:#edf0f4;color:#68778a}
+.tabs{
+  display:flex;gap:7px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);
+  padding-bottom:12px;margin-bottom:16px;
+}
+.tab{
+  border:0;background:#f1f5fa;color:#64748b;
+  border-radius:7px;padding:9px 13px;
+  font-size:11px;font-weight:700;
+}
+.tab.active{background:#087acb;color:white}
+.filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr auto;
+  gap:10px;margin-bottom:15px;
+}
+.field{
+  width:100%;padding:10px 11px;
+  border:1px solid var(--border);border-radius:8px;
+  outline:none;background:white;color:var(--text);
+  font-size:12px;min-width:0;
+}
+.field:focus{border-color:var(--blue)}
+.notification-list{display:flex;flex-direction:column;gap:10px}
+.notification{
+  display:flex;gap:13px;align-items:flex-start;
+  padding:14px;border:1px solid var(--border);
+  border-radius:10px;background:white;
+}
+.notification.unread{
+  background:#f6faff;border-color:#cce4fa;
+}
+.notice-icon{
+  width:39px;height:39px;border-radius:10px;
+  display:grid;place-items:center;font-size:18px;
+  background:#eaf4ff;flex-shrink:0;
+}
+.notice-icon.security{background:#fff0f0}
+.notice-icon.payment{background:#e9f8f0}
+.notice-icon.maintenance{background:#fff5e5}
+.notice-body{flex:1;min-width:0}
+.notice-title{
+  font-size:13px;font-weight:700;
+  margin:0 0 6px;display:flex;gap:8px;
+  align-items:center;flex-wrap:wrap;
+}
+.notice-message{
+  color:#64748b;font-size:12px;line-height:1.5;
+}
+.notice-meta{
+  font-size:10px;color:#8795a8;
+  margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;
+}
+.notice-actions{
+  display:flex;gap:6px;flex-wrap:wrap;
+  align-items:center;
+}
+.small-btn{
+  border:0;border-radius:6px;padding:7px 9px;
+  font-size:10px;font-weight:700;
+  background:#edf4fc;color:#1768a7;
+}
+.small-btn.delete{background:#fff0f0;color:#c53c3c}
+.empty{
+  text-align:center;padding:35px;color:var(--muted);
+  font-size:13px;
+}
+.setting-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.setting-item{
+  border:1px solid var(--border);
+  border-radius:9px;padding:14px;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;
+}
+.setting-title{font-size:12px;font-weight:700}
+.setting-desc{font-size:10px;color:var(--muted);margin-top:5px}
+.toggle{
+  appearance:none;width:40px;height:22px;
+  background:#cbd5e1;border-radius:20px;
+  position:relative;cursor:pointer;flex-shrink:0;
+  transition:.2s;
+}
+.toggle:checked{background:var(--blue)}
+.toggle:before{
+  content:"";position:absolute;width:16px;height:16px;
+  background:white;border-radius:50%;
+  left:3px;top:3px;transition:.2s;
+}
+.toggle:checked:before{left:21px}
+.modal-bg{
+  position:fixed;inset:0;background:rgba(4,18,38,.6);
+  display:none;align-items:center;justify-content:center;
+  padding:15px;z-index:50;
+}
+.modal-bg.show{display:flex}
+.modal{
+  background:white;border-radius:13px;
+  width:100%;max-width:520px;padding:22px;
+  max-height:90vh;overflow:auto;
+}
+.modal-head{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:18px;
+}
+.modal-head h3{margin:0;font-size:17px}
+.close{
+  border:0;background:#edf1f6;border-radius:50%;
+  width:30px;height:30px;font-size:18px;
+}
+.detail-row{
+  display:flex;justify-content:space-between;
+  gap:15px;padding:11px 0;
+  border-bottom:1px solid var(--border);font-size:12px;
+}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row span:last-child{text-align:right;font-weight:700}
+.footer{
+  text-align:center;padding:18px;
+  color:var(--muted);font-size:11px;
+}
+@media(max-width:1050px){
+  .sidebar{width:215px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{width:62px;padding:15px 7px}
+  .brand{font-size:0;padding:10px 5px 20px;text-align:center}
+  .brand:first-letter{font-size:22px}
+  .admin-label{font-size:0;padding:15px 0}
+  .nav a{font-size:0;justify-content:center;padding:13px 5px}
+  .nav a span{font-size:18px}
+  .topbar{padding:0 14px}
+  .content{padding:16px 12px}
+  .stats{gap:9px}
+  .stat-card{padding:13px}
+  .stat-value{font-size:21px}
+  .filters{grid-template-columns:1fr 1fr}
+  .filters .search-field{grid-column:1/-1}
+  .panel{padding:13px}
+  .notification{flex-wrap:wrap}
+  .notice-actions{width:100%;padding-left:51px}
+  .setting-grid{grid-template-columns:1fr}
+  h1{font-size:20px}
+}
+@media(max-width:390px){
+  .filters{grid-template-columns:1fr}
+  .filters .search-field{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+  <div class="admin-label">ADMIN CONTROL PANEL</div>
+
+  <nav class="nav">
+    <a href="admin-dashboard.html"><span>📊</span> Dashboard</a>
+    <a href="admin-users.html"><span>👥</span> Users</a>
+    <a href="admin-partners.html"><span>🤝</span> Partners</a>
+    <a href="admin-applications.html"><span>📋</span> Applications</a>
+    <a href="admin-products.html"><span>📦</span> Products</a>
+    <a href="admin-orders.html"><span>🛒</span> Orders</a>
+    <a href="admin-payments.html"><span>💳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span>💸</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span>📈</span> Commissions</a>
+    <a href="admin-announcements.html"><span>📢</span> Announcements</a>
+    <a href="admin-support.html"><span>🎧</span> Support</a>
+    <a href="admin-reports.html"><span>📑</span> Reports</a>
+    <a href="admin-audit-logs.html"><span>🧾</span> Audit Logs</a>
+    <a href="admin-roles.html"><span>🔐</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span>🛡️</span> Security Center</a>
+    <a href="admin-backup.html"><span>💾</span> Backup & Restore</a>
+    <a href="admin-database.html"><span>🗄️</span> Database</a>
+    <a href="admin-system-health.html"><span>💻</span> System Health</a>
+    <a href="admin-api-management.html"><span>🔌</span> API Management</a>
+    <a href="admin-email-management.html"><span>✉️</span> Email Management</a>
+    <a href="admin-sms-management.html"><span>📱</span> SMS Management</a>
+    <a href="admin-activity-monitor.html"><span>📡</span> Activity Monitor</a>
+    <a class="active" href="admin-system-notifications.html"><span>🔔</span> System Notifications</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-title">System Notifications</div>
+  <div class="top-right">
+    <span style="font-size:12px;color:#718096">Super Admin</span>
+    <div class="admin-avatar">SA</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>System Notifications</h1>
+      <div class="subtitle">Manage and monitor important platform system alerts.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-light" onclick="markAllRead()">✓ Mark All Read</button>
+      <button class="btn btn-primary" onclick="openCreateModal()">＋ Create Notification</button>
+    </div>
+  </div>
+
+  <div class="demo-note">
+    ⚠ DEMO MODE: All notifications are sample data. Creating, deleting, and marking notifications only changes this page's temporary in-memory state. No real user notifications, emails, SMS, or system alerts are sent.
+  </div>
+
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Total Notifications</span><div class="stat-icon">🔔</div></div>
+      <div class="stat-value" id="totalCount">8</div>
+      <div class="stat-foot">Sample notification records</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Unread</span><div class="stat-icon">📩</div></div>
+      <div class="stat-value" id="unreadCount">5</div>
+      <div class="stat-foot">Not yet marked as read</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">Critical Alerts</span><div class="stat-icon">🚨</div></div>
+      <div class="stat-value" id="criticalCount">2</div>
+      <div class="stat-foot">Illustrative critical notices</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top"><span class="stat-name">System Updates</span><div class="stat-icon">⚙️</div></div>
+      <div class="stat-value" id="systemCount">3</div>
+      <div class="stat-foot">Sample system notices</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Notification Center</h2>
+      <span class="badge blue">Admin Control</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="All" onclick="setTab('All',this)">All Notifications</button>
+      <button class="tab" data-tab="Unread" onclick="setTab('Unread',this)">Unread</button>
+      <button class="tab" data-tab="Read" onclick="setTab('Read',this)">Read</button>
+      <button class="tab" data-tab="Critical" onclick="setTab('Critical',this)">Critical</button>
+    </div>
+
+    <div class="filters">
+      <input class="field search-field" id="searchInput" placeholder="Search notifications..." oninput="renderNotifications()">
+
+      <select class="field" id="categoryFilter" onchange="renderNotifications()">
+        <option value="">All Categories</option>
+        <option value="System">System</option>
+        <option value="Security">Security</option>
+        <option value="Payment">Payment</option>
+        <option value="Order">Order</option>
+        <option value="Maintenance">Maintenance</option>
+        <option value="General">General</option>
+      </select>
+
+      <select class="field" id="priorityFilter" onchange="renderNotifications()">
+        <option value="">All Priorities</option>
+        <option value="Critical">Critical</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+
+      <button class="btn btn-light" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="notification-list" id="notificationList"></div>
+
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:16px">
+      <button class="btn btn-light" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn btn-danger" onclick="clearRead()">Delete Read Notifications</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Notification Preferences</h2>
+      <span class="badge orange">Demo Settings</span>
+    </div>
+
+    <div class="setting-grid">
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">System Notifications</div>
+          <div class="setting-desc">Display system updates and service notices</div>
+        </div>
+        <input type="checkbox" class="toggle" checked>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">Security Alerts</div>
+          <div class="setting-desc">Display login and security alerts</div>
+        </div>
+        <input type="checkbox" class="toggle" checked>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">Payment Notifications</div>
+          <div class="setting-desc">Display payment and verification notices</div>
+        </div>
+        <input type="checkbox" class="toggle" checked>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">Order Notifications</div>
+          <div class="setting-desc">Display order and delivery notices</div>
+        </div>
+        <input type="checkbox" class="toggle" checked>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">Maintenance Notices</div>
+          <div class="setting-desc">Display planned maintenance messages</div>
+        </div>
+        <input type="checkbox" class="toggle" checked>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div class="setting-title">Email Delivery</div>
+          <div class="setting-desc">Preference preview only; no email is sent</div>
+        </div>
+        <input type="checkbox" class="toggle">
+      </div>
+    </div>
+
+    <div style="margin-top:16px;text-align:right">
+      <button class="btn btn-primary" onclick="alert('Demo only: notification preferences are not saved.')">Save Preferences</button>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> Rubalia Network · System Notifications · Frontend Demo
+</footer>
+</main>
+</div>
+
+<!-- DETAILS MODAL -->
+<div class="modal-bg" id="detailModal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Notification Details</h3>
+      <button class="close" onclick="closeModal('detailModal')">×</button>
+    </div>
+    <div id="detailContent"></div>
+    <div style="margin-top:20px;text-align:right">
+      <button class="btn btn-light" onclick="closeModal('detailModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="modal-bg" id="createModal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Create System Notification</h3>
+      <button class="close" onclick="closeModal('createModal')">×</button>
+    </div>
+
+    <form id="createForm">
+      <label style="font-size:11px;font-weight:700">Notification Title</label>
+      <input class="field" id="newTitle" required maxlength="100" placeholder="Enter notification title" style="margin:7px 0 14px">
+
+      <label style="font-size:11px;font-weight:700">Message</label>
+      <textarea class="field" id="newMessage" required maxlength="500" rows="4" placeholder="Write notification message..." style="margin:7px 0 14px;resize:vertical"></textarea>
+
+      <label style="font-size:11px;font-weight:700">Category</label>
+      <select class="field" id="newCategory" style="margin:7px 0 14px">
+        <option>System</option>
+        <option>Security</option>
+        <option>Payment</option>
+        <option>Order</option>
+        <option>Maintenance</option>
+        <option>General</option>
+      </select>
+
+      <label style="font-size:11px;font-weight:700">Priority</label>
+      <select class="field" id="newPriority" style="margin:7px 0 14px">
+        <option>Low</option>
+        <option selected>Medium</option>
+        <option>High</option>
+        <option>Critical</option>
+      </select>
+
+      <label style="font-size:11px;font-weight:700">Target Audience</label>
+      <select class="field" id="newAudience" style="margin:7px 0 18px">
+        <option>Admin Only</option>
+        <option>All Users</option>
+        <option>Partners</option>
+        <option>Users</option>
+      </select>
+
+      <div class="demo-note">
+        Demo only: this notification will appear only in this page's temporary list. It will not be delivered to real users.
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width:100%">Create Demo Notification</button>
+    </form>
+  </div>
+</div>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+let notifications=[
+ {
+  id:"SYS-1001",
+  title:"System Maintenance Notice",
+  message:"A sample maintenance notice for the platform. Actual maintenance schedules have not been configured.",
+  category:"Maintenance",
+  priority:"High",
+  audience:"All Users",
+  date:"Today · 10:30 AM",
+  read:false
+ },
+ {
+  id:"SYS-1002",
+  title:"Security Alert - Demo",
+  message:"This is an illustrative security alert. No suspicious login has actually been detected.",
+  category:"Security",
+  priority:"Critical",
+  audience:"Admin Only",
+  date:"Today · 09:45 AM",
+  read:false
+ },
+ {
+  id:"SYS-1003",
+  title:"Payment Verification Update",
+  message:"Sample notice showing where payment verification updates may appear after backend integration.",
+  category:"Payment",
+  priority:"Medium",
+  audience:"Admin Only",
+  date:"Today · 09:10 AM",
+  read:true
+ },
+ {
+  id:"SYS-1004",
+  title:"New Order Received",
+  message:"Example order notification. No real order was received or processed.",
+  category:"Order",
+  priority:"Low",
+  audience:"Admin Only",
+  date:"Today · 08:30 AM",
+  read:false
+ },
+ {
+  id:"SYS-1005",
+  title:"Database Backup Reminder",
+  message:"Sample reminder to review the configured database backup schedule.",
+  category:"System",
+  priority:"High",
+  audience:"Admin Only",
+  date:"Yesterday · 08:00 PM",
+  read:false
+ },
+ {
+  id:"SYS-1006",
+  title:"Login Security Notice",
+  message:"Illustrative security notice. Real login event monitoring is not connected.",
+  category:"Security",
+  priority:"Critical",
+  audience:"Admin Only",
+  date:"Yesterday · 05:20 PM",
+  read:true
+ },
+ {
+  id:"SYS-1007",
+  title:"Platform Information",
+  message:"Welcome to the Rubalia Network administration demo notification center.",
+  category:"General",
+  priority:"Low",
+  audience:"All Users",
+  date:"Yesterday · 02:15 PM",
+  read:true
+ },
+ {
+  id:"SYS-1008",
+  title:"System Update Available",
+  message:"Sample system update notification. No software update is currently being installed.",
+  category:"System",
+  priority:"Medium",
+  audience:"Admin Only",
+  date:"Yesterday · 11:30 AM",
+  read:false
+ }
+];
+
+let activeTab="All";
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,char=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#39;"
+ }[char]));
+}
+
+function iconFor(category){
+ const icons={
+  System:"⚙️",
+  Security:"🛡️",
+  Payment:"💳",
+  Order:"📦",
+  Maintenance:"🔧",
+  General:"📢"
+ };
+ return icons[category]||"🔔";
+}
+
+function priorityClass(priority){
+ if(priority==="Critical")return "red";
+ if(priority==="High")return "orange";
+ if(priority==="Medium")return "blue";
+ return "gray";
+}
+
+function updateStats(){
+ document.getElementById("totalCount").textContent=notifications.length;
+ document.getElementById("unreadCount").textContent=
+  notifications.filter(n=>!n.read).length;
+ document.getElementById("criticalCount").textContent=
+  notifications.filter(n=>n.priority==="Critical").length;
+ document.getElementById("systemCount").textContent=
+  notifications.filter(n=>n.category==="System").length;
+}
+
+function setTab(tab,button){
+ activeTab=tab;
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+ button.classList.add("active");
+ renderNotifications();
+}
+
+function getFiltered(){
+ const search=document.getElementById("searchInput").value.toLowerCase();
+ const category=document.getElementById("categoryFilter").value;
+ const priority=document.getElementById("priorityFilter").value;
+
+ return notifications.filter(n=>{
+  const text=[n.id,n.title,n.message,n.category,n.audience].join(" ").toLowerCase();
+  const matchesSearch=text.includes(search);
+  const matchesCategory=!category||n.category===category;
+  const matchesPriority=!priority||n.priority===priority;
+  const matchesTab=
+   activeTab==="All"||
+   (activeTab==="Unread"&&!n.read)||
+   (activeTab==="Read"&&n.read)||
+   (activeTab==="Critical"&&n.priority==="Critical");
+
+  return matchesSearch&&matchesCategory&&matchesPriority&&matchesTab;
+ });
+}
+
+function renderNotifications(){
+ const list=document.getElementById("notificationList");
+ const data=getFiltered();
+
+ if(!data.length){
+  list.innerHTML='<div class="empty">🔔 No notifications found.</div>';
+  updateStats();
+  return;
+ }
+
+ list.innerHTML=data.map(n=>`
+  <div class="notification ${n.read?"":"unread"}">
+   <div class="notice-icon ${n.category.toLowerCase()}">${iconFor(n.category)}</div>
+
+   <div class="notice-body">
+    <div class="notice-title">
+     ${escapeHTML(n.title)}
+     ${n.read?'':'<span class="badge blue">Unread</span>'}
+     <span class="badge ${priorityClass(n.priority)}">${escapeHTML(n.priority)}</span>
+    </div>
+
+    <div class="notice-message">${escapeHTML(n.message)}</div>
+
+    <div class="notice-meta">
+     <span>${escapeHTML(n.id)}</span>
+     <span>${escapeHTML(n.category)}</span>
+     <span>${escapeHTML(n.audience)}</span>
+     <span>${escapeHTML(n.date)}</span>
+    </div>
+   </div>
+
+   <div class="notice-actions">
+    <button class="small-btn" onclick="showDetails('${n.id}')">View</button>
+    <button class="small-btn" onclick="toggleRead('${n.id}')">
+     ${n.read?"Mark Unread":"Mark Read"}
+    </button>
+    <button class="small-btn delete" onclick="deleteNotification('${n.id}')">Delete</button>
+   </div>
+  </div>
+ `).join("");
+
+ updateStats();
+}
+
+function showDetails(id){
+ const n=notifications.find(item=>item.id===id);
+ if(!n)return;
+
+ const fields=[
+  ["Notification ID",n.id],
+  ["Title",n.title],
+  ["Message",n.message],
+  ["Category",n.category],
+  ["Priority",n.priority],
+  ["Target Audience",n.audience],
+  ["Created",n.date],
+  ["Read Status",n.read?"Read":"Unread"]
+ ];
+
+ document.getElementById("detailContent").innerHTML=
+ fields.map(([label,value])=>`
+  <div class="detail-row">
+   <span>${escapeHTML(label)}</span>
+   <span>${escapeHTML(value)}</span>
+  </div>
+ `).join("");
+
+ document.getElementById("detailModal").classList.add("show");
+
+ n.read=true;
+ renderNotifications();
+}
+
+function toggleRead(id){
+ const n=notifications.find(item=>item.id===id);
+ if(!n)return;
+ n.read=!n.read;
+ renderNotifications();
+}
+
+function markAllRead(){
+ notifications.forEach(n=>n.read=true);
+ renderNotifications();
+ alert("All demo notifications marked as read.");
+}
+
+function deleteNotification(id){
+ const n=notifications.find(item=>item.id===id);
+ if(!n)return;
+ if(!confirm("Delete this demo notification?"))return;
+ notifications=notifications.filter(item=>item.id!==id);
+ renderNotifications();
+}
+
+function clearRead(){
+ const count=notifications.filter(n=>n.read).length;
+ if(!count){
+  alert("There are no read notifications.");
+  return;
+ }
+ if(!confirm("Delete all "+count+" read demo notifications?"))return;
+ notifications=notifications.filter(n=>!n.read);
+ renderNotifications();
+}
+
+function resetFilters(){
+ document.getElementById("searchInput").value="";
+ document.getElementById("categoryFilter").value="";
+ document.getElementById("priorityFilter").value="";
+ activeTab="All";
+ document.querySelectorAll(".tab").forEach(t=>{
+  t.classList.toggle("active",t.dataset.tab==="All");
+ });
+ renderNotifications();
+}
+
+function openCreateModal(){
+ document.getElementById("createForm").reset();
+ document.getElementById("createModal").classList.add("show");
+}
+
+function closeModal(id){
+ document.getElementById(id).classList.remove("show");
+}
+
+function closeOutside(event){
+ if(event.target.classList.contains("modal-bg")){
+  event.target.classList.remove("show");
+ }
+}
+
+document.getElementById("createForm").addEventListener("submit",function(event){
+ event.preventDefault();
+
+ const title=document.getElementById("newTitle").value.trim();
+ const message=document.getElementById("newMessage").value.trim();
+
+ if(!title||!message)return;
+
+ notifications.unshift({
+  id:"SYS-"+Date.now(),
+  title:title,
+  message:message,
+  category:document.getElementById("newCategory").value,
+  priority:document.getElementById("newPriority").value,
+  audience:document.getElementById("newAudience").value,
+  date:"Just now",
+  read:false
+ });
+
+ closeModal("createModal");
+ resetFilters();
+ alert("Demo notification created successfully. It has not been sent to users.");
+});
+
+function exportCSV(){
+ const data=getFiltered();
+
+ if(!data.length){
+  alert("No notifications available to export.");
+  return;
+ }
+
+ const headers=[
+  "Notification ID","Title","Message","Category",
+  "Priority","Audience","Date","Read Status"
+ ];
+
+ const escapeCSV=value=>'"'+String(value).replace(/"/g,'""')+'"';
+
+ const csv=[
+  headers.map(escapeCSV).join(","),
+  ...data.map(n=>[
+   n.id,n.title,n.message,n.category,
+   n.priority,n.audience,n.date,n.read?"Read":"Unread"
+  ].map(escapeCSV).join(","))
+ ].join("\n");
+
+ const blob=new Blob(["\uFEFF"+csv],{
+  type:"text/csv;charset=utf-8;"
+ });
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;
+ link.download="rubalia-demo-system-notifications.csv";
+ link.click();
+ URL.revokeObjectURL(url);
+}
+
+renderNotifications();
+</script>
+</body>
+</html>
