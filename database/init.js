@@ -1,6 +1,7 @@
 const pool = require("../config/database");
 
 async function initializeDatabase() {
+  // USERS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id BIGSERIAL PRIMARY KEY,
@@ -19,6 +20,20 @@ async function initializeDatabase() {
     ON users(email);
   `);
 
+  // SPONSOR RELATIONSHIP
+  // Existing users remain unchanged; sponsor_id is initially NULL.
+  await pool.query(`
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS sponsor_id BIGINT
+    REFERENCES users(id) ON DELETE SET NULL;
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_users_sponsor_id
+    ON users(sponsor_id);
+  `);
+
+  // PRODUCTS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS products (
       id BIGSERIAL PRIMARY KEY,
@@ -43,7 +58,7 @@ async function initializeDatabase() {
     ON products(status);
   `);
 
-  // Customer orders.
+  // ORDERS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id BIGSERIAL PRIMARY KEY,
@@ -81,7 +96,7 @@ async function initializeDatabase() {
     ON orders(created_at DESC);
   `);
 
-  // Individual products inside each order.
+  // ORDER ITEMS
   await pool.query(`
     CREATE TABLE IF NOT EXISTS order_items (
       id BIGSERIAL PRIMARY KEY,
