@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Backup & Restore</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold2:#f0d58b;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17263c;
+  --muted:#718096;
+  --border:#e4eaf2;
+  --green:#16865b;
+  --red:#d44848;
+  --orange:#d58b27;
+  --blue:#2878d0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;
+  position:fixed;
+  top:0;bottom:0;left:0;
+  overflow-y:auto;
+  background:var(--navy);
+  color:white;
+  padding:20px 14px;
+  z-index:20;
+}
+.brand{
+  padding:8px 10px 23px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:18px;
+}
+.brand h2{margin:0;color:var(--gold2);font-size:22px}
+.brand small{color:#b8c8dc;letter-spacing:2px}
+.nav-title{
+  color:#8198b4;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:12px 12px 7px;
+}
+.nav a{
+  display:flex;
+  gap:11px;
+  align-items:center;
+  color:#d4deeb;
+  text-decoration:none;
+  padding:11px 12px;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:13px;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff13;
+  color:var(--gold2);
+}
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  min-width:0;
+}
+.topbar{
+  height:68px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:12px}
+.topbar h3{margin:0;font-size:17px}
+.admin-tag{
+  background:#fff5df;
+  color:#9b6b13;
+  padding:7px 11px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+.menu-btn{
+  display:none;
+  border:0;
+  background:var(--navy);
+  color:white;
+  padding:8px 11px;
+  border-radius:7px;
+}
+.content{padding:26px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:20px;
+}
+.page-heading h1{margin:0 0 7px;font-size:25px}
+.page-heading p{margin:0;color:var(--muted);font-size:13px}
+.demo-label{
+  background:#fff2d9;
+  color:#95620c;
+  padding:8px 12px;
+  border-radius:7px;
+  font-size:11px;
+  font-weight:bold;
+}
+.notice{
+  background:#fff8e9;
+  border:1px solid #f1dfb9;
+  border-left:4px solid var(--gold);
+  padding:13px 15px;
+  border-radius:9px;
+  margin-bottom:20px;
+  color:#78591e;
+  font-size:12px;
+  line-height:1.6;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:18px;
+  box-shadow:0 3px 12px #142b4b08;
+}
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:13px;
+}
+.stat-icon{
+  width:38px;height:38px;
+  display:grid;place-items:center;
+  background:#edf3fb;
+  border-radius:10px;
+  font-size:19px;
+}
+.stat small{color:var(--muted);font-size:11px}
+.stat h2{margin:5px 0 0;font-size:24px}
+.stat .sub{font-size:10px;color:var(--muted);margin-top:6px}
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:19px;
+}
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:19px;
+  margin-bottom:19px;
+  box-shadow:0 3px 12px #142b4b08;
+  min-width:0;
+}
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:17px;
+}
+.card-head h3{margin:0;font-size:15px}
+.card-head small{color:var(--muted);font-size:11px}
+.status{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 9px;
+  font-size:10px;
+  font-weight:bold;
+}
+.status.green{background:#e7f7ef;color:#16865b}
+.status.red{background:#fdecec;color:#c33f3f}
+.status.yellow{background:#fff4dc;color:#a16d13}
+.status.blue{background:#e9f2ff;color:#286cb5}
+.btn{
+  border:0;
+  border-radius:7px;
+  padding:10px 14px;
+  font-size:11px;
+  font-weight:bold;
+}
+.btn-gold{background:var(--gold);color:#17263c}
+.btn-dark{background:var(--navy);color:white}
+.btn-light{background:#edf2f8;color:#31445d}
+.btn-danger{background:#fdeaea;color:#c33f3f}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.form-group{margin-bottom:14px}
+.form-group label{
+  display:block;
+  font-size:11px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+.form-control{
+  width:100%;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:white;
+  color:var(--text);
+  font-size:12px;
+}
+.help{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1.5;
+}
+.check-row{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:11px;
+  margin:12px 0;
+}
+.check-row input{accent-color:var(--navy)}
+.progress-track{
+  height:9px;
+  background:#edf1f6;
+  border-radius:20px;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress-fill{
+  height:100%;
+  width:38%;
+  background:var(--gold);
+  border-radius:20px;
+}
+.storage-info{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  margin-top:9px;
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{
+  text-align:left;
+  font-size:10px;
+  color:#78869a;
+  background:#f7f9fc;
+  padding:12px;
+  white-space:nowrap;
+}
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #edf0f5;
+  font-size:11px;
+  white-space:nowrap;
+}
+td small{color:var(--muted)}
+.action-group{display:flex;gap:6px}
+.action-btn{
+  border:0;
+  padding:7px 9px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:bold;
+  background:#edf2f8;
+  color:#31445d;
+}
+.action-btn.restore{background:#fff3d9;color:#966a15}
+.action-btn.delete{background:#fdeaea;color:#c33f3f}
+.empty-note{
+  padding:15px;
+  background:#f7f9fc;
+  border-radius:8px;
+  color:var(--muted);
+  font-size:11px;
+  text-align:center;
+}
+.backup-type{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:5px;
+  background:#edf3fb;
+  color:#315b8b;
+  font-size:10px;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#071a3580;
+  z-index:100;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+.modal.show{display:flex}
+.modal-box{
+  width:100%;
+  max-width:430px;
+  background:white;
+  border-radius:13px;
+  padding:22px;
+}
+.modal-box h3{margin:0 0 12px}
+.modal-box p{font-size:12px;color:var(--muted);line-height:1.6}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.toast{
+  position:fixed;
+  bottom:20px;right:20px;
+  background:var(--navy);
+  color:white;
+  padding:12px 17px;
+  border-radius:8px;
+  font-size:12px;
+  display:none;
+  z-index:200;
+  box-shadow:0 5px 20px #0002;
+}
+.toast.show{display:block}
+.footer{
+  text-align:center;
+  padding:20px;
+  color:#8794a6;
+  font-size:10px;
+}
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:750px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .menu-btn{display:block}
+  .topbar{padding:0 15px}
+  .content{padding:17px 13px}
+  .grid-2{grid-template-columns:1fr}
+  .page-heading{flex-direction:column}
+}
+@media(max-width:420px){
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .stat h2{font-size:20px}
+  .admin-tag{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <h2>RUBALIA</h2>
+    <small>NETWORK ADMIN</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ Users</a>
+    <a href="admin-partners.html">♧ Partners</a>
+    <a href="admin-applications.html">▤ Applications</a>
+
+    <div class="nav-title">BUSINESS MANAGEMENT</div>
+    <a href="admin-products.html">▣ Products</a>
+    <a href="admin-orders.html">▤ Orders</a>
+    <a href="admin-payments.html">৳ Payments</a>
+    <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a href="admin-commissions.html">％ Commissions</a>
+
+    <div class="nav-title">COMMUNICATION</div>
+    <a href="admin-announcements.html">▧ Announcements</a>
+    <a href="admin-support.html">☏ Support Tickets</a>
+
+    <div class="nav-title">SYSTEM</div>
+    <a href="admin-settings.html">⚙ Settings</a>
+    <a href="admin-reports.html">▥ Reports</a>
+    <a href="admin-audit-logs.html">☷ Audit Logs</a>
+    <a href="admin-roles.html">♙ Roles & Permissions</a>
+    <a href="admin-security.html">⌑ Security Center</a>
+    <a class="active" href="admin-backup.html">▣ Backup & Restore</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="index.html">↗ View Website</a>
+  </nav>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h3>Backup & Restore</h3>
+  </div>
+  <span class="admin-tag">ADMIN PANEL · DEMO</span>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Backup & Restore Center</h1>
+      <p>Manage backup schedules, backup records and restore interface.</p>
+    </div>
+    <span class="demo-label">FRONTEND DEMO ONLY</span>
+  </div>
+
+  <div class="notice">
+    <strong>Important:</strong> This is a frontend-only demonstration.
+    No database is backed up, no server files are downloaded, and no data is
+    restored or deleted by this page. Real backup operations require secure
+    backend services and protected storage.
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-top">
+        <small>Backup Records</small>
+        <span class="stat-icon">▣</span>
+      </div>
+      <h2 id="backupCount">3</h2>
+      <div class="sub">Fictional sample records</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Last Backup</small>
+        <span class="stat-icon">🕒</span>
+      </div>
+      <h2 style="font-size:17px">Sample</h2>
+      <div class="sub">No actual backup performed</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Storage Used</small>
+        <span class="stat-icon">💾</span>
+      </div>
+      <h2>38%</h2>
+      <div class="sub">Illustrative storage value</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-top">
+        <small>Backup Status</small>
+        <span class="stat-icon">🛡️</span>
+      </div>
+      <h2 style="font-size:18px">Demo</h2>
+      <div class="sub">No live backup service connected</div>
+    </div>
+  </section>
+
+  <div class="grid-2">
+
+    <section class="card">
+      <div class="card-head">
+        <h3>Manual Backup</h3>
+        <span class="status yellow">DEMO</span>
+      </div>
+
+      <div class="form-group">
+        <label>Backup Name</label>
+        <input class="form-control" id="backupName"
+          placeholder="Example: Rubalia Full Backup">
+      </div>
+
+      <div class="form-group">
+        <label>Backup Type</label>
+        <select class="form-control" id="backupType">
+          <option value="Full Backup">Full Backup</option>
+          <option value="Database Backup">Database Backup</option>
+          <option value="Files Backup">Files Backup</option>
+          <option value="Configuration Backup">Configuration Backup</option>
+        </select>
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="includeDatabase" checked>
+        <label for="includeDatabase">Include database (demo selection)</label>
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="includeFiles" checked>
+        <label for="includeFiles">Include uploaded files (demo selection)</label>
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="includeSettings" checked>
+        <label for="includeSettings">Include configuration (demo selection)</label>
+      </div>
+
+      <button class="btn btn-gold" onclick="createBackup()">
+        + Create Demo Backup
+      </button>
+
+      <p class="help">
+        This creates only a sample entry in this page's temporary memory.
+        It does not generate a backup file.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h3>Automatic Backup Schedule</h3>
+        <span class="status blue">PROPOSED</span>
+      </div>
+
+      <div class="form-group">
+        <label>Automatic Backup</label>
+        <select class="form-control" id="autoBackup">
+          <option value="Disabled">Disabled</option>
+          <option value="Enabled">Enabled (demo preference)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Backup Frequency</label>
+        <select class="form-control" id="frequency">
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Preferred Time</label>
+        <input class="form-control" type="time" id="backupTime" value="02:00">
+      </div>
+
+      <div class="form-group">
+        <label>Keep Backup Copies</label>
+        <select class="form-control" id="retention">
+          <option value="7">7 copies</option>
+          <option value="14">14 copies</option>
+          <option value="30">30 copies</option>
+          <option value="60">60 copies</option>
+        </select>
+      </div>
+
+      <button class="btn btn-dark" onclick="saveSchedule()">
+        Save Demo Schedule
+      </button>
+
+      <p class="help">
+        Saving here does not schedule a real automatic backup.
+      </p>
+    </section>
+
+  </div>
+
+  <div class="grid-2">
+
+    <section class="card">
+      <div class="card-head">
+        <h3>Storage Overview</h3>
+        <span class="status blue">ILLUSTRATIVE</span>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong style="font-size:25px">38%</strong>
+          <div class="help">Sample storage usage</div>
+        </div>
+        <div class="stat-icon" style="width:50px;height:50px">💽</div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+
+      <div class="storage-info">
+        <span>Used storage</span>
+        <strong>38 GB</strong>
+      </div>
+      <div class="storage-info">
+        <span>Available storage</span>
+        <strong>62 GB</strong>
+      </div>
+      <div class="storage-info">
+        <span>Illustrative total</span>
+        <strong>100 GB</strong>
+      </div>
+
+      <p class="help">
+        These figures are examples only and are not connected to actual storage.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h3>Backup Export Options</h3>
+        <span class="status yellow">DEMO</span>
+      </div>
+
+      <div class="form-group">
+        <label>Export Format</label>
+        <select class="form-control" id="exportFormat">
+          <option>SQL Database Dump</option>
+          <option>ZIP Archive</option>
+          <option>JSON Data Export</option>
+          <option>CSV Report Export</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Export Scope</label>
+        <select class="form-control" id="exportScope">
+          <option>All Data</option>
+          <option>Users & Partners</option>
+          <option>Products & Orders</option>
+          <option>Payments & Transactions</option>
+          <option>Reports Only</option>
+        </select>
+      </div>
+
+      <button class="btn btn-gold" onclick="exportDemo()">
+        Export Demo Information
+      </button>
+
+      <p class="help">
+        This export creates a small text file containing demonstration
+        information only, not database data.
+      </p>
+    </section>
+
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h3>Backup History</h3>
+        <small>Sample backup records created for the interface</small>
+      </div>
+      <button class="btn btn-light" onclick="showToast('History contains demo records only.')">
+        Refresh View
+      </button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>BACKUP NAME</th>
+            <th>TYPE</th>
+            <th>DATE LABEL</th>
+            <th>SIZE</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="backupTable">
+          <tr>
+            <td>Rubalia Full Backup</td>
+            <td><span class="backup-type">Full Backup</span></td>
+            <td>Sample · Today</td>
+            <td>250 MB</td>
+            <td><span class="status green">Sample Complete</span></td>
+            <td>
+              <div class="action-group">
+                <button class="action-btn restore"
+                  onclick="restoreBackup('Rubalia Full Backup')">Restore</button>
+                <button class="action-btn delete"
+                  onclick="deleteBackup(this)">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Database Backup</td>
+            <td><span class="backup-type">Database Backup</span></td>
+            <td>Sample · Yesterday</td>
+            <td>120 MB</td>
+            <td><span class="status green">Sample Complete</span></td>
+            <td>
+              <div class="action-group">
+                <button class="action-btn restore"
+                  onclick="restoreBackup('Database Backup')">Restore</button>
+                <button class="action-btn delete"
+                  onclick="deleteBackup(this)">Delete</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Files Backup</td>
+            <td><span class="backup-type">Files Backup</span></td>
+            <td>Sample · Earlier</td>
+            <td>80 MB</td>
+            <td><span class="status green">Sample Complete</span></td>
+            <td>
+              <div class="action-group">
+                <button class="action-btn restore"
+                  onclick="restoreBackup('Files Backup')">Restore</button>
+                <button class="action-btn delete"
+                  onclick="deleteBackup(this)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h3>Restore Backup</h3>
+      <span class="status red">DEMO ONLY</span>
+    </div>
+
+    <div class="notice" style="margin-bottom:15px">
+      <strong>Warning:</strong> A real restore operation can overwrite existing
+      data. Before production use, implement administrator authorization,
+      integrity verification, restore testing and a pre-restore backup.
+    </div>
+
+    <div class="form-group">
+      <label>Select a Sample Backup</label>
+      <select class="form-control" id="restoreSelect">
+        <option value="">Select backup record</option>
+        <option>Rubalia Full Backup</option>
+        <option>Database Backup</option>
+        <option>Files Backup</option>
+      </select>
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox" id="restoreConfirm">
+      <label for="restoreConfirm">
+        I understand this is a demonstration and no real restore will happen.
+      </label>
+    </div>
+
+    <button class="btn btn-danger" onclick="startRestore()">
+      Restore Selected Demo Record
+    </button>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h3>Production Backup Checklist</h3>
+      <span class="status yellow">IMPLEMENTATION REQUIRED</span>
+    </div>
+
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Configure automated PostgreSQL database backups.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Store backup files in separate protected storage.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Encrypt backup files and restrict access.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Set backup retention and deletion policies.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Test restoring backups in a separate environment.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Record backup and restore actions in server-side audit logs.</label>
+    </div>
+    <div class="check-row">
+      <input type="checkbox">
+      <label>Configure backup failure notifications.</label>
+    </div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · Backup & Restore Center · Frontend Demo
+  </div>
+
+</div>
+</main>
+</div>
+
+<div class="modal" id="confirmModal">
+  <div class="modal-box">
+    <h3 id="modalTitle">Confirm Action</h3>
+    <p id="modalMessage">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn btn-light" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" id="confirmButton">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+}
+
+function openModal(title,message,callback){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalMessage").textContent = message;
+  document.getElementById("confirmButton").onclick = function(){
+    closeModal();
+    callback();
+  };
+  document.getElementById("confirmModal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("confirmModal").classList.remove("show");
+}
+
+function updateBackupCount(){
+  document.getElementById("backupCount").textContent =
+    document.querySelectorAll("#backupTable tr").length;
+}
+
+function createBackup(){
+  const name = document.getElementById("backupName").value.trim();
+  const type = document.getElementById("backupType").value;
+
+  if(!name){
+    showToast("Please enter a backup name.");
+    return;
+  }
+
+  const row = document.createElement("tr");
+  const values = [
+    name,
+    type,
+    "Demo · Just now",
+    "Not generated",
+    "Demo Entry"
+  ];
+
+  values.forEach((value,index)=>{
+    const cell = document.createElement("td");
+
+    if(index === 1){
+      const badge = document.createElement("span");
+      badge.className = "backup-type";
+      badge.textContent = value;
+      cell.appendChild(badge);
+    }else if(index === 4){
+      const badge = document.createElement("span");
+      badge.className = "status yellow";
+      badge.textContent = value;
+      cell.appendChild(badge);
+    }else{
+      cell.textContent = value;
+    }
+
+    row.appendChild(cell);
+  });
+
+  const actionCell = document.createElement("td");
+  const group = document.createElement("div");
+  group.className = "action-group";
+
+  const restoreButton = document.createElement("button");
+  restoreButton.className = "action-btn restore";
+  restoreButton.textContent = "Restore";
+  restoreButton.onclick = ()=>restoreBackup(name);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "action-btn delete";
+  deleteButton.textContent = "Delete";
+  deleteButton.onclick = ()=>deleteBackup(deleteButton);
+
+  group.append(restoreButton,deleteButton);
+  actionCell.appendChild(group);
+  row.appendChild(actionCell);
+
+  document.getElementById("backupTable").prepend(row);
+  document.getElementById("backupName").value = "";
+
+  updateBackupCount();
+  showToast("Demo backup entry added. No file was created.");
+}
+
+function saveSchedule(){
+  const enabled = document.getElementById("autoBackup").value;
+  const frequency = document.getElementById("frequency").value;
+  const time = document.getElementById("backupTime").value;
+  const retention = document.getElementById("retention").value;
+
+  showToast(
+    "Demo schedule: "+enabled+", "+frequency+", "+time+
+    ", keep "+retention+" copies. No job was scheduled."
+  );
+}
+
+function deleteBackup(button){
+  openModal(
+    "Delete Demo Record",
+    "Remove this sample backup row from the current screen?",
+    ()=>{
+      button.closest("tr").remove();
+      updateBackupCount();
+      showToast("Sample backup record removed.");
+    }
+  );
+}
+
+function restoreBackup(name){
+  openModal(
+    "Demo Restore",
+    "Restore '"+name+"'? This is only a demonstration. No database or files will be changed.",
+    ()=>{
+      showToast("Demo restore preview only. No data was restored.");
+    }
+  );
+}
+
+function startRestore(){
+  const selected = document.getElementById("restoreSelect").value;
+  const confirmed = document.getElementById("restoreConfirm").checked;
+
+  if(!selected){
+    showToast("Please select a sample backup.");
+    return;
+  }
+
+  if(!confirmed){
+    showToast("Please confirm the demonstration notice.");
+    return;
+  }
+
+  openModal(
+    "Confirm Demo Restore",
+    "You selected '"+selected+"'. No real restore will occur.",
+    ()=>{
+      showToast("Demo restore completed visually. No real data changed.");
+      document.getElementById("restoreConfirm").checked = false;
+    }
+  );
+}
+
+function exportDemo(){
+  const format = document.getElementById("exportFormat").value;
+  const scope = document.getElementById("exportScope").value;
+
+  const content =
+    "RUBALIA NETWORK - DEMO EXPORT\n"+
+    "This file contains demonstration information only.\n"+
+    "No database records are included.\n\n"+
+    "Export format selected: "+format+"\n"+
+    "Export scope selected: "+scope+"\n"+
+    "Generated: "+new Date().toLocaleString()+"\n";
+
+  const blob = new Blob([content],{type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "rubalia-demo-export.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  showToast("Demo information file exported.");
+}
+
+document.getElementById("confirmModal").addEventListener("click",function(e){
+  if(e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>
