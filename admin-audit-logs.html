@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Audit Logs | Rubalia Network Admin</title>
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d7ad55;
+  --gold2:#f1d48b;
+  --white:#fff;
+  --bg:#f3f6fb;
+  --text:#18283e;
+  --muted:#718096;
+  --border:#e3e9f1;
+  --green:#16865b;
+  --red:#d34d55;
+  --blue:#2878c8;
+  --orange:#d58a24;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:22px 14px;
+  position:fixed;
+  inset:0 auto 0 0;
+  overflow-y:auto;
+  z-index:20;
+}
+.brand{
+  padding:8px 12px 24px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:18px;
+}
+.brand h2{
+  margin:0;
+  font-size:22px;
+  color:var(--gold2);
+  letter-spacing:1px;
+}
+.brand small{color:#b9c7d9}
+.nav-title{
+  color:#8fa3bd;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:14px 12px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  color:#d5deeb;
+  text-decoration:none;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:13px;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff16;
+  color:var(--gold2);
+}
+.main{
+  margin-left:245px;
+  width:calc(100% - 245px);
+  min-width:0;
+}
+.topbar{
+  height:68px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{
+  border:0;
+  background:#f0f3f8;
+  padding:9px 12px;
+  border-radius:7px;
+  display:none;
+}
+.topbar strong{font-size:14px}
+.admin{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+}
+.avatar{
+  width:35px;height:35px;border-radius:50%;
+  background:var(--navy2);
+  color:var(--gold2);
+  display:grid;place-items:center;font-weight:bold;
+}
+.content{padding:26px;max-width:1500px;margin:auto}
+.page-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:22px;
+}
+.page-head h1{font-size:25px;margin:0 0 7px}
+.page-head p{margin:0;color:var(--muted);font-size:13px}
+.btn{
+  border:0;border-radius:7px;padding:11px 15px;
+  font-size:12px;font-weight:bold;
+}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-dark{background:var(--navy);color:white}
+.btn-light{background:#edf1f7;color:var(--navy)}
+.btn-red{background:#fff0f0;color:var(--red)}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;margin-bottom:20px;
+}
+.stat{
+  background:white;border:1px solid var(--border);
+  border-radius:11px;padding:18px;
+}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{font-size:25px;font-weight:bold;margin:9px 0 4px}
+.stat-note{font-size:11px;color:var(--muted)}
+.panel{
+  background:white;border:1px solid var(--border);
+  border-radius:11px;margin-bottom:19px;
+  overflow:hidden;
+}
+.panel-head{
+  padding:17px 19px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.panel-head h3{font-size:15px;margin:0}
+.panel-body{padding:18px}
+.filters{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;
+  gap:11px;
+}
+.field label{
+  display:block;font-size:11px;color:var(--muted);
+  margin-bottom:7px;font-weight:bold;
+}
+.field input,.field select{
+  width:100%;height:39px;border:1px solid var(--border);
+  border-radius:7px;padding:0 10px;background:white;
+  color:var(--text);font-size:12px;outline:none;
+}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.filter-actions{
+  display:flex;gap:9px;margin-top:15px;flex-wrap:wrap;
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th{
+  background:#f7f9fc;color:#697a90;
+  text-align:left;font-size:10px;
+  letter-spacing:.5px;padding:13px 15px;
+  white-space:nowrap;
+}
+td{
+  border-top:1px solid var(--border);
+  padding:14px 15px;font-size:12px;
+  vertical-align:middle;
+}
+tr:hover td{background:#fbfcfe}
+.log-id{font-weight:bold;color:var(--blue)}
+.action-name{font-weight:bold}
+.subtext{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.badge{
+  display:inline-block;padding:5px 8px;border-radius:20px;
+  font-size:10px;font-weight:bold;white-space:nowrap;
+}
+.cat-auth{background:#e8f1ff;color:#2872c2}
+.cat-user{background:#eeeaff;color:#7253b7}
+.cat-payment{background:#fff3df;color:#a86c14}
+.cat-order{background:#e5f7ef;color:#16865b}
+.cat-product{background:#fce9f2;color:#b44878}
+.cat-security{background:#ffe9e9;color:#c34848}
+.cat-system{background:#edf0f4;color:#596779}
+.status-success{background:#e5f7ef;color:#16865b}
+.status-warning{background:#fff3df;color:#a86c14}
+.status-danger{background:#ffe9e9;color:#c34848}
+.view-btn{
+  border:1px solid var(--border);background:white;
+  border-radius:6px;padding:7px 10px;font-size:11px;
+  color:var(--navy);font-weight:bold;
+}
+.pagination{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-top:1px solid var(--border);
+  color:var(--muted);font-size:11px;gap:10px;
+}
+.page-buttons{display:flex;gap:6px}
+.page-buttons button{
+  border:1px solid var(--border);background:white;
+  padding:7px 10px;border-radius:5px;font-size:11px;
+}
+.page-buttons button.active{background:var(--navy);color:white}
+.notice{
+  background:#fff9eb;border:1px solid #f0dfb8;
+  color:#806022;padding:12px 14px;border-radius:8px;
+  font-size:11px;line-height:1.6;margin-bottom:18px;
+}
+.empty{
+  text-align:center;padding:35px;color:var(--muted);
+  font-size:13px;
+}
+.modal-bg{
+  position:fixed;inset:0;background:#071a35a8;
+  z-index:50;display:none;align-items:center;
+  justify-content:center;padding:15px;
+}
+.modal-bg.show{display:flex}
+.modal{
+  width:100%;max-width:560px;max-height:90vh;
+  overflow:auto;background:white;border-radius:12px;
+}
+.modal-head{
+  padding:18px 20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-head h3{margin:0;font-size:16px}
+.close{
+  border:0;background:#f0f2f6;border-radius:6px;
+  width:30px;height:30px;font-size:18px;
+}
+.modal-body{padding:20px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.detail{padding:11px;background:#f7f9fc;border-radius:7px}
+.detail small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.detail strong{font-size:12px;word-break:break-word}
+.detail.full{grid-column:1/-1}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);text-align:right}
+@media(max-width:1050px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .filters{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .menu-btn{display:block}
+ .topbar{padding:0 14px}
+ .content{padding:17px 12px}
+ .page-head{flex-direction:column}
+ .page-head h1{font-size:21px}
+ .filters{grid-template-columns:1fr 1fr}
+ .stats{gap:9px}
+ .stat{padding:13px}
+ .stat-value{font-size:21px}
+ .panel-body{padding:13px}
+ .detail-grid{grid-template-columns:1fr}
+ .detail.full{grid-column:auto}
+}
+@media(max-width:390px){
+ .filters{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <h2>RUBALIA</h2>
+    <small>NETWORK ADMIN PANEL</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ User Management</a>
+    <a href="admin-partners.html">♧ Partner Management</a>
+    <a href="admin-applications.html">▤ Applications</a>
+
+    <div class="nav-title">BUSINESS MANAGEMENT</div>
+    <a href="admin-products.html">◈ Products</a>
+    <a href="admin-orders.html">▣ Orders</a>
+    <a href="admin-payments.html">＄ Payments</a>
+    <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a href="admin-commissions.html">％ Commissions</a>
+
+    <div class="nav-title">COMMUNICATION</div>
+    <a href="admin-announcements.html">♢ Announcements</a>
+    <a href="admin-support.html">✉ Support Tickets</a>
+
+    <div class="nav-title">SYSTEM</div>
+    <a href="admin-reports.html">▥ Reports & Analytics</a>
+    <a class="active" href="admin-audit-logs.html">◷ Audit Logs</a>
+    <a href="admin-settings.html">⚙ Settings</a>
+    <a href="index.html">↗ Visit Website</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <strong>Admin Panel / Audit Logs</strong>
+  </div>
+  <div class="admin">
+    <div class="avatar">A</div>
+    <span>Admin Demo</span>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-head">
+    <div>
+      <h1>Audit Logs</h1>
+      <p>Review administrative activity and system event history.</p>
+    </div>
+    <button class="btn btn-gold" onclick="exportCSV()">↓ Export CSV</button>
+  </div>
+
+  <div class="notice">
+    <strong>Demo Notice:</strong> These are fictional sample audit records for frontend preview only.
+    This page does not capture real login activity, admin actions or system events.
+    Real audit logging requires a secure backend.
+  </div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Total Sample Activities</div>
+      <div class="stat-value" id="totalCount">12</div>
+      <div class="stat-note">Displayed demo records</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Successful Activities</div>
+      <div class="stat-value" id="successCount">9</div>
+      <div class="stat-note">Sample status: Success</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Warning Events</div>
+      <div class="stat-value" id="warningCount">2</div>
+      <div class="stat-note">Sample status: Warning</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Security Events</div>
+      <div class="stat-value" id="securityCount">1</div>
+      <div class="stat-note">Sample category count</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Filter Activity Logs</h3>
+      <span class="badge cat-system">DEMO FILTERS</span>
+    </div>
+    <div class="panel-body">
+      <div class="filters">
+        <div class="field">
+          <label>Search</label>
+          <input id="searchInput" placeholder="Search ID, admin, action..." oninput="applyFilters()">
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="categoryFilter" onchange="applyFilters()">
+            <option value="">All Categories</option>
+            <option>Authentication</option>
+            <option>User Management</option>
+            <option>Payments</option>
+            <option>Withdrawals</option>
+            <option>Products</option>
+            <option>Orders</option>
+            <option>Security</option>
+            <option>System</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Admin</label>
+          <select id="adminFilter" onchange="applyFilters()">
+            <option value="">All Admins</option>
+            <option>Admin Demo</option>
+            <option>Manager Demo</option>
+            <option>System Demo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="statusFilter" onchange="applyFilters()">
+            <option value="">All Statuses</option>
+            <option>Success</option>
+            <option>Warning</option>
+            <option>Failed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="dateFilter" onchange="applyFilters()">
+        </div>
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-dark" onclick="applyFilters()">Apply Filters</button>
+        <button class="btn btn-light" onclick="resetFilters()">Reset Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Activity History</h3>
+      <span class="badge cat-auth" id="resultLabel">12 Records</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>LOG ID</th>
+            <th>DATE & TIME</th>
+            <th>ADMIN / ACTOR</th>
+            <th>CATEGORY</th>
+            <th>ACTIVITY</th>
+            <th>STATUS</th>
+            <th>DETAILS</th>
+          </tr>
+        </thead>
+        <tbody id="logTable"></tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <span id="paginationInfo">Showing 12 records</span>
+      <div class="page-buttons">
+        <button onclick="changePage(-1)">Previous</button>
+        <button class="active" id="pageNumber">1</button>
+        <button onclick="changePage(1)">Next</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Audit Log Information</h3>
+    </div>
+    <div class="panel-body" style="font-size:12px;line-height:1.8;color:#65758b">
+      <strong style="color:#18283e">Recommended production safeguards</strong>
+      <ul>
+        <li>Record login, logout and authentication failures.</li>
+        <li>Record sensitive admin actions with actor and timestamp.</li>
+        <li>Keep payment and withdrawal changes traceable.</li>
+        <li>Store audit records securely on the backend.</li>
+        <li>Restrict log access to authorized administrators.</li>
+        <li>Prevent ordinary admins from editing or deleting audit history.</li>
+      </ul>
+      <strong style="color:#18283e">Production requirement:</strong>
+      Audit logs must be generated and protected server-side. Browser-only records
+      are not reliable security evidence.
+    </div>
+  </section>
+
+</div>
+</main>
+</div>
+
+<div class="modal-bg" id="detailModal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Activity Details</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid" id="detailContent"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-dark" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const logs = [
+{
+ id:"LOG-1001",date:"2026-11-18",time:"09:15:22",
+ admin:"Admin Demo",category:"Authentication",
+ action:"Admin Login",description:"Sample administrator login event.",
+ target:"Admin account",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1002",date:"2026-11-18",time:"09:25:10",
+ admin:"Admin Demo",category:"User Management",
+ action:"User Profile Viewed",description:"A sample user profile was opened.",
+ target:"USER-DEMO-001",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1003",date:"2026-11-18",time:"09:42:35",
+ admin:"Manager Demo",category:"Products",
+ action:"Product Updated",description:"A fictional product description was updated.",
+ target:"PROD-DEMO-001",status:"Success",ip:"192.0.2.20"
+},
+{
+ id:"LOG-1004",date:"2026-11-18",time:"10:05:11",
+ admin:"Admin Demo",category:"Orders",
+ action:"Order Status Changed",description:"A sample order status was changed.",
+ target:"ORD-DEMO-001",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1005",date:"2026-11-18",time:"10:30:00",
+ admin:"Admin Demo",category:"Payments",
+ action:"Payment Verification Reviewed",description:"A fictional payment record was reviewed.",
+ target:"PAY-DEMO-001",status:"Warning",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1006",date:"2026-11-18",time:"10:45:18",
+ admin:"Manager Demo",category:"Withdrawals",
+ action:"Withdrawal Request Reviewed",description:"A sample withdrawal request was reviewed.",
+ target:"WD-DEMO-001",status:"Success",ip:"192.0.2.20"
+},
+{
+ id:"LOG-1007",date:"2026-11-18",time:"11:02:44",
+ admin:"Admin Demo",category:"User Management",
+ action:"Partner Status Updated",description:"A fictional partner status was changed.",
+ target:"PARTNER-DEMO-001",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1008",date:"2026-11-18",time:"11:20:09",
+ admin:"System Demo",category:"Security",
+ action:"Failed Login Attempt",description:"Illustrative failed authentication event.",
+ target:"DEMO-LOGIN",status:"Failed",ip:"192.0.2.99"
+},
+{
+ id:"LOG-1009",date:"2026-11-18",time:"11:45:30",
+ admin:"Admin Demo",category:"Authentication",
+ action:"Admin Logout",description:"Sample administrator logout event.",
+ target:"Admin account",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1010",date:"2026-11-18",time:"12:05:12",
+ admin:"Manager Demo",category:"Products",
+ action:"Product Stock Reviewed",description:"A sample stock quantity was reviewed.",
+ target:"PROD-DEMO-002",status:"Warning",ip:"192.0.2.20"
+},
+{
+ id:"LOG-1011",date:"2026-11-18",time:"12:25:40",
+ admin:"Admin Demo",category:"Payments",
+ action:"Payment Record Viewed",description:"A fictional payment detail was opened.",
+ target:"PAY-DEMO-002",status:"Success",ip:"192.0.2.10"
+},
+{
+ id:"LOG-1012",date:"2026-11-18",time:"12:40:05",
+ admin:"System Demo",category:"System",
+ action:"Demo Report Generated",description:"A sample report preview was generated.",
+ target:"REPORT-DEMO-001",status:"Success",ip:"System Demo"
+}
+];
+
+let filtered = [...logs];
+let currentPage = 1;
+const perPage = 8;
+
+function categoryClass(category){
+ const map={
+  "Authentication":"cat-auth",
+  "User Management":"cat-user",
+  "Payments":"cat-payment",
+  "Withdrawals":"cat-payment",
+  "Products":"cat-product",
+  "Orders":"cat-order",
+  "Security":"cat-security",
+  "System":"cat-system"
+ };
+ return map[category] || "cat-system";
+}
+
+function statusClass(status){
+ if(status==="Success")return "status-success";
+ if(status==="Warning")return "status-warning";
+ return "status-danger";
+}
+
+function render(){
+ const start=(currentPage-1)*perPage;
+ const rows=filtered.slice(start,start+perPage);
+ const tbody=document.getElementById("logTable");
+
+ if(!rows.length){
+  tbody.innerHTML='<tr><td colspan="7" class="empty">No matching sample records found.</td></tr>';
+ }else{
+  tbody.innerHTML=rows.map(log=>`
+   <tr>
+    <td><span class="log-id">${log.id}</span></td>
+    <td>${log.date}<span class="subtext">${log.time}</span></td>
+    <td>${log.admin}</td>
+    <td><span class="badge ${categoryClass(log.category)}">${log.category}</span></td>
+    <td><span class="action-name">${log.action}</span><span class="subtext">${log.target}</span></td>
+    <td><span class="badge ${statusClass(log.status)}">${log.status}</span></td>
+    <td><button class="view-btn" onclick="showDetails('${log.id}')">View</button></td>
+   </tr>
+  `).join("");
+ }
+
+ document.getElementById("totalCount").textContent=logs.length;
+ document.getElementById("successCount").textContent=logs.filter(x=>x.status==="Success").length;
+ document.getElementById("warningCount").textContent=logs.filter(x=>x.status==="Warning").length;
+ document.getElementById("securityCount").textContent=logs.filter(x=>x.category==="Security").length;
+ document.getElementById("resultLabel").textContent=filtered.length+" Records";
+ document.getElementById("paginationInfo").textContent=
+  filtered.length ? `Showing ${start+1}-${Math.min(start+perPage,filtered.length)} of ${filtered.length} records` : "Showing 0 records";
+ document.getElementById("pageNumber").textContent=currentPage;
+}
+
+function applyFilters(){
+ const search=document.getElementById("searchInput").value.toLowerCase().trim();
+ const category=document.getElementById("categoryFilter").value;
+ const admin=document.getElementById("adminFilter").value;
+ const status=document.getElementById("statusFilter").value;
+ const date=document.getElementById("dateFilter").value;
+
+ filtered=logs.filter(log=>{
+  const searchable=[log.id,log.admin,log.category,log.action,log.description,log.target,log.ip].join(" ").toLowerCase();
+  return (!search || searchable.includes(search)) &&
+   (!category || log.category===category) &&
+   (!admin || log.admin===admin) &&
+   (!status || log.status===status) &&
+   (!date || log.date===date);
+ });
+ currentPage=1;
+ render();
+}
+
+function resetFilters(){
+ document.getElementById("searchInput").value="";
+ document.getElementById("categoryFilter").value="";
+ document.getElementById("adminFilter").value="";
+ document.getElementById("statusFilter").value="";
+ document.getElementById("dateFilter").value="";
+ filtered=[...logs];
+ currentPage=1;
+ render();
+}
+
+function changePage(direction){
+ const max=Math.max(1,Math.ceil(filtered.length/perPage));
+ currentPage=Math.min(max,Math.max(1,currentPage+direction));
+ render();
+}
+
+function showDetails(id){
+ const log=logs.find(x=>x.id===id);
+ if(!log)return;
+
+ const fields=[
+  ["Log ID",log.id],
+  ["Date",log.date],
+  ["Time",log.time],
+  ["Admin / Actor",log.admin],
+  ["Category",log.category],
+  ["Activity",log.action],
+  ["Target",log.target],
+  ["Status",log.status],
+  ["IP Address (Demo)",log.ip],
+  ["Description",log.description]
+ ];
+
+ document.getElementById("detailContent").innerHTML=fields.map((item,index)=>`
+  <div class="detail ${index===9?'full':''}">
+   <small>${item[0]}</small>
+   <strong>${escapeHTML(item[1])}</strong>
+  </div>
+ `).join("");
+
+ document.getElementById("detailModal").classList.add("show");
+}
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[char]));
+}
+
+function closeModal(){
+ document.getElementById("detailModal").classList.remove("show");
+}
+
+function closeOutside(event){
+ if(event.target.id==="detailModal")closeModal();
+}
+
+function toggleSidebar(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+function exportCSV(){
+ if(!filtered.length){
+  alert("No records available to export.");
+  return;
+ }
+
+ const headers=["Log ID","Date","Time","Admin","Category","Activity","Description","Target","Status","Demo IP"];
+ const rows=filtered.map(log=>[
+  log.id,log.date,log.time,log.admin,log.category,
+  log.action,log.description,log.target,log.status,log.ip
+ ]);
+
+ const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
+ const csv=[headers,...rows].map(row=>row.map(quote).join(",")).join("\r\n");
+ const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8;"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="rubalia-demo-audit-logs.csv";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+render();
+</script>
+</body>
+</html>
