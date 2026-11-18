@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Roles & Permissions | Rubalia Network</title>
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d7ad55;
+ --gold2:#f1d48b;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18283e;
+ --muted:#718096;
+ --border:#e3e9f1;
+ --green:#16865b;
+ --red:#d34d55;
+ --blue:#2878c8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+ width:245px;background:var(--navy);color:white;
+ padding:22px 14px;position:fixed;inset:0 auto 0 0;
+ overflow-y:auto;z-index:20;transition:.25s
+}
+.brand{padding:8px 12px 24px;border-bottom:1px solid #ffffff20;margin-bottom:18px}
+.brand h2{margin:0;font-size:22px;color:var(--gold2);letter-spacing:1px}
+.brand small{color:#b9c7d9}
+.nav-title{color:#8fa3bd;font-size:10px;font-weight:bold;letter-spacing:1.5px;padding:14px 12px 8px}
+.nav a{
+ display:flex;align-items:center;gap:11px;padding:11px 12px;
+ color:#d5deeb;text-decoration:none;border-radius:8px;
+ margin:3px 0;font-size:13px
+}
+.nav a:hover,.nav a.active{background:#ffffff16;color:var(--gold2)}
+.main{margin-left:245px;width:calc(100% - 245px);min-width:0}
+.topbar{
+ height:68px;background:white;border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 28px;position:sticky;top:0;z-index:10
+}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{border:0;background:#f0f3f8;padding:9px 12px;border-radius:7px;display:none}
+.topbar strong{font-size:14px}
+.admin{display:flex;align-items:center;gap:10px;font-size:13px}
+.avatar{
+ width:35px;height:35px;border-radius:50%;background:var(--navy2);
+ color:var(--gold2);display:grid;place-items:center;font-weight:bold
+}
+.content{padding:26px;max-width:1500px;margin:auto}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:22px}
+.page-head h1{font-size:25px;margin:0 0 7px}
+.page-head p{margin:0;color:var(--muted);font-size:13px}
+.btn{border:0;border-radius:7px;padding:11px 15px;font-size:12px;font-weight:bold}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-dark{background:var(--navy);color:white}
+.btn-light{background:#edf1f7;color:var(--navy)}
+.btn-red{background:#fff0f0;color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+.stat{background:white;border:1px solid var(--border);border-radius:11px;padding:18px}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{font-size:25px;font-weight:bold;margin:9px 0 4px}
+.stat-note{font-size:11px;color:var(--muted)}
+.notice{
+ background:#fff9eb;border:1px solid #f0dfb8;color:#806022;
+ padding:12px 14px;border-radius:8px;font-size:11px;
+ line-height:1.6;margin-bottom:18px
+}
+.panel{background:white;border:1px solid var(--border);border-radius:11px;margin-bottom:19px;overflow:hidden}
+.panel-head{
+ padding:17px 19px;border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.panel-head h3{font-size:15px;margin:0}
+.panel-body{padding:18px}
+.role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.role-card{border:1px solid var(--border);border-radius:10px;padding:17px;position:relative}
+.role-card:hover{border-color:var(--gold)}
+.role-icon{
+ width:42px;height:42px;border-radius:10px;background:#f4f0e5;
+ display:grid;place-items:center;color:#8d6b25;font-size:19px;margin-bottom:13px
+}
+.role-card h3{margin:0 0 7px;font-size:15px}
+.role-card p{font-size:11px;color:var(--muted);line-height:1.6;min-height:35px;margin:0 0 12px}
+.role-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);margin-bottom:13px}
+.role-actions{display:flex;gap:7px}
+.role-actions button{flex:1}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:10px;font-weight:bold;white-space:nowrap}
+.badge-gold{background:#fff4d9;color:#936b19}
+.badge-blue{background:#e8f1ff;color:#2872c2}
+.badge-green{background:#e5f7ef;color:#16865b}
+.badge-gray{background:#edf0f4;color:#596779}
+.badge-red{background:#ffe9e9;color:#c34848}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:750px}
+th{background:#f7f9fc;color:#697a90;text-align:left;font-size:10px;letter-spacing:.5px;padding:13px 15px}
+td{border-top:1px solid var(--border);padding:13px 15px;font-size:12px}
+tr:hover td{background:#fbfcfe}
+.action-btn{border:1px solid var(--border);background:white;border-radius:6px;padding:7px 10px;font-size:11px;font-weight:bold}
+.search-row{display:flex;gap:10px;flex-wrap:wrap}
+.search-row input,.search-row select{
+ height:39px;border:1px solid var(--border);border-radius:7px;
+ padding:0 11px;font-size:12px;background:white
+}
+.search-row input{flex:1;min-width:180px}
+.permission-table{min-width:800px}
+.permission-table th,.permission-table td{text-align:center}
+.permission-table th:first-child,.permission-table td:first-child{text-align:left}
+.permission-table input{width:17px;height:17px;accent-color:var(--navy);cursor:pointer}
+.permission-table input:disabled{cursor:not-allowed;opacity:.45}
+.permission-label{font-weight:bold}
+.modal-bg{
+ position:fixed;inset:0;background:#071a35a8;z-index:50;
+ display:none;align-items:center;justify-content:center;padding:15px
+}
+.modal-bg.show{display:flex}
+.modal{width:100%;max-width:760px;max-height:92vh;overflow:auto;background:white;border-radius:12px}
+.modal-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-head h3{margin:0;font-size:16px}
+.close{border:0;background:#f0f2f6;border-radius:6px;width:30px;height:30px;font-size:18px}
+.modal-body{padding:20px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:11px;color:var(--muted);font-weight:bold;margin-bottom:7px}
+.field input,.field select,.field textarea{
+ width:100%;border:1px solid var(--border);border-radius:7px;padding:11px;font-size:12px;outline:none
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
+.field textarea{min-height:65px;resize:vertical}
+.permission-section{border:1px solid var(--border);border-radius:9px;margin:15px 0;overflow:hidden}
+.permission-section h4{background:#f7f9fc;margin:0;padding:12px 14px;font-size:12px}
+.permission-items{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:13px}
+.permission-item{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px}
+.permission-item input{width:17px;height:17px;accent-color:var(--navy)}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-box{background:#f7f9fc;border-radius:8px;padding:12px}
+.info-box small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.info-box strong{font-size:12px}
+.toast{
+ position:fixed;bottom:20px;right:20px;background:var(--navy);
+ color:white;padding:13px 18px;border-radius:8px;font-size:12px;
+ z-index:100;display:none;box-shadow:0 5px 20px #0002
+}
+.toast.show{display:block}
+@media(max-width:1100px){.role-grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){
+ .sidebar{transform:translateX(-100%)}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .menu-btn{display:block}
+ .topbar{padding:0 14px}
+ .content{padding:17px 12px}
+ .page-head{flex-direction:column}
+ .page-head h1{font-size:21px}
+ .role-grid{grid-template-columns:1fr}
+ .panel-body{padding:13px}
+ .info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+ <div class="brand">
+  <h2>RUBALIA</h2>
+  <small>NETWORK ADMIN PANEL</small>
+ </div>
+ <nav class="nav">
+  <div class="nav-title">MAIN MENU</div>
+  <a href="admin-dashboard.html">▦ Dashboard</a>
+  <a href="admin-users.html">♙ User Management</a>
+  <a href="admin-partners.html">♧ Partner Management</a>
+  <a href="admin-applications.html">▤ Applications</a>
+
+  <div class="nav-title">BUSINESS MANAGEMENT</div>
+  <a href="admin-products.html">◈ Products</a>
+  <a href="admin-orders.html">▣ Orders</a>
+  <a href="admin-payments.html">＄ Payments</a>
+  <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+  <a href="admin-commissions.html">％ Commissions</a>
+
+  <div class="nav-title">COMMUNICATION</div>
+  <a href="admin-announcements.html">♢ Announcements</a>
+  <a href="admin-support.html">✉ Support Tickets</a>
+
+  <div class="nav-title">SYSTEM</div>
+  <a href="admin-reports.html">▥ Reports & Analytics</a>
+  <a href="admin-audit-logs.html">◷ Audit Logs</a>
+  <a class="active" href="admin-roles.html">♙ Roles & Permissions</a>
+  <a href="admin-settings.html">⚙ Settings</a>
+  <a href="index.html">↗ Visit Website</a>
+ </nav>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div class="top-left">
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <strong>Admin Panel / Roles & Permissions</strong>
+ </div>
+ <div class="admin"><div class="avatar">A</div><span>Admin Demo</span></div>
+</header>
+
+<div class="content">
+ <div class="page-head">
+  <div>
+   <h1>Roles & Permissions</h1>
+   <p>Manage administrative roles and their access permissions.</p>
+  </div>
+  <button class="btn btn-gold" onclick="openCreateModal()">＋ Create New Role</button>
+ </div>
+
+ <div class="notice">
+  <strong>Frontend Demo Only:</strong> Role changes and permissions are temporary in-memory examples.
+  They do not control real accounts or secure any page. Production access control must be enforced
+  by the backend on every protected API and action.
+ </div>
+
+ <section class="stats">
+  <div class="stat"><div class="stat-label">Total Roles</div><div class="stat-value" id="totalRoles">4</div><div class="stat-note">Demo role records</div></div>
+  <div class="stat"><div class="stat-label">Active Roles</div><div class="stat-value" id="activeRoles">4</div><div class="stat-note">Enabled in this preview</div></div>
+  <div class="stat"><div class="stat-label">Admin Accounts</div><div class="stat-value">3</div><div class="stat-note">Illustrative sample only</div></div>
+  <div class="stat"><div class="stat-label">Permission Groups</div><div class="stat-value">8</div><div class="stat-note">Available demo modules</div></div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-head"><h3>Administrative Roles</h3><span class="badge badge-gold">ROLE OVERVIEW</span></div>
+  <div class="panel-body">
+   <div class="role-grid" id="roleGrid"></div>
+  </div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-head">
+   <h3>Role Permission Matrix</h3>
+   <span class="badge badge-blue">DEMO ACCESS MATRIX</span>
+  </div>
+  <div class="panel-body">
+   <div class="search-row" style="margin-bottom:15px">
+    <select id="matrixRole" onchange="renderMatrix()">
+     <option value="all">All Roles</option>
+    </select>
+    <input id="matrixSearch" placeholder="Search permission..." oninput="renderMatrix()">
+   </div>
+   <div class="table-wrap">
+    <table class="permission-table">
+     <thead>
+      <tr>
+       <th>MODULE / PAGE</th>
+       <th>VIEW</th>
+       <th>CREATE</th>
+       <th>EDIT</th>
+       <th>DELETE</th>
+      </tr>
+     </thead>
+     <tbody id="matrixBody"></tbody>
+    </table>
+   </div>
+   <p style="font-size:10px;color:#718096;margin:13px 0 0">
+    The Super Admin matrix is locked in this demo. Checkboxes for other roles are editable in this preview only.
+   </p>
+  </div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-head"><h3>Role Assignment Overview</h3></div>
+  <div class="panel-body">
+   <div class="search-row" style="margin-bottom:14px">
+    <input id="roleSearch" placeholder="Search role or description..." oninput="renderAssignments()">
+    <select id="roleStatusFilter" onchange="renderAssignments()">
+     <option value="">All Status</option>
+     <option value="Active">Active</option>
+     <option value="Inactive">Inactive</option>
+    </select>
+   </div>
+   <div class="table-wrap">
+    <table>
+     <thead><tr><th>ROLE</th><th>DESCRIPTION</th><th>DEMO USERS</th><th>STATUS</th><th>ACTION</th></tr></thead>
+     <tbody id="assignmentBody"></tbody>
+    </table>
+   </div>
+  </div>
+ </section>
+</div>
+</main>
+</div>
+
+<div class="modal-bg" id="roleModal" onclick="closeOutside(event)">
+ <div class="modal">
+  <div class="modal-head">
+   <h3 id="modalTitle">Create New Role</h3>
+   <button class="close" onclick="closeRoleModal()">×</button>
+  </div>
+  <div class="modal-body">
+   <input type="hidden" id="editRoleId">
+   <div class="field">
+    <label>Role Name</label>
+    <input id="roleName" placeholder="Example: Content Manager">
+   </div>
+   <div class="field">
+    <label>Description</label>
+    <textarea id="roleDescription" placeholder="Describe the responsibilities of this role..."></textarea>
+   </div>
+   <div class="field">
+    <label>Status</label>
+    <select id="roleStatus"><option>Active</option><option>Inactive</option></select>
+   </div>
+   <h3 style="font-size:14px;margin:20px 0 8px">Module Permissions</h3>
+   <div id="modalPermissions"></div>
+  </div>
+  <div class="modal-footer">
+   <button class="btn btn-light" onclick="closeRoleModal()">Cancel</button>
+   <button class="btn btn-gold" onclick="saveRole()">Save Role</button>
+  </div>
+ </div>
+</div>
+
+<div class="modal-bg" id="detailModal" onclick="closeDetailOutside(event)">
+ <div class="modal" style="max-width:520px">
+  <div class="modal-head"><h3>Role Details</h3><button class="close" onclick="closeDetail()">×</button></div>
+  <div class="modal-body" id="detailBody"></div>
+  <div class="modal-footer"><button class="btn btn-dark" onclick="closeDetail()">Close</button></div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const modules=[
+ "Dashboard","Users","Partners","Applications",
+ "Products","Orders","Payments","Withdrawals",
+ "Commissions","Announcements","Support","Reports",
+ "Audit Logs","Settings"
+];
+
+function emptyPermissions(){
+ const result={};
+ modules.forEach(m=>result[m]={view:false,create:false,edit:false,delete:false});
+ return result;
+}
+
+function makePermissions(level){
+ const p=emptyPermissions();
+ modules.forEach(m=>{
+  if(level==="all"){
+   p[m]={view:true,create:true,edit:true,delete:true};
+  }else if(level==="manager"){
+   p[m]={view:true,create:false,edit:false,delete:false};
+   if(["Products","Orders","Users","Partners","Support","Announcements"].includes(m)){
+    p[m]={view:true,create:true,edit:true,delete:false};
+   }
+  }else if(level==="support"){
+   p[m]={view:["Dashboard","Users","Support","Announcements"].includes(m),create:false,edit:false,delete:false};
+   if(m==="Support")p[m]={view:true,create:true,edit:true,delete:false};
+  }else if(level==="admin"){
+   p[m]={view:true,create:true,edit:true,delete:false};
+   if(["Dashboard","Audit Logs","Reports"].includes(m)){
+    p[m]={view:true,create:false,edit:false,delete:false};
+   }
+  }
+ });
+ return p;
+}
+
+let roles=[
+ {
+  id:1,name:"Super Admin",description:"Full administrative access in this illustrative role setup.",
+  status:"Active",users:1,locked:true,permissions:makePermissions("all")
+ },
+ {
+  id:2,name:"Admin",description:"General administration and business management.",
+  status:"Active",users:1,locked:false,permissions:makePermissions("admin")
+ },
+ {
+  id:3,name:"Manager",description:"Manage selected operational modules and records.",
+  status:"Active",users:1,locked:false,permissions:makePermissions("manager")
+ },
+ {
+  id:4,name:"Support",description:"Customer support and limited user information access.",
+  status:"Active",users:0,locked:false,permissions:makePermissions("support")
+ }
+];
+
+let nextId=5;
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[c]));
+}
+
+function showToast(message){
+ const t=document.getElementById("toast");
+ t.textContent=message;t.classList.add("show");
+ setTimeout(()=>t.classList.remove("show"),2300);
+}
+
+function toggleSidebar(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+function renderRoleOptions(){
+ const select=document.getElementById("matrixRole");
+ const old=select.value;
+ select.innerHTML='<option value="all">All Roles</option>'+
+  roles.map(r=>`<option value="${r.id}">${escapeHTML(r.name)}</option>`).join("");
+ if([...select.options].some(o=>o.value===old))select.value=old;
+}
+
+function renderStats(){
+ document.getElementById("totalRoles").textContent=roles.length;
+ document.getElementById("activeRoles").textContent=roles.filter(r=>r.status==="Active").length;
+}
+
+function renderCards(){
+ const grid=document.getElementById("roleGrid");
+ const icons={"Super Admin":"♛","Admin":"♙","Manager":"▣","Support":"✉"};
+ grid.innerHTML=roles.map(r=>`
+  <div class="role-card">
+   <div class="role-icon">${icons[r.name]||"♙"}</div>
+   <h3>${escapeHTML(r.name)}</h3>
+   <p>${escapeHTML(r.description)}</p>
+   <div class="role-meta">
+    <span>${r.users} Demo Users</span>
+    <span class="badge ${r.status==="Active"?"badge-green":"badge-gray"}">${r.status}</span>
+   </div>
+   <div class="role-actions">
+    <button class="action-btn" onclick="showDetails(${r.id})">Details</button>
+    <button class="action-btn" onclick="editRole(${r.id})">Edit</button>
+   </div>
+  </div>
+ `).join("");
+ renderStats();
+}
+
+function renderMatrix(){
+ const roleValue=document.getElementById("matrixRole").value;
+ const search=document.getElementById("matrixSearch").value.toLowerCase();
+ const selected=roleValue==="all"?roles:roles.filter(r=>r.id===Number(roleValue));
+ const body=document.getElementById("matrixBody");
+
+ let html="";
+ modules.filter(m=>m.toLowerCase().includes(search)).forEach(module=>{
+  if(roleValue==="all"){
+   html+=`<tr><td class="permission-label">${module}</td>`;
+   ["view","create","edit","delete"].forEach(action=>{
+    const allowed=selected.some(r=>r.permissions[module][action]);
+    html+=`<td><span class="badge ${allowed?"badge-green":"badge-gray"}">${allowed?"Some":"None"}</span></td>`;
+   });
+   html+="</tr>";
+  }else{
+   const role=selected[0];
+   html+=`<tr><td class="permission-label">${module}</td>`;
+   ["view","create","edit","delete"].forEach(action=>{
+    const checked=role.permissions[module][action];
+    const disabled=role.locked;
+    html+=`<td><input type="checkbox" ${checked?"checked":""} ${disabled?"disabled":""}
+      onchange="changePermission(${role.id},'${module}','${action}',this.checked)"></td>`;
+   });
+   html+="</tr>";
+  }
+ });
+ body.innerHTML=html||'<tr><td colspan="5" style="text-align:center;padding:25px;color:#718096">No matching modules.</td></tr>';
+}
+
+function changePermission(id,module,action,value){
+ const role=roles.find(r=>r.id===id);
+ if(!role||role.locked)return;
+ role.permissions[module][action]=value;
+ if(action!=="view"&&value)role.permissions[module].view=true;
+ if(action==="view"&&!value){
+  role.permissions[module]={view:false,create:false,edit:false,delete:false};
+ }
+ renderMatrix();
+ showToast("Demo permission updated temporarily.");
+}
+
+function renderAssignments(){
+ const search=document.getElementById("roleSearch").value.toLowerCase();
+ const status=document.getElementById("roleStatusFilter").value;
+ const list=roles.filter(r=>
+  (!search||(r.name+" "+r.description).toLowerCase().includes(search))&&
+  (!status||r.status===status)
+ );
+ document.getElementById("assignmentBody").innerHTML=list.length?list.map(r=>`
+  <tr>
+   <td><strong>${escapeHTML(r.name)}</strong></td>
+   <td>${escapeHTML(r.description)}</td>
+   <td>${r.users}</td>
+   <td><span class="badge ${r.status==="Active"?"badge-green":"badge-gray"}">${r.status}</span></td>
+   <td><button class="action-btn" onclick="showDetails(${r.id})">View</button></td>
+  </tr>
+ `).join(""):'<tr><td colspan="5" style="text-align:center;padding:25px;color:#718096">No roles found.</td></tr>';
+}
+
+function openCreateModal(){
+ document.getElementById("modalTitle").textContent="Create New Role";
+ document.getElementById("editRoleId").value="";
+ document.getElementById("roleName").value="";
+ document.getElementById("roleDescription").value="";
+ document.getElementById("roleStatus").value="Active";
+ buildPermissionEditor(emptyPermissions());
+ document.getElementById("roleModal").classList.add("show");
+}
+
+function buildPermissionEditor(permissions){
+ const container=document.getElementById("modalPermissions");
+ const actions=["view","create","edit","delete"];
+ container.innerHTML=modules.map(module=>`
+  <div class="permission-section">
+   <h4>${module}</h4>
+   <div class="permission-items">
+    ${actions.map(action=>`
+     <label class="permission-item">
+      <span>${action.charAt(0).toUpperCase()+action.slice(1)}</span>
+      <input type="checkbox" data-module="${module}" data-action="${action}"
+       ${permissions[module]?.[action]?"checked":""}
+       onchange="syncModalPermission(this)">
+     </label>
+    `).join("")}
+   </div>
+  </div>
+ `).join("");
+}
+
+function syncModalPermission(input){
+ const module=input.dataset.module;
+ const action=input.dataset.action;
+ const section=input.closest(".permission-section");
+ const checks=section.querySelectorAll("input");
+ const view=section.querySelector('input[data-action="view"]');
+ if(action!=="view"&&input.checked)view.checked=true;
+ if(action==="view"&&!input.checked)checks.forEach(c=>c.checked=false);
+}
+
+function editRole(id){
+ const role=roles.find(r=>r.id===id);
+ if(!role)return;
+ if(role.locked){showToast("The Super Admin demo role is locked.");return;}
+ document.getElementById("modalTitle").textContent="Edit Role";
+ document.getElementById("editRoleId").value=role.id;
+ document.getElementById("roleName").value=role.name;
+ document.getElementById("roleDescription").value=role.description;
+ document.getElementById("roleStatus").value=role.status;
+ buildPermissionEditor(role.permissions);
+ document.getElementById("roleModal").classList.add("show");
+}
+
+function readModalPermissions(){
+ const permissions=emptyPermissions();
+ document.querySelectorAll("#modalPermissions input").forEach(input=>{
+  permissions[input.dataset.module][input.dataset.action]=input.checked;
+ });
+ modules.forEach(module=>{
+  const p=permissions[module];
+  if(p.create||p.edit||p.delete)p.view=true;
+ });
+ return permissions;
+}
+
+function saveRole(){
+ const id=document.getElementById("editRoleId").value;
+ const name=document.getElementById("roleName").value.trim();
+ const description=document.getElementById("roleDescription").value.trim();
+ const status=document.getElementById("roleStatus").value;
+
+ if(!name){showToast("Please enter a role name.");return;}
+ if(roles.some(r=>r.name.toLowerCase()===name.toLowerCase()&&String(r.id)!==id)){
+  showToast("A role with this name already exists.");return;
+ }
+
+ const permissions=readModalPermissions();
+ if(id){
+  const role=roles.find(r=>r.id===Number(id));
+  if(!role||role.locked)return;
+  role.name=name;role.description=description;role.status=status;
+  role.permissions=permissions;
+  showToast("Demo role updated temporarily.");
+ }else{
+  roles.push({
+   id:nextId++,name,description,status,users:0,locked:false,permissions
+  });
+  showToast("Demo role created temporarily.");
+ }
+ closeRoleModal();
+ refresh();
+}
+
+function showDetails(id){
+ const role=roles.find(r=>r.id===id);
+ if(!role)return;
+ let allowed=0;
+ modules.forEach(m=>Object.values(role.permissions[m]).forEach(v=>{if(v)allowed++}));
+ document.getElementById("detailBody").innerHTML=`
+  <div class="info-grid">
+   <div class="info-box"><small>Role Name</small><strong>${escapeHTML(role.name)}</strong></div>
+   <div class="info-box"><small>Status</small><strong>${role.status}</strong></div>
+   <div class="info-box"><small>Demo User Count</small><strong>${role.users}</strong></div>
+   <div class="info-box"><small>Enabled Permission Count</small><strong>${allowed}</strong></div>
+   <div class="info-box" style="grid-column:1/-1"><small>Description</small><strong>${escapeHTML(role.description||"No description provided.")}</strong></div>
+   <div class="info-box" style="grid-column:1/-1"><small>Role Protection</small><strong>${role.locked?"Locked demo role":"Editable demo role"}</strong></div>
+  </div>
+  <h4 style="font-size:13px;margin:20px 0 10px">Module Access</h4>
+  ${modules.map(m=>{
+   const p=role.permissions[m];
+   const list=Object.keys(p).filter(k=>p[k]);
+   return `<div style="padding:9px 0;border-bottom:1px solid #e3e9f1;font-size:11px">
+    <strong>${m}</strong>
+    <span style="float:right;color:#718096">${list.length?list.join(", "):"No access"}</span>
+   </div>`;
+  }).join("")}
+ `;
+ document.getElementById("detailModal").classList.add("show");
+}
+
+function closeRoleModal(){document.getElementById("roleModal").classList.remove("show")}
+function closeDetail(){document.getElementById("detailModal").classList.remove("show")}
+function closeOutside(e){if(e.target.id==="roleModal")closeRoleModal()}
+function closeDetailOutside(e){if(e.target.id==="detailModal")closeDetail()}
+
+function refresh(){
+ renderRoleOptions();
+ renderCards();
+ renderMatrix();
+ renderAssignments();
+}
+
+refresh();
+</script>
+</body>
+</html>
