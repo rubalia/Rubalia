@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Admin Settings</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --gold-light:#f5e4b5;
+  --white:#fff;
+  --bg:#f3f5f9;
+  --text:#18243a;
+  --muted:#718096;
+  --border:#e3e8f0;
+  --green:#16865b;
+  --red:#d94b4b;
+  --blue:#2675c9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:white;
+  padding:22px 15px;
+  position:fixed;
+  top:0;bottom:0;left:0;
+  overflow-y:auto;
+  z-index:20;
+}
+.brand{
+  padding:5px 10px 22px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:20px;
+}
+.brand-name{
+  color:var(--gold);
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.brand small{color:#b9c6d8;font-size:11px}
+.nav-title{
+  color:#8fa2bd;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  padding:13px 10px 8px;
+}
+.nav-link{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 12px;
+  margin:3px 0;
+  color:#dce5f1;
+  text-decoration:none;
+  border-radius:8px;
+  font-size:13px;
+}
+.nav-link:hover,.nav-link.active{
+  background:#ffffff16;
+  color:var(--gold-light);
+}
+.nav-link.active{border-left:3px solid var(--gold)}
+.main{
+  width:calc(100% - 250px);
+  margin-left:250px;
+  min-width:0;
+}
+.topbar{
+  height:65px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.topbar-title{font-weight:bold;color:var(--navy)}
+.admin-label{font-size:12px;color:var(--muted)}
+.menu-btn{
+  display:none;
+  background:var(--navy);
+  color:white;
+  border:0;
+  border-radius:7px;
+  padding:8px 11px;
+}
+.content{padding:28px;max-width:1400px;margin:auto}
+.page-heading{margin-bottom:20px}
+h1{font-size:25px;color:var(--navy);margin:0 0 6px}
+.subtitle{color:var(--muted);font-size:13px}
+.demo-notice{
+  background:#fff8e7;
+  border:1px solid #eed9a3;
+  color:#795a19;
+  padding:12px 14px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+.settings-layout{
+  display:grid;
+  grid-template-columns:220px minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+}
+.settings-nav{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px;
+  position:sticky;
+  top:82px;
+}
+.settings-nav button{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  border:0;
+  background:transparent;
+  padding:12px;
+  text-align:left;
+  color:#5c6b80;
+  font-size:12px;
+  font-weight:bold;
+  border-radius:7px;
+  margin-bottom:3px;
+}
+.settings-nav button:hover,
+.settings-nav button.active{
+  background:#f3f5f9;
+  color:var(--navy);
+}
+.settings-nav button.active{
+  border-left:3px solid var(--gold);
+}
+.settings-section{
+  display:none;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin-bottom:18px;
+  overflow:hidden;
+}
+.settings-section.active{display:block}
+.section-head{
+  padding:18px 21px;
+  border-bottom:1px solid var(--border);
+}
+.section-head h2{
+  margin:0 0 5px;
+  font-size:16px;
+  color:var(--navy);
+}
+.section-head p{
+  margin:0;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.section-body{padding:21px}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.field.full{grid-column:1/-1}
+.field label{
+  font-size:12px;
+  font-weight:bold;
+  color:#34435b;
+}
+.field input,.field textarea,.field select{
+  width:100%;
+  border:1px solid #dce2eb;
+  border-radius:7px;
+  padding:11px 12px;
+  outline:none;
+  background:white;
+  color:var(--text);
+  font-size:12px;
+}
+.field input:focus,.field textarea:focus,.field select:focus{
+  border-color:var(--gold);
+}
+.field textarea{min-height:90px;resize:vertical}
+.field small{font-size:10px;color:var(--muted);line-height:1.5}
+.field input:disabled{
+  background:#f3f5f9;
+  color:#8290a3;
+}
+.avatar-area{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:22px;
+}
+.avatar{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--gold);
+  font-size:23px;
+  font-weight:bold;
+}
+.avatar-info strong{display:block;font-size:13px;color:var(--navy)}
+.avatar-info small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
+.btn{
+  border:0;
+  border-radius:7px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:bold;
+  transition:.2s;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-primary:hover{background:var(--navy2)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf1f6;color:var(--navy)}
+.btn-danger{background:#fff0f0;color:var(--red)}
+.btn-small{padding:7px 10px;font-size:10px}
+.section-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
+}
+.setting-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
+}
+.setting-row:last-child{border-bottom:0}
+.setting-info strong{
+  display:block;
+  font-size:12px;
+  color:var(--navy);
+}
+.setting-info small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:5px;
+  line-height:1.5;
+}
+.toggle{
+  appearance:none;
+  width:42px;
+  height:23px;
+  min-width:42px;
+  border-radius:20px;
+  background:#cbd3df;
+  position:relative;
+  cursor:pointer;
+  transition:.2s;
+}
+.toggle:checked{background:var(--green)}
+.toggle:before{
+  content:"";
+  position:absolute;
+  width:17px;
+  height:17px;
+  background:white;
+  border-radius:50%;
+  left:3px;
+  top:3px;
+  transition:.2s;
+}
+.toggle:checked:before{left:22px}
+.info-box{
+  padding:13px;
+  background:#f3f6fa;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:11px;
+  line-height:1.6;
+  color:#596980;
+  margin-top:15px;
+}
+.warning-box{
+  padding:13px;
+  background:#fff4e9;
+  border:1px solid #f1d2ad;
+  border-radius:8px;
+  font-size:11px;
+  line-height:1.6;
+  color:#8a5c28;
+  margin-top:15px;
+}
+.danger-zone{
+  border:1px solid #f0caca;
+  background:#fffafa;
+  border-radius:8px;
+  padding:15px;
+  margin-top:15px;
+}
+.danger-zone strong{font-size:12px;color:var(--red)}
+.danger-zone p{font-size:11px;color:#7e6c6c;line-height:1.6}
+.save-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:5px;
+}
+.save-bottom small{font-size:10px;color:var(--muted)}
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--navy);
+  color:white;
+  padding:12px 17px;
+  border-radius:8px;
+  font-size:12px;
+  box-shadow:0 5px 20px #0002;
+  display:none;
+  z-index:100;
+}
+.toast.show{display:block}
+.footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+  font-size:10px;
+}
+@media(max-width:900px){
+  .settings-layout{grid-template-columns:180px minmax(0,1fr)}
+}
+@media(max-width:700px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{width:100%;margin-left:0}
+  .menu-btn{display:block}
+  .topbar{padding:0 15px}
+  .content{padding:19px 13px}
+  .settings-layout{grid-template-columns:1fr}
+  .settings-nav{
+    position:static;
+    display:flex;
+    overflow-x:auto;
+    gap:5px;
+    padding:8px;
+  }
+  .settings-nav button{
+    width:auto;
+    min-width:max-content;
+    margin:0;
+    padding:10px;
+  }
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .section-body{padding:15px}
+  .section-head{padding:16px}
+  .setting-row{align-items:flex-start}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-name">RUBALIA</div>
+    <small>NETWORK ADMINISTRATION</small>
+  </div>
+
+  <div class="nav-title">MAIN MENU</div>
+  <a class="nav-link" href="admin-dashboard.html">▦ Dashboard</a>
+
+  <div class="nav-title">MANAGEMENT</div>
+  <a class="nav-link" href="admin-users.html">♙ Users</a>
+  <a class="nav-link" href="admin-partners.html">♧ Partners</a>
+  <a class="nav-link" href="admin-applications.html">▤ Applications</a>
+  <a class="nav-link" href="admin-products.html">◇ Products</a>
+  <a class="nav-link" href="admin-orders.html">▣ Orders</a>
+
+  <div class="nav-title">FINANCE</div>
+  <a class="nav-link" href="admin-payments.html">৳ Payments</a>
+  <a class="nav-link" href="admin-withdrawals.html">⇧ Withdrawals</a>
+  <a class="nav-link" href="admin-commissions.html">％ Commissions</a>
+
+  <div class="nav-title">COMMUNICATION</div>
+  <a class="nav-link" href="admin-announcements.html">▤ Announcements</a>
+  <a class="nav-link" href="admin-support.html">☏ Support</a>
+
+  <div class="nav-title">SYSTEM</div>
+  <a class="nav-link active" href="admin-settings.html">⚙ Settings</a>
+  <a class="nav-link" href="index.html">↗ View Website</a>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title">System Settings</div>
+    </div>
+    <div class="admin-label">ADMIN PANEL</div>
+  </header>
+
+  <div class="content">
+
+    <div class="page-heading">
+      <h1>Settings</h1>
+      <div class="subtitle">Manage administrator, company, website and system preferences.</div>
+    </div>
+
+    <div class="demo-notice">
+      <strong>Frontend Demo Only:</strong>
+      These settings are demonstration controls. Changes are temporary and are not saved to a database.
+      No real admin account, password, company information, email service or security configuration is changed.
+      Never enter real passwords, API keys or other secrets into this demo page.
+    </div>
+
+    <div class="settings-layout">
+
+      <!-- Settings Navigation -->
+      <nav class="settings-nav">
+        <button class="active" data-tab="profile" onclick="showTab('profile',this)">♙ Admin Profile</button>
+        <button data-tab="company" onclick="showTab('company',this)">▣ Company</button>
+        <button data-tab="website" onclick="showTab('website',this)">◎ Website</button>
+        <button data-tab="notifications" onclick="showTab('notifications',this)">♧ Notifications</button>
+        <button data-tab="security" onclick="showTab('security',this)">◇ Security</button>
+        <button data-tab="system" onclick="showTab('system',this)">⚙ System</button>
+      </nav>
+
+      <div>
+
+        <!-- ADMIN PROFILE -->
+        <section class="settings-section active" id="profile">
+          <div class="section-head">
+            <h2>Admin Profile</h2>
+            <p>Manage the display information for the administrator account.</p>
+          </div>
+
+          <div class="section-body">
+            <div class="avatar-area">
+              <div class="avatar" id="avatarPreview">A</div>
+              <div class="avatar-info">
+                <strong>Administrator Profile</strong>
+                <small>Demo profile avatar</small>
+              </div>
+            </div>
+
+            <form id="profileForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="adminName">Full Name</label>
+                  <input id="adminName" value="Administrator" required>
+                </div>
+
+                <div class="field">
+                  <label for="adminUsername">Username</label>
+                  <input id="adminUsername" value="admin" disabled>
+                  <small>Username editing is disabled in this demo.</small>
+                </div>
+
+                <div class="field">
+                  <label for="adminEmail">Email Address</label>
+                  <input id="adminEmail" type="email" value="admin@example.test">
+                </div>
+
+                <div class="field">
+                  <label for="adminPhone">Phone Number</label>
+                  <input id="adminPhone" placeholder="Not provided">
+                </div>
+
+                <div class="field">
+                  <label for="adminRole">Admin Role</label>
+                  <input id="adminRole" value="Super Administrator" disabled>
+                </div>
+
+                <div class="field">
+                  <label for="adminLanguage">Preferred Language</label>
+                  <select id="adminLanguage">
+                    <option value="English">English</option>
+                    <option value="Bangla">Bangla</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="section-actions">
+                <button class="btn btn-primary" type="submit">Save Profile (Demo)</button>
+                <button class="btn btn-light" type="reset">Reset Form</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- COMPANY -->
+        <section class="settings-section" id="company">
+          <div class="section-head">
+            <h2>Company Information</h2>
+            <p>Enter company details after they have been officially confirmed.</p>
+          </div>
+
+          <div class="section-body">
+            <form id="companyForm">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="companyName">Company Name</label>
+                  <input id="companyName" value="Rubalia Network">
+                </div>
+
+                <div class="field">
+                  <label for="companyEmail">Official Email</label>
+                  <input id="companyEmail" type="email" placeholder="Not yet provided">
+                </div>
+
+                <div class="field">
+                  <label for="companyPhone">Contact Number</label>
+                  <input id="companyPhone" placeholder="Not yet provided">
+                </div>
+
+                <div class="field">
+                  <label for="companyCountry">Country</label>
+                  <select id="companyCountry">
+                    <option value="Bangladesh">Bangladesh</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="companyCurrency">Display Currency</label>
+                  <select id="companyCurrency">
+                    <option value="BDT">BDT - Bangladeshi Taka</option>
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                  </select>
+                </div>
+
+                <div class="field full">
+                  <label for="companyAddress">Company Address</label>
+                  <textarea id="companyAddress" placeholder="Official address not yet provided"></textarea>
+                </div>
+
+                <div class="field full">
+                  <label for="companyDescription">Company Description</label>
+                  <textarea id="companyDescription" placeholder="Enter an officially approved company description"></textarea>
+                </div>
+              </div>
+
+              <div class="info-box">
+                Company registration number, legal entity name, tax details and official address must only be entered after verification.
+              </div>
+
+              <div class="section-actions">
+                <button class="btn btn-primary" type="submit">Save Company Details (Demo)</button>
+                <button class="btn btn-light" type="reset">Reset Form</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- WEBSITE -->
+        <section class="settings-section" id="website">
+          <div class="section-head">
+            <h2>Website Settings</h2>
+            <p>Configure general website display preferences for this demonstration.</p>
+          </div>
+
+          <div class="section-body">
+            <form id="websiteForm">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="siteTitle">Website Name</label>
+                  <input id="siteTitle" value="Rubalia Network">
+                </div>
+
+                <div class="field full">
+                  <label for="siteTagline">Website Tagline</label>
+                  <input id="siteTagline" placeholder="Enter an approved tagline">
+                </div>
+
+                <div class="field">
+                  <label for="siteLanguage">Default Language</label>
+                  <select id="siteLanguage">
+                    <option value="English">English</option>
+                    <option value="Bangla">Bangla</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="siteTimezone">Timezone</label>
+                  <select id="siteTimezone">
+                    <option value="Asia/Dhaka">Asia/Dhaka</option>
+                    <option value="UTC">UTC</option>
+                    <option value="Asia/Kolkata">Asia/Kolkata</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="siteMode">Website Mode</label>
+                  <select id="siteMode">
+                    <option value="Online">Online (Demo)</option>
+                    <option value="Maintenance">Maintenance (Demo)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="footerText">Footer Text</label>
+                  <input id="footerText" value="Rubalia Network">
+                </div>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-info">
+                  <strong>Show Website Announcement Banner</strong>
+                  <small>Display a banner area on the website (demo preference).</small>
+                </div>
+                <input type="checkbox" class="toggle" id="bannerToggle" checked>
+              </div>
+
+              <div class="setting-row">
+                <div class="setting-info">
+                  <strong>Show Contact Section</strong>
+                  <small>Display a contact section on public pages.</small>
+                </div>
+                <input type="checkbox" class="toggle" id="contactToggle" checked>
+              </div>
+
+              <div class="section-actions">
+                <button class="btn btn-primary" type="submit">Save Website Settings (Demo)</button>
+                <button class="btn btn-light" type="reset">Reset Form</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- NOTIFICATIONS -->
+        <section class="settings-section" id="notifications">
+          <div class="section-head">
+            <h2>Notification Preferences</h2>
+            <p>Choose which notification categories would be enabled in a future live system.</p>
+          </div>
+
+          <div class="section-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>New User Registration</strong>
+                <small>Notify administrators when a new user registers.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifyUsers" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>New Partner Application</strong>
+                <small>Notify administrators about submitted partner applications.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifyApplications" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>New Orders</strong>
+                <small>Receive notifications about new product orders.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifyOrders" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Payment Updates</strong>
+                <small>Receive alerts about payment verification events.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifyPayments" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Withdrawal Requests</strong>
+                <small>Receive alerts about withdrawal requests.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifyWithdrawals" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Support Tickets</strong>
+                <small>Receive alerts when a support ticket is created.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifySupport" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Security Alerts</strong>
+                <small>Receive alerts about suspicious account activity.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="notifySecurity" checked>
+            </div>
+
+            <div class="setting-actions">
+              <button class="btn btn-primary" onclick="saveDemo('Notification preferences')">
+                Save Notification Preferences (Demo)
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECURITY -->
+        <section class="settings-section" id="security">
+          <div class="section-head">
+            <h2>Security Settings</h2>
+            <p>Security controls that would require a secure backend in a production system.</p>
+          </div>
+
+          <div class="section-body">
+
+            <div class="warning-box">
+              <strong>Security Notice:</strong>
+              This page does not authenticate administrators or change account passwords.
+              Never enter a real password into this frontend demonstration.
+            </div>
+
+            <form id="passwordForm">
+              <h3 style="font-size:13px;color:var(--navy);margin-top:20px">
+                Password Change Interface
+              </h3>
+
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="oldPassword">Current Password (Demo Only)</label>
+                  <input id="oldPassword" type="password"
+                    placeholder="Do not enter your real password">
+                </div>
+
+                <div class="field">
+                  <label for="newPassword">New Password (Demo Only)</label>
+                  <input id="newPassword" type="password"
+                    placeholder="Demo field only">
+                </div>
+
+                <div class="field">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <input id="confirmPassword" type="password"
+                    placeholder="Demo field only">
+                </div>
+              </div>
+
+              <div class="section-actions">
+                <button class="btn btn-primary" type="submit">
+                  Test Password Form
+                </button>
+                <button class="btn btn-light" type="button" onclick="clearPasswordFields()">
+                  Clear Fields
+                </button>
+              </div>
+            </form>
+
+            <h3 style="font-size:13px;color:var(--navy);margin-top:25px">
+              Security Preferences
+            </h3>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Two-Factor Authentication</strong>
+                <small>Would require a real authentication service and verified setup.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="twoFactor">
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Login Alert</strong>
+                <small>Would alert the administrator about account login activity.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="loginAlert" checked>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Session Timeout</strong>
+                <small>Proposed automatic session expiry duration.</small>
+              </div>
+              <select id="sessionTimeout" style="padding:8px;border:1px solid var(--border);border-radius:7px;font-size:11px">
+                <option value="15">15 Minutes</option>
+                <option value="30" selected>30 Minutes</option>
+                <option value="60">1 Hour</option>
+                <option value="120">2 Hours</option>
+              </select>
+            </div>
+
+            <div class="section-actions">
+              <button class="btn btn-primary" onclick="saveDemo('Security preferences')">
+                Save Security Preferences (Demo)
+              </button>
+            </div>
+
+            <div class="danger-zone">
+              <strong>Danger Zone</strong>
+              <p>
+                Production account deletion, access revocation and administrator removal
+                must use verified server-side authorization and audit logs.
+                These actions are not available in this demonstration.
+              </p>
+              <button class="btn btn-danger btn-small" disabled>
+                Account Deletion Unavailable
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SYSTEM -->
+        <section class="settings-section" id="system">
+          <div class="section-head">
+            <h2>System Preferences</h2>
+            <p>General display and operational preferences for the demo interface.</p>
+          </div>
+
+          <div class="section-body">
+            <div class="form-grid">
+              <div class="field">
+                <label for="dateFormat">Date Format</label>
+                <select id="dateFormat">
+                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="numberFormat">Number Format</label>
+                <select id="numberFormat">
+                  <option value="International">International (1,234.56)</option>
+                  <option value="Indian">Indian (1,23,456.78)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="itemsPerPage">Table Items Per Page</label>
+                <select id="itemsPerPage">
+                  <option value="10">10 Items</option>
+                  <option value="20">20 Items</option>
+                  <option value="50">50 Items</option>
+                  <option value="100">100 Items</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="themeMode">Admin Theme</label>
+                <select id="themeMode">
+                  <option value="Light">Light</option>
+                  <option value="Dark">Dark (Preference Demo)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Compact Admin Layout</strong>
+                <small>Use a more compact display for management tables.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="compactLayout">
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <strong>Show Confirmation Before Delete</strong>
+                <small>Display confirmation before demo delete actions.</small>
+              </div>
+              <input type="checkbox" class="toggle" id="deleteConfirm" checked>
+            </div>
+
+            <div class="section-actions">
+              <button class="btn btn-primary" onclick="saveDemo('System preferences')">
+                Save System Preferences (Demo)
+              </button>
+            </div>
+
+            <div class="info-box">
+              System preferences shown here do not configure the server, database,
+              API, email service, file storage or production website.
+            </div>
+
+            <div class="danger-zone">
+              <strong>Reset Demonstration Settings</strong>
+              <p>
+                Reset the form controls to their original demonstration values.
+                This will not affect any server or database.
+              </p>
+              <button class="btn btn-danger btn-small" onclick="resetAllSettings()">
+                Reset All Demo Settings
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <div class="save-bottom">
+          <small>Rubalia Network · Settings Demo</small>
+          <button class="btn btn-gold" onclick="showToast('Select a settings section to manage its demo controls.')">
+            Settings Help
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      RUBALIA NETWORK · ADMIN SETTINGS DEMO · NOT CONNECTED TO A LIVE BACKEND
+    </div>
+
+  </div>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+  const toast=document.getElementById("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },2600);
+}
+
+function showTab(tabId,button){
+  document.querySelectorAll(".settings-section").forEach(section=>{
+    section.classList.remove("active");
+  });
+
+  document.querySelectorAll(".settings-nav button").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  const section=document.getElementById(tabId);
+
+  if(section){
+    section.classList.add("active");
+  }
+
+  button.classList.add("active");
+
+  if(window.innerWidth<=700){
+    section.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+}
+
+function saveDemo(sectionName){
+  showToast(sectionName+" updated in this demo only.");
+}
+
+function clearPasswordFields(){
+  document.getElementById("oldPassword").value="";
+  document.getElementById("newPassword").value="";
+  document.getElementById("confirmPassword").value="";
+  showToast("Demo password fields cleared.");
+}
+
+document.getElementById("profileForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const name=document.getElementById("adminName").value.trim();
+
+  if(!name){
+    showToast("Please enter administrator name.");
+    return;
+  }
+
+  document.getElementById("avatarPreview").textContent=
+    name.charAt(0).toUpperCase();
+
+  showToast("Profile updated in this demo only.");
+});
+
+document.getElementById("companyForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  showToast("Company details updated in this demo only.");
+});
+
+document.getElementById("websiteForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  showToast("Website settings updated in this demo only.");
+});
+
+document.getElementById("passwordForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const current=document.getElementById("oldPassword").value;
+  const password=document.getElementById("newPassword").value;
+  const confirm=document.getElementById("confirmPassword").value;
+
+  if(!current || !password || !confirm){
+    showToast("Complete all demo password fields.");
+    return;
+  }
+
+  if(password.length<8){
+    showToast("Demo password must have at least 8 characters.");
+    return;
+  }
+
+  if(password!==confirm){
+    showToast("New passwords do not match.");
+    return;
+  }
+
+  showToast("Demo validation successful. No password was changed.");
+  clearPasswordFields();
+});
+
+function resetAllSettings(){
+  if(!confirm("Reset all demo settings to their initial values?"))return;
+
+  document.querySelectorAll("form").forEach(form=>{
+    form.reset();
+  });
+
+  document.querySelectorAll(".toggle").forEach(toggle=>{
+    toggle.checked=toggle.id!=="twoFactor" &&
+      toggle.id!=="compactLayout";
+  });
+
+  document.getElementById("avatarPreview").textContent="A";
+
+  showToast("Demo settings reset.");
+}
+
+document.getElementById("adminName").addEventListener("input",function(){
+  const name=this.value.trim();
+  document.getElementById("avatarPreview").textContent=
+    name?name.charAt(0).toUpperCase():"A";
+});
+</script>
+</body>
+</html>
