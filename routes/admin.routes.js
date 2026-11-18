@@ -1,4 +1,6 @@
+
 const express = require("express");
+const crypto = require("crypto");
 
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
@@ -6,11 +8,101 @@ const { requireAdmin } = require("../middleware/admin");
 
 const router = express.Router();
 
-// All routes in this file require Admin authentication.
+// ONE-TIME ADMIN SETUP
+// Requires ADMIN_SETUP_KEY in Render environment variables.
+// This endpoint works only when no admin account exists.
+router.post("/setup", async (req, res, next) => {
+  const providedKey = req.get("x-admin-setup-key") || "";
+  const expectedKey = process.env.ADMIN_SETUP_KEY || "";
+
+  if (
+    !expectedKey ||
+    providedKey.length !== expectedKey.length ||
+    !crypto.timingSafeEqual(
+      Buffer.from(providedKey),
+      Buffer.from(expectedKey)
+    )
+  ) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid setup authorization."
+    });
+  }
+
+  const email =
+    typeof req.body.email === "string"
+      ? req.body.email.trim().toLowerCase()
+      : "";
+
+  if (!email || email.length > 254) {
+    return res.status(400).json({
+      success: false,
+      message: "A valid registered email is required."
+    });
+  }
+
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    // Prevent simultaneous setup requests.
+    await client.query(
+      "SELECT pg_advisory_xact_lock($1)",
+      [72819463]
+    );
+
+    const adminCheck = await client.query(
+      "SELECT id FROM users WHERE role = 'admin' LIMIT 1"
+    );
+
+    if (adminCheck.rowCount > 0) {
+      await client.query("ROLLBACK");
+
+      return res.status(409).json({
+        success: false,
+        message: "An admin account already exists. Setup is closed."
+      });
+    }
+
+    const userResult = await client.query(
+      `UPDATE users
+       SET role = 'admin',
+           updated_at = NOW()
+       WHERE LOWER(email) = $1
+         AND status = 'active'
+       RETURNING id, full_name, email, role, status`,
+      [email]
+    );
+
+    if (userResult.rowCount === 0) {
+      await client.query("ROLLBACK");
+
+      return res.status(404).json({
+        success: false,
+        message: "Active registered account not found."
+      });
+    }
+
+    await client.query("COMMIT");
+
+    return res.json({
+      success: true,
+      message: "Admin account created successfully. Please log in again.",
+      user: userResult.rows[0]
+    });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    return next(error);
+  } finally {
+    client.release();
+  }
+});
+
+// All remaining routes require Admin authentication.
 router.use(authenticateToken, requireAdmin);
 
 // GET /api/admin/dashboard
-// Admin dashboard summary.
 router.get("/dashboard", async (req, res, next) => {
   try {
     const result = await pool.query(`
@@ -34,7 +126,6 @@ router.get("/dashboard", async (req, res, next) => {
 });
 
 // GET /api/admin/users
-// Admin: List users with pagination.
 router.get("/users", async (req, res, next) => {
   try {
     const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
@@ -126,7 +217,6 @@ router.get("/users", async (req, res, next) => {
 });
 
 // GET /api/admin/orders
-// Admin: List recent orders.
 router.get("/orders", async (req, res, next) => {
   try {
     const result = await pool.query(
