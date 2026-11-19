@@ -27,6 +27,9 @@ const {
 const app = express();
 const PORT = process.env.PORT || 10000;
 
+// Render reverse proxy support
+app.set("trust proxy", 1);
+
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map((origin) => origin.trim())
@@ -59,14 +62,27 @@ app.use(cors({
 
 app.use(express.json({ limit: "1mb" }));
 
-const authLimiter = rateLimit({
+// Login Rate Limit
+const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 10,
+  limit: 20,
   standardHeaders: "draft-7",
   legacyHeaders: false,
   message: {
     success: false,
-    message: "Too many attempts. Please try again later."
+    message: "Too many login attempts. Please try again after 15 minutes."
+  }
+});
+
+// Registration Rate Limit
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many registration attempts. Please try again later."
   }
 });
 
@@ -81,7 +97,10 @@ app.get("/api/health", async (req, res) => {
       database: "connected",
       status: "operational"
     });
+
   } catch (error) {
+    console.error("Health check failed:", error.message);
+
     return res.status(503).json({
       success: false,
       service: "Rubalia Network API",
@@ -91,8 +110,13 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// API Routes
-app.use("/api/auth", authLimiter, authRoutes);
+// Authentication Routes
+// Login and registration have separate limits.
+app.use("/api/auth/login", loginLimiter);
+app.use("/api/auth/register", registerLimiter);
+app.use("/api/auth", authRoutes);
+
+// Other API Routes
 app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/packages", packageRoutes);
@@ -129,6 +153,7 @@ async function startServer() {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
     });
+
   } catch (error) {
     console.error("Startup failed:", error.message);
     process.exit(1);
