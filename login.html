@@ -23,11 +23,7 @@
   --shadow:0 20px 55px rgba(100,0,12,.16);
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
@@ -39,12 +35,7 @@ body{
     linear-gradient(135deg,#fff,#fff4f3);
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-/* HEADER */
+a{text-decoration:none;color:inherit;}
 
 header{
   position:relative;
@@ -63,507 +54,265 @@ header{
   align-items:center;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+.brand{display:flex;align-items:center;gap:12px;}
 
 .brand-icon{
-  width:47px;
-  height:47px;
-  display:grid;
-  place-items:center;
-  font-size:27px;
-  color:#fff;
+  width:47px;height:47px;
+  display:grid;place-items:center;
+  font-size:27px;color:#fff;
   border-radius:13px;
   background:linear-gradient(145deg,#ff5261,#a90012);
   border:1px solid rgba(255,255,255,.4);
-  box-shadow:
-    0 5px 0 #79000d,
-    0 8px 15px rgba(0,0,0,.25),
-    inset 0 2px 5px rgba(255,255,255,.4);
+  box-shadow:0 5px 0 #79000d,0 8px 15px rgba(0,0,0,.25),inset 0 2px 5px rgba(255,255,255,.4);
 }
 
 .logo{
-  color:white;
-  font-size:26px;
-  font-weight:1000;
-  letter-spacing:2px;
-  text-shadow:0 3px 0 rgba(80,0,0,.45);
+  color:white;font-size:26px;font-weight:1000;
+  letter-spacing:2px;text-shadow:0 3px 0 rgba(80,0,0,.45);
 }
 
 .logo span{
-  display:block;
-  color:#ffe7a1;
-  font-size:9px;
-  letter-spacing:6px;
-  margin-top:2px;
+  display:block;color:#ffe7a1;font-size:9px;
+  letter-spacing:6px;margin-top:2px;
 }
 
 .home-link{
-  color:white;
-  font-size:13px;
-  font-weight:bold;
+  color:white;font-size:13px;font-weight:bold;
   padding:11px 16px;
   border:1px solid rgba(255,255,255,.45);
-  border-radius:7px;
-  transition:.3s;
+  border-radius:7px;transition:.3s;
 }
 
 .home-link:hover{
-  background:var(--gold);
-  color:#5c1700;
+  background:var(--gold);color:#5c1700;
   border-color:var(--gold);
 }
 
-/* MAIN */
-
 .main{
   min-height:calc(100vh - 145px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:55px 18px;
+  display:flex;align-items:center;
+  justify-content:center;padding:55px 18px;
 }
 
 .login-wrapper{
-  width:100%;
-  max-width:1000px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
+  width:100%;max-width:1000px;
+  display:grid;grid-template-columns:1fr 1fr;
+  background:white;border-radius:20px;
+  overflow:hidden;box-shadow:var(--shadow);
   border:1px solid #f4d6d6;
 }
 
-/* LEFT BRAND PANEL */
-
 .login-banner{
-  position:relative;
-  overflow:hidden;
-  padding:55px 42px;
-  color:white;
+  position:relative;overflow:hidden;
+  padding:55px 42px;color:white;
   background:
     radial-gradient(circle at 85% 10%,rgba(255,194,56,.3),transparent 30%),
     linear-gradient(145deg,#fa152c 0%,#c90017 45%,#85000e 100%);
 }
 
 .login-banner:before{
-  content:"";
-  position:absolute;
-  width:310px;
-  height:310px;
+  content:"";position:absolute;width:310px;height:310px;
   border:2px solid rgba(255,218,125,.2);
-  border-radius:50%;
-  right:-145px;
-  top:-115px;
-  box-shadow:
-    0 0 0 18px rgba(255,255,255,.035),
-    0 0 0 38px rgba(255,255,255,.025);
+  border-radius:50%;right:-145px;top:-115px;
+  box-shadow:0 0 0 18px rgba(255,255,255,.035),0 0 0 38px rgba(255,255,255,.025);
 }
 
 .login-banner:after{
-  content:"";
-  position:absolute;
-  width:230px;
-  height:230px;
+  content:"";position:absolute;width:230px;height:230px;
   border:2px solid rgba(255,218,125,.15);
-  border-radius:50%;
-  left:-135px;
-  bottom:-110px;
+  border-radius:50%;left:-135px;bottom:-110px;
 }
 
-.banner-content{
-  position:relative;
-  z-index:2;
-}
+.banner-content{position:relative;z-index:2;}
 
 .banner-label{
-  display:inline-block;
-  color:#ffe39b;
-  font-size:11px;
-  letter-spacing:3px;
-  font-weight:900;
-  padding:9px 14px;
-  border:1px solid rgba(255,222,145,.55);
-  border-radius:30px;
-  background:rgba(80,0,0,.15);
+  display:inline-block;color:#ffe39b;
+  font-size:11px;letter-spacing:3px;font-weight:900;
+  padding:9px 14px;border:1px solid rgba(255,222,145,.55);
+  border-radius:30px;background:rgba(80,0,0,.15);
 }
 
 .banner-bag{
-  width:125px;
-  height:115px;
-  margin:32px auto 25px;
-  display:grid;
-  place-items:center;
-  font-size:66px;
-  color:white;
+  width:125px;height:115px;margin:32px auto 25px;
+  display:grid;place-items:center;font-size:66px;color:white;
   border-radius:27px;
   background:linear-gradient(145deg,#ff5b64,#bd0015 65%,#79000d);
   border:2px solid rgba(255,225,147,.8);
-  box-shadow:
-    0 11px 0 #79000d,
-    0 19px 25px rgba(40,0,0,.35),
-    inset 0 4px 10px rgba(255,255,255,.45),
-    inset 0 -8px 12px rgba(80,0,0,.2);
+  box-shadow:0 11px 0 #79000d,0 19px 25px rgba(40,0,0,.35),inset 0 4px 10px rgba(255,255,255,.45),inset 0 -8px 12px rgba(80,0,0,.2);
   transform:perspective(400px) rotateY(-8deg) rotateX(4deg);
 }
 
 .login-banner h1{
-  font-size:36px;
-  line-height:1.22;
-  text-align:center;
-  margin:25px 0 15px;
+  font-size:36px;line-height:1.22;
+  text-align:center;margin:25px 0 15px;
   text-shadow:0 3px 5px rgba(50,0,0,.25);
 }
 
-.login-banner h1 span{
-  display:block;
-  color:#ffdf85;
-}
+.login-banner h1 span{display:block;color:#ffdf85;}
 
 .banner-description{
-  color:#ffe8e8;
-  font-size:14px;
-  line-height:1.9;
-  text-align:center;
+  color:#ffe8e8;font-size:14px;
+  line-height:1.9;text-align:center;
 }
 
 .banner-slogan{
-  margin:23px 0 0;
-  text-align:center;
-  color:#ffe39b;
-  font-weight:900;
-  font-size:14px;
-  letter-spacing:.5px;
+  margin:23px 0 0;text-align:center;
+  color:#ffe39b;font-weight:900;
+  font-size:14px;letter-spacing:.5px;
 }
 
 .banner-features{
-  margin-top:35px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
+  margin-top:35px;display:grid;
+  grid-template-columns:1fr 1fr;gap:13px;
 }
 
 .banner-feature{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  color:#fff;
-  font-size:12px;
-  padding:11px;
-  border-radius:8px;
-  background:rgba(255,255,255,.10);
+  display:flex;align-items:center;gap:9px;
+  color:#fff;font-size:12px;padding:11px;
+  border-radius:8px;background:rgba(255,255,255,.10);
   border:1px solid rgba(255,255,255,.13);
 }
 
-.feature-icon{
-  color:#ffe39b;
-  font-size:18px;
-}
-
-/* FORM PANEL */
+.feature-icon{color:#ffe39b;font-size:18px;}
 
 .login-form-area{
-  padding:50px 42px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  padding:50px 42px;display:flex;
+  flex-direction:column;justify-content:center;
 }
 
-.form-heading{
-  margin-bottom:30px;
-}
+.form-heading{margin-bottom:30px;}
 
 .form-kicker{
-  color:var(--red);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:3px;
-  margin-bottom:12px;
+  color:var(--red);font-size:11px;
+  font-weight:900;letter-spacing:3px;margin-bottom:12px;
 }
 
 .form-heading h2{
-  color:#a90012;
-  font-size:30px;
-  margin-bottom:10px;
+  color:#a90012;font-size:30px;margin-bottom:10px;
 }
 
 .form-heading p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.8;
+  color:var(--muted);font-size:13px;line-height:1.8;
 }
 
-.form-group{
-  margin-bottom:21px;
-}
+.form-group{margin-bottom:21px;}
 
 .form-group label{
-  display:block;
-  color:#3d1b20;
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:10px;
+  display:block;color:#3d1b20;
+  font-size:13px;font-weight:bold;margin-bottom:10px;
 }
 
-.input-wrap{
-  position:relative;
-}
+.input-wrap{position:relative;}
 
 .form-group input{
-  width:100%;
-  padding:15px 15px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  background:#fffdfd;
-  font-size:14px;
-  outline:none;
-  font-family:inherit;
-  transition:.25s;
-  color:#333;
+  width:100%;padding:15px;
+  border:1px solid var(--border);border-radius:9px;
+  background:#fffdfd;font-size:14px;
+  outline:none;font-family:inherit;
+  transition:.25s;color:#333;
 }
 
 .form-group input:focus{
-  border-color:var(--red);
-  background:white;
+  border-color:var(--red);background:white;
   box-shadow:0 0 0 4px rgba(214,0,22,.08);
 }
 
-.password-wrap input{
-  padding-right:75px;
-}
+.password-wrap input{padding-right:75px;}
 
 .show-password{
-  position:absolute;
-  right:12px;
-  top:50%;
+  position:absolute;right:12px;top:50%;
   transform:translateY(-50%);
-  border:0;
-  background:none;
-  color:var(--red);
-  cursor:pointer;
-  font-size:11px;
-  font-weight:900;
-  padding:8px;
+  border:0;background:none;color:var(--red);
+  cursor:pointer;font-size:11px;font-weight:900;padding:8px;
 }
 
 .form-options{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  margin:4px 0 24px;
-  font-size:12px;
+  display:flex;justify-content:flex-end;
+  align-items:center;margin:4px 0 24px;font-size:12px;
 }
 
-.forgot{
-  color:var(--red);
-  font-weight:bold;
-}
-
-.forgot:hover{
-  color:var(--gold-dark);
-  text-decoration:underline;
-}
-
-/* LOGIN BUTTON */
+.forgot{color:var(--red);font-weight:bold;}
+.forgot:hover{color:var(--gold-dark);text-decoration:underline;}
 
 .login-btn{
-  width:100%;
-  padding:16px;
-  color:white;
+  width:100%;padding:16px;color:white;
   background:linear-gradient(135deg,#ff263d,#c90018 60%,#92000e);
-  border:1px solid #a90012;
-  border-radius:9px;
-  font-size:15px;
-  font-weight:900;
-  letter-spacing:1px;
-  cursor:pointer;
-  box-shadow:
-    0 6px 0 #79000c,
-    0 10px 17px rgba(160,0,20,.2),
-    inset 0 2px 5px rgba(255,255,255,.3);
+  border:1px solid #a90012;border-radius:9px;
+  font-size:15px;font-weight:900;
+  letter-spacing:1px;cursor:pointer;
+  box-shadow:0 6px 0 #79000c,0 10px 17px rgba(160,0,20,.2),inset 0 2px 5px rgba(255,255,255,.3);
   transition:.2s;
 }
 
 .login-btn:hover{
   transform:translateY(-2px);
-  box-shadow:
-    0 8px 0 #79000c,
-    0 13px 20px rgba(160,0,20,.25),
-    inset 0 2px 5px rgba(255,255,255,.3);
+  box-shadow:0 8px 0 #79000c,0 13px 20px rgba(160,0,20,.25),inset 0 2px 5px rgba(255,255,255,.3);
 }
 
-.login-btn:active{
-  transform:translateY(4px);
-  box-shadow:0 2px 0 #79000c;
-}
-
-.login-btn:disabled{
-  opacity:.65;
-  cursor:not-allowed;
-  transform:none;
-}
+.login-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #79000c;}
+.login-btn:disabled{opacity:.65;cursor:not-allowed;transform:none;}
 
 .form-message{
-  display:none;
-  margin-top:17px;
-  padding:13px;
-  border-radius:8px;
-  font-size:12px;
-  line-height:1.7;
-  overflow-wrap:anywhere;
+  display:none;margin-top:17px;padding:13px;
+  border-radius:8px;font-size:12px;
+  line-height:1.7;overflow-wrap:anywhere;
 }
 
 .form-message.error{
-  display:block;
-  background:#fff0f0;
-  color:#9b2525;
-  border:1px solid #f2cccc;
+  display:block;background:#fff0f0;
+  color:#9b2525;border:1px solid #f2cccc;
 }
 
 .form-message.success{
-  display:block;
-  background:#effaf3;
-  color:#17633b;
-  border:1px solid #c6ead2;
+  display:block;background:#effaf3;
+  color:#17633b;border:1px solid #c6ead2;
 }
 
 .register-text{
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
-  margin-top:27px;
+  text-align:center;font-size:13px;
+  color:var(--muted);margin-top:27px;
 }
 
-.register-text a{
-  color:var(--red);
-  font-weight:900;
-}
-
-.register-text a:hover{
-  color:var(--gold-dark);
-  text-decoration:underline;
-}
+.register-text a{color:var(--red);font-weight:900;}
+.register-text a:hover{color:var(--gold-dark);text-decoration:underline;}
 
 .security-note{
   border-top:1px solid #f0e3e3;
-  margin-top:27px;
-  padding-top:19px;
-  text-align:center;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.8;
+  margin-top:27px;padding-top:19px;
+  text-align:center;color:var(--muted);
+  font-size:11px;line-height:1.8;
 }
 
-.security-note strong{
-  color:#9b0012;
-}
-
-/* FOOTER */
+.security-note strong{color:#9b0012;}
 
 footer{
-  text-align:center;
-  padding:22px 15px;
-  color:#777;
-  font-size:12px;
-  background:#fff;
-  border-top:1px solid #f2e5e5;
+  text-align:center;padding:22px 15px;
+  color:#777;font-size:12px;
+  background:#fff;border-top:1px solid #f2e5e5;
 }
 
-/* MOBILE */
-
 @media(max-width:750px){
-
-  .navbar{
-    padding:12px 15px;
-  }
-
-  .logo{
-    font-size:22px;
-  }
-
-  .brand-icon{
-    width:42px;
-    height:42px;
-    font-size:23px;
-  }
-
-  .home-link{
-    padding:9px 11px;
-    font-size:11px;
-  }
-
-  .main{
-    padding:30px 13px;
-  }
-
-  .login-wrapper{
-    max-width:470px;
-    grid-template-columns:1fr;
-    border-radius:15px;
-  }
-
-  .login-banner{
-    padding:32px 24px;
-  }
-
-  .banner-bag{
-    width:90px;
-    height:85px;
-    font-size:49px;
-    margin:23px auto;
-    border-radius:20px;
-  }
-
-  .login-banner h1{
-    font-size:28px;
-    margin:17px 0 12px;
-  }
-
-  .banner-description{
-    font-size:12px;
-  }
-
-  .banner-slogan{
-    font-size:12px;
-  }
-
-  .banner-features{
-    margin-top:22px;
-    gap:9px;
-  }
-
-  .banner-feature{
-    padding:9px;
-    font-size:10px;
-  }
-
-  .login-form-area{
-    padding:34px 24px;
-  }
-
-  .form-heading h2{
-    font-size:27px;
-  }
+  .navbar{padding:12px 15px;}
+  .logo{font-size:22px;}
+  .brand-icon{width:42px;height:42px;font-size:23px;}
+  .home-link{padding:9px 11px;font-size:11px;}
+  .main{padding:30px 13px;}
+  .login-wrapper{max-width:470px;grid-template-columns:1fr;border-radius:15px;}
+  .login-banner{padding:32px 24px;}
+  .banner-bag{width:90px;height:85px;font-size:49px;margin:23px auto;border-radius:20px;}
+  .login-banner h1{font-size:28px;margin:17px 0 12px;}
+  .banner-description{font-size:12px;}
+  .banner-slogan{font-size:12px;}
+  .banner-features{margin-top:22px;gap:9px;}
+  .banner-feature{padding:9px;font-size:10px;}
+  .login-form-area{padding:34px 24px;}
+  .form-heading h2{font-size:27px;}
 }
 
 @media(max-width:380px){
-
-  .banner-features{
-    grid-template-columns:1fr;
-  }
-
-  .form-heading h2{
-    font-size:25px;
-  }
-
-  .home-link{
-    font-size:10px;
-  }
+  .banner-features{grid-template-columns:1fr;}
+  .form-heading h2{font-size:25px;}
+  .home-link{font-size:10px;}
 }
 </style>
 </head>
@@ -572,7 +321,6 @@ footer{
 
 <header>
   <nav class="navbar">
-
     <a href="index.html" class="brand">
       <div class="brand-icon">🛍</div>
       <div class="logo">
@@ -580,31 +328,17 @@ footer{
         <span>NETWORK</span>
       </div>
     </a>
-
-    <a href="index.html" class="home-link">
-      ← Back to Home
-    </a>
-
+    <a href="index.html" class="home-link">← Back to Home</a>
   </nav>
 </header>
 
 <main class="main">
-
   <div class="login-wrapper">
 
-    <!-- BRAND PANEL -->
-
     <section class="login-banner">
-
       <div class="banner-content">
-
-        <div class="banner-label">
-          RUBALIA MEMBER PORTAL
-        </div>
-
-        <div class="banner-bag">
-          🛍
-        </div>
+        <div class="banner-label">RUBALIA MEMBER PORTAL</div>
+        <div class="banner-bag">🛍</div>
 
         <h1>
           Welcome Back to
@@ -617,65 +351,42 @@ footer{
           through the RUBALIA NETWORK platform.
         </p>
 
-        <div class="banner-slogan">
-          SHOP SMART. EARN TOGETHER.
-        </div>
+        <div class="banner-slogan">SHOP SMART. EARN TOGETHER.</div>
 
         <div class="banner-features">
-
           <div class="banner-feature">
             <span class="feature-icon">✦</span>
             <span>Member Dashboard</span>
           </div>
-
           <div class="banner-feature">
             <span class="feature-icon">🛒</span>
             <span>Product Orders</span>
           </div>
-
           <div class="banner-feature">
             <span class="feature-icon">◆</span>
             <span>Account Management</span>
           </div>
-
           <div class="banner-feature">
             <span class="feature-icon">✓</span>
             <span>Secure Access</span>
           </div>
-
         </div>
-
       </div>
-
     </section>
 
-    <!-- LOGIN FORM -->
-
     <section class="login-form-area">
-
       <div class="form-heading">
-
-        <div class="form-kicker">
-          MEMBER ACCESS
-        </div>
-
+        <div class="form-kicker">MEMBER ACCESS</div>
         <h2>Member Login</h2>
-
         <p>
           Enter your registered email and password
           to securely access your account.
         </p>
-
       </div>
 
       <form id="loginForm">
-
         <div class="form-group">
-
-          <label for="email">
-            Email Address
-          </label>
-
+          <label for="email">Email Address</label>
           <div class="input-wrap">
             <input
               type="email"
@@ -685,47 +396,29 @@ footer{
               maxlength="255"
               required>
           </div>
-
         </div>
 
         <div class="form-group">
-
-          <label for="password">
-            Password
-          </label>
-
+          <label for="password">Password</label>
           <div class="input-wrap password-wrap">
-
             <input
               type="password"
               id="password"
               placeholder="Enter your password"
               autocomplete="current-password"
               required>
-
             <button
               type="button"
               class="show-password"
-              id="showPassword">
-              SHOW
-            </button>
-
+              id="showPassword">SHOW</button>
           </div>
-
         </div>
 
         <div class="form-options">
-
-          <a href="forgot-password.html" class="forgot">
-            Forgot Password?
-          </a>
-
+          <a href="forgot-password.html" class="forgot">Forgot Password?</a>
         </div>
 
-        <button
-          type="submit"
-          class="login-btn"
-          id="loginBtn">
+        <button type="submit" class="login-btn" id="loginBtn">
           SIGN IN TO RUBALIA
         </button>
 
@@ -735,7 +428,6 @@ footer{
           role="status"
           aria-live="polite">
         </div>
-
       </form>
 
       <div class="register-text">
@@ -751,11 +443,9 @@ footer{
         <br>
         Your password is not saved in browser storage.
       </div>
-
     </section>
 
   </div>
-
 </main>
 
 <footer>
@@ -781,23 +471,16 @@ document.getElementById("year").textContent =
 /* PASSWORD VISIBILITY */
 
 showPasswordBtn.addEventListener("click", function(){
-
   const isPassword = passwordInput.type === "password";
-
   passwordInput.type = isPassword ? "text" : "password";
-
-  showPasswordBtn.textContent =
-    isPassword ? "HIDE" : "SHOW";
-
+  showPasswordBtn.textContent = isPassword ? "HIDE" : "SHOW";
 });
 
 /* MESSAGE */
 
 function showMessage(type,text){
-
   formMessage.className = "form-message " + type;
   formMessage.textContent = text;
-
 }
 
 /* LOGIN */
@@ -810,36 +493,28 @@ loginForm.addEventListener("submit", async function(event){
   const password = passwordInput.value;
 
   if(!email || !password){
-
-    showMessage(
-      "error",
-      "Please enter your email and password."
-    );
-
+    showMessage("error","Please enter your email and password.");
     return;
   }
 
   loginBtn.disabled = true;
   loginBtn.textContent = "PLEASE WAIT...";
-
   formMessage.className = "form-message";
   formMessage.textContent = "";
 
   try{
 
+    /* STEP 1: LOGIN */
+
     const response = await fetch(API_BASE + "/auth/login",{
-
       method:"POST",
-
       headers:{
         "Content-Type":"application/json"
       },
-
       body:JSON.stringify({
         email:email,
         password:password
       })
-
     });
 
     const data = await response.json().catch(function(){
@@ -847,61 +522,97 @@ loginForm.addEventListener("submit", async function(event){
     });
 
     if(!response.ok || !data.success){
-
       throw new Error(
         data.message ||
         "Login failed. Please check your email and password."
       );
-
     }
 
-    if(!data.token || !data.user){
-
+    if(!data.token){
       throw new Error(
-        "The server returned an incomplete login response."
+        "The server did not return an authentication token."
       );
-
     }
 
-    /*
-      Temporary session-based authentication.
-      The password is never stored.
-      Backend currently uses Bearer JWT authentication.
-    */
+    /* STEP 2: SAVE TOKEN IN SESSION STORAGE */
 
     try{
-
-      sessionStorage.setItem(
-        "rubalia_token",
-        data.token
-      );
-
-      sessionStorage.setItem(
-        "rubalia_user",
-        JSON.stringify(data.user)
-      );
-
+      sessionStorage.setItem("rubalia_token",data.token);
     }catch(storageError){
-
       throw new Error(
         "Your browser could not save the login session. Please enable browser storage and try again."
       );
-
     }
 
-    showMessage(
-      "success",
-      "Login successful! Opening your dashboard..."
-    );
+    /* STEP 3: VERIFY USER ROLE FROM BACKEND */
+
+    const verifyResponse = await fetch(API_BASE + "/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer " + data.token,
+        "Accept":"application/json"
+      }
+    });
+
+    const verifyData = await verifyResponse.json().catch(function(){
+      return {};
+    });
+
+    if(!verifyResponse.ok || !verifyData.success || !verifyData.user){
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+
+      throw new Error(
+        verifyData.message ||
+        "Unable to verify your account. Please try logging in again."
+      );
+    }
+
+    const user = verifyData.user;
+    const role = String(user.role || "").trim().toLowerCase();
+
+    if(!role){
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+
+      throw new Error(
+        "Your account role could not be verified. Please contact support."
+      );
+    }
+
+    /* STEP 4: SAVE VERIFIED USER */
+
+    try{
+      sessionStorage.setItem(
+        "rubalia_user",
+        JSON.stringify(user)
+      );
+    }catch(storageError){
+      sessionStorage.removeItem("rubalia_token");
+
+      throw new Error(
+        "Unable to save your account session. Please try again."
+      );
+    }
+
+    /* STEP 5: ROLE-BASED REDIRECT */
+
+    let destination = "dashboard.html";
+    let destinationMessage = "Opening your Member Dashboard...";
+
+    if(role === "admin"){
+      destination = "admin-dashboard.html";
+      destinationMessage = "Admin verified! Opening Admin Dashboard...";
+    }
+
+    showMessage("success",destinationMessage);
 
     loginBtn.textContent = "LOGIN SUCCESSFUL";
 
     loginForm.reset();
 
     window.setTimeout(function(){
-
-      window.location.href = "dashboard.html";
-
+      window.location.replace(destination);
     },900);
 
   }catch(error){
