@@ -4,24 +4,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
+<meta name="theme-color" content="#8b1748">
 <meta name="description" content="Create your RUBALIA NETWORK member account.">
 <meta name="robots" content="noindex,nofollow">
 <title>Create Account | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --navy3:#193b67;
-  --gold:#d6ad55;
-  --gold2:#f1d18a;
-  --light:#f3f5f9;
-  --white:#fff;
-  --text:#172943;
-  --muted:#78869a;
-  --border:#dfe5ed;
-  --red:#c73535;
+  --red:#d60045;
+  --dark:#78113d;
+  --gold:#e8bd65;
+  --text:#25213a;
+  --muted:#888397;
+  --border:#e8e4ed;
   --green:#16804b;
 }
 
@@ -31,280 +26,147 @@
   box-sizing:border-box;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 10% 10%,rgba(214,173,85,.10),transparent 30%),
-    linear-gradient(135deg,#eef1f7,#f8f9fc 55%,#e9edf5);
-  color:var(--text);
   min-height:100vh;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-/* HEADER */
-
-header{
-  background:linear-gradient(135deg,#06152c,#102b50);
-  color:white;
-  border-bottom:2px solid rgba(214,173,85,.55);
-  box-shadow:0 8px 25px rgba(4,18,37,.25);
-  position:relative;
-  z-index:5;
-}
-
-.nav{
-  max-width:1150px;
-  margin:auto;
-  padding:17px 22px;
+  padding:25px 15px;
   display:flex;
-  justify-content:space-between;
+  justify-content:center;
   align-items:center;
-  gap:15px;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 15%,rgba(255,190,80,.85),transparent 30%),
+    radial-gradient(circle at 90% 15%,rgba(255,70,150,.65),transparent 32%),
+    radial-gradient(circle at 15% 90%,rgba(95,75,220,.65),transparent 35%),
+    radial-gradient(circle at 90% 85%,rgba(0,190,190,.55),transparent 32%),
+    linear-gradient(135deg,#f7d6e5,#e7ddff,#d7f5f1);
+  background-size:200% 200%;
+  animation:backgroundMove 12s ease infinite;
+}
+
+@keyframes backgroundMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+.container{
+  width:100%;
+  max-width:430px;
+  padding:35px 30px;
+  border-radius:25px;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 25px 70px rgba(45,20,65,.20);
+  backdrop-filter:blur(15px);
+  animation:cardAppear .6s ease;
+}
+
+@keyframes cardAppear{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* LOGO */
+
+.brand{
+  text-align:center;
+  margin-bottom:27px;
 }
 
 .logo{
-  display:inline-block;
-  color:var(--gold);
-  font-size:25px;
+  width:72px;
+  height:72px;
+  margin:0 auto 14px;
+  position:relative;
+  display:grid;
+  place-items:center;
+  border-radius:22px;
+  color:white;
+  font-size:38px;
   font-weight:900;
-  letter-spacing:2px;
-  text-shadow:0 2px 5px rgba(0,0,0,.25);
+  background:linear-gradient(145deg,#ed286a,#76123e);
+  box-shadow:0 9px 20px rgba(170,25,85,.30);
+  overflow:hidden;
+}
+
+.logo:before{
+  content:"";
+  position:absolute;
+  width:39px;
+  height:39px;
+  border:2px solid rgba(255,225,155,.9);
+  transform:rotate(45deg);
+  border-radius:8px;
 }
 
 .logo span{
-  display:block;
-  color:white;
-  font-size:10px;
-  letter-spacing:6px;
-  margin-top:4px;
-}
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:22px;
-}
-
-.nav-links a{
-  color:#e8edf5;
-  font-size:13px;
-  font-weight:bold;
-  transition:.25s;
-}
-
-.nav-links a:hover{
-  color:var(--gold2);
-}
-
-/* PAGE */
-
-main{
-  padding:55px 16px 75px;
-  min-height:calc(100vh - 150px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.register-wrapper{
-  width:100%;
-  max-width:1000px;
-  display:grid;
-  grid-template-columns:.88fr 1.12fr;
-  border-radius:22px;
-  overflow:hidden;
-  background:white;
-  box-shadow:
-    0 25px 65px rgba(7,26,53,.14),
-    0 7px 18px rgba(7,26,53,.07),
-    inset 0 1px 0 rgba(255,255,255,.9);
-  border:1px solid rgba(255,255,255,.9);
-  transform:translateY(0);
-  transition:transform .35s,box-shadow .35s;
-}
-
-.register-wrapper:hover{
-  transform:translateY(-3px);
-  box-shadow:
-    0 32px 75px rgba(7,26,53,.17),
-    0 10px 22px rgba(7,26,53,.08);
-}
-
-/* LEFT PANEL */
-
-.brand-panel{
-  position:relative;
-  overflow:hidden;
-  padding:55px 38px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  color:white;
-  background:
-    radial-gradient(circle at 85% 15%,rgba(214,173,85,.22),transparent 28%),
-    linear-gradient(145deg,#06152c,#102b50 55%,#1b416d);
-}
-
-.brand-panel:before{
-  content:"";
-  position:absolute;
-  width:280px;
-  height:280px;
-  border:1px solid rgba(214,173,85,.25);
-  border-radius:50%;
-  right:-130px;
-  top:-100px;
-  box-shadow:
-    0 0 0 25px rgba(214,173,85,.035),
-    0 0 0 50px rgba(214,173,85,.025);
-}
-
-.brand-panel:after{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:50%;
-  left:-140px;
-  bottom:-100px;
-}
-
-.brand-content{
   position:relative;
   z-index:1;
+  text-shadow:0 2px 4px rgba(0,0,0,.2);
 }
 
-.brand-symbol{
-  width:76px;
-  height:76px;
-  display:grid;
-  place-items:center;
-  border-radius:20px;
-  color:var(--navy);
-  background:linear-gradient(145deg,#f4d991,#b98b37);
-  box-shadow:
-    0 9px 0 #806022,
-    0 16px 25px rgba(0,0,0,.3),
-    inset 0 2px 4px rgba(255,255,255,.65);
-  font-size:36px;
+.brand h1{
+  font-size:23px;
+  letter-spacing:2px;
+  color:#80133f;
   font-weight:900;
-  margin-bottom:30px;
-  transform:perspective(500px) rotateY(-8deg);
 }
 
-.brand-label{
-  color:var(--gold2);
+.brand h1 span{
+  color:#b18a43;
+}
+
+.brand p{
+  margin-top:7px;
+  color:var(--muted);
   font-size:11px;
+  letter-spacing:3px;
   font-weight:bold;
-  letter-spacing:4px;
 }
 
-.brand-panel h1{
-  font-size:36px;
-  line-height:1.25;
-  margin:22px 0 17px;
-}
-
-.brand-panel h1 span{
-  color:var(--gold2);
-}
-
-.brand-panel p{
-  color:#d4dfed;
-  font-size:14px;
-  line-height:1.9;
-}
-
-.brand-benefits{
-  display:grid;
-  gap:16px;
-  margin-top:36px;
-}
-
-.benefit{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  color:#e9eef6;
-  font-size:13px;
-}
-
-.benefit-icon{
-  width:34px;
-  height:34px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(214,173,85,.45);
-  border-radius:10px;
-  color:var(--gold2);
-  background:rgba(214,173,85,.10);
-  box-shadow:0 4px 10px rgba(0,0,0,.12);
-}
-
-/* FORM PANEL */
-
-.form-panel{
-  padding:48px 45px;
-  background:linear-gradient(160deg,#fff,#fbfcfe);
-}
+/* HEADING */
 
 .heading{
-  margin-bottom:30px;
+  text-align:center;
+  margin-bottom:25px;
 }
 
 .heading small{
-  color:#a47c32;
-  font-weight:bold;
-  font-size:11px;
+  color:#b18a43;
+  font-size:10px;
+  font-weight:900;
   letter-spacing:3px;
 }
 
 .heading h2{
-  color:var(--navy);
-  font-size:30px;
-  margin:12px 0 9px;
+  font-size:27px;
+  color:#30233e;
+  margin:9px 0;
 }
 
 .heading p{
+  font-size:12px;
   color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
-}
-
-.gold-line{
-  width:65px;
-  height:4px;
-  border-radius:5px;
-  margin-top:17px;
-  background:linear-gradient(90deg,#b78b38,#f0d28c);
-  box-shadow:0 3px 8px rgba(183,139,56,.25);
+  line-height:1.6;
 }
 
 /* INPUTS */
 
 .form-group{
-  margin-bottom:19px;
+  margin-bottom:17px;
 }
 
 .form-group label{
   display:block;
-  color:var(--navy);
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:9px;
+  font-size:12px;
+  font-weight:800;
+  color:#40334d;
+  margin-bottom:8px;
 }
 
 .required{
-  color:#c63d3d;
+  color:#d60045;
 }
 
 .input-wrap{
@@ -313,32 +175,26 @@ main{
 
 .input-wrap input{
   width:100%;
-  height:52px;
-  padding:0 15px;
+  height:51px;
+  padding:0 14px;
   border:1px solid var(--border);
-  border-radius:9px;
+  border-radius:11px;
   outline:none;
-  background:#fff;
-  color:var(--text);
-  font-size:14px;
+  background:#faf9fc;
+  color:#30233e;
+  font-size:13px;
   font-family:inherit;
-  box-shadow:0 2px 5px rgba(7,26,53,.025);
   transition:.25s;
 }
 
-.input-wrap input::placeholder{
-  color:#a4adba;
-}
-
 .input-wrap input:focus{
-  border-color:var(--gold);
-  box-shadow:
-    0 0 0 4px rgba(214,173,85,.13),
-    0 5px 13px rgba(7,26,53,.05);
+  border-color:#c34b80;
+  background:white;
+  box-shadow:0 0 0 4px rgba(214,0,69,.08);
 }
 
-.input-wrap input:focus + .input-focus{
-  opacity:1;
+.input-wrap input::placeholder{
+  color:#aaa4b4;
 }
 
 .password-wrap input{
@@ -347,23 +203,19 @@ main{
 
 .show-btn{
   position:absolute;
-  right:13px;
+  right:12px;
   top:50%;
   transform:translateY(-50%);
   border:0;
   background:none;
-  color:#967735;
-  font-size:12px;
-  font-weight:800;
+  color:#a13c68;
+  font-size:11px;
+  font-weight:900;
   cursor:pointer;
-  padding:7px;
+  padding:8px;
 }
 
-.show-btn:hover{
-  color:var(--navy);
-}
-
-/* PASSWORD STRENGTH */
+/* STRENGTH */
 
 .password-strength{
   display:none;
@@ -373,7 +225,7 @@ main{
 .strength-track{
   height:5px;
   border-radius:10px;
-  background:#e9edf3;
+  background:#eeeaf1;
   overflow:hidden;
 }
 
@@ -381,13 +233,13 @@ main{
   width:0;
   height:100%;
   border-radius:10px;
-  transition:width .25s,background .25s;
+  transition:.25s;
 }
 
 .strength-text{
-  font-size:11px;
-  color:var(--muted);
   margin-top:6px;
+  font-size:10px;
+  color:var(--muted);
 }
 
 /* TERMS */
@@ -395,24 +247,23 @@ main{
 .terms{
   display:flex;
   align-items:flex-start;
-  gap:11px;
-  margin:23px 0;
-  color:#647086;
-  font-size:12px;
-  line-height:1.8;
+  gap:9px;
+  margin:20px 0;
+  color:#777183;
+  font-size:11px;
+  line-height:1.7;
 }
 
 .terms input{
-  width:18px;
-  height:18px;
+  width:17px;
+  height:17px;
   flex-shrink:0;
   margin-top:2px;
-  accent-color:var(--navy);
-  cursor:pointer;
+  accent-color:#a51c55;
 }
 
 .terms a{
-  color:#97722e;
+  color:#a51c55;
   font-weight:bold;
   text-decoration:underline;
 }
@@ -421,36 +272,24 @@ main{
 
 .submit-btn{
   width:100%;
-  min-height:55px;
+  min-height:53px;
   border:0;
-  border-radius:10px;
-  background:linear-gradient(135deg,#e6c16d,#c79a42);
-  color:#071a35;
-  font-size:15px;
+  border-radius:12px;
+  background:linear-gradient(110deg,#ed286a,#9b164f,#d9a94d);
+  background-size:200% 100%;
+  color:white;
+  font-size:14px;
   font-weight:900;
-  letter-spacing:.5px;
+  letter-spacing:1px;
   cursor:pointer;
-  box-shadow:
-    0 6px 0 #9d742d,
-    0 12px 20px rgba(160,119,45,.22),
-    inset 0 2px 3px rgba(255,255,255,.55);
-  transition:transform .2s,box-shadow .2s,filter .2s;
+  box-shadow:0 7px 18px rgba(180,25,90,.23);
+  transition:.25s;
 }
 
 .submit-btn:hover{
-  filter:brightness(1.04);
+  background-position:100% 0;
   transform:translateY(-2px);
-  box-shadow:
-    0 8px 0 #9d742d,
-    0 15px 23px rgba(160,119,45,.25),
-    inset 0 2px 3px rgba(255,255,255,.55);
-}
-
-.submit-btn:active{
-  transform:translateY(4px);
-  box-shadow:
-    0 2px 0 #9d742d,
-    0 5px 10px rgba(160,119,45,.18);
+  box-shadow:0 10px 22px rgba(180,25,90,.30);
 }
 
 .submit-btn:disabled{
@@ -459,23 +298,23 @@ main{
   transform:none;
 }
 
-/* MESSAGES */
+/* MESSAGE */
 
 .message{
   display:none;
-  margin-top:17px;
-  padding:13px 14px;
-  border-radius:9px;
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
   font-size:12px;
-  line-height:1.7;
+  line-height:1.6;
   overflow-wrap:anywhere;
 }
 
 .message.error{
   display:block;
-  color:#9b2525;
-  background:#fff0f0;
-  border:1px solid #f2cccc;
+  color:#a12b36;
+  background:#fff0f1;
+  border:1px solid #f4cbd0;
 }
 
 .message.success{
@@ -485,154 +324,50 @@ main{
   border:1px solid #c6ead2;
 }
 
-/* LOGIN LINK */
+/* LOGIN */
 
 .login-link{
+  margin-top:23px;
   text-align:center;
-  margin-top:25px;
-  font-size:13px;
   color:var(--muted);
+  font-size:12px;
 }
 
 .login-link a{
-  color:var(--navy);
-  font-weight:800;
+  color:#a51c55;
+  font-weight:900;
+  text-decoration:none;
 }
 
 .login-link a:hover{
-  color:#a47c32;
-}
-
-/* FOOTER */
-
-footer{
-  background:linear-gradient(135deg,#041225,#0c2545);
-  color:#c4cedc;
-  text-align:center;
-  padding:24px 15px;
-  font-size:12px;
-  border-top:2px solid rgba(214,173,85,.4);
-}
-
-footer span{
-  color:var(--gold2);
-  font-weight:bold;
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-  main{
-    padding:35px 15px 50px;
-  }
-
-  .register-wrapper{
-    max-width:540px;
-    grid-template-columns:1fr;
-  }
-
-  .brand-panel{
-    padding:32px 28px;
-  }
-
-  .brand-symbol{
-    width:58px;
-    height:58px;
-    font-size:28px;
-    border-radius:15px;
-    margin-bottom:20px;
-    box-shadow:
-      0 6px 0 #806022,
-      0 10px 18px rgba(0,0,0,.25),
-      inset 0 2px 4px rgba(255,255,255,.65);
-  }
-
-  .brand-panel h1{
-    font-size:28px;
-    margin:15px 0 12px;
-  }
-
-  .brand-panel p{
-    font-size:13px;
-  }
-
-  .brand-benefits{
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-top:22px;
-  }
-
-  .benefit{
-    font-size:11px;
-  }
-
-  .form-panel{
-    padding:35px 28px;
-  }
+  text-decoration:underline;
 }
 
 @media(max-width:480px){
-  .nav{
-    padding:15px 17px;
+  body{
+    padding:18px 12px;
+  }
+
+  .container{
+    padding:30px 22px;
+    border-radius:21px;
   }
 
   .logo{
-    font-size:21px;
-  }
-
-  .nav-links{
-    gap:13px;
-  }
-
-  .nav-links a{
-    font-size:12px;
-  }
-
-  main{
-    padding:24px 12px 40px;
-  }
-
-  .register-wrapper{
-    border-radius:17px;
-  }
-
-  .brand-panel{
-    padding:27px 22px;
-  }
-
-  .brand-panel h1{
-    font-size:25px;
-  }
-
-  .brand-benefits{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-panel{
-    padding:30px 21px;
+    width:65px;
+    height:65px;
+    font-size:34px;
   }
 
   .heading h2{
-    font-size:26px;
-  }
-
-  .input-wrap input{
-    height:51px;
-    font-size:14px;
-  }
-
-  .submit-btn{
-    min-height:54px;
+    font-size:25px;
   }
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,
-  *:before,
-  *:after{
-    scroll-behavior:auto!important;
-    transition:none!important;
+  *,*:before,*:after{
     animation:none!important;
+    transition:none!important;
   }
 }
 </style>
@@ -640,246 +375,134 @@ footer span{
 
 <body>
 
-<header>
-  <nav class="nav">
+<main class="container">
 
-    <a class="logo" href="index.html">
-      RUBALIA
-      <span>NETWORK</span>
-    </a>
+  <div class="brand">
+    <div class="logo"><span>R</span></div>
+    <h1>RUBALIA <span>NETWORK</span></h1>
+    <p>GROW WITH TRUST</p>
+  </div>
 
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
+  <div class="heading">
+    <small>MEMBER REGISTRATION</small>
+    <h2>Create Account</h2>
+    <p>Enter your details to create your member account.</p>
+  </div>
+
+  <form id="registerForm" novalidate>
+
+    <div class="form-group">
+      <label for="fullName">
+        Full Name <span class="required">*</span>
+      </label>
+      <div class="input-wrap">
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Enter your full name"
+          autocomplete="name"
+          minlength="2"
+          maxlength="120"
+          required>
+      </div>
     </div>
 
-  </nav>
-</header>
-
-<main>
-
-<div class="register-wrapper">
-
-  <!-- BRAND PANEL -->
-
-  <section class="brand-panel">
-
-    <div class="brand-content">
-
-      <div class="brand-symbol">R</div>
-
-      <div class="brand-label">JOIN RUBALIA NETWORK</div>
-
-      <h1>
-        Start Your Journey With
-        <span>RUBALIA.</span>
-      </h1>
-
-      <p>
-        Create your member account and explore
-        our product distribution platform.
-        Build genuine customer relationships
-        through quality products and trust.
-      </p>
-
-      <div class="brand-benefits">
-
-        <div class="benefit">
-          <span class="benefit-icon">✦</span>
-          <span>Member Dashboard</span>
-        </div>
-
-        <div class="benefit">
-          <span class="benefit-icon">◇</span>
-          <span>Product Access</span>
-        </div>
-
-        <div class="benefit">
-          <span class="benefit-icon">◎</span>
-          <span>Account Management</span>
-        </div>
-
-        <div class="benefit">
-          <span class="benefit-icon">✓</span>
-          <span>Secure Account</span>
-        </div>
-
+    <div class="form-group">
+      <label for="email">
+        Email Address <span class="required">*</span>
+      </label>
+      <div class="input-wrap">
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email address"
+          autocomplete="email"
+          maxlength="255"
+          required>
       </div>
-
     </div>
 
-  </section>
-
-  <!-- REGISTRATION FORM -->
-
-  <section class="form-panel">
-
-    <div class="heading">
-
-      <small>MEMBER REGISTRATION</small>
-
-      <h2>Create Your Account</h2>
-
-      <p>
-        Complete the form below to join
-        RUBALIA NETWORK.
-      </p>
-
-      <div class="gold-line"></div>
-
-    </div>
-
-    <form id="registerForm" novalidate>
-
-      <div class="form-group">
-
-        <label for="fullName">
-          Full Name <span class="required">*</span>
-        </label>
-
-        <div class="input-wrap">
-          <input
-            type="text"
-            id="fullName"
-            placeholder="Enter your full name"
-            autocomplete="name"
-            minlength="2"
-            maxlength="120"
-            required>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="email">
-          Email Address <span class="required">*</span>
-        </label>
-
-        <div class="input-wrap">
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email address"
-            autocomplete="email"
-            maxlength="255"
-            required>
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="password">
-          Password <span class="required">*</span>
-        </label>
-
-        <div class="input-wrap password-wrap">
-
-          <input
-            type="password"
-            id="password"
-            placeholder="Create a password (8–72 characters)"
-            autocomplete="new-password"
-            minlength="8"
-            maxlength="72"
-            required>
-
-          <button
-            type="button"
-            class="show-btn"
-            data-target="password">
-            SHOW
-          </button>
-
-        </div>
-
-        <div class="password-strength" id="passwordStrength">
-
-          <div class="strength-track">
-            <div class="strength-bar" id="strengthBar"></div>
-          </div>
-
-          <div class="strength-text" id="strengthText"></div>
-
-        </div>
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="confirmPassword">
-          Confirm Password <span class="required">*</span>
-        </label>
-
-        <div class="input-wrap password-wrap">
-
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Enter your password again"
-            autocomplete="new-password"
-            minlength="8"
-            maxlength="72"
-            required>
-
-          <button
-            type="button"
-            class="show-btn"
-            data-target="confirmPassword">
-            SHOW
-          </button>
-
-        </div>
-
-      </div>
-
-      <label class="terms">
-
-        <input type="checkbox" id="terms" required>
-
-        <span>
-          I agree to the RUBALIA NETWORK
-          <a href="terms.html" target="_blank" rel="noopener">
-            Terms &amp; Conditions
-          </a>
-          and understand that registration does not guarantee any income.
-        </span>
-
+    <div class="form-group">
+      <label for="password">
+        Password <span class="required">*</span>
       </label>
 
-      <button
-        type="submit"
-        class="submit-btn"
-        id="submitBtn">
+      <div class="input-wrap password-wrap">
+        <input
+          type="password"
+          id="password"
+          placeholder="Create password (8–72 characters)"
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
 
-        CREATE ACCOUNT
-
-      </button>
-
-      <div
-        id="formMessage"
-        class="message"
-        role="status"
-        aria-live="polite">
+        <button
+          type="button"
+          class="show-btn"
+          data-target="password">SHOW</button>
       </div>
 
-    </form>
-
-    <div class="login-link">
-      Already have an account?
-      <a href="login.html">Login Here</a>
+      <div class="password-strength" id="passwordStrength">
+        <div class="strength-track">
+          <div class="strength-bar" id="strengthBar"></div>
+        </div>
+        <div class="strength-text" id="strengthText"></div>
+      </div>
     </div>
 
-  </section>
+    <div class="form-group">
+      <label for="confirmPassword">
+        Confirm Password <span class="required">*</span>
+      </label>
 
-</div>
+      <div class="input-wrap password-wrap">
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Enter password again"
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
+
+        <button
+          type="button"
+          class="show-btn"
+          data-target="confirmPassword">SHOW</button>
+      </div>
+    </div>
+
+    <label class="terms">
+      <input type="checkbox" id="terms" required>
+      <span>
+        I agree to the RUBALIA NETWORK
+        <a href="terms.html" target="_blank" rel="noopener">
+          Terms &amp; Conditions
+        </a>
+        and understand that registration does not guarantee any income.
+      </span>
+    </label>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      CREATE ACCOUNT
+    </button>
+
+    <div
+      id="formMessage"
+      class="message"
+      role="status"
+      aria-live="polite">
+    </div>
+
+  </form>
+
+  <div class="login-link">
+    Already have an account?
+    <a href="login.html">Login Here</a>
+  </div>
 
 </main>
-
-<footer>
-  © <span>RUBALIA NETWORK</span> — All Rights Reserved.
-</footer>
 
 <script>
 "use strict";
@@ -903,34 +526,25 @@ const strengthText = document.getElementById("strengthText");
 /* SHOW / HIDE PASSWORD */
 
 document.querySelectorAll(".show-btn").forEach(function(button){
-
   button.addEventListener("click",function(){
-
     const field = document.getElementById(button.dataset.target);
-
     const isHidden = field.type === "password";
 
     field.type = isHidden ? "text" : "password";
-
     button.textContent = isHidden ? "HIDE" : "SHOW";
-
   });
-
 });
 
 /* MESSAGE */
 
 function showMessage(type,text){
-
   message.className = "message " + type;
   message.textContent = text;
-
 }
 
 /* PASSWORD STRENGTH */
 
 passwordInput.addEventListener("input",function(){
-
   const password = passwordInput.value;
 
   if(!password){
@@ -950,7 +564,6 @@ passwordInput.addEventListener("input",function(){
   if(/[0-9]/.test(password)) score++;
   if(/[^a-zA-Z0-9]/.test(password)) score++;
 
-  let width = score * 20;
   let label = "Weak";
   let color = "#d64b4b";
 
@@ -965,31 +578,30 @@ passwordInput.addEventListener("input",function(){
     color = "#d18a35";
   }
 
-  strengthBar.style.width = width + "%";
+  strengthBar.style.width = (score * 20) + "%";
   strengthBar.style.background = color;
   strengthText.textContent = "Password strength: " + label;
-
 });
 
-/* CLEAR OLD MESSAGE WHEN TYPING */
+/* CLEAR ERROR */
 
-[fullNameInput,emailInput,passwordInput,confirmPasswordInput].forEach(function(field){
-
+[
+  fullNameInput,
+  emailInput,
+  passwordInput,
+  confirmPasswordInput
+].forEach(function(field){
   field.addEventListener("input",function(){
-
     if(message.classList.contains("error")){
       message.className = "message";
       message.textContent = "";
     }
-
   });
-
 });
 
 /* REGISTRATION */
 
 form.addEventListener("submit",async function(event){
-
   event.preventDefault();
 
   const fullName = fullNameInput.value.trim();
@@ -1016,7 +628,7 @@ form.addEventListener("submit",async function(event){
   }
 
   if(password !== confirmPassword){
-    showMessage("error","Passwords do not match. Please check again.");
+    showMessage("error","Passwords do not match.");
     confirmPasswordInput.focus();
     return;
   }
@@ -1034,21 +646,16 @@ form.addEventListener("submit",async function(event){
   message.textContent = "";
 
   try{
-
     const response = await fetch(API_BASE + "/auth/register",{
-
       method:"POST",
-
       headers:{
         "Content-Type":"application/json"
       },
-
       body:JSON.stringify({
         fullName:fullName,
         email:email,
         password:password
       })
-
     });
 
     const data = await response.json().catch(function(){
@@ -1056,38 +663,29 @@ form.addEventListener("submit",async function(event){
     });
 
     if(!response.ok || !data.success){
-
       throw new Error(
         data.message || "Registration failed. Please try again."
       );
-
     }
 
     if(!data.token || !data.user){
-
       throw new Error(
-        "Account response could not be verified. Please contact support."
+        "Account was created, but the login session could not be verified. Please try logging in."
       );
-
     }
 
-    /* Store temporary session only. Never store the password. */
+    /* TEMPORARY SESSION */
 
     try{
-
       sessionStorage.setItem("rubalia_token",data.token);
-
       sessionStorage.setItem(
         "rubalia_user",
         JSON.stringify(data.user)
       );
-
     }catch(storageError){
-
       throw new Error(
-        "Your browser could not start a secure session. Please enable browser storage and try again."
+        "Browser session storage is unavailable. Please enable it and try again."
       );
-
     }
 
     showMessage(
@@ -1103,13 +701,10 @@ form.addEventListener("submit",async function(event){
     submitBtn.textContent = "ACCOUNT CREATED";
 
     window.setTimeout(function(){
-
       window.location.href = "dashboard.html";
-
     },1200);
 
   }catch(error){
-
     showMessage(
       "error",
       error.message || "Unable to complete registration. Please try again."
@@ -1117,9 +712,7 @@ form.addEventListener("submit",async function(event){
 
     submitBtn.disabled = false;
     submitBtn.textContent = "CREATE ACCOUNT";
-
   }
-
 });
 </script>
 
