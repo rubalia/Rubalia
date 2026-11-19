@@ -1,610 +1,865 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
-<title>My Orders - RUBALIA NETWORK</title>
+<meta name="theme-color" content="#17112d">
+<title>My Orders | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --light:#f3f5f9;
-  --text:#26354a;
-  --muted:#7a879a;
-  --border:#e3e8ef;
+  --bg:#f5f3fb;
+  --card:#ffffff;
+  --dark:#211638;
+  --muted:#817991;
+  --purple:#7139d8;
+  --pink:#e43e91;
+  --blue:#3478ed;
+  --gold:#e6ad39;
+  --green:#159b68;
+  --red:#dc4660;
+  --border:#eee9f5;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--light);
-  color:var(--text);
+  background:var(--bg);
+  color:var(--dark);
+  min-height:100vh;
 }
-a{text-decoration:none;color:inherit}
-
-/* HEADER */
-header{
-  height:65px;
-  background:var(--navy);
-  color:white;
+button,input{font:inherit}
+button{cursor:pointer}
+.topbar{
+  background:linear-gradient(120deg,#24123f,#5630a4,#8136c9);
+  color:#fff;
+  padding:20px 18px 25px;
+  border-radius:0 0 25px 25px;
+  box-shadow:0 8px 25px #43208025;
+}
+.top-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 24px;
+  gap:12px;
 }
-.logo{
-  color:white;
-  font-size:20px;
-  font-weight:800;
+.brand{
+  font-size:19px;
+  font-weight:900;
   letter-spacing:1px;
 }
-.logo span{color:var(--gold)}
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:13px;
+.brand span{color:#ffd56c}
+.top-subtitle{
+  color:#e6dafa;
+  font-size:12px;
+  margin-top:5px;
 }
-.header-right a{font-size:13px;color:white}
-.avatar{
-  width:36px;
-  height:36px;
-  background:var(--gold);
-  color:var(--navy);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-/* LAYOUT */
-.layout{
-  display:flex;
-  min-height:calc(100vh - 65px);
-}
-.sidebar{
-  width:235px;
-  flex-shrink:0;
-  background:var(--navy2);
-  color:white;
-  padding:24px 14px;
-}
-.profile-mini{
-  text-align:center;
-  padding-bottom:22px;
-  border-bottom:1px solid rgba(255,255,255,.15);
-  margin-bottom:18px;
-}
-.profile-mini .avatar{
-  width:62px;
-  height:62px;
-  margin:0 auto 10px;
-  font-size:22px;
-}
-.profile-mini h3{font-size:14px;margin:0 0 5px}
-.profile-mini p{font-size:11px;color:#bac7d8;margin:0}
-.menu-title{
-  font-size:10px;
-  letter-spacing:1.4px;
-  color:#aebbd0;
-  padding:12px;
-}
-.menu a{
-  display:block;
-  color:#dce4ef;
-  font-size:13px;
-  padding:12px;
-  margin:3px 0;
-  border-radius:7px;
-}
-.menu a:hover,.menu a.active{
-  color:var(--gold);
-  background:rgba(214,173,85,.16);
-}
-
-/* MAIN */
-main{
-  flex:1;
-  min-width:0;
-  padding:28px;
+.back-btn{
+  border:1px solid #ffffff55;
+  color:#fff;
+  background:#ffffff18;
+  padding:9px 13px;
+  border-radius:10px;
+  font-size:12px;
 }
 .page-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:22px;
+  margin-top:25px;
 }
 .page-heading h1{
-  color:var(--navy);
   font-size:25px;
-  margin:0 0 7px;
+  margin-bottom:7px;
 }
 .page-heading p{
-  color:var(--muted);
   font-size:13px;
-  margin:0;
+  color:#e7dcf7;
 }
-.shop-btn{
-  display:inline-block;
-  padding:12px 17px;
-  background:var(--gold);
-  color:var(--navy);
-  border-radius:7px;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
+.container{
+  width:min(100% - 28px,1050px);
+  margin:20px auto 90px;
 }
-
-/* NOTICE */
-.demo-notice{
-  padding:13px 15px;
-  border-radius:8px;
-  background:#fff8e8;
-  border:1px solid #efdfb9;
-  color:#806329;
+.notice{
+  background:#fff8e9;
+  border:1px solid #f4dfad;
+  color:#805b18;
+  padding:13px;
+  border-radius:13px;
   font-size:12px;
   line-height:1.6;
-  margin-bottom:22px;
+  margin-bottom:17px;
 }
-
-/* SUMMARY */
 .summary-grid{
   display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;
-  margin-bottom:22px;
+  grid-template-columns:repeat(3,1fr);
+  gap:11px;
+  margin-bottom:20px;
 }
 .summary-card{
-  background:white;
+  background:var(--card);
+  padding:15px 12px;
   border:1px solid var(--border);
-  border-radius:10px;
-  padding:18px;
+  border-radius:15px;
+  box-shadow:0 4px 15px #26113d08;
 }
-.summary-card p{
-  font-size:12px;
-  color:var(--muted);
-  margin:0 0 12px;
+.summary-icon{
+  font-size:20px;
+  margin-bottom:9px;
 }
-.summary-card strong{
-  color:var(--navy);
+.summary-value{
   font-size:23px;
+  font-weight:900;
 }
-
-/* ORDER PANEL */
-.panel{
-  background:white;
+.summary-label{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+.toolbar{
+  background:#fff;
+  padding:14px;
   border:1px solid var(--border);
-  border-radius:11px;
-  padding:21px;
-  margin-bottom:20px;
+  border-radius:16px;
+  margin-bottom:16px;
 }
-.panel-heading{
+.search-box{
+  width:100%;
+  padding:13px;
+  border:1px solid #e8e1f0;
+  border-radius:11px;
+  outline:none;
+  background:#faf9fc;
+  color:var(--dark);
+}
+.search-box:focus{
+  border-color:var(--purple);
+}
+.filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-top:12px;
+}
+.filter-btn{
+  flex-shrink:0;
+  border:1px solid #e9e3f0;
+  background:#fff;
+  color:#71677f;
+  border-radius:30px;
+  padding:8px 13px;
+  font-size:11px;
+}
+.filter-btn.active{
+  background:var(--purple);
+  border-color:var(--purple);
+  color:#fff;
+}
+.section-title{
+  font-size:17px;
+  font-weight:800;
+  margin:20px 0 13px;
+}
+.orders-list{
+  display:grid;
+  gap:13px;
+}
+.order-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:16px;
+  box-shadow:0 5px 18px #25143c08;
+}
+.order-top{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
-}
-.panel-heading h2{
-  font-size:16px;
-  color:var(--navy);
-  margin:0;
-}
-.search-filter{
-  display:flex;
+  align-items:flex-start;
   gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
 }
-.search-filter input,
-.search-filter select{
-  height:41px;
-  border:1px solid var(--border);
-  border-radius:7px;
-  padding:0 12px;
-  outline:none;
-  background:white;
-  color:var(--text);
-  font-size:12px;
-}
-.search-filter input{
-  flex:1;
-  min-width:180px;
-}
-.search-filter select{min-width:145px}
-.search-filter input:focus,
-.search-filter select:focus{
-  border-color:var(--gold);
-}
-.table-wrap{overflow-x:auto}
-table{
-  width:100%;
-  min-width:720px;
-  border-collapse:collapse;
-}
-th,td{
-  padding:14px 11px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
-th{
-  background:#f8f9fb;
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:.4px;
-}
-td{color:var(--text)}
 .order-id{
-  color:#98752f;
-  font-weight:bold;
+  font-size:13px;
+  font-weight:900;
+  word-break:break-all;
 }
-.product-name{
-  font-weight:bold;
-  color:var(--navy);
+.order-date{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:6px;
 }
 .status{
   display:inline-block;
   padding:6px 10px;
-  border-radius:20px;
+  border-radius:30px;
   font-size:10px;
-  font-weight:bold;
+  font-weight:800;
+  text-transform:capitalize;
+  white-space:nowrap;
 }
-.status.demo{
-  color:#46658e;
-  background:#eaf0fa;
+.status.pending{background:#fff2d6;color:#a16a00}
+.status.processing{background:#eee6ff;color:#7035c9}
+.status.shipped{background:#e5f0ff;color:#2866c4}
+.status.delivered{background:#ddf7e9;color:#12804f}
+.status.cancelled{background:#ffe4e9;color:#bd344e}
+.status.unknown{background:#eee;color:#555}
+.order-divider{
+  height:1px;
+  background:#f0ecf4;
+  margin:14px 0;
 }
-.status.pending{
-  color:#947025;
-  background:#fff4db;
+.order-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
-.status.delivered{
-  color:#198754;
-  background:#e4f5eb;
+.info-label{
+  font-size:10px;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+.info-value{
+  font-size:13px;
+  font-weight:800;
+  word-break:break-word;
+}
+.order-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:15px;
+}
+.order-total{
+  font-size:19px;
+  font-weight:900;
+  color:var(--purple);
 }
 .details-btn{
-  border:1px solid var(--gold);
-  color:#876522;
-  background:white;
-  padding:7px 10px;
-  border-radius:5px;
-  font-size:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.empty-message{
-  display:none;
-  text-align:center;
-  padding:30px 10px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:22px;
-  color:var(--muted);
-  font-size:11px;
-}
-.mobile-menu{
-  display:none;
-  background:none;
-  border:1px solid #60718a;
+  border:0;
+  background:linear-gradient(120deg,var(--purple),var(--pink));
   color:white;
-  border-radius:6px;
-  padding:6px 10px;
+  border-radius:10px;
+  padding:10px 15px;
+  font-size:11px;
+  font-weight:800;
+}
+.empty{
+  background:#fff;
+  border:1px dashed #dcd2e8;
+  border-radius:17px;
+  text-align:center;
+  padding:40px 15px;
+  color:var(--muted);
+}
+.empty-icon{font-size:38px;margin-bottom:12px}
+.empty h3{color:var(--dark);font-size:16px;margin-bottom:7px}
+.empty p{font-size:12px;line-height:1.6}
+.loading{
+  background:#fff;
+  padding:30px;
+  text-align:center;
+  border-radius:15px;
+  color:var(--muted);
+}
+.error-box{
+  background:#fff0f1;
+  color:#b52e43;
+  border:1px solid #ffd1d7;
+  padding:15px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.6;
+}
+.retry-btn{
+  margin-top:10px;
+  background:#b52e43;
+  color:#fff;
+  border:0;
+  padding:9px 15px;
+  border-radius:9px;
+}
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 5px calc(10px + env(safe-area-inset-bottom));
+  z-index:10;
+}
+.nav-link{
+  text-decoration:none;
+  color:#8a8096;
+  font-size:10px;
+  text-align:center;
+  min-width:55px;
+}
+.nav-link span{
+  display:block;
+  font-size:19px;
+  margin-bottom:4px;
+}
+.nav-link.active{color:var(--purple);font-weight:900}
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  background:#160d25a8;
+}
+.modal.show{display:flex}
+.modal-card{
+  width:min(100%,480px);
+  max-height:85vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:19px;
+  padding:20px;
+}
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+.modal-header h2{font-size:18px}
+.close-btn{
+  border:0;
+  background:#f1edf7;
+  width:32px;
+  height:32px;
+  border-radius:50%;
   font-size:18px;
 }
-
-@media(max-width:1000px){
-  .summary-grid{grid-template-columns:repeat(2,1fr)}
+.detail-row{
+  padding:11px 0;
+  border-bottom:1px solid #eeeaf3;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:12px;
 }
-@media(max-width:700px){
-  header{padding:0 14px}
-  .mobile-menu{display:block}
-  .layout{display:block}
-  .sidebar{display:none;width:100%}
-  .sidebar.show{display:block}
-  .profile-mini{display:none}
-  main{padding:20px 14px}
-  .page-heading{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-  .page-heading h1{font-size:22px}
-  .panel{padding:15px}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row strong{text-align:right;word-break:break-word}
+.item-list{margin-top:15px}
+.item-row{
+  background:#f8f6fb;
+  padding:11px;
+  border-radius:10px;
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.6;
 }
-@media(max-width:420px){
-  .summary-grid{gap:10px}
-  .summary-card{padding:13px}
-  .summary-card strong{font-size:20px}
+@media(min-width:700px){
+  .summary-grid{grid-template-columns:repeat(3,1fr)}
+  .orders-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:380px){
+  .summary-grid{gap:7px}
+  .summary-card{padding:12px 9px}
+  .summary-value{font-size:20px}
+  .order-info{gap:10px}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
-    <a href="index.html" class="logo">RUBALIA <span>NETWORK</span></a>
+<header class="topbar">
+  <div class="top-row">
+    <div>
+      <div class="brand">RUBALIA <span>NETWORK</span></div>
+      <div class="top-subtitle">Member Shopping Portal</div>
+    </div>
+    <button class="back-btn" onclick="goDashboard()">← Dashboard</button>
   </div>
 
-  <div class="header-right">
-    <a href="dashboard.html">Dashboard</a>
-    <div class="avatar">DM</div>
+  <div class="page-heading">
+    <h1>My Orders</h1>
+    <p>View and track your order history</p>
   </div>
 </header>
 
-<div class="layout">
+<main class="container">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
+  <div class="notice">
+    🔒 Your order information is securely loaded from the Rubalia server.
+    This page does not display sample or demo orders.
+  </div>
 
-    <div class="profile-mini">
-      <div class="avatar">DM</div>
-      <h3>Demo Member</h3>
-      <p>Member ID: RN-DEMO-001</p>
+  <section class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-icon">📦</div>
+      <div class="summary-value" id="totalOrders">—</div>
+      <div class="summary-label">Total Orders</div>
     </div>
-
-    <div class="menu-title">MAIN MENU</div>
-
-    <nav class="menu">
-      <a href="dashboard.html">▦ &nbsp; Dashboard</a>
-      <a href="profile.html">👤 &nbsp; My Profile</a>
-      <a href="products.html">🛍️ &nbsp; Products</a>
-      <a href="orders.html" class="active">📦 &nbsp; My Orders</a>
-      <a href="team.html">👥 &nbsp; My Team</a>
-      <a href="income.html">💰 &nbsp; Income Details</a>
-      <a href="wallet.html">👛 &nbsp; My Wallet</a>
-      <a href="withdraw.html">💳 &nbsp; Withdraw</a>
-    </nav>
-
-    <div class="menu-title">ACCOUNT</div>
-
-    <nav class="menu">
-      <a href="settings.html">⚙️ &nbsp; Settings</a>
-      <a href="contact.html">☎ &nbsp; Support</a>
-      <a href="login.html" onclick="return confirmLogout()">↪ &nbsp; Logout</a>
-    </nav>
-
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main>
-
-    <div class="page-heading">
-      <div>
-        <h1>My Orders</h1>
-        <p>View and manage your product orders.</p>
-      </div>
-
-      <a href="products.html" class="shop-btn">+ SHOP PRODUCTS</a>
+    <div class="summary-card">
+      <div class="summary-icon">⏳</div>
+      <div class="summary-value" id="pendingOrders">—</div>
+      <div class="summary-label">Pending Orders</div>
     </div>
-
-    <div class="demo-notice">
-      <strong>Demo Notice:</strong> All orders and amounts displayed
-      below are sample information. No real orders or payments have
-      been created. Live order tracking will require backend integration.
+    <div class="summary-card">
+      <div class="summary-icon">✅</div>
+      <div class="summary-value" id="deliveredOrders">—</div>
+      <div class="summary-label">Delivered Orders</div>
     </div>
+  </section>
 
-    <!-- ORDER SUMMARY -->
-    <section class="summary-grid">
+  <section class="toolbar">
+    <input
+      id="searchInput"
+      class="search-box"
+      type="search"
+      placeholder="Search by Order ID..."
+      autocomplete="off"
+    >
 
-      <div class="summary-card">
-        <p>Total Orders</p>
-        <strong>03</strong>
-      </div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All Orders</button>
+      <button class="filter-btn" data-filter="pending">Pending</button>
+      <button class="filter-btn" data-filter="processing">Processing</button>
+      <button class="filter-btn" data-filter="shipped">Shipped</button>
+      <button class="filter-btn" data-filter="delivered">Delivered</button>
+      <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+    </div>
+  </section>
 
-      <div class="summary-card">
-        <p>Pending Orders</p>
-        <strong>01</strong>
-      </div>
+  <h2 class="section-title">Order History</h2>
 
-      <div class="summary-card">
-        <p>Delivered Orders</p>
-        <strong>01</strong>
-      </div>
+  <div id="ordersContainer">
+    <div class="loading">Loading your orders...</div>
+  </div>
 
-      <div class="summary-card">
-        <p>Sample Order Value</p>
-        <strong>৳4,650</strong>
-      </div>
+</main>
 
-    </section>
+<nav class="bottom-nav">
+  <a class="nav-link" href="dashboard.html"><span>🏠</span>Home</a>
+  <a class="nav-link" href="products.html"><span>🛍️</span>Products</a>
+  <a class="nav-link active" href="orders.html"><span>📦</span>Orders</a>
+  <a class="nav-link" href="wallet.html"><span>👛</span>Wallet</a>
+  <a class="nav-link" href="profile.html"><span>👤</span>Profile</a>
+</nav>
 
-    <!-- ORDER TABLE -->
-    <section class="panel">
-
-      <div class="panel-heading">
-        <h2>Order History</h2>
-      </div>
-
-      <div class="search-filter">
-
-        <input
-          type="search"
-          id="searchOrder"
-          placeholder="Search by Order ID or Product..."
-        >
-
-        <select id="statusFilter">
-          <option value="all">All Status</option>
-          <option value="demo">Demo</option>
-          <option value="pending">Pending</option>
-          <option value="delivered">Delivered</option>
-        </select>
-
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-          <thead>
-            <tr>
-              <th>ORDER ID</th>
-              <th>PRODUCT</th>
-              <th>DATE</th>
-              <th>QUANTITY</th>
-              <th>AMOUNT</th>
-              <th>STATUS</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-
-          <tbody id="orderTable">
-
-            <tr data-status="demo">
-              <td class="order-id">DEMO-1001</td>
-              <td class="product-name">Premium Product A</td>
-              <td>Sample Date</td>
-              <td>1</td>
-              <td>৳1,500</td>
-              <td><span class="status demo">Demo</span></td>
-              <td>
-                <button class="details-btn"
-                  onclick="showDetails('DEMO-1001','Premium Product A','৳1,500','Demo')">
-                  DETAILS
-                </button>
-              </td>
-            </tr>
-
-            <tr data-status="pending">
-              <td class="order-id">DEMO-1002</td>
-              <td class="product-name">Premium Product B</td>
-              <td>Sample Date</td>
-              <td>2</td>
-              <td>৳2,200</td>
-              <td><span class="status pending">Pending</span></td>
-              <td>
-                <button class="details-btn"
-                  onclick="showDetails('DEMO-1002','Premium Product B','৳2,200','Pending')">
-                  DETAILS
-                </button>
-              </td>
-            </tr>
-
-            <tr data-status="delivered">
-              <td class="order-id">DEMO-1003</td>
-              <td class="product-name">Premium Product C</td>
-              <td>Sample Date</td>
-              <td>1</td>
-              <td>৳950</td>
-              <td><span class="status delivered">Delivered</span></td>
-              <td>
-                <button class="details-btn"
-                  onclick="showDetails('DEMO-1003','Premium Product C','৳950','Delivered')">
-                  DETAILS
-                </button>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-
-      </div>
-
-      <div class="empty-message" id="emptyMessage">
-        No matching orders found.
-      </div>
-
-    </section>
-
-    <!-- ORDER INFORMATION -->
-    <section class="panel">
-      <div class="panel-heading">
-        <h2>Order Information</h2>
-      </div>
-
-      <div style="font-size:12px;line-height:1.9;color:#758195">
-        <p>
-          <strong style="color:#071a35">Order Processing:</strong>
-          Orders will be processed after successful order placement
-          and payment verification.
-        </p>
-
-        <p>
-          <strong style="color:#071a35">Delivery:</strong>
-          Delivery status and tracking information will be available
-          when the order management backend is activated.
-        </p>
-
-        <p style="margin-bottom:0">
-          <strong style="color:#071a35">Support:</strong>
-          For order-related questions, please visit the
-          <a href="contact.html" style="color:#98752f;font-weight:bold">
-            Contact Page
-          </a>.
-        </p>
-      </div>
-    </section>
-
-    <footer>
-      © <span style="color:#b58b3d">RUBALIA NETWORK</span>
-      — My Orders Demo
-    </footer>
-
-  </main>
+<div class="modal" id="orderModal" onclick="closeModalOutside(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>Order Details</h2>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
 </div>
 
 <script>
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("show");
+const API = "https://rubalia.onrender.com/api";
+
+let allOrders = [];
+let activeFilter = "all";
+
+const token = sessionStorage.getItem("rubalia_token");
+
+function authHeaders(){
+  return {
+    "Authorization": "Bearer " + token,
+    "Content-Type": "application/json"
+  };
 }
 
-function confirmLogout(){
-  return confirm("Do you want to return to the login page?");
+function goDashboard(){
+  window.location.href = "dashboard.html";
 }
 
-function showDetails(id,product,amount,status){
-  alert(
-    "ORDER DETAILS\n\n"+
-    "Order ID: "+id+"\n"+
-    "Product: "+product+"\n"+
-    "Amount: "+amount+"\n"+
-    "Status: "+status+
-    "\n\nThis is sample order information."
-  );
+function logout(){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  window.location.href = "login.html";
 }
 
-function filterOrders(){
-  const search=document.getElementById("searchOrder")
-    .value.toLowerCase();
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
 
-  const status=document.getElementById("statusFilter").value;
+function money(value){
+  const amount = Number(value);
+  if(!Number.isFinite(amount)) return "Not available";
+  return "৳ " + amount.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
 
-  const rows=document.querySelectorAll("#orderTable tr");
-  let visible=0;
+function getStatus(order){
+  return String(
+    order.status ||
+    order.order_status ||
+    "unknown"
+  ).toLowerCase().trim();
+}
 
-  rows.forEach(row=>{
-    const text=row.textContent.toLowerCase();
-    const rowStatus=row.dataset.status;
+function statusClass(status){
+  const allowed = [
+    "pending","processing","shipped","delivered","cancelled"
+  ];
+  return allowed.includes(status) ? status : "unknown";
+}
 
-    const matchesSearch=text.includes(search);
-    const matchesStatus=status==="all" || rowStatus===status;
+function statusLabel(status){
+  return status === "unknown"
+    ? "Status unavailable"
+    : status.replace(/_/g," ");
+}
 
-    if(matchesSearch && matchesStatus){
-      row.style.display="";
-      visible++;
-    }else{
-      row.style.display="none";
-    }
+function getOrderId(order){
+  return order.order_number ||
+         order.order_code ||
+         order.order_id ||
+         order.id ||
+         "Unavailable";
+}
+
+function getDate(order){
+  const raw = order.created_at || order.createdAt || order.order_date;
+  if(!raw) return "Date unavailable";
+
+  const date = new Date(raw);
+  if(Number.isNaN(date.getTime())) return "Date unavailable";
+
+  return date.toLocaleString("en-BD",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function getTotal(order){
+  return order.total_amount ??
+         order.total ??
+         order.grand_total ??
+         order.amount ??
+         null;
+}
+
+function getPaymentMethod(order){
+  const method = order.payment_method ||
+                 order.paymentMethod ||
+                 "Not available";
+
+  const value = String(method).toLowerCase();
+
+  if(value.includes("wallet")) return "Wallet Balance";
+  if(value.includes("ssl")) return "SSLCommerz";
+  if(value.includes("bkash")) return "bKash";
+  if(value.includes("nagad")) return "Nagad";
+  if(value.includes("prepaid")) return "Live Prepaid";
+
+  return method;
+}
+
+function getPaymentStatus(order){
+  return order.payment_status ||
+         order.paymentStatus ||
+         "Not available";
+}
+
+function getItems(order){
+  if(Array.isArray(order.items)) return order.items;
+  if(Array.isArray(order.order_items)) return order.order_items;
+  return [];
+}
+
+function renderOrders(){
+  const container = document.getElementById("ordersContainer");
+
+  const search = document.getElementById("searchInput")
+    .value.trim().toLowerCase();
+
+  const filtered = allOrders.filter(order => {
+    const id = String(getOrderId(order)).toLowerCase();
+    const status = getStatus(order);
+
+    const matchesSearch = id.includes(search);
+    const matchesStatus =
+      activeFilter === "all" || status === activeFilter;
+
+    return matchesSearch && matchesStatus;
   });
 
-  document.getElementById("emptyMessage").style.display=
-    visible===0?"block":"none";
+  if(!filtered.length){
+    container.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">📦</div>
+        <h3>No Orders Found</h3>
+        <p>
+          ${allOrders.length === 0
+            ? "You have not placed any orders yet."
+            : "No orders match your current search or filter."}
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="orders-list">
+      ${filtered.map(order => {
+        const status = getStatus(order);
+        const total = getTotal(order);
+
+        return `
+          <article class="order-card">
+            <div class="order-top">
+              <div>
+                <div class="order-id">
+                  Order #${escapeHTML(getOrderId(order))}
+                </div>
+                <div class="order-date">
+                  ${escapeHTML(getDate(order))}
+                </div>
+              </div>
+              <span class="status ${statusClass(status)}">
+                ${escapeHTML(statusLabel(status))}
+              </span>
+            </div>
+
+            <div class="order-divider"></div>
+
+            <div class="order-info">
+              <div>
+                <div class="info-label">Payment Method</div>
+                <div class="info-value">
+                  ${escapeHTML(getPaymentMethod(order))}
+                </div>
+              </div>
+              <div>
+                <div class="info-label">Payment Status</div>
+                <div class="info-value">
+                  ${escapeHTML(getPaymentStatus(order))}
+                </div>
+              </div>
+            </div>
+
+            <div class="order-bottom">
+              <div>
+                <div class="info-label">Order Total</div>
+                <div class="order-total">
+                  ${total === null ? "Not available" : money(total)}
+                </div>
+              </div>
+              <button class="details-btn"
+                onclick="showDetails('${escapeHTML(String(order.id ?? ""))}')">
+                View Details
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("")}
+    </div>
+  `;
 }
 
-document.getElementById("searchOrder")
-  .addEventListener("input",filterOrders);
+function updateSummary(){
+  document.getElementById("totalOrders").textContent =
+    allOrders.length;
 
-document.getElementById("statusFilter")
-  .addEventListener("change",filterOrders);
+  document.getElementById("pendingOrders").textContent =
+    allOrders.filter(o => getStatus(o) === "pending").length;
+
+  document.getElementById("deliveredOrders").textContent =
+    allOrders.filter(o => getStatus(o) === "delivered").length;
+}
+
+function showDetails(id){
+  const order = allOrders.find(o => String(o.id ?? "") === String(id));
+  if(!order) return;
+
+  const items = getItems(order);
+
+  let html = `
+    <div class="detail-row">
+      <span>Order ID</span>
+      <strong>${escapeHTML(getOrderId(order))}</strong>
+    </div>
+    <div class="detail-row">
+      <span>Order Date</span>
+      <strong>${escapeHTML(getDate(order))}</strong>
+    </div>
+    <div class="detail-row">
+      <span>Order Status</span>
+      <strong>${escapeHTML(statusLabel(getStatus(order)))}</strong>
+    </div>
+    <div class="detail-row">
+      <span>Payment Method</span>
+      <strong>${escapeHTML(getPaymentMethod(order))}</strong>
+    </div>
+    <div class="detail-row">
+      <span>Payment Status</span>
+      <strong>${escapeHTML(getPaymentStatus(order))}</strong>
+    </div>
+    <div class="detail-row">
+      <span>Total Amount</span>
+      <strong>${getTotal(order) === null
+        ? "Not available"
+        : money(getTotal(order))}</strong>
+    </div>
+  `;
+
+  if(items.length){
+    html += `<div class="item-list"><strong>Order Items</strong>`;
+
+    html += items.map(item => {
+      const name = item.product_name ||
+                   item.package_name ||
+                   item.name ||
+                   "Order Item";
+
+      const quantity = item.quantity ?? item.qty ?? "—";
+      const price = item.price ?? item.unit_price;
+
+      return `
+        <div class="item-row">
+          <strong>${escapeHTML(name)}</strong><br>
+          Quantity: ${escapeHTML(quantity)}<br>
+          Price: ${price === undefined ? "Not available" : money(price)}
+        </div>
+      `;
+    }).join("");
+
+    html += `</div>`;
+  }
+
+  document.getElementById("modalContent").innerHTML = html;
+  document.getElementById("orderModal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("orderModal").classList.remove("show");
+}
+
+function closeModalOutside(event){
+  if(event.target.id === "orderModal") closeModal();
+}
+
+async function loadOrders(){
+  const container = document.getElementById("ordersContainer");
+
+  if(!token){
+    window.location.replace("login.html");
+    return;
+  }
+
+  container.innerHTML = `<div class="loading">Loading your orders...</div>`;
+
+  try{
+    const response = await fetch(API + "/orders",{
+      method:"GET",
+      headers:authHeaders()
+    });
+
+    if(response.status === 401 || response.status === 403){
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+      window.location.replace("login.html");
+      return;
+    }
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(data.message || data.error || "Could not load orders.");
+    }
+
+    let orders = [];
+
+    if(Array.isArray(data)){
+      orders = data;
+    }else if(Array.isArray(data.orders)){
+      orders = data.orders;
+    }else if(Array.isArray(data.data)){
+      orders = data.data;
+    }else if(data.data && Array.isArray(data.data.orders)){
+      orders = data.data.orders;
+    }
+
+    allOrders = orders;
+    updateSummary();
+    renderOrders();
+
+  }catch(error){
+    console.error("Order loading error:",error);
+
+    container.innerHTML = `
+      <div class="error-box">
+        <strong>Unable to load orders.</strong><br>
+        ${escapeHTML(error.message || "Please try again.")}
+        <br>
+        <button class="retry-btn" onclick="loadOrders()">Try Again</button>
+      </div>
+    `;
+  }
+}
+
+document.getElementById("searchInput")
+  .addEventListener("input",renderOrders);
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click",() => {
+    document.querySelectorAll(".filter-btn")
+      .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+    activeFilter = button.dataset.filter;
+    renderOrders();
+  });
+});
+
+async function verifySession(){
+  if(!token){
+    window.location.replace("login.html");
+    return;
+  }
+
+  try{
+    const response = await fetch(API + "/auth/me",{
+      headers:authHeaders()
+    });
+
+    if(!response.ok){
+      throw new Error("Session expired");
+    }
+
+    const data = await response.json();
+    const user = data.user || data.data?.user || data;
+
+    if(user.status && user.status !== "active"){
+      throw new Error("Account is not active");
+    }
+
+    if(user.role === "admin"){
+      window.location.replace("admin-dashboard.html");
+      return;
+    }
+
+    await loadOrders();
+
+  }catch(error){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    window.location.replace("login.html");
+  }
+}
+
+verifySession();
 </script>
 
 </body>
