@@ -1,0 +1,701 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#7138d8">
+<title>Deposit | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --purple:#7138d8;
+  --pink:#e94c9b;
+  --blue:#3688ee;
+  --cyan:#20bdcf;
+  --orange:#ff9b42;
+  --gold:#ffc95e;
+  --green:#159b69;
+  --red:#dc4444;
+  --bg:#f5f4fc;
+  --text:#26334c;
+  --muted:#8290a5;
+  --border:#e9eaf3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+
+.layout{display:flex;min-height:100vh}
+
+.sidebar{
+  width:245px;
+  background:linear-gradient(180deg,#30206d,#51258d,#77349e);
+  color:white;
+  padding:24px 15px;
+  flex-shrink:0;
+}
+.brand{
+  font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  padding:5px 10px 25px;
+  letter-spacing:1px;
+}
+.brand small{
+  display:block;
+  font-size:10px;
+  letter-spacing:4px;
+  color:white;
+  margin-top:5px;
+}
+.menu-title{
+  color:#c8b5e9;
+  font-size:10px;
+  font-weight:bold;
+  padding:15px 12px 8px;
+  letter-spacing:1.5px;
+}
+.menu a{
+  display:block;
+  padding:12px;
+  margin:4px 0;
+  border-radius:9px;
+  color:#eee8fa;
+  font-size:13px;
+  transition:.2s;
+}
+.menu a:hover,.menu a.active{
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
+  box-shadow:0 5px 14px rgba(0,0,0,.15);
+  transform:translateX(3px);
+}
+
+.main{flex:1;min-width:0}
+
+.topbar{
+  height:68px;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+  border-bottom:1px solid var(--border);
+}
+.topbar strong{color:#632bb4;font-size:15px}
+.member{
+  font-size:12px;
+  color:var(--muted);
+}
+.content{
+  padding:28px;
+  max-width:1200px;
+  margin:auto;
+}
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+  padding:23px 25px;
+  border-radius:17px;
+  color:white;
+  background:linear-gradient(110deg,#6334d2,#9c45dd,#e44c9b);
+  box-shadow:0 9px 25px rgba(120,55,194,.18);
+  position:relative;
+  overflow:hidden;
+}
+.heading:after{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;
+  right:-35px;top:-75px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+}
+.heading h1{
+  font-size:25px;
+  position:relative;
+  z-index:1;
+}
+.heading p{
+  font-size:13px;
+  color:#f1e8ff;
+  margin-top:8px;
+  line-height:1.7;
+  position:relative;
+  z-index:1;
+}
+.demo-tag{
+  background:#ffe58a;
+  color:#6936b1;
+  padding:9px 14px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:900;
+  position:relative;
+  z-index:1;
+}
+
+.notice{
+  background:linear-gradient(110deg,#fff3e9,#fff0f5);
+  border:1px solid #ffd5d9;
+  border-left:4px solid var(--pink);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:22px;
+  font-size:12px;
+  line-height:1.8;
+  color:#a34865;
+}
+.notice strong{
+  display:block;
+  color:#c33370;
+  margin-bottom:5px;
+  font-size:13px;
+}
+
+.balance{
+  background:linear-gradient(115deg,#4c24b5,#813cda,#df4b9b);
+  border-radius:18px;
+  padding:26px;
+  color:white;
+  margin-bottom:23px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(113,56,216,.22);
+}
+.balance:before,.balance:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
+}
+.balance:before{
+  width:190px;height:190px;
+  right:-35px;top:-80px;
+}
+.balance:after{
+  width:120px;height:120px;
+  right:110px;bottom:-75px;
+}
+.balance-label{
+  font-size:12px;
+  color:#f0ddff;
+  position:relative;
+  z-index:1;
+}
+.balance-amount{
+  font-size:36px;
+  font-weight:900;
+  color:#ffe58a;
+  margin:13px 0;
+  position:relative;
+  z-index:1;
+}
+.balance small{
+  font-size:11px;
+  color:#f0ddff;
+  position:relative;
+  z-index:1;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:20px;
+  align-items:start;
+}
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:21px;
+  margin-bottom:22px;
+  box-shadow:0 6px 22px rgba(72,49,123,.055);
+}
+.card h2{
+  font-size:17px;
+  color:#5728a5;
+}
+.sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:7px;
+  margin-bottom:19px;
+  line-height:1.6;
+}
+
+.method{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:11px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:white;
+  transition:.2s;
+}
+.method:hover{
+  border-color:#cbb1f3;
+  transform:translateY(-2px);
+  box-shadow:0 5px 14px rgba(113,56,216,.08);
+}
+.method-icon{
+  width:45px;height:45px;
+  border-radius:12px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:17px;
+  font-weight:900;
+  flex-shrink:0;
+}
+.bkash{background:#ffe8f3;color:#d82b83}
+.nagad{background:#fff0e8;color:#e76c36}
+.rocket{background:#f0e9ff;color:#7541c9}
+.bank{background:#e7f2ff;color:#307bd0}
+.other{background:#e5fbfb;color:#159ba8}
+
+.method-info{flex:1;min-width:0}
+.method-info strong{
+  display:block;
+  font-size:13px;
+  color:#53289e;
+}
+.method-info small{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:5px;
+  line-height:1.5;
+}
+.method-status{
+  font-size:9px;
+  padding:6px 9px;
+  border-radius:20px;
+  background:#fff3d9;
+  color:#95651b;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.form-group{margin-bottom:17px}
+.form-group label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#57416f;
+  margin-bottom:8px;
+}
+.form-group input,.form-group select{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:white;
+  outline:none;
+  font-size:13px;
+  color:var(--text);
+  transition:.2s;
+}
+.form-group input:focus,.form-group select:focus{
+  border-color:#a66be5;
+  box-shadow:0 0 0 3px rgba(146,81,216,.09);
+}
+.help{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:7px;
+  line-height:1.6;
+}
+.submit-btn{
+  width:100%;
+  border:0;
+  background:linear-gradient(100deg,#6735d1,#df499f);
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(132,52,192,.2);
+  transition:.2s;
+}
+.submit-btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.05);
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.step{
+  background:linear-gradient(130deg,#f7f2ff,#fff4fa);
+  border:1px solid #eee1fa;
+  border-radius:12px;
+  padding:16px;
+}
+.step b{
+  display:flex;
+  width:34px;height:34px;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:linear-gradient(120deg,#743bd3,#e44b9b);
+  color:white;
+  font-size:13px;
+  margin-bottom:12px;
+}
+.step strong{
+  font-size:12px;
+  color:#5728a5;
+}
+.step p{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.6;
+  margin-top:7px;
+}
+
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:620px;
+}
+th{
+  text-align:left;
+  background:#f6f1ff;
+  color:#7541b8;
+  padding:14px;
+  font-size:11px;
+}
+td{
+  padding:14px 13px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+td strong{color:#5728a5}
+.empty{
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+  font-size:13px;
+}
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:20px;
+}
+.footer span{
+  color:#d94698;
+  font-weight:bold;
+}
+
+@media(max-width:950px){
+  .sidebar{width:210px}
+  .grid{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .layout{display:block}
+  .sidebar{
+    width:100%;
+    padding:15px;
+  }
+  .brand{padding:5px 8px 15px}
+  .menu-title{display:none}
+  .menu{
+    display:flex;
+    overflow-x:auto;
+    gap:5px;
+    padding-bottom:5px;
+  }
+  .menu a{
+    white-space:nowrap;
+    font-size:11px;
+    padding:10px;
+  }
+  .topbar{height:55px;padding:0 16px}
+  .content{padding:17px 13px}
+  .heading{padding:21px 18px}
+  .heading h1{font-size:21px}
+  .balance{padding:22px}
+  .balance-amount{font-size:30px}
+  .card{padding:16px}
+  .steps{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+  <div class="brand">
+    RUBALIA
+    <small>NETWORK</small>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+  <nav class="menu">
+    <a href="dashboard.html">⌂ Dashboard</a>
+    <a href="profile.html">♙ My Profile</a>
+    <a href="products.html">▣ Products</a>
+    <a href="orders.html">▤ My Orders</a>
+    <a href="team.html">♧ My Team</a>
+    <a href="income.html">৳ Income Details</a>
+    <a href="wallet.html" class="active">◈ My Wallet</a>
+    <a href="withdraw.html">⇧ Withdraw</a>
+  </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+  <nav class="menu">
+    <a href="settings.html">⚙ Settings</a>
+    <a href="contact.html">✉ Contact Support</a>
+    <a href="#" id="logoutLink">↪ Logout</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <strong>◈ Deposit</strong>
+  <span class="member">Member Panel · Demo</span>
+</header>
+
+<div class="content">
+
+  <div class="heading">
+    <div>
+      <h1>💳 Deposit Information</h1>
+      <p>Review the demo deposit methods and transaction process.</p>
+    </div>
+    <span class="demo-tag">DEMO VERSION</span>
+  </div>
+
+  <div class="notice">
+    <strong>⚠ Deposit Service Not Activated</strong>
+    RUBALIA NETWORK is not currently accepting real deposits through
+    this page. No money should be sent using the demo options below.
+    Payment methods, merchant details and transaction verification
+    will be configured only after the required legal and technical review.
+    Never share your PIN, OTP, password or CVV.
+  </div>
+
+  <section class="balance">
+    <div class="balance-label">CURRENT WALLET BALANCE</div>
+    <div class="balance-amount">৳0.00</div>
+    <small>Demo balance · No real funds</small>
+  </section>
+
+  <div class="grid">
+
+    <section class="card">
+      <h2>💠 Available Deposit Methods</h2>
+      <p class="sub">Illustrative payment method options</p>
+
+      <div class="method">
+        <div class="method-icon bkash">B</div>
+        <div class="method-info">
+          <strong>bKash</strong>
+          <small>Bangladesh Mobile Financial Service</small>
+        </div>
+        <span class="method-status">DEMO</span>
+      </div>
+
+      <div class="method">
+        <div class="method-icon nagad">N</div>
+        <div class="method-info">
+          <strong>Nagad</strong>
+          <small>Bangladesh Mobile Financial Service</small>
+        </div>
+        <span class="method-status">DEMO</span>
+      </div>
+
+      <div class="method">
+        <div class="method-icon rocket">R</div>
+        <div class="method-info">
+          <strong>Rocket</strong>
+          <small>Bangladesh Mobile Banking</small>
+        </div>
+        <span class="method-status">DEMO</span>
+      </div>
+
+      <div class="method">
+        <div class="method-icon bank">BK</div>
+        <div class="method-info">
+          <strong>Bank Transfer</strong>
+          <small>Bank payment option</small>
+        </div>
+        <span class="method-status">DEMO</span>
+      </div>
+
+      <div class="method">
+        <div class="method-icon other">+</div>
+        <div class="method-info">
+          <strong>Other Approved Methods</strong>
+          <small>Future payment integrations</small>
+        </div>
+        <span class="method-status">DEMO</span>
+      </div>
+
+      <p class="help" style="margin-top:15px">
+        No real payment number or bank account is published on this demo page.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>📝 Deposit Request Form</h2>
+      <p class="sub">Demo form — no payment request will be submitted.</p>
+
+      <form id="depositForm">
+
+        <div class="form-group">
+          <label for="method">Select Deposit Method</label>
+          <select id="method" required>
+            <option value="">Choose Method</option>
+            <option value="bkash">bKash (Demo)</option>
+            <option value="nagad">Nagad (Demo)</option>
+            <option value="rocket">Rocket (Demo)</option>
+            <option value="bank">Bank Transfer (Demo)</option>
+            <option value="other">Other Method (Demo)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">Deposit Amount (BDT)</label>
+          <input type="number" id="amount" min="1"
+            placeholder="Enter amount" required>
+        </div>
+
+        <div class="form-group">
+          <label for="reference">Transaction Reference / Demo ID</label>
+          <input type="text" id="reference"
+            placeholder="Enter a sample reference" required>
+          <p class="help">
+            Do not enter PIN, OTP, password or any payment security code.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="note">Additional Note (Optional)</label>
+          <input type="text" id="note"
+            placeholder="Write a short note">
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Submit Demo Deposit
+        </button>
+
+        <p class="help" style="text-align:center;margin-top:10px">
+          This form does not send or store any information.
+        </p>
+      </form>
+    </section>
+
+  </div>
+
+  <section class="card">
+    <h2>🔄 How Deposit Verification Will Work</h2>
+    <p class="sub">Illustrative future process</p>
+
+    <div class="steps">
+      <div class="step">
+        <b>01</b>
+        <strong>Payment Instructions</strong>
+        <p>View official payment instructions after the service is approved and activated.</p>
+      </div>
+
+      <div class="step">
+        <b>02</b>
+        <strong>Submit Reference</strong>
+        <p>Submit the transaction reference through the secure member account.</p>
+      </div>
+
+      <div class="step">
+        <b>03</b>
+        <strong>Admin Verification</strong>
+        <p>Authorized staff verify the transaction before any wallet credit is recorded.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📊 Deposit History</h2>
+    <p class="sub">Your previous deposit requests</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Payment Method</th>
+            <th>Amount</th>
+            <th>Reference</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="6" class="empty">
+              No real deposit requests available.
+              Deposit service is not activated.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  © 2026 <span>RUBALIA NETWORK</span>. All Rights Reserved.
+  <br><br>
+  Frontend Demo · No real deposit processing.
+</footer>
+
+</main>
+</div>
+
+<script>
+"use strict";
+
+const form = document.getElementById("depositForm");
+
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+
+  alert(
+    "Demo Only: Deposit service is not activated. " +
+    "No payment or deposit request has been submitted."
+  );
+});
+
+document.getElementById("logoutLink").addEventListener("click",function(e){
+  e.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    window.location.replace("login.html");
+  }
+});
+</script>
+
+</body>
+</html>
