@@ -4,542 +4,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#b90012">
-<meta name="description" content="RUBALIA NETWORK - Shop Smart, Earn Together">
-<title>RUBALIA NETWORK | Shop Smart, Earn Together</title>
+<meta name="theme-color" content="#85000e">
+<meta name="description" content="RUBALIA NETWORK - Shop Smart. Earn Together.">
+<title>RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --red:#c90016;
-  --red-dark:#78000b;
-  --red-light:#ff2438;
+  --red:#85000e;
+  --red-dark:#430006;
+  --red-light:#e00018;
   --gold:#f5bd35;
-  --gold2:#ffe18a;
-  --white:#fff;
-  --cream:#fff8ed;
-  --dark:#26050a;
-  --text:#34242a;
-  --muted:#78666a;
-  --border:#efd9d5;
+  --gold-light:#ffe9a6;
+  --white:#ffffff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-html{scroll-behavior:smooth;scroll-padding-top:90px;}
+html,body{
+  width:100%;
+  min-height:100%;
+}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#fff;
-  color:var(--text);
-  overflow-x:hidden;
-}
-
-a{text-decoration:none;color:inherit;}
-button{font-family:inherit;}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:linear-gradient(135deg,#8e000c,#e00018,#a00010);
-  border-bottom:3px solid var(--gold);
-  box-shadow:0 7px 22px rgba(75,0,0,.35);
-}
-
-.navbar{
-  max-width:1250px;
-  margin:auto;
-  min-height:82px;
-  padding:14px 22px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.logo{
-  color:#fff;
-  font-size:30px;
-  font-weight:1000;
-  letter-spacing:3px;
-  text-shadow:1px 1px 0 #9b000b,2px 2px 0 #78000b,3px 3px 0 #520008,4px 5px 7px rgba(0,0,0,.55);
-  white-space:nowrap;
-}
-
-.logo span{
-  display:block;
-  color:var(--gold2);
-  font-size:11px;
-  letter-spacing:7px;
-  margin-top:4px;
-  text-align:center;
-  text-shadow:1px 2px 3px #420006;
-}
-
-.menu{
-  display:flex;
-  align-items:center;
-  gap:22px;
-  color:white;
-  font-size:14px;
-  font-weight:bold;
-}
-
-.menu a:not(.btn){
-  transition:.25s;
-}
-
-.menu a:not(.btn):hover{
-  color:var(--gold2);
-  transform:translateY(-2px);
-}
-
-.menu-btn{
-  display:none;
-  color:white;
-  background:none;
-  border:0;
-  font-size:30px;
-  cursor:pointer;
-  padding:5px;
-}
-
-.btn{
-  display:inline-block;
-  padding:14px 25px;
-  border-radius:9px;
-  color:#510008;
-  font-weight:900;
-  background:linear-gradient(145deg,#fff0a9,#f6bd37,#d88b08);
-  border:1px solid #fff0a9;
-  box-shadow:0 5px 0 #a65a00,0 9px 17px rgba(70,0,0,.3),inset 0 2px 4px rgba(255,255,255,.8);
-  transition:.25s;
-  text-align:center;
-}
-
-.btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 0 #a65a00,0 13px 22px rgba(70,0,0,.35);
-}
-
-.btn-outline{
-  display:inline-block;
-  padding:14px 25px;
-  border-radius:9px;
-  color:var(--gold2);
-  font-weight:bold;
-  border:2px solid var(--gold);
-  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.2));
-  box-shadow:0 5px 14px rgba(0,0,0,.3);
-  transition:.25s;
-  text-align:center;
-}
-
-.btn-outline:hover{
-  color:white;
-  background:var(--red);
-  transform:translateY(-3px);
-}
-
-.account-nav{
-  display:none;
-}
-
-/* HERO */
-
-.hero{
-  position:relative;
   overflow:hidden;
-  min-height:610px;
-  padding:100px 20px 110px;
-  text-align:center;
-  color:white;
-  background:
-    radial-gradient(ellipse at 50% 0%,rgba(255,220,110,.28),transparent 50%),
-    linear-gradient(135deg,#610009 0%,#c90016 48%,#72000b 100%);
-  border-bottom:8px solid var(--gold);
-  box-shadow:inset 0 -18px 35px rgba(45,0,0,.35);
+  background:#430006;
 }
 
-.hero:before,.hero:after{
-  content:"";
-  position:absolute;
-  width:360px;
-  height:360px;
-  border:2px solid rgba(255,210,90,.25);
-  border-radius:50%;
+/* SPLASH SCREEN */
+
+.splash{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,190,50,.22),transparent 38%),
+    linear-gradient(145deg,#390005,#85000e 48%,#490006);
+  transition:opacity .7s ease,visibility .7s ease;
+}
+
+.splash.hide{
+  opacity:0;
+  visibility:hidden;
   pointer-events:none;
 }
 
-.hero:before{
-  top:-190px;
-  left:-140px;
-  box-shadow:0 0 0 18px rgba(255,255,255,.04),0 0 0 38px rgba(255,220,100,.05);
+.splash::before,
+.splash::after{
+  content:"";
+  position:absolute;
+  width:340px;
+  height:340px;
+  border:1px solid rgba(255,220,130,.25);
+  border-radius:50%;
+  animation:ringPulse 4s ease-in-out infinite;
 }
 
-.hero:after{
-  right:-160px;
-  bottom:-220px;
-  box-shadow:0 0 0 20px rgba(255,255,255,.04),0 0 0 40px rgba(255,220,100,.05);
+.splash::before{
+  width:260px;
+  height:260px;
 }
 
-.hero-content{
+.splash::after{
+  width:390px;
+  height:390px;
+  animation-delay:1s;
+}
+
+@keyframes ringPulse{
+  0%,100%{
+    transform:scale(.9);
+    opacity:.25;
+  }
+  50%{
+    transform:scale(1.12);
+    opacity:.75;
+  }
+}
+
+.splash-content{
   position:relative;
   z-index:2;
-  max-width:900px;
-  margin:auto;
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  text-align:center;
+  animation:contentEnter 1s ease both;
 }
 
-.tag{
-  color:var(--gold2);
-  font-size:14px;
-  letter-spacing:5px;
-  font-weight:900;
-  text-shadow:0 2px 5px #500008;
+@keyframes contentEnter{
+  from{
+    opacity:0;
+    transform:translateY(25px) scale(.94);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
 }
 
-.hero h1{
-  font-size:clamp(38px,7vw,68px);
-  line-height:1.15;
-  margin:28px 0 22px;
+.logo-emblem{
+  position:relative;
+  width:112px;
+  height:112px;
+  margin:0 auto 28px;
+  display:grid;
+  place-items:center;
+  border-radius:29px;
+  background:linear-gradient(145deg,#ff5968,#c90018 60%,#76000b);
+  border:2px solid var(--gold-light);
+  box-shadow:
+    0 9px 0 #520008,
+    0 18px 35px rgba(0,0,0,.4),
+    inset 0 3px 9px rgba(255,255,255,.4);
+  transform:perspective(500px) rotateY(-8deg);
+  animation:emblemFloat 3s ease-in-out infinite;
+}
+
+.logo-emblem span{
+  font-size:54px;
+  filter:drop-shadow(0 4px 3px rgba(0,0,0,.3));
+}
+
+@keyframes emblemFloat{
+  0%,100%{transform:translateY(0) perspective(500px) rotateY(-8deg);}
+  50%{transform:translateY(-9px) perspective(500px) rotateY(8deg);}
+}
+
+.brand-name{
+  color:#fff;
+  font-size:clamp(36px,10vw,49px);
   font-weight:1000;
-  text-shadow:1px 2px 0 #87000a,2px 4px 0 #5c0007,4px 7px 12px rgba(0,0,0,.55);
+  letter-spacing:5px;
+  text-shadow:
+    1px 2px 0 #8c000b,
+    2px 4px 0 #570006,
+    4px 7px 12px rgba(0,0,0,.5);
 }
 
-.hero h1 span{
-  display:inline-block;
-  color:var(--gold2);
-  text-shadow:1px 2px 0 #9b5500,2px 4px 0 #6c3500,4px 7px 12px rgba(0,0,0,.5);
-}
-
-.hero p{
-  color:#fff0ed;
-  line-height:1.9;
-  font-size:17px;
-  max-width:680px;
-  margin:0 auto 35px;
-  text-shadow:0 2px 4px rgba(0,0,0,.3);
-}
-
-.hero-buttons{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:18px;
-}
-
-/* BRAND STRIP */
-
-.brand-strip{
-  background:linear-gradient(180deg,#fff7e5,#f4c85f,#fff2d0);
-  border-bottom:3px solid #c18a20;
-  box-shadow:0 6px 15px rgba(80,30,0,.18);
-}
-
-.brand-strip-inner{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-}
-
-.brand-item{
-  padding:25px 10px;
-  text-align:center;
-  border-right:1px solid rgba(160,0,15,.25);
-  color:#82000c;
+.brand-subtitle{
+  margin-top:7px;
+  color:var(--gold-light);
+  font-size:13px;
   font-weight:900;
+  letter-spacing:10px;
+  padding-left:10px;
+  text-shadow:0 3px 5px rgba(0,0,0,.4);
 }
 
-.brand-item:last-child{border-right:0;}
-
-.brand-item .symbol{
-  font-size:36px;
-  display:block;
-  margin-bottom:9px;
-  color:#c00015;
-  text-shadow:2px 3px 3px rgba(90,0,0,.25);
+.brand-line{
+  width:100px;
+  height:3px;
+  margin:24px auto;
+  border-radius:10px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  box-shadow:0 0 15px rgba(255,220,120,.5);
 }
 
-.brand-item span:last-child{font-size:14px;}
-
-/* SECTIONS */
-
-section{padding:78px 22px;}
-
-.container{max-width:1150px;margin:auto;}
-
-.section-title{text-align:center;margin-bottom:45px;}
-
-.section-title small{
-  color:#bd0016;
-  letter-spacing:4px;
-  font-weight:900;
-}
-
-.section-title h2{
-  color:#8e0010;
-  font-size:35px;
-  margin-top:14px;
-  text-shadow:1px 2px 3px rgba(90,0,0,.12);
-}
-
-.section-title p{
-  color:var(--muted);
-  margin-top:13px;
-  line-height:1.8;
-}
-
-/* FEATURES */
-
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-}
-
-.feature-card{
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(145deg,#fff,#fff3e5);
-  border:1px solid #f0d5a2;
-  border-radius:16px;
-  padding:35px 25px;
-  text-align:center;
-  box-shadow:0 7px 0 #dfb35a,0 12px 25px rgba(80,20,0,.12),inset 0 2px 5px white;
-  transition:.3s;
-}
-
-.feature-card:hover{
-  transform:translateY(-7px);
-  box-shadow:0 12px 0 #c28b2d,0 19px 30px rgba(80,20,0,.2);
-}
-
-.feature-icon{
-  width:72px;
-  height:72px;
-  background:linear-gradient(145deg,#ff4050,#a90013);
-  color:var(--gold2);
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  margin:0 auto 22px;
-  font-size:32px;
-  border:2px solid #ffb9a7;
-  box-shadow:0 6px 0 #68000b,0 10px 16px rgba(70,0,0,.25),inset 0 2px 5px rgba(255,255,255,.4);
-}
-
-.feature-card h3{color:#97000f;margin-bottom:13px;font-size:20px;}
-
-.feature-card p{color:#76666a;line-height:1.8;font-size:14px;}
-
-/* PACKAGES */
-
-.products-section{
-  background:radial-gradient(circle at 20% 10%,#fff 0%,transparent 40%),linear-gradient(135deg,#fff0dc,#fff9f1);
-  border-top:1px solid #f1d7a9;
-  border-bottom:1px solid #f1d7a9;
-}
-
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-}
-
-.product-card{
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(145deg,#fff,#fff1e8);
-  border:1px solid #eacb9b;
-  border-radius:16px;
-  padding:30px 22px;
-  text-align:center;
-  box-shadow:0 7px 0 #c98e32,0 12px 24px rgba(90,20,0,.13);
-  transition:.3s;
-}
-
-.product-card:hover{
-  transform:translateY(-7px);
-  box-shadow:0 12px 0 #a96716,0 20px 30px rgba(90,20,0,.22);
-}
-
-.product-icon{
-  width:76px;
-  height:76px;
-  margin:0 auto 18px;
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(145deg,#ff4050,#a90013);
-  color:var(--gold2);
-  font-size:34px;
-  border:2px solid #ffb9a7;
-  box-shadow:0 5px 0 #68000b;
-}
-
-.product-card h3{color:#a00012;margin-bottom:12px;font-size:20px;}
-
-.product-card p{
-  color:#78666a;
-  font-size:14px;
-  line-height:1.8;
-  overflow-wrap:anywhere;
-}
-
-.package-price{
-  color:#8e0010;
-  font-size:23px;
-  font-weight:900;
-  margin:17px 0;
-}
-
-.package-status{
-  display:inline-block;
-  background:#fff0d0;
-  color:#815000;
-  border:1px solid #f0d29a;
-  padding:6px 12px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.package-link{
-  display:block;
-  margin-top:20px;
-}
-
-.loading-state,.empty-state,.error-state{
-  grid-column:1/-1;
-  text-align:center;
-  background:#fff;
-  border:1px solid #efd9d5;
-  border-radius:13px;
-  padding:30px 20px;
-  color:var(--muted);
-  line-height:1.8;
-}
-
-.state-icon{font-size:35px;margin-bottom:10px;}
-
-/* OPPORTUNITY */
-
-.opportunity{
-  position:relative;
-  overflow:hidden;
-  background:radial-gradient(circle at 50% 0%,rgba(255,220,120,.25),transparent 50%),linear-gradient(135deg,#76000b,#d00018,#78000b);
-  color:white;
-  text-align:center;
-  border-top:5px solid var(--gold);
-  border-bottom:5px solid var(--gold);
-}
-
-.opportunity .tag{margin-bottom:20px;}
-
-.opportunity h2{
-  font-size:clamp(28px,5vw,42px);
-  margin-bottom:20px;
-  text-shadow:2px 4px 7px rgba(0,0,0,.5);
-}
-
-.opportunity p{
-  color:#ffe8df;
-  max-width:700px;
-  line-height:1.9;
-  margin:0 auto 32px;
-}
-
-/* CONTACT */
-
-.contact{text-align:center;background:#fff;}
-
-.contact .section-title h2{color:#97000f;}
-
-/* FOOTER */
-
-footer{
-  background:linear-gradient(135deg,#4e0007,#8b000e,#350005);
-  color:white;
-  padding:48px 22px 28px;
-  text-align:center;
-  border-top:5px solid var(--gold);
-  box-shadow:inset 0 10px 25px rgba(0,0,0,.25);
-}
-
-footer .logo{display:inline-block;margin-bottom:20px;font-size:34px;}
-
-footer p{color:#f4d9d4;font-size:13px;line-height:1.9;}
-
-.footer-links{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:25px;
-  margin:23px 0;
+.slogan{
+  color:#fff0e8;
   font-size:13px;
   font-weight:bold;
+  letter-spacing:2px;
 }
 
-.footer-links a:hover{color:var(--gold2);}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-  .navbar{min-height:75px;padding:12px 18px;}
-  .logo{font-size:25px;}
-  .menu-btn{display:block;}
-
-  .menu{
-    display:none;
-    position:absolute;
-    top:100%;
-    left:0;
-    width:100%;
-    padding:22px;
-    background:linear-gradient(135deg,#79000b,#c90016);
-    flex-direction:column;
-    align-items:stretch;
-    gap:17px;
-    border-top:2px solid var(--gold);
-    box-shadow:0 12px 20px rgba(0,0,0,.25);
-  }
-
-  .menu.active{display:flex;}
-  .menu a{padding:5px 0;}
-  .menu .btn{width:100%;}
-
-  .hero{min-height:auto;padding:80px 18px 85px;}
-  .hero h1{font-size:39px;}
-  .hero p{font-size:15px;}
-  .tag{font-size:11px;letter-spacing:3px;}
-
-  .brand-strip-inner{grid-template-columns:repeat(2,1fr);}
-  .brand-item{border-bottom:1px solid rgba(160,0,15,.2);padding:20px 5px;}
-  .brand-item:nth-child(2){border-right:0;}
-  .brand-item .symbol{font-size:30px;}
-
-  .features,.product-grid{grid-template-columns:1fr;}
-  .section-title h2{font-size:28px;}
-  section{padding:58px 18px;}
-  .hero-buttons{flex-direction:column;}
-  .hero-buttons a{width:100%;max-width:310px;}
-  .opportunity h2{font-size:30px;}
-  .footer-links{gap:15px;}
+.loading-area{
+  width:190px;
+  margin:45px auto 0;
 }
 
-@media(max-width:380px){
-  .logo{font-size:22px;}
-  .navbar{padding:11px 13px;}
-  .hero h1{font-size:34px;}
+.loading-text{
+  color:#ffe8a6;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:3px;
+  margin-bottom:12px;
 }
+
+.progress-track{
+  width:100%;
+  height:4px;
+  border-radius:10px;
+  overflow:hidden;
+  background:rgba(255,255,255,.2);
+}
+
+.progress-bar{
+  width:0;
+  height:100%;
+  border-radius:10px;
+  background:linear-gradient(90deg,#f5bd35,#fff3b8,#f5bd35);
+  box-shadow:0 0 12px rgba(255,220,120,.8);
+  animation:progress 5s linear forwards;
+}
+
+@keyframes progress{
+  from{width:0;}
+  to{width:100%;}
+}
+
+.copyright{
+  position:absolute;
+  bottom:25px;
+  left:0;
+  width:100%;
+  text-align:center;
+  color:rgba(255,255,255,.65);
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+/* REDUCED MOTION */
 
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{
-    scroll-behavior:auto!important;
-    transition:none!important;
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
   }
 }
 </style>
@@ -547,311 +236,81 @@ footer p{color:#f4d9d4;font-size:13px;line-height:1.9;}
 
 <body>
 
-<header>
-<nav class="navbar">
+<div class="splash" id="splash">
 
-  <a href="index.html" class="logo">
-    RUBALIA
-    <span>NETWORK</span>
-  </a>
+  <div class="splash-content">
 
-  <button
-    class="menu-btn"
-    id="menuBtn"
-    aria-label="Open navigation menu"
-    aria-expanded="false"
-    aria-controls="menu"
-    type="button">
-    ☰
-  </button>
+    <div class="logo-emblem">
+      <span>🛍</span>
+    </div>
 
-  <div class="menu" id="menu">
-    <a href="index.html">Home</a>
-    <a href="about.html">About Us</a>
-    <a href="products.html">Products</a>
-    <a href="business.html">Business</a>
-    <a href="contact.html">Contact</a>
+    <div class="brand-name">
+      RUBALIA
+    </div>
 
-    <a href="login.html" id="loginNav" class="btn">Login</a>
-    <a href="register.html" id="registerNav" class="btn-outline">Join Now</a>
+    <div class="brand-subtitle">
+      NETWORK
+    </div>
 
-    <a href="dashboard.html" id="memberNav" class="account-nav">My Dashboard</a>
-    <a href="admin-dashboard.html" id="adminNav" class="account-nav">Admin Dashboard</a>
-    <a href="#" id="logoutNav" class="account-nav">Logout</a>
-  </div>
+    <div class="brand-line"></div>
 
-</nav>
-</header>
+    <div class="slogan">
+      SHOP SMART. EARN TOGETHER.
+    </div>
 
-<main>
+    <div class="loading-area">
 
-<section class="hero">
-  <div class="hero-content">
+      <div class="loading-text">
+        WELCOME TO RUBALIA
+      </div>
 
-    <div class="tag">WELCOME TO RUBALIA NETWORK</div>
+      <div class="progress-track">
+        <div class="progress-bar"></div>
+      </div>
 
-    <h1>
-      Shop Smart.<br>
-      <span>Earn Together.</span>
-    </h1>
-
-    <p>
-      Discover quality products, meaningful connections
-      and a product-focused distribution platform.
-      Welcome to a network built around people, trust
-      and responsible business.
-    </p>
-
-    <div class="hero-buttons">
-      <a href="products.html" class="btn">Explore Products</a>
-      <a href="about.html" class="btn-outline">Discover RUBALIA</a>
     </div>
 
   </div>
-</section>
 
-<div class="brand-strip">
-  <div class="brand-strip-inner">
-
-    <div class="brand-item">
-      <span class="symbol">🛒</span>
-      <span>SHOP PRODUCTS</span>
-    </div>
-
-    <div class="brand-item">
-      <span class="symbol">👥</span>
-      <span>REFER CUSTOMERS</span>
-    </div>
-
-    <div class="brand-item">
-      <span class="symbol">📈</span>
-      <span>GROW TOGETHER</span>
-    </div>
-
-    <div class="brand-item">
-      <span class="symbol">🎁</span>
-      <span>DISCOVER REWARDS</span>
-    </div>
-
+  <div class="copyright">
+    © <span id="year"></span> RUBALIA NETWORK
   </div>
+
 </div>
-
-<section>
-  <div class="container">
-
-    <div class="section-title">
-      <small>OUR FOUNDATION</small>
-      <h2>Why RUBALIA NETWORK?</h2>
-      <p>
-        A product-focused business platform built on
-        quality, transparency and customer satisfaction.
-      </p>
-    </div>
-
-    <div class="features">
-
-      <div class="feature-card">
-        <div class="feature-icon">✦</div>
-        <h3>Quality Products</h3>
-        <p>
-          We aim to offer genuine products
-          from reliable suppliers and brands.
-        </p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">◎</div>
-        <h3>Trusted Network</h3>
-        <p>
-          A community built around genuine
-          product sales and responsible business.
-        </p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">◆</div>
-        <h3>Transparency</h3>
-        <p>
-          Clear product information,
-          fair pricing and transparent policies.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<section class="products-section" id="packages">
-  <div class="container">
-
-    <div class="section-title">
-      <small>OUR COLLECTION</small>
-      <h2>Explore Our Packages</h2>
-      <p>
-        Browse the packages currently published by RUBALIA NETWORK.
-      </p>
-    </div>
-
-    <div class="product-grid" id="packageGrid">
-
-      <div class="loading-state">
-        <div class="state-icon">⏳</div>
-        Loading available packages...
-      </div>
-
-    </div>
-
-    <div style="text-align:center;margin-top:35px;">
-      <a href="products.html" class="btn">View All Packages</a>
-    </div>
-
-  </div>
-</section>
-
-<section class="opportunity">
-  <div class="container">
-
-    <div class="tag">GROW WITH RUBALIA</div>
-
-    <h2>Explore Business Opportunities</h2>
-
-    <p>
-      Learn about our product distribution model,
-      membership structure and business policies.
-      Build customer relationships through genuine sales.
-    </p>
-
-    <a href="business.html" class="btn">Learn More</a>
-
-  </div>
-</section>
-
-<section class="contact">
-  <div class="container">
-
-    <div class="section-title">
-      <small>GET IN TOUCH</small>
-      <h2>Connect With RUBALIA</h2>
-      <p>
-        Have questions about our company or products?
-        We look forward to hearing from you.
-      </p>
-    </div>
-
-    <a href="contact.html" class="btn">Contact Us</a>
-
-  </div>
-</section>
-
-</main>
-
-<footer>
-
-  <div class="logo">
-    RUBALIA
-    <span>NETWORK</span>
-  </div>
-
-  <p>Shop Smart, Earn Together.</p>
-
-  <div class="footer-links">
-    <a href="about.html">About</a>
-    <a href="products.html">Products</a>
-    <a href="business.html">Business</a>
-    <a href="contact.html">Contact</a>
-    <a href="login.html" id="footerLogin">Login</a>
-    <a href="register.html" id="footerRegister">Register</a>
-    <a href="dashboard.html" id="footerDashboard" style="display:none;">Dashboard</a>
-    <a href="admin-dashboard.html" id="footerAdmin" style="display:none;">Admin Dashboard</a>
-  </div>
-
-  <p>
-    © <span id="year"></span> RUBALIA NETWORK.
-    All Rights Reserved.
-  </p>
-
-</footer>
 
 <script>
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
+const SPLASH_DURATION = 5000;
 
-/* MOBILE MENU */
-
-const menu = document.getElementById("menu");
-const menuBtn = document.getElementById("menuBtn");
-
-function closeMenu(){
-  menu.classList.remove("active");
-  menuBtn.setAttribute("aria-expanded","false");
-  menuBtn.textContent = "☰";
-}
-
-menuBtn.addEventListener("click",function(){
-  const isOpen = menu.classList.toggle("active");
-
-  menuBtn.setAttribute("aria-expanded",isOpen ? "true" : "false");
-  menuBtn.textContent = isOpen ? "✕" : "☰";
-});
-
-document.querySelectorAll("#menu a").forEach(function(link){
-  link.addEventListener("click",closeMenu);
-});
-
-document.addEventListener("click",function(event){
-  if(!menu.contains(event.target) && !menuBtn.contains(event.target)){
-    closeMenu();
-  }
-});
+const splash = document.getElementById("splash");
 
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
-/* SESSION AND ROLE */
+/*
+  STEP 1:
+  Display splash screen for exactly 5 seconds.
+*/
 
-function showAccountNavigation(user){
-
-  const role = String(user.role || "").toLowerCase();
-
-  document.getElementById("loginNav").style.display = "none";
-  document.getElementById("registerNav").style.display = "none";
-  document.getElementById("footerLogin").style.display = "none";
-  document.getElementById("footerRegister").style.display = "none";
-
-  if(role === "admin"){
-
-    document.getElementById("adminNav").style.display = "block";
-    document.getElementById("footerAdmin").style.display = "inline";
-
-  }else{
-
-    document.getElementById("memberNav").style.display = "block";
-    document.getElementById("footerDashboard").style.display = "inline";
-
-  }
-
-  document.getElementById("logoutNav").style.display = "block";
+function waitForSplash(){
+  return new Promise(function(resolve){
+    window.setTimeout(resolve,SPLASH_DURATION);
+  });
 }
 
-function showGuestNavigation(){
+/*
+  STEP 2:
+  Verify existing session with backend.
+*/
 
-  document.getElementById("loginNav").style.display = "inline-block";
-  document.getElementById("registerNav").style.display = "inline-block";
-  document.getElementById("footerLogin").style.display = "inline";
-  document.getElementById("footerRegister").style.display = "inline";
-}
-
-/* VERIFY EXISTING SESSION */
-
-async function checkExistingSession(){
+async function verifyExistingSession(){
 
   const token = sessionStorage.getItem("rubalia_token");
 
   if(!token){
-    showGuestNavigation();
-    return;
+    return null;
   }
 
   try{
@@ -873,8 +332,7 @@ async function checkExistingSession(){
       sessionStorage.removeItem("rubalia_token");
       sessionStorage.removeItem("rubalia_user");
 
-      showGuestNavigation();
-      return;
+      return null;
     }
 
     sessionStorage.setItem(
@@ -882,170 +340,71 @@ async function checkExistingSession(){
       JSON.stringify(data.user)
     );
 
-    showAccountNavigation(data.user);
+    return data.user;
 
   }catch(error){
 
     /*
-      Keep the current session if the server is temporarily
-      unavailable. Do not trust cached role to grant access.
-      Dashboard pages must verify the role with the backend.
+      If the backend cannot be reached,
+      do not trust cached user role.
+      Continue to login page.
     */
 
-    try{
-      const cachedUser = JSON.parse(
-        sessionStorage.getItem("rubalia_user") || "null"
-      );
-
-      if(cachedUser && cachedUser.role){
-        showAccountNavigation(cachedUser);
-      }else{
-        showGuestNavigation();
-      }
-
-    }catch(parseError){
-      showGuestNavigation();
-    }
+    return null;
 
   }
-}
-
-/* LOAD REAL PACKAGES */
-
-const packageGrid = document.getElementById("packageGrid");
-
-function escapeHTML(value){
-
-  return String(value ?? "").replace(/[&<>"']/g,function(char){
-    const map = {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    };
-
-    return map[char];
-  });
 
 }
 
-function formatPrice(value){
+/*
+  STEP 3:
+  Redirect according to verified role.
+*/
 
-  const amount = Number(value);
+function redirectUser(user){
 
-  if(!Number.isFinite(amount)){
-    return "Price unavailable";
-  }
-
-  return "৳ " + amount.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
-
-}
-
-function renderPackages(packages){
-
-  if(!Array.isArray(packages) || packages.length === 0){
-
-    packageGrid.innerHTML = `
-      <div class="empty-state">
-        <div class="state-icon">📦</div>
-        <strong>No packages available right now.</strong>
-        <p>Please check again later.</p>
-      </div>
-    `;
-
+  if(!user){
+    window.location.replace("login.html");
     return;
   }
 
-  packageGrid.innerHTML = packages.slice(0,6).map(function(item){
+  const role = String(user.role || "").trim().toLowerCase();
 
-    const name = escapeHTML(item.name || "RUBALIA Package");
-    const description = escapeHTML(
-      item.description || "Explore this package and its included products."
-    );
-
-    const price = formatPrice(item.price);
-
-    return `
-      <article class="product-card">
-        <div class="product-icon">🎁</div>
-        <h3>${name}</h3>
-        <p>${description}</p>
-        <div class="package-price">${escapeHTML(price)}</div>
-        <span class="package-status">Available Package</span>
-        <a href="products.html" class="btn package-link">
-          View Package
-        </a>
-      </article>
-    `;
-
-  }).join("");
-
-}
-
-async function loadPackages(){
-
-  try{
-
-    const response = await fetch(API_BASE + "/packages",{
-      method:"GET",
-      headers:{
-        "Accept":"application/json"
-      }
-    });
-
-    const data = await response.json().catch(function(){
-      return {};
-    });
-
-    if(!response.ok || !data.success){
-
-      throw new Error(
-        data.message || "Unable to load packages."
-      );
-
-    }
-
-    const packages = Array.isArray(data.packages)
-      ? data.packages
-      : [];
-
-    renderPackages(packages);
-
-  }catch(error){
-
-    packageGrid.innerHTML = `
-      <div class="error-state">
-        <div class="state-icon">⚠️</div>
-        <strong>Packages could not be loaded.</strong>
-        <p>Please visit the Products page or try again later.</p>
-      </div>
-    `;
-
+  if(role === "admin"){
+    window.location.replace("admin-dashboard.html");
+    return;
   }
 
+  window.location.replace("dashboard.html");
+
 }
 
-/* LOGOUT */
+/*
+  START APPLICATION
+*/
 
-document.getElementById("logoutNav").addEventListener("click",function(event){
+async function startApplication(){
 
-  event.preventDefault();
+  const splashTimer = waitForSplash();
 
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
+  const userPromise = verifyExistingSession();
 
-  window.location.href = "index.html";
+  const results = await Promise.all([
+    splashTimer,
+    userPromise
+  ]);
 
-});
+  const user = results[1];
 
-/* START */
+  splash.classList.add("hide");
 
-checkExistingSession();
-loadPackages();
+  window.setTimeout(function(){
+    redirectUser(user);
+  },350);
+
+}
+
+startApplication();
 
 </script>
 
