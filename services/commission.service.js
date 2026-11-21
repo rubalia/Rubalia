@@ -7,24 +7,18 @@
 // =====================================================
 
 const DEFAULT_RATES = [
-  20, // Level 1
-  15, // Level 2
-  10, // Level 3
-  8,  // Level 4
-  6,  // Level 5
-  5,  // Level 6
-  4,  // Level 7
-  3,  // Level 8
-  2,  // Level 9
-  2   // Level 10
+  20, 15, 10, 8, 6, 5, 4, 3, 2, 2
 ];
 
 const COMPANY_SHARE_PERCENT = 25;
 const TOTAL_COMMISSION_PERCENT = 75;
+const LEVEL_COUNT = 10;
 
 
-// Convert money into integer cents.
-// Avoid floating-point calculation errors.
+// =====================================================
+// MONEY HELPERS
+// =====================================================
+
 function toCents(value) {
   const number = Number(value);
 
@@ -35,14 +29,10 @@ function toCents(value) {
   return Math.round(number * 100);
 }
 
-
-// Convert cents into decimal money string.
 function fromCents(value) {
   return (value / 100).toFixed(2);
 }
 
-
-// Validate commission rates.
 function validateRates(rates) {
   if (typeof rates === "string") {
     try {
@@ -52,7 +42,7 @@ function validateRates(rates) {
     }
   }
 
-  if (!Array.isArray(rates) || rates.length !== 10) {
+  if (!Array.isArray(rates) || rates.length !== LEVEL_COUNT) {
     throw new Error("Exactly 10 commission levels are required.");
   }
 
@@ -63,7 +53,7 @@ function validateRates(rates) {
       rate =>
         !Number.isFinite(rate) ||
         rate < 0 ||
-        rate > 75
+        rate > TOTAL_COMMISSION_PERCENT
     )
   ) {
     throw new Error("Invalid commission percentage.");
@@ -85,54 +75,117 @@ function validateRates(rates) {
 
 
 // =====================================================
-// GET ORDER COST AND PROFIT
+// COST SNAPSHOT VALIDATION
+//
+// Product snapshot format:
+// {
+//   itemType: "product",
+//   productCost: "100.00",
+//   deliveryCost: "10.00",
+//   packagingCost: "5.00",
+//   otherCost: "2.00"
+// }
+//
+// Package snapshot format:
+// {
+//   itemType: "package",
+//   componentCosts: [
+//     { productCost: "100.00", deliveryCost: "0.00",
+//       packagingCost: "0.00", otherCost: "0.00" },
+//     { productCost: "100.00", deliveryCost: "0.00",
+//       packagingCost: "0.00", otherCost: "0.00" },
+//     { productCost: "100.00", deliveryCost: "0.00",
+//       packagingCost: "0.00", otherCost: "0.00" }
+//   ],
+//   deliveryCost: "10.00",
+//   packagingCost: "5.00",
+//   otherCost: "2.00"
+// }
+//
+// Order creation must save this snapshot.
+// Never read current product/package costs here.
 // =====================================================
 
-async function calculateOrderProfit(client, orderId, gatewayFeePercent) {
+function snapshotMoney(snapshot, key) {
+  if (
+    !snapshot ||
+    snapshot[key] === undefined ||
+    snapshot[key] === null
+  ) {
+    throw new Error(`Order cost snapshot is missing ${key}.`);
+  }
 
+  return toCents(snapshot[key]);
+}
+
+function calculateSnapshotItemCost(snapshot, itemType) {
+  if (!snapshot || typeof snapshot !== "object") {
+    throw new Error("Order cost snapshot is invalid.");
+  }
+
+  if (itemType === "product") {
+    return (
+      snapshotMoney(snapshot, "productCost") +
+      snapshotMoney(snapshot, "deliveryCost") +
+      snapshotMoney(snapshot, "packagingCost") +
+      snapshotMoney(snapshot, "otherCost")
+    );
+  }
+
+  if (itemType === "package") {
+    if (
+      !Array.isArray(snapshot.componentCosts) ||
+      snapshot.componentCosts.length !== 3
+    ) {
+      throw new Error(
+        "Package snapshot must contain exactly 3 component costs."
+      );
+    }
+
+    let componentTotal = 0;
+
+    for (const component of snapshot.componentCosts) {
+      componentTotal +=
+        snapshotMoney(component, "productCost") +
+        snapshotMoney(component, "deliveryCost") +
+        snapshotMoney(component, "packagingCost") +
+        snapshotMoney(component, "otherCost");
+    }
+
+    const packageExtra =
+      snapshotMoney(snapshot, "deliveryCost") +
+      snapshotMoney(snapshot, "packagingCost") +
+      snapshotMoney(snapshot, "otherCost");
+
+    return componentTotal + packageExtra;
+  }
+
+  throw new Error("Unsupported order item type.");
+}
+
+
+// =====================================================
+// CALCULATE ORDER NET PROFIT
+// Uses only immutable order-time snapshots.
+// =====================================================
+
+async function calculateOrderProfit(
+  client,
+  orderId,
+  gatewayFeePercent
+) {
   const result = await client.query(
     `
     SELECT
-      oi.id,
-      oi.item_type,
-      oi.product_id,
-      oi.package_id,
-      oi.quantity,
-      oi.subtotal,
-
-      p.cost_price AS product_cost,
-      p.delivery_cost AS product_delivery,
-      p.packaging_cost AS product_packaging,
-      p.other_cost AS product_other,
-
-      pa.delivery_cost AS package_delivery,
-      pa.packaging_cost AS package_packaging,
-      pa.other_cost AS package_other,
-
-      p1.cost_price AS package_product_1_cost,
-      p2.cost_price AS package_product_2_cost,
-      p3.cost_price AS package_product_3_cost
-
-    FROM order_items oi
-
-    LEFT JOIN products p
-      ON p.id = oi.product_id
-
-    LEFT JOIN packages pa
-      ON pa.id = oi.package_id
-
-    LEFT JOIN products p1
-      ON p1.id = pa.product_1_id
-
-    LEFT JOIN products p2
-      ON p2.id = pa.product_2_id
-
-    LEFT JOIN products p3
-      ON p3.id = pa.product_3_id
-
-    WHERE oi.order_id = $1
-
-    ORDER BY oi.id
+      id,
+      item_type,
+      quantity,
+      subtotal,
+      cost_snapshot
+    FROM order_items
+    WHERE order_id = $1
+    ORDER BY id
+    FOR UPDATE
     `,
     [orderId]
   );
@@ -145,74 +198,45 @@ async function calculateOrderProfit(client, orderId, gatewayFeePercent) {
   let directCostCents = 0;
 
   for (const item of result.rows) {
-
     const quantity = Number(item.quantity);
 
-    if (
-      !Number.isFinite(quantity) ||
-      quantity <= 0
-    ) {
+    if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new Error("Invalid order quantity.");
     }
 
+    const snapshot =
+      typeof item.cost_snapshot === "string"
+        ? JSON.parse(item.cost_snapshot)
+        : item.cost_snapshot;
+
+    if (!snapshot || Object.keys(snapshot).length === 0) {
+      throw new Error(
+        `Cost snapshot is missing for order item ${item.id}.`
+      );
+    }
+
     const subtotalCents = toCents(item.subtotal);
+    const unitCostCents = calculateSnapshotItemCost(
+      snapshot,
+      item.item_type
+    );
 
     revenueCents += subtotalCents;
+    directCostCents += unitCostCents * quantity;
+  }
 
-    if (item.item_type === "package") {
+  const feePercent = Number(gatewayFeePercent);
 
-      const product1Cost = item.package_product_1_cost;
-      const product2Cost = item.package_product_2_cost;
-      const product3Cost = item.package_product_3_cost;
-
-      if (
-        product1Cost === null ||
-        product2Cost === null ||
-        product3Cost === null
-      ) {
-        throw new Error(
-          "Package product cost information is incomplete."
-        );
-      }
-
-      const componentCost =
-        toCents(product1Cost) +
-        toCents(product2Cost) +
-        toCents(product3Cost);
-
-      const packageExtraCost =
-        toCents(item.package_delivery) +
-        toCents(item.package_packaging) +
-        toCents(item.package_other);
-
-      directCostCents +=
-        (componentCost + packageExtraCost) * quantity;
-
-    } else if (item.item_type === "product") {
-
-      if (item.product_cost === null) {
-        throw new Error("Product cost information is missing.");
-      }
-
-      const productCost =
-        toCents(item.product_cost) +
-        toCents(item.product_delivery) +
-        toCents(item.product_packaging) +
-        toCents(item.product_other);
-
-      directCostCents += productCost * quantity;
-
-    } else {
-
-      throw new Error("Unsupported order item type.");
-
-    }
+  if (
+    !Number.isFinite(feePercent) ||
+    feePercent < 0 ||
+    feePercent > 100
+  ) {
+    throw new Error("Invalid payment gateway fee percentage.");
   }
 
   const gatewayFeeCents = Math.round(
-    revenueCents *
-    Number(gatewayFeePercent) /
-    100
+    revenueCents * feePercent / 100
   );
 
   const actualProfitCents =
@@ -222,7 +246,7 @@ async function calculateOrderProfit(client, orderId, gatewayFeePercent) {
 
   if (actualProfitCents <= 0) {
     throw new Error(
-      "The order does not have positive net profit. Commission cannot be calculated."
+      "The order has no positive net profit. Commission cannot be calculated."
     );
   }
 
@@ -231,6 +255,7 @@ async function calculateOrderProfit(client, orderId, gatewayFeePercent) {
     directCosts: fromCents(directCostCents),
     gatewayFee: fromCents(gatewayFeeCents),
     actualProfit: fromCents(actualProfitCents),
+
     revenueCents,
     directCostCents,
     gatewayFeeCents,
@@ -244,12 +269,16 @@ async function calculateOrderProfit(client, orderId, gatewayFeePercent) {
 // =====================================================
 
 async function getSponsorChain(client, buyerId) {
-
   const sponsors = [];
+  const visited = new Set([String(buyerId)]);
 
   let currentUserId = buyerId;
 
-  for (let level = 1; level <= 10; level++) {
+  for (let level = 1; level <= LEVEL_COUNT; level++) {
+    if (!currentUserId) {
+      sponsors.push(null);
+      continue;
+    }
 
     const result = await client.query(
       `
@@ -260,19 +289,16 @@ async function getSponsorChain(client, buyerId) {
       [currentUserId]
     );
 
-    const sponsorId =
-      result.rows[0]?.sponsor_id || null;
+    const sponsorId = result.rows[0]?.sponsor_id || null;
 
-    if (!sponsorId) {
+    if (!sponsorId || visited.has(String(sponsorId))) {
       sponsors.push(null);
-
       currentUserId = null;
-
       continue;
     }
 
     sponsors.push(sponsorId);
-
+    visited.add(String(sponsorId));
     currentUserId = sponsorId;
   }
 
@@ -281,139 +307,297 @@ async function getSponsorChain(client, buyerId) {
 
 
 // =====================================================
-// ADD COMMISSION TO MEMBER WALLET
+// CHECK SPONSOR COMMISSION ELIGIBILITY
+//
+// A sponsor must:
+// - Exist
+// - Have active account status
+// - Have partner role
+// - Have partner_activated_at set
+//
+// Ineligible sponsor level becomes unallocated.
+// It is not transferred to another level.
 // =====================================================
 
-async function creditMemberWallet(
-  client,
-  memberId,
-  amount,
-  orderId,
-  level
-) {
-
-  if (amount <= 0) {
-    return;
+async function getEligibleSponsor(client, sponsorId) {
+  if (!sponsorId) {
+    return null;
   }
 
-  const walletResult = await client.query(
+  const result = await client.query(
     `
-    INSERT INTO wallets (
-      user_id
-    )
+    SELECT
+      id,
+      role,
+      status,
+      partner_activated_at
+    FROM users
+    WHERE id = $1
+    FOR SHARE
+    `,
+    [sponsorId]
+  );
 
+  const sponsor = result.rows[0];
+
+  if (!sponsor) {
+    return null;
+  }
+
+  if (String(sponsor.status).toLowerCase() !== "active") {
+    return null;
+  }
+
+  if (String(sponsor.role).toLowerCase() !== "partner") {
+    return null;
+  }
+
+  if (!sponsor.partner_activated_at) {
+    return null;
+  }
+
+  return sponsor;
+}
+
+
+// =====================================================
+// CREATE WALLET IF NOT EXISTS
+// =====================================================
+
+async function getOrCreateWallet(client, memberId) {
+  const result = await client.query(
+    `
+    INSERT INTO wallets (user_id)
     VALUES ($1)
-
     ON CONFLICT (user_id)
-    DO UPDATE SET
-      user_id = EXCLUDED.user_id
-
+    DO UPDATE SET user_id = EXCLUDED.user_id
     RETURNING id
     `,
     [memberId]
   );
 
-  const walletId = walletResult.rows[0].id;
-
-  await client.query(
-    `
-    UPDATE wallets
-
-    SET
-      balance = balance + $1,
-      updated_at = NOW()
-
-    WHERE id = $2
-    `,
-    [
-      fromCents(amount),
-      walletId
-    ]
-  );
-
-  await client.query(
-    `
-    INSERT INTO wallet_transactions (
-      wallet_id,
-      transaction_type,
-      amount,
-      reference,
-      description,
-      status
-    )
-
-    VALUES (
-      $1,
-      'commission',
-      $2,
-      $3,
-      $4,
-      'completed'
-    )
-    `,
-    [
-      walletId,
-      fromCents(amount),
-      `COM-${orderId}-L${level}`,
-      `Level ${level} commission from order ${orderId}`
-    ]
-  );
+  return result.rows[0].id;
 }
 
 
 // =====================================================
-// RELEASE COMMISSION FOR A DELIVERED ORDER
+// APPLY EXISTING COMMISSION REVERSAL DEBTS
 //
-// IMPORTANT:
-// Call this function inside a PostgreSQL transaction.
+// Future commissions first recover old debts.
+// Only the remaining amount is credited.
 // =====================================================
 
-async function releaseOrderCommission(
+async function recoverCommissionDebts(
   client,
-  orderId
+  memberId,
+  availableCents
 ) {
+  let remainingCents = availableCents;
+  let recoveredCents = 0;
 
-  // 1. Lock commission settings.
+  const debtsResult = await client.query(
+    `
+    SELECT
+      id,
+      original_amount,
+      recovered_amount
+    FROM commission_reversal_debts
+    WHERE user_id = $1
+      AND status IN ('open', 'partially_recovered')
+    ORDER BY created_at, id
+    FOR UPDATE
+    `,
+    [memberId]
+  );
 
+  for (const debt of debtsResult.rows) {
+    if (remainingCents <= 0) {
+      break;
+    }
+
+    const outstandingCents =
+      toCents(debt.original_amount) -
+      toCents(debt.recovered_amount);
+
+    if (outstandingCents <= 0) {
+      continue;
+    }
+
+    const recovery = Math.min(
+      remainingCents,
+      outstandingCents
+    );
+
+    const newRecovered =
+      toCents(debt.recovered_amount) + recovery;
+
+    const fullyRecovered =
+      newRecovered >= toCents(debt.original_amount);
+
+    await client.query(
+      `
+      UPDATE commission_reversal_debts
+      SET
+        recovered_amount = $1,
+        status = $2,
+        updated_at = NOW()
+      WHERE id = $3
+      `,
+      [
+        fromCents(newRecovered),
+        fullyRecovered ? "recovered" : "partially_recovered",
+        debt.id
+      ]
+    );
+
+    remainingCents -= recovery;
+    recoveredCents += recovery;
+  }
+
+  return {
+    creditedCents: remainingCents,
+    recoveredCents
+  };
+}
+
+
+// =====================================================
+// CREDIT MEMBER WALLET
+// Must be called inside a PostgreSQL transaction.
+// =====================================================
+
+async function creditMemberWallet(
+  client,
+  memberId,
+  amountCents,
+  orderId,
+  level,
+  ledgerId
+) {
+  if (amountCents <= 0) {
+    return {
+      creditedCents: 0,
+      recoveredCents: 0
+    };
+  }
+
+  const walletId = await getOrCreateWallet(
+    client,
+    memberId
+  );
+
+  const recovery = await recoverCommissionDebts(
+    client,
+    memberId,
+    amountCents
+  );
+
+  if (recovery.creditedCents > 0) {
+    await client.query(
+      `
+      UPDATE wallets
+      SET
+        balance = balance + $1,
+        updated_at = NOW()
+      WHERE id = $2
+      `,
+      [
+        fromCents(recovery.creditedCents),
+        walletId
+      ]
+    );
+
+    await client.query(
+      `
+      INSERT INTO wallet_transactions (
+        wallet_id,
+        transaction_type,
+        amount,
+        reference,
+        description,
+        status
+      )
+      VALUES ($1, 'commission', $2, $3, $4, 'completed')
+      `,
+      [
+        walletId,
+        fromCents(recovery.creditedCents),
+        `COM-${orderId}-L${level}`,
+        `Level ${level} commission from order ${orderId}`
+      ]
+    );
+  }
+
+  if (recovery.recoveredCents > 0) {
+    await client.query(
+      `
+      INSERT INTO wallet_transactions (
+        wallet_id,
+        transaction_type,
+        amount,
+        reference,
+        description,
+        status
+      )
+      VALUES ($1, 'commission_reversal', $2, $3, $4, 'completed')
+      `,
+      [
+        walletId,
+        fromCents(recovery.recoveredCents),
+        `COM-DEBT-RECOVERY-${ledgerId}`,
+        `Recovery of previous commission reversal debt`
+      ]
+    );
+  }
+
+  return recovery;
+}
+
+
+// =====================================================
+// PREPARE COMMISSION AFTER ORDER DELIVERY
+//
+// This creates PENDING ledger entries only.
+// It does not credit any wallet.
+//
+// Call inside a PostgreSQL transaction after an order
+// becomes delivered.
+// =====================================================
+
+async function prepareOrderCommission(client, orderId) {
   const settingsResult = await client.query(
     `
     SELECT
       enabled,
       legal_approval_confirmed,
       gateway_fee_percent,
-      level_rates
-
+      level_rates,
+      refund_period_days
     FROM commission_settings
-
     WHERE id = 1
-
-    FOR UPDATE
+    FOR SHARE
     `
   );
 
   const settings = settingsResult.rows[0];
 
-  if (!settings) {
-    throw new Error("Commission settings not found.");
-  }
-
-  if (!settings.enabled) {
-    throw new Error("Commission engine is disabled.");
+  if (!settings || !settings.enabled) {
+    return {
+      success: false,
+      status: "not_eligible",
+      message: "Commission system is disabled."
+    };
   }
 
   if (!settings.legal_approval_confirmed) {
-    throw new Error(
-      "Required legal approval has not been confirmed."
-    );
+    return {
+      success: false,
+      status: "not_eligible",
+      message: "Required legal approval has not been confirmed."
+    };
   }
 
-
-  // 2. Validate commission percentages.
-
   const rates = validateRates(settings.level_rates);
-
-
-  // 3. Lock order.
 
   const orderResult = await client.query(
     `
@@ -421,62 +605,51 @@ async function releaseOrderCommission(
       id,
       user_id,
       order_number,
-      total_amount,
       status,
       payment_status,
-      payment_method
-
+      payment_method,
+      delivered_at,
+      refund_period_ends_at,
+      commission_status
     FROM orders
-
     WHERE id = $1
-
     FOR UPDATE
     `,
     [orderId]
   );
 
-  if (!orderResult.rows.length) {
-    throw new Error("Order not found.");
-  }
-
   const order = orderResult.rows[0];
 
-
-  // 4. Only paid and delivered orders are eligible.
+  if (!order) {
+    throw new Error("Order not found.");
+  }
 
   if (
     order.status !== "delivered" ||
     order.payment_status !== "paid"
   ) {
     throw new Error(
-      "Only paid and delivered orders are eligible for commission."
+      "Only paid and delivered orders can enter the commission workflow."
     );
   }
 
+  if (
+    order.commission_status === "pending" ||
+    order.commission_status === "released"
+  ) {
+    return {
+      success: true,
+      duplicate: true,
+      status: order.commission_status,
+      message: "Commission workflow already exists."
+    };
+  }
 
-  // 5. Prevent duplicate commission.
-
-  const existingResult = await client.query(
-    `
-    SELECT id
-
-    FROM company_profit_ledger
-
-    WHERE order_id = $1
-
-    LIMIT 1
-    `,
-    [orderId]
-  );
-
-  if (existingResult.rows.length) {
+  if (order.commission_status === "reversed") {
     throw new Error(
-      "Commission has already been processed for this order."
+      "A reversed order cannot be prepared for commission again."
     );
   }
-
-
-  // 6. Calculate actual order profit.
 
   const feePercent =
     order.payment_method === "wallet"
@@ -491,168 +664,84 @@ async function releaseOrderCommission(
 
   const profitCents = profit.actualProfitCents;
 
-
-  // 7. Calculate company share.
-
   const companyShareCents = Math.round(
-    profitCents *
-    COMPANY_SHARE_PERCENT /
-    100
+    profitCents * COMPANY_SHARE_PERCENT / 100
   );
 
+  const deliveredAt = order.delivered_at
+    ? new Date(order.delivered_at)
+    : new Date();
 
-  // 8. Find all 10 sponsors.
+  const refundPeriodDays = Number(settings.refund_period_days);
+
+  if (
+    !Number.isInteger(refundPeriodDays) ||
+    refundPeriodDays < 0 ||
+    refundPeriodDays > 365
+  ) {
+    throw new Error("Invalid refund period configuration.");
+  }
+
+  const refundPeriodEndsAt = new Date(
+    deliveredAt.getTime() +
+    refundPeriodDays * 24 * 60 * 60 * 1000
+  );
 
   const sponsorChain = await getSponsorChain(
     client,
     order.user_id
   );
 
+  let totalCommissionCents = 0;
 
-  // 9. Calculate and distribute commissions.
-
-  let allocatedCommissionCents = 0;
-  let unallocatedCommissionCents = 0;
-
-  const commissionDetails = [];
-
-  for (let index = 0; index < 10; index++) {
-
+  for (let index = 0; index < LEVEL_COUNT; index++) {
     const level = index + 1;
-
     const rate = rates[index];
-
-    const sponsorId = sponsorChain[index];
 
     const amountCents = Math.round(
       profitCents * rate / 100
     );
 
-    if (sponsorId) {
+    totalCommissionCents += amountCents;
 
-      // Create commission ledger entry.
+    const sponsorId = sponsorChain[index];
 
-      const ledgerResult = await client.query(
-        `
-        INSERT INTO commission_ledger (
-          order_id,
-          beneficiary_id,
-          level,
-          rate_percent,
-          profit_base,
-          amount,
-          status
-        )
+    const eligibleSponsor = await getEligibleSponsor(
+      client,
+      sponsorId
+    );
 
-        VALUES (
-          $1,
-          $2,
-          $3,
-          $4,
-          $5,
-          $6,
-          'credited'
-        )
-
-        ON CONFLICT (order_id, level)
-        DO NOTHING
-
-        RETURNING id
-        `,
-        [
-          orderId,
-          sponsorId,
-          level,
-          rate,
-          fromCents(profitCents),
-          fromCents(amountCents)
-        ]
-      );
-
-      // Credit wallet only when ledger insertion succeeded.
-
-      if (ledgerResult.rows.length && amountCents > 0) {
-
-        await creditMemberWallet(
-          client,
-          sponsorId,
-          amountCents,
-          orderId,
-          level
-        );
-
-      }
-
-      if (ledgerResult.rows.length) {
-        allocatedCommissionCents += amountCents;
-      }
-
-      commissionDetails.push({
+    await client.query(
+      `
+      INSERT INTO commission_ledger (
+        order_id,
+        beneficiary_id,
         level,
-        memberId: sponsorId,
-        rate,
-        amount: fromCents(amountCents),
-        status: "credited"
-      });
-
-    } else {
-
-      // No eligible sponsor at this level.
-      // Keep the amount with the company.
-
-      await client.query(
-        `
-        INSERT INTO commission_ledger (
-          order_id,
-          beneficiary_id,
-          level,
-          rate_percent,
-          profit_base,
-          amount,
-          status
-        )
-
-        VALUES (
-          $1,
-          NULL,
-          $2,
-          $3,
-          $4,
-          $5,
-          'unallocated'
-        )
-
-        ON CONFLICT (order_id, level)
-        DO NOTHING
-        `,
-        [
-          orderId,
-          level,
-          rate,
-          fromCents(profitCents),
-          fromCents(amountCents)
-        ]
-      );
-
-      unallocatedCommissionCents += amountCents;
-
-      commissionDetails.push({
+        rate_percent,
+        profit_base,
+        amount,
+        status
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, 'pending')
+      ON CONFLICT (order_id, level)
+      DO NOTHING
+      `,
+      [
+        orderId,
+        eligibleSponsor ? eligibleSponsor.id : null,
         level,
-        memberId: null,
         rate,
-        amount: fromCents(amountCents),
-        status: "unallocated"
-      });
-
-    }
+        fromCents(profitCents),
+        fromCents(amountCents)
+      ]
+    );
   }
 
-
-  // 10. Record company profit.
-
-  const totalCompanyShareCents =
-    companyShareCents +
-    unallocatedCommissionCents;
+  if (totalCommissionCents !== Math.round(profitCents * 0.75)) {
+    throw new Error(
+      "Commission pool rounding validation failed."
+    );
+  }
 
   await client.query(
     `
@@ -662,55 +751,517 @@ async function releaseOrderCommission(
       company_share,
       unallocated_commission
     )
-
-    VALUES (
-      $1,
-      $2,
-      $3,
-      $4
-    )
+    VALUES ($1, $2, $3, 0)
+    ON CONFLICT (order_id)
+    DO NOTHING
     `,
     [
       orderId,
       fromCents(profitCents),
-      fromCents(totalCompanyShareCents),
-      fromCents(unallocatedCommissionCents)
+      fromCents(companyShareCents)
     ]
   );
 
-
-  // 11. Return commission summary.
+  await client.query(
+    `
+    UPDATE orders
+    SET
+      delivered_at = COALESCE(delivered_at, $1),
+      refund_period_ends_at = $2,
+      commission_status = 'pending',
+      updated_at = NOW()
+    WHERE id = $3
+    `,
+    [
+      deliveredAt,
+      refundPeriodEndsAt,
+      orderId
+    ]
+  );
 
   return {
     success: true,
-
+    status: "pending",
     orderId: Number(orderId),
-
     orderNumber: order.order_number,
-
     revenue: profit.revenue,
-
     directCosts: profit.directCosts,
-
     gatewayFee: profit.gatewayFee,
-
-    actualProfit: profit.actualProfit,
-
-    companyShare: fromCents(
-      totalCompanyShareCents
-    ),
-
-    allocatedCommission: fromCents(
-      allocatedCommissionCents
-    ),
-
-    unallocatedCommission: fromCents(
-      unallocatedCommissionCents
-    ),
-
-    levels: commissionDetails
+    netProfit: profit.actualProfit,
+    companyShare: fromCents(companyShareCents),
+    commissionPool: fromCents(totalCommissionCents),
+    refundPeriodEndsAt
   };
+}
 
+
+// =====================================================
+// RELEASE MATURED COMMISSION
+//
+// Call inside a PostgreSQL transaction.
+// No wallet credit before refund_period_ends_at.
+// =====================================================
+
+async function releaseOrderCommission(client, orderId) {
+  const settingsResult = await client.query(
+    `
+    SELECT
+      enabled,
+      legal_approval_confirmed
+    FROM commission_settings
+    WHERE id = 1
+    FOR SHARE
+    `
+  );
+
+  const settings = settingsResult.rows[0];
+
+  if (!settings || !settings.enabled) {
+    throw new Error("Commission engine is disabled.");
+  }
+
+  if (!settings.legal_approval_confirmed) {
+    throw new Error(
+      "Required legal approval has not been confirmed."
+    );
+  }
+
+  const orderResult = await client.query(
+    `
+    SELECT
+      id,
+      order_number,
+      status,
+      payment_status,
+      commission_status,
+      refund_period_ends_at
+    FROM orders
+    WHERE id = $1
+    FOR UPDATE
+    `,
+    [orderId]
+  );
+
+  const order = orderResult.rows[0];
+
+  if (!order) {
+    throw new Error("Order not found.");
+  }
+
+  if (
+    order.status !== "delivered" ||
+    order.payment_status !== "paid"
+  ) {
+    throw new Error(
+      "Only paid and delivered orders can release commission."
+    );
+  }
+
+  if (order.commission_status === "released") {
+    return {
+      success: true,
+      duplicate: true,
+      message: "Commission has already been released."
+    };
+  }
+
+  if (order.commission_status !== "pending") {
+    throw new Error(
+      "Order does not have pending commission."
+    );
+  }
+
+  if (!order.refund_period_ends_at) {
+    throw new Error("Refund period end time is missing.");
+  }
+
+  const maturity = new Date(order.refund_period_ends_at);
+
+  if (Number.isNaN(maturity.getTime()) || maturity > new Date()) {
+    throw new Error(
+      "Refund/return period has not ended. Commission cannot be released yet."
+    );
+  }
+
+  const ledgerResult = await client.query(
+    `
+    SELECT
+      id,
+      beneficiary_id,
+      level,
+      rate_percent,
+      profit_base,
+      amount,
+      status
+    FROM commission_ledger
+    WHERE order_id = $1
+    ORDER BY level
+    FOR UPDATE
+    `,
+    [orderId]
+  );
+
+  if (ledgerResult.rows.length !== LEVEL_COUNT) {
+    throw new Error(
+      "Commission ledger is incomplete. Expected exactly 10 levels."
+    );
+  }
+
+  let allocatedCents = 0;
+  let unallocatedCents = 0;
+  const levels = [];
+
+  for (const entry of ledgerResult.rows) {
+    if (entry.status !== "pending") {
+      throw new Error(
+        "Commission ledger contains a non-pending entry."
+      );
+    }
+
+    const amountCents = toCents(entry.amount);
+
+    // Check eligibility again at the time of release.
+    const eligibleSponsor = await getEligibleSponsor(
+      client,
+      entry.beneficiary_id
+    );
+
+    if (!eligibleSponsor) {
+      await client.query(
+        `
+        UPDATE commission_ledger
+        SET
+          beneficiary_id = NULL,
+          status = 'unallocated'
+        WHERE id = $1
+        `,
+        [entry.id]
+      );
+
+      unallocatedCents += amountCents;
+
+      levels.push({
+        level: Number(entry.level),
+        amount: fromCents(amountCents),
+        status: "unallocated"
+      });
+
+      continue;
+    }
+
+    const walletResult = await creditMemberWallet(
+      client,
+      eligibleSponsor.id,
+      amountCents,
+      orderId,
+      Number(entry.level),
+      entry.id
+    );
+
+    await client.query(
+      `
+      UPDATE commission_ledger
+      SET
+        status = 'credited',
+        released_at = NOW()
+      WHERE id = $1
+      `,
+      [entry.id]
+    );
+
+    allocatedCents += amountCents;
+
+    levels.push({
+      level: Number(entry.level),
+      memberId: Number(eligibleSponsor.id),
+      amount: fromCents(amountCents),
+      credited: fromCents(walletResult.creditedCents),
+      debtRecovered: fromCents(walletResult.recoveredCents),
+      status: "credited"
+    });
+  }
+
+  const companyResult = await client.query(
+    `
+    SELECT
+      gross_profit,
+      company_share
+    FROM company_profit_ledger
+    WHERE order_id = $1
+    FOR UPDATE
+    `,
+    [orderId]
+  );
+
+  if (!companyResult.rows.length) {
+    throw new Error("Company profit ledger not found.");
+  }
+
+  const companyShareCents = toCents(
+    companyResult.rows[0].company_share
+  );
+
+  await client.query(
+    `
+    UPDATE company_profit_ledger
+    SET unallocated_commission = $1
+    WHERE order_id = $2
+    `,
+    [
+      fromCents(unallocatedCents),
+      orderId
+    ]
+  );
+
+  await client.query(
+    `
+    UPDATE orders
+    SET
+      commission_status = 'released',
+      updated_at = NOW()
+    WHERE id = $1
+    `,
+    [orderId]
+  );
+
+  return {
+    success: true,
+    orderId: Number(orderId),
+    orderNumber: order.order_number,
+    companyShare: fromCents(companyShareCents),
+    allocatedCommission: fromCents(allocatedCents),
+    unallocatedCommission: fromCents(unallocatedCents),
+    totalCompanyRetained: fromCents(
+      companyShareCents + unallocatedCents
+    ),
+    levels
+  };
+}
+
+
+// =====================================================
+// REVERSE COMMISSION ON REFUND/CANCELLATION
+//
+// Pending entries are voided.
+// Released entries are debited from available wallet
+// balances. Any amount already spent becomes debt and
+// is recovered from future commissions.
+// =====================================================
+
+async function reverseOrderCommission(client, orderId) {
+  const orderResult = await client.query(
+    `
+    SELECT
+      id,
+      status,
+      payment_status,
+      commission_status
+    FROM orders
+    WHERE id = $1
+    FOR UPDATE
+    `,
+    [orderId]
+  );
+
+  const order = orderResult.rows[0];
+
+  if (!order) {
+    throw new Error("Order not found.");
+  }
+
+  if (order.commission_status === "reversed") {
+    return {
+      success: true,
+      duplicate: true,
+      message: "Commission has already been reversed."
+    };
+  }
+
+  if (order.commission_status === "not_eligible") {
+    return {
+      success: true,
+      message: "This order has no commission to reverse."
+    };
+  }
+
+  const ledgerResult = await client.query(
+    `
+    SELECT
+      id,
+      beneficiary_id,
+      level,
+      amount,
+      status
+    FROM commission_ledger
+    WHERE order_id = $1
+    ORDER BY level
+    FOR UPDATE
+    `,
+    [orderId]
+  );
+
+  let reversedCents = 0;
+  let debtCreatedCents = 0;
+
+  for (const entry of ledgerResult.rows) {
+    if (
+      entry.status === "reversed" ||
+      entry.status === "unallocated"
+    ) {
+      continue;
+    }
+
+    const amountCents = toCents(entry.amount);
+
+    if (entry.status === "pending") {
+      await client.query(
+        `
+        UPDATE commission_ledger
+        SET
+          status = 'reversed',
+          reversed_at = NOW()
+        WHERE id = $1
+        `,
+        [entry.id]
+      );
+
+      continue;
+    }
+
+    if (
+      entry.status !== "credited" ||
+      !entry.beneficiary_id ||
+      amountCents <= 0
+    ) {
+      continue;
+    }
+
+    const walletId = await getOrCreateWallet(
+      client,
+      entry.beneficiary_id
+    );
+
+    const walletResult = await client.query(
+      `
+      SELECT id, balance
+      FROM wallets
+      WHERE id = $1
+      FOR UPDATE
+      `,
+      [walletId]
+    );
+
+    const availableCents = toCents(
+      walletResult.rows[0].balance
+    );
+
+    const debitCents = Math.min(
+      availableCents,
+      amountCents
+    );
+
+    const debtCents = amountCents - debitCents;
+
+    if (debitCents > 0) {
+      await client.query(
+        `
+        UPDATE wallets
+        SET
+          balance = balance - $1,
+          updated_at = NOW()
+        WHERE id = $2
+        `,
+        [
+          fromCents(debitCents),
+          walletId
+        ]
+      );
+
+      await client.query(
+        `
+        INSERT INTO wallet_transactions (
+          wallet_id,
+          transaction_type,
+          amount,
+          reference,
+          description,
+          status
+        )
+        VALUES (
+          $1,
+          'commission_reversal',
+          $2,
+          $3,
+          $4,
+          'completed'
+        )
+        `,
+        [
+          walletId,
+          fromCents(debitCents),
+          `COM-REV-${orderId}-L${entry.level}`,
+          `Reversal of level ${entry.level} commission for order ${orderId}`
+        ]
+      );
+    }
+
+    if (debtCents > 0) {
+      await client.query(
+        `
+        INSERT INTO commission_reversal_debts (
+          user_id,
+          order_id,
+          commission_ledger_id,
+          original_amount,
+          recovered_amount,
+          status
+        )
+        VALUES ($1, $2, $3, $4, 0, 'open')
+        ON CONFLICT (commission_ledger_id)
+        DO NOTHING
+        `,
+        [
+          entry.beneficiary_id,
+          orderId,
+          entry.id,
+          fromCents(debtCents)
+        ]
+      );
+
+      debtCreatedCents += debtCents;
+    }
+
+    await client.query(
+      `
+      UPDATE commission_ledger
+      SET
+        status = 'reversed',
+        reversed_at = NOW()
+      WHERE id = $1
+      `,
+      [entry.id]
+    );
+
+    reversedCents += amountCents;
+  }
+
+  await client.query(
+    `
+    UPDATE orders
+    SET
+      commission_status = 'reversed',
+      updated_at = NOW()
+    WHERE id = $1
+    `,
+    [orderId]
+  );
+
+  return {
+    success: true,
+    orderId: Number(orderId),
+    reversedCommission: fromCents(reversedCents),
+    outstandingDebtCreated: fromCents(debtCreatedCents)
+  };
 }
 
 
@@ -722,10 +1273,18 @@ module.exports = {
   DEFAULT_RATES,
   COMPANY_SHARE_PERCENT,
   TOTAL_COMMISSION_PERCENT,
+
   toCents,
   fromCents,
   validateRates,
+
+  calculateSnapshotItemCost,
   calculateOrderProfit,
+
   getSponsorChain,
-  releaseOrderCommission
+  getEligibleSponsor,
+
+  prepareOrderCommission,
+  releaseOrderCommission,
+  reverseOrderCommission
 };
