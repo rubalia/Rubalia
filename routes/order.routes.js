@@ -49,8 +49,21 @@ function cleanShipping(body) {
   return { shippingName, shippingPhone, shippingAddress };
 }
 
+function makeOrderNumber() {
+  return (
+    "RUB-" +
+    Date.now() +
+    "-" +
+    crypto.randomBytes(3).toString("hex").toUpperCase()
+  );
+}
+
+// =====================================================
 // POST /api/orders
-// Wallet payment required. COD is not accepted.
+// Customer: Wallet payment দিয়ে অর্ডার তৈরি
+// COD এবং unverified gateway payment গ্রহণ করা হবে না।
+// =====================================================
+
 router.post("/", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
   let transactionStarted = false;
@@ -58,12 +71,11 @@ router.post("/", authenticateToken, async (req, res, next) => {
   try {
     const body = req.body || {};
 
-    // Reject COD and all unverified payment methods.
     if (String(body.paymentMethod || "").toLowerCase() !== "wallet") {
       return res.status(400).json({
         success: false,
         message:
-          "Only Wallet Balance payment is currently available. Cash on Delivery is not accepted."
+          "Only Wallet Balance payment is accepted through this endpoint. Cash on Delivery is not available."
       });
     }
 
@@ -169,7 +181,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
     let totalCents = 0;
     const orderItems = [];
 
-    // Verify products/packages and reserve stock.
+    // Check stock and lock selected products/packages.
     for (const requested of itemMap.values()) {
       const isPackage = requested.type === "package";
 
@@ -206,7 +218,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
         );
       }
 
-      // Use integer paisa/cents to avoid floating-point money errors.
+      // Calculate money in paisa to avoid floating-point errors.
       const unitCents = Math.round(Number(item.price) * 100);
 
       if (!Number.isSafeInteger(unitCents) || unitCents < 0) {
@@ -232,22 +244,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
         quantity: requested.quantity,
         subtotal: subtotalCents / 100
       });
-
-      await client.query(
-        isPackage
-          ? `UPDATE packages
-             SET stock = stock - $1,
-                 updated_at = NOW()
-             WHERE id = $2`
-          : `UPDATE products
-             SET stock = stock - $1,
-                 updated_at = NOW()
-             WHERE id = $2`,
-        [requested.quantity, item.id]
-      );
     }
-
-    const totalAmount = totalCents / 100;
 
     if (totalCents <= 0) {
       throw Object.assign(
@@ -256,6 +253,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
       );
     }
 
+    const totalAmount = totalCents / 100;
     const balanceCents = Math.round(Number(wallet.balance) * 100);
 
     if (balanceCents < totalCents) {
@@ -267,13 +265,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
       );
     }
 
-    const orderNumber =
-      "RUB-" +
-      Date.now() +
-      "-" +
-      crypto.randomBytes(3).toString("hex").toUpperCase();
-
-    // Deduct wallet balance inside the same database transaction.
+    // Deduct wallet balance atomically.
     const debit = await client.query(
       `UPDATE wallets
        SET balance = balance - $1,
@@ -291,7 +283,10 @@ router.post("/", authenticateToken, async (req, res, next) => {
       );
     }
 
-    // Create paid order.
+    const orderNumber = makeOrderNumber();
+
+    // Wallet payment is already paid.
+    // Order itself remains pending until Admin confirms it.
     const orderResult = await client.query(
       `INSERT INTO orders (
         user_id,
@@ -300,10 +295,11 @@ router.post("/", authenticateToken, async (req, res, next) => {
         shipping_name,
         shipping_phone,
         shipping_address,
+        status,
         payment_method,
         payment_status
       )
-      VALUES ($1, $2, $3, $4, $5, $6, 'wallet', 'paid')
+      VALUES ($1, $2, $3, $4, $5, $6, 'pending', 'wallet', 'paid')
       RETURNING *`,
       [
         req.auth.id,
@@ -317,7 +313,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
 
     const order = orderResult.rows[0];
 
-    // Save order items.
+    // Save order items and reduce stock.
     for (const item of orderItems) {
       await client.query(
         `INSERT INTO order_items (
@@ -342,9 +338,26 @@ router.post("/", authenticateToken, async (req, res, next) => {
           item.subtotal.toFixed(2)
         ]
       );
+
+      await client.query(
+        item.type === "package"
+          ? `UPDATE packages
+             SET stock = stock - $1,
+                 updated_at = NOW()
+             WHERE id = $2
+               AND stock >= $1`
+          : `UPDATE products
+             SET stock = stock - $1,
+                 updated_at = NOW()
+             WHERE id = $2
+               AND stock >= $1`,
+        [item.quantity, item.type === "package"
+          ? item.packageId
+          : item.productId]
+      );
     }
 
-    // Save wallet purchase transaction.
+    // Record wallet purchase.
     await client.query(
       `INSERT INTO wallet_transactions (
         wallet_id,
@@ -363,20 +376,20 @@ router.post("/", authenticateToken, async (req, res, next) => {
       ]
     );
 
-    // Everything succeeds together or everything rolls back.
     await client.query("COMMIT");
     transactionStarted = false;
 
     return res.status(201).json({
       success: true,
-      message: "Payment successful and order placed.",
+      message:
+        "Wallet payment successful. Your order has been placed and is waiting for Admin confirmation.",
       order: {
         id: order.id,
         order_number: order.order_number,
         total_amount: order.total_amount,
         status: order.status,
-        payment_method: "wallet",
-        payment_status: "paid",
+        payment_method: order.payment_method,
+        payment_status: order.payment_status,
         created_at: order.created_at,
         shipping_name: order.shipping_name,
         shipping_phone: order.shipping_phone,
@@ -405,8 +418,11 @@ router.post("/", authenticateToken, async (req, res, next) => {
   }
 });
 
+// =====================================================
 // GET /api/orders
 // Customer: নিজের অর্ডার দেখবে।
+// =====================================================
+
 router.get("/", authenticateToken, async (req, res, next) => {
   try {
     const result = await pool.query(
@@ -418,7 +434,10 @@ router.get("/", authenticateToken, async (req, res, next) => {
         o.shipping_phone,
         o.shipping_address,
         o.status,
+        o.payment_method,
+        o.payment_status,
         o.created_at,
+        o.updated_at,
         COALESCE(
           json_agg(
             json_build_object(
@@ -451,8 +470,11 @@ router.get("/", authenticateToken, async (req, res, next) => {
   }
 });
 
+// =====================================================
 // GET /api/orders/admin/all
 // Admin: সব অর্ডার দেখবে।
+// =====================================================
+
 router.get(
   "/admin/all",
   authenticateToken,
@@ -471,7 +493,10 @@ router.get(
           o.shipping_phone,
           o.shipping_address,
           o.status,
+          o.payment_method,
+          o.payment_status,
           o.created_at,
+          o.updated_at,
           COALESCE(
             json_agg(
               json_build_object(
@@ -505,16 +530,22 @@ router.get(
   }
 );
 
+// =====================================================
 // PATCH /api/orders/:id/status
-// Admin: অর্ডারের অবস্থা পরিবর্তন।
+// Admin: অর্ডারের অবস্থা পরিবর্তন করবে।
+// =====================================================
+
 router.patch(
   "/:id/status",
   authenticateToken,
   requireAdmin,
   async (req, res, next) => {
+    const client = await pool.connect();
+    let transactionStarted = false;
+
     try {
       const orderId = Number(req.params.id);
-      const status = String(req.body.status || "").trim();
+      const status = String(req.body.status || "").trim().toLowerCase();
 
       if (!validId(orderId)) {
         return res.status(400).json({
@@ -530,30 +561,100 @@ router.patch(
         });
       }
 
-      const result = await pool.query(
-        `UPDATE orders
-         SET status = $1,
-             updated_at = NOW()
-         WHERE id = $2
-         RETURNING id, order_number, status, updated_at`,
-        [status, orderId]
+      await client.query("BEGIN");
+      transactionStarted = true;
+
+      const currentResult = await client.query(
+        `SELECT
+          id,
+          order_number,
+          status,
+          payment_method,
+          payment_status
+         FROM orders
+         WHERE id = $1
+         FOR UPDATE`,
+        [orderId]
       );
 
-      if (!result.rows.length) {
+      if (!currentResult.rows.length) {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
         return res.status(404).json({
           success: false,
           message: "Order not found."
         });
       }
 
+      const current = currentResult.rows[0];
+
+      // Do not process an order with an unpaid gateway request.
+      // Legacy orders are retained for historical compatibility.
+      if (
+        current.payment_status !== "paid" &&
+        current.payment_method !== "legacy"
+      ) {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
+        return res.status(409).json({
+          success: false,
+          message:
+            "This order cannot be processed because its payment has not been verified."
+        });
+      }
+
+      // Delivered and cancelled orders cannot be reopened.
+      if (
+        current.status === "delivered" ||
+        current.status === "cancelled"
+      ) {
+        if (status !== current.status) {
+          await client.query("ROLLBACK");
+          transactionStarted = false;
+
+          return res.status(409).json({
+            success: false,
+            message:
+              "A delivered or cancelled order cannot be changed."
+          });
+        }
+      }
+
+      const result = await client.query(
+        `UPDATE orders
+         SET status = $1,
+             updated_at = NOW()
+         WHERE id = $2
+         RETURNING
+           id,
+           order_number,
+           status,
+           payment_method,
+           payment_status,
+           updated_at`,
+        [status, orderId]
+      );
+
+      await client.query("COMMIT");
+      transactionStarted = false;
+
       return res.json({
         success: true,
-        message: "Order status updated.",
+        message: "Order status updated successfully.",
         order: result.rows[0]
       });
 
     } catch (error) {
+      if (transactionStarted) {
+        await client.query("ROLLBACK").catch(() => {});
+      }
+
       next(error);
+
+    } finally {
+      client.release();
     }
   }
 );
