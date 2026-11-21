@@ -11,6 +11,10 @@ const router = express.Router();
 
 const PRODUCT_STATUSES = ["draft", "active", "archived"];
 
+// =====================================================
+// PRODUCT ID VALIDATION
+// =====================================================
+
 function validateProductId(value) {
   const id = Number(value);
   return Number.isSafeInteger(id) && id > 0 ? id : null;
@@ -97,6 +101,60 @@ function validateCosts(body) {
 }
 
 // =====================================================
+// CATEGORY VALIDATION
+// Accepts category or category_name.
+// =====================================================
+
+function validateCategory(body) {
+  let value;
+
+  if (Object.prototype.hasOwnProperty.call(body, "category")) {
+    value = body.category;
+  } else if (
+    Object.prototype.hasOwnProperty.call(body, "category_name")
+  ) {
+    value = body.category_name;
+  } else {
+    value = null;
+  }
+
+  if (value === undefined || value === null || value === "") {
+    return {
+      valid: true,
+      value: null
+    };
+  }
+
+  if (typeof value !== "string") {
+    return {
+      valid: false,
+      message: "Category must be a text value."
+    };
+  }
+
+  const category = value.trim();
+
+  if (category.length === 0) {
+    return {
+      valid: true,
+      value: null
+    };
+  }
+
+  if (category.length > 100) {
+    return {
+      valid: false,
+      message: "Category cannot exceed 100 characters."
+    };
+  }
+
+  return {
+    valid: true,
+    value: category
+  };
+}
+
+// =====================================================
 // PRODUCT DATA VALIDATION
 // =====================================================
 
@@ -168,6 +226,15 @@ function validateProductData(body) {
     };
   }
 
+  const category = validateCategory(body);
+
+  if (!category.valid) {
+    return {
+      valid: false,
+      message: category.message
+    };
+  }
+
   const costs = validateCosts(body);
 
   if (!costs.valid) {
@@ -181,6 +248,7 @@ function validateProductData(body) {
     valid: true,
     values: {
       name,
+      category: category.value,
       sku: sku || null,
       description: description || null,
       price: price.toFixed(2),
@@ -203,6 +271,7 @@ router.get("/", async (req, res, next) => {
       `SELECT
          id,
          name,
+         category,
          sku,
          description,
          price,
@@ -239,6 +308,7 @@ router.get(
         `SELECT
            id,
            name,
+           category,
            sku,
            description,
            price,
@@ -285,6 +355,7 @@ router.get("/:id", async (req, res, next) => {
       `SELECT
          id,
          name,
+         category,
          sku,
          description,
          price,
@@ -339,6 +410,7 @@ router.post(
       const result = await pool.query(
         `INSERT INTO products (
            name,
+           category,
            sku,
            description,
            price,
@@ -350,12 +422,13 @@ router.post(
            other_cost
          )
          VALUES (
-           $1, $2, $3, $4, $5,
-           $6, $7, $8, $9, $10
+           $1, $2, $3, $4, $5, $6,
+           $7, $8, $9, $10, $11
          )
          RETURNING
            id,
            name,
+           category,
            sku,
            description,
            price,
@@ -369,6 +442,7 @@ router.post(
            updated_at`,
         [
           p.name,
+          p.category,
           p.sku,
           p.description,
           p.price,
@@ -392,6 +466,13 @@ router.post(
         return res.status(409).json({
           success: false,
           message: "This product SKU already exists."
+        });
+      }
+
+      if (error.code === "42703") {
+        return res.status(500).json({
+          success: false,
+          message: "Product category database migration has not been applied."
         });
       }
 
@@ -436,20 +517,22 @@ router.put(
         `UPDATE products
          SET
            name = $1,
-           sku = $2,
-           description = $3,
-           price = $4,
-           stock = $5,
-           status = $6,
-           cost_price = $7,
-           delivery_cost = $8,
-           packaging_cost = $9,
-           other_cost = $10,
+           category = $2,
+           sku = $3,
+           description = $4,
+           price = $5,
+           stock = $6,
+           status = $7,
+           cost_price = $8,
+           delivery_cost = $9,
+           packaging_cost = $10,
+           other_cost = $11,
            updated_at = NOW()
-         WHERE id = $11
+         WHERE id = $12
          RETURNING
            id,
            name,
+           category,
            sku,
            description,
            price,
@@ -463,6 +546,7 @@ router.put(
            updated_at`,
         [
           p.name,
+          p.category,
           p.sku,
           p.description,
           p.price,
@@ -485,7 +569,7 @@ router.put(
 
       return res.json({
         success: true,
-        message: "Product and cost information updated successfully.",
+        message: "Product, category and cost information updated successfully.",
         product: result.rows[0]
       });
 
@@ -494,6 +578,13 @@ router.put(
         return res.status(409).json({
           success: false,
           message: "This product SKU already exists."
+        });
+      }
+
+      if (error.code === "42703") {
+        return res.status(500).json({
+          success: false,
+          message: "Product category database migration has not been applied."
         });
       }
 
@@ -529,7 +620,7 @@ router.delete(
            status = 'archived',
            updated_at = NOW()
          WHERE id = $1
-         RETURNING id, name, status`,
+         RETURNING id, name, category, status`,
         [productId]
       );
 
