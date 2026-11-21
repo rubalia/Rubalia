@@ -151,6 +151,20 @@ button{font:inherit;cursor:pointer}
   color:var(--navy);font-size:20px
 }
 .payment-card strong{margin-top:10px}
+.quick-card.refund-card{
+  border-color:#e8c9c9;
+  background:linear-gradient(135deg,#fffafa,#fff1f1)
+}
+.quick-card.refund-card:hover{
+  border-color:#c34b4b;
+  background:#fff0f0;
+  transform:translateY(-2px)
+}
+.refund-card .refund-icon{
+  width:37px;height:37px;border-radius:10px;
+  display:grid;place-items:center;background:#f8e1e1;
+  color:#a53636;font-size:20px
+}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:520px}
 th{text-align:left;font-size:10px;color:var(--muted);background:#f7f9fc;padding:12px 10px}
@@ -338,6 +352,11 @@ td strong{color:var(--navy)}
     <span class="nav-icon">📊</span> Commission Settings
   </a>
 
+  <!-- NEW REFUND MANAGEMENT LINK -->
+  <a href="admin-refunds.html" class="nav-link">
+    <span class="nav-icon">↩️</span> Refund Management
+  </a>
+
   <div class="side-heading">Communication</div>
 
   <a href="admin-announcements.html" class="nav-link">
@@ -385,7 +404,7 @@ td strong{color:var(--navy)}
     <div class="welcome-icon">👑</div>
   </section>
 
-  <!-- EXISTING DASHBOARD STATISTICS -->
+  <!-- DASHBOARD STATISTICS -->
 
   <section class="stats">
 
@@ -454,7 +473,7 @@ td strong{color:var(--navy)}
 
   </section>
 
-  <!-- NEW COMMISSION OVERVIEW -->
+  <!-- COMMISSION OVERVIEW -->
 
   <section class="commission-section">
 
@@ -607,6 +626,13 @@ td strong{color:var(--navy)}
           <small>Payment records, verification and gateway settings</small>
         </a>
 
+        <!-- NEW REFUND QUICK ACTION -->
+        <a href="admin-refunds.html" class="quick-card refund-card">
+          <span class="refund-icon">↩️</span>
+          <strong>Refund Management</strong>
+          <small>Review, approve or reject customer refunds</small>
+        </a>
+
         <a href="admin-announcements.html" class="quick-card">
           <span>📢</span>
           <strong>Announcements</strong>
@@ -666,6 +692,8 @@ td strong{color:var(--navy)}
     Commission figures are loaded separately from the Commission API.
     Actual commission figures will appear after the commission database
     migration and reporting API are correctly connected.
+    Refund Management is handled separately through the Refund API.
+    Cancelling an order does not automatically return money to the customer.
   </div>
 
 </main>
@@ -869,7 +897,6 @@ function showCommissionLevels(levels){
 
   for(let level=1;level<=10;level++){
     const item=levelMap.get(level);
-
     const rates=[20,15,10,8,6,5,4,3,2,2];
 
     const row=document.createElement("tr");
@@ -1050,9 +1077,6 @@ async function initializeAdmin(){
     $("adminApp").hidden=false;
 
     await loadDashboardData();
-
-    // Commission report loads separately.
-    // A commission API error will not hide the main dashboard.
     await loadCommissionReport();
 
   }catch(error){
