@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
+<meta name="theme-color" content="#310d35">
 <title>Customer Support - RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --gold-light:#f4dfaa;
-  --bg:#f4f6fa;
+  --red:#a71952;
+  --pink:#e72c76;
+  --dark:#21172f;
+  --gold:#e5bd68;
+  --bg:#f7f5f9;
   --white:#fff;
-  --text:#17243a;
-  --muted:#718096;
-  --border:#e5eaf1;
+  --text:#29243a;
+  --muted:#858196;
+  --border:#eae6ee;
+  --green:#16804b;
 }
 *{box-sizing:border-box}
 body{
@@ -26,121 +27,259 @@ body{
   color:var(--text);
 }
 a{text-decoration:none;color:inherit}
-button,input,textarea,select{font:inherit}
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:245px;
-  background:var(--navy);
+button,input,textarea,select{font-family:inherit}
+body.menu-open{overflow:hidden}
+
+/* HEADER - SAME AS DASHBOARD */
+
+.app-header{
+  height:76px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 22px;
   color:white;
-  padding:24px 15px;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 4px 15px rgba(35,10,45,.18);
+  position:relative;
+  z-index:100;
+}
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+.menu-toggle{
+  width:48px;
+  height:48px;
   flex-shrink:0;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:12px;
+  font-size:25px;
+  cursor:pointer;
 }
 .brand{
-  padding:5px 12px 25px;
-  border-bottom:1px solid #ffffff20;
-  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
 }
-.brand strong{
-  display:block;
-  color:var(--gold);
-  font-size:19px;
-  letter-spacing:1.3px;
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#512a83;
+  font-size:27px;
+  font-weight:900;
+  flex-shrink:0;
 }
-.brand small{
+.brand-text{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.brand-text span{color:#ffe58a}
+.brand-text small{
   display:block;
-  color:#b8c4d7;
-  margin-top:6px;
+  font-size:9px;
+  letter-spacing:3px;
+  color:#f5dca4;
+  margin-top:4px;
+}
+.header-label{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:11px;
+  padding:12px 15px;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* DRAWER - SAME AS DASHBOARD */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  overflow-y:auto;
+  padding:20px 14px 25px;
+  color:white;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  z-index:201;
+  transform:translateX(-105%);
+  transition:transform .28s ease;
+  box-shadow:10px 0 35px rgba(0,0,0,.2);
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 7px 22px;
+}
+.drawer-brand{
+  font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  letter-spacing:1px;
+}
+.drawer-brand small{
+  display:block;
   font-size:10px;
-  letter-spacing:2px;
+  letter-spacing:4px;
+  color:white;
+  margin-top:4px;
+}
+.drawer-close{
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  color:white;
+  background:rgba(255,255,255,.1);
+  font-size:22px;
+  cursor:pointer;
 }
 .menu-title{
-  color:#8393aa;
+  color:#c8b5e9;
   font-size:10px;
+  font-weight:bold;
+  padding:15px 12px 8px;
   letter-spacing:1.5px;
-  padding:12px;
 }
-.nav a{
+.menu a{
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:12px;
-  border-radius:8px;
-  color:#dce5f2;
-  font-size:13px;
+  gap:13px;
+  padding:13px 12px;
   margin:3px 0;
+  border-radius:9px;
+  color:#eee8fa;
+  font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.2s;
 }
-.nav a:hover,.nav a.active{
-  background:#ffffff14;
-  color:var(--gold-light);
+.menu a:hover,.menu a.active{
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
 }
-.nav a.active{border-left:3px solid var(--gold)}
-.nav .ico{width:20px;text-align:center}
-.main{flex:1;min-width:0}
-.topbar{
-  height:72px;
-  background:white;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 30px;
+.menu-icon{
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
-.topbar-title{font-weight:bold;color:var(--navy)}
-.top-user{font-size:12px;color:var(--muted)}
-.content{padding:28px;max-width:1150px;margin:auto}
+
+/* MAIN */
+
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:25px 20px 45px;
+}
 .page-heading{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
   margin-bottom:22px;
+  flex-wrap:wrap;
 }
-h1{font-size:25px;color:var(--navy);margin:0 0 7px}
-.subtitle{color:var(--muted);font-size:13px}
-.demo-label{
-  background:#fff5dc;
-  color:#8a641a;
-  border:1px solid #f0dfb8;
-  border-radius:20px;
+h1{
+  font-size:25px;
+  color:var(--dark);
+  margin:0 0 7px;
+}
+.subtitle{
+  color:var(--muted);
+  font-size:13px;
+}
+.connection-tag{
+  background:#fff3d6;
+  color:#91691e;
   padding:8px 12px;
+  border-radius:20px;
   font-size:10px;
   font-weight:bold;
 }
+
+/* HERO */
+
 .hero{
-  background:linear-gradient(120deg,var(--navy),#173d69);
+  background:
+    radial-gradient(circle at 90% 20%,rgba(255,255,255,.13),transparent 30%),
+    linear-gradient(120deg,#211653,#49217e,#a51e43);
   color:white;
   padding:27px;
   border-radius:14px;
   margin-bottom:22px;
+  box-shadow:0 7px 20px rgba(31,20,49,.12);
 }
-.hero h2{font-size:21px;margin:0 0 10px}
+.hero h2{
+  font-size:21px;
+  margin:0 0 10px;
+}
 .hero p{
-  color:#d1dbea;
+  color:#eee4f4;
   font-size:13px;
   line-height:1.7;
   max-width:600px;
   margin:0;
 }
-.hero strong{color:var(--gold-light)}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:22px;
+.hero strong{color:#ffe58a}
+
+/* STATUS */
+
+.notice{
+  padding:13px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.7;
+  margin-bottom:16px;
+  background:#fff8e8;
+  border:1px solid #f0dfb8;
+  color:#806322;
 }
-.stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:17px;
+.notice.error{
+  background:#fff0f1;
+  color:#a12b36;
+  border-color:#f4cbd0;
 }
-.stat span{font-size:11px;color:var(--muted)}
-.stat strong{
-  display:block;
-  font-size:23px;
-  color:var(--navy);
-  margin-top:8px;
+.notice.success{
+  background:#effaf3;
+  color:#17633b;
+  border-color:#c6ead2;
 }
+
+/* GRID */
+
 .grid{
   display:grid;
   grid-template-columns:1.1fr .9fr;
@@ -153,12 +292,16 @@ h1{font-size:25px;color:var(--navy);margin:0 0 7px}
   border-radius:12px;
   padding:21px;
   margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(31,20,49,.035);
 }
 .panel h3{
-  color:var(--navy);
+  color:var(--dark);
   font-size:16px;
   margin:0 0 17px;
 }
+
+/* FORM */
+
 .form-group{margin-bottom:15px}
 label{
   display:block;
@@ -178,12 +321,21 @@ input,select,textarea{
   outline:none;
 }
 input:focus,select:focus,textarea:focus{
-  border-color:var(--gold);
+  border-color:var(--pink);
 }
-textarea{min-height:120px;resize:vertical}
+input:disabled,select:disabled,textarea:disabled{
+  background:#f5f6f9;
+  color:#8993a2;
+  cursor:not-allowed;
+}
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
 .btn{
-  background:var(--gold);
-  color:var(--navy);
+  display:inline-block;
+  background:linear-gradient(110deg,#e72c76,#9b164f);
+  color:white;
   border:0;
   padding:12px 18px;
   border-radius:8px;
@@ -191,17 +343,19 @@ textarea{min-height:120px;resize:vertical}
   font-weight:bold;
   cursor:pointer;
 }
-.btn:hover{background:var(--gold-light)}
-.notice{
-  background:#fff8e8;
-  border:1px solid #f0dfb8;
-  color:#806322;
-  border-radius:8px;
-  padding:12px;
-  font-size:11px;
-  line-height:1.6;
-  margin-bottom:15px;
+.btn:disabled{
+  background:#b5bbc5;
+  cursor:not-allowed;
 }
+.help{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+  margin-top:7px;
+}
+
+/* FAQ */
+
 .faq-item{
   border-bottom:1px solid var(--border);
 }
@@ -215,7 +369,7 @@ textarea{min-height:120px;resize:vertical}
   background:white;
   padding:15px 0;
   text-align:left;
-  color:var(--navy);
+  color:var(--dark);
   font-size:12px;
   font-weight:bold;
   cursor:pointer;
@@ -229,28 +383,36 @@ textarea{min-height:120px;resize:vertical}
 }
 .faq-item.open .faq-answer{display:block}
 .faq-item.open .faq-symbol{transform:rotate(45deg)}
-.faq-symbol{color:var(--gold);font-size:18px}
+.faq-symbol{
+  color:var(--pink);
+  font-size:18px;
+  transition:.2s;
+}
+
+/* CONTACT */
+
 .contact-card{
   display:flex;
   align-items:center;
   gap:12px;
   padding:13px;
-  background:#f7f9fc;
+  background:#f7f5f9;
   border-radius:9px;
   margin-bottom:10px;
 }
 .contact-icon{
-  width:38px;height:38px;
+  width:38px;
+  height:38px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#eaf0f8;
+  background:#eee8f6;
   border-radius:9px;
   font-size:17px;
 }
 .contact-card strong{
   display:block;
-  color:var(--navy);
+  color:var(--dark);
   font-size:12px;
 }
 .contact-card span{
@@ -259,386 +421,636 @@ textarea{min-height:120px;resize:vertical}
   font-size:10px;
   margin-top:4px;
 }
-.ticket{
-  padding:13px 0;
-  border-bottom:1px solid var(--border);
-}
-.ticket:last-child{border:0}
-.ticket-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-.ticket strong{font-size:12px;color:var(--navy)}
-.ticket small{display:block;color:var(--muted);font-size:10px;margin-top:6px}
-.status{
-  font-size:9px;
-  padding:5px 8px;
-  border-radius:15px;
-  background:#fff3d6;
-  color:#91691e;
-  height:max-content;
-}
-.status.closed{background:#e9f4ed;color:#398253}
-.success{
-  display:none;
-  background:#eaf7ee;
-  border:1px solid #bde4c9;
-  color:#267044;
-  padding:12px;
-  border-radius:8px;
-  font-size:12px;
-  margin-bottom:15px;
-}
-.footer-note{
+
+/* TICKET STATUS */
+
+.empty-state{
   text-align:center;
-  color:#929eae;
+  padding:25px 12px;
+  border:1px dashed #ded5e5;
+  border-radius:10px;
+  background:#fcfbfd;
+}
+.empty-state .icon{
+  font-size:30px;
+  margin-bottom:9px;
+}
+.empty-state h4{
+  color:var(--dark);
+  font-size:14px;
+  margin:0 0 7px;
+}
+.empty-state p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+  margin:0;
+}
+
+/* FOOTER */
+
+footer{
+  padding:25px 15px;
+  background:linear-gradient(110deg,#17152f,#74133e);
+  color:#d9cbd9;
+  text-align:center;
   font-size:10px;
-  padding:18px;
 }
-.mobile-brand{display:none}
+footer strong{color:#f4d58c}
+
+/* MOBILE */
+
 @media(max-width:850px){
-  .sidebar{width:205px}
   .grid{grid-template-columns:1fr}
-  .content{padding:20px}
 }
-@media(max-width:600px){
-  .layout{display:block}
-  .sidebar{display:none}
-  .topbar{height:60px;padding:0 16px}
-  .mobile-brand{display:block;color:var(--gold);font-weight:bold;font-size:15px}
-  .topbar-title{display:none}
-  .content{padding:18px 12px}
-  .page-heading{align-items:flex-start;flex-direction:column}
+@media(max-width:700px){
+  .app-header{
+    height:65px;
+    padding:0 11px;
+    gap:7px;
+  }
+  .header-left{gap:9px}
+  .menu-toggle{
+    width:41px;
+    height:41px;
+    font-size:22px;
+    border-radius:10px;
+  }
+  .brand{gap:7px}
+  .brand-icon{
+    width:40px;
+    height:40px;
+    font-size:23px;
+    border-radius:12px;
+  }
+  .brand-text{
+    font-size:13px;
+    letter-spacing:.5px;
+  }
+  .brand-text small{
+    font-size:7px;
+    letter-spacing:2.5px;
+    margin-top:3px;
+  }
+  .header-label{
+    padding:10px 9px;
+    font-size:10px;
+    border-radius:9px;
+  }
+  main{padding:18px 11px 35px}
+  .page-heading{align-items:flex-start}
   h1{font-size:22px}
   .hero{padding:20px}
-  .stats{gap:8px}
-  .stat{padding:12px}
-  .stat strong{font-size:19px}
-  .stat span{font-size:10px}
   .panel{padding:16px}
+}
+@media(max-width:360px){
+  .brand-text{font-size:11px}
+  .brand-icon{width:36px;height:36px}
+  .header-label{font-size:9px;padding:9px 7px}
 }
 </style>
 </head>
 
 <body>
-<div class="layout">
 
-<aside class="sidebar">
-  <div class="brand">
-    <strong>RUBALIA NETWORK</strong>
-    <small>MEMBER PORTAL</small>
+<!-- HEADER -->
+
+<header class="app-header">
+  <div class="header-left">
+
+    <button class="menu-toggle"
+      id="menuToggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false">☰</button>
+
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div class="brand-text">
+        RUBALIA <span>NETWORK</span>
+        <small>GROW WITH TRUST</small>
+      </div>
+    </a>
+
   </div>
+
+  <div class="header-label">🎧 Support</div>
+</header>
+
+<!-- DRAWER OVERLAY -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="drawer-top">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+
+    <button class="drawer-close"
+      id="drawerClose"
+      type="button"
+      aria-label="Close menu">×</button>
+  </div>
+
   <div class="menu-title">MAIN MENU</div>
-  <nav class="nav">
-    <a href="dashboard.html"><span class="ico">▦</span> Dashboard</a>
-    <a href="profile.html"><span class="ico">👤</span> My Profile</a>
-    <a href="products.html"><span class="ico">▣</span> Products</a>
-    <a href="orders.html"><span class="ico">📦</span> My Orders</a>
-    <a href="team.html"><span class="ico">♧</span> My Team</a>
-    <a href="income.html"><span class="ico">৳</span> Income</a>
-    <a href="wallet.html"><span class="ico">▤</span> Wallet</a>
-    <a href="withdraw.html"><span class="ico">↗</span> Withdraw</a>
-    <a href="deposit.html"><span class="ico">＋</span> Deposit</a>
-    <a href="notifications.html"><span class="ico">🔔</span> Notifications</a>
-    <a href="settings.html"><span class="ico">⚙</span> Settings</a>
-    <a href="support.html" class="active"><span class="ico">🎧</span> Customer Support</a>
-    <a href="login.html"><span class="ico">↪</span> Logout</a>
+
+  <nav class="menu">
+
+    <a href="dashboard.html">
+      <span class="menu-icon">⌂</span>Dashboard
+    </a>
+
+    <a href="profile.html">
+      <span class="menu-icon">♙</span>My Profile
+    </a>
+
+    <a href="dashboard.html">
+      <span class="menu-icon">▣</span>Packages
+    </a>
+
+    <a href="orders.html">
+      <span class="menu-icon">▤</span>My Orders
+    </a>
+
+    <a href="team.html">
+      <span class="menu-icon">♧</span>My Team
+    </a>
+
+    <a href="income.html">
+      <span class="menu-icon">৳</span>Income Details
+    </a>
+
+    <a href="wallet.html">
+      <span class="menu-icon">◈</span>My Wallet
+    </a>
+
+    <a href="withdraw.html">
+      <span class="menu-icon">⇧</span>Withdraw
+    </a>
+
   </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+
+  <nav class="menu">
+
+    <a href="settings.html">
+      <span class="menu-icon">⚙</span>Settings
+    </a>
+
+    <a href="contact.html">
+      <span class="menu-icon">✉</span>Contact
+    </a>
+
+    <a href="support.html" class="active">
+      <span class="menu-icon">🎧</span>Customer Support
+    </a>
+
+    <a href="#" id="logoutLink">
+      <span class="menu-icon">↪</span>Logout
+    </a>
+
+  </nav>
+
 </aside>
 
-<main class="main">
-  <header class="topbar">
-    <div class="mobile-brand">RUBALIA NETWORK</div>
-    <div class="topbar-title">Customer Support</div>
-    <div class="top-user">Member Account</div>
-  </header>
+<!-- MAIN -->
 
-  <section class="content">
+<main>
 
-    <div class="page-heading">
-      <div>
-        <h1>Help & Support</h1>
-        <div class="subtitle">How can we help you today?</div>
-      </div>
-      <span class="demo-label">FRONTEND DEMO</span>
+  <section class="page-heading">
+    <div>
+      <h1>Help & Support</h1>
+      <div class="subtitle">How can we help you today?</div>
     </div>
 
-    <div class="hero">
-      <h2>We're here to help you!</h2>
-      <p>
-        Find answers to common questions or use the support form
-        to describe your issue. Our goal is to provide a
-        <strong>clear and helpful experience</strong> for every member.
-      </p>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <span>Sample Tickets</span>
-        <strong id="ticketCount">2</strong>
-      </div>
-      <div class="stat">
-        <span>Open Tickets</span>
-        <strong id="openCount">1</strong>
-      </div>
-      <div class="stat">
-        <span>Closed Tickets</span>
-        <strong id="closedCount">1</strong>
-      </div>
-    </div>
-
-    <div class="grid">
-
-      <div>
-        <div class="panel">
-          <h3>Submit a Support Ticket</h3>
-
-          <div class="notice">
-            Demo mode: This form does not send a real support request.
-            Do not enter passwords, OTPs, PINs or payment credentials.
-          </div>
-
-          <div class="success" id="successMessage">
-            Demo ticket created successfully in this page session.
-          </div>
-
-          <form id="supportForm">
-            <div class="form-group">
-              <label for="subject">Ticket Subject</label>
-              <input id="subject" type="text"
-                placeholder="Enter your issue subject" required>
-            </div>
-
-            <div class="form-group">
-              <label for="category">Issue Category</label>
-              <select id="category" required>
-                <option value="">Select category</option>
-                <option>Account & Profile</option>
-                <option>Product Information</option>
-                <option>Order & Delivery</option>
-                <option>Payment & Wallet</option>
-                <option>Technical Problem</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="priority">Priority</label>
-              <select id="priority" required>
-                <option value="Normal">Normal</option>
-                <option value="High">High</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="message">Describe Your Issue</label>
-              <textarea id="message"
-                placeholder="Write your message here..." required></textarea>
-            </div>
-
-            <button class="btn" type="submit">Create Demo Ticket →</button>
-          </form>
-        </div>
-
-        <div class="panel">
-          <h3>My Support Tickets</h3>
-          <div id="ticketList"></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="panel">
-          <h3>Frequently Asked Questions</h3>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              How can I create an account?
-              <span class="faq-symbol">＋</span>
-            </button>
-            <div class="faq-answer">
-              Visit the Register page and complete the registration form.
-              Real account creation will be available after backend integration.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              How can I view my orders?
-              <span class="faq-symbol">＋</span>
-            </button>
-            <div class="faq-answer">
-              Open My Orders from your member dashboard.
-              Actual order information will require a connected backend.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              How does the product network work?
-              <span class="faq-symbol">＋</span>
-            </button>
-            <div class="faq-answer">
-              The proposed model focuses on genuine product sales.
-              Any referral or commission program must first be reviewed
-              for legal and regulatory compliance.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              Can I withdraw money now?
-              <span class="faq-symbol">＋</span>
-            </button>
-            <div class="faq-answer">
-              Withdrawal features are currently demonstration interfaces.
-              No real wallet balance or withdrawal service is active.
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              How can I contact the company?
-              <span class="faq-symbol">＋</span>
-            </button>
-            <div class="faq-answer">
-              Use the Contact page to view the planned contact interface.
-              Official contact details should be added after verification.
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>Contact Information</h3>
-
-          <div class="contact-card">
-            <div class="contact-icon">✉</div>
-            <div>
-              <strong>Email Support</strong>
-              <span>Official email address to be added</span>
-            </div>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-icon">🌐</div>
-            <div>
-              <strong>Website</strong>
-              <span>RUBALIA NETWORK</span>
-            </div>
-          </div>
-
-          <a href="contact.html" class="btn"
-             style="display:block;text-align:center;margin-top:15px">
-            Visit Contact Page →
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer-note">
-      RUBALIA NETWORK • Customer Support Demo
-    </div>
-
+    <span class="connection-tag" id="connectionTag">
+      CHECKING ACCOUNT
+    </span>
   </section>
+
+  <div class="notice" id="pageNotice" role="status" aria-live="polite">
+    Loading your account...
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <h2>We're here to help you!</h2>
+    <p>
+      Find answers to common questions or explore the support options.
+      Our goal is to provide a
+      <strong>clear and helpful experience</strong> for every member.
+    </p>
+  </section>
+
+  <div class="grid">
+
+    <!-- LEFT COLUMN -->
+
+    <div>
+
+      <!-- SUPPORT FORM -->
+
+      <section class="panel">
+
+        <h3>Submit a Support Ticket</h3>
+
+        <div class="notice">
+          <strong>Support Ticket API Not Connected</strong><br>
+          The current Rubalia backend does not have a support ticket
+          submission endpoint. This form is disabled until the backend
+          feature is implemented.
+          Never enter passwords, OTPs, PINs or payment credentials.
+        </div>
+
+        <form id="supportForm">
+
+          <div class="form-group">
+            <label for="subject">Ticket Subject</label>
+            <input
+              id="subject"
+              type="text"
+              placeholder="Enter your issue subject"
+              disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Issue Category</label>
+            <select id="category" disabled>
+              <option value="">Select category</option>
+              <option>Account & Profile</option>
+              <option>Product Information</option>
+              <option>Order & Delivery</option>
+              <option>Payment & Wallet</option>
+              <option>Technical Problem</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <select id="priority" disabled>
+              <option value="Normal">Normal</option>
+              <option value="High">High</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Describe Your Issue</label>
+            <textarea
+              id="message"
+              placeholder="Write your message here..."
+              disabled></textarea>
+          </div>
+
+          <button class="btn" type="button" disabled>
+            Create Support Ticket →
+          </button>
+
+          <p class="help">
+            Ticket submission will be activated after secure backend
+            integration.
+          </p>
+
+        </form>
+
+      </section>
+
+      <!-- MY TICKETS -->
+
+      <section class="panel">
+
+        <h3>My Support Tickets</h3>
+
+        <div class="empty-state">
+          <div class="icon">🎫</div>
+          <h4>Ticket System Not Connected</h4>
+          <p>
+            Your support ticket history will appear here after the
+            Support Ticket API and database are implemented.
+          </p>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+
+    <div>
+
+      <!-- FAQ -->
+
+      <section class="panel">
+
+        <h3>Frequently Asked Questions</h3>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            How can I create an account?
+            <span class="faq-symbol">＋</span>
+          </button>
+          <div class="faq-answer">
+            Visit the Register page and complete the registration form.
+            Your account information is managed through the Rubalia backend.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            How can I view my orders?
+            <span class="faq-symbol">＋</span>
+          </button>
+          <div class="faq-answer">
+            Open My Orders from your member dashboard to view your
+            available order information.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            How does the product network work?
+            <span class="faq-symbol">＋</span>
+          </button>
+          <div class="faq-answer">
+            Rubalia's proposed business model focuses on genuine
+            product sales. Referral and commission arrangements must
+            follow applicable laws and regulations.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            How can I check my wallet?
+            <span class="faq-symbol">＋</span>
+          </button>
+          <div class="faq-answer">
+            Open My Wallet from your member dashboard to view the
+            wallet information available to your account.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            How can I contact the company?
+            <span class="faq-symbol">＋</span>
+          </button>
+          <div class="faq-answer">
+            Open the Contact page for the available company contact
+            information.
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CONTACT INFORMATION -->
+
+      <section class="panel">
+
+        <h3>Contact Information</h3>
+
+        <div class="contact-card">
+          <div class="contact-icon">✉</div>
+          <div>
+            <strong>Email Support</strong>
+            <span>Official email address not configured</span>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <strong>Website</strong>
+            <span>RUBALIA NETWORK</span>
+          </div>
+        </div>
+
+        <a href="contact.html"
+           class="btn"
+           style="display:block;text-align:center;margin-top:15px">
+          Visit Contact Page →
+        </a>
+
+      </section>
+
+    </div>
+
+  </div>
+
 </main>
-</div>
+
+<footer>
+  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
+</footer>
 
 <script>
-let tickets = [
-  {
-    id:"RB-DEMO-1002",
-    subject:"Product information inquiry",
-    category:"Product Information",
-    status:"Open",
-    date:"Sample ticket"
-  },
-  {
-    id:"RB-DEMO-1001",
-    subject:"Account setup question",
-    category:"Account & Profile",
-    status:"Closed",
-    date:"Sample ticket"
-  }
-];
+"use strict";
 
-function renderTickets(){
-  const container=document.getElementById("ticketList");
-  container.innerHTML="";
+const API_BASE = "https://rubalia.onrender.com/api";
 
-  tickets.forEach(ticket=>{
-    const item=document.createElement("div");
-    item.className="ticket";
+const $ = id => document.getElementById(id);
 
-    const top=document.createElement("div");
-    top.className="ticket-top";
+/* DRAWER NAVIGATION - SAME AS DASHBOARD */
 
-    const title=document.createElement("strong");
-    title.textContent=ticket.subject;
+const sidebar = $("sidebar");
+const overlay = $("drawerOverlay");
+const menuToggle = $("menuToggle");
 
-    const status=document.createElement("span");
-    status.className="status"+(ticket.status==="Closed"?" closed":"");
-    status.textContent=ticket.status;
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
 
-    top.append(title,status);
-
-    const details=document.createElement("small");
-    details.textContent=ticket.id+" • "+ticket.category+" • "+ticket.date;
-
-    item.append(top,details);
-    container.appendChild(item);
-  });
-
-  document.getElementById("ticketCount").textContent=tickets.length;
-  document.getElementById("openCount").textContent=
-    tickets.filter(t=>t.status==="Open").length;
-  document.getElementById("closedCount").textContent=
-    tickets.filter(t=>t.status==="Closed").length;
+  menuToggle.setAttribute("aria-expanded","true");
 }
 
-document.getElementById("supportForm").addEventListener("submit",function(e){
-  e.preventDefault();
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
 
-  const subject=document.getElementById("subject").value.trim();
-  const category=document.getElementById("category").value;
-  const priority=document.getElementById("priority").value;
-  const message=document.getElementById("message").value.trim();
+  menuToggle.setAttribute("aria-expanded","false");
+}
 
-  if(!subject||!category||!message){
-    alert("Please complete all required fields.");
+menuToggle.addEventListener("click",function(){
+  if(sidebar.classList.contains("open")){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+});
+
+$("drawerClose").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape"){
+    closeMenu();
+  }
+});
+
+sidebar.querySelectorAll("a").forEach(function(link){
+  if(link.id!=="logoutLink"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+function logout(){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+
+  window.location.replace("login.html");
+}
+
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    logout();
+  }
+});
+
+/* PAGE MESSAGE */
+
+function showNotice(message,type="notice"){
+  const notice = $("pageNotice");
+
+  notice.className = "notice";
+
+  if(type==="error"){
+    notice.classList.add("error");
+  }
+
+  if(type==="success"){
+    notice.classList.add("success");
+  }
+
+  notice.textContent = message;
+}
+
+/* ACCOUNT VERIFICATION */
+
+async function verifyAccount(){
+
+  const token = sessionStorage.getItem("rubalia_token");
+
+  if(!token){
+    window.location.replace("login.html");
     return;
   }
 
-  const ticketId="RB-DEMO-"+Date.now().toString().slice(-6);
+  try{
 
-  tickets.unshift({
-    id:ticketId,
-    subject:subject,
-    category:category,
-    status:"Open",
-    date:"Created in demo session"
-  });
+    const response = await fetch(`${API_BASE}/auth/me`,{
+      method:"GET",
+      headers:{
+        "Authorization":`Bearer ${token}`,
+        "Accept":"application/json"
+      },
+      cache:"no-store"
+    });
 
-  renderTickets();
+    const data = await response.json().catch(function(){
+      return {};
+    });
 
-  const success=document.getElementById("successMessage");
-  success.style.display="block";
-  success.textContent=
-    "Demo ticket "+ticketId+" created in this page session. It was not sent to the company.";
+    if(response.status===401 || response.status===403){
+      logout();
+      return;
+    }
 
-  this.reset();
-  success.scrollIntoView({behavior:"smooth",block:"center"});
-});
+    if(!response.ok || !data.success || !data.user){
+      throw new Error(
+        data.message || "Unable to verify your account."
+      );
+    }
 
-document.querySelectorAll(".faq-question").forEach(button=>{
-  button.addEventListener("click",()=>{
-    const item=button.parentElement;
+    const user = data.user;
+
+    if(
+      user.status &&
+      String(user.status).toLowerCase()!=="active"
+    ){
+      logout();
+      return;
+    }
+
+    if(String(user.role || "").toLowerCase()==="admin"){
+      window.location.replace("admin-dashboard.html");
+      return;
+    }
+
+    const tag = $("connectionTag");
+
+    tag.textContent = user.memberId
+      ? `MEMBER · ${user.memberId}`
+      : "ACCOUNT VERIFIED";
+
+    tag.style.background = "#e7f6ef";
+    tag.style.color = "#16865b";
+
+    showNotice(
+      "Your account has been verified. The Support Ticket feature is awaiting backend integration.",
+      "success"
+    );
+
+    sessionStorage.setItem(
+      "rubalia_user",
+      JSON.stringify({
+        id:user.id,
+        memberId:user.memberId,
+        full_name:user.full_name,
+        email:user.email,
+        role:user.role,
+        status:user.status
+      })
+    );
+
+  }catch(error){
+
+    console.error("Support account verification error:",error);
+
+    $("connectionTag").textContent = "CONNECTION ERROR";
+    $("connectionTag").style.background = "#fff0f1";
+    $("connectionTag").style.color = "#a12b36";
+
+    showNotice(
+      error.message || "Unable to connect to the Rubalia server.",
+      "error"
+    );
+  }
+}
+
+/* FAQ ACCORDION */
+
+document.querySelectorAll(".faq-question").forEach(function(button){
+
+  button.addEventListener("click",function(){
+
+    const item = button.closest(".faq-item");
+
+    if(!item) return;
+
     item.classList.toggle("open");
+
   });
+
 });
 
-renderTickets();
+/* START */
+
+verifyAccount();
+
 </script>
+
 </body>
 </html>
