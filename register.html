@@ -19,21 +19,11 @@
   --border:#e8e4ed;
   --green:#16804b;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  min-height:100vh;
-  padding:25px 15px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--text);
+  min-height:100vh;padding:25px 15px;
+  display:flex;justify-content:center;align-items:center;
+  font-family:Arial,Helvetica,sans-serif;color:var(--text);
   background:
     radial-gradient(circle at 10% 15%,rgba(255,190,80,.85),transparent 30%),
     radial-gradient(circle at 90% 15%,rgba(255,70,150,.65),transparent 32%),
@@ -43,338 +33,125 @@ body{
   background-size:200% 200%;
   animation:backgroundMove 12s ease infinite;
 }
-
 @keyframes backgroundMove{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
-
 .container{
-  width:100%;
-  max-width:430px;
-  padding:35px 30px;
-  border-radius:25px;
-  background:rgba(255,255,255,.94);
+  width:100%;max-width:430px;padding:35px 30px;
+  border-radius:25px;background:rgba(255,255,255,.94);
   border:1px solid rgba(255,255,255,.8);
   box-shadow:0 25px 70px rgba(45,20,65,.20);
   backdrop-filter:blur(15px);
   animation:cardAppear .6s ease;
 }
-
 @keyframes cardAppear{
   from{opacity:0;transform:translateY(20px)}
   to{opacity:1;transform:translateY(0)}
 }
-
-/* LOGO */
-
-.brand{
-  text-align:center;
-  margin-bottom:27px;
-}
-
+.brand{text-align:center;margin-bottom:27px}
 .logo{
-  width:72px;
-  height:72px;
-  margin:0 auto 14px;
-  position:relative;
-  display:grid;
-  place-items:center;
-  border-radius:22px;
-  color:white;
-  font-size:38px;
-  font-weight:900;
+  width:72px;height:72px;margin:0 auto 14px;
+  position:relative;display:grid;place-items:center;
+  border-radius:22px;color:white;font-size:38px;font-weight:900;
   background:linear-gradient(145deg,#ed286a,#76123e);
-  box-shadow:0 9px 20px rgba(170,25,85,.30);
-  overflow:hidden;
+  box-shadow:0 9px 20px rgba(170,25,85,.30);overflow:hidden;
 }
-
 .logo:before{
-  content:"";
-  position:absolute;
-  width:39px;
-  height:39px;
+  content:"";position:absolute;width:39px;height:39px;
   border:2px solid rgba(255,225,155,.9);
-  transform:rotate(45deg);
-  border-radius:8px;
+  transform:rotate(45deg);border-radius:8px;
 }
-
-.logo span{
-  position:relative;
-  z-index:1;
-  text-shadow:0 2px 4px rgba(0,0,0,.2);
-}
-
-.brand h1{
-  font-size:23px;
-  letter-spacing:2px;
-  color:#80133f;
-  font-weight:900;
-}
-
-.brand h1 span{
-  color:#b18a43;
-}
-
-.brand p{
-  margin-top:7px;
-  color:var(--muted);
-  font-size:11px;
-  letter-spacing:3px;
-  font-weight:bold;
-}
-
-/* HEADING */
-
-.heading{
-  text-align:center;
-  margin-bottom:25px;
-}
-
-.heading small{
-  color:#b18a43;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:3px;
-}
-
-.heading h2{
-  font-size:27px;
-  color:#30233e;
-  margin:9px 0;
-}
-
-.heading p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-/* INPUTS */
-
-.form-group{
-  margin-bottom:17px;
-}
-
-.form-group label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  color:#40334d;
-  margin-bottom:8px;
-}
-
-.required{
-  color:#d60045;
-}
-
-.input-wrap{
-  position:relative;
-}
-
+.logo span{position:relative;z-index:1;text-shadow:0 2px 4px rgba(0,0,0,.2)}
+.brand h1{font-size:23px;letter-spacing:2px;color:#80133f;font-weight:900}
+.brand h1 span{color:#b18a43}
+.brand p{margin-top:7px;color:var(--muted);font-size:11px;letter-spacing:3px;font-weight:bold}
+.heading{text-align:center;margin-bottom:25px}
+.heading small{color:#b18a43;font-size:10px;font-weight:900;letter-spacing:3px}
+.heading h2{font-size:27px;color:#30233e;margin:9px 0}
+.heading p{font-size:12px;color:var(--muted);line-height:1.6}
+.form-group{margin-bottom:17px}
+.form-group label{display:block;font-size:12px;font-weight:800;color:#40334d;margin-bottom:8px}
+.required{color:#d60045}
+.input-wrap{position:relative}
 .input-wrap input{
-  width:100%;
-  height:51px;
-  padding:0 14px;
-  border:1px solid var(--border);
-  border-radius:11px;
-  outline:none;
-  background:#faf9fc;
-  color:#30233e;
-  font-size:13px;
-  font-family:inherit;
-  transition:.25s;
+  width:100%;height:51px;padding:0 14px;
+  border:1px solid var(--border);border-radius:11px;
+  outline:none;background:#faf9fc;color:#30233e;
+  font-size:13px;font-family:inherit;transition:.25s;
 }
-
 .input-wrap input:focus{
-  border-color:#c34b80;
-  background:white;
+  border-color:#c34b80;background:white;
   box-shadow:0 0 0 4px rgba(214,0,69,.08);
 }
-
-.input-wrap input::placeholder{
-  color:#aaa4b4;
-}
-
-.password-wrap input{
-  padding-right:75px;
-}
-
+.input-wrap input::placeholder{color:#aaa4b4}
+.password-wrap input{padding-right:75px}
 .show-btn{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  border:0;
-  background:none;
-  color:#a13c68;
-  font-size:11px;
-  font-weight:900;
-  cursor:pointer;
-  padding:8px;
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  border:0;background:none;color:#a13c68;font-size:11px;
+  font-weight:900;cursor:pointer;padding:8px;
 }
-
-/* STRENGTH */
-
-.password-strength{
-  display:none;
-  margin-top:9px;
-}
-
-.strength-track{
-  height:5px;
-  border-radius:10px;
-  background:#eeeaf1;
-  overflow:hidden;
-}
-
-.strength-bar{
-  width:0;
-  height:100%;
-  border-radius:10px;
-  transition:.25s;
-}
-
-.strength-text{
-  margin-top:6px;
-  font-size:10px;
-  color:var(--muted);
-}
-
-/* TERMS */
-
-.terms{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  margin:20px 0;
-  color:#777183;
-  font-size:11px;
-  line-height:1.7;
-}
-
-.terms input{
-  width:17px;
-  height:17px;
-  flex-shrink:0;
-  margin-top:2px;
-  accent-color:#a51c55;
-}
-
-.terms a{
-  color:#a51c55;
-  font-weight:bold;
-  text-decoration:underline;
-}
-
-/* BUTTON */
-
-.submit-btn{
-  width:100%;
-  min-height:53px;
-  border:0;
-  border-radius:12px;
-  background:linear-gradient(110deg,#ed286a,#9b164f,#d9a94d);
-  background-size:200% 100%;
-  color:white;
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:1px;
-  cursor:pointer;
-  box-shadow:0 7px 18px rgba(180,25,90,.23);
-  transition:.25s;
-}
-
-.submit-btn:hover{
-  background-position:100% 0;
-  transform:translateY(-2px);
-  box-shadow:0 10px 22px rgba(180,25,90,.30);
-}
-
-.submit-btn:disabled{
-  opacity:.65;
-  cursor:not-allowed;
-  transform:none;
-}
-
-/* MESSAGE */
-
-.message{
-  display:none;
-  margin-top:15px;
-  padding:12px;
-  border-radius:10px;
-  font-size:12px;
-  line-height:1.6;
+.password-strength{display:none;margin-top:9px}
+.strength-track{height:5px;border-radius:10px;background:#eeeaf1;overflow:hidden}
+.strength-bar{width:0;height:100%;border-radius:10px;transition:.25s}
+.strength-text{margin-top:6px;font-size:10px;color:var(--muted)}
+.referral-status{
+  display:none;margin-top:8px;padding:10px 11px;
+  border-radius:9px;font-size:11px;line-height:1.5;
   overflow-wrap:anywhere;
 }
-
-.message.error{
-  display:block;
-  color:#a12b36;
-  background:#fff0f1;
-  border:1px solid #f4cbd0;
+.referral-status.success{
+  display:block;color:#17633b;background:#effaf3;border:1px solid #c6ead2;
 }
-
-.message.success{
-  display:block;
-  color:#17633b;
-  background:#effaf3;
-  border:1px solid #c6ead2;
+.referral-status.error{
+  display:block;color:#a12b36;background:#fff0f1;border:1px solid #f4cbd0;
 }
-
-/* LOGIN */
-
-.login-link{
-  margin-top:23px;
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
+.referral-status.info{
+  display:block;color:#66501c;background:#fff9e9;border:1px solid #f0e1b6;
 }
-
-.login-link a{
-  color:#a51c55;
-  font-weight:900;
-  text-decoration:none;
+.terms{
+  display:flex;align-items:flex-start;gap:9px;
+  margin:20px 0;color:#777183;font-size:11px;line-height:1.7;
 }
-
-.login-link a:hover{
-  text-decoration:underline;
+.terms input{
+  width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:#a51c55;
 }
-
+.terms a{color:#a51c55;font-weight:bold;text-decoration:underline}
+.submit-btn{
+  width:100%;min-height:53px;border:0;border-radius:12px;
+  background:linear-gradient(110deg,#ed286a,#9b164f,#d9a94d);
+  background-size:200% 100%;color:white;font-size:14px;
+  font-weight:900;letter-spacing:1px;cursor:pointer;
+  box-shadow:0 7px 18px rgba(180,25,90,.23);transition:.25s;
+}
+.submit-btn:hover{
+  background-position:100% 0;transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(180,25,90,.30);
+}
+.submit-btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.message{
+  display:none;margin-top:15px;padding:12px;border-radius:10px;
+  font-size:12px;line-height:1.6;overflow-wrap:anywhere;
+}
+.message.error{display:block;color:#a12b36;background:#fff0f1;border:1px solid #f4cbd0}
+.message.success{display:block;color:#17633b;background:#effaf3;border:1px solid #c6ead2}
+.login-link{margin-top:23px;text-align:center;color:var(--muted);font-size:12px}
+.login-link a{color:#a51c55;font-weight:900;text-decoration:none}
+.login-link a:hover{text-decoration:underline}
 @media(max-width:480px){
-  body{
-    padding:18px 12px;
-  }
-
-  .container{
-    padding:30px 22px;
-    border-radius:21px;
-  }
-
-  .logo{
-    width:65px;
-    height:65px;
-    font-size:34px;
-  }
-
-  .heading h2{
-    font-size:25px;
-  }
+  body{padding:18px 12px}
+  .container{padding:30px 22px;border-radius:21px}
+  .logo{width:65px;height:65px;font-size:34px}
+  .heading h2{font-size:25px}
 }
-
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{
-    animation:none!important;
-    transition:none!important;
-  }
+  *,*:before,*:after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 
 <body>
-
 <main class="container">
 
   <div class="brand">
@@ -392,57 +169,43 @@ body{
   <form id="registerForm" novalidate>
 
     <div class="form-group">
-      <label for="fullName">
-        Full Name <span class="required">*</span>
-      </label>
+      <label for="fullName">Full Name <span class="required">*</span></label>
       <div class="input-wrap">
-        <input
-          type="text"
-          id="fullName"
+        <input type="text" id="fullName"
           placeholder="Enter your full name"
-          autocomplete="name"
-          minlength="2"
-          maxlength="120"
-          required>
+          autocomplete="name" minlength="2" maxlength="120" required>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="email">
-        Email Address <span class="required">*</span>
-      </label>
+      <label for="email">Email Address <span class="required">*</span></label>
       <div class="input-wrap">
-        <input
-          type="email"
-          id="email"
+        <input type="email" id="email"
           placeholder="Enter your email address"
-          autocomplete="email"
-          maxlength="255"
-          required>
+          autocomplete="email" maxlength="255" required>
       </div>
     </div>
 
+    <!-- REFERRAL CODE -->
     <div class="form-group">
-      <label for="password">
-        Password <span class="required">*</span>
-      </label>
-
-      <div class="input-wrap password-wrap">
-        <input
-          type="password"
-          id="password"
-          placeholder="Create password (8–72 characters)"
-          autocomplete="new-password"
-          minlength="8"
-          maxlength="72"
-          required>
-
-        <button
-          type="button"
-          class="show-btn"
-          data-target="password">SHOW</button>
+      <label for="referralCode">Referral Code <span style="color:#888397;font-weight:normal">(Optional)</span></label>
+      <div class="input-wrap">
+        <input type="text" id="referralCode"
+          placeholder="Example: RUB000001"
+          autocomplete="off" maxlength="30"
+          autocapitalize="characters">
       </div>
+      <div id="referralStatus" class="referral-status"></div>
+    </div>
 
+    <div class="form-group">
+      <label for="password">Password <span class="required">*</span></label>
+      <div class="input-wrap password-wrap">
+        <input type="password" id="password"
+          placeholder="Create password (8–72 characters)"
+          autocomplete="new-password" minlength="8" maxlength="72" required>
+        <button type="button" class="show-btn" data-target="password">SHOW</button>
+      </div>
       <div class="password-strength" id="passwordStrength">
         <div class="strength-track">
           <div class="strength-bar" id="strengthBar"></div>
@@ -452,24 +215,12 @@ body{
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword">
-        Confirm Password <span class="required">*</span>
-      </label>
-
+      <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
       <div class="input-wrap password-wrap">
-        <input
-          type="password"
-          id="confirmPassword"
+        <input type="password" id="confirmPassword"
           placeholder="Enter password again"
-          autocomplete="new-password"
-          minlength="8"
-          maxlength="72"
-          required>
-
-        <button
-          type="button"
-          class="show-btn"
-          data-target="confirmPassword">SHOW</button>
+          autocomplete="new-password" minlength="8" maxlength="72" required>
+        <button type="button" class="show-btn" data-target="confirmPassword">SHOW</button>
       </div>
     </div>
 
@@ -477,9 +228,7 @@ body{
       <input type="checkbox" id="terms" required>
       <span>
         I agree to the RUBALIA NETWORK
-        <a href="terms.html" target="_blank" rel="noopener">
-          Terms &amp; Conditions
-        </a>
+        <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>
         and understand that registration does not guarantee any income.
       </span>
     </label>
@@ -488,20 +237,13 @@ body{
       CREATE ACCOUNT
     </button>
 
-    <div
-      id="formMessage"
-      class="message"
-      role="status"
-      aria-live="polite">
-    </div>
-
+    <div id="formMessage" class="message" role="status" aria-live="polite"></div>
   </form>
 
   <div class="login-link">
     Already have an account?
     <a href="login.html">Login Here</a>
   </div>
-
 </main>
 
 <script>
@@ -515,6 +257,8 @@ const message = document.getElementById("formMessage");
 
 const fullNameInput = document.getElementById("fullName");
 const emailInput = document.getElementById("email");
+const referralInput = document.getElementById("referralCode");
+const referralStatus = document.getElementById("referralStatus");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const termsInput = document.getElementById("terms");
@@ -523,13 +267,17 @@ const strengthBox = document.getElementById("passwordStrength");
 const strengthBar = document.getElementById("strengthBar");
 const strengthText = document.getElementById("strengthText");
 
+let verifiedReferralCode = "";
+let referralIsValid = false;
+let referralChecking = false;
+let referralRequestNumber = 0;
+
 /* SHOW / HIDE PASSWORD */
 
 document.querySelectorAll(".show-btn").forEach(function(button){
   button.addEventListener("click",function(){
     const field = document.getElementById(button.dataset.target);
     const isHidden = field.type === "password";
-
     field.type = isHidden ? "text" : "password";
     button.textContent = isHidden ? "HIDE" : "SHOW";
   });
@@ -541,6 +289,132 @@ function showMessage(type,text){
   message.className = "message " + type;
   message.textContent = text;
 }
+
+function clearMessage(){
+  message.className = "message";
+  message.textContent = "";
+}
+
+/* REFERRAL STATUS */
+
+function showReferralStatus(type,text){
+  referralStatus.className = "referral-status " + type;
+  referralStatus.textContent = text;
+}
+
+function clearReferralStatus(){
+  referralStatus.className = "referral-status";
+  referralStatus.textContent = "";
+}
+
+/* REFERRAL CODE VERIFICATION */
+
+async function verifyReferralCode(){
+  const code = referralInput.value.trim().toUpperCase();
+
+  referralInput.value = code;
+  verifiedReferralCode = "";
+  referralIsValid = false;
+
+  const requestNumber = ++referralRequestNumber;
+
+  if(!code){
+    clearReferralStatus();
+    referralChecking = false;
+    return true;
+  }
+
+  if(!/^RUB\d{6,}$/.test(code)){
+    showReferralStatus("error","Invalid format. Example: RUB000001");
+    referralChecking = false;
+    return false;
+  }
+
+  referralChecking = true;
+  showReferralStatus("info","Verifying referral code...");
+
+  try{
+    const response = await fetch(
+      API_BASE + "/referral/verify/" + encodeURIComponent(code),
+      {method:"GET"}
+    );
+
+    const data = await response.json().catch(function(){
+      return {};
+    });
+
+    if(requestNumber !== referralRequestNumber){
+      return false;
+    }
+
+    if(!response.ok || !data.success || !data.valid){
+      showReferralStatus(
+        "error",
+        data.message || "Referral code is invalid or inactive."
+      );
+      referralChecking = false;
+      return false;
+    }
+
+    verifiedReferralCode = code;
+    referralIsValid = true;
+
+    const sponsorName = data.sponsor && data.sponsor.name
+      ? data.sponsor.name
+      : "Verified member";
+
+    showReferralStatus(
+      "success",
+      "Verified Sponsor: " + sponsorName +
+      " | Member ID: " + code
+    );
+
+    referralChecking = false;
+    return true;
+
+  }catch(error){
+    if(requestNumber === referralRequestNumber){
+      showReferralStatus(
+        "error",
+        "Unable to verify referral code. Please check your internet connection and try again."
+      );
+      referralChecking = false;
+    }
+    return false;
+  }
+}
+
+/* READ REFERRAL CODE FROM URL */
+
+(function loadReferralFromUrl(){
+  const params = new URLSearchParams(window.location.search);
+  const urlReferral = params.get("ref");
+
+  if(urlReferral){
+    referralInput.value = urlReferral.trim().toUpperCase();
+    verifyReferralCode();
+  }
+})();
+
+/* VERIFY WHEN USER LEAVES FIELD */
+
+referralInput.addEventListener("blur",function(){
+  verifyReferralCode();
+});
+
+referralInput.addEventListener("input",function(){
+  referralIsValid = false;
+  verifiedReferralCode = "";
+  referralRequestNumber++;
+  referralChecking = false;
+
+  clearReferralStatus();
+  clearMessage();
+
+  referralInput.value = referralInput.value
+    .replace(/\s/g,"")
+    .toUpperCase();
+});
 
 /* PASSWORD STRENGTH */
 
@@ -557,7 +431,6 @@ passwordInput.addEventListener("input",function(){
   strengthBox.style.display = "block";
 
   let score = 0;
-
   if(password.length >= 8) score++;
   if(/[a-z]/.test(password)) score++;
   if(/[A-Z]/.test(password)) score++;
@@ -583,7 +456,7 @@ passwordInput.addEventListener("input",function(){
   strengthText.textContent = "Password strength: " + label;
 });
 
-/* CLEAR ERROR */
+/* CLEAR FORM ERROR */
 
 [
   fullNameInput,
@@ -591,12 +464,7 @@ passwordInput.addEventListener("input",function(){
   passwordInput,
   confirmPasswordInput
 ].forEach(function(field){
-  field.addEventListener("input",function(){
-    if(message.classList.contains("error")){
-      message.className = "message";
-      message.textContent = "";
-    }
-  });
+  field.addEventListener("input",clearMessage);
 });
 
 /* REGISTRATION */
@@ -608,9 +476,10 @@ form.addEventListener("submit",async function(event){
   const email = emailInput.value.trim().toLowerCase();
   const password = passwordInput.value;
   const confirmPassword = confirmPasswordInput.value;
+  const referralCode = referralInput.value.trim().toUpperCase();
 
-  if(fullName.length < 2){
-    showMessage("error","Please enter your full name.");
+  if(fullName.length < 2 || fullName.length > 120){
+    showMessage("error","Please enter your full name (2–120 characters).");
     fullNameInput.focus();
     return;
   }
@@ -639,23 +508,38 @@ form.addEventListener("submit",async function(event){
     return;
   }
 
+  /* Verify referral again before registration. */
+
+  if(referralCode){
+    const isVerified = await verifyReferralCode();
+
+    if(!isVerified || !referralIsValid ||
+       verifiedReferralCode !== referralCode){
+      showMessage("error","Please enter a valid Referral Code before registration.");
+      referralInput.focus();
+      return;
+    }
+  }
+
   submitBtn.disabled = true;
   submitBtn.textContent = "CREATING ACCOUNT...";
-
-  message.className = "message";
-  message.textContent = "";
+  clearMessage();
 
   try{
+    const requestBody = {
+      fullName: fullName,
+      email: email,
+      password: password
+    };
+
+    if(referralCode){
+      requestBody.referralCode = referralCode;
+    }
+
     const response = await fetch(API_BASE + "/auth/register",{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        fullName:fullName,
-        email:email,
-        password:password
-      })
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(requestBody)
     });
 
     const data = await response.json().catch(function(){
@@ -674,8 +558,6 @@ form.addEventListener("submit",async function(event){
       );
     }
 
-    /* TEMPORARY SESSION */
-
     try{
       sessionStorage.setItem("rubalia_token",data.token);
       sessionStorage.setItem(
@@ -688,21 +570,20 @@ form.addEventListener("submit",async function(event){
       );
     }
 
+    const memberId = data.user.memberId || "";
+
     showMessage(
       "success",
-      "Your account has been created successfully. Redirecting..."
+      "Account created successfully!" +
+      (memberId ? " Your Member ID: " + memberId : "") +
+      " Redirecting..."
     );
-
-    form.reset();
-
-    strengthBox.style.display = "none";
-    strengthBar.style.width = "0";
 
     submitBtn.textContent = "ACCOUNT CREATED";
 
     window.setTimeout(function(){
       window.location.href = "dashboard.html";
-    },1200);
+    },1500);
 
   }catch(error){
     showMessage(
