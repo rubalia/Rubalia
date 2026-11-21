@@ -23,6 +23,9 @@ const uploadRoutes = require("./routes/upload.routes");
 // Payment Routes
 const paymentRoutes = require("./routes/payment.routes");
 
+// Referral Routes
+const referralRoutes = require("./routes/referral.routes");
+
 const {
   notFoundHandler,
   errorHandler
@@ -132,6 +135,13 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
 
+// Referral Routes
+// GET /api/referral/me
+// GET /api/referral/verify/:code
+// GET /api/referral/stats
+// GET /api/referral/direct
+app.use("/api/referral", referralRoutes);
+
 // Payment Routes
 // GET  /api/payment/methods
 // POST /api/payment/request
@@ -176,6 +186,7 @@ async function startServer() {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
       console.log("Payment route registered.");
+      console.log("Referral route registered.");
     });
 
   } catch (error) {
