@@ -1,10 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#071a35">
+<meta name="description" content="Become a RUBALIA NETWORK Partner.">
 <title>Become a Partner - RUBALIA NETWORK</title>
+
 <style>
 :root{
   --navy:#071a35;
@@ -15,6 +18,8 @@
   --text:#253247;
   --muted:#718096;
   --border:#e3e8ef;
+  --green:#16804b;
+  --red:#b83246;
 }
 *{box-sizing:border-box}
 body{
@@ -168,13 +173,141 @@ header{
   font-size:13px;
   font-weight:700;
   margin-top:8px;
+  border:0;
+  cursor:pointer;
+  font-family:inherit;
 }
 .action:hover{background:var(--navy2)}
+.action.gold{
+  background:linear-gradient(110deg,#c18b32,#e4c273);
+  color:#17243a!important;
+}
+.action:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+.partner-panel{
+  display:none;
+  background:#f8fafc;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:19px;
+  margin-bottom:22px;
+}
+.partner-panel h2{
+  color:var(--navy);
+  font-size:18px;
+  margin:0 0 8px;
+}
+.partner-panel p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+.partner-status{
+  display:inline-block;
+  padding:6px 10px;
+  background:#e9f8ef;
+  color:var(--green);
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+  margin:7px 0 14px;
+}
+.partner-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+  margin-top:14px;
+}
+.info-box{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+  min-width:0;
+}
+.info-box label{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:800;
+  text-transform:uppercase;
+  margin-bottom:7px;
+}
+.info-box strong{
+  display:block;
+  color:var(--navy);
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+.link-box{
+  display:flex;
+  gap:7px;
+  margin-top:7px;
+}
+.link-box input{
+  width:100%;
+  min-width:0;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:0 9px;
+  font-size:11px;
+  background:white;
+  color:var(--text);
+}
+.copy-btn{
+  border:0;
+  border-radius:7px;
+  padding:0 13px;
+  background:var(--navy);
+  color:white;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+.message{
+  display:none;
+  padding:12px;
+  margin:12px 0;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.message.success{
+  display:block;
+  background:#effaf3;
+  border:1px solid #c6ead2;
+  color:#17633b;
+}
+.message.error{
+  display:block;
+  background:#fff0f1;
+  border:1px solid #f4cbd0;
+  color:#a12b36;
+}
+.message.info{
+  display:block;
+  background:#fff8e9;
+  border:1px solid #ead49e;
+  color:#66501c;
+}
+.loading{
+  color:var(--muted);
+  font-size:12px;
+  padding:12px 0;
+}
 .footer{
   text-align:center;
   color:#8a95a5;
   font-size:12px;
   padding:25px 12px;
+}
+.footer a{
+  color:#8a95a5;
+  text-decoration:none;
 }
 @media(max-width:760px){
   .container{grid-template-columns:1fr;margin:15px auto}
@@ -184,10 +317,13 @@ header{
   .page-title{font-size:23px}
 }
 @media(max-width:450px){
-  .sidebar,.cards{grid-template-columns:1fr}
+  .sidebar,.cards,.partner-grid{grid-template-columns:1fr}
+  .hero{padding:20px}
+  .hero h2{font-size:20px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -227,25 +363,102 @@ header{
   <main class="content">
 
     <h1 class="page-title">Become a Partner</h1>
+
     <p class="subtitle">
-      Learn about the proposed independent product sales partnership
-      opportunity at RUBALIA NETWORK.
+      Join RUBALIA NETWORK as a product sales partner and
+      build customer relationships through genuine product sales.
     </p>
 
     <div class="hero">
       <h2>Grow Through Genuine Product Sales</h2>
       <p>
-        Our proposed partnership concept focuses on product knowledge,
+        Our partnership concept focuses on product knowledge,
         customer relationships and responsible sales practices.
-        A partner should create real customer value through genuine products.
+        Create real customer value through genuine products.
       </p>
     </div>
 
+    <!-- PARTNER ACCOUNT PANEL -->
+    <section class="partner-panel" id="partnerPanel">
+      <h2 id="panelTitle">Your Partner Account</h2>
+      <span class="partner-status" id="partnerStatus">PARTNER ACTIVE</span>
+
+      <p id="panelDescription">
+        Your Partner account information is shown below.
+      </p>
+
+      <div class="partner-grid">
+        <div class="info-box">
+          <label>Member ID</label>
+          <strong id="memberId">—</strong>
+        </div>
+
+        <div class="info-box">
+          <label>Account Type</label>
+          <strong id="accountRole">—</strong>
+        </div>
+
+        <div class="info-box">
+          <label>Sponsor Member ID</label>
+          <strong id="sponsorId">No Sponsor</strong>
+        </div>
+
+        <div class="info-box">
+          <label>Sponsor Name</label>
+          <strong id="sponsorName">—</strong>
+        </div>
+      </div>
+
+      <div style="margin-top:17px">
+        <label style="display:block;font-size:11px;font-weight:800;color:#526176">
+          YOUR REFERRAL LINK
+        </label>
+
+        <div class="link-box">
+          <input id="referralLink" type="text" readonly
+            aria-label="Your referral link">
+          <button type="button" class="copy-btn" id="copyReferralBtn">
+            COPY
+          </button>
+        </div>
+      </div>
+
+      <div id="partnerMessage" class="message" role="status" aria-live="polite"></div>
+
+      <button type="button" class="action gold" id="activatePartnerBtn"
+        style="display:none">
+        ACTIVATE FREE PARTNER ACCOUNT
+      </button>
+
+      <p style="margin-top:13px">
+        Partner registration is free. Activation does not guarantee
+        income and does not automatically enable commission payments.
+      </p>
+    </section>
+
+    <!-- NOT LOGGED IN PANEL -->
+    <section class="partner-panel" id="guestPanel">
+      <h2>Start Your Partner Journey</h2>
+      <p>
+        Create a free Partner account or log in to your existing
+        RUBALIA NETWORK account.
+      </p>
+
+      <a class="action gold" href="register.html?partner=1">
+        REGISTER AS A FREE PARTNER
+      </a>
+
+      <a class="action" href="login.html">
+        LOGIN TO YOUR ACCOUNT
+      </a>
+    </section>
+
     <div class="notice">
-      <strong>Demo Status:</strong>
-      Partner registration is not currently active.
-      This page does not create an account, partnership agreement,
-      commission entitlement or payment obligation.
+      <strong>Important:</strong>
+      Partner activation is free. It does not create an employment
+      relationship, guarantee income or automatically activate
+      commissions. Any future compensation arrangement will be
+      subject to its approved terms and applicable legal requirements.
     </div>
 
     <section class="section">
@@ -315,8 +528,8 @@ header{
     <section class="section">
       <h2>4. Basic Eligibility</h2>
       <p>
-        Final eligibility requirements will be published before
-        partner registration opens. They may include:
+        Partner eligibility is subject to applicable legal requirements
+        and the company's approved policies.
       </p>
       <ul>
         <li>Meeting the applicable minimum legal age.</li>
@@ -330,8 +543,7 @@ header{
     <section class="section">
       <h2>5. Compensation and Commission</h2>
       <p>
-        No partner commission, referral reward or income is currently
-        activated through this demonstration page.
+        Partner activation does not activate commission payments.
       </p>
       <p>
         Any future compensation arrangement must be based on a
@@ -348,12 +560,12 @@ header{
       <h2>6. Proposed Network Structure</h2>
       <p>
         A Unilevel structure with up to ten levels has been discussed
-        as a possible future distribution model.
+        as a possible distribution model.
       </p>
       <p>
-        This is a proposal only. It does not mean that ten levels
-        are currently operational or that any participant is entitled
-        to receive payments from those levels.
+        This does not mean that ten levels are currently operational
+        or that any participant is entitled to receive payments from
+        those levels.
       </p>
       <p>
         The structure must undergo legal review before any
@@ -382,18 +594,12 @@ header{
     <section class="section">
       <h2>8. Application Process</h2>
       <p>
-        When partner registration becomes legally and operationally
-        available, the application process will explain:
+        Partner registration is available through the account
+        registration system. Existing active customers can request
+        free Partner activation from the account panel above.
       </p>
-      <ul>
-        <li>Eligibility and verification requirements.</li>
-        <li>Partner responsibilities and agreement terms.</li>
-        <li>Approved product categories.</li>
-        <li>Applicable compensation conditions, if any.</li>
-        <li>Customer support and complaint procedures.</li>
-      </ul>
       <p>
-        No application is being submitted or stored through this page.
+        All accounts remain subject to the applicable company policies.
       </p>
       <a class="action" href="support.html">Ask a Question</a>
     </section>
@@ -413,7 +619,7 @@ header{
     <section class="section">
       <h2>10. Partner Policies</h2>
       <p>
-        Any future partnership must follow the applicable company
+        Any partnership must follow the applicable company
         agreement and published policies.
       </p>
       <ul>
@@ -425,12 +631,11 @@ header{
     </section>
 
     <div class="notice">
-      <strong>Before Partner Registration Opens:</strong>
-      RUBALIA NETWORK must finalize its legal business structure,
-      product supply arrangements, partner agreement, compensation
-      rules and applicable regulatory requirements.
-      Obtain qualified legal advice before activating any network
-      compensation system.
+      <strong>Legal Notice:</strong>
+      RUBALIA NETWORK must comply with applicable business,
+      product sales, consumer protection and other regulatory
+      requirements. Obtain qualified legal advice before activating
+      any network compensation system.
     </div>
 
   </main>
@@ -445,6 +650,280 @@ header{
   <a href="legal-disclaimer.html">Disclaimer</a> ·
   <a href="support.html">Support</a>
 </footer>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+const guestPanel = document.getElementById("guestPanel");
+const partnerPanel = document.getElementById("partnerPanel");
+
+const partnerMessage = document.getElementById("partnerMessage");
+const activatePartnerBtn = document.getElementById("activatePartnerBtn");
+const copyReferralBtn = document.getElementById("copyReferralBtn");
+
+const memberIdElement = document.getElementById("memberId");
+const accountRoleElement = document.getElementById("accountRole");
+const sponsorIdElement = document.getElementById("sponsorId");
+const sponsorNameElement = document.getElementById("sponsorName");
+const referralLinkInput = document.getElementById("referralLink");
+
+let currentReferralLink = "";
+
+function showPartnerMessage(type, text){
+  partnerMessage.className = "message " + type;
+  partnerMessage.textContent = text;
+}
+
+function clearPartnerMessage(){
+  partnerMessage.className = "message";
+  partnerMessage.textContent = "";
+}
+
+function getToken(){
+  try{
+    return sessionStorage.getItem("rubalia_token") || "";
+  }catch(error){
+    return "";
+  }
+}
+
+function getStoredUser(){
+  try{
+    const raw = sessionStorage.getItem("rubalia_user");
+    return raw ? JSON.parse(raw) : null;
+  }catch(error){
+    return null;
+  }
+}
+
+async function apiRequest(path, options = {}){
+  const token = getToken();
+
+  const response = await fetch(API_BASE + path,{
+    ...options,
+    headers:{
+      ...(options.headers || {}),
+      ...(token ? {Authorization:"Bearer " + token} : {})
+    }
+  });
+
+  const data = await response.json().catch(function(){
+    return {};
+  });
+
+  if(!response.ok || !data.success){
+    throw new Error(
+      data.message || "Request failed. Please try again."
+    );
+  }
+
+  return data;
+}
+
+function displayMember(data){
+  const member = data.member || {};
+  const sponsor = member.sponsor || null;
+
+  memberIdElement.textContent =
+    member.memberId || data.referralCode || "—";
+
+  accountRoleElement.textContent =
+    member.role === "partner" ? "Partner" : "Customer";
+
+  sponsorIdElement.textContent =
+    member.sponsorId || "No Sponsor";
+
+  sponsorNameElement.textContent =
+    sponsor && sponsor.fullName
+      ? sponsor.fullName
+      : "—";
+
+  currentReferralLink = data.referralLink || "";
+
+  referralLinkInput.value = currentReferralLink;
+
+  const isPartner =
+    member.role === "partner" &&
+    member.isPartner === true;
+
+  if(isPartner){
+    document.getElementById("panelTitle").textContent =
+      "Your Partner Account";
+
+    document.getElementById("partnerStatus").textContent =
+      "PARTNER ACTIVE";
+
+    document.getElementById("panelDescription").textContent =
+      "Your free Partner account is active. You can share your referral link with others.";
+
+    activatePartnerBtn.style.display = "none";
+  }else{
+    document.getElementById("panelTitle").textContent =
+      "Activate Your Partner Account";
+
+    document.getElementById("partnerStatus").textContent =
+      "CUSTOMER ACCOUNT";
+
+    document.getElementById("panelDescription").textContent =
+      "You are currently a customer. You can activate your free Partner account below.";
+
+    activatePartnerBtn.style.display = "inline-block";
+  }
+
+  partnerPanel.style.display = "block";
+  guestPanel.style.display = "none";
+}
+
+async function loadPartnerAccount(){
+  const token = getToken();
+
+  if(!token){
+    guestPanel.style.display = "block";
+    partnerPanel.style.display = "none";
+    return;
+  }
+
+  guestPanel.style.display = "none";
+  partnerPanel.style.display = "block";
+
+  document.getElementById("panelTitle").textContent =
+    "Loading Your Account";
+
+  document.getElementById("partnerStatus").textContent =
+    "LOADING";
+
+  activatePartnerBtn.style.display = "none";
+
+  try{
+    const data = await apiRequest("/referral/me");
+
+    displayMember(data);
+
+  }catch(error){
+    showPartnerMessage(
+      "error",
+      error.message || "Unable to load your account."
+    );
+
+    document.getElementById("panelTitle").textContent =
+      "Account Information Unavailable";
+
+    document.getElementById("partnerStatus").textContent =
+      "NOT LOADED";
+
+    const user = getStoredUser();
+
+    if(user && user.role !== "admin"){
+      activatePartnerBtn.style.display = "inline-block";
+    }else{
+      activatePartnerBtn.style.display = "none";
+    }
+  }
+}
+
+/* ACTIVATE FREE PARTNER */
+
+activatePartnerBtn.addEventListener("click",async function(){
+  const token = getToken();
+
+  if(!token){
+    window.location.href = "login.html";
+    return;
+  }
+
+  const confirmed = window.confirm(
+    "Activate your free RUBALIA NETWORK Partner account? No registration fee will be charged."
+  );
+
+  if(!confirmed) return;
+
+  activatePartnerBtn.disabled = true;
+  activatePartnerBtn.textContent = "ACTIVATING...";
+
+  clearPartnerMessage();
+
+  try{
+    const data = await apiRequest("/referral/activate-partner",{
+      method:"POST"
+    });
+
+    showPartnerMessage(
+      "success",
+      "Your free Partner account has been activated successfully."
+    );
+
+    const storedUser = getStoredUser();
+
+    if(storedUser){
+      storedUser.role = "partner";
+
+      if(data.member && data.member.memberId){
+        storedUser.memberId = data.member.memberId;
+      }
+
+      sessionStorage.setItem(
+        "rubalia_user",
+        JSON.stringify(storedUser)
+      );
+    }
+
+    const refreshed = await apiRequest("/referral/me");
+
+    displayMember(refreshed);
+
+  }catch(error){
+    showPartnerMessage(
+      "error",
+      error.message || "Partner activation failed."
+    );
+
+    activatePartnerBtn.disabled = false;
+    activatePartnerBtn.textContent =
+      "ACTIVATE FREE PARTNER ACCOUNT";
+  }
+});
+
+/* COPY REFERRAL LINK */
+
+copyReferralBtn.addEventListener("click",async function(){
+  if(!currentReferralLink){
+    showPartnerMessage("error","Referral link is not available.");
+    return;
+  }
+
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(currentReferralLink);
+    }else{
+      referralLinkInput.focus();
+      referralLinkInput.select();
+
+      const copied = document.execCommand("copy");
+
+      if(!copied){
+        throw new Error("Copy was not successful.");
+      }
+    }
+
+    showPartnerMessage("success","Referral link copied successfully.");
+
+  }catch(error){
+    referralLinkInput.focus();
+    referralLinkInput.select();
+
+    showPartnerMessage(
+      "info",
+      "Please select and copy your referral link manually."
+    );
+  }
+});
+
+/* INITIALIZE */
+
+loadPartnerAccount();
+</script>
 
 </body>
 </html>
