@@ -4,222 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#071a35">
-<title>Rubalia Slider</title>
-
+<title>Rubalia Promotion Slider</title>
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:transparent;
-  font-family:Arial,sans-serif;
-}
-
-.slider{
-  position:relative;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:transparent;
-}
-
-.slide-frame{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .6s ease;
-  background:transparent;
-}
-
-.slide-frame.active{
-  opacity:1;
-  visibility:visible;
-}
-
-.loading,
-.error{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:13px;
-  text-align:center;
-  padding:12px;
-  background:linear-gradient(120deg,#24112f,#4b104f,#a51e43);
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:transparent;font-family:Arial,sans-serif}
+.slider{position:relative;width:100%;height:100%;overflow:hidden;background:transparent}
+.slide-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;opacity:0;visibility:hidden;transition:opacity .6s ease}
+.slide-frame.active{opacity:1;visibility:visible}
+.loading,.error{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;text-align:center;padding:12px;background:linear-gradient(120deg,#24112f,#4b104f,#a51e43)}
 </style>
 </head>
-
 <body>
-
 <div class="slider" id="slider">
-  <div class="loading" id="message">
-    Loading Rubalia promotions...
-  </div>
+  <div class="loading">Loading Rubalia promotions...</div>
 </div>
-
 <script>
 "use strict";
 
-/* RUBALIA SLIDER SETTINGS */
-const GITHUB_API =
-  "https://api.github.com/repos/rubalia/Rubalia/contents/slide?ref=main";
-
-const SLIDE_DURATION = 7000;
-const REFRESH_DURATION = 5 * 60 * 1000;
+/* RUBALIA SLIDER: Alibaba + Welcome */
+const SLIDES = [
+  {file:"./alibaba.html", duration:4000},
+  {file:"./welcome.html", duration:4000}
+];
 
 const slider = document.getElementById("slider");
-const message = document.getElementById("message");
-
-let slideFiles = [];
 let currentIndex = 0;
-let slideTimer = null;
-let refreshTimer = null;
-let loading = false;
+let timer = null;
+let frames = [];
 
-function showMessage(text){
-  slider.innerHTML = "";
-
+function showMessage(text,className="loading"){
+  slider.replaceChildren();
   const box = document.createElement("div");
-  box.className = "loading";
+  box.className = className;
   box.textContent = text;
-
   slider.appendChild(box);
 }
 
-function createSlide(file){
-  const frame = document.createElement("iframe");
-
-  frame.className = "slide-frame";
-  frame.src = "./" + encodeURIComponent(file);
-  frame.loading = "eager";
-  frame.title = "Rubalia Promotion";
-
-  frame.setAttribute("scrolling","no");
-  frame.setAttribute("allowfullscreen","");
-
-  return frame;
-}
-
 function showSlide(index){
-  const frames = slider.querySelectorAll(".slide-frame");
-
   if(!frames.length) return;
 
   frames.forEach((frame,i)=>{
-    frame.classList.toggle("active",i === index);
+    frame.classList.toggle("active",i===index);
   });
 
   currentIndex = index;
+
+  clearTimeout(timer);
+  timer = setTimeout(()=>{
+    showSlide((currentIndex+1)%frames.length);
+  },SLIDES[currentIndex].duration);
 }
 
-function nextSlide(){
-  if(slideFiles.length <= 1) return;
+function loadSlides(){
+  slider.replaceChildren();
+  frames = [];
 
-  const nextIndex = (currentIndex + 1) % slideFiles.length;
-  showSlide(nextIndex);
-}
-
-function startSlider(){
-  clearInterval(slideTimer);
-
-  if(slideFiles.length === 0){
-    showMessage("No promotional HTML files found.");
-    return;
-  }
-
-  slider.innerHTML = "";
-
-  slideFiles.forEach((file,index)=>{
-    const frame = createSlide(file);
-
-    if(index === 0){
-      frame.classList.add("active");
-    }
-
+  SLIDES.forEach((slide,index)=>{
+    const frame = document.createElement("iframe");
+    frame.className = "slide-frame";
+    frame.src = slide.file;
+    frame.title = slide.file.replace("./","").replace(".html","");
+    frame.loading = "eager";
+    frame.setAttribute("scrolling","no");
+    frame.setAttribute("allowfullscreen","");
+    frames.push(frame);
     slider.appendChild(frame);
   });
 
-  currentIndex = 0;
-
-  if(slideFiles.length > 1){
-    slideTimer = setInterval(nextSlide,SLIDE_DURATION);
-  }
+  showSlide(0);
 }
 
-async function loadSlides(){
-  if(loading) return;
-
-  loading = true;
-
-  try{
-    const response = await fetch(GITHUB_API,{
-      cache:"no-store",
-      headers:{
-        "Accept":"application/vnd.github+json"
-      }
-    });
-
-    if(!response.ok){
-      throw new Error("GitHub folder could not be loaded.");
-    }
-
-    const files = await response.json();
-
-    const htmlFiles = files
-      .filter(item =>
-        item.type === "file" &&
-        item.name.toLowerCase().endsWith(".html") &&
-        item.name.toLowerCase() !== "slider.html"
-      )
-      .map(item => item.name)
-      .sort((a,b)=>a.localeCompare(b));
-
-    if(htmlFiles.length === 0){
-      slideFiles = [];
-      startSlider();
-      return;
-    }
-
-    const oldList = JSON.stringify(slideFiles);
-    const newList = JSON.stringify(htmlFiles);
-
-    if(oldList !== newList){
-      slideFiles = htmlFiles;
-      startSlider();
-    }
-
-  }catch(error){
-    console.error("Rubalia Slider:",error);
-
-    if(slideFiles.length === 0){
-      showMessage("Promotions could not be loaded. Please try again.");
-    }
-
-  }finally{
-    loading = false;
-  }
-}
-
-/* INITIAL LOAD */
 loadSlides();
-
-/* CHECK FOR NEW HTML FILES EVERY 5 MINUTES */
-refreshTimer = setInterval(loadSlides,REFRESH_DURATION);
-
 </script>
-
 </body>
 </html>
