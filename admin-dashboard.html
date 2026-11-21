@@ -128,11 +128,29 @@ button{font:inherit;cursor:pointer}
 .panel-head h3{margin:0;color:var(--navy);font-size:14px}
 .view-link{color:#a17a2d;font-size:11px;font-weight:bold}
 .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.quick-card{border:1px solid var(--border);border-radius:10px;padding:14px;display:block;transition:.2s}
+.quick-card{
+  border:1px solid var(--border);border-radius:10px;
+  padding:14px;display:block;transition:.2s
+}
 .quick-card:hover{border-color:var(--gold);background:#fffcf5}
 .quick-card span{font-size:20px}
 .quick-card strong{display:block;color:var(--navy);font-size:12px;margin:9px 0 4px}
 .quick-card small{color:var(--muted);font-size:10px}
+.quick-card.payment-card{
+  border-color:#d9c28e;
+  background:linear-gradient(135deg,#fffdf7,#fff8e9)
+}
+.quick-card.payment-card:hover{
+  border-color:var(--gold);
+  background:#fff5d9;
+  transform:translateY(-2px)
+}
+.payment-card .payment-icon{
+  width:37px;height:37px;border-radius:10px;
+  display:grid;place-items:center;background:#f4e8c9;
+  color:var(--navy);font-size:20px
+}
+.payment-card strong{margin-top:10px}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:520px}
 th{text-align:left;font-size:10px;color:var(--muted);background:#f7f9fc;padding:12px 10px}
@@ -433,6 +451,12 @@ td strong{color:var(--navy)}
           <small>Order management</small>
         </a>
 
+        <a href="admin-payments.html" class="quick-card payment-card">
+          <span class="payment-icon">💳</span>
+          <strong>Payment Management</strong>
+          <small>Payment records, verification and gateway settings</small>
+        </a>
+
         <a href="admin-announcements.html" class="quick-card">
           <span>📢</span>
           <strong>Announcements</strong>
@@ -489,6 +513,7 @@ td strong{color:var(--navy)}
     This dashboard displays information returned by the Rubalia server.
     Commission, wallet and payment figures are not displayed here because
     their live financial reporting endpoints have not yet been connected.
+    Open Payment Management to review payment requests and gateway settings.
   </div>
 
 </main>
