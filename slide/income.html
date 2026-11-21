@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#21002f">
+<title>Rubalia Network | পণ্য কিনুন, আয় করুন</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#190023;overflow:hidden}
+body{font-family:"Noto Sans Bengali","Hind Siliguri",Arial,sans-serif}
+.banner{
+  width:100%;height:100%;position:relative;overflow:hidden;isolation:isolate;
+  color:#fff;background:
+  radial-gradient(ellipse at 49% 42%,rgba(255,0,190,.38),transparent 32%),
+  radial-gradient(ellipse at 9% 32%,rgba(128,0,204,.62),transparent 32%),
+  radial-gradient(ellipse at 84% 16%,rgba(105,0,190,.55),transparent 34%),
+  linear-gradient(105deg,#1b002c 0%,#3c005f 43%,#1b002e 100%);
+}
+.banner:before,.banner:after{content:"";position:absolute;z-index:20;left:-4%;width:108%;height:12%;border:5px solid #ffcf47;border-radius:50%;filter:drop-shadow(0 0 8px #ffcf39);pointer-events:none}
+.banner:before{top:-8%;transform:rotate(-2deg)}
+.banner:after{bottom:-8%;transform:rotate(2deg)}
+.glow{position:absolute;z-index:-1;border-radius:50%;filter:blur(16px);background:#ffb62e;opacity:.5}
+.glow.a{width:20%;height:25%;left:35%;top:8%}.glow.b{width:20%;height:20%;right:2%;bottom:4%}
+.stars{position:absolute;inset:0;z-index:-1;background-image:radial-gradient(circle,#fff 0 1px,transparent 2px),radial-gradient(circle,#ffd76a 0 1px,transparent 2px);background-size:53px 43px,89px 71px;background-position:8px 9px,31px 22px;opacity:.65}
+.world{position:absolute;right:10%;top:-7%;width:28%;height:38%;border-radius:50%;opacity:.38;background:repeating-linear-gradient(0deg,transparent 0 10px,rgba(255,255,255,.2) 11px 12px),repeating-linear-gradient(90deg,transparent 0 17px,rgba(255,255,255,.17) 18px 19px);mask-image:radial-gradient(ellipse,black 0 56%,transparent 72%)}
+.logo{position:absolute;z-index:8;left:2%;top:3%;display:flex;align-items:center;gap:7px;text-shadow:2px 3px 3px #13001c}
+.logo-r{font:bold italic clamp(35px,6.1vw,88px) Georgia,serif;color:#ffd13b;text-shadow:3px 4px #713500,0 0 12px #ffe47b}
+.logo-text{font:bold italic clamp(18px,3.5vw,49px) Georgia,serif;line-height:.85;white-space:nowrap}
+.logo-text em{color:#ffdc61}
+.hero{position:absolute;z-index:8;left:27.5%;top:7%;width:44%;text-align:center}
+.crown{position:absolute;top:-19%;left:43%;font-size:clamp(24px,4.5vw,62px);filter:drop-shadow(0 3px 4px #ffbd2e)}
+.head{display:block;padding:1% 2%;font-weight:1000;line-height:1.12;letter-spacing:-1px;text-shadow:0 4px 2px #25001f,0 0 12px #ffb6e9}
+.head.one{font-size:clamp(29px,6.3vw,90px);background:linear-gradient(120deg,#ed009e,#7900a8);border:3px solid #ff62d0;border-radius:18px;transform:rotate(-3deg);box-shadow:0 7px 0 #3a003c,0 0 20px #ff43c4}
+.head.two{font-size:clamp(31px,6.7vw,96px);margin-top:1%;color:#391000;background:linear-gradient(#fff19a,#ffc326 55%,#d66b00);border:3px solid #fff0a0;border-radius:13px;transform:rotate(-3deg);box-shadow:0 7px 0 #6d2900,0 0 18px #ffd34a;text-shadow:0 2px #fff}
+.shop-scene{position:absolute;z-index:5;left:1%;bottom:8%;width:29%;height:66%}
+.cart-svg{position:absolute;left:5%;top:9%;width:92%;height:78%;overflow:visible;filter:drop-shadow(0 5px 5px #10001b)}
+.bag-bottom{position:absolute;left:0;bottom:0;width:27%;height:34%;border:2px solid #e8baff;border-radius:8px;background:linear-gradient(130deg,#bd18ff,#4d008b);display:grid;place-items:center;color:#ffe56a;font:bold italic clamp(25px,4.4vw,62px) Georgia;box-shadow:0 5px 10px #12001c}
+.bag-bottom:before,.bag-yellow:before{content:"";position:absolute;left:27%;top:-24%;width:46%;height:27%;border:5px solid #e6b5ff;border-bottom:0;border-radius:28px 28px 0 0}
+.bag-yellow{position:absolute;right:1%;bottom:3%;width:24%;height:31%;border:2px solid #ffe08b;border-radius:8px;background:linear-gradient(130deg,#ffe26b,#c56a00);display:grid;place-items:center;color:#713500;font:bold italic clamp(24px,4vw,54px) Georgia;box-shadow:0 5px 10px #12001c}
+.bag-yellow:before{border-color:#ffdc68}
+.center-points{position:absolute;z-index:8;left:25%;top:59%;width:49%;display:flex;justify-content:center;gap:2%;font-size:clamp(9px,1.65vw,23px);font-weight:bold;white-space:nowrap;text-shadow:0 2px 4px #170020}
+.point{display:flex;align-items:center;gap:4px}
+.check{display:inline-grid;place-items:center;width:1.25em;height:1.25em;border-radius:50%;background:linear-gradient(#fff5a0,#ffb900);color:#fff;font-size:1em;text-shadow:0 1px 2px #a34a00;box-shadow:0 0 8px #ffca32}
+.tagline{position:absolute;z-index:8;left:32%;top:69%;width:38%;text-align:center;font-weight:1000;font-size:clamp(17px,3.15vw,44px);line-height:1.14;transform:rotate(-3deg);text-shadow:0 3px 4px #15001e}
+.tagline strong{color:#ffe02e}
+.right-panel{position:absolute;z-index:9;right:2%;top:17%;width:24%;height:66%;padding:1.5%;border:3px solid #ffcf4a;border-radius:34px;background:linear-gradient(130deg,rgba(22,0,42,.97),rgba(52,0,71,.95));box-shadow:0 0 17px #ffb7ed,inset 0 0 12px #9d3cbf}
+.step{height:25%;display:flex;align-items:center;gap:5%;border-bottom:1px solid rgba(255,218,91,.5);font-weight:bold;font-size:clamp(10px,1.7vw,23px);line-height:1.18}
+.step:last-child{border:0}
+.step-icon{flex:0 0 22%;aspect-ratio:1;border:2px solid #ffd64e;border-radius:50%;display:grid;place-items:center;color:#ffe04b;font-size:clamp(18px,3vw,41px);box-shadow:0 0 8px #ffc52e}
+.coins{position:absolute;z-index:6;right:22%;bottom:9%;width:20%;height:37%}
+.stack{position:absolute;bottom:0;width:23%;border-radius:50%/12%;background:repeating-linear-gradient(0deg,#b76500 0 5px,#ffd34b 6px 10px);border:2px solid #ffe58a;box-shadow:0 2px 8px #16001e}
+.stack:before{content:"";position:absolute;top:-4px;left:-2px;width:100%;height:22%;border-radius:50%;background:linear-gradient(#fff2a0,#e89a13);border:2px solid #fff0a0}
+.stack.s1{left:0;height:35%}.stack.s2{left:25%;height:55%}.stack.s3{left:50%;height:43%}
+.moneybag{position:absolute;right:0;bottom:0;width:48%;height:82%;display:grid;place-items:center;color:#713500;font:bold italic clamp(28px,5vw,69px) Georgia;background:linear-gradient(120deg,#fff0a0,#d88a10 65%,#8a4100);border:3px solid #ffda56;border-radius:42% 42% 35% 35%;clip-path:polygon(25% 0,75% 0,85% 18%,100% 35%,91% 100%,9% 100%,0 35%,15% 18%);text-shadow:0 1px #fff1a2}
+.moneybag:before{content:"";position:absolute;top:3%;width:60%;height:12%;background:#ffce38;clip-path:polygon(0 0,100% 0,85% 100%,15% 100%)}
+.arrow{position:absolute;z-index:5;right:24%;top:37%;font-size:clamp(40px,7vw,100px);color:#ffda35;transform:rotate(-20deg);text-shadow:0 0 12px #ff9c00}
+@media(max-width:600px){
+ .hero{left:26%;width:49%;top:10%}
+ .head.one{font-size:clamp(22px,6vw,39px);border-width:1px;border-radius:9px}
+ .head.two{font-size:clamp(24px,6.2vw,42px);border-width:1px;border-radius:8px}
+ .right-panel{right:1%;width:25%;border-width:1px;border-radius:14px;padding:1.2%}
+ .step{font-size:clamp(6px,1.65vw,10px);gap:3%}
+ .step-icon{border-width:1px;font-size:clamp(10px,2.5vw,16px)}
+ .center-points{left:24%;width:51%;font-size:clamp(6px,1.5vw,10px);gap:2%}
+ .tagline{left:29%;width:43%;font-size:clamp(11px,2.9vw,19px)}
+ .shop-scene{left:0;width:29%}
+ .coins{right:22%;width:19%}
+}
+</style>
+</head>
+<body>
+<main class="banner" aria-label="Rubalia Network referral promotion">
+ <div class="stars"></div><div class="glow a"></div><div class="glow b"></div><div class="world"></div>
+ <div class="logo"><span class="logo-r">R</span><span class="logo-text">Rubalia<br><em>Network</em></span></div>
+
+ <section class="hero">
+  <span class="crown">👑</span>
+  <strong class="head one">পণ্য কিনুন,</strong>
+  <strong class="head two">আয় করুন!</strong>
+ </section>
+
+ <div class="shop-scene" aria-hidden="true">
+  <svg class="cart-svg" viewBox="0 0 440 400" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+    <linearGradient id="metal" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".45" stop-color="#b9c6df"/><stop offset="1" stop-color="#626f91"/></linearGradient>
+    <linearGradient id="pink" x2="1" y2="1"><stop stop-color="#ff54a2"/><stop offset="1" stop-color="#9d0057"/></linearGradient>
+    <linearGradient id="blue" x2="1" y2="1"><stop stop-color="#42d5ff"/><stop offset="1" stop-color="#0754b5"/></linearGradient>
+    <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#fff0a0"/><stop offset="1" stop-color="#c16c18"/></linearGradient>
+   </defs>
+   <!-- Shopping bags in the trolley -->
+   <path d="M116 116V66Q116 23 153 23Q190 23 190 66V116" fill="none" stroke="#ff4d9a" stroke-width="10"/>
+   <path d="M104 91L202 91L216 210L91 210Z" fill="url(#pink)" stroke="#ffb3d4" stroke-width="4"/>
+   <path d="M220 115V67Q220 28 254 28Q288 28 288 67V115" fill="none" stroke="#37c9ff" stroke-width="10"/>
+   <path d="M209 95L300 95L314 207L199 207Z" fill="url(#blue)" stroke="#a4edff" stroke-width="4"/>
+   <path d="M156 151L278 151L303 257L137 257Z" fill="url(#gold)" stroke="#fff0a0" stroke-width="4"/>
+   <text x="218" y="225" font-size="54" text-anchor="middle" fill="#713600" font-family="Georgia" font-weight="bold">R</text>
+   <!-- Trolley handle -->
+   <path d="M25 105Q-3 95 7 71Q17 49 43 65L91 96" fill="none" stroke="#ffcb43" stroke-width="15" stroke-linecap="round"/>
+   <!-- Basket -->
+   <path d="M45 138L365 151L315 280Q307 300 286 300H106Q86 300 80 280Z" fill="rgba(190,220,255,.12)" stroke="url(#metal)" stroke-width="13" stroke-linejoin="round"/>
+   <path d="M50 145L359 158M70 190L342 201M86 238L325 246" stroke="#dceaff" stroke-width="7"/>
+   <path d="M105 151L122 294M166 154L177 298M230 157L232 299M294 160L286 293" stroke="#dceaff" stroke-width="6"/>
+   <path d="M315 290L350 327L385 327" fill="none" stroke="url(#metal)" stroke-width="13" stroke-linecap="round"/>
+   <path d="M113 300L88 354M287 300L300 354" stroke="#e5e8f5" stroke-width="12"/>
+   <circle cx="91" cy="358" r="25" fill="#17142b" stroke="#ffc43c" stroke-width="9"/>
+   <circle cx="302" cy="358" r="25" fill="#17142b" stroke="#ffc43c" stroke-width="9"/>
+  </svg>
+  <div class="bag-bottom">R</div>
+  <div class="bag-yellow">R</div>
+ </div>
+
+ <div class="center-points">
+  <span class="point"><b class="check">✓</b> কেনাকাটায় সাশ্রয়</span>
+  <span class="point"><b class="check">✓</b> রেফারে আয়</span>
+  <span class="point"><b class="check">✓</b> দল গড়ে বড় আয়</span>
+ </div>
+
+ <div class="tagline">শুধু ক্রেতা নন,<br><strong>হোন আয় অংশীদার!</strong></div>
+ <div class="arrow" aria-hidden="true">↗</div>
+
+ <div class="coins" aria-hidden="true">
+  <div class="stack s1"></div><div class="stack s2"></div><div class="stack s3"></div>
+  <div class="moneybag">R</div>
+ </div>
+
+ <aside class="right-panel">
+  <div class="step"><span class="step-icon">🛒</span><span>পছন্দের পণ্য কিনুন</span></div>
+  <div class="step"><span class="step-icon">↗</span><span>বন্ধুদের আমন্ত্রণ জানান</span></div>
+  <div class="step"><span class="step-icon">👥</span><span>আপনার নেটওয়ার্ক গড়ুন</span></div>
+  <div class="step"><span class="step-icon">🪙</span><span>প্রতিটি কেনাকাটায় আয় করুন</span></div>
+ </aside>
+</main>
+</body>
+</html>
