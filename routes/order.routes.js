@@ -95,6 +95,7 @@ function buildProductSnapshot(product) {
 
 // =====================================================
 // BUILD IMMUTABLE PACKAGE COST SNAPSHOT
+// Package cost = 3 Product cost_price + Package extra costs
 // =====================================================
 
 function buildPackageSnapshot(pkg) {
@@ -104,22 +105,13 @@ function buildPackageSnapshot(pkg) {
 
     componentCosts: [
       {
-        productCost: moneyValue(moneyCents(pkg.p1_cost)),
-        deliveryCost: moneyValue(moneyCents(pkg.p1_delivery)),
-        packagingCost: moneyValue(moneyCents(pkg.p1_packaging)),
-        otherCost: moneyValue(moneyCents(pkg.p1_other))
+        productCost: moneyValue(moneyCents(pkg.p1_cost))
       },
       {
-        productCost: moneyValue(moneyCents(pkg.p2_cost)),
-        deliveryCost: moneyValue(moneyCents(pkg.p2_delivery)),
-        packagingCost: moneyValue(moneyCents(pkg.p2_packaging)),
-        otherCost: moneyValue(moneyCents(pkg.p2_other))
+        productCost: moneyValue(moneyCents(pkg.p2_cost))
       },
       {
-        productCost: moneyValue(moneyCents(pkg.p3_cost)),
-        deliveryCost: moneyValue(moneyCents(pkg.p3_delivery)),
-        packagingCost: moneyValue(moneyCents(pkg.p3_packaging)),
-        otherCost: moneyValue(moneyCents(pkg.p3_other))
+        productCost: moneyValue(moneyCents(pkg.p3_cost))
       }
     ],
 
