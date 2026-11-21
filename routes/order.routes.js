@@ -50,13 +50,23 @@ function cleanShipping(body) {
 }
 
 // POST /api/orders
-// Customer: Product অথবা Package অর্ডার।
+// Wallet payment required. COD is not accepted.
 router.post("/", authenticateToken, async (req, res, next) => {
   const client = await pool.connect();
   let transactionStarted = false;
 
   try {
     const body = req.body || {};
+
+    // Reject COD and all unverified payment methods.
+    if (String(body.paymentMethod || "").toLowerCase() !== "wallet") {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Only Wallet Balance payment is currently available. Cash on Delivery is not accepted."
+      });
+    }
+
     const items = body.items;
 
     if (
@@ -130,124 +140,131 @@ router.post("/", authenticateToken, async (req, res, next) => {
     await client.query("BEGIN");
     transactionStarted = true;
 
-    let totalAmount = 0;
-    const orderItems = [];
+    // Create wallet if it does not exist.
+    await client.query(
+      `INSERT INTO wallets (user_id)
+       VALUES ($1)
+       ON CONFLICT (user_id) DO NOTHING`,
+      [req.auth.id]
+    );
 
-    // Process every item using database prices and stock.
-    for (const requested of itemMap.values()) {
-      if (requested.type === "product") {
-        const result = await client.query(
-          `SELECT id, name, price, stock
-           FROM products
-           WHERE id = $1
-             AND status = 'active'
-           FOR UPDATE`,
-          [requested.id]
-        );
+    // Lock wallet to prevent simultaneous double spending.
+    const walletResult = await client.query(
+      `SELECT id, balance
+       FROM wallets
+       WHERE user_id = $1
+       FOR UPDATE`,
+      [req.auth.id]
+    );
 
-        if (!result.rows.length) {
-          throw Object.assign(
-            new Error("A selected product is unavailable."),
-            { statusCode: 400 }
-          );
-        }
-
-        const product = result.rows[0];
-
-        if (Number(product.stock) < requested.quantity) {
-          throw Object.assign(
-            new Error(`Insufficient stock for ${product.name}.`),
-            { statusCode: 409 }
-          );
-        }
-
-        const unitPrice = Number(product.price);
-        const subtotal = unitPrice * requested.quantity;
-
-        if (!Number.isFinite(subtotal)) {
-          throw new Error("Invalid product price.");
-        }
-
-        totalAmount += subtotal;
-
-        orderItems.push({
-          type: "product",
-          productId: product.id,
-          packageId: null,
-          productName: product.name,
-          unitPrice,
-          quantity: requested.quantity,
-          subtotal
-        });
-
-        await client.query(
-          `UPDATE products
-           SET stock = stock - $1,
-               updated_at = NOW()
-           WHERE id = $2`,
-          [requested.quantity, product.id]
-        );
-      } else {
-        const result = await client.query(
-          `SELECT id, name, price, stock, status
-           FROM packages
-           WHERE id = $1
-             AND status = 'active'
-           FOR UPDATE`,
-          [requested.id]
-        );
-
-        if (!result.rows.length) {
-          throw Object.assign(
-            new Error("A selected package is unavailable."),
-            { statusCode: 400 }
-          );
-        }
-
-        const packageItem = result.rows[0];
-
-        if (Number(packageItem.stock) < requested.quantity) {
-          throw Object.assign(
-            new Error(`Insufficient stock for ${packageItem.name}.`),
-            { statusCode: 409 }
-          );
-        }
-
-        const unitPrice = Number(packageItem.price);
-        const subtotal = unitPrice * requested.quantity;
-
-        if (!Number.isFinite(subtotal)) {
-          throw new Error("Invalid package price.");
-        }
-
-        totalAmount += subtotal;
-
-        orderItems.push({
-          type: "package",
-          productId: null,
-          packageId: packageItem.id,
-          productName: packageItem.name,
-          unitPrice,
-          quantity: requested.quantity,
-          subtotal
-        });
-
-        await client.query(
-          `UPDATE packages
-           SET stock = stock - $1,
-               updated_at = NOW()
-           WHERE id = $2`,
-          [requested.quantity, packageItem.id]
-        );
-      }
+    if (!walletResult.rows.length) {
+      throw Object.assign(
+        new Error("Wallet could not be accessed."),
+        { statusCode: 400 }
+      );
     }
 
-    if (
-      !Number.isFinite(totalAmount) ||
-      totalAmount < 0 ||
-      totalAmount > 999999999999
-    ) {
-      throw new Error("Invalid order total.");
+    const wallet = walletResult.rows[0];
+
+    let totalCents = 0;
+    const orderItems = [];
+
+    // Verify products/packages and reserve stock.
+    for (const requested of itemMap.values()) {
+      const isPackage = requested.type === "package";
+
+      const result = await client.query(
+        isPackage
+          ? `SELECT id, name, price, stock
+             FROM packages
+             WHERE id = $1 AND status = 'active'
+             FOR UPDATE`
+          : `SELECT id, name, price, stock
+             FROM products
+             WHERE id = $1 AND status = 'active'
+             FOR UPDATE`,
+        [requested.id]
+      );
+
+      if (!result.rows.length) {
+        throw Object.assign(
+          new Error(
+            isPackage
+              ? "A selected package is unavailable."
+              : "A selected product is unavailable."
+          ),
+          { statusCode: 400 }
+        );
+      }
+
+      const item = result.rows[0];
+
+      if (Number(item.stock) < requested.quantity) {
+        throw Object.assign(
+          new Error(`Insufficient stock for ${item.name}.`),
+          { statusCode: 409 }
+        );
+      }
+
+      // Use integer paisa/cents to avoid floating-point money errors.
+      const unitCents = Math.round(Number(item.price) * 100);
+
+      if (!Number.isSafeInteger(unitCents) || unitCents < 0) {
+        throw new Error("Invalid item price.");
+      }
+
+      const subtotalCents = unitCents * requested.quantity;
+      totalCents += subtotalCents;
+
+      if (
+        !Number.isSafeInteger(totalCents) ||
+        totalCents > 99999999999900
+      ) {
+        throw new Error("Invalid order total.");
+      }
+
+      orderItems.push({
+        type: requested.type,
+        productId: isPackage ? null : item.id,
+        packageId: isPackage ? item.id : null,
+        productName: item.name,
+        unitPrice: unitCents / 100,
+        quantity: requested.quantity,
+        subtotal: subtotalCents / 100
+      });
+
+      await client.query(
+        isPackage
+          ? `UPDATE packages
+             SET stock = stock - $1,
+                 updated_at = NOW()
+             WHERE id = $2`
+          : `UPDATE products
+             SET stock = stock - $1,
+                 updated_at = NOW()
+             WHERE id = $2`,
+        [requested.quantity, item.id]
+      );
+    }
+
+    const totalAmount = totalCents / 100;
+
+    if (totalCents <= 0) {
+      throw Object.assign(
+        new Error("Order total must be greater than zero."),
+        { statusCode: 400 }
+      );
+    }
+
+    const balanceCents = Math.round(Number(wallet.balance) * 100);
+
+    if (balanceCents < totalCents) {
+      throw Object.assign(
+        new Error(
+          "Insufficient wallet balance. Please add funds before placing this order."
+        ),
+        { statusCode: 409 }
+      );
     }
 
     const orderNumber =
@@ -256,6 +273,25 @@ router.post("/", authenticateToken, async (req, res, next) => {
       "-" +
       crypto.randomBytes(3).toString("hex").toUpperCase();
 
+    // Deduct wallet balance inside the same database transaction.
+    const debit = await client.query(
+      `UPDATE wallets
+       SET balance = balance - $1,
+           updated_at = NOW()
+       WHERE id = $2
+         AND balance >= $1
+       RETURNING balance`,
+      [totalAmount.toFixed(2), wallet.id]
+    );
+
+    if (!debit.rows.length) {
+      throw Object.assign(
+        new Error("Insufficient wallet balance."),
+        { statusCode: 409 }
+      );
+    }
+
+    // Create paid order.
     const orderResult = await client.query(
       `INSERT INTO orders (
         user_id,
@@ -263,9 +299,11 @@ router.post("/", authenticateToken, async (req, res, next) => {
         total_amount,
         shipping_name,
         shipping_phone,
-        shipping_address
+        shipping_address,
+        payment_method,
+        payment_status
       )
-      VALUES ($1, $2, $3, $4, $5, $6)
+      VALUES ($1, $2, $3, $4, $5, $6, 'wallet', 'paid')
       RETURNING *`,
       [
         req.auth.id,
@@ -279,6 +317,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
 
     const order = orderResult.rows[0];
 
+    // Save order items.
     for (const item of orderItems) {
       await client.query(
         `INSERT INTO order_items (
@@ -305,24 +344,48 @@ router.post("/", authenticateToken, async (req, res, next) => {
       );
     }
 
+    // Save wallet purchase transaction.
+    await client.query(
+      `INSERT INTO wallet_transactions (
+        wallet_id,
+        transaction_type,
+        amount,
+        reference,
+        description,
+        status
+      )
+      VALUES ($1, 'purchase', $2, $3, $4, 'completed')`,
+      [
+        wallet.id,
+        totalAmount.toFixed(2),
+        orderNumber,
+        "Payment for order " + orderNumber
+      ]
+    );
+
+    // Everything succeeds together or everything rolls back.
     await client.query("COMMIT");
     transactionStarted = false;
 
     return res.status(201).json({
       success: true,
-      message: "Order placed successfully.",
+      message: "Payment successful and order placed.",
       order: {
         id: order.id,
         order_number: order.order_number,
         total_amount: order.total_amount,
         status: order.status,
+        payment_method: "wallet",
+        payment_status: "paid",
         created_at: order.created_at,
         shipping_name: order.shipping_name,
         shipping_phone: order.shipping_phone,
         shipping_address: order.shipping_address,
-        items: orderItems
+        items: orderItems,
+        wallet_balance: debit.rows[0].balance
       }
     });
+
   } catch (error) {
     if (transactionStarted) {
       await client.query("ROLLBACK").catch(() => {});
@@ -336,6 +399,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
     }
 
     next(error);
+
   } finally {
     client.release();
   }
@@ -381,6 +445,7 @@ router.get("/", authenticateToken, async (req, res, next) => {
       success: true,
       orders: result.rows
     });
+
   } catch (error) {
     next(error);
   }
@@ -433,6 +498,7 @@ router.get(
         success: true,
         orders: result.rows
       });
+
     } catch (error) {
       next(error);
     }
@@ -485,6 +551,7 @@ router.patch(
         message: "Order status updated.",
         order: result.rows[0]
       });
+
     } catch (error) {
       next(error);
     }
