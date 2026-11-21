@@ -5,40 +5,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#8b1748">
-<meta name="description" content="Explore RUBALIA NETWORK packages.">
-<title>Packages | RUBALIA NETWORK</title>
+<meta name="description" content="RUBALIA NETWORK Packages">
+<title>Shop | RUBALIA NETWORK</title>
 
 <style>
 :root{
   --red:#a71952;
   --pink:#e72c76;
   --dark:#21172f;
-  --gold:#d9ae5b;
-  --gold-light:#f5dda0;
+  --gold:#e5bd68;
   --bg:#f7f5f9;
   --white:#fff;
   --text:#29243a;
   --muted:#858196;
   --border:#eae6ee;
   --green:#16804b;
-  --shadow:0 5px 18px rgba(31,20,49,.06);
+  --shadow:0 5px 18px rgba(31,20,49,.07);
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
+
 a{text-decoration:none;color:inherit}
-button,input{font:inherit}
+button{font-family:inherit}
 
 /* HEADER */
+
 header{
   position:sticky;
   top:0;
   z-index:50;
-  height:65px;
+  min-height:65px;
   padding:0 5%;
   display:flex;
   align-items:center;
@@ -47,11 +50,13 @@ header{
   background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);
   box-shadow:0 4px 18px rgba(30,15,42,.17);
 }
+
 .header-left,.header-right{
   display:flex;
   align-items:center;
-  gap:13px;
+  gap:12px;
 }
+
 .logo{
   display:flex;
   align-items:center;
@@ -60,53 +65,59 @@ header{
   font-weight:900;
   letter-spacing:1px;
 }
+
 .logo-mark{
   width:36px;
   height:36px;
   display:grid;
   place-items:center;
-  border-radius:10px;
+  border-radius:11px;
   color:#fff;
   font-size:21px;
   background:linear-gradient(145deg,#f5d98f,#bd8b37);
 }
-.logo-text span{color:var(--gold-light)}
+
+.logo-text span{color:var(--gold)}
 .logo small{
   display:block;
   font-size:8px;
   letter-spacing:3px;
-  margin-top:2px;
+  margin-top:3px;
   color:#f5dba6;
 }
+
 .nav-links{
   display:flex;
   align-items:center;
-  gap:22px;
+  gap:20px;
 }
+
 .nav-links a{
   color:#f3eaf0;
-  font-size:11px;
+  font-size:12px;
   font-weight:bold;
 }
-.nav-links a:hover{color:var(--gold-light)}
+
 .cart-link{
-  padding:9px 12px;
+  padding:10px 13px;
   border:1px solid rgba(255,255,255,.25);
-  border-radius:8px;
+  border-radius:9px;
   color:white;
   font-size:11px;
   font-weight:bold;
 }
+
 .mobile-menu{
   display:none;
   border:1px solid rgba(255,255,255,.3);
   background:rgba(255,255,255,.1);
   color:white;
   border-radius:8px;
-  padding:7px 10px;
+  padding:8px 11px;
   font-size:18px;
   cursor:pointer;
 }
+
 .mobile-nav{
   display:none;
   position:fixed;
@@ -114,88 +125,179 @@ header{
   left:0;
   right:0;
   z-index:49;
-  padding:12px 16px;
+  padding:12px 18px;
   background:#241831;
-  box-shadow:0 10px 20px rgba(0,0,0,.15);
 }
+
 .mobile-nav.show{display:grid;gap:4px}
+
 .mobile-nav a{
-  padding:11px;
+  padding:12px;
   color:white;
-  font-size:12px;
-  border-radius:7px;
+  font-size:13px;
+  border-radius:8px;
 }
-.mobile-nav a:hover{background:rgba(255,255,255,.1)}
 
 /* MAIN */
+
 main{
-  max-width:1100px;
+  max-width:1150px;
   margin:auto;
-  padding:22px 20px 50px;
+  padding:18px 20px 50px;
 }
 
-/* HERO */
-.hero{
+/* CODE GENERATED SLIDER */
+
+.slider-wrap{
   position:relative;
+  width:100%;
+  height:145px;
   overflow:hidden;
-  min-height:175px;
+  border-radius:13px;
+  background:#241831;
+  box-shadow:0 7px 20px rgba(31,20,49,.12);
+}
+
+.slider-track{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
   display:flex;
   align-items:center;
-  padding:25px 30px;
-  border-radius:15px;
+  overflow:hidden;
+  padding:17px 23px;
   color:white;
-  background:
-    radial-gradient(circle at 90% 15%,rgba(246,199,112,.3),transparent 30%),
-    linear-gradient(115deg,#241a3b,#78133f 65%,#b5235d);
-  box-shadow:0 10px 25px rgba(111,22,65,.12);
+  opacity:0;
+  visibility:hidden;
+  transform:scale(1.025);
+  transition:opacity .7s ease,transform .9s ease;
 }
-.hero:after{
-  content:"R";
-  position:absolute;
-  right:35px;
-  top:-65px;
-  font-size:220px;
-  font-weight:900;
-  color:rgba(255,255,255,.045);
-  pointer-events:none;
+
+.slide.active{
+  opacity:1;
+  visibility:visible;
+  transform:scale(1);
 }
-.hero-content{position:relative;z-index:1;max-width:550px}
-.hero-tag{
+
+.slide-content{
+  position:relative;
+  z-index:2;
+  max-width:72%;
+}
+
+.slide-tag{
   display:inline-block;
-  padding:6px 10px;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:20px;
-  color:#f6d993;
   font-size:8px;
   font-weight:bold;
   letter-spacing:2px;
+  color:#f6d993;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:20px;
+  padding:5px 9px;
 }
-.hero h1{margin:12px 0 7px;font-size:25px}
-.hero p{
+
+.slide h2{
+  margin:9px 0 5px;
+  font-size:21px;
+  line-height:1.2;
+}
+
+.slide p{
   margin:0;
-  color:#e8dce5;
-  font-size:11px;
-  line-height:1.7;
+  color:#f0e4ec;
+  font-size:10px;
+  line-height:1.6;
 }
-.hero-button{
-  display:inline-block;
-  margin-top:14px;
-  padding:10px 15px;
-  border-radius:7px;
-  background:linear-gradient(120deg,#f4d991,#d3a64f);
-  color:#321b35;
-  font-size:9px;
-  font-weight:900;
+
+.slide-decoration{
+  position:absolute;
+  right:25px;
+  top:50%;
+  transform:translateY(-50%);
+  width:105px;
+  height:105px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  font-size:48px;
+  box-shadow:0 0 35px rgba(255,255,255,.12);
+}
+
+.slide-decoration:after{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:50%;
+}
+
+.slide-one{
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,210,120,.35),transparent 35%),
+    linear-gradient(110deg,#20172f,#861544,#c3265e);
+}
+
+.slide-two{
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,255,255,.25),transparent 35%),
+    linear-gradient(110deg,#122e35,#087c70,#24a28b);
+}
+
+.slide-three{
+  background:
+    radial-gradient(circle at 85% 20%,rgba(255,220,130,.3),transparent 35%),
+    linear-gradient(110deg,#282044,#62409a,#a34e91);
+}
+
+.slider-dots{
+  position:absolute;
+  bottom:9px;
+  left:0;
+  right:0;
+  z-index:5;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+
+.slider-dot{
+  width:6px;
+  height:6px;
+  padding:0;
+  border:0;
+  border-radius:10px;
+  background:rgba(255,255,255,.5);
+  cursor:pointer;
+  transition:.3s;
+}
+
+.slider-dot.active{
+  width:19px;
+  background:#f5d58e;
 }
 
 /* SEARCH */
+
 .search-section{
-  margin:20px 0;
+  margin:17px 0 22px;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:9px;
 }
-.search-box{flex:1;position:relative}
+
+.search-box{
+  flex:1;
+  position:relative;
+}
+
 .search-box input{
   width:100%;
   height:42px;
@@ -205,122 +307,140 @@ main{
   background:white;
   outline:none;
   color:var(--text);
-  font-size:11px;
+  font-size:12px;
 }
+
 .search-box input:focus{
   border-color:#c64d81;
-  box-shadow:0 0 0 3px rgba(214,0,69,.06);
 }
+
 .search-icon{
   position:absolute;
   left:13px;
   top:12px;
   color:#9c91a4;
-  font-size:15px;
+  font-size:16px;
 }
+
 .refresh-btn{
   border:1px solid var(--border);
   background:white;
   color:#6d5269;
-  padding:11px 13px;
-  border-radius:8px;
+  padding:12px;
+  border-radius:9px;
   font-size:10px;
   font-weight:bold;
   cursor:pointer;
 }
 
-/* SECTION */
+/* PACKAGE SECTION */
+
 .section-heading{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  margin:25px 0 13px;
+  margin:15px 0 12px;
 }
+
 .section-heading h2{
   margin:0;
   color:#30243e;
   font-size:18px;
 }
+
 .section-heading p{
   margin:4px 0 0;
   color:var(--muted);
   font-size:10px;
 }
+
 .section-count{
   color:#9a6c38;
-  font-size:9px;
+  font-size:10px;
   font-weight:bold;
 }
 
-/* TWO CARDS PER ROW */
+/* TWO COLUMN PACKAGE GRID */
+
 .package-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
+  gap:11px;
 }
-.package-card{
+
+.item-card{
   min-width:0;
   overflow:hidden;
   background:white;
   border:1px solid var(--border);
   border-radius:11px;
   box-shadow:var(--shadow);
-  transition:transform .2s,box-shadow .2s;
+  transition:transform .2s;
 }
-.package-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 9px 22px rgba(31,20,49,.1);
+
+.item-card:hover{
+  transform:translateY(-3px);
 }
-.package-image{
-  height:125px;
+
+.item-image{
+  height:115px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
   background:linear-gradient(135deg,#f9e8ef,#eee8f6);
 }
-.package-image img{
+
+.item-image img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
+
 .image-placeholder{
   display:grid;
   place-items:center;
   width:100%;
   height:100%;
   color:#b17a9a;
-  font-size:35px;
+  font-size:36px;
 }
-.package-body{padding:11px}
-.package-type{
+
+.item-body{
+  padding:10px;
+}
+
+.item-type{
   display:inline-block;
   padding:4px 7px;
-  border-radius:15px;
+  border-radius:20px;
   background:#f9edf3;
   color:#a51d54;
-  font-size:7px;
+  font-size:8px;
   font-weight:bold;
-  letter-spacing:.7px;
+  letter-spacing:.5px;
 }
-.package-title{
+
+.item-title{
   margin:8px 0 5px;
   color:#30243e;
-  font-size:12px;
-  line-height:1.4;
+  font-size:13px;
+  line-height:1.35;
   overflow-wrap:anywhere;
 }
-.package-description{
+
+.item-description{
+  height:30px;
+  overflow:hidden;
   margin:0;
   color:var(--muted);
   font-size:9px;
   line-height:1.5;
-  min-height:27px;
-  overflow-wrap:anywhere;
 }
-.package-bottom{
-  margin-top:10px;
+
+.item-bottom{
+  margin-top:9px;
   padding-top:9px;
   border-top:1px solid #f0edf2;
   display:flex;
@@ -328,65 +448,82 @@ main{
   align-items:center;
   gap:5px;
 }
-.package-price{
+
+.item-price{
   color:#8b1748;
   font-size:14px;
   font-weight:900;
   overflow-wrap:anywhere;
 }
-.package-price small{
+
+.item-price small{
   display:block;
   margin-bottom:3px;
   color:#9991a1;
-  font-size:7px;
+  font-size:8px;
   font-weight:normal;
 }
-.package-stock{
-  margin-top:4px;
+
+.item-stock{
+  margin-top:5px;
   color:var(--green);
-  font-size:8px;
+  font-size:9px;
 }
-.package-stock.out{color:#c0392b}
+
+.item-stock.out{color:#c0392b}
+
 .buy-btn{
   display:inline-block;
   border:0;
-  padding:9px 10px;
+  padding:9px 9px;
   border-radius:7px;
   background:linear-gradient(110deg,#ed286a,#9b164f);
   color:white;
-  font-size:8px;
+  font-size:9px;
   font-weight:900;
   cursor:pointer;
   white-space:nowrap;
 }
-.buy-btn:disabled{opacity:.45;cursor:not-allowed}
+
+.buy-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
 
 /* STATES */
+
 .state-box{
   grid-column:1/-1;
   padding:35px 15px;
   border:1px dashed #dcd3e0;
-  border-radius:11px;
+  border-radius:12px;
   background:white;
   text-align:center;
 }
-.state-icon{font-size:30px;margin-bottom:9px}
+
+.state-icon{
+  font-size:30px;
+  margin-bottom:9px;
+}
+
 .state-box h3{
   margin:0 0 7px;
   color:#3b2d46;
-  font-size:14px;
+  font-size:15px;
 }
+
 .state-box p{
   margin:0;
   color:var(--muted);
   font-size:10px;
-  line-height:1.6;
+  line-height:1.7;
 }
+
 .state-box button{
   margin-top:12px;
   border:0;
   padding:9px 14px;
-  border-radius:7px;
+  border-radius:8px;
   color:white;
   background:#a51d54;
   font-size:10px;
@@ -395,20 +532,23 @@ main{
 }
 
 /* NOTICE */
+
 .notice{
   display:none;
-  margin:13px 0;
-  padding:11px 13px;
-  border-radius:8px;
-  font-size:10px;
+  margin:12px 0;
+  padding:12px;
+  border-radius:9px;
+  font-size:11px;
   line-height:1.6;
 }
+
 .notice.error{
   display:block;
   background:#fff0f1;
   color:#a12b36;
   border:1px solid #f4cbd0;
 }
+
 .notice.success{
   display:block;
   background:#effaf3;
@@ -417,49 +557,78 @@ main{
 }
 
 /* FOOTER */
+
 footer{
-  padding:23px 15px;
+  padding:25px 15px;
   background:linear-gradient(110deg,#17152f,#74133e);
   color:#d9cbd9;
   text-align:center;
   font-size:10px;
 }
+
 footer strong{color:#f4d58c}
 
-/* RESPONSIVE */
+/* MOBILE */
+
 @media(max-width:650px){
-  header{height:60px;padding:0 12px}
-  .logo{font-size:14px}
+  header{
+    min-height:61px;
+    padding:0 12px;
+  }
+
+  .logo{font-size:13px}
   .logo-mark{width:32px;height:32px;font-size:18px}
   .logo small{font-size:7px;letter-spacing:2px}
+
   .nav-links{display:none}
   .mobile-menu{display:block}
-  .cart-link{padding:8px 9px;font-size:9px}
-  .mobile-nav{top:60px}
-  main{padding:14px 10px 35px}
-  .hero{min-height:165px;padding:21px 17px;border-radius:12px}
-  .hero h1{font-size:21px}
-  .hero p{font-size:10px}
-  .hero:after{right:0;font-size:165px}
-  .search-section{margin:16px 0}
+  .cart-link{padding:9px;font-size:9px}
+  .mobile-nav{top:61px}
+
+  main{padding:13px 11px 35px}
+
+  .slider-wrap{
+    height:125px;
+    border-radius:11px;
+  }
+
+  .slide{padding:13px 15px}
+  .slide-content{max-width:73%}
+  .slide h2{font-size:17px}
+  .slide p{font-size:9px}
+  .slide-tag{font-size:7px}
+  .slide-decoration{
+    right:13px;
+    width:75px;
+    height:75px;
+    font-size:34px;
+  }
+  .slide-decoration:after{
+    width:95px;
+    height:95px;
+  }
+
+  .search-section{margin:14px 0 18px}
   .search-box input{height:40px}
-  .refresh-btn{padding:10px}
-  .section-heading{margin:20px 0 11px}
+  .refresh-btn{padding:11px 9px}
+
   .section-heading h2{font-size:16px}
   .package-grid{gap:9px}
-  .package-image{height:105px}
-  .package-body{padding:9px}
-  .package-title{font-size:11px}
-  .package-description{font-size:8px;min-height:25px}
-  .package-price{font-size:12px}
-  .buy-btn{padding:8px 7px;font-size:7px}
+
+  .item-image{height:105px}
+  .item-body{padding:8px}
+  .item-title{font-size:12px}
+  .item-description{font-size:8px;height:27px}
+  .item-price{font-size:12px}
+  .item-stock{font-size:8px}
+  .buy-btn{padding:8px 7px;font-size:8px}
 }
+
 @media(max-width:340px){
-  .package-grid{gap:6px}
-  .package-image{height:90px}
-  .package-body{padding:7px}
-  .package-title{font-size:10px}
-  .package-price{font-size:11px}
+  .item-image{height:88px}
+  .item-body{padding:7px}
+  .item-title{font-size:11px}
+  .item-price{font-size:11px}
   .buy-btn{padding:7px 5px;font-size:7px}
 }
 </style>
@@ -469,8 +638,10 @@ footer strong{color:#f4d58c}
 
 <header>
   <div class="header-left">
-    <button class="mobile-menu" type="button"
-      onclick="toggleMobileMenu()" aria-label="Open menu">☰</button>
+
+    <button class="mobile-menu"
+      type="button"
+      onclick="toggleMobileMenu()">☰</button>
 
     <a href="dashboard.html" class="logo">
       <span class="logo-mark">R</span>
@@ -479,10 +650,11 @@ footer strong{color:#f4d58c}
         <small>GROW WITH TRUST</small>
       </span>
     </a>
+
   </div>
 
   <nav class="nav-links">
-    <a href="dashboard.html">Packages</a>
+    <a href="dashboard.html">Shop</a>
     <a href="orders.html">My Orders</a>
     <a href="contact.html">Support</a>
   </nav>
@@ -493,45 +665,86 @@ footer strong{color:#f4d58c}
 </header>
 
 <nav class="mobile-nav" id="mobileNav">
-  <a href="dashboard.html">📦 Packages</a>
+  <a href="dashboard.html">🛍️ Shop</a>
   <a href="orders.html">📦 My Orders</a>
   <a href="contact.html">💬 Support</a>
 </nav>
 
 <main>
 
-  <section class="hero">
-    <div class="hero-content">
-      <span class="hero-tag">RUBALIA NETWORK STORE</span>
-      <h1>Discover Our Packages</h1>
-      <p>
-        Explore our available product packages.
-        Choose a package that matches your needs and place your order.
-      </p>
-      <a href="#packages" class="hero-button">EXPLORE PACKAGES</a>
+  <!-- AUTOMATIC CODE GENERATED SLIDER -->
+
+  <section class="slider-wrap">
+    <div class="slider-track" id="sliderTrack">
+
+      <article class="slide slide-one active">
+        <div class="slide-content">
+          <span class="slide-tag">RUBALIA NETWORK</span>
+          <h2>Grow With Trust</h2>
+          <p>Discover our product packages and explore new opportunities.</p>
+        </div>
+        <div class="slide-decoration">💎</div>
+      </article>
+
+      <article class="slide slide-two">
+        <div class="slide-content">
+          <span class="slide-tag">QUALITY COLLECTION</span>
+          <h2>Choose Your Package</h2>
+          <p>Explore our available collections in one place.</p>
+        </div>
+        <div class="slide-decoration">📦</div>
+      </article>
+
+      <article class="slide slide-three">
+        <div class="slide-content">
+          <span class="slide-tag">RUBALIA STORE</span>
+          <h2>Discover More</h2>
+          <p>Find a package that matches your needs.</p>
+        </div>
+        <div class="slide-decoration">✨</div>
+      </article>
+
+    </div>
+
+    <div class="slider-dots" id="sliderDots">
+      <button class="slider-dot active" aria-label="Slide 1"></button>
+      <button class="slider-dot" aria-label="Slide 2"></button>
+      <button class="slider-dot" aria-label="Slide 3"></button>
     </div>
   </section>
 
   <div class="notice" id="notice" role="status"></div>
 
+  <!-- PACKAGE SEARCH -->
+
   <section class="search-section">
     <div class="search-box">
       <span class="search-icon">⌕</span>
-      <input type="search" id="searchInput"
+      <input
+        type="search"
+        id="searchInput"
         placeholder="Search packages..."
         autocomplete="off">
     </div>
-    <button class="refresh-btn" type="button"
+
+    <button class="refresh-btn"
+      type="button"
       onclick="loadStore()">↻ Refresh</button>
   </section>
 
+  <!-- PACKAGES ONLY -->
+
   <section id="packages">
+
     <div class="section-heading">
       <div>
         <h2>Our Packages</h2>
         <p>Choose from our available packages.</p>
       </div>
-      <span class="section-count" id="packageCount">Loading...</span>
+
+      <span class="section-count" id="packageCount">
+        Loading...
+      </span>
     </div>
 
     <div class="package-grid" id="packageGrid">
@@ -541,6 +754,7 @@ footer strong{color:#f4d58c}
         <p>Please wait while we load available packages.</p>
       </div>
     </div>
+
   </section>
 
 </main>
@@ -555,7 +769,8 @@ footer strong{color:#f4d58c}
 const API_BASE = "https://rubalia.onrender.com/api";
 
 let allPackages = [];
-let loading = false;
+let sliderIndex = 0;
+let sliderTimer = null;
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g,function(char){
@@ -572,13 +787,11 @@ function escapeHTML(value){
 function formatPrice(value){
   const number = Number(value);
 
-  if(value === null || value === undefined || value === "" ||
-     !Number.isFinite(number)){
+  if(!Number.isFinite(number)){
     return "Price unavailable";
   }
 
   return "৳ " + number.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
@@ -596,8 +809,53 @@ function clearNotice(){
 }
 
 function toggleMobileMenu(){
-  document.getElementById("mobileNav").classList.toggle("show");
+  document.getElementById("mobileNav")
+    .classList.toggle("show");
 }
+
+/* SLIDER */
+
+function showSlide(index){
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".slider-dot");
+
+  if(!slides.length) return;
+
+  sliderIndex = (index + slides.length) % slides.length;
+
+  slides.forEach(function(slide,i){
+    slide.classList.toggle("active",i===sliderIndex);
+  });
+
+  dots.forEach(function(dot,i){
+    dot.classList.toggle("active",i===sliderIndex);
+  });
+}
+
+function startSlider(){
+  const dots = document.querySelectorAll(".slider-dot");
+
+  dots.forEach(function(dot,index){
+    dot.addEventListener("click",function(){
+      showSlide(index);
+      restartSlider();
+    });
+  });
+
+  restartSlider();
+}
+
+function restartSlider(){
+  if(sliderTimer){
+    clearInterval(sliderTimer);
+  }
+
+  sliderTimer = setInterval(function(){
+    showSlide(sliderIndex+1);
+  },5000);
+}
+
+/* LOADING STATE */
 
 function showState(container,icon,title,description,buttonText){
   container.innerHTML = `
@@ -613,12 +871,14 @@ function showState(container,icon,title,description,buttonText){
   `;
 }
 
+/* API */
+
 async function fetchJSON(url,token){
   const response = await fetch(url,{
     method:"GET",
     headers:{
       "Accept":"application/json",
-      "Authorization":"Bearer " + token
+      Authorization:"Bearer "+token
     },
     cache:"no-store"
   });
@@ -627,14 +887,14 @@ async function fetchJSON(url,token){
     return {};
   });
 
-  if(response.status === 401){
+  if(response.status===401){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     window.location.replace("login.html");
     throw new Error("Your login session has expired.");
   }
 
-  if(!response.ok || data.success === false){
+  if(!response.ok){
     throw new Error(
       data.message || "Unable to load store information."
     );
@@ -644,6 +904,7 @@ async function fetchJSON(url,token){
 }
 
 /* AUTHENTICATION */
+
 async function verifySession(){
   const token = sessionStorage.getItem("rubalia_token");
 
@@ -652,31 +913,35 @@ async function verifySession(){
     throw new Error("Login required.");
   }
 
-  const data = await fetchJSON(API_BASE + "/auth/me",token);
+  const data = await fetchJSON(API_BASE+"/auth/me",token);
 
-  if(!data.user){
+  if(!data.success || !data.user){
     throw new Error("Unable to verify your account.");
   }
 
   const role = String(data.user.role || "").toLowerCase();
 
-  if(role === "admin"){
+  if(role==="admin"){
     window.location.replace("admin-dashboard.html");
     throw new Error("Opening Admin Dashboard.");
   }
 
   if(data.user.status &&
-     String(data.user.status).toLowerCase() !== "active"){
+     String(data.user.status).toLowerCase()!=="active"){
+
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
+
     window.location.replace("login.html");
+
     throw new Error("Your account is not active.");
   }
 
   return token;
 }
 
-/* PACKAGE CARD */
+/* PACKAGE RENDER */
+
 function renderPackages(packages){
   const grid = document.getElementById("packageGrid");
 
@@ -688,54 +953,71 @@ function renderPackages(packages){
       grid,
       "📦",
       "No Packages Available",
-      "There are currently no active packages available. Please check again later."
+      "There are currently no active packages available."
     );
     return;
   }
 
   grid.innerHTML = packages.map(function(item){
+
     const id = Number(item.id);
+
     const name = escapeHTML(item.name || "Unnamed Package");
+
     const description = escapeHTML(
       item.description || "Explore this RUBALIA product package."
     );
 
     const image = item.image_url
-      ? `<img src="${escapeHTML(item.image_url)}"
+      ? `<img
+          src="${escapeHTML(item.image_url)}"
           alt="${name}"
           loading="lazy"
           onerror="this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;>📦</div>'">`
       : `<div class="image-placeholder">📦</div>`;
 
     const stock = Number(item.stock);
-    const stockKnown = item.stock !== null &&
-      item.stock !== undefined && item.stock !== "";
+
+    const stockKnown =
+      item.stock !== null &&
+      item.stock !== undefined &&
+      item.stock !== "";
 
     const outOfStock = stockKnown && stock <= 0;
+
     const stockText = stockKnown
-      ? (outOfStock ? "Out of Stock" : "Stock: " + stock)
+      ? (outOfStock ? "Out of Stock" : "Stock: "+stock)
       : "Stock unavailable";
 
-    const invalidId = !Number.isSafeInteger(id) || id <= 0;
+    const validPackageId =
+      Number.isSafeInteger(id) && id > 0;
 
     return `
-      <article class="package-card">
-        <div class="package-image">${image}</div>
+      <article class="item-card">
 
-        <div class="package-body">
-          <span class="package-type">PRODUCT PACKAGE</span>
+        <div class="item-image">
+          ${image}
+        </div>
 
-          <h3 class="package-title">${name}</h3>
+        <div class="item-body">
 
-          <p class="package-description">${description}</p>
+          <span class="item-type">PACKAGE</span>
 
-          <div class="package-bottom">
+          <h3 class="item-title">${name}</h3>
+
+          <p class="item-description">
+            ${description}
+          </p>
+
+          <div class="item-bottom">
+
             <div>
-              <div class="package-price">
+              <div class="item-price">
                 <small>PACKAGE PRICE</small>
                 ${formatPrice(item.price)}
               </div>
-              <div class="package-stock ${outOfStock ? "out" : ""}">
+
+              <div class="item-stock ${outOfStock?"out":""}">
                 ${escapeHTML(stockText)}
               </div>
             </div>
@@ -743,10 +1025,13 @@ function renderPackages(packages){
             <button
               class="buy-btn"
               type="button"
-              ${outOfStock || invalidId ? "disabled" : ""}
-              onclick="buyPackage(${invalidId ? 0 : id})">
-              ${outOfStock || invalidId ? "UNAVAILABLE" : "BUY NOW"}
+              ${outOfStock || !validPackageId ? "disabled" : ""}
+              onclick="buyPackage(${validPackageId?id:0})">
+
+              ${outOfStock ? "UNAVAILABLE" : "BUY NOW"}
+
             </button>
+
           </div>
         </div>
       </article>
@@ -754,7 +1039,8 @@ function renderPackages(packages){
   }).join("");
 }
 
-/* SEARCH PACKAGES ONLY */
+/* SEARCH */
+
 function filterPackages(){
   const query = document.getElementById("searchInput")
     .value.trim().toLowerCase();
@@ -765,7 +1051,9 @@ function filterPackages(){
       item.description,
       item.category
     ].some(function(value){
-      return String(value || "").toLowerCase().includes(query);
+      return String(value || "")
+        .toLowerCase()
+        .includes(query);
     });
   });
 
@@ -776,18 +1064,17 @@ document.getElementById("searchInput")
   .addEventListener("input",filterPackages);
 
 /* BUY PACKAGE */
+
 function buyPackage(id){
-  if(!Number.isSafeInteger(id) || id <= 0) return;
+  if(!Number.isSafeInteger(id) || id<=0) return;
 
   window.location.href =
-    "checkout.html?type=package&id=" + encodeURIComponent(id);
+    "checkout.html?type=package&id="+encodeURIComponent(id);
 }
 
 /* LOAD PACKAGES ONLY */
-async function loadStore(){
-  if(loading) return;
 
-  loading = true;
+async function loadStore(){
   clearNotice();
 
   const grid = document.getElementById("packageGrid");
@@ -799,30 +1086,36 @@ async function loadStore(){
     "Connecting to RUBALIA NETWORK..."
   );
 
-  document.getElementById("packageCount").textContent = "Loading...";
+  document.getElementById("packageCount").textContent =
+    "Loading...";
 
   try{
     const token = await verifySession();
 
-    const data = await fetchJSON(
-      API_BASE + "/packages",
+    // Only packages API is called.
+    // No individual product API is requested.
+    const packageData = await fetchJSON(
+      API_BASE+"/packages",
       token
     );
 
-    if(!Array.isArray(data.packages)){
+    if(!packageData.success){
       throw new Error("Package information could not be loaded.");
     }
 
-    allPackages = data.packages;
+    allPackages = Array.isArray(packageData.packages)
+      ? packageData.packages
+      : [];
 
     filterPackages();
 
   }catch(error){
+
     if(
-      error.message === "Login required." ||
-      error.message === "Opening Admin Dashboard." ||
-      error.message === "Your account is not active." ||
-      error.message === "Your login session has expired."
+      error.message==="Login required." ||
+      error.message==="Opening Admin Dashboard." ||
+      error.message==="Your account is not active." ||
+      error.message==="Your login session has expired."
     ){
       return;
     }
@@ -832,22 +1125,24 @@ async function loadStore(){
       error.message || "Unable to load packages. Please try again."
     );
 
-    document.getElementById("packageCount").textContent = "Unavailable";
-
     showState(
       grid,
       "⚠️",
       "Packages Could Not Load",
-      "Please check your internet connection and try again.",
+      "Please check your connection and try again.",
       "Retry"
     );
 
-  }finally{
-    loading = false;
+    document.getElementById("packageCount").textContent =
+      "Unavailable";
   }
 }
 
+/* START */
+
+startSlider();
 loadStore();
+
 </script>
 
 </body>
