@@ -3,258 +3,639 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071a35">
+<meta name="theme-color" content="#310d35">
 <title>Settings | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d5ad55;
-  --gold2:#f0d48b;
-  --bg:#f3f5f9;
-  --text:#18263a;
-  --muted:#718096;
-  --border:#e4e9f1;
-  --green:#16865b;
-  --red:#b83232;
+  --red:#a71952;
+  --pink:#e72c76;
+  --dark:#21172f;
+  --gold:#e5bd68;
+  --bg:#f7f5f9;
+  --white:#fff;
+  --text:#29243a;
+  --muted:#858196;
+  --border:#eae6ee;
+  --green:#16804b;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 a{text-decoration:none;color:inherit}
-button,input,select{font:inherit}
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:250px;background:var(--navy);color:white;
-  padding:24px 16px;flex-shrink:0
+button,input,select{font-family:inherit}
+body.menu-open{overflow:hidden}
+
+/* HEADER - SAME AS DASHBOARD */
+
+.app-header{
+  height:76px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 22px;
+  color:white;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 4px 15px rgba(35,10,45,.18);
+  position:relative;
+  z-index:100;
+}
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-width:0;
+}
+.menu-toggle{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:12px;
+  font-size:25px;
+  cursor:pointer;
 }
 .brand{
-  font-size:21px;font-weight:900;color:var(--gold2);
-  padding:5px 10px 25px;letter-spacing:1px
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
 }
-.brand small{
-  display:block;font-size:10px;letter-spacing:4px;
-  color:#fff;margin-top:5px
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#512a83;
+  font-size:27px;
+  font-weight:900;
+  flex-shrink:0;
+}
+.brand-text{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.brand-text span{color:#ffe58a}
+.brand-text small{
+  display:block;
+  font-size:9px;
+  letter-spacing:3px;
+  color:#f5dca4;
+  margin-top:4px;
+}
+.header-label{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:11px;
+  padding:12px 15px;
+  font-size:12px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* DRAWER - SAME AS DASHBOARD */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  overflow-y:auto;
+  padding:20px 14px 25px;
+  color:white;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  z-index:201;
+  transform:translateX(-105%);
+  transition:transform .28s ease;
+  box-shadow:10px 0 35px rgba(0,0,0,.2);
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 7px 22px;
+}
+.drawer-brand{
+  font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  letter-spacing:1px;
+}
+.drawer-brand small{
+  display:block;
+  font-size:10px;
+  letter-spacing:4px;
+  color:white;
+  margin-top:4px;
+}
+.drawer-close{
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  color:white;
+  background:rgba(255,255,255,.1);
+  font-size:22px;
+  cursor:pointer;
 }
 .menu-title{
-  color:#8495ad;font-size:10px;font-weight:bold;
-  padding:15px 12px 8px;letter-spacing:1.5px
+  color:#c8b5e9;
+  font-size:10px;
+  font-weight:bold;
+  padding:15px 12px 8px;
+  letter-spacing:1.5px;
 }
 .menu a{
-  display:block;padding:12px;margin:3px 0;
-  border-radius:8px;color:#d8e0ec;font-size:13px
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px 12px;
+  margin:3px 0;
+  border-radius:9px;
+  color:#eee8fa;
+  font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.2s;
 }
 .menu a:hover,.menu a.active{
-  background:#18375e;color:var(--gold2)
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
 }
-.main{flex:1;min-width:0}
-.topbar{
-  min-height:68px;background:white;display:flex;
-  justify-content:space-between;align-items:center;
-  gap:12px;padding:12px 30px;
-  border-bottom:1px solid var(--border)
+.menu-icon{
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
-.topbar strong{color:var(--navy)}
-.member{font-size:12px;color:var(--muted)}
-.content{padding:28px;max-width:1150px;margin:auto}
+
+/* MAIN CONTENT */
+
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:25px 20px 50px;
+}
 .heading{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:15px;flex-wrap:wrap;
-  margin-bottom:22px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
 }
-.heading h1{font-size:25px;color:var(--navy)}
-.heading p{font-size:13px;color:var(--muted);margin-top:7px}
+.heading h1{
+  font-size:25px;
+  color:var(--dark);
+}
+.heading p{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:7px;
+}
 .status-tag{
-  background:#e7f6ef;color:#16865b;padding:8px 13px;
-  border-radius:20px;font-size:11px;font-weight:bold
+  background:#e7f6ef;
+  color:#16865b;
+  padding:8px 13px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
 }
+
+/* NOTICE */
+
 .notice{
-  background:#fff8e8;border:1px solid #f0dca9;
-  border-left:4px solid var(--gold);border-radius:10px;
-  padding:15px;margin-bottom:22px;
-  font-size:12px;line-height:1.7;color:#755719
+  background:#fff8e8;
+  border:1px solid #f0dca9;
+  border-left:4px solid var(--gold);
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:22px;
+  font-size:12px;
+  line-height:1.7;
+  color:#755719;
 }
 .notice.error{
-  background:#fff1f1;border-color:#f0caca;
-  border-left-color:#c43e3e;color:#9b3030
+  background:#fff1f1;
+  border-color:#f0caca;
+  border-left-color:#c43e3e;
+  color:#9b3030;
 }
 .notice.success{
-  background:#eaf8f0;border-color:#bce7ce;
-  border-left-color:var(--green);color:#176b49
+  background:#eaf8f0;
+  border-color:#bce7ce;
+  border-left-color:var(--green);
+  color:#176b49;
 }
+
+/* CARDS */
+
 .card{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:22px;margin-bottom:20px
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 5px 18px rgba(31,20,49,.035);
 }
-.card h2{font-size:16px;color:var(--navy)}
+.card h2{
+  font-size:16px;
+  color:var(--dark);
+}
 .sub{
-  font-size:11px;color:var(--muted);
-  margin-top:6px;margin-bottom:20px;line-height:1.6
+  font-size:11px;
+  color:var(--muted);
+  margin-top:6px;
+  margin-bottom:20px;
+  line-height:1.6;
 }
+
+/* FORM */
+
 .form-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:16px
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
 }
 .form-group{margin-bottom:15px}
 .form-group label{
-  display:block;font-size:12px;font-weight:bold;
-  color:#44546a;margin-bottom:8px
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#44546a;
+  margin-bottom:8px;
 }
 .form-group input,.form-group select{
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:8px;background:white;outline:none;
-  font-size:13px;color:var(--text)
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  outline:none;
+  font-size:13px;
+  color:var(--text);
 }
 .form-group input:focus,.form-group select:focus{
-  border-color:var(--gold)
+  border-color:var(--pink);
 }
 .form-group input[readonly],
 .form-group input:disabled,
 .form-group select:disabled{
-  background:#f5f7fa;color:#718096;cursor:not-allowed
+  background:#f5f7fa;
+  color:#718096;
+  cursor:not-allowed;
 }
 .help{
-  font-size:10px;color:var(--muted);
-  margin-top:6px;line-height:1.5
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1.5;
 }
 .btn{
-  border:0;background:var(--navy);color:white;
-  padding:12px 18px;border-radius:8px;
-  font-size:12px;font-weight:bold;cursor:pointer
+  border:0;
+  background:linear-gradient(110deg,#e72c76,#9b164f);
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
 }
-.btn:hover{background:var(--navy2)}
 .btn:disabled{
-  background:#aeb8c6;cursor:not-allowed
+  background:#aeb8c6;
+  cursor:not-allowed;
 }
+
+/* PREFERENCES */
+
 .preference{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:15px;padding:15px 0;
-  border-bottom:1px solid var(--border)
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
 }
 .preference:last-child{border-bottom:0}
-.preference strong{display:block;font-size:13px;color:var(--navy)}
+.preference strong{
+  display:block;
+  font-size:13px;
+  color:var(--dark);
+}
 .preference p{
-  font-size:11px;color:var(--muted);
-  margin-top:5px;line-height:1.5
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+  line-height:1.5;
 }
 .switch{
-  width:43px;height:24px;position:relative;
-  flex-shrink:0;opacity:.5
+  width:43px;
+  height:24px;
+  position:relative;
+  flex-shrink:0;
+  opacity:.5;
 }
 .switch input{opacity:0;width:0;height:0}
 .slider{
-  position:absolute;inset:0;background:#cbd5e1;
-  border-radius:30px;cursor:not-allowed
+  position:absolute;
+  inset:0;
+  background:#cbd5e1;
+  border-radius:30px;
+  cursor:not-allowed;
 }
 .slider:before{
-  content:"";position:absolute;width:18px;height:18px;
-  left:3px;top:3px;background:white;
-  border-radius:50%
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  top:3px;
+  background:white;
+  border-radius:50%;
 }
+
+/* SECURITY */
+
 .security-box{
-  padding:15px;border:1px solid var(--border);
-  border-radius:9px;margin-bottom:12px
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  margin-bottom:12px;
 }
-.security-box strong{font-size:13px;color:var(--navy)}
+.security-box strong{
+  font-size:13px;
+  color:var(--dark);
+}
 .security-box p{
-  font-size:11px;color:var(--muted);
-  margin-top:6px;line-height:1.6
+  font-size:11px;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1.6;
 }
+
+/* DANGER */
+
 .danger{
-  border:1px solid #f0caca;background:#fffafa;
-  border-radius:10px;padding:17px
+  border:1px solid #f0caca;
+  background:#fffafa;
+  border-radius:10px;
+  padding:17px;
 }
-.danger h3{font-size:14px;color:#b83232}
+.danger h3{
+  font-size:14px;
+  color:#b83232;
+}
 .danger p{
-  font-size:11px;color:#806060;
-  margin:8px 0 14px;line-height:1.6
+  font-size:11px;
+  color:#806060;
+  margin:8px 0 14px;
+  line-height:1.6;
 }
 .danger button{
-  background:#fff;border:1px solid #d64b4b;
-  color:#c43e3e;padding:10px 14px;border-radius:7px;
-  font-size:11px;font-weight:bold;cursor:not-allowed;
-  opacity:.6
+  background:#fff;
+  border:1px solid #d64b4b;
+  color:#c43e3e;
+  padding:10px 14px;
+  border-radius:7px;
+  font-size:11px;
+  font-weight:bold;
+  cursor:not-allowed;
+  opacity:.6;
 }
+
+/* ACCOUNT DETAILS */
+
 .info-line{
-  display:flex;justify-content:space-between;
-  gap:15px;padding:11px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:11px 0;
   border-bottom:1px solid var(--border);
-  font-size:12px
+  font-size:12px;
 }
 .info-line:last-child{border-bottom:0}
 .info-line span:first-child{color:var(--muted)}
 .info-line strong{
-  color:var(--navy);text-align:right;
-  overflow-wrap:anywhere
+  color:var(--dark);
+  text-align:right;
+  overflow-wrap:anywhere;
 }
-.footer{
-  text-align:center;color:var(--muted);
-  font-size:11px;padding:20px
+
+/* FOOTER */
+
+footer{
+  padding:25px 15px;
+  background:linear-gradient(110deg,#17152f,#74133e);
+  color:#d9cbd9;
+  text-align:center;
+  font-size:10px;
 }
-.loading{color:var(--muted)}
-@media(max-width:650px){
-  .layout{display:block}
-  .sidebar{width:100%;padding:15px}
-  .brand{padding:5px 8px 15px}
-  .menu-title{display:none}
-  .menu{
-    display:flex;overflow-x:auto;gap:5px;
-    padding-bottom:5px
+footer strong{color:#f4d58c}
+
+/* MOBILE */
+
+@media(max-width:700px){
+  .app-header{
+    height:65px;
+    padding:0 11px;
+    gap:7px;
   }
-  .menu a{white-space:nowrap;font-size:11px;padding:10px}
-  .topbar{min-height:55px;padding:10px 16px}
-  .content{padding:17px 13px}
+  .header-left{gap:9px}
+  .menu-toggle{
+    width:41px;
+    height:41px;
+    font-size:22px;
+    border-radius:10px;
+  }
+  .brand{gap:7px}
+  .brand-icon{
+    width:40px;
+    height:40px;
+    font-size:23px;
+    border-radius:12px;
+  }
+  .brand-text{
+    font-size:13px;
+    letter-spacing:.5px;
+  }
+  .brand-text small{
+    font-size:7px;
+    letter-spacing:2.5px;
+    margin-top:3px;
+  }
+  .header-label{
+    padding:10px 9px;
+    font-size:10px;
+    border-radius:9px;
+  }
+  main{padding:18px 13px 35px}
   .heading h1{font-size:21px}
   .card{padding:16px}
-  .form-grid{grid-template-columns:1fr;gap:0}
+  .form-grid{
+    grid-template-columns:1fr;
+    gap:0;
+  }
   .info-line{font-size:11px}
+}
+@media(max-width:360px){
+  .brand-text{font-size:11px}
+  .brand-icon{
+    width:36px;
+    height:36px;
+  }
+  .header-label{
+    font-size:9px;
+    padding:9px 7px;
+  }
 }
 </style>
 </head>
 
 <body>
-<div class="layout">
 
-<aside class="sidebar">
-  <div class="brand">
-    RUBALIA
-    <small>NETWORK</small>
+<!-- HEADER -->
+
+<header class="app-header">
+  <div class="header-left">
+
+    <button class="menu-toggle"
+      id="menuToggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false">☰</button>
+
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div class="brand-text">
+        RUBALIA <span>NETWORK</span>
+        <small>GROW WITH TRUST</small>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="header-label">⚙ Settings</div>
+</header>
+
+<!-- DRAWER OVERLAY -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="drawer-top">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+
+    <button class="drawer-close"
+      id="drawerClose"
+      type="button"
+      aria-label="Close menu">×</button>
   </div>
 
   <div class="menu-title">MAIN MENU</div>
+
   <nav class="menu">
-    <a href="dashboard.html">⌂ Dashboard</a>
-    <a href="profile.html">♙ My Profile</a>
-    <a href="products.html">▣ Products</a>
-    <a href="orders.html">▤ My Orders</a>
-    <a href="team.html">♧ My Team</a>
-    <a href="income.html">৳ Income Details</a>
-    <a href="wallet.html">◈ My Wallet</a>
-    <a href="withdraw.html">⇧ Withdraw</a>
+
+    <a href="dashboard.html">
+      <span class="menu-icon">⌂</span>Dashboard
+    </a>
+
+    <a href="profile.html">
+      <span class="menu-icon">♙</span>My Profile
+    </a>
+
+    <a href="dashboard.html">
+      <span class="menu-icon">▣</span>Packages
+    </a>
+
+    <a href="orders.html">
+      <span class="menu-icon">▤</span>My Orders
+    </a>
+
+    <a href="team.html">
+      <span class="menu-icon">♧</span>My Team
+    </a>
+
+    <a href="income.html">
+      <span class="menu-icon">৳</span>Income Details
+    </a>
+
+    <a href="wallet.html">
+      <span class="menu-icon">◈</span>My Wallet
+    </a>
+
+    <a href="withdraw.html">
+      <span class="menu-icon">⇧</span>Withdraw
+    </a>
+
   </nav>
 
   <div class="menu-title">ACCOUNT</div>
+
   <nav class="menu">
-    <a href="settings.html" class="active">⚙ Settings</a>
-    <a href="contact.html">✉ Contact Support</a>
-    <a href="#" id="logoutLink">↪ Logout</a>
+
+    <a href="settings.html" class="active">
+      <span class="menu-icon">⚙</span>Settings
+    </a>
+
+    <a href="contact.html">
+      <span class="menu-icon">✉</span>Contact Support
+    </a>
+
+    <a href="#" id="logoutLink">
+      <span class="menu-icon">↪</span>Logout
+    </a>
+
   </nav>
+
 </aside>
 
-<main class="main">
+<!-- MAIN -->
 
-<header class="topbar">
-  <strong>Account Settings</strong>
-  <span class="member" id="memberHeader">Member Panel</span>
-</header>
-
-<div class="content">
+<main>
 
   <div class="heading">
     <div>
       <h1>Account Settings</h1>
       <p>Manage your account preferences and security.</p>
     </div>
-    <span class="status-tag" id="connectionTag">CONNECTING...</span>
+
+    <span class="status-tag" id="connectionTag">
+      CONNECTING...
+    </span>
   </div>
 
   <div id="pageMessage" class="notice" role="status" aria-live="polite">
@@ -262,13 +643,17 @@ button,input,select{font:inherit}
   </div>
 
   <!-- ACCOUNT INFORMATION -->
+
   <section class="card">
+
     <h2>Account Information</h2>
+
     <p class="sub">
       These details are retrieved from your Rubalia account.
     </p>
 
     <div class="form-grid">
+
       <div class="form-group">
         <label>Member ID</label>
         <input type="text" id="memberId" value="Loading..." readonly>
@@ -301,17 +686,22 @@ button,input,select{font:inherit}
           Mobile number is not currently returned by the account API.
         </p>
       </div>
+
     </div>
 
     <div class="info-line">
       <span>Account Created</span>
       <strong id="createdAt">Not available</strong>
     </div>
+
   </section>
 
   <!-- PASSWORD -->
+
   <section class="card">
+
     <h2>Change Password</h2>
+
     <p class="sub">
       Password changes are not available through the current backend.
     </p>
@@ -324,6 +714,7 @@ button,input,select{font:inherit}
     </div>
 
     <div class="form-grid">
+
       <div class="form-group">
         <label>Current Password</label>
         <input type="password" placeholder="Not available" disabled>
@@ -338,16 +729,21 @@ button,input,select{font:inherit}
         <label>Confirm New Password</label>
         <input type="password" placeholder="Not available" disabled>
       </div>
+
     </div>
 
     <button class="btn" type="button" disabled>
       Update Password
     </button>
+
   </section>
 
   <!-- NOTIFICATION PREFERENCES -->
+
   <section class="card">
+
     <h2>Notification Preferences</h2>
+
     <p class="sub">
       Notification preferences cannot currently be saved separately
       for each member.
@@ -358,6 +754,7 @@ button,input,select{font:inherit}
         <strong>Order Notifications</strong>
         <p>Updates about product orders and delivery.</p>
       </div>
+
       <label class="switch">
         <input type="checkbox" disabled>
         <span class="slider"></span>
@@ -369,6 +766,7 @@ button,input,select{font:inherit}
         <strong>Team Notifications</strong>
         <p>Updates about your team and member activity.</p>
       </div>
+
       <label class="switch">
         <input type="checkbox" disabled>
         <span class="slider"></span>
@@ -380,6 +778,7 @@ button,input,select{font:inherit}
         <strong>Promotional Notifications</strong>
         <p>Product announcements and company offers.</p>
       </div>
+
       <label class="switch">
         <input type="checkbox" disabled>
         <span class="slider"></span>
@@ -391,6 +790,7 @@ button,input,select{font:inherit}
         <strong>Email Notifications</strong>
         <p>Receive account updates through email.</p>
       </div>
+
       <label class="switch">
         <input type="checkbox" disabled>
         <span class="slider"></span>
@@ -402,11 +802,15 @@ button,input,select{font:inherit}
       API is currently available. Existing account notifications are not
       changed by this page.
     </p>
+
   </section>
 
   <!-- LANGUAGE -->
+
   <section class="card">
+
     <h2>Language & Preferences</h2>
+
     <p class="sub">
       Website language selection will be enabled after server-side
       preference support is added.
@@ -414,20 +818,28 @@ button,input,select{font:inherit}
 
     <div class="form-group">
       <label for="language">Website Language</label>
+
       <select id="language" disabled>
         <option value="en" selected>English</option>
         <option value="bn">বাংলা (Bangla)</option>
       </select>
+
       <p class="help">
         Current interface language: English.
       </p>
     </div>
+
   </section>
 
   <!-- PRIVACY AND SECURITY -->
+
   <section class="card">
+
     <h2>Privacy & Security</h2>
-    <p class="sub">Important account security information.</p>
+
+    <p class="sub">
+      Important account security information.
+    </p>
 
     <div class="security-box">
       <strong>Password Security</strong>
@@ -462,15 +874,21 @@ button,input,select{font:inherit}
         Rubalia backend. This page does not modify your account data.
       </p>
     </div>
+
   </section>
 
   <!-- ACCOUNT MANAGEMENT -->
+
   <section class="card">
+
     <h2>Account Management</h2>
+
     <p class="sub">Account-related options.</p>
 
     <div class="danger">
+
       <h3>Account Deactivation</h3>
+
       <p>
         Account deactivation is not currently available through the
         backend. A future account closure process must include identity
@@ -486,19 +904,16 @@ button,input,select{font:inherit}
         This option will be activated only after a secure account
         deactivation workflow is implemented.
       </p>
+
     </div>
+
   </section>
 
-</div>
-
-<footer class="footer">
-  © 2026 RUBALIA NETWORK. All Rights Reserved.
-  <br><br>
-  Account information is retrieved from the Rubalia API.
-</footer>
-
 </main>
-</div>
+
+<footer>
+  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
+</footer>
 
 <script>
 "use strict";
@@ -507,89 +922,157 @@ const API_BASE = "https://rubalia.onrender.com/api";
 
 const token = sessionStorage.getItem("rubalia_token");
 
-const pageMessage = document.getElementById("pageMessage");
-const connectionTag = document.getElementById("connectionTag");
+const $ = id => document.getElementById(id);
 
-function showMessage(message, type = "notice") {
-  pageMessage.className = "notice";
+/* DRAWER NAVIGATION - SAME AS DASHBOARD */
 
-  if (type === "error") {
-    pageMessage.classList.add("error");
-  } else if (type === "success") {
-    pageMessage.classList.add("success");
-  }
+const sidebar = $("sidebar");
+const overlay = $("drawerOverlay");
+const menuToggle = $("menuToggle");
 
-  pageMessage.textContent = message;
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
+
+  menuToggle.setAttribute("aria-expanded","true");
 }
 
-function setText(id, value, fallback = "Not available") {
-  const element = document.getElementById(id);
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
 
-  if (!element) return;
+  menuToggle.setAttribute("aria-expanded","false");
+}
 
-  if (value === null || value === undefined || value === "") {
-    element.textContent = fallback;
+menuToggle.addEventListener("click",function(){
+  if(sidebar.classList.contains("open")){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+});
+
+$("drawerClose").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape"){
+    closeMenu();
+  }
+});
+
+sidebar.querySelectorAll("a").forEach(function(link){
+  if(link.id!=="logoutLink"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* MESSAGE */
+
+function showMessage(message,type="notice"){
+  const element = $("pageMessage");
+
+  element.className = "notice";
+
+  if(type==="error"){
+    element.classList.add("error");
+  }
+
+  if(type==="success"){
+    element.classList.add("success");
+  }
+
+  element.textContent = message;
+}
+
+/* TEXT HELPER */
+
+function setText(id,value,fallback="Not available"){
+  const element = $(id);
+
+  if(!element) return;
+
+  if(value===null || value===undefined || value===""){
+    element.value = fallback;
     return;
   }
 
-  element.textContent = String(value);
+  element.value = String(value);
 }
 
-function formatDate(value) {
-  if (!value) return "Not available";
+/* DATE */
+
+function formatDate(value){
+  if(!value) return "Not available";
 
   const date = new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
+  if(Number.isNaN(date.getTime())){
     return "Not available";
   }
 
-  return date.toLocaleString("en-BD", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
+  return date.toLocaleString("en-BD",{
+    year:"numeric",
+    month:"long",
+    day:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
   });
 }
 
-function clearSessionAndRedirect() {
+/* LOGOUT */
+
+function clearSessionAndRedirect(){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
 
   window.location.replace("login.html");
 }
 
-async function loadAccountInformation() {
-  if (!token) {
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    clearSessionAndRedirect();
+  }
+});
+
+/* LOAD ACCOUNT */
+
+async function loadAccountInformation(){
+
+  if(!token){
     window.location.replace("login.html");
     return;
   }
 
-  try {
-    const response = await fetch(`${API_BASE}/auth/me`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Accept": "application/json"
+  try{
+
+    const response = await fetch(`${API_BASE}/auth/me`,{
+      method:"GET",
+      headers:{
+        "Authorization":`Bearer ${token}`,
+        "Accept":"application/json"
       },
-      cache: "no-store"
+      cache:"no-store"
     });
 
     let data = {};
 
-    try {
+    try{
       data = await response.json();
-    } catch {
+    }catch(error){
       throw new Error("The server returned an invalid response.");
     }
 
-    if (response.status === 401 || response.status === 403) {
+    if(response.status===401 || response.status===403){
       clearSessionAndRedirect();
       return;
     }
 
-    if (!response.ok || !data.success || !data.user) {
+    if(!response.ok || !data.success || !data.user){
       throw new Error(
         data.message || "Unable to load account information."
       );
@@ -597,49 +1080,47 @@ async function loadAccountInformation() {
 
     const user = data.user;
 
-    setText("memberId", user.memberId);
-    setText("accountRole", user.role);
-    setText("fullName", user.full_name);
-    setText("registeredEmail", user.email);
-    setText("accountStatus", user.status);
-    setText("createdAt", formatDate(user.created_at));
+    setText("memberId",user.memberId);
+    setText("accountRole",user.role);
+    setText("fullName",user.full_name);
+    setText("registeredEmail",user.email);
+    setText("accountStatus",user.status);
 
-    document.getElementById("memberHeader").textContent =
-      user.memberId
-        ? `Member Panel · ${user.memberId}`
-        : "Member Panel";
+    $("createdAt").textContent =
+      formatDate(user.created_at);
 
-    connectionTag.textContent = "ACCOUNT CONNECTED";
-    connectionTag.style.background = "#e7f6ef";
-    connectionTag.style.color = "#16865b";
+    const tag = $("connectionTag");
+
+    tag.textContent = "ACCOUNT CONNECTED";
+    tag.style.background = "#e7f6ef";
+    tag.style.color = "#16865b";
 
     showMessage(
       "Your account information was successfully loaded from the Rubalia server.",
       "success"
     );
 
-    /*
-      Keep the local session display in sync with the verified
-      account response. No sensitive information is stored here.
-    */
     sessionStorage.setItem(
       "rubalia_user",
       JSON.stringify({
-        id: user.id,
-        memberId: user.memberId,
-        full_name: user.full_name,
-        email: user.email,
-        role: user.role,
-        status: user.status
+        id:user.id,
+        memberId:user.memberId,
+        full_name:user.full_name,
+        email:user.email,
+        role:user.role,
+        status:user.status
       })
     );
 
-  } catch (error) {
-    console.error("Settings account loading error:", error);
+  }catch(error){
 
-    connectionTag.textContent = "CONNECTION ERROR";
-    connectionTag.style.background = "#fff1f1";
-    connectionTag.style.color = "#b83232";
+    console.error("Settings account loading error:",error);
+
+    const tag = $("connectionTag");
+
+    tag.textContent = "CONNECTION ERROR";
+    tag.style.background = "#fff1f1";
+    tag.style.color = "#b83232";
 
     showMessage(
       error.message ||
@@ -649,21 +1130,10 @@ async function loadAccountInformation() {
   }
 }
 
-/* Logout */
-document.getElementById("logoutLink").addEventListener("click", function(e) {
-  e.preventDefault();
+/* START */
 
-  const confirmed = confirm(
-    "Are you sure you want to log out of your Rubalia account?"
-  );
-
-  if (!confirmed) return;
-
-  clearSessionAndRedirect();
-});
-
-/* Load verified account information */
 loadAccountInformation();
+
 </script>
 
 </body>
