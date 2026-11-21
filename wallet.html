@@ -13,7 +13,6 @@
   --pink:#e94c9b;
   --blue:#3688ee;
   --cyan:#20bdcf;
-  --orange:#ff9b42;
   --gold:#ffe58a;
   --green:#159b69;
   --red:#dc4444;
@@ -31,7 +30,6 @@ body{
 }
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
-
 .layout{display:flex;min-height:100vh}
 
 .sidebar{
@@ -74,7 +72,6 @@ button,input,select{font:inherit}
 .menu a:hover,.menu a.active{
   background:linear-gradient(100deg,#e64c9a,#a14de0);
   color:white;
-  box-shadow:0 5px 14px rgba(0,0,0,.15);
   transform:translateX(3px);
 }
 
@@ -96,7 +93,6 @@ button,input,select{font:inherit}
   max-width:1250px;
   margin:auto;
 }
-
 .heading{
   display:flex;
   justify-content:space-between;
@@ -109,57 +105,44 @@ button,input,select{font:inherit}
   color:white;
   background:linear-gradient(110deg,#6334d2,#9c45dd,#e44c9b);
   box-shadow:0 9px 25px rgba(120,55,194,.18);
-  position:relative;
-  overflow:hidden;
 }
-.heading:after{
-  content:"";
-  position:absolute;
-  width:180px;height:180px;
-  right:-35px;top:-75px;
-  border-radius:50%;
-  background:rgba(255,255,255,.12);
-}
-.heading h1{
-  font-size:25px;
-  position:relative;
-  z-index:1;
-}
+.heading h1{font-size:25px}
 .heading p{
   font-size:13px;
   color:#f1e8ff;
   margin-top:8px;
-  position:relative;
-  z-index:1;
   line-height:1.7;
 }
-.demo-tag{
-  background:#ffe58a;
-  color:#6936b1;
-  padding:9px 14px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:900;
-  position:relative;
-  z-index:1;
+.refresh-btn{
+  border:1px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.12);
+  color:white;
+  padding:10px 14px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
 }
+.refresh-btn:disabled{opacity:.5}
 
 .notice{
-  background:linear-gradient(110deg,#fff3e9,#fff0f5);
-  border:1px solid #ffd5d9;
-  border-left:4px solid var(--pink);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:22px;
+  display:none;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:18px;
   font-size:12px;
-  line-height:1.8;
-  color:#a34865;
+  line-height:1.7;
 }
-.notice strong{
+.notice.error{
   display:block;
-  color:#c33370;
-  margin-bottom:5px;
-  font-size:13px;
+  background:#fff0f1;
+  color:#a12b36;
+  border:1px solid #f4cbd0;
+}
+.notice.success{
+  display:block;
+  background:#effaf3;
+  color:#17633b;
+  border:1px solid #c6ead2;
 }
 
 .wallet-hero{
@@ -180,19 +163,10 @@ button,input,select{font:inherit}
   border-radius:50%;
   right:-60px;top:-95px;
 }
-.wallet-hero:after{
-  content:"";
-  position:absolute;
-  width:110px;height:110px;
-  border-radius:50%;
-  background:rgba(255,255,255,.08);
-  right:160px;bottom:-70px;
-}
 .wallet-label{
   font-size:12px;
   color:#f0ddff;
   position:relative;
-  z-index:1;
 }
 .wallet-amount{
   font-size:38px;
@@ -200,13 +174,11 @@ button,input,select{font:inherit}
   color:var(--gold);
   margin:13px 0;
   position:relative;
-  z-index:1;
 }
 .wallet-id{
   font-size:11px;
   color:#f0ddff;
   position:relative;
-  z-index:1;
 }
 .wallet-actions{
   display:flex;
@@ -214,7 +186,6 @@ button,input,select{font:inherit}
   flex-wrap:wrap;
   margin-top:22px;
   position:relative;
-  z-index:1;
 }
 .btn{
   padding:12px 17px;
@@ -225,9 +196,7 @@ button,input,select{font:inherit}
   align-items:center;
   justify-content:center;
   border:1px solid transparent;
-  transition:.2s;
 }
-.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
 .btn-gold{
   background:linear-gradient(100deg,#ffe58a,#ffb94e);
   color:#632b9e;
@@ -250,34 +219,14 @@ button,input,select{font:inherit}
   border:1px solid var(--border);
   border-radius:14px;
   box-shadow:0 5px 18px rgba(72,49,123,.045);
-  position:relative;
-  overflow:hidden;
 }
-.stat:before{
-  content:"";
-  position:absolute;
-  left:0;top:0;bottom:0;
-  width:4px;
-  background:linear-gradient(180deg,#753bd5,#e64b9b);
-}
-.stat:nth-child(2):before{
-  background:linear-gradient(180deg,#3688ee,#20bdcf);
-}
-.stat:nth-child(3):before{
-  background:linear-gradient(180deg,#ff9b42,#efc34d);
-}
-.stat-label{
-  font-size:12px;
-  color:var(--muted);
-}
+.stat-label{font-size:12px;color:var(--muted)}
 .stat-value{
   font-size:24px;
   font-weight:900;
   color:#6332b4;
   margin:12px 0 7px;
 }
-.stat:nth-child(2) .stat-value{color:#278ac6}
-.stat:nth-child(3) .stat-value{color:#d58a30}
 .stat small{font-size:11px;color:var(--muted)}
 
 .card{
@@ -296,22 +245,11 @@ button,input,select{font:inherit}
   flex-wrap:wrap;
   margin-bottom:18px;
 }
-.card h2{
-  font-size:17px;
-  color:#5728a5;
-}
+.card h2{font-size:17px;color:#5728a5}
 .card-head p{
   font-size:11px;
   color:var(--muted);
   margin-top:6px;
-}
-.status{
-  background:#fff3d9;
-  color:#95651b;
-  padding:7px 11px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:900;
 }
 
 .filters{
@@ -329,20 +267,13 @@ button,input,select{font:inherit}
   color:var(--text);
   font-size:12px;
 }
-.filters input{
-  flex:1;
-  min-width:170px;
-}
-.filters input:focus,.filters select:focus{
-  border-color:#a66be5;
-  box-shadow:0 0 0 3px rgba(146,81,216,.09);
-}
+.filters input{flex:1;min-width:170px}
 
 .table-wrap{overflow-x:auto}
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:620px;
+  min-width:650px;
 }
 th{
   text-align:left;
@@ -359,13 +290,29 @@ td{
 td strong{color:#5728a5}
 .credit{color:var(--green);font-weight:bold}
 .debit{color:var(--red);font-weight:bold}
+.tx-status{
+  display:inline-block;
+  padding:6px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+  text-transform:capitalize;
+}
+.tx-status.completed,.tx-status.approved{
+  background:#e5f8ef;color:#16845b;
+}
+.tx-status.pending{
+  background:#fff3d9;color:#95651b;
+}
+.tx-status.rejected{
+  background:#fceaea;color:#c34b4b;
+}
 .empty{
   text-align:center;
   padding:30px;
   color:var(--muted);
   font-size:13px;
 }
-
 .info-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -377,17 +324,13 @@ td strong{color:#5728a5}
   background:linear-gradient(130deg,#f7f2ff,#fff4fa);
   border-radius:12px;
 }
-.info-box strong{
-  font-size:13px;
-  color:#5728a5;
-}
+.info-box strong{font-size:13px;color:#5728a5}
 .info-box p{
   font-size:11px;
   color:var(--muted);
   line-height:1.7;
   margin-top:7px;
 }
-
 .footer{
   text-align:center;
   color:var(--muted);
@@ -401,10 +344,7 @@ td strong{color:#5728a5}
 }
 @media(max-width:650px){
   .layout{display:block}
-  .sidebar{
-    width:100%;
-    padding:15px;
-  }
+  .sidebar{width:100%;padding:15px}
   .brand{padding:5px 8px 15px}
   .menu-title{display:none}
   .menu{
@@ -413,11 +353,7 @@ td strong{color:#5728a5}
     gap:5px;
     padding-bottom:5px;
   }
-  .menu a{
-    white-space:nowrap;
-    font-size:11px;
-    padding:10px;
-  }
+  .menu a{white-space:nowrap;font-size:11px;padding:10px}
   .topbar{height:55px;padding:0 16px}
   .content{padding:17px 13px}
   .heading{padding:21px 18px}
@@ -450,7 +386,7 @@ td strong{color:#5728a5}
   <nav class="menu">
     <a href="dashboard.html">⌂ Dashboard</a>
     <a href="profile.html">♙ My Profile</a>
-    <a href="products.html">▣ Products</a>
+    <a href="dashboard.html">▣ Packages</a>
     <a href="orders.html">▤ My Orders</a>
     <a href="team.html">♧ My Team</a>
     <a href="income.html">৳ Income Details</a>
@@ -470,7 +406,7 @@ td strong{color:#5728a5}
 
 <header class="topbar">
   <strong>◈ My Wallet</strong>
-  <span class="member">Member Panel · Demo</span>
+  <span class="member" id="memberName">Member Panel</span>
 </header>
 
 <div class="content">
@@ -478,23 +414,17 @@ td strong{color:#5728a5}
   <div class="heading">
     <div>
       <h1>👛 My Wallet</h1>
-      <p>Manage and review your wallet information.</p>
+      <p>View your actual wallet balance and transaction history.</p>
     </div>
-    <span class="demo-tag">DEMO WALLET</span>
+    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
   </div>
 
-  <div class="notice">
-    <strong>⚠ Demo Wallet — Real Transactions Disabled</strong>
-    This is a frontend demonstration only. No real money is stored,
-    deposited, transferred or withdrawn. All balances are illustrative
-    and will remain unavailable until a secure backend and legally
-    compliant payment system are implemented.
-  </div>
+  <div class="notice" id="notice"></div>
 
   <section class="wallet-hero">
     <div class="wallet-label">TOTAL WALLET BALANCE</div>
-    <div class="wallet-amount">৳0.00</div>
-    <div class="wallet-id">Wallet ID: Not Assigned</div>
+    <div class="wallet-amount" id="walletBalance">Loading...</div>
+    <div class="wallet-id" id="walletId">Wallet information loading...</div>
 
     <div class="wallet-actions">
       <a href="deposit.html" class="btn btn-gold">＋ Deposit</a>
@@ -506,20 +436,20 @@ td strong{color:#5728a5}
   <section class="stats">
     <div class="stat">
       <div class="stat-label">Available Balance</div>
-      <div class="stat-value">৳0.00</div>
-      <small>Not activated</small>
+      <div class="stat-value" id="availableBalance">Loading...</div>
+      <small>Current spendable wallet balance</small>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Pending Balance</div>
-      <div class="stat-value">৳0.00</div>
-      <small>No pending transactions</small>
+      <div class="stat-label">Pending Transactions</div>
+      <div class="stat-value" id="pendingBalance">Loading...</div>
+      <small>Transactions awaiting review</small>
     </div>
 
     <div class="stat">
       <div class="stat-label">Total Received</div>
-      <div class="stat-value">৳0.00</div>
-      <small>No real deposits or credits</small>
+      <div class="stat-value" id="totalReceived">Loading...</div>
+      <small>Approved deposits and credits</small>
     </div>
   </section>
 
@@ -527,9 +457,8 @@ td strong{color:#5728a5}
     <div class="card-head">
       <div>
         <h2>📊 Wallet Transactions</h2>
-        <p>Review your wallet transaction history.</p>
+        <p>Your server-recorded wallet transaction history.</p>
       </div>
-      <span class="status">NOT CONNECTED</span>
     </div>
 
     <div class="filters">
@@ -537,7 +466,7 @@ td strong{color:#5728a5}
         placeholder="Search transaction ID or description...">
 
       <select id="typeFilter">
-        <option value="all">All Transactions</option>
+        <option value="all">All Types</option>
         <option value="credit">Credit</option>
         <option value="debit">Debit</option>
       </select>
@@ -546,6 +475,7 @@ td strong{color:#5728a5}
         <option value="all">All Status</option>
         <option value="pending">Pending</option>
         <option value="completed">Completed</option>
+        <option value="approved">Approved</option>
         <option value="rejected">Rejected</option>
       </select>
     </div>
@@ -564,10 +494,7 @@ td strong{color:#5728a5}
         </thead>
         <tbody id="transactionTable">
           <tr>
-            <td colspan="6" class="empty">
-              No real wallet transactions available.
-              Backend connection is not activated.
-            </td>
+            <td colspan="6" class="empty">Loading transactions...</td>
           </tr>
         </tbody>
       </table>
@@ -578,29 +505,29 @@ td strong{color:#5728a5}
     <div class="card-head">
       <div>
         <h2>💡 Wallet Information</h2>
-        <p>Basic wallet information and future features.</p>
+        <p>Important information about your wallet.</p>
       </div>
     </div>
 
     <div class="info-grid">
       <div class="info-box">
-        <strong>💳 Deposit</strong>
-        <p>Future deposits will require a secure payment process and verified transaction records.</p>
+        <strong>💳 Deposits</strong>
+        <p>Deposits are credited only after the server or authorized administrator verifies the payment.</p>
       </div>
 
       <div class="info-box">
-        <strong>⇧ Withdraw</strong>
-        <p>Withdrawals will be available only after the wallet and payment system are securely implemented.</p>
+        <strong>⇧ Withdrawals</strong>
+        <p>Withdrawal requests are subject to the applicable verification and approval process.</p>
       </div>
 
       <div class="info-box">
         <strong>🔐 Transaction Security</strong>
-        <p>Future transactions should be verified and recorded on the server, not trusted to browser data.</p>
+        <p>Your wallet balance and transaction history are loaded from the secure server.</p>
       </div>
 
       <div class="info-box">
         <strong>☎ Member Support</strong>
-        <p>Contact the support team for assistance once the real wallet service is activated.</p>
+        <p>Contact the support team if you notice an incorrect transaction or balance.</p>
       </div>
     </div>
   </section>
@@ -608,9 +535,7 @@ td strong{color:#5728a5}
 </div>
 
 <footer class="footer">
-  © 2026 <span>RUBALIA NETWORK</span>. All Rights Reserved.
-  <br><br>
-  Frontend Demo Version · No real financial transactions.
+  © <span id="year"></span> <span>RUBALIA NETWORK</span>. All Rights Reserved.
 </footer>
 
 </main>
@@ -619,32 +544,309 @@ td strong{color:#5728a5}
 <script>
 "use strict";
 
-const searchInput = document.getElementById("searchInput");
-const typeFilter = document.getElementById("typeFilter");
-const statusFilter = document.getElementById("statusFilter");
+const API_BASE = "https://rubalia.onrender.com/api";
 
-function filterTransactions(){
-  // Wallet transaction data will be loaded from the secure backend
-  // in a future development stage.
-  document.getElementById("transactionTable").innerHTML =
-    '<tr><td colspan="6" class="empty">' +
-    'No matching real wallet transactions found.' +
-    '</td></tr>';
+let token = "";
+let transactions = [];
+let wallet = null;
+
+const $ = id => document.getElementById(id);
+
+function formatMoney(value){
+  const number = Number(value);
+
+  if(!Number.isFinite(number)) return "৳0.00";
+
+  return "৳" + number.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
 }
 
-searchInput.addEventListener("input",filterTransactions);
-typeFilter.addEventListener("change",filterTransactions);
-statusFilter.addEventListener("change",filterTransactions);
+function formatDate(value){
+  if(!value) return "—";
 
-document.getElementById("logoutLink").addEventListener("click",function(e){
-  e.preventDefault();
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleString("en-GB",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function showNotice(type,message){
+  const notice = $("notice");
+  notice.className = "notice " + type;
+  notice.textContent = message;
+}
+
+function clearNotice(){
+  $("notice").className = "notice";
+  $("notice").textContent = "";
+}
+
+async function apiRequest(path){
+  const response = await fetch(API_BASE + path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer " + token,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status === 401){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your session has expired. Please login again.");
+  }
+
+  if(!response.ok || data.success === false){
+    throw new Error(data.message || "Unable to load wallet information.");
+  }
+
+  return data;
+}
+
+function renderWallet(data){
+  wallet = data.wallet;
+
+  if(!wallet){
+    throw new Error("Wallet information was not returned by the server.");
+  }
+
+  const balance = Number(wallet.balance || 0);
+  const currency = wallet.currency || "BDT";
+  const formatted = currency === "BDT"
+    ? formatMoney(balance)
+    : Number(balance).toLocaleString("en-US",{maximumFractionDigits:2}) + " " + currency;
+
+  $("walletBalance").textContent = formatted;
+  $("availableBalance").textContent = formatted;
+  $("walletId").textContent = "Wallet ID: " + wallet.id;
+}
+
+function transactionDirection(item){
+  const type = String(item.transaction_type || "").toLowerCase();
+
+  if(["deposit","refund","adjustment"].includes(type)){
+    return "credit";
+  }
+
+  if(["purchase","withdrawal"].includes(type)){
+    return "debit";
+  }
+
+  return "other";
+}
+
+function renderTransactions(){
+  const body = $("transactionTable");
+  body.replaceChildren();
+
+  const query = $("searchInput").value.trim().toLowerCase();
+  const typeFilter = $("typeFilter").value;
+  const statusFilter = $("statusFilter").value;
+
+  const filtered = transactions.filter(item=>{
+    const direction = transactionDirection(item);
+    const status = String(item.status || "").toLowerCase();
+
+    const searchText = [
+      item.id,
+      item.reference,
+      item.description,
+      item.transaction_type
+    ].join(" ").toLowerCase();
+
+    return (!query || searchText.includes(query)) &&
+      (typeFilter === "all" || direction === typeFilter) &&
+      (statusFilter === "all" || status === statusFilter);
+  });
+
+  if(!filtered.length){
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 6;
+    cell.className = "empty";
+    cell.textContent = "No matching wallet transactions found.";
+    row.appendChild(cell);
+    body.appendChild(row);
+    return;
+  }
+
+  filtered.forEach(item=>{
+    const row = document.createElement("tr");
+    const direction = transactionDirection(item);
+
+    const values = [
+      item.reference || ("TX-" + item.id),
+      item.description || item.transaction_type || "Wallet transaction",
+      item.transaction_type || "—",
+      formatMoney(item.amount),
+      item.status || "—",
+      formatDate(item.created_at)
+    ];
+
+    values.forEach((value,index)=>{
+      const cell = document.createElement("td");
+
+      if(index === 0){
+        const strong = document.createElement("strong");
+        strong.textContent = String(value);
+        cell.appendChild(strong);
+      }else if(index === 3){
+        const amount = document.createElement("span");
+        amount.className = direction === "credit" ? "credit" : "debit";
+        amount.textContent =
+          (direction === "credit" ? "+" : direction === "debit" ? "−" : "") +
+          String(value);
+        cell.appendChild(amount);
+      }else if(index === 4){
+        const badge = document.createElement("span");
+        const status = String(value).toLowerCase();
+        badge.className = "tx-status " + status;
+        badge.textContent = String(value);
+        cell.appendChild(badge);
+      }else{
+        cell.textContent = String(value);
+      }
+
+      row.appendChild(cell);
+    });
+
+    body.appendChild(row);
+  });
+}
+
+function calculateSummary(){
+  const pending = transactions
+    .filter(item=>String(item.status).toLowerCase()==="pending")
+    .reduce((sum,item)=>sum+Number(item.amount || 0),0);
+
+  const received = transactions
+    .filter(item=>
+      ["deposit","refund","adjustment"].includes(
+        String(item.transaction_type).toLowerCase()
+      ) &&
+      ["completed","approved"].includes(
+        String(item.status).toLowerCase()
+      )
+    )
+    .reduce((sum,item)=>sum+Number(item.amount || 0),0);
+
+  $("pendingBalance").textContent = formatMoney(pending);
+  $("totalReceived").textContent = formatMoney(received);
+}
+
+async function verifyUser(){
+  const data = await apiRequest("/auth/me");
+  const user = data.user || data.profile;
+
+  if(!user){
+    throw new Error("Unable to verify your account.");
+  }
+
+  if(String(user.role || "").toLowerCase() === "admin"){
+    location.replace("admin-dashboard.html");
+    throw new Error("Opening administrator dashboard.");
+  }
+
+  if(user.status && String(user.status).toLowerCase() !== "active"){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your account is not active.");
+  }
+
+  $("memberName").textContent = user.full_name || "Member Panel";
+}
+
+async function loadWallet(){
+  clearNotice();
+
+  const button = $("refreshBtn");
+  button.disabled = true;
+  button.textContent = "Loading...";
+
+  try{
+    const results = await Promise.all([
+      apiRequest("/wallet"),
+      apiRequest("/wallet/transactions")
+    ]);
+
+    renderWallet(results[0]);
+
+    transactions = Array.isArray(results[1].transactions)
+      ? results[1].transactions
+      : [];
+
+    calculateSummary();
+    renderTransactions();
+
+  }catch(error){
+    if(error.message === "Opening administrator dashboard.") return;
+
+    showNotice("error",error.message);
+
+    $("walletBalance").textContent = "Unavailable";
+    $("availableBalance").textContent = "Unavailable";
+    $("pendingBalance").textContent = "Unavailable";
+    $("totalReceived").textContent = "Unavailable";
+
+    $("transactionTable").innerHTML =
+      '<tr><td colspan="6" class="empty">Wallet information could not be loaded.</td></tr>';
+
+  }finally{
+    button.disabled = false;
+    button.textContent = "↻ Refresh";
+  }
+}
+
+async function initialize(){
+  token = sessionStorage.getItem("rubalia_token") || "";
+
+  if(!token){
+    location.replace("login.html");
+    return;
+  }
+
+  $("year").textContent = new Date().getFullYear();
+
+  try{
+    await verifyUser();
+    await loadWallet();
+  }catch(error){
+    if(error.message !== "Opening administrator dashboard."){
+      showNotice("error",error.message);
+    }
+  }
+}
+
+$("refreshBtn").addEventListener("click",loadWallet);
+$("searchInput").addEventListener("input",renderTransactions);
+$("typeFilter").addEventListener("change",renderTransactions);
+$("statusFilter").addEventListener("change",renderTransactions);
+
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
 
   if(confirm("Are you sure you want to log out?")){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
-    window.location.replace("login.html");
+    location.replace("login.html");
   }
 });
+
+initialize();
 </script>
 
 </body>
