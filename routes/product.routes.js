@@ -1,4 +1,6 @@
 
+"use strict";
+
 const express = require("express");
 
 const pool = require("../config/database");
@@ -9,24 +11,17 @@ const router = express.Router();
 
 const PRODUCT_STATUSES = ["draft", "active", "archived"];
 
-const COST_FIELDS = [
-  "costPrice",
-  "deliveryCost",
-  "packagingCost",
-  "otherCost"
-];
+function validateProductId(value) {
+  const id = Number(value);
+  return Number.isSafeInteger(id) && id > 0 ? id : null;
+}
 
-/**
- * Convert and validate a money value.
- * Supports decimal values up to 2 places.
- * PostgreSQL NUMERIC(14,2) maximum: 999999999999.99
- */
+// =====================================================
+// MONEY VALIDATION
+// =====================================================
+
 function parseMoney(value, fieldName) {
-  if (
-    value === undefined ||
-    value === null ||
-    value === ""
-  ) {
+  if (value === undefined || value === null || value === "") {
     return {
       valid: false,
       message: `${fieldName} is required.`
@@ -101,15 +96,11 @@ function validateCosts(body) {
   };
 }
 
-function validateProductId(value) {
-  const id = Number(value);
+// =====================================================
+// PRODUCT DATA VALIDATION
+// =====================================================
 
-  return Number.isSafeInteger(id) && id > 0
-    ? id
-    : null;
-}
-
-function validateProductData(body, isUpdate = false) {
+function validateProductData(body) {
   const name =
     typeof body.name === "string"
       ? body.name.trim()
@@ -125,15 +116,16 @@ function validateProductData(body, isUpdate = false) {
       ? body.description.trim()
       : null;
 
-  const price = Number(body.price);
+  const priceRaw = String(body.price ?? "").trim();
+  const price = Number(priceRaw);
 
   const stock =
-    body.stock === undefined && !isUpdate
+    body.stock === undefined
       ? 0
       : Number(body.stock);
 
   const status =
-    body.status === undefined && !isUpdate
+    body.status === undefined
       ? "draft"
       : body.status;
 
@@ -154,7 +146,7 @@ function validateProductData(body, isUpdate = false) {
   if (
     !Number.isFinite(price) ||
     price < 0 ||
-    !/^\d{1,12}(\.\d{1,2})?$/.test(String(body.price).trim())
+    !/^\d{1,12}(\.\d{1,2})?$/.test(priceRaw)
   ) {
     return {
       valid: false,
@@ -199,12 +191,12 @@ function validateProductData(body, isUpdate = false) {
   };
 }
 
-/**
- * PUBLIC PRODUCT LIST
- * GET /api/products
- *
- * Cost information is intentionally excluded.
- */
+// =====================================================
+// PUBLIC PRODUCT LIST
+// GET /api/products
+// Cost information is hidden from customers.
+// =====================================================
+
 router.get("/", async (req, res, next) => {
   try {
     const result = await pool.query(
@@ -226,17 +218,17 @@ router.get("/", async (req, res, next) => {
       success: true,
       products: result.rows
     });
+
   } catch (error) {
     next(error);
   }
 });
 
-/**
- * ADMIN PRODUCT LIST
- * GET /api/products/admin/all
- *
- * Only administrators can see actual product costs.
- */
+// =====================================================
+// ADMIN PRODUCT LIST
+// GET /api/products/admin/all
+// =====================================================
+
 router.get(
   "/admin/all",
   authenticateToken,
@@ -266,18 +258,18 @@ router.get(
         success: true,
         products: result.rows
       });
+
     } catch (error) {
       next(error);
     }
   }
 );
 
-/**
- * PUBLIC SINGLE PRODUCT
- * GET /api/products/:id
- *
- * Cost information is intentionally excluded.
- */
+// =====================================================
+// PUBLIC SINGLE PRODUCT
+// GET /api/products/:id
+// =====================================================
+
 router.get("/:id", async (req, res, next) => {
   try {
     const productId = validateProductId(req.params.id);
@@ -305,7 +297,7 @@ router.get("/:id", async (req, res, next) => {
       [productId]
     );
 
-    if (result.rows.length === 0) {
+    if (!result.rows.length) {
       return res.status(404).json({
         success: false,
         message: "Product not found."
@@ -316,15 +308,17 @@ router.get("/:id", async (req, res, next) => {
       success: true,
       product: result.rows[0]
     });
+
   } catch (error) {
     next(error);
   }
 });
 
-/**
- * CREATE PRODUCT
- * POST /api/products
- */
+// =====================================================
+// CREATE PRODUCT
+// POST /api/products
+// =====================================================
+
 router.post(
   "/",
   authenticateToken,
@@ -392,6 +386,7 @@ router.post(
         message: "Product created successfully.",
         product: result.rows[0]
       });
+
     } catch (error) {
       if (error.code === "23505") {
         return res.status(409).json({
@@ -405,13 +400,12 @@ router.post(
   }
 );
 
-/**
- * UPDATE PRODUCT
- * PUT /api/products/:id
- *
- * Updating current product costs does not modify
- * any existing order_items.cost_snapshot.
- */
+// =====================================================
+// UPDATE PRODUCT
+// PUT /api/products/:id
+// Existing order snapshots remain unchanged.
+// =====================================================
+
 router.put(
   "/:id",
   authenticateToken,
@@ -427,7 +421,7 @@ router.put(
         });
       }
 
-      const validation = validateProductData(req.body || {}, true);
+      const validation = validateProductData(req.body || {});
 
       if (!validation.valid) {
         return res.status(400).json({
@@ -482,7 +476,7 @@ router.put(
         ]
       );
 
-      if (result.rows.length === 0) {
+      if (!result.rows.length) {
         return res.status(404).json({
           success: false,
           message: "Product not found."
@@ -494,6 +488,7 @@ router.put(
         message: "Product and cost information updated successfully.",
         product: result.rows[0]
       });
+
     } catch (error) {
       if (error.code === "23505") {
         return res.status(409).json({
@@ -507,12 +502,12 @@ router.put(
   }
 );
 
-/**
- * ARCHIVE PRODUCT
- * DELETE /api/products/:id
- *
- * Product is archived, not permanently deleted.
- */
+// =====================================================
+// ARCHIVE PRODUCT
+// DELETE /api/products/:id
+// Product is archived, not permanently deleted.
+// =====================================================
+
 router.delete(
   "/:id",
   authenticateToken,
@@ -538,7 +533,7 @@ router.delete(
         [productId]
       );
 
-      if (result.rows.length === 0) {
+      if (!result.rows.length) {
         return res.status(404).json({
           success: false,
           message: "Product not found."
@@ -550,6 +545,7 @@ router.delete(
         message: "Product archived successfully.",
         product: result.rows[0]
       });
+
     } catch (error) {
       next(error);
     }
