@@ -2,298 +2,105 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#21172f">
-<title>RUBALIA NETWORK Slider</title>
-
+<title>RUBALIA NETWORK Promotional Slider</title>
 <style>
 *{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  font-family:Arial,Helvetica,sans-serif;
+html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
+.slider{
+  position:relative;width:100%;height:155px;overflow:hidden;
+  border-radius:13px;background:transparent;
+}
+.slide-frame{
+  position:absolute;inset:0;width:100%;height:100%;border:0;
+  opacity:0;visibility:hidden;transition:opacity .65s ease;
   background:transparent;
 }
-
-.slider{
-  position:relative;
-  width:100%;
-  height:155px;
-  overflow:hidden;
-  border-radius:13px;
-  background:#21172f;
-  cursor:pointer;
-}
-
-.slide{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  padding:20px 25px;
-  overflow:hidden;
-  color:white;
-  opacity:0;
-  visibility:hidden;
-  transform:scale(1.03);
-  transition:opacity .7s ease,transform .8s ease;
-}
-
-.slide.active{
-  opacity:1;
-  visibility:visible;
-  transform:scale(1);
-}
-
-.slide-content{
-  position:relative;
-  z-index:2;
-  max-width:72%;
-}
-
-.tag{
-  display:inline-block;
-  padding:5px 10px;
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:20px;
-  color:#f5d994;
-  font-size:8px;
-  font-weight:bold;
-  letter-spacing:2px;
-}
-
-.slide h2{
-  margin:10px 0 6px;
-  font-size:23px;
-  line-height:1.2;
-}
-
-.slide p{
-  margin:0;
-  color:rgba(255,255,255,.85);
-  font-size:11px;
-  line-height:1.6;
-}
-
-.art{
-  position:absolute;
-  right:28px;
-  top:50%;
-  transform:translateY(-50%);
-  width:105px;
-  height:105px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:50%;
-  background:rgba(255,255,255,.12);
-  font-size:48px;
-  box-shadow:0 0 30px rgba(255,255,255,.12);
-}
-
-.art:after{
-  content:"";
-  position:absolute;
-  width:130px;
-  height:130px;
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:50%;
-}
-
-.banner-one{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,215,120,.4),transparent 35%),
-    linear-gradient(110deg,#21172f,#831443,#c5255d);
-}
-
-.banner-two{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,255,255,.25),transparent 35%),
-    linear-gradient(110deg,#12343b,#087c70,#24a28b);
-}
-
-.banner-three{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,220,130,.3),transparent 35%),
-    linear-gradient(110deg,#282044,#62409a,#a34e91);
-}
-
-.banner-four{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,255,255,.2),transparent 35%),
-    linear-gradient(110deg,#192d50,#245a94,#3286b7);
-}
-
-.dots{
-  position:absolute;
-  z-index:5;
-  bottom:9px;
-  left:0;
-  right:0;
-  display:flex;
-  justify-content:center;
-  gap:6px;
-}
-
-.dot{
-  width:7px;
-  height:7px;
-  padding:0;
-  border:0;
-  border-radius:10px;
-  background:rgba(255,255,255,.5);
-  cursor:pointer;
-  transition:width .3s,background .3s;
-}
-
-.dot.active{
-  width:20px;
-  background:#f5d58e;
-}
-
-@media(max-width:600px){
-  .slider{
-    height:125px;
-    border-radius:11px;
-  }
-
-  .slide{padding:14px 16px}
-  .slide-content{max-width:74%}
-  .tag{font-size:7px;padding:4px 8px}
-
-  .slide h2{
-    font-size:17px;
-    margin:8px 0 5px;
-  }
-
-  .slide p{font-size:9px}
-
-  .art{
-    width:75px;
-    height:75px;
-    right:13px;
-    font-size:34px;
-  }
-
-  .art:after{
-    width:95px;
-    height:95px;
-  }
-}
+.slide-frame.active{opacity:1;visibility:visible}
+.empty-state{display:none;position:absolute;inset:0}
+@media(max-width:600px){.slider{height:125px;border-radius:11px}}
+@media(prefers-reduced-motion:reduce){.slide-frame{transition:none}}
 </style>
 </head>
-
 <body>
-
-<div class="slider" id="rubaliaSlider">
-
-  <section class="slide banner-one active">
-    <div class="slide-content">
-      <span class="tag">RUBALIA NETWORK</span>
-      <h2>Grow With Trust</h2>
-      <p>Discover our product packages and explore new opportunities.</p>
-    </div>
-    <div class="art">💎</div>
-  </section>
-
-  <section class="slide banner-two">
-    <div class="slide-content">
-      <span class="tag">QUALITY COLLECTION</span>
-      <h2>Choose Your Package</h2>
-      <p>Explore our available product collections in one place.</p>
-    </div>
-    <div class="art">📦</div>
-  </section>
-
-  <section class="slide banner-three">
-    <div class="slide-content">
-      <span class="tag">RUBALIA STORE</span>
-      <h2>Discover More</h2>
-      <p>Find a package that matches your needs.</p>
-    </div>
-    <div class="art">✨</div>
-  </section>
-
-  <section class="slide banner-four">
-    <div class="slide-content">
-      <span class="tag">WELCOME TO RUBALIA</span>
-      <h2>Your Journey Starts Here</h2>
-      <p>Thank you for choosing RUBALIA NETWORK.</p>
-    </div>
-    <div class="art">🌟</div>
-  </section>
-
-  <div class="dots" id="sliderDots">
-    <button class="dot active" type="button" aria-label="Banner 1"></button>
-    <button class="dot" type="button" aria-label="Banner 2"></button>
-    <button class="dot" type="button" aria-label="Banner 3"></button>
-    <button class="dot" type="button" aria-label="Banner 4"></button>
-  </div>
-
-</div>
+<div class="slider" id="rubaliaSlider" aria-label="Promotional slides"></div>
 
 <script>
 "use strict";
 
-(function(){
+/*
+  ADD YOUR PROMOTIONAL HTML FILES HERE.
+  Keep all slide HTML files in this same "slider" folder.
+  First slide: welcome.html
+  Add more filenames after it, for example:
+  "promotion-1.html",
+  "promotion-2.html"
 
-  const slider = document.getElementById("rubaliaSlider");
-  if(!slider) return;
+  Each HTML file is shown for 6 seconds.
+*/
+const SLIDE_FILES = [
+  "welcome.html"
+  // "promotion-1.html",
+  // "promotion-2.html"
+];
 
-  const slides = Array.from(slider.querySelectorAll(".slide"));
-  const dots = Array.from(slider.querySelectorAll(".dot"));
+const SLIDE_DURATION = 6000;
+const slider = document.getElementById("rubaliaSlider");
 
-  let currentIndex = 0;
-  let timer = null;
+let currentIndex = 0;
+let timer = null;
+let frames = [];
 
-  function showBanner(index){
+function createSlides(){
+  slider.replaceChildren();
+  frames = [];
 
-    currentIndex = (index + slides.length) % slides.length;
+  const validFiles = SLIDE_FILES
+    .filter(file => typeof file === "string" && file.trim())
+    .map(file => file.trim());
 
-    slides.forEach(function(slide,i){
-      slide.classList.toggle("active",i===currentIndex);
-    });
+  if(!validFiles.length) return;
 
-    dots.forEach(function(dot,i){
-      dot.classList.toggle("active",i===currentIndex);
-    });
-  }
-
-  function startAutoSlide(){
-
-    if(timer) clearInterval(timer);
-
-    timer = setInterval(function(){
-      showBanner(currentIndex+1);
-    },6000);
-
-  }
-
-  dots.forEach(function(dot,index){
-
-    dot.addEventListener("click",function(event){
-      event.stopPropagation();
-      showBanner(index);
-      startAutoSlide();
-    });
-
+  validFiles.forEach(function(file,index){
+    const frame = document.createElement("iframe");
+    frame.className = "slide-frame";
+    frame.title = "Rubalia promotional slide " + (index + 1);
+    frame.loading = index === 0 ? "eager" : "lazy";
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    frame.src = file;
+    frame.setAttribute("allow","autoplay");
+    slider.appendChild(frame);
+    frames.push(frame);
   });
+}
 
-  slider.addEventListener("click",function(event){
+function showSlide(index){
+  if(!frames.length) return;
 
-    if(event.target.closest(".dots")) return;
+  currentIndex = (index + frames.length) % frames.length;
 
-    window.location.href = "welcome.html";
-
+  frames.forEach(function(frame,i){
+    frame.classList.toggle("active",i === currentIndex);
+    frame.setAttribute("aria-hidden",i === currentIndex ? "false" : "true");
   });
+}
 
-  showBanner(0);
-  startAutoSlide();
+function startSlider(){
+  if(timer) clearInterval(timer);
+  if(frames.length <= 1) return;
 
-})();
+  timer = setInterval(function(){
+    showSlide(currentIndex + 1);
+  },SLIDE_DURATION);
+}
+
+createSlides();
+
+if(frames.length){
+  showSlide(0);
+  startSlider();
+}
 </script>
-
 </body>
 </html>
