@@ -1,3 +1,5 @@
+ফাইলের নাম: "admin-refunds.html"
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,45 +7,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#071a35">
 <title>Refund Management | Rubalia Network</title>
-
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --bg:#f3f6fb;
-  --white:#fff;
-  --text:#18263c;
-  --muted:#78869a;
-  --border:#e5eaf1;
-  --green:#16845b;
-  --red:#c34b4b;
-  --orange:#a16b14;
+  --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
+  --bg:#f3f6fb;--text:#18263c;--muted:#78869a;
+  --border:#e5eaf1;--green:#16845b;--red:#c34b4b;
+  --orange:#a16b14
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text)
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-
 .loading-screen,.error-screen{
-  position:fixed;inset:0;z-index:1000;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);padding:20px
+  position:fixed;inset:0;z-index:1000;display:flex;
+  align-items:center;justify-content:center;background:var(--bg);padding:20px
 }
 .loading-box,.error-card{
   width:100%;max-width:420px;padding:28px;background:white;
   border:1px solid var(--border);border-radius:14px;text-align:center
 }
 .loading-box strong{color:var(--navy)}
-.loading-box p,.error-card p{
-  color:var(--muted);font-size:13px;line-height:1.7
-}
+.loading-box p,.error-card p{color:var(--muted);font-size:13px;line-height:1.7}
 .spinner{
   width:38px;height:38px;border:4px solid #e3e8ef;
   border-top-color:var(--gold);border-radius:50%;
@@ -57,7 +42,6 @@ button{cursor:pointer}
   border:0;border-radius:7px;background:var(--gold);
   color:var(--navy);font-weight:bold
 }
-
 .topbar{
   min-height:65px;background:var(--navy);color:white;
   display:flex;align-items:center;justify-content:space-between;
@@ -67,9 +51,8 @@ button{cursor:pointer}
 .brand span{color:var(--gold)}
 .top-right{display:flex;align-items:center;gap:12px}
 .admin-label{
-  font-size:11px;background:rgba(214,173,85,.17);
-  color:#f3dfa9;border:1px solid rgba(214,173,85,.4);
-  padding:7px 11px;border-radius:20px
+  font-size:11px;background:rgba(214,173,85,.17);color:#f3dfa9;
+  border:1px solid rgba(214,173,85,.4);padding:7px 11px;border-radius:20px
 }
 .admin-avatar{
   width:36px;height:36px;border-radius:50%;background:var(--gold);
@@ -79,209 +62,111 @@ button{cursor:pointer}
   display:none;border:1px solid rgba(255,255,255,.25);
   background:transparent;color:white;border-radius:7px;padding:7px 10px
 }
-.layout{
-  display:grid;grid-template-columns:245px minmax(0,1fr);
-  min-height:calc(100vh - 65px)
-}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:calc(100vh - 65px)}
 .sidebar{background:var(--navy2);color:white;padding:20px 13px}
-.admin-profile{
-  padding:8px 10px 20px;margin-bottom:14px;
-  border-bottom:1px solid rgba(255,255,255,.13)
-}
+.admin-profile{padding:8px 10px 20px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.13)}
 .admin-profile strong{display:block;font-size:14px;margin-bottom:6px}
-.admin-profile small{
-  color:#b8c7d9;font-size:11px;overflow-wrap:anywhere
-}
+.admin-profile small{color:#b8c7d9;font-size:11px;overflow-wrap:anywhere}
 .side-heading{
-  color:#9eafc5;font-size:10px;font-weight:bold;
-  text-transform:uppercase;letter-spacing:1.3px;
-  margin:19px 11px 9px
+  color:#9eafc5;font-size:10px;font-weight:bold;text-transform:uppercase;
+  letter-spacing:1.3px;margin:19px 11px 9px
 }
 .nav-link,.logout-btn{
-  display:flex;align-items:center;gap:11px;
-  padding:11px 12px;border-radius:8px;margin:3px 0;
-  font-size:12px;color:#dce6f2;transition:.2s;width:100%
+  display:flex;align-items:center;gap:11px;padding:11px 12px;
+  border-radius:8px;margin:3px 0;font-size:12px;color:#dce6f2;
+  transition:.2s;width:100%
 }
 .nav-link:hover,.nav-link.active,.logout-btn:hover{
   background:rgba(214,173,85,.17);color:#f3dfa9
 }
 .nav-icon{width:19px;text-align:center;font-size:15px}
-.logout-btn{
-  background:transparent;border:0;text-align:left
-}
-
-.main{
-  padding:25px;width:100%;max-width:1450px;margin:auto
-}
+.logout-btn{background:transparent;border:0;text-align:left}
+.main{padding:25px;width:100%;max-width:1450px;margin:auto}
 .heading{
   display:flex;justify-content:space-between;align-items:center;
   gap:15px;flex-wrap:wrap;margin-bottom:22px
 }
-.heading h1{
-  color:var(--navy);font-size:25px;margin:0 0 7px
-}
+.heading h1{color:var(--navy);font-size:25px;margin:0 0 7px}
 .heading p{margin:0;color:var(--muted);font-size:12px}
 .live-badge{
   display:inline-block;background:#e7f7ef;color:var(--green);
   border-radius:20px;padding:8px 12px;font-size:10px;font-weight:bold
 }
-.back-link{
-  display:inline-block;margin-bottom:16px;color:#a17a2d;
-  font-size:11px;font-weight:bold
-}
+.back-link{display:inline-block;margin-bottom:16px;color:#a17a2d;font-size:11px;font-weight:bold}
 .welcome{
-  background:linear-gradient(115deg,#071a35,#193d68);
-  color:white;border-radius:14px;padding:22px;
-  margin-bottom:20px;display:flex;
+  background:linear-gradient(115deg,#071a35,#193d68);color:white;
+  border-radius:14px;padding:22px;margin-bottom:20px;display:flex;
   justify-content:space-between;align-items:center;gap:20px
 }
 .welcome h2{margin:0 0 8px;font-size:19px}
-.welcome p{
-  margin:0;color:#c8d5e5;font-size:12px;line-height:1.7
-}
+.welcome p{margin:0;color:#c8d5e5;font-size:12px;line-height:1.7}
 .welcome-icon{font-size:40px}
-
 .summary-grid{
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:13px;margin-bottom:20px
 }
-.summary-card{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:17px;min-width:0
-}
+.summary-card{background:white;border:1px solid var(--border);border-radius:12px;padding:17px;min-width:0}
 .summary-label{font-size:11px;color:var(--muted)}
-.summary-value{
-  display:block;font-size:24px;font-weight:800;
-  color:var(--navy);margin:10px 0 4px
-}
+.summary-value{display:block;font-size:24px;font-weight:800;color:var(--navy);margin:10px 0 4px}
 .summary-note{font-size:10px;color:var(--muted)}
 .summary-card.pending{border-top:3px solid var(--gold)}
 .summary-card.completed{border-top:3px solid var(--green)}
 .summary-card.cancelled{border-top:3px solid var(--red)}
-
-.panel{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:18px;margin-bottom:18px;
-  min-width:0
-}
+.panel{background:white;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px;min-width:0}
 .panel-head{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;flex-wrap:wrap;margin-bottom:16px
 }
 .panel-head h3{margin:0;color:var(--navy);font-size:14px}
 .refresh-btn{
-  border:1px solid var(--border);background:white;
-  color:var(--navy);padding:9px 13px;border-radius:7px;
-  font-size:11px;font-weight:bold
+  border:1px solid var(--border);background:white;color:var(--navy);
+  padding:9px 13px;border-radius:7px;font-size:11px;font-weight:bold
 }
 .refresh-btn:disabled{opacity:.5;cursor:not-allowed}
-
 .notice{
-  background:#fff9eb;border:1px solid #f0dfb8;
-  border-radius:10px;padding:14px;color:#76591e;
-  font-size:11px;line-height:1.7;margin-bottom:18px
+  background:#fff9eb;border:1px solid #f0dfb8;border-radius:10px;
+  padding:14px;color:#76591e;font-size:11px;line-height:1.7;margin-bottom:18px
 }
 .notice strong{color:#604616}
-
 .message{
   display:none;padding:12px 14px;border-radius:8px;
   font-size:12px;line-height:1.6;margin-bottom:15px
 }
-.message.success{
-  display:block;background:#e7f7ef;
-  border:1px solid #c7ead7;color:#176c4b
-}
-.message.error{
-  display:block;background:#fff1ef;
-  border:1px solid #f1d0cb;color:#a34237
-}
-.message.info{
-  display:block;background:#eef4fc;
-  border:1px solid #d5e1f1;color:#31577f
-}
-
-.refund-list{
-  display:grid;grid-template-columns:1fr;gap:14px
-}
-.refund-card{
-  border:1px solid var(--border);border-radius:11px;
-  padding:17px;background:white
-}
+.message.success{display:block;background:#e7f7ef;border:1px solid #c7ead7;color:#176c4b}
+.message.error{display:block;background:#fff1ef;border:1px solid #f1d0cb;color:#a34237}
+.refund-list{display:grid;grid-template-columns:1fr;gap:14px}
+.refund-card{border:1px solid var(--border);border-radius:11px;padding:17px;background:white}
 .refund-card-top{
-  display:flex;justify-content:space-between;
-  align-items:flex-start;gap:12px;flex-wrap:wrap;
-  padding-bottom:13px;border-bottom:1px solid #edf0f5;
-  margin-bottom:13px
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:12px;flex-wrap:wrap;padding-bottom:13px;border-bottom:1px solid #edf0f5;margin-bottom:13px
 }
-.order-number{
-  font-size:14px;font-weight:800;color:var(--navy);
-  margin-bottom:5px;overflow-wrap:anywhere
-}
+.order-number{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:5px;overflow-wrap:anywhere}
 .order-date{font-size:10px;color:var(--muted)}
-.status{
-  display:inline-block;padding:6px 9px;border-radius:20px;
-  font-size:9px;font-weight:bold;background:#eef2f7;color:#526176
-}
+.status{display:inline-block;padding:6px 9px;border-radius:20px;font-size:9px;font-weight:bold;background:#eef2f7;color:#526176}
 .status.pending{background:#fff2dc;color:var(--orange)}
 .status.complete{background:#e7f7ef;color:var(--green)}
 .status.cancelled{background:#fceaea;color:var(--red)}
-
-.refund-details{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;margin-bottom:14px
-}
+.refund-details{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
 .detail-item{min-width:0}
-.detail-label{
-  display:block;font-size:9px;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px
-}
-.detail-value{
-  display:block;font-size:12px;font-weight:bold;
-  color:var(--navy);overflow-wrap:anywhere
-}
-.refund-amount{
-  color:var(--green);font-size:17px;font-weight:800
-}
-.note-label{
-  display:block;color:var(--navy);
-  font-size:11px;font-weight:bold;margin-bottom:7px
-}
+.detail-label{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.detail-value{display:block;font-size:12px;font-weight:bold;color:var(--navy);overflow-wrap:anywhere}
+.refund-amount{color:var(--green);font-size:17px;font-weight:800}
+.note-label{display:block;color:var(--navy);font-size:11px;font-weight:bold;margin-bottom:7px}
 .note-input{
-  display:block;width:100%;min-height:75px;resize:vertical;
-  border:1px solid var(--border);border-radius:8px;
-  padding:11px;font-size:12px;color:var(--text);
-  outline:none;background:#fff
+  display:block;width:100%;min-height:75px;resize:vertical;border:1px solid var(--border);
+  border-radius:8px;padding:11px;font-size:12px;color:var(--text);outline:none;background:#fff
 }
 .note-input:focus{border-color:var(--gold)}
-.note-input::placeholder{color:#a0aaba}
-.card-actions{
-  display:flex;gap:9px;flex-wrap:wrap;margin-top:12px
-}
-.action-btn{
-  border:0;border-radius:7px;padding:10px 14px;
-  font-size:10px;font-weight:bold
-}
+.card-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.action-btn{border:0;border-radius:7px;padding:10px 14px;font-size:10px;font-weight:bold}
 .request-btn{background:var(--navy);color:white}
 .confirm-btn{background:var(--green);color:white}
+.reject-btn{background:#fceaea;color:#a34237}
 .action-btn:disabled{opacity:.45;cursor:not-allowed}
-.action-help{
-  color:var(--muted);font-size:10px;line-height:1.6;
-  margin-top:10px
-}
-.empty-state{
-  padding:35px 15px;text-align:center;color:var(--muted);
-  font-size:12px;line-height:1.8
-}
-.empty-state strong{
-  display:block;color:var(--navy);font-size:14px;margin-bottom:6px
-}
-.footer{
-  text-align:center;padding:20px;color:#9aa5b5;font-size:10px
-}
-
-@media(max-width:1000px){
-  .summary-grid{grid-template-columns:repeat(3,1fr)}
-}
+.action-help{color:var(--muted);font-size:10px;line-height:1.6;margin-top:10px}
+.empty-state{padding:35px 15px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.empty-state strong{display:block;color:var(--navy);font-size:14px;margin-bottom:6px}
+.footer{text-align:center;padding:20px;color:#9aa5b5;font-size:10px}
 @media(max-width:800px){
   .layout{grid-template-columns:1fr}
   .sidebar{display:none;padding:12px}
@@ -294,24 +179,17 @@ button{cursor:pointer}
   .refund-details{grid-template-columns:1fr 1fr}
 }
 @media(max-width:480px){
-  .topbar{padding:0 13px}
-  .brand{font-size:17px}
+  .topbar{padding:0 13px}.brand{font-size:17px}
   .admin-label{font-size:9px;padding:6px 8px}
-  .main{padding:13px}
-  .welcome{padding:18px}
-  .welcome h2{font-size:17px}
-  .welcome-icon{font-size:32px}
-  .summary-card{padding:13px}
-  .summary-value{font-size:21px}
-  .refund-card{padding:13px}
-  .refund-details{gap:12px 8px}
+  .main{padding:13px}.welcome{padding:18px}
+  .welcome h2{font-size:17px}.welcome-icon{font-size:32px}
+  .summary-card{padding:13px}.summary-value{font-size:21px}
+  .refund-card{padding:13px}.refund-details{gap:12px 8px}
 }
 </style>
 </head>
-
 <body>
 
-<!-- LOADING -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-box">
     <div class="spinner"></div>
@@ -320,7 +198,6 @@ button{cursor:pointer}
   </div>
 </div>
 
-<!-- ERROR -->
 <div class="error-screen" id="errorScreen">
   <div class="error-card">
     <h2 id="errorTitle">Access Error</h2>
@@ -331,13 +208,11 @@ button{cursor:pointer}
 </div>
 
 <div id="adminApp" hidden>
-
 <header class="topbar">
   <div style="display:flex;align-items:center;gap:12px">
     <button class="mobile-menu" id="menuBtn" type="button">☰</button>
     <div class="brand">RUBALIA <span>NETWORK</span></div>
   </div>
-
   <div class="top-right">
     <span class="admin-label">ADMIN PANEL</span>
     <div class="admin-avatar" id="adminAvatar">A</div>
@@ -345,97 +220,41 @@ button{cursor:pointer}
 </header>
 
 <div class="layout">
-
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-
   <div class="admin-profile">
     <strong id="adminName">Administrator</strong>
     <small id="adminEmail">Loading...</small>
   </div>
 
   <div class="side-heading">Main Menu</div>
-
-  <a href="admin-dashboard.html" class="nav-link">
-    <span class="nav-icon">▦</span> Dashboard
-  </a>
+  <a href="admin-dashboard.html" class="nav-link"><span class="nav-icon">▦</span> Dashboard</a>
 
   <div class="side-heading">Management</div>
-
-  <a href="admin-users.html" class="nav-link">
-    <span class="nav-icon">👥</span> Users Management
-  </a>
-
-  <a href="admin-partners.html" class="nav-link">
-    <span class="nav-icon">🤝</span> Manage Partners
-  </a>
-
-  <a href="admin-applications.html" class="nav-link">
-    <span class="nav-icon">📋</span> Partner Applications
-  </a>
-
-  <a href="admin-products.html" class="nav-link">
-    <span class="nav-icon">📦</span> Products Management
-  </a>
-
-  <a href="admin-packages.html" class="nav-link">
-    <span class="nav-icon">🎁</span> Manage Packages
-  </a>
-
-  <a href="admin-orders.html" class="nav-link">
-    <span class="nav-icon">🛒</span> Orders Management
-  </a>
+  <a href="admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
+  <a href="admin-partners.html" class="nav-link"><span class="nav-icon">🤝</span> Manage Partners</a>
+  <a href="admin-applications.html" class="nav-link"><span class="nav-icon">📋</span> Partner Applications</a>
+  <a href="admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
+  <a href="admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Manage Packages</a>
+  <a href="admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
 
   <div class="side-heading">Finance</div>
-
-  <a href="admin-payments.html" class="nav-link">
-    <span class="nav-icon">💳</span> Payment Records
-  </a>
-
-  <a href="admin-withdrawals.html" class="nav-link">
-    <span class="nav-icon">💸</span> Withdraw Requests
-  </a>
-
-  <a href="admin-commissions.html" class="nav-link">
-    <span class="nav-icon">📊</span> Commission Settings
-  </a>
-
-  <a href="admin-refunds.html" class="nav-link active">
-    <span class="nav-icon">↩️</span> Refund Management
-  </a>
+  <a href="admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
+  <a href="admin-withdrawals.html" class="nav-link"><span class="nav-icon">💸</span> Withdraw Requests</a>
+  <a href="admin-commissions.html" class="nav-link"><span class="nav-icon">📊</span> Commission Settings</a>
+  <a href="admin-refunds.html" class="nav-link active"><span class="nav-icon">↩️</span> Refund Management</a>
 
   <div class="side-heading">Communication</div>
-
-  <a href="admin-announcements.html" class="nav-link">
-    <span class="nav-icon">📢</span> Announcements
-  </a>
-
-  <a href="admin-support.html" class="nav-link">
-    <span class="nav-icon">🎧</span> Support Requests
-  </a>
+  <a href="admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
+  <a href="admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Requests</a>
 
   <div class="side-heading">System</div>
-
-  <a href="admin-settings.html" class="nav-link">
-    <span class="nav-icon">⚙️</span> Admin Settings
-  </a>
-
-  <a href="index.html" class="nav-link">
-    <span class="nav-icon">🌐</span> Visit Website
-  </a>
-
-  <button class="logout-btn" id="logoutBtn" type="button">
-    <span class="nav-icon">↪</span> Logout
-  </button>
-
+  <a href="admin-settings.html" class="nav-link"><span class="nav-icon">⚙️</span> Admin Settings</a>
+  <a href="index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
+  <button class="logout-btn" id="logoutBtn" type="button"><span class="nav-icon">↪</span> Logout</button>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
-
-  <a href="admin-dashboard.html" class="back-link">
-    ← Back to Dashboard
-  </a>
+  <a href="admin-dashboard.html" class="back-link">← Back to Dashboard</a>
 
   <div class="heading">
     <div>
@@ -448,10 +267,7 @@ button{cursor:pointer}
   <section class="welcome">
     <div>
       <h2>Customer Refund Center</h2>
-      <p>
-        Review cancelled orders, contact customers and confirm
-        approved Wallet refunds.
-      </p>
+      <p>Review cancelled orders, contact customers and confirm approved Wallet refunds.</p>
     </div>
     <div class="welcome-icon">↩️</div>
   </section>
@@ -459,61 +275,57 @@ button{cursor:pointer}
   <div class="notice">
     <strong>Important Refund Rule:</strong>
     Cancelling an order does not automatically refund the customer.
-    Admin must contact the customer first. Only after confirming the
-    refund will the system credit the customer's Wallet and reverse
-    the related commission.
+    Admin must contact the customer first. Confirming a refund credits
+    the customer's Wallet and reverses related commission.
+    Rejecting a refund does not transfer money.
   </div>
 
   <div id="pageMessage" class="message" role="status" aria-live="polite"></div>
 
-  <!-- SUMMARY -->
   <section class="summary-grid">
-
     <div class="summary-card pending">
       <span class="summary-label">Waiting for Refund Decision</span>
       <strong class="summary-value" id="pendingCount">—</strong>
-      <span class="summary-note">Cancelled orders not yet completed</span>
+      <span class="summary-note">Cancelled orders in the refund queue</span>
     </div>
-
     <div class="summary-card completed">
       <span class="summary-label">Completed Refunds</span>
       <strong class="summary-value" id="completedCount">—</strong>
-      <span class="summary-note">Refunds confirmed in this list</span>
+      <span class="summary-note">Confirmed refunds in history</span>
     </div>
-
     <div class="summary-card cancelled">
       <span class="summary-label">Wallet Refund Amount Pending</span>
       <strong class="summary-value" id="pendingAmount">৳—</strong>
-      <span class="summary-note">Cancelled Wallet-paid orders awaiting decision</span>
+      <span class="summary-note">Wallet-paid orders awaiting decision</span>
     </div>
-
   </section>
 
-  <!-- REFUND LIST -->
   <section class="panel">
-
     <div class="panel-head">
       <h3>Cancelled Orders / Refund Queue</h3>
-      <button class="refresh-btn" id="refreshBtn" type="button">
-        ↻ Refresh List
-      </button>
+      <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh List</button>
     </div>
-
     <div id="refundList" class="refund-list">
-      <div class="empty-state">
-        Loading refund records...
-      </div>
+      <div class="empty-state">Loading refund records...</div>
     </div>
+  </section>
 
+  <section class="panel">
+    <div class="panel-head">
+      <h3>Completed / Rejected Refund History</h3>
+      <button class="refresh-btn" id="historyRefreshBtn" type="button">↻ Refresh History</button>
+    </div>
+    <div id="historyList" class="refund-list">
+      <div class="empty-state">Loading refund history...</div>
+    </div>
   </section>
 
   <div class="notice">
     <strong>Wallet Refund Only:</strong>
-    This page currently confirms refunds for orders originally paid
-    through Rubalia Wallet. External payment methods require a separate
-    verified refund process. Do not confirm an external payment refund here.
+    This page confirms refunds only for orders originally paid through
+    Rubalia Wallet. External payment methods require a separate verified
+    refund process.
   </div>
-
 </main>
 </div>
 
@@ -521,28 +333,21 @@ button{cursor:pointer}
   © <span id="year"></span> Rubalia Network. All Rights Reserved.
   <br>Refund Management
 </footer>
-
 </div>
 
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
+const API_BASE="https://rubalia.onrender.com/api";
+let adminToken="";
+let currentRefunds=[];
+let refundHistory=[];
 
-let adminToken = "";
-let currentRefunds = [];
-
-const $ = (id) => document.getElementById(id);
-
-
-// =====================================================
-// UI HELPERS
-// =====================================================
+const $=id=>document.getElementById(id);
 
 function showError(title,message){
   $("loadingScreen").style.display="none";
   $("adminApp").hidden=true;
-
   $("errorTitle").textContent=title;
   $("errorMessage").textContent=message;
   $("errorScreen").style.display="flex";
@@ -550,15 +355,10 @@ function showError(title,message){
 
 function showMessage(type,message){
   const box=$("pageMessage");
-
   box.className="message "+type;
   box.textContent=message;
   box.style.display="block";
-
-  box.scrollIntoView({
-    behavior:"smooth",
-    block:"nearest"
-  });
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
 function clearMessage(){
@@ -570,67 +370,39 @@ function clearMessage(){
 
 function formatMoney(value){
   const amount=Number(value);
-
   if(!Number.isFinite(amount)) return "৳—";
-
   return "৳"+amount.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
+    minimumFractionDigits:2,maximumFractionDigits:2
   });
 }
 
 function formatDate(value){
   if(!value) return "—";
-
   const date=new Date(value);
-
   if(Number.isNaN(date.getTime())) return "—";
-
   return date.toLocaleString("en-GB",{
-    day:"2-digit",
-    month:"short",
-    year:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
+    day:"2-digit",month:"short",year:"numeric",
+    hour:"2-digit",minute:"2-digit"
   });
-}
-
-function initials(name){
-  const value=String(name || "A").trim();
-  return value ? value.charAt(0).toUpperCase() : "A";
 }
 
 function createElement(tag,className,text){
   const element=document.createElement(tag);
-
-  if(className){
-    element.className=className;
-  }
-
-  if(text!==undefined && text!==null){
-    element.textContent=String(text);
-  }
-
+  if(className) element.className=className;
+  if(text!==undefined && text!==null) element.textContent=String(text);
   return element;
 }
-
-
-// =====================================================
-// API REQUEST
-// =====================================================
 
 async function apiRequest(path,options={}){
   const headers={
     "Authorization":"Bearer "+adminToken,
     "Accept":"application/json",
-    ...(options.body ? {"Content-Type":"application/json"} : {}),
-    ...(options.headers || {})
+    ...(options.body?{"Content-Type":"application/json"}:{}),
+    ...(options.headers||{})
   };
 
   const response=await fetch(API_BASE+path,{
-    ...options,
-    headers,
-    cache:"no-store"
+    ...options,headers,cache:"no-store"
   });
 
   const data=await response.json().catch(()=>({}));
@@ -638,9 +410,7 @@ async function apiRequest(path,options={}){
   if(response.status===401){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
-
     window.location.replace("login.html");
-
     throw new Error("Your session has expired. Please login again.");
   }
 
@@ -649,217 +419,232 @@ async function apiRequest(path,options={}){
   }
 
   if(!response.ok || data.success===false){
-    throw new Error(data.message || "Server request failed.");
+    throw new Error(data.message||"Server request failed.");
   }
 
   return data;
 }
 
-
-// =====================================================
-// SUMMARY
-// =====================================================
-
-function updateSummary(refunds){
+function updateSummary(refunds,history){
   const pending=refunds.filter(item=>
     item.refund_status==="pending" ||
     item.refund_status==="not_requested"
   );
 
-  const completed=refunds.filter(item=>
-    item.refund_status==="completed" ||
-    item.payment_status==="refunded"
+  const completed=(history||[]).filter(item=>
+    item.refund_status==="completed"
   );
 
   const pendingWalletAmount=pending.reduce((sum,item)=>{
-    if(String(item.payment_method).toLowerCase()!=="wallet"){
-      return sum;
-    }
-
+    if(String(item.payment_method).toLowerCase()!=="wallet") return sum;
     const amount=Number(item.total_amount);
-
     return sum+(Number.isFinite(amount)?amount:0);
   },0);
 
-  $("pendingCount").textContent=
-    pending.length.toLocaleString("en-US");
-
-  $("completedCount").textContent=
-    completed.length.toLocaleString("en-US");
-
-  $("pendingAmount").textContent=
-    formatMoney(pendingWalletAmount);
+  $("pendingCount").textContent=pending.length.toLocaleString("en-US");
+  $("completedCount").textContent=completed.length.toLocaleString("en-US");
+  $("pendingAmount").textContent=formatMoney(pendingWalletAmount);
 }
-
-
-// =====================================================
-// REFUND CARD
-// =====================================================
 
 function makeRefundCard(order){
   const card=createElement("article","refund-card");
-
   const top=createElement("div","refund-card-top");
+  const info=createElement("div","");
 
-  const orderInfo=createElement("div","");
-  orderInfo.appendChild(
-    createElement(
-      "div",
-      "order-number",
-      order.order_number || ("Order #"+order.id)
-    )
-  );
-
-  orderInfo.appendChild(
-    createElement(
-      "div",
-      "order-date",
-      "Created: "+formatDate(order.created_at)
-    )
-  );
+  info.appendChild(createElement(
+    "div","order-number",order.order_number||("Order #"+order.id)
+  ));
+  info.appendChild(createElement(
+    "div","order-date","Created: "+formatDate(order.created_at)
+  ));
 
   const status=createElement(
     "span",
-    "status "+(
-      order.refund_status==="completed" ||
-      order.payment_status==="refunded"
-        ? "complete"
-        : "pending"
-    ),
-    order.refund_status==="completed" ||
-    order.payment_status==="refunded"
-      ? "REFUNDED"
-      : String(order.refund_status || "NOT REQUESTED").replaceAll("_"," ").toUpperCase()
+    "status "+(order.refund_status==="pending"?"pending":"cancelled"),
+    String(order.refund_status||"NOT REQUESTED").replaceAll("_"," ").toUpperCase()
   );
 
-  top.appendChild(orderInfo);
+  top.appendChild(info);
   top.appendChild(status);
   card.appendChild(top);
 
   const details=createElement("div","refund-details");
-
-  const detailItems=[
-    ["Customer",order.customer_name || "—"],
-    ["Email",order.customer_email || "—"],
+  const fields=[
+    ["Customer",order.customer_name||"—"],
+    ["Email",order.customer_email||"—"],
     ["Order Amount",formatMoney(order.total_amount)],
-    ["Payment Method",order.payment_method || "—"],
-    ["Payment Status",order.payment_status || "—"],
+    ["Payment Method",order.payment_method||"—"],
+    ["Payment Status",order.payment_status||"—"],
     ["Refund Requested",formatDate(order.refund_requested_at)]
   ];
 
-  detailItems.forEach(([label,value])=>{
+  fields.forEach(([label,value])=>{
     const item=createElement("div","detail-item");
-
-    item.appendChild(
-      createElement("span","detail-label",label)
-    );
-
-    item.appendChild(
-      createElement(
-        "span",
-        label==="Order Amount" ? "refund-amount" : "detail-value",
-        value
-      )
-    );
-
+    item.appendChild(createElement("span","detail-label",label));
+    item.appendChild(createElement(
+      "span",label==="Order Amount"?"refund-amount":"detail-value",value
+    ));
     details.appendChild(item);
   });
-
   card.appendChild(details);
 
   if(order.refund_admin_note){
-    const previousNote=createElement("div","action-help");
-
-    previousNote.textContent=
-      "Previous Admin Note: "+order.refund_admin_note;
-
-    card.appendChild(previousNote);
+    card.appendChild(createElement(
+      "div","action-help","Previous Admin Note: "+order.refund_admin_note
+    ));
   }
 
-  const noteLabel=createElement(
-    "label",
-    "note-label",
-    "Admin Note"
-  );
-
+  const noteLabel=createElement("label","note-label","Admin Note / Decision Reason");
   const noteInput=createElement("textarea","note-input");
-
-  noteInput.placeholder=
-    "Write customer communication details or refund decision note...";
-
+  noteInput.placeholder="Write customer discussion details or decision reason...";
   noteInput.maxLength=2000;
-  noteInput.value="";
-
   noteLabel.appendChild(noteInput);
   card.appendChild(noteLabel);
 
   const actions=createElement("div","card-actions");
-
   const alreadyRefunded=
-    order.refund_status==="completed" ||
-    order.payment_status==="refunded";
-
-  const isWallet=
-    String(order.payment_method || "").toLowerCase()==="wallet";
+    order.refund_status==="completed"||order.payment_status==="refunded";
+  const isPending=order.refund_status==="pending";
+  const isWallet=String(order.payment_method||"").toLowerCase()==="wallet";
 
   const requestButton=createElement(
-    "button",
-    "action-btn request-btn",
-    order.refund_status==="pending"
-      ? "Update Refund Note"
-      : "Record Refund Discussion"
+    "button","action-btn request-btn",
+    isPending?"Update Refund Note":"Record Refund Discussion"
   );
-
   requestButton.type="button";
-  requestButton.disabled=alreadyRefunded;
-
-  requestButton.addEventListener("click",async()=>{
-    await requestRefund(order.id,noteInput,requestButton);
+  requestButton.disabled=alreadyRefunded||order.refund_status==="rejected";
+  requestButton.addEventListener("click",()=>{
+    requestRefund(order.id,noteInput,requestButton);
   });
-
   actions.appendChild(requestButton);
 
-  const confirmButton=createElement(
-    "button",
-    "action-btn confirm-btn",
-    "Confirm Refund"
-  );
-
+  const confirmButton=createElement("button","action-btn confirm-btn","Confirm Refund");
   confirmButton.type="button";
-  confirmButton.disabled=alreadyRefunded || !isWallet;
-
-  confirmButton.addEventListener("click",async()=>{
-    await confirmRefund(order,noteInput,confirmButton);
+  confirmButton.disabled=alreadyRefunded||!isWallet||!isPending;
+  confirmButton.addEventListener("click",()=>{
+    confirmRefund(order,noteInput,confirmButton);
   });
-
   actions.appendChild(confirmButton);
+
+  const rejectButton=createElement("button","action-btn reject-btn","Reject Refund");
+  rejectButton.type="button";
+  rejectButton.disabled=alreadyRefunded||!isPending;
+  rejectButton.addEventListener("click",()=>{
+    rejectRefund(order,noteInput,rejectButton);
+  });
+  actions.appendChild(rejectButton);
 
   card.appendChild(actions);
 
   const help=createElement("div","action-help");
-
   if(alreadyRefunded){
     help.textContent="This order has already been refunded.";
   }else if(!isWallet){
-    help.textContent=
-      "This order was not paid using Wallet. Confirm its refund through the original payment provider. This page will not transfer money for this order.";
-  }else if(order.refund_status==="pending"){
-    help.textContent=
-      "Refund discussion is recorded. Confirm only after speaking with the customer and agreeing to the refund.";
+    help.textContent="This order was not paid using Wallet. Use the original payment provider's verified refund process.";
+  }else if(isPending){
+    help.textContent="Request is pending. Confirm only after agreeing to the refund with the customer. Reject requires a reason.";
   }else{
-    help.textContent=
-      "First record the customer discussion. Confirm Refund only after the refund has been agreed.";
+    help.textContent="Record the customer discussion first. Confirm and Reject actions become available after the request is pending.";
   }
-
   card.appendChild(help);
 
   return card;
 }
 
+function renderRefundHistory(){
+  const list=$("historyList");
+  list.replaceChildren();
 
-// =====================================================
-// LOAD REFUNDS
-// =====================================================
+  if(!refundHistory.length){
+    const empty=createElement("div","empty-state");
+    empty.appendChild(createElement("strong","","No Refund History"));
+    empty.appendChild(createElement(
+      "span","","Completed and rejected refund decisions will appear here."
+    ));
+    list.appendChild(empty);
+    return;
+  }
+
+  refundHistory.forEach(order=>{
+    const card=createElement("article","refund-card");
+    const top=createElement("div","refund-card-top");
+    const info=createElement("div","");
+    info.appendChild(createElement(
+      "div","order-number",order.order_number||("Order #"+order.id)
+    ));
+    info.appendChild(createElement(
+      "div","order-date","Updated: "+formatDate(order.updated_at)
+    ));
+
+    const completed=order.refund_status==="completed";
+    top.appendChild(info);
+    top.appendChild(createElement(
+      "span",
+      "status "+(completed?"complete":"cancelled"),
+      completed?"REFUND COMPLETED":"REFUND REJECTED"
+    ));
+    card.appendChild(top);
+
+    const details=createElement("div","refund-details");
+    [
+      ["Customer",order.customer_name||"—"],
+      ["Email",order.customer_email||"—"],
+      ["Order Amount",formatMoney(order.total_amount)],
+      ["Payment Method",order.payment_method||"—"],
+      ["Order Status",order.status||"—"],
+      ["Decision Date",formatDate(completed?order.refund_confirmed_at:order.updated_at)]
+    ].forEach(([label,value])=>{
+      const item=createElement("div","detail-item");
+      item.appendChild(createElement("span","detail-label",label));
+      item.appendChild(createElement("span","detail-value",value));
+      details.appendChild(item);
+    });
+    card.appendChild(details);
+
+    if(order.refund_admin_note){
+      card.appendChild(createElement(
+        "div","action-help","Admin Note: "+order.refund_admin_note
+      ));
+    }
+    list.appendChild(card);
+  });
+}
+
+async function rejectRefund(order,noteInput,button){
+  const note=noteInput.value.trim();
+
+  if(!note){
+    showMessage("error","Write a reason before rejecting the refund.");
+    return;
+  }
+
+  const approved=window.confirm(
+    "REJECT REFUND REQUEST?\\n\\n"+
+    "Order: "+(order.order_number||order.id)+"\\n"+
+    "Customer: "+(order.customer_name||"Customer")+"\\n\\n"+
+    "No money will be returned. A previously delivered order will be restored to Delivered; an undelivered order remains Cancelled.\\n\\nContinue?"
+  );
+
+  if(!approved) return;
+
+  const original=button.textContent;
+  button.disabled=true;
+  button.textContent="Rejecting...";
+
+  try{
+    const data=await apiRequest(
+      "/refunds/"+encodeURIComponent(order.id)+"/reject",
+      {method:"POST",body:JSON.stringify({note})}
+    );
+    showMessage("success",data.message||"Refund request rejected.");
+    await loadRefunds();
+  }catch(error){
+    showMessage("error",error.message);
+  }finally{
+    button.disabled=false;
+    button.textContent=original;
+  }
+}
 
 async function loadRefunds(){
   const button=$("refreshBtn");
@@ -867,199 +652,126 @@ async function loadRefunds(){
 
   button.disabled=true;
   button.textContent="Loading...";
-
-  list.replaceChildren(
-    createElement("div","empty-state","Loading refund records...")
-  );
-
+  list.replaceChildren(createElement("div","empty-state","Loading refund records..."));
   clearMessage();
 
   try{
-    const data=await apiRequest("/refunds/admin/pending");
+    const [data,historyData]=await Promise.all([
+      apiRequest("/refunds/admin/pending"),
+      apiRequest("/refunds/admin/history")
+    ]);
 
-    currentRefunds=Array.isArray(data.refunds)
-      ? data.refunds
-      : [];
+    currentRefunds=Array.isArray(data.refunds)?data.refunds:[];
+    refundHistory=Array.isArray(historyData.refunds)?historyData.refunds:[];
 
-    updateSummary(currentRefunds);
-
+    updateSummary(currentRefunds,refundHistory);
+    renderRefundHistory();
     list.replaceChildren();
 
-    if(currentRefunds.length===0){
+    if(!currentRefunds.length){
       const empty=createElement("div","empty-state");
-
-      empty.appendChild(
-        createElement("strong","","No Refunds Waiting")
-      );
-
-      empty.appendChild(
-        createElement(
-          "span",
-          "",
-          "There are currently no cancelled orders waiting for a refund decision."
-        )
-      );
-
+      empty.appendChild(createElement("strong","","No Refunds Waiting"));
+      empty.appendChild(createElement(
+        "span","","There are currently no cancelled orders waiting for a refund decision."
+      ));
       list.appendChild(empty);
-
     }else{
-      currentRefunds.forEach(order=>{
-        list.appendChild(makeRefundCard(order));
-      });
+      currentRefunds.forEach(order=>list.appendChild(makeRefundCard(order)));
     }
-
   }catch(error){
-    if(error.message.includes("session has expired")){
-      return;
-    }
-
+    if(error.message.includes("session has expired")) return;
     if(error.message.includes("administrator permission")){
       showError("Access Denied",error.message);
       return;
     }
 
     list.replaceChildren();
-
     const empty=createElement("div","empty-state");
-
-    empty.appendChild(
-      createElement("strong","","Unable to Load Refunds")
-    );
-
-    empty.appendChild(
-      createElement("span","",error.message)
-    );
-
+    empty.appendChild(createElement("strong","","Unable to Load Refunds"));
+    empty.appendChild(createElement("span","",error.message));
     list.appendChild(empty);
-
     showMessage("error",error.message);
-
   }finally{
     button.disabled=false;
     button.textContent="↻ Refresh List";
   }
 }
 
-
-// =====================================================
-// RECORD REFUND DISCUSSION
-// POST /api/refunds/:orderId/request
-// =====================================================
-
 async function requestRefund(orderId,noteInput,button){
   const note=noteInput.value.trim();
-
   if(note.length>2000){
     showMessage("error","Admin note cannot exceed 2000 characters.");
     return;
   }
 
-  const originalText=button.textContent;
-
+  const original=button.textContent;
   button.disabled=true;
   button.textContent="Saving...";
 
   try{
     const data=await apiRequest(
       "/refunds/"+encodeURIComponent(orderId)+"/request",
-      {
-        method:"POST",
-        body:JSON.stringify({note})
-      }
+      {method:"POST",body:JSON.stringify({note})}
     );
-
-    showMessage(
-      "success",
-      data.message || "Refund discussion recorded. No money was transferred."
-    );
-
+    showMessage("success",data.message||"Refund discussion recorded.");
     await loadRefunds();
-
   }catch(error){
     showMessage("error",error.message);
-
   }finally{
     button.disabled=false;
-    button.textContent=originalText;
+    button.textContent=original;
   }
 }
-
-
-// =====================================================
-// CONFIRM REFUND
-// POST /api/refunds/:orderId/confirm
-// =====================================================
 
 async function confirmRefund(order,noteInput,button){
   const note=noteInput.value.trim();
 
-  if(note.length>2000){
-    showMessage("error","Admin note cannot exceed 2000 characters.");
+  if(String(order.payment_method||"").toLowerCase()!=="wallet"){
+    showMessage("error","Only Wallet-paid orders can be refunded through this page.");
     return;
   }
 
-  if(String(order.payment_method).toLowerCase()!=="wallet"){
-    showMessage(
-      "error",
-      "Only Wallet-paid orders can be refunded through this page."
-    );
+  if(order.refund_status!=="pending"){
+    showMessage("error","Record the refund request before confirming it.");
     return;
   }
-
-  const amount=formatMoney(order.total_amount);
 
   const approved=window.confirm(
-    "CONFIRM CUSTOMER REFUND?\n\n"+
-    "Order: "+(order.order_number || order.id)+"\n"+
-    "Customer: "+(order.customer_name || "Customer")+"\n"+
-    "Refund Amount: "+amount+"\n\n"+
-    "The customer's Wallet will be credited and related commission will be reversed.\n\n"+
-    "Continue only if you have contacted the customer and approved the refund."
+    "CONFIRM CUSTOMER REFUND?\\n\\n"+
+    "Order: "+(order.order_number||order.id)+"\\n"+
+    "Customer: "+(order.customer_name||"Customer")+"\\n"+
+    "Refund Amount: "+formatMoney(order.total_amount)+"\\n\\n"+
+    "The customer's Wallet will be credited and related commission will be reversed.\\n\\nContinue only if the customer has agreed to the refund."
   );
-
   if(!approved) return;
 
-  const originalText=button.textContent;
-
+  const original=button.textContent;
   button.disabled=true;
   button.textContent="Processing...";
 
   try{
     const data=await apiRequest(
       "/refunds/"+encodeURIComponent(order.id)+"/confirm",
-      {
-        method:"POST",
-        body:JSON.stringify({note})
-      }
+      {method:"POST",body:JSON.stringify({note})}
     );
-
-    const refund=data.refund || {};
-
+    const refund=data.refund||{};
     showMessage(
       "success",
-      data.message+
-      " Refund Amount: "+formatMoney(refund.amount)+
+      (data.message||"Refund completed.")+
+      " Refund: "+formatMoney(refund.amount)+
       ". New Wallet Balance: "+formatMoney(refund.walletBalance)+"."
     );
-
     await loadRefunds();
-
   }catch(error){
     showMessage("error",error.message);
-
   }finally{
     button.disabled=false;
-    button.textContent=originalText;
+    button.textContent=original;
   }
 }
 
-
-// =====================================================
-// ADMIN AUTHENTICATION
-// =====================================================
-
 async function initializeAdmin(){
-  adminToken=sessionStorage.getItem("rubalia_token") || "";
+  adminToken=sessionStorage.getItem("rubalia_token")||"";
 
   if(!adminToken){
     window.location.replace("login.html");
@@ -1068,8 +780,7 @@ async function initializeAdmin(){
 
   try{
     const data=await apiRequest("/auth/me");
-
-    const user=data.user || data.profile;
+    const user=data.user||data.profile;
 
     if(!user){
       throw new Error("The server did not return account information.");
@@ -1080,19 +791,16 @@ async function initializeAdmin(){
       return;
     }
 
-    const name=user.full_name || user.fullName || "Administrator";
-    const email=user.email || "";
-
+    const name=user.full_name||user.fullName||"Administrator";
     $("adminName").textContent=name;
-    $("adminEmail").textContent=email;
-    $("adminAvatar").textContent=initials(name);
+    $("adminEmail").textContent=user.email||"";
+    $("adminAvatar").textContent=name.trim().charAt(0).toUpperCase()||"A";
     $("year").textContent=new Date().getFullYear();
 
     $("loadingScreen").style.display="none";
     $("adminApp").hidden=false;
 
     await loadRefunds();
-
   }catch(error){
     if(error.message.includes("administrator permission")){
       showError("Access Denied",error.message);
@@ -1101,11 +809,6 @@ async function initializeAdmin(){
     }
   }
 }
-
-
-// =====================================================
-// EVENTS
-// =====================================================
 
 $("menuBtn").addEventListener("click",()=>{
   $("sidebar").classList.toggle("open");
@@ -1119,10 +822,19 @@ $("logoutBtn").addEventListener("click",()=>{
 
 $("refreshBtn").addEventListener("click",loadRefunds);
 
+$("historyRefreshBtn").addEventListener("click",async()=>{
+  try{
+    const data=await apiRequest("/refunds/admin/history");
+    refundHistory=Array.isArray(data.refunds)?data.refunds:[];
+    renderRefundHistory();
+    updateSummary(currentRefunds,refundHistory);
+    showMessage("success","Refund history refreshed.");
+  }catch(error){
+    showMessage("error",error.message);
+  }
+});
 
-// START
 initializeAdmin();
 </script>
-
 </body>
 </html>
