@@ -26,6 +26,9 @@ const paymentRoutes = require("./routes/payment.routes");
 // Referral Routes
 const referralRoutes = require("./routes/referral.routes");
 
+// Commission Routes
+const commissionRoutes = require("./routes/commission.routes");
+
 const {
   notFoundHandler,
   errorHandler
@@ -142,6 +145,17 @@ app.use("/api/notifications", notificationRoutes);
 // GET /api/referral/direct
 app.use("/api/referral", referralRoutes);
 
+// Commission Routes
+// GET  /api/commission/me
+// GET  /api/commission/transactions
+// GET  /api/commission/admin/settings
+// PUT  /api/commission/admin/settings
+// PUT  /api/commission/admin/costs/product/:id
+// PUT  /api/commission/admin/costs/package/:id
+// POST /api/commission/admin/orders/:id/release
+// GET  /api/commission/admin/report
+app.use("/api/commission", commissionRoutes);
+
 // Payment Routes
 // GET  /api/payment/methods
 // POST /api/payment/request
@@ -187,6 +201,7 @@ async function startServer() {
       console.log("Cloudinary upload route registered.");
       console.log("Payment route registered.");
       console.log("Referral route registered.");
+      console.log("Commission route registered.");
     });
 
   } catch (error) {
