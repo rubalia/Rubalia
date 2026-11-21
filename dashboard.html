@@ -4,9 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#8b1748">
+<meta name="theme-color" content="#310d35">
 <meta name="description" content="RUBALIA NETWORK Packages">
-<title>Shop | RUBALIA NETWORK</title>
+<title>Packages | RUBALIA NETWORK</title>
 
 <style>
 :root{
@@ -22,120 +22,182 @@
   --green:#16804b;
   --shadow:0 5px 18px rgba(31,20,49,.07);
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-
 a{text-decoration:none;color:inherit}
-button{font-family:inherit}
+button,input{font-family:inherit}
+body.menu-open{overflow:hidden}
 
-/* HEADER */
+/* TOP HEADER - SAME AS WALLET */
 
-header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  min-height:65px;
-  padding:0 5%;
+.app-header{
+  height:76px;
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  color:white;
-  background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);
-  box-shadow:0 4px 18px rgba(30,15,42,.17);
-}
-
-.header-left,.header-right{
-  display:flex;
-  align-items:center;
   gap:12px;
+  padding:0 22px;
+  color:white;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 4px 15px rgba(35,10,45,.18);
+  position:relative;
+  z-index:100;
 }
-
-.logo{
+.header-left{
   display:flex;
   align-items:center;
-  gap:9px;
+  gap:13px;
+  min-width:0;
+}
+.menu-toggle{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:12px;
+  font-size:25px;
+  cursor:pointer;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#512a83;
+  font-size:27px;
+  font-weight:900;
+  flex-shrink:0;
+}
+.brand-text{
   font-size:17px;
   font-weight:900;
   letter-spacing:1px;
+  white-space:nowrap;
 }
-
-.logo-mark{
-  width:36px;
-  height:36px;
-  display:grid;
-  place-items:center;
-  border-radius:11px;
-  color:#fff;
-  font-size:21px;
-  background:linear-gradient(145deg,#f5d98f,#bd8b37);
-}
-
-.logo-text span{color:var(--gold)}
-.logo small{
+.brand-text span{color:#ffe58a}
+.brand-text small{
   display:block;
-  font-size:8px;
+  font-size:9px;
   letter-spacing:3px;
-  margin-top:3px;
-  color:#f5dba6;
+  color:#f5dca4;
+  margin-top:4px;
 }
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:20px;
-}
-
-.nav-links a{
-  color:#f3eaf0;
+.orders-button{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:11px;
+  padding:12px 15px;
   font-size:12px;
   font-weight:bold;
+  white-space:nowrap;
 }
 
-.cart-link{
-  padding:10px 13px;
+/* DRAWER */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  overflow-y:auto;
+  padding:20px 14px 25px;
+  color:white;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  z-index:201;
+  transform:translateX(-105%);
+  transition:transform .28s ease;
+  box-shadow:10px 0 35px rgba(0,0,0,.2);
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 7px 22px;
+}
+.drawer-brand{
+  font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  letter-spacing:1px;
+}
+.drawer-brand small{
+  display:block;
+  font-size:10px;
+  letter-spacing:4px;
+  color:white;
+  margin-top:4px;
+}
+.drawer-close{
+  width:36px;
+  height:36px;
   border:1px solid rgba(255,255,255,.25);
   border-radius:9px;
   color:white;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.mobile-menu{
-  display:none;
-  border:1px solid rgba(255,255,255,.3);
   background:rgba(255,255,255,.1);
-  color:white;
-  border-radius:8px;
-  padding:8px 11px;
-  font-size:18px;
+  font-size:22px;
   cursor:pointer;
 }
-
-.mobile-nav{
-  display:none;
-  position:fixed;
-  top:65px;
-  left:0;
-  right:0;
-  z-index:49;
-  padding:12px 18px;
-  background:#241831;
+.menu-title{
+  color:#c8b5e9;
+  font-size:10px;
+  font-weight:bold;
+  padding:15px 12px 8px;
+  letter-spacing:1.5px;
 }
-
-.mobile-nav.show{display:grid;gap:4px}
-
-.mobile-nav a{
-  padding:12px;
-  color:white;
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px 12px;
+  margin:3px 0;
+  border-radius:9px;
+  color:#eee8fa;
   font-size:13px;
-  border-radius:8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.2s;
+}
+.menu a:hover,.menu a.active{
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
+}
+.menu-icon{
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
 
 /* MAIN */
@@ -146,7 +208,7 @@ main{
   padding:18px 20px 50px;
 }
 
-/* CODE GENERATED SLIDER */
+/* SLIDER */
 
 .slider-wrap{
   position:relative;
@@ -157,13 +219,11 @@ main{
   background:#241831;
   box-shadow:0 7px 20px rgba(31,20,49,.12);
 }
-
 .slider-track{
   width:100%;
   height:100%;
   position:relative;
 }
-
 .slide{
   position:absolute;
   inset:0;
@@ -177,19 +237,16 @@ main{
   transform:scale(1.025);
   transition:opacity .7s ease,transform .9s ease;
 }
-
 .slide.active{
   opacity:1;
   visibility:visible;
   transform:scale(1);
 }
-
 .slide-content{
   position:relative;
   z-index:2;
   max-width:72%;
 }
-
 .slide-tag{
   display:inline-block;
   font-size:8px;
@@ -200,20 +257,17 @@ main{
   border-radius:20px;
   padding:5px 9px;
 }
-
 .slide h2{
   margin:9px 0 5px;
   font-size:21px;
   line-height:1.2;
 }
-
 .slide p{
   margin:0;
   color:#f0e4ec;
   font-size:10px;
   line-height:1.6;
 }
-
 .slide-decoration{
   position:absolute;
   right:25px;
@@ -229,7 +283,6 @@ main{
   font-size:48px;
   box-shadow:0 0 35px rgba(255,255,255,.12);
 }
-
 .slide-decoration:after{
   content:"";
   position:absolute;
@@ -238,25 +291,21 @@ main{
   border:1px solid rgba(255,255,255,.17);
   border-radius:50%;
 }
-
 .slide-one{
   background:
     radial-gradient(circle at 85% 20%,rgba(255,210,120,.35),transparent 35%),
     linear-gradient(110deg,#20172f,#861544,#c3265e);
 }
-
 .slide-two{
   background:
     radial-gradient(circle at 85% 20%,rgba(255,255,255,.25),transparent 35%),
     linear-gradient(110deg,#122e35,#087c70,#24a28b);
 }
-
 .slide-three{
   background:
     radial-gradient(circle at 85% 20%,rgba(255,220,130,.3),transparent 35%),
     linear-gradient(110deg,#282044,#62409a,#a34e91);
 }
-
 .slider-dots{
   position:absolute;
   bottom:9px;
@@ -267,7 +316,6 @@ main{
   justify-content:center;
   gap:6px;
 }
-
 .slider-dot{
   width:6px;
   height:6px;
@@ -278,7 +326,6 @@ main{
   cursor:pointer;
   transition:.3s;
 }
-
 .slider-dot.active{
   width:19px;
   background:#f5d58e;
@@ -292,12 +339,10 @@ main{
   align-items:center;
   gap:9px;
 }
-
 .search-box{
   flex:1;
   position:relative;
 }
-
 .search-box input{
   width:100%;
   height:42px;
@@ -309,11 +354,7 @@ main{
   color:var(--text);
   font-size:12px;
 }
-
-.search-box input:focus{
-  border-color:#c64d81;
-}
-
+.search-box input:focus{border-color:#c64d81}
 .search-icon{
   position:absolute;
   left:13px;
@@ -321,7 +362,6 @@ main{
   color:#9c91a4;
   font-size:16px;
 }
-
 .refresh-btn{
   border:1px solid var(--border);
   background:white;
@@ -331,6 +371,10 @@ main{
   font-size:10px;
   font-weight:bold;
   cursor:pointer;
+}
+.refresh-btn:disabled{
+  opacity:.5;
+  cursor:wait;
 }
 
 /* PACKAGE SECTION */
@@ -342,33 +386,29 @@ main{
   gap:10px;
   margin:15px 0 12px;
 }
-
 .section-heading h2{
   margin:0;
   color:#30243e;
   font-size:18px;
 }
-
 .section-heading p{
   margin:4px 0 0;
   color:var(--muted);
   font-size:10px;
 }
-
 .section-count{
   color:#9a6c38;
   font-size:10px;
   font-weight:bold;
 }
 
-/* TWO COLUMN PACKAGE GRID */
+/* PACKAGE GRID */
 
 .package-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:11px;
 }
-
 .item-card{
   min-width:0;
   overflow:hidden;
@@ -378,11 +418,7 @@ main{
   box-shadow:var(--shadow);
   transition:transform .2s;
 }
-
-.item-card:hover{
-  transform:translateY(-3px);
-}
-
+.item-card:hover{transform:translateY(-3px)}
 .item-image{
   height:115px;
   display:flex;
@@ -391,13 +427,11 @@ main{
   overflow:hidden;
   background:linear-gradient(135deg,#f9e8ef,#eee8f6);
 }
-
 .item-image img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-
 .image-placeholder{
   display:grid;
   place-items:center;
@@ -406,11 +440,7 @@ main{
   color:#b17a9a;
   font-size:36px;
 }
-
-.item-body{
-  padding:10px;
-}
-
+.item-body{padding:10px}
 .item-type{
   display:inline-block;
   padding:4px 7px;
@@ -421,7 +451,6 @@ main{
   font-weight:bold;
   letter-spacing:.5px;
 }
-
 .item-title{
   margin:8px 0 5px;
   color:#30243e;
@@ -429,7 +458,6 @@ main{
   line-height:1.35;
   overflow-wrap:anywhere;
 }
-
 .item-description{
   height:30px;
   overflow:hidden;
@@ -438,7 +466,6 @@ main{
   font-size:9px;
   line-height:1.5;
 }
-
 .item-bottom{
   margin-top:9px;
   padding-top:9px;
@@ -448,14 +475,12 @@ main{
   align-items:center;
   gap:5px;
 }
-
 .item-price{
   color:#8b1748;
   font-size:14px;
   font-weight:900;
   overflow-wrap:anywhere;
 }
-
 .item-price small{
   display:block;
   margin-bottom:3px;
@@ -463,15 +488,12 @@ main{
   font-size:8px;
   font-weight:normal;
 }
-
 .item-stock{
   margin-top:5px;
   color:var(--green);
   font-size:9px;
 }
-
 .item-stock.out{color:#c0392b}
-
 .buy-btn{
   display:inline-block;
   border:0;
@@ -484,7 +506,6 @@ main{
   cursor:pointer;
   white-space:nowrap;
 }
-
 .buy-btn:disabled{
   opacity:.45;
   cursor:not-allowed;
@@ -500,25 +521,18 @@ main{
   background:white;
   text-align:center;
 }
-
-.state-icon{
-  font-size:30px;
-  margin-bottom:9px;
-}
-
+.state-icon{font-size:30px;margin-bottom:9px}
 .state-box h3{
   margin:0 0 7px;
   color:#3b2d46;
   font-size:15px;
 }
-
 .state-box p{
   margin:0;
   color:var(--muted);
   font-size:10px;
   line-height:1.7;
 }
-
 .state-box button{
   margin-top:12px;
   border:0;
@@ -541,14 +555,12 @@ main{
   font-size:11px;
   line-height:1.6;
 }
-
 .notice.error{
   display:block;
   background:#fff0f1;
   color:#a12b36;
   border:1px solid #f4cbd0;
 }
-
 .notice.success{
   display:block;
   background:#effaf3;
@@ -565,33 +577,49 @@ footer{
   text-align:center;
   font-size:10px;
 }
-
 footer strong{color:#f4d58c}
 
-/* MOBILE */
+/* MOBILE APP VIEW */
 
-@media(max-width:650px){
-  header{
-    min-height:61px;
-    padding:0 12px;
+@media(max-width:700px){
+  .app-header{
+    height:65px;
+    padding:0 11px;
+    gap:7px;
   }
-
-  .logo{font-size:13px}
-  .logo-mark{width:32px;height:32px;font-size:18px}
-  .logo small{font-size:7px;letter-spacing:2px}
-
-  .nav-links{display:none}
-  .mobile-menu{display:block}
-  .cart-link{padding:9px;font-size:9px}
-  .mobile-nav{top:61px}
-
+  .header-left{gap:9px}
+  .menu-toggle{
+    width:41px;
+    height:41px;
+    font-size:22px;
+    border-radius:10px;
+  }
+  .brand{gap:7px}
+  .brand-icon{
+    width:40px;
+    height:40px;
+    font-size:23px;
+    border-radius:12px;
+  }
+  .brand-text{
+    font-size:13px;
+    letter-spacing:.5px;
+  }
+  .brand-text small{
+    font-size:7px;
+    letter-spacing:2.5px;
+    margin-top:3px;
+  }
+  .orders-button{
+    padding:10px 9px;
+    font-size:10px;
+    border-radius:9px;
+  }
   main{padding:13px 11px 35px}
-
   .slider-wrap{
     height:125px;
     border-radius:11px;
   }
-
   .slide{padding:13px 15px}
   .slide-content{max-width:73%}
   .slide h2{font-size:17px}
@@ -607,14 +635,11 @@ footer strong{color:#f4d58c}
     width:95px;
     height:95px;
   }
-
   .search-section{margin:14px 0 18px}
   .search-box input{height:40px}
   .refresh-btn{padding:11px 9px}
-
   .section-heading h2{font-size:16px}
   .package-grid{gap:9px}
-
   .item-image{height:105px}
   .item-body{padding:8px}
   .item-title{font-size:12px}
@@ -623,8 +648,10 @@ footer strong{color:#f4d58c}
   .item-stock{font-size:8px}
   .buy-btn{padding:8px 7px;font-size:8px}
 }
-
-@media(max-width:340px){
+@media(max-width:360px){
+  .brand-text{font-size:11px}
+  .brand-icon{width:36px;height:36px}
+  .orders-button{font-size:9px;padding:9px 7px}
   .item-image{height:88px}
   .item-body{padding:7px}
   .item-title{font-size:11px}
@@ -636,43 +663,90 @@ footer strong{color:#f4d58c}
 
 <body>
 
-<header>
+<!-- HEADER -->
+
+<header class="app-header">
   <div class="header-left">
+    <button class="menu-toggle" id="menuToggle"
+      type="button" aria-label="Open menu" aria-expanded="false">☰</button>
 
-    <button class="mobile-menu"
-      type="button"
-      onclick="toggleMobileMenu()">☰</button>
-
-    <a href="dashboard.html" class="logo">
-      <span class="logo-mark">R</span>
-      <span class="logo-text">
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div class="brand-text">
         RUBALIA <span>NETWORK</span>
         <small>GROW WITH TRUST</small>
-      </span>
+      </div>
     </a>
-
   </div>
 
-  <nav class="nav-links">
-    <a href="dashboard.html">Shop</a>
-    <a href="orders.html">My Orders</a>
-    <a href="contact.html">Support</a>
-  </nav>
-
-  <div class="header-right">
-    <a href="orders.html" class="cart-link">📦 My Orders</a>
-  </div>
+  <a href="orders.html" class="orders-button">📦 My Orders</a>
 </header>
 
-<nav class="mobile-nav" id="mobileNav">
-  <a href="dashboard.html">🛍️ Shop</a>
-  <a href="orders.html">📦 My Orders</a>
-  <a href="contact.html">💬 Support</a>
-</nav>
+<!-- DRAWER OVERLAY -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+  <div class="drawer-top">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+    <button class="drawer-close" id="drawerClose"
+      type="button" aria-label="Close menu">×</button>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+
+  <nav class="menu">
+    <a href="dashboard.html" class="active">
+      <span class="menu-icon">⌂</span>Dashboard
+    </a>
+    <a href="profile.html">
+      <span class="menu-icon">♙</span>My Profile
+    </a>
+    <a href="dashboard.html">
+      <span class="menu-icon">▣</span>Packages
+    </a>
+    <a href="orders.html">
+      <span class="menu-icon">▤</span>My Orders
+    </a>
+    <a href="team.html">
+      <span class="menu-icon">♧</span>My Team
+    </a>
+    <a href="income.html">
+      <span class="menu-icon">৳</span>Income Details
+    </a>
+    <a href="wallet.html">
+      <span class="menu-icon">◈</span>My Wallet
+    </a>
+    <a href="withdraw.html">
+      <span class="menu-icon">⇧</span>Withdraw
+    </a>
+  </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+
+  <nav class="menu">
+    <a href="settings.html">
+      <span class="menu-icon">⚙</span>Settings
+    </a>
+    <a href="contact.html">
+      <span class="menu-icon">✉</span>Contact Support
+    </a>
+    <a href="#" id="logoutLink">
+      <span class="menu-icon">↪</span>Logout
+    </a>
+  </nav>
+</aside>
+
+<!-- MAIN -->
 
 <main>
 
-  <!-- AUTOMATIC CODE GENERATED SLIDER -->
+  <!-- SLIDER -->
 
   <section class="slider-wrap">
     <div class="slider-track" id="sliderTrack">
@@ -727,24 +801,20 @@ footer strong{color:#f4d58c}
         autocomplete="off">
     </div>
 
-    <button class="refresh-btn"
-      type="button"
-      onclick="loadStore()">↻ Refresh</button>
+    <button class="refresh-btn" id="refreshBtn" type="button">
+      ↻ Refresh
+    </button>
   </section>
 
   <!-- PACKAGES ONLY -->
 
   <section id="packages">
-
     <div class="section-heading">
       <div>
         <h2>Our Packages</h2>
         <p>Choose from our available packages.</p>
       </div>
-
-      <span class="section-count" id="packageCount">
-        Loading...
-      </span>
+      <span class="section-count" id="packageCount">Loading...</span>
     </div>
 
     <div class="package-grid" id="packageGrid">
@@ -754,7 +824,6 @@ footer strong{color:#f4d58c}
         <p>Please wait while we load available packages.</p>
       </div>
     </div>
-
   </section>
 
 </main>
@@ -771,6 +840,64 @@ const API_BASE = "https://rubalia.onrender.com/api";
 let allPackages = [];
 let sliderIndex = 0;
 let sliderTimer = null;
+let loading = false;
+
+const $ = id => document.getElementById(id);
+
+/* HAMBURGER MENU */
+
+const sidebar = $("sidebar");
+const overlay = $("drawerOverlay");
+const menuToggle = $("menuToggle");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
+  menuToggle.setAttribute("aria-expanded","true");
+}
+
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
+  menuToggle.setAttribute("aria-expanded","false");
+}
+
+menuToggle.addEventListener("click",function(){
+  if(sidebar.classList.contains("open")){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+});
+
+$("drawerClose").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape") closeMenu();
+});
+
+sidebar.querySelectorAll("a").forEach(function(link){
+  if(link.id!=="logoutLink"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+  }
+});
+
+/* HELPERS */
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g,function(char){
@@ -782,6 +909,20 @@ function escapeHTML(value){
       "'":"&#39;"
     }[char];
   });
+}
+
+function safeImageURL(value){
+  if(!value) return "";
+
+  try{
+    const url = new URL(value,location.href);
+
+    if(url.protocol==="https:" || url.protocol==="http:"){
+      return url.href;
+    }
+  }catch(error){}
+
+  return "";
 }
 
 function formatPrice(value){
@@ -797,20 +938,14 @@ function formatPrice(value){
 }
 
 function showNotice(type,text){
-  const notice = document.getElementById("notice");
+  const notice = $("notice");
   notice.className = "notice " + type;
   notice.textContent = text;
 }
 
 function clearNotice(){
-  const notice = document.getElementById("notice");
-  notice.className = "notice";
-  notice.textContent = "";
-}
-
-function toggleMobileMenu(){
-  document.getElementById("mobileNav")
-    .classList.toggle("show");
+  $("notice").className = "notice";
+  $("notice").textContent = "";
 }
 
 /* SLIDER */
@@ -832,19 +967,6 @@ function showSlide(index){
   });
 }
 
-function startSlider(){
-  const dots = document.querySelectorAll(".slider-dot");
-
-  dots.forEach(function(dot,index){
-    dot.addEventListener("click",function(){
-      showSlide(index);
-      restartSlider();
-    });
-  });
-
-  restartSlider();
-}
-
 function restartSlider(){
   if(sliderTimer){
     clearInterval(sliderTimer);
@@ -855,30 +977,56 @@ function restartSlider(){
   },5000);
 }
 
+function startSlider(){
+  document.querySelectorAll(".slider-dot").forEach(function(dot,index){
+    dot.addEventListener("click",function(){
+      showSlide(index);
+      restartSlider();
+    });
+  });
+
+  restartSlider();
+}
+
 /* LOADING STATE */
 
 function showState(container,icon,title,description,buttonText){
-  container.innerHTML = `
-    <div class="state-box">
-      <div class="state-icon">${icon}</div>
-      <h3>${escapeHTML(title)}</h3>
-      <p>${escapeHTML(description)}</p>
-      ${buttonText ? `
-        <button type="button" onclick="loadStore()">
-          ${escapeHTML(buttonText)}
-        </button>` : ""}
-    </div>
-  `;
+  container.replaceChildren();
+
+  const box = document.createElement("div");
+  box.className = "state-box";
+
+  const iconElement = document.createElement("div");
+  iconElement.className = "state-icon";
+  iconElement.textContent = icon;
+
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = description;
+
+  box.append(iconElement,heading,paragraph);
+
+  if(buttonText){
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = buttonText;
+    button.addEventListener("click",loadStore);
+    box.appendChild(button);
+  }
+
+  container.appendChild(box);
 }
 
 /* API */
 
-async function fetchJSON(url,token){
-  const response = await fetch(url,{
+async function fetchJSON(path,token){
+  const response = await fetch(API_BASE+path,{
     method:"GET",
     headers:{
       "Accept":"application/json",
-      Authorization:"Bearer "+token
+      "Authorization":"Bearer "+token
     },
     cache:"no-store"
   });
@@ -890,11 +1038,11 @@ async function fetchJSON(url,token){
   if(response.status===401){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
-    window.location.replace("login.html");
+    location.replace("login.html");
     throw new Error("Your login session has expired.");
   }
 
-  if(!response.ok){
+  if(!response.ok || data.success===false){
     throw new Error(
       data.message || "Unable to load store information."
     );
@@ -909,30 +1057,31 @@ async function verifySession(){
   const token = sessionStorage.getItem("rubalia_token");
 
   if(!token){
-    window.location.replace("login.html");
+    location.replace("login.html");
     throw new Error("Login required.");
   }
 
-  const data = await fetchJSON(API_BASE+"/auth/me",token);
+  const data = await fetchJSON("/auth/me",token);
+  const user = data.user || data.profile;
 
-  if(!data.success || !data.user){
+  if(!user){
     throw new Error("Unable to verify your account.");
   }
 
-  const role = String(data.user.role || "").toLowerCase();
+  const role = String(user.role || "").toLowerCase();
 
   if(role==="admin"){
-    window.location.replace("admin-dashboard.html");
+    location.replace("admin-dashboard.html");
     throw new Error("Opening Admin Dashboard.");
   }
 
-  if(data.user.status &&
-     String(data.user.status).toLowerCase()!=="active"){
+  if(user.status &&
+     String(user.status).toLowerCase()!=="active"){
 
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
 
-    window.location.replace("login.html");
+    location.replace("login.html");
 
     throw new Error("Your account is not active.");
   }
@@ -943,10 +1092,12 @@ async function verifySession(){
 /* PACKAGE RENDER */
 
 function renderPackages(packages){
-  const grid = document.getElementById("packageGrid");
+  const grid = $("packageGrid");
 
-  document.getElementById("packageCount").textContent =
+  $("packageCount").textContent =
     packages.length + " Available";
+
+  grid.replaceChildren();
 
   if(!packages.length){
     showState(
@@ -958,92 +1109,120 @@ function renderPackages(packages){
     return;
   }
 
-  grid.innerHTML = packages.map(function(item){
+  packages.forEach(function(item){
 
     const id = Number(item.id);
+    const validPackageId =
+      Number.isSafeInteger(id) && id>0;
 
-    const name = escapeHTML(item.name || "Unnamed Package");
+    const name = item.name || "Unnamed Package";
+    const description =
+      item.description || "Explore this RUBALIA product package.";
 
-    const description = escapeHTML(
-      item.description || "Explore this RUBALIA product package."
+    const card = document.createElement("article");
+    card.className = "item-card";
+
+    const imageBox = document.createElement("div");
+    imageBox.className = "item-image";
+
+    const imageURL = safeImageURL(item.image_url);
+
+    if(imageURL){
+      const image = document.createElement("img");
+      image.src = imageURL;
+      image.alt = name;
+      image.loading = "lazy";
+
+      image.addEventListener("error",function(){
+        imageBox.replaceChildren();
+
+        const placeholder = document.createElement("div");
+        placeholder.className = "image-placeholder";
+        placeholder.textContent = "📦";
+        imageBox.appendChild(placeholder);
+      });
+
+      imageBox.appendChild(image);
+    }else{
+      const placeholder = document.createElement("div");
+      placeholder.className = "image-placeholder";
+      placeholder.textContent = "📦";
+      imageBox.appendChild(placeholder);
+    }
+
+    const body = document.createElement("div");
+    body.className = "item-body";
+
+    const type = document.createElement("span");
+    type.className = "item-type";
+    type.textContent = "PACKAGE";
+
+    const title = document.createElement("h3");
+    title.className = "item-title";
+    title.textContent = name;
+
+    const desc = document.createElement("p");
+    desc.className = "item-description";
+    desc.textContent = description;
+
+    const bottom = document.createElement("div");
+    bottom.className = "item-bottom";
+
+    const priceStock = document.createElement("div");
+
+    const price = document.createElement("div");
+    price.className = "item-price";
+
+    const priceLabel = document.createElement("small");
+    priceLabel.textContent = "PACKAGE PRICE";
+
+    price.append(
+      priceLabel,
+      document.createTextNode(formatPrice(item.price))
     );
 
-    const image = item.image_url
-      ? `<img
-          src="${escapeHTML(item.image_url)}"
-          alt="${name}"
-          loading="lazy"
-          onerror="this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;>📦</div>'">`
-      : `<div class="image-placeholder">📦</div>`;
+    const stockKnown =
+      item.stock!==null &&
+      item.stock!==undefined &&
+      item.stock!=="";
 
     const stock = Number(item.stock);
+    const outOfStock = stockKnown && stock<=0;
 
-    const stockKnown =
-      item.stock !== null &&
-      item.stock !== undefined &&
-      item.stock !== "";
+    const stockText = document.createElement("div");
+    stockText.className = "item-stock"+(outOfStock?" out":"");
 
-    const outOfStock = stockKnown && stock <= 0;
-
-    const stockText = stockKnown
-      ? (outOfStock ? "Out of Stock" : "Stock: "+stock)
+    stockText.textContent = stockKnown
+      ? (outOfStock?"Out of Stock":"Stock: "+stock)
       : "Stock unavailable";
 
-    const validPackageId =
-      Number.isSafeInteger(id) && id > 0;
+    priceStock.append(price,stockText);
 
-    return `
-      <article class="item-card">
+    const buy = document.createElement("button");
+    buy.className = "buy-btn";
+    buy.type = "button";
 
-        <div class="item-image">
-          ${image}
-        </div>
+    buy.textContent = outOfStock
+      ? "UNAVAILABLE"
+      : "BUY NOW";
 
-        <div class="item-body">
+    buy.disabled = outOfStock || !validPackageId;
 
-          <span class="item-type">PACKAGE</span>
+    buy.addEventListener("click",function(){
+      buyPackage(id);
+    });
 
-          <h3 class="item-title">${name}</h3>
-
-          <p class="item-description">
-            ${description}
-          </p>
-
-          <div class="item-bottom">
-
-            <div>
-              <div class="item-price">
-                <small>PACKAGE PRICE</small>
-                ${formatPrice(item.price)}
-              </div>
-
-              <div class="item-stock ${outOfStock?"out":""}">
-                ${escapeHTML(stockText)}
-              </div>
-            </div>
-
-            <button
-              class="buy-btn"
-              type="button"
-              ${outOfStock || !validPackageId ? "disabled" : ""}
-              onclick="buyPackage(${validPackageId?id:0})">
-
-              ${outOfStock ? "UNAVAILABLE" : "BUY NOW"}
-
-            </button>
-
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
+    bottom.append(priceStock,buy);
+    body.append(type,title,desc,bottom);
+    card.append(imageBox,body);
+    grid.appendChild(card);
+  });
 }
 
 /* SEARCH */
 
 function filterPackages(){
-  const query = document.getElementById("searchInput")
-    .value.trim().toLowerCase();
+  const query = $("searchInput").value.trim().toLowerCase();
 
   const filtered = allPackages.filter(function(item){
     return [
@@ -1060,24 +1239,30 @@ function filterPackages(){
   renderPackages(filtered);
 }
 
-document.getElementById("searchInput")
-  .addEventListener("input",filterPackages);
+$("searchInput").addEventListener("input",filterPackages);
 
 /* BUY PACKAGE */
 
 function buyPackage(id){
   if(!Number.isSafeInteger(id) || id<=0) return;
 
-  window.location.href =
+  location.href =
     "checkout.html?type=package&id="+encodeURIComponent(id);
 }
 
 /* LOAD PACKAGES ONLY */
 
 async function loadStore(){
+  if(loading) return;
+
+  loading = true;
   clearNotice();
 
-  const grid = document.getElementById("packageGrid");
+  const refreshButton = $("refreshBtn");
+  refreshButton.disabled = true;
+  refreshButton.textContent = "Loading...";
+
+  const grid = $("packageGrid");
 
   showState(
     grid,
@@ -1086,20 +1271,19 @@ async function loadStore(){
     "Connecting to RUBALIA NETWORK..."
   );
 
-  document.getElementById("packageCount").textContent =
-    "Loading...";
+  $("packageCount").textContent = "Loading...";
 
   try{
     const token = await verifySession();
 
     // Only packages API is called.
-    // No individual product API is requested.
+    // Individual product API is not requested.
     const packageData = await fetchJSON(
-      API_BASE+"/packages",
+      "/packages",
       token
     );
 
-    if(!packageData.success){
+    if(packageData.success===false){
       throw new Error("Package information could not be loaded.");
     }
 
@@ -1111,30 +1295,34 @@ async function loadStore(){
 
   }catch(error){
 
-    if(
-      error.message==="Login required." ||
-      error.message==="Opening Admin Dashboard." ||
-      error.message==="Your account is not active." ||
-      error.message==="Your login session has expired."
-    ){
-      return;
+    const ignoredErrors = [
+      "Login required.",
+      "Opening Admin Dashboard.",
+      "Your account is not active.",
+      "Your login session has expired."
+    ];
+
+    if(!ignoredErrors.includes(error.message)){
+      showNotice(
+        "error",
+        error.message || "Unable to load packages. Please try again."
+      );
+
+      showState(
+        grid,
+        "⚠️",
+        "Packages Could Not Load",
+        "Please check your connection and try again.",
+        "Retry"
+      );
+
+      $("packageCount").textContent = "Unavailable";
     }
 
-    showNotice(
-      "error",
-      error.message || "Unable to load packages. Please try again."
-    );
-
-    showState(
-      grid,
-      "⚠️",
-      "Packages Could Not Load",
-      "Please check your connection and try again.",
-      "Retry"
-    );
-
-    document.getElementById("packageCount").textContent =
-      "Unavailable";
+  }finally{
+    loading = false;
+    refreshButton.disabled = false;
+    refreshButton.textContent = "↻ Refresh";
   }
 }
 
@@ -1142,6 +1330,8 @@ async function loadStore(){
 
 startSlider();
 loadStore();
+
+$("refreshBtn").addEventListener("click",loadStore);
 
 </script>
 
