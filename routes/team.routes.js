@@ -1,12 +1,47 @@
-const express = require("express");
 
+"use strict";
+
+const express = require("express");
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
 
 const router = express.Router();
 
+// Generate Rubalia Member ID
+function makeMemberId(id) {
+  return `RUB${String(id).padStart(6, "0")}`;
+}
+
+// Format team member response
+function formatMember(member) {
+  return {
+    id: member.id,
+    memberId: makeMemberId(member.id),
+
+    fullName: member.full_name,
+    email: member.email,
+
+    sponsorId: member.sponsor_id,
+    sponsorMemberId: member.sponsor_id
+      ? makeMemberId(member.sponsor_id)
+      : null,
+
+    role: member.role,
+    status: member.status,
+
+    isPartner:
+      member.role === "partner" &&
+      Boolean(member.partner_activated_at),
+
+    partnerActivatedAt: member.partner_activated_at || null,
+
+    joinedAt: member.created_at,
+    level: Number(member.level || 1)
+  };
+}
+
 // GET /api/team
-// Show the logged-in user's team up to 10 levels.
+// Show logged-in user's team up to 10 levels.
 router.get("/", authenticateToken, async (req, res, next) => {
   try {
     const result = await pool.query(
@@ -18,6 +53,7 @@ router.get("/", authenticateToken, async (req, res, next) => {
           sponsor_id,
           role,
           status,
+          partner_activated_at,
           created_at,
           1 AS level,
           ARRAY[id]::BIGINT[] AS visited_ids
@@ -33,6 +69,7 @@ router.get("/", authenticateToken, async (req, res, next) => {
           u.sponsor_id,
           u.role,
           u.status,
+          u.partner_activated_at,
           u.created_at,
           t.level + 1,
           t.visited_ids || u.id
@@ -49,6 +86,7 @@ router.get("/", authenticateToken, async (req, res, next) => {
         sponsor_id,
         role,
         status,
+        partner_activated_at,
         created_at,
         level
       FROM team_tree
@@ -56,27 +94,43 @@ router.get("/", authenticateToken, async (req, res, next) => {
       [req.auth.id]
     );
 
-    const members = result.rows;
+    const members = result.rows.map(formatMember);
 
-    const levelSummary = [];
+    // Build 10-level summary
+    const levelSummary = Array.from(
+      { length: 10 },
+      (_, index) => {
+        const level = index + 1;
 
-    for (let level = 1; level <= 10; level++) {
-      const count = members.filter(
-        member => Number(member.level) === level
-      ).length;
+        const count = members.filter(
+          member => member.level === level
+        ).length;
 
-      levelSummary.push({
-        level,
-        members: count
-      });
-    }
+        return {
+          level,
+          members: count
+        };
+      }
+    );
+
+    const totalMembers = members.length;
+    const directMembers = levelSummary[0].members;
+
+    const totalPartners = members.filter(
+      member => member.isPartner
+    ).length;
 
     return res.json({
       success: true,
-      totalMembers: members.length,
+
+      totalMembers,
+      directMembers,
+      totalPartners,
+
       levelSummary,
       members
     });
+
   } catch (error) {
     next(error);
   }
@@ -94,6 +148,7 @@ router.get("/direct", authenticateToken, async (req, res, next) => {
         sponsor_id,
         role,
         status,
+        partner_activated_at,
         created_at
        FROM users
        WHERE sponsor_id = $1
@@ -101,11 +156,24 @@ router.get("/direct", authenticateToken, async (req, res, next) => {
       [req.auth.id]
     );
 
+    const members = result.rows.map(member =>
+      formatMember({
+        ...member,
+        level: 1
+      })
+    );
+
+    const totalPartners = members.filter(
+      member => member.isPartner
+    ).length;
+
     return res.json({
       success: true,
-      totalMembers: result.rows.length,
-      members: result.rows
+      totalMembers: members.length,
+      totalPartners,
+      members
     });
+
   } catch (error) {
     next(error);
   }
