@@ -8,6 +8,7 @@ const rateLimit = require("express-rate-limit");
 
 const pool = require("./config/database");
 const { initializeDatabase } = require("./database/init");
+const { runPartnerMigration } = require("./database/partner-migration");
 
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -194,7 +195,12 @@ app.use((error, req, res, next) => {
 // Start Server
 async function startServer() {
   try {
+    // Initialize existing database tables
     await initializeDatabase();
+
+    // Run additive Partner System migration
+    // Existing database records will be preserved.
+    await runPartnerMigration();
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
@@ -202,6 +208,7 @@ async function startServer() {
       console.log("Payment route registered.");
       console.log("Referral route registered.");
       console.log("Commission route registered.");
+      console.log("Partner migration completed.");
     });
 
   } catch (error) {
