@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Activity Monitor</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --blue:#087acb;
+  --blue2:#2196e8;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#172b45;
+  --muted:#718096;
+  --border:#e3eaf3;
+  --green:#16a36a;
+  --red:#dc4c4c;
+  --orange:#e99a25;
+  --shadow:0 5px 20px rgba(20,45,80,.07);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+button{font:inherit;cursor:pointer}
+[hidden]{display:none!important}
+
+.layout{
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:250px;
+  background:var(--navy);
+  color:white;
+  padding:22px 15px;
+  flex-shrink:0;
+}
+
+.brand{
+  font-size:21px;
+  font-weight:800;
+  padding:8px 12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.brand span{color:#42b5ff}
+
+.admin-label{
+  color:#8da9ca;
+  font-size:11px;
+  letter-spacing:1.5px;
+  padding:22px 12px 10px;
+}
+
+.nav a{
+  display:flex;
+  gap:11px;
+  align-items:center;
+  color:#c5d4e7;
+  text-decoration:none;
+  padding:12px;
+  border-radius:9px;
+  font-size:13px;
+  margin:3px 0;
+}
+
+.nav a:hover,
+.nav a.active{
+  background:#123b68;
+  color:white;
+}
+
+.nav a.active{
+  border-left:3px solid #36aaff;
+}
+
+.main{
+  flex:1;
+  min-width:0;
+}
+
+.topbar{
+  height:68px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 26px;
+}
+
+.top-title{
+  font-size:17px;
+  font-weight:700;
+}
+
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.admin-name{
+  font-size:12px;
+  color:#718096;
+}
+
+.admin-avatar{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#dceeff;
+  color:#087acb;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+}
+
+.content{
+  padding:25px;
+  max-width:1500px;
+  margin:auto;
+}
+
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+h1{
+  font-size:23px;
+  margin:0 0 6px;
+}
+
+.subtitle{
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.btn-primary{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-light{
+  background:#edf4fc;
+  color:#1768a7;
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.status-note{
+  background:#fff7e8;
+  border:1px solid #f3dfb8;
+  color:#91631c;
+  padding:13px 15px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.status-note strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  background:#eaf4ff;
+}
+
+.stat-value{
+  font-size:25px;
+  font-weight:800;
+  margin:13px 0 5px;
+  color:#718096;
+}
+
+.stat-name{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.stat-foot{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:10px;
+}
+
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
+}
+
+.panel-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+
+.panel-heading h2{
+  font-size:16px;
+  margin:0;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.badge.orange{
+  background:#fff4df;
+  color:#a66b12;
+}
+
+.badge.gray{
+  background:#edf0f4;
+  color:#68778a;
+}
+
+.connection-label{
+  color:#a66b12;
+  background:#fff4df;
+  padding:6px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.empty-state{
+  text-align:center;
+  padding:35px 15px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:30px;
+  margin-bottom:12px;
+}
+
+.empty-state strong{
+  display:block;
+  color:var(--text);
+  font-size:14px;
+  margin-bottom:7px;
+}
+
+.empty-state p{
+  max-width:480px;
+  margin:0 auto;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+th{
+  text-align:left;
+  padding:12px 10px;
+  font-size:11px;
+  color:#718096;
+  background:#f7f9fc;
+  border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+
+td{
+  padding:13px 10px;
+  border-bottom:1px solid #edf1f6;
+  font-size:12px;
+}
+
+.footer{
+  text-align:center;
+  padding:18px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.check-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:12px;
+}
+
+.check-item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:12px;
+}
+
+.check-item span:last-child{
+  color:#a66b12;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.loading-screen,
+.error-screen{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+  padding:20px;
+}
+
+.loading-box,
+.error-card{
+  width:100%;
+  max-width:420px;
+  padding:28px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  text-align:center;
+}
+
+.loading-box strong,
+.error-card h2{
+  color:var(--navy);
+}
+
+.loading-box p,
+.error-card p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.spinner{
+  width:38px;
+  height:38px;
+  border:4px solid #e3e8ef;
+  border-top-color:var(--blue);
+  border-radius:50%;
+  margin:0 auto 17px;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.error-screen{display:none}
+
+.error-card a{
+  display:inline-block;
+  margin:7px 4px 0;
+  padding:11px 17px;
+  border:0;
+  border-radius:7px;
+  background:var(--blue);
+  color:white;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+@media(max-width:1050px){
+  .sidebar{width:215px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:700px){
+  .sidebar{
+    width:62px;
+    padding:15px 7px;
+  }
+
+  .brand{
+    font-size:0;
+    padding:10px 5px 20px;
+    text-align:center;
+  }
+
+  .brand:first-letter{font-size:22px}
+
+  .admin-label{
+    font-size:0;
+    padding:15px 0;
+  }
+
+  .nav a{
+    font-size:0;
+    justify-content:center;
+    padding:13px 5px;
+  }
+
+  .nav a span{font-size:18px}
+
+  .topbar{padding:0 14px}
+  .content{padding:16px 12px}
+  .stats{gap:9px}
+  .stat-card{padding:13px}
+  .stat-value{font-size:21px}
+  .panel{padding:13px}
+  h1{font-size:20px}
+}
+
+@media(max-width:390px){
+  .stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUTH LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-box">
+    <div class="spinner"></div>
+    <strong>Verifying Administrator</strong>
+    <p>Please wait while we verify your account.</p>
+  </div>
+</div>
+
+<!-- AUTH ERROR -->
+<div class="error-screen" id="errorScreen">
+  <div class="error-card">
+    <h2 id="errorTitle">Access Error</h2>
+    <p id="errorMessage">Unable to verify your administrator account.</p>
+    <a href="../admin-dashboard.html">Dashboard</a>
+    <a href="../login.html">Login</a>
+  </div>
+</div>
+
+<div class="layout" id="adminApp" hidden>
+
+<aside class="sidebar">
+
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+
+  <div class="admin-label">ADMIN CONTROL PANEL</div>
+
+  <nav class="nav">
+
+    <a href="../admin-dashboard.html"><span>📊</span> Dashboard</a>
+    <a href="admin-users.html"><span>👥</span> Users</a>
+    <a href="admin-partners.html"><span>🤝</span> Partners</a>
+    <a href="admin-applications.html"><span>📋</span> Applications</a>
+    <a href="admin-products.html"><span>📦</span> Products</a>
+    <a href="admin-orders.html"><span>🛒</span> Orders</a>
+    <a href="admin-payments.html"><span>💳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span>💸</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span>📈</span> Commissions</a>
+    <a href="admin-announcements.html"><span>📢</span> Announcements</a>
+    <a href="admin-support.html"><span>🎧</span> Support</a>
+    <a href="admin-reports.html"><span>📑</span> Reports</a>
+    <a href="admin-audit-logs.html"><span>🧾</span> Audit Logs</a>
+    <a href="admin-roles.html"><span>🔐</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span>🛡️</span> Security Center</a>
+    <a href="admin-backup.html"><span>💾</span> Backup & Restore</a>
+    <a href="admin-database.html"><span>🗄️</span> Database</a>
+    <a href="admin-system-health.html"><span>💻</span> System Health</a>
+    <a href="admin-api-management.html"><span>🔌</span> API Management</a>
+    <a href="admin-email-management.html"><span>✉️</span> Email Management</a>
+    <a href="admin-sms-management.html"><span>📱</span> SMS Management</a>
+    <a class="active" href="admin-activity-monitor.html"><span>📡</span> Activity Monitor</a>
+
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div class="top-title">Activity Monitor</div>
+
+  <div class="top-right">
+    <span class="admin-name" id="adminName">Administrator</span>
+    <div class="admin-avatar" id="adminAvatar">A</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Activity Monitor</h1>
+      <div class="subtitle">
+        Monitor user and administrator activity across the platform.
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="refreshBtn" disabled>
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div class="status-note">
+    <strong>Activity Monitoring API Not Connected</strong>
+    The current backend does not provide an Activity Monitor API.
+    No sample records, invented statistics, or fictional user information
+    are displayed on this page. Real activity information will appear
+    after backend integration.
+  </div>
+
+  <!-- STATISTICS -->
+  <section class="stats">
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Active Sessions</span>
+        <div class="stat-icon">🟢</div>
+      </div>
+      <div class="stat-value">—</div>
+      <div class="stat-foot">Waiting for backend connection</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Total Activities</span>
+        <div class="stat-icon">📡</div>
+      </div>
+      <div class="stat-value">—</div>
+      <div class="stat-foot">Waiting for backend connection</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Admin Activities</span>
+        <div class="stat-icon">🛡️</div>
+      </div>
+      <div class="stat-value">—</div>
+      <div class="stat-foot">Waiting for backend connection</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-name">Security Alerts</span>
+        <div class="stat-icon">⚠️</div>
+      </div>
+      <div class="stat-value">—</div>
+      <div class="stat-foot">Waiting for backend connection</div>
+    </div>
+
+  </section>
+
+  <!-- RECENT ACTIVITY -->
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>Recent Activity Timeline</h2>
+      <span class="connection-label">NOT CONNECTED</span>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📡</div>
+      <strong>No Activity Data Available</strong>
+      <p>
+        The backend activity logging endpoint is not available yet.
+        This section will show real user and administrator events
+        after backend integration.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ACTIVITY BREAKDOWN -->
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>Activity Breakdown</h2>
+      <span class="badge gray">Waiting for Data</span>
+    </div>
+
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <strong>No Statistics Available</strong>
+      <p>
+        Activity percentages will be calculated from actual backend
+        records. No estimated or sample percentages are shown.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ACTIVITY RECORDS -->
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>Activity Records</h2>
+      <span class="badge gray">0 Records</span>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>USER</th>
+            <th>ACTIVITY</th>
+            <th>TYPE</th>
+            <th>IP ADDRESS</th>
+            <th>DEVICE</th>
+            <th>TIME</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <strong>No Activity Records</strong>
+                <p>
+                  Activity records will appear here when the
+                  backend Activity API is connected.
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- CONNECTION STATUS -->
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>Monitoring Connection Status</h2>
+      <span class="badge orange">Pending Integration</span>
+    </div>
+
+    <div class="check-grid">
+
+      <div class="check-item">
+        <span>Admin Authentication</span>
+        <span id="authStatus">Checking...</span>
+      </div>
+
+      <div class="check-item">
+        <span>Activity API</span>
+        <span>Not Connected</span>
+      </div>
+
+      <div class="check-item">
+        <span>Login Event Logging</span>
+        <span>Not Connected</span>
+      </div>
+
+      <div class="check-item">
+        <span>Admin Action Logging</span>
+        <span>Not Connected</span>
+      </div>
+
+      <div class="check-item">
+        <span>Session Monitoring</span>
+        <span>Not Connected</span>
+      </div>
+
+      <div class="check-item">
+        <span>Security Event Records</span>
+        <span>Not Connected</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<footer class="footer">
+  © <span id="year"></span> Rubalia Network · Admin Activity Monitor
+</footer>
+
+</main>
+</div>
+
+<script>
+"use strict";
+
+/* =========================================
+   API CONFIGURATION
+========================================= */
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+let adminToken = "";
+let adminUser = null;
+
+/* =========================================
+   ELEMENT SELECTOR
+========================================= */
+
+const $ = id => document.getElementById(id);
+
+/* =========================================
+   API REQUEST
+========================================= */
+
+async function apiRequest(path){
+
+  const response = await fetch(API_BASE + path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer " + adminToken,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status === 401){
+
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+
+    window.location.replace("../login.html");
+
+    throw new Error("Your session has expired.");
+  }
+
+  if(response.status === 403){
+
+    throw new Error(
+      "Your account does not have administrator permission."
+    );
+  }
+
+  if(!response.ok){
+
+    throw new Error(
+      data.message || "Unable to communicate with the server."
+    );
+  }
+
+  return data;
+}
+
+/* =========================================
+   ERROR SCREEN
+========================================= */
+
+function showError(title,message){
+
+  $("loadingScreen").style.display = "none";
+
+  $("errorTitle").textContent = title;
+  $("errorMessage").textContent = message;
+
+  $("errorScreen").style.display = "flex";
+}
+
+/* =========================================
+   ADMIN AUTHENTICATION
+========================================= */
+
+async function initializeAdmin(){
+
+  adminToken = sessionStorage.getItem("rubalia_token") || "";
+
+  if(!adminToken){
+
+    window.location.replace("../login.html");
+    return;
+  }
+
+  try{
+
+    const data = await apiRequest("/auth/me");
+
+    const user = data.user || data.profile;
+
+    if(!user){
+
+      throw new Error(
+        "The server did not return account information."
+      );
+    }
+
+    if(String(user.role || "").toLowerCase() !== "admin"){
+
+      window.location.replace("../dashboard.html");
+      return;
+    }
+
+    adminUser = user;
+
+    const name =
+      user.full_name ||
+      user.fullName ||
+      "Administrator";
+
+    $("adminName").textContent = name;
+
+    $("adminAvatar").textContent =
+      name.trim().charAt(0).toUpperCase() || "A";
+
+    $("authStatus").textContent = "Verified";
+
+    $("year").textContent = new Date().getFullYear();
+
+    $("loadingScreen").style.display = "none";
+
+    $("adminApp").hidden = false;
+
+  }catch(error){
+
+    if(error.message.includes("administrator permission")){
+
+      showError("Access Denied",error.message);
+
+    }else{
+
+      showError(
+        "Unable to Verify Account",
+        error.message
+      );
+    }
+  }
+}
+
+/* =========================================
+   REFRESH
+========================================= */
+
+$("refreshBtn").addEventListener("click",()=>{
+
+  if(adminUser){
+    location.reload();
+  }
+
+});
+
+/* =========================================
+   START
+========================================= */
+
+initializeAdmin();
+
+</script>
+
+</body>
+</html>
