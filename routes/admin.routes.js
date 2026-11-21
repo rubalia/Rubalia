@@ -8,20 +8,28 @@ const { requireAdmin } = require("../middleware/admin");
 
 const router = express.Router();
 
-// ONE-TIME ADMIN SETUP
-// Requires ADMIN_SETUP_KEY in Render environment variables.
-// This endpoint works only when no admin account exists.
+/* =====================================================
+   ONE-TIME ADMIN SETUP
+   POST /api/admin/setup
+
+   Required Header:
+   x-admin-setup-key: ADMIN_SETUP_KEY
+
+   Required Body:
+   { "email": "registered@email.com" }
+===================================================== */
+
 router.post("/setup", async (req, res, next) => {
   const providedKey = req.get("x-admin-setup-key") || "";
   const expectedKey = process.env.ADMIN_SETUP_KEY || "";
 
+  const providedBuffer = Buffer.from(providedKey, "utf8");
+  const expectedBuffer = Buffer.from(expectedKey, "utf8");
+
   if (
     !expectedKey ||
-    providedKey.length !== expectedKey.length ||
-    !crypto.timingSafeEqual(
-      Buffer.from(providedKey),
-      Buffer.from(expectedKey)
-    )
+    providedBuffer.length !== expectedBuffer.length ||
+    !crypto.timingSafeEqual(providedBuffer, expectedBuffer)
   ) {
     return res.status(403).json({
       success: false,
@@ -41,23 +49,31 @@ router.post("/setup", async (req, res, next) => {
     });
   }
 
-  const client = await pool.connect();
+  let client;
+  let transactionStarted = false;
 
   try {
-    await client.query("BEGIN");
+    client = await pool.connect();
 
-    // Prevent simultaneous setup requests.
+    await client.query("BEGIN");
+    transactionStarted = true;
+
+    // Prevent simultaneous Admin setup requests.
     await client.query(
       "SELECT pg_advisory_xact_lock($1)",
       [72819463]
     );
 
     const adminCheck = await client.query(
-      "SELECT id FROM users WHERE role = 'admin' LIMIT 1"
+      `SELECT id
+       FROM users
+       WHERE role = 'admin'
+       LIMIT 1`
     );
 
     if (adminCheck.rowCount > 0) {
       await client.query("ROLLBACK");
+      transactionStarted = false;
 
       return res.status(409).json({
         success: false,
@@ -71,12 +87,18 @@ router.post("/setup", async (req, res, next) => {
            updated_at = NOW()
        WHERE LOWER(email) = $1
          AND status = 'active'
-       RETURNING id, full_name, email, role, status`,
+       RETURNING
+         id,
+         full_name,
+         email,
+         role,
+         status`,
       [email]
     );
 
     if (userResult.rowCount === 0) {
       await client.query("ROLLBACK");
+      transactionStarted = false;
 
       return res.status(404).json({
         success: false,
@@ -85,53 +107,155 @@ router.post("/setup", async (req, res, next) => {
     }
 
     await client.query("COMMIT");
+    transactionStarted = false;
 
     return res.json({
       success: true,
       message: "Admin account created successfully. Please log in again.",
       user: userResult.rows[0]
     });
+
   } catch (error) {
-    await client.query("ROLLBACK");
+    if (client && transactionStarted) {
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error("Admin setup rollback error:", rollbackError);
+      }
+    }
+
     return next(error);
+
   } finally {
-    client.release();
+    if (client) {
+      client.release();
+    }
   }
 });
 
-// All remaining routes require Admin authentication.
+
+/* =====================================================
+   ADMIN AUTHENTICATION
+   All routes below require Admin access.
+===================================================== */
+
 router.use(authenticateToken, requireAdmin);
 
-// GET /api/admin/dashboard
+
+/* =====================================================
+   DASHBOARD
+   GET /api/admin/dashboard
+===================================================== */
+
 router.get("/dashboard", async (req, res, next) => {
   try {
     const result = await pool.query(`
       SELECT
         (SELECT COUNT(*) FROM users)::BIGINT AS total_users,
-        (SELECT COUNT(*) FROM users WHERE status = 'active')::BIGINT AS active_users,
-        (SELECT COUNT(*) FROM products)::BIGINT AS total_products,
-        (SELECT COUNT(*) FROM products WHERE status = 'active')::BIGINT AS active_products,
-        (SELECT COUNT(*) FROM orders)::BIGINT AS total_orders,
-        (SELECT COUNT(*) FROM orders WHERE status = 'pending')::BIGINT AS pending_orders,
-        (SELECT COUNT(*) FROM orders WHERE status = 'delivered')::BIGINT AS delivered_orders
+
+        (SELECT COUNT(*)
+         FROM users
+         WHERE status = 'active')::BIGINT AS active_users,
+
+        (SELECT COUNT(*)
+         FROM products)::BIGINT AS total_products,
+
+        (SELECT COUNT(*)
+         FROM products
+         WHERE status = 'active')::BIGINT AS active_products,
+
+        (SELECT COUNT(*)
+         FROM orders)::BIGINT AS total_orders,
+
+        (SELECT COUNT(*)
+         FROM orders
+         WHERE status = 'pending')::BIGINT AS pending_orders,
+
+        (SELECT COUNT(*)
+         FROM orders
+         WHERE status = 'delivered')::BIGINT AS delivered_orders
     `);
 
     return res.json({
       success: true,
       dashboard: result.rows[0]
     });
+
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 
-// GET /api/admin/users
+
+/* =====================================================
+   USER STATISTICS
+   GET /api/admin/users/stats
+===================================================== */
+
+router.get("/users/stats", async (req, res, next) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        COUNT(*)::BIGINT AS total_users,
+
+        COUNT(*) FILTER (
+          WHERE status = 'active'
+        )::BIGINT AS active_users,
+
+        COUNT(*) FILTER (
+          WHERE status = 'inactive'
+        )::BIGINT AS inactive_users,
+
+        COUNT(*) FILTER (
+          WHERE role = 'partner'
+        )::BIGINT AS partners
+
+      FROM users
+    `);
+
+    const stats = result.rows[0];
+
+    return res.json({
+      success: true,
+      stats: {
+        total_users: Number(stats.total_users),
+        active_users: Number(stats.active_users),
+        inactive_users: Number(stats.inactive_users),
+        partners: Number(stats.partners)
+      }
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+});
+
+
+/* =====================================================
+   GET ALL USERS
+   GET /api/admin/users
+
+   Query:
+   page
+   limit
+   search
+   role
+   status
+===================================================== */
+
 router.get("/users", async (req, res, next) => {
   try {
-    const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
+    const page = Math.max(
+      1,
+      Number.parseInt(req.query.page, 10) || 1
+    );
+
     const limit = Math.min(
       100,
-      Math.max(1, Number.parseInt(req.query.limit, 10) || 20)
+      Math.max(
+        1,
+        Number.parseInt(req.query.limit, 10) || 20
+      )
     );
 
     const offset = (page - 1) * limit;
@@ -143,21 +267,41 @@ router.get("/users", async (req, res, next) => {
 
     const status =
       typeof req.query.status === "string"
-        ? req.query.status.trim()
+        ? req.query.status.trim().toLowerCase()
+        : "";
+
+    const role =
+      typeof req.query.role === "string"
+        ? req.query.role.trim().toLowerCase()
         : "";
 
     const conditions = [];
     const values = [];
 
+    // Search by name, email or user ID.
     if (search) {
       values.push(`%${search}%`);
-      conditions.push(
-        `(full_name ILIKE $${values.length} OR email ILIKE $${values.length})`
-      );
+
+      const searchIndex = values.length;
+
+      conditions.push(`
+        (
+          full_name ILIKE $${searchIndex}
+          OR email ILIKE $${searchIndex}
+          OR id::TEXT ILIKE $${searchIndex}
+        )
+      `);
     }
 
+    // Status filter.
     if (status) {
-      if (!["active", "inactive", "suspended"].includes(status)) {
+      const allowedStatuses = [
+        "active",
+        "inactive",
+        "suspended"
+      ];
+
+      if (!allowedStatuses.includes(status)) {
         return res.status(400).json({
           success: false,
           message: "Invalid user status filter."
@@ -168,10 +312,30 @@ router.get("/users", async (req, res, next) => {
       conditions.push(`status = $${values.length}`);
     }
 
+    // Role filter.
+    if (role) {
+      const allowedRoles = [
+        "user",
+        "partner",
+        "admin"
+      ];
+
+      if (!allowedRoles.includes(role)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user role filter."
+        });
+      }
+
+      values.push(role);
+      conditions.push(`role = $${values.length}`);
+    }
+
     const whereClause = conditions.length
       ? `WHERE ${conditions.join(" AND ")}`
       : "";
 
+    // Total matching users.
     const countResult = await pool.query(
       `SELECT COUNT(*)::BIGINT AS total
        FROM users
@@ -179,7 +343,14 @@ router.get("/users", async (req, res, next) => {
       values
     );
 
-    const listValues = [...values, limit, offset];
+    const total = Number(countResult.rows[0].total);
+
+    // User list.
+    const listValues = [
+      ...values,
+      limit,
+      offset
+    ];
 
     const usersResult = await pool.query(
       `SELECT
@@ -201,22 +372,78 @@ router.get("/users", async (req, res, next) => {
 
     return res.json({
       success: true,
+
       pagination: {
         page,
         limit,
-        total: Number(countResult.rows[0].total),
-        totalPages: Math.ceil(
-          Number(countResult.rows[0].total) / limit
-        )
+        total,
+        totalPages: Math.ceil(total / limit)
       },
+
       users: usersResult.rows
     });
+
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 
-// GET /api/admin/orders
+
+/* =====================================================
+   SINGLE USER DETAILS
+   GET /api/admin/users/:id
+===================================================== */
+
+router.get("/users/:id", async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+
+    if (!userId || userId.length > 100) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID."
+      });
+    }
+
+    const result = await pool.query(
+      `SELECT
+        id,
+        full_name,
+        email,
+        role,
+        status,
+        sponsor_id,
+        created_at,
+        updated_at
+       FROM users
+       WHERE id::TEXT = $1
+       LIMIT 1`,
+      [userId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found."
+      });
+    }
+
+    return res.json({
+      success: true,
+      user: result.rows[0]
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+});
+
+
+/* =====================================================
+   ADMIN ORDERS
+   GET /api/admin/orders
+===================================================== */
+
 router.get("/orders", async (req, res, next) => {
   try {
     const result = await pool.query(
@@ -239,9 +466,11 @@ router.get("/orders", async (req, res, next) => {
       success: true,
       orders: result.rows
     });
+
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
+
 
 module.exports = router;
