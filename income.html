@@ -1,143 +1,291 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
+<meta name="theme-color" content="#310d35">
 <title>Income Details | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d5ad55;
-  --gold2:#f0d48b;
-  --white:#fff;
-  --bg:#f3f5f9;
-  --text:#18263a;
-  --muted:#718096;
-  --border:#e4e9f1;
-  --green:#16865b;
+  --purple:#7138d8;
+  --pink:#e94c9b;
+  --gold:#ffe58a;
+  --bg:#f4f3fa;
+  --text:#26334c;
+  --muted:#8490a5;
+  --border:#e9eaf3;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:250px;
-  background:var(--navy);
+/* HEADER */
+
+.header{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
   color:white;
-  padding:24px 16px;
-  flex-shrink:0;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 4px 15px rgba(35,10,45,.15);
+  position:relative;
+  z-index:100;
+}
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.menu-toggle{
+  width:43px;
+  height:43px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.1);
+  color:white;
+  border-radius:10px;
+  font-size:23px;
+  cursor:pointer;
 }
 .brand{
-  font-size:21px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:16px;
   font-weight:900;
-  color:var(--gold2);
-  padding:5px 10px 25px;
   letter-spacing:1px;
 }
+.brand-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  color:#512a83;
+  border-radius:12px;
+  font-size:24px;
+}
+.brand span{color:#ffe58a}
 .brand small{
+  display:block;
+  font-size:8px;
+  letter-spacing:3px;
+  margin-top:3px;
+  color:#f5dca4;
+}
+.header-link{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  color:white;
+  padding:11px 13px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+/* SIDEBAR */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.overlay.show{opacity:1;visibility:visible}
+.sidebar{
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  width:280px;
+  max-width:85vw;
+  overflow-y:auto;
+  padding:20px 14px;
+  color:white;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  z-index:201;
+  transform:translateX(-105%);
+  transition:transform .28s ease;
+  box-shadow:10px 0 35px rgba(0,0,0,.2);
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 7px 22px;
+}
+.drawer-brand{
+  font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  letter-spacing:1px;
+}
+.drawer-brand small{
   display:block;
   font-size:10px;
   letter-spacing:4px;
-  color:#fff;
-  margin-top:5px;
+  color:white;
+  margin-top:4px;
+}
+.drawer-close{
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  color:white;
+  background:rgba(255,255,255,.1);
+  font-size:22px;
+  cursor:pointer;
 }
 .menu-title{
-  color:#8495ad;
+  color:#c8b5e9;
   font-size:10px;
   font-weight:bold;
   padding:15px 12px 8px;
   letter-spacing:1.5px;
 }
 .menu a{
-  display:block;
-  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px 12px;
   margin:3px 0;
-  border-radius:8px;
-  color:#d8e0ec;
+  border-radius:9px;
+  color:#eee8fa;
   font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
 .menu a:hover,.menu a.active{
-  background:#18375e;
-  color:var(--gold2);
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
 }
-.main{flex:1;min-width:0}
-.topbar{
-  height:68px;
-  background:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 30px;
-  border-bottom:1px solid var(--border);
+.menu-icon{
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
-.topbar strong{color:var(--navy)}
-.member{font-size:12px;color:var(--muted)}
-.content{padding:28px;max-width:1250px;margin:auto}
+
+/* MAIN */
+
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:25px 20px 40px;
+}
 .page-heading{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
+  gap:12px;
   flex-wrap:wrap;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
-.page-heading h1{font-size:25px;color:var(--navy)}
-.page-heading p{font-size:13px;color:var(--muted);margin-top:7px}
-.demo-tag{
-  background:#fff4d8;
-  color:#8a651c;
-  padding:8px 13px;
-  border-radius:20px;
+.page-heading h1{
+  color:#5728a5;
+  font-size:24px;
+  margin-bottom:6px;
+}
+.page-heading p{
+  color:var(--muted);
+  font-size:12px;
+}
+.refresh-btn{
+  border:1px solid var(--border);
+  background:white;
+  color:#6534b1;
+  padding:11px 14px;
+  border-radius:9px;
   font-size:11px;
   font-weight:bold;
+  cursor:pointer;
 }
+.refresh-btn:disabled{opacity:.5;cursor:wait}
+
+/* NOTICE */
+
 .notice{
-  background:#fff8e8;
-  border:1px solid #f0dca9;
-  border-left:4px solid var(--gold);
+  padding:14px 15px;
   border-radius:10px;
-  padding:16px;
-  margin-bottom:22px;
-  font-size:13px;
+  margin-bottom:17px;
+  font-size:12px;
   line-height:1.7;
-  color:#755719;
 }
-.notice strong{display:block;margin-bottom:5px}
+.notice strong{display:block;margin-bottom:4px}
+.notice.info{
+  background:#f1edff;
+  border:1px solid #ddd2fb;
+  color:#5c399e;
+}
+.notice.error{
+  background:#fff0f1;
+  border:1px solid #f4cbd0;
+  color:#a12b36;
+}
+
+/* STATUS */
+
+.status-pill{
+  display:inline-block;
+  padding:7px 11px;
+  border-radius:20px;
+  background:#fff4d8;
+  color:#8a651c;
+  font-size:10px;
+  font-weight:bold;
+}
+
+/* SUMMARY */
+
 .stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:24px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:13px;
+  margin-bottom:19px;
 }
 .stat{
   background:white;
-  padding:20px;
+  padding:17px;
   border:1px solid var(--border);
   border-radius:12px;
+  min-width:0;
 }
-.stat-label{font-size:12px;color:var(--muted)}
+.stat-label{
+  font-size:11px;
+  color:var(--muted);
+}
 .stat-value{
-  font-size:25px;
+  font-size:23px;
   font-weight:800;
-  color:var(--navy);
+  color:#5728a5;
   margin:12px 0 7px;
+  overflow-wrap:anywhere;
 }
-.stat small{font-size:11px;color:var(--muted)}
+.stat small{
+  font-size:10px;
+  color:var(--muted);
+}
+
+/* CARDS */
+
 .card{
   background:white;
   border:1px solid var(--border);
   border-radius:12px;
-  padding:21px;
-  margin-bottom:22px;
+  padding:19px;
+  margin-bottom:17px;
 }
 .card-head{
   display:flex;
@@ -145,227 +293,338 @@ button,input,select{font:inherit}
   align-items:center;
   gap:12px;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
-.card h2{font-size:16px;color:var(--navy)}
-.card-head p{font-size:11px;color:var(--muted);margin-top:5px}
-.status{
-  background:#fff4d8;
-  color:#8a651c;
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:bold;
+.card h2{
+  font-size:15px;
+  color:#5728a5;
 }
+.card-head p{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+/* LEVELS */
+
 .level-grid{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(5,minmax(0,1fr));
   gap:10px;
 }
 .level{
-  background:#f7f8fb;
+  background:#faf9fd;
   border:1px solid var(--border);
   border-radius:9px;
-  padding:15px 8px;
+  padding:14px 8px;
   text-align:center;
 }
-.level b{display:block;color:var(--navy);font-size:14px}
-.level span{display:block;color:var(--muted);font-size:11px;margin-top:7px}
+.level b{
+  display:block;
+  color:#5728a5;
+  font-size:13px;
+}
+.level span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:7px;
+}
 .level em{
   display:inline-block;
   font-style:normal;
-  color:#9a762d;
+  color:#98752f;
   font-size:10px;
-  margin-top:8px;
+  margin-top:7px;
 }
+
+/* ACCOUNT */
+
+.account-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+.account-item{
+  background:#f8f5ff;
+  border:1px solid #eee1fa;
+  padding:13px;
+  border-radius:9px;
+  min-width:0;
+}
+.account-item span{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.account-item strong{
+  color:#5728a5;
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+
+/* TABLE */
+
 .filters{
   display:flex;
-  gap:10px;
+  gap:9px;
   flex-wrap:wrap;
-  margin-bottom:17px;
+  margin-bottom:14px;
 }
 .filters input,.filters select{
   border:1px solid var(--border);
   background:white;
-  padding:10px 12px;
+  padding:11px;
   border-radius:8px;
   outline:none;
   color:var(--text);
-  font-size:12px;
+  font-size:11px;
 }
-.filters input{flex:1;min-width:170px}
+.filters input{flex:1;min-width:160px}
 .table-wrap{overflow-x:auto}
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:650px;
+  min-width:620px;
 }
 th{
   text-align:left;
-  background:#f6f7fa;
-  color:#68778c;
-  padding:13px;
-  font-size:11px;
+  background:#f6f1ff;
+  color:#7541b8;
+  padding:12px;
+  font-size:10px;
 }
 td{
-  padding:14px 13px;
+  padding:13px 12px;
   border-bottom:1px solid var(--border);
-  font-size:12px;
+  font-size:11px;
 }
-td strong{color:var(--navy)}
-.type{color:#64748b}
 .empty{
   text-align:center;
-  padding:30px;
+  padding:25px;
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
 }
 .footer{
   text-align:center;
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
   padding:20px;
 }
+.policy-list{
+  padding-left:19px;
+  color:#68778c;
+  font-size:11px;
+  line-height:2;
+}
+.loading{
+  text-align:center;
+  padding:22px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* RESPONSIVE */
+
 @media(max-width:950px){
-  .sidebar{width:210px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .level-grid{grid-template-columns:repeat(5,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:650px){
-  .layout{display:block}
-  .sidebar{width:100%;padding:15px}
-  .brand{padding:5px 8px 15px}
-  .menu-title{display:none}
-  .menu{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}
-  .menu a{white-space:nowrap;font-size:11px;padding:10px}
-  .topbar{height:55px;padding:0 16px}
-  .content{padding:17px 13px}
+  .header{height:64px;padding:0 11px}
+  .menu-toggle{width:39px;height:39px}
+  .brand{font-size:12px;gap:7px}
+  .brand-icon{width:37px;height:37px;font-size:21px}
+  .brand small{font-size:7px;letter-spacing:2px}
+  .header-link{font-size:9px;padding:10px 8px}
+  main{padding:18px 13px 30px}
   .page-heading h1{font-size:21px}
-  .stats{gap:10px}
-  .stat{padding:15px}
-  .stat-value{font-size:21px}
-  .level-grid{grid-template-columns:repeat(2,1fr)}
-  .card{padding:15px}
+  .stats{gap:9px}
+  .stat{padding:12px 10px}
+  .stat-value{font-size:20px}
+  .stat-label{font-size:10px}
+  .stat small{font-size:9px}
+  .card{padding:14px}
+  .level-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+}
+@media(max-width:360px){
+  .account-grid{grid-template-columns:1fr}
+  .stat-value{font-size:18px}
 }
 </style>
 </head>
 
 <body>
-<div class="layout">
 
-<aside class="sidebar">
-  <div class="brand">
-    RUBALIA
-    <small>NETWORK</small>
+<header class="header">
+  <div class="header-left">
+    <button class="menu-toggle" id="menuToggle"
+      type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div>
+        RUBALIA <span>NETWORK</span>
+        <small>GROW WITH TRUST</small>
+      </div>
+    </a>
+  </div>
+
+  <a href="wallet.html" class="header-link">◈ My Wallet</a>
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="drawer-top">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+    <button class="drawer-close" id="drawerClose"
+      type="button" aria-label="Close menu">×</button>
   </div>
 
   <div class="menu-title">MAIN MENU</div>
+
   <nav class="menu">
-    <a href="dashboard.html">⌂ Dashboard</a>
-    <a href="profile.html">♙ My Profile</a>
-    <a href="products.html">▣ Products</a>
-    <a href="orders.html">▤ My Orders</a>
-    <a href="team.html">♧ My Team</a>
-    <a href="income.html" class="active">৳ Income Details</a>
-    <a href="wallet.html">◈ My Wallet</a>
-    <a href="withdraw.html">⇧ Withdraw</a>
+    <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
+    <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
+    <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
+    <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
+    <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
+    <a href="income.html" class="active"><span class="menu-icon">৳</span>Income Details</a>
+    <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
+    <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
   </nav>
 
   <div class="menu-title">ACCOUNT</div>
+
   <nav class="menu">
-    <a href="settings.html">⚙ Settings</a>
-    <a href="contact.html">✉ Contact Support</a>
-    <a href="login.html">↪ Logout</a>
+    <a href="settings.html"><span class="menu-icon">⚙</span>Settings</a>
+    <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
+    <a href="#" id="logoutLink"><span class="menu-icon">↪</span>Logout</a>
   </nav>
 </aside>
 
-<main class="main">
-
-<header class="topbar">
-  <strong>Income Details</strong>
-  <span class="member">Member Panel · Demo</span>
-</header>
-
-<div class="content">
+<main>
 
   <div class="page-heading">
     <div>
       <h1>Income Details</h1>
-      <p>View your income summary and illustrative transaction history.</p>
+      <p>View your commission status and income information.</p>
     </div>
-    <span class="demo-tag">DEMO DATA</span>
+
+    <button class="refresh-btn" id="refreshBtn" type="button">
+      ↻ Refresh
+    </button>
   </div>
 
-  <div class="notice">
-    <strong>⚠ Commission System Not Activated</strong>
-    All income and commission figures on this page are illustrative only.
-    RUBALIA NETWORK's proposed 10-level commission structure is not active.
-    No commission or earnings are currently payable. Any future compensation
-    plan will require legal review, applicable authorization and a compliant
-    product-sales-based structure.
+  <div id="notice" class="notice info">
+    <strong>Commission System Not Activated</strong>
+    RUBALIA NETWORK's proposed 10-level commission system is not
+    currently active. No commission earnings are being generated.
   </div>
+
+  <!-- INCOME SUMMARY -->
 
   <section class="stats">
+
     <div class="stat">
-      <div class="stat-label">Total Income</div>
+      <div class="stat-label">Total Commission</div>
       <div class="stat-value">৳0.00</div>
-      <small>Not activated</small>
+      <small>Commission system not activated</small>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Available Income</div>
+      <div class="stat-label">Available Commission</div>
       <div class="stat-value">৳0.00</div>
-      <small>Not activated</small>
+      <small>No commission payout enabled</small>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Pending Income</div>
+      <div class="stat-label">Pending Commission</div>
       <div class="stat-value">৳0.00</div>
-      <small>No pending payment</small>
+      <small>No commission calculation enabled</small>
     </div>
 
     <div class="stat">
-      <div class="stat-label">Total Transactions</div>
+      <div class="stat-label">Commission Transactions</div>
       <div class="stat-value">0</div>
-      <small>No real transactions</small>
+      <small>No commission records available</small>
     </div>
+
   </section>
 
+  <!-- ACCOUNT INFORMATION -->
+
   <section class="card">
+
     <div class="card-head">
       <div>
-        <h2>Proposed 10-Level Structure</h2>
-        <p>Illustrative structure only — no commission rates are assigned.</p>
+        <h2>Account Information</h2>
+        <p>Verified account information from the server.</p>
       </div>
-      <span class="status">NOT ACTIVE</span>
+      <span class="status-pill">SERVER DATA</span>
     </div>
 
-    <div class="level-grid">
-      <div class="level"><b>Level 01</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 02</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 03</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 04</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 05</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 06</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 07</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 08</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 09</b><span>Not active</span><em>—</em></div>
-      <div class="level"><b>Level 10</b><span>Not active</span><em>—</em></div>
+    <div class="account-grid">
+
+      <div class="account-item">
+        <span>Member Name</span>
+        <strong id="memberName">Loading...</strong>
+      </div>
+
+      <div class="account-item">
+        <span>Member ID</span>
+        <strong id="memberId">Loading...</strong>
+      </div>
+
+      <div class="account-item">
+        <span>Email</span>
+        <strong id="memberEmail">Loading...</strong>
+      </div>
+
+      <div class="account-item">
+        <span>Account Status</span>
+        <strong id="memberStatus">Loading...</strong>
+      </div>
+
     </div>
+
   </section>
 
+  <!-- LEVEL STRUCTURE -->
+
   <section class="card">
+
     <div class="card-head">
       <div>
-        <h2>Income History</h2>
-        <p>Illustrative transaction records. No real income is recorded.</p>
+        <h2>10-Level Commission Structure</h2>
+        <p>Proposed structure. No commission rates or payouts are active.</p>
       </div>
-      <span class="status">DEMO</span>
+      <span class="status-pill">NOT ACTIVE</span>
+    </div>
+
+    <div class="level-grid" id="levelGrid"></div>
+
+  </section>
+
+  <!-- COMMISSION HISTORY -->
+
+  <section class="card">
+
+    <div class="card-head">
+      <div>
+        <h2>Commission History</h2>
+        <p>Only verified commission records will appear here after activation.</p>
+      </div>
+      <span class="status-pill">NOT ACTIVE</span>
     </div>
 
     <div class="filters">
       <input type="search" id="searchInput"
-        placeholder="Search transaction or description...">
+        placeholder="Search commission transaction...">
 
       <select id="typeFilter">
         <option value="all">All Types</option>
@@ -385,27 +644,31 @@ td strong{color:var(--navy)}
       <table>
         <thead>
           <tr>
-            <th>Transaction ID</th>
-            <th>Description</th>
-            <th>Income Type</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Date</th>
+            <th>TRANSACTION ID</th>
+            <th>DESCRIPTION</th>
+            <th>INCOME TYPE</th>
+            <th>AMOUNT</th>
+            <th>STATUS</th>
+            <th>DATE</th>
           </tr>
         </thead>
+
         <tbody id="incomeTable">
           <tr>
-            <td colspan="6" class="empty">
-              No real income transactions available.
-              Income features are not activated.
+            <td colspan="6" class="loading">
+              Loading commission records...
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </section>
 
+  <!-- POLICY -->
+
   <section class="card">
+
     <div class="card-head">
       <div>
         <h2>Income Policy</h2>
@@ -413,43 +676,261 @@ td strong{color:var(--navy)}
       </div>
     </div>
 
-    <ul style="padding-left:20px;color:#68778c;font-size:12px;line-height:2">
+    <ul class="policy-list">
       <li>Income must be connected to genuine product sales.</li>
       <li>Recruitment alone will not qualify for commission.</li>
       <li>No guaranteed income or fixed return is promised.</li>
-      <li>Any future commission rates and eligibility rules must be published transparently.</li>
+      <li>Future commission rates and eligibility rules must be published transparently.</li>
       <li>Applicable Bangladesh laws and regulatory requirements must be reviewed before activation.</li>
     </ul>
+
   </section>
 
-</div>
+</main>
 
 <footer class="footer">
   © 2026 RUBALIA NETWORK. All Rights Reserved.
-  <br><br>
-  Frontend Demo Version · No real income or commission processing.
 </footer>
 
-</main>
-</div>
-
 <script>
-const searchInput = document.getElementById("searchInput");
-const typeFilter = document.getElementById("typeFilter");
-const statusFilter = document.getElementById("statusFilter");
+"use strict";
 
-function filterIncome(){
-  // No real transaction data exists in this frontend demo.
-  // Future backend integration will load verified transactions here.
-  document.getElementById("incomeTable").innerHTML =
-    '<tr><td colspan="6" class="empty">' +
-    'No matching real income transactions found.' +
-    '</td></tr>';
+const API_BASE = "https://rubalia.onrender.com/api";
+
+const $ = id => document.getElementById(id);
+
+let token = "";
+
+/* SIDEBAR */
+
+const sidebar = $("sidebar");
+const overlay = $("overlay");
+const menuToggle = $("menuToggle");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  menuToggle.setAttribute("aria-expanded","true");
 }
 
-searchInput.addEventListener("input",filterIncome);
-typeFilter.addEventListener("change",filterIncome);
-statusFilter.addEventListener("change",filterIncome);
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  menuToggle.setAttribute("aria-expanded","false");
+}
+
+menuToggle.addEventListener("click",function(){
+  sidebar.classList.contains("open") ? closeMenu() : openMenu();
+});
+
+$("drawerClose").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape") closeMenu();
+});
+
+sidebar.querySelectorAll("a").forEach(link=>{
+  if(link.id!=="logoutLink"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+  }
+});
+
+/* HELPERS */
+
+function safeText(value,fallback="—"){
+  return value===null || value===undefined || value===""
+    ? fallback
+    : String(value);
+}
+
+function showError(message){
+  const notice = $("notice");
+  notice.className = "notice error";
+  notice.textContent = message;
+}
+
+async function apiRequest(path){
+  const response = await fetch(API_BASE+path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer "+token,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status===401){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your login session has expired.");
+  }
+
+  if(!response.ok || data.success===false){
+    throw new Error(data.message || "Unable to load account information.");
+  }
+
+  return data;
+}
+
+/* ACCOUNT */
+
+async function loadAccount(){
+  const data = await apiRequest("/auth/me");
+  const user = data.user || data.profile;
+
+  if(!user){
+    throw new Error("Account information is unavailable.");
+  }
+
+  if(String(user.role || "").toLowerCase()==="admin"){
+    location.replace("admin-dashboard.html");
+    return;
+  }
+
+  if(
+    user.status &&
+    String(user.status).toLowerCase()!=="active"
+  ){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your account is not active.");
+  }
+
+  $("memberName").textContent =
+    safeText(user.full_name);
+
+  $("memberId").textContent =
+    safeText(user.id);
+
+  $("memberEmail").textContent =
+    safeText(user.email);
+
+  $("memberStatus").textContent =
+    safeText(user.status);
+}
+
+/* LEVELS */
+
+function renderLevels(){
+  const grid = $("levelGrid");
+  grid.replaceChildren();
+
+  for(let i=1;i<=10;i++){
+    const item = document.createElement("div");
+    item.className = "level";
+
+    const title = document.createElement("b");
+    title.textContent =
+      "Level "+String(i).padStart(2,"0");
+
+    const state = document.createElement("span");
+    state.textContent = "Not activated";
+
+    const rate = document.createElement("em");
+    rate.textContent = "No rate";
+
+    item.append(title,state,rate);
+    grid.appendChild(item);
+  }
+}
+
+/* COMMISSION HISTORY */
+
+function renderEmptyHistory(){
+  const body = $("incomeTable");
+  body.replaceChildren();
+
+  const row = document.createElement("tr");
+  const cell = document.createElement("td");
+
+  cell.colSpan = 6;
+  cell.className = "empty";
+  cell.textContent =
+    "No commission transactions available. The commission system has not been activated.";
+
+  row.appendChild(cell);
+  body.appendChild(row);
+}
+
+/* LOAD PAGE */
+
+async function loadPage(){
+  const button = $("refreshBtn");
+
+  button.disabled = true;
+  button.textContent = "Loading...";
+
+  try{
+    token = sessionStorage.getItem("rubalia_token") || "";
+
+    if(!token){
+      location.replace("login.html");
+      return;
+    }
+
+    await loadAccount();
+
+    renderLevels();
+    renderEmptyHistory();
+
+  }catch(error){
+    if(
+      error.message==="Your login session has expired." ||
+      error.message==="Your account is not active."
+    ){
+      return;
+    }
+
+    if(error.message==="Opening administrator dashboard."){
+      return;
+    }
+
+    showError(
+      error.message || "Unable to load income information."
+    );
+
+    $("memberName").textContent="Unavailable";
+    $("memberId").textContent="Unavailable";
+    $("memberEmail").textContent="Unavailable";
+    $("memberStatus").textContent="Unavailable";
+
+    renderLevels();
+    renderEmptyHistory();
+
+  }finally{
+    button.disabled=false;
+    button.textContent="↻ Refresh";
+  }
+}
+
+/* FILTERS */
+
+$("searchInput").addEventListener("input",renderEmptyHistory);
+$("typeFilter").addEventListener("change",renderEmptyHistory);
+$("statusFilter").addEventListener("change",renderEmptyHistory);
+$("refreshBtn").addEventListener("click",loadPage);
+
+/* START */
+
+loadPage();
+
 </script>
 
 </body>
