@@ -9,67 +9,68 @@
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --bg:#f3f6fb;
-  --white:#fff;
-  --text:#18263c;
-  --muted:#78869a;
-  --border:#e5eaf1;
-  --green:#16845b;
-  --red:#c34b4b;
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
+[hidden]{display:none!important}
 
 .loading-screen,.error-screen{
-  position:fixed;inset:0;z-index:1000;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);padding:20px
+ position:fixed;inset:0;z-index:1000;
+ display:flex;align-items:center;justify-content:center;
+ background:var(--bg);padding:20px
 }
 .loading-box,.error-card{
-  width:100%;max-width:420px;padding:28px;background:white;
-  border:1px solid var(--border);border-radius:14px;text-align:center
+ width:100%;max-width:420px;padding:28px;background:white;
+ border:1px solid var(--border);border-radius:14px;text-align:center
 }
 .loading-box strong{color:var(--navy)}
 .loading-box p,.error-card p{color:var(--muted);font-size:13px;line-height:1.7}
 .spinner{
-  width:38px;height:38px;border:4px solid #e3e8ef;
-  border-top-color:var(--gold);border-radius:50%;
-  margin:0 auto 17px;animation:spin .8s linear infinite
+ width:38px;height:38px;border:4px solid #e3e8ef;
+ border-top-color:var(--gold);border-radius:50%;
+ margin:0 auto 17px;animation:spin .8s linear infinite
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-screen{display:none}
 .error-card h2{color:var(--navy)}
 .error-card a,.error-card button{
-  display:inline-block;margin:7px 4px 0;padding:11px 17px;
-  border:0;border-radius:7px;background:var(--gold);
-  color:var(--navy);font-weight:bold
+ display:inline-block;margin:7px 4px 0;padding:11px 17px;
+ border:0;border-radius:7px;background:var(--gold);
+ color:var(--navy);font-weight:bold
 }
 
 .topbar{
-  min-height:65px;background:var(--navy);color:white;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;position:sticky;top:0;z-index:10
+ min-height:65px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 22px;position:sticky;top:0;z-index:20
 }
 .brand{font-size:20px;font-weight:800;letter-spacing:.5px}
 .brand span{color:var(--gold)}
 .top-right{display:flex;align-items:center;gap:12px}
 .admin-label{
-  font-size:11px;background:rgba(214,173,85,.17);
-  color:#f3dfa9;border:1px solid rgba(214,173,85,.4);
-  padding:7px 11px;border-radius:20px
+ font-size:11px;background:rgba(214,173,85,.17);
+ color:#f3dfa9;border:1px solid rgba(214,173,85,.4);
+ padding:7px 11px;border-radius:20px
 }
 .admin-avatar{
-  width:36px;height:36px;border-radius:50%;background:var(--gold);
-  color:var(--navy);display:grid;place-items:center;font-weight:bold
+ width:36px;height:36px;border-radius:50%;background:var(--gold);
+ color:var(--navy);display:grid;place-items:center;font-weight:bold
 }
 .mobile-menu{
-  display:none;border:1px solid rgba(255,255,255,.25);
-  background:transparent;color:white;border-radius:7px;padding:7px 10px
+ display:none;border:1px solid rgba(255,255,255,.25);
+ background:transparent;color:white;border-radius:7px;padding:7px 10px
 }
 .layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:calc(100vh - 65px)}
 .sidebar{background:var(--navy2);color:white;padding:20px 13px}
@@ -77,49 +78,47 @@ button{font:inherit;cursor:pointer}
 .admin-profile strong{display:block;font-size:14px;margin-bottom:6px}
 .admin-profile small{color:#b8c7d9;font-size:11px;overflow-wrap:anywhere}
 .side-heading{
-  color:#9eafc5;font-size:10px;font-weight:bold;text-transform:uppercase;
-  letter-spacing:1.3px;margin:19px 11px 9px
+ color:#9eafc5;font-size:10px;font-weight:bold;text-transform:uppercase;
+ letter-spacing:1.3px;margin:19px 11px 9px
 }
 .nav-link,.logout-btn{
-  display:flex;align-items:center;gap:11px;padding:11px 12px;
-  border-radius:8px;margin:3px 0;font-size:12px;color:#dce6f2;
-  transition:.2s;width:100%
+ display:flex;align-items:center;gap:11px;padding:11px 12px;
+ border-radius:8px;margin:3px 0;font-size:12px;color:#dce6f2;
+ transition:.2s;width:100%
 }
 .nav-link:hover,.nav-link.active,.logout-btn:hover{
-  background:rgba(214,173,85,.17);color:#f3dfa9
+ background:rgba(214,173,85,.17);color:#f3dfa9
 }
 .nav-icon{width:19px;text-align:center;font-size:15px}
 .logout-btn{background:transparent;border:0;text-align:left}
 .main{padding:25px;width:100%;max-width:1450px;margin:auto}
 .heading{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:15px;flex-wrap:wrap;margin-bottom:22px
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px;flex-wrap:wrap;margin-bottom:22px
 }
 .heading h1{color:var(--navy);font-size:25px;margin:0 0 7px}
 .heading p{margin:0;color:var(--muted);font-size:12px}
 .live-badge{
-  display:inline-block;background:#e7f7ef;color:var(--green);
-  border-radius:20px;padding:8px 12px;font-size:10px;font-weight:bold
+ display:inline-block;background:#e7f7ef;color:var(--green);
+ border-radius:20px;padding:8px 12px;font-size:10px;font-weight:bold
 }
+.live-badge.offline{background:#fceaea;color:var(--red)}
 .welcome{
-  background:linear-gradient(115deg,#071a35,#193d68);color:white;
-  border-radius:14px;padding:23px;margin-bottom:21px;
-  display:flex;justify-content:space-between;align-items:center;gap:20px
+ background:linear-gradient(115deg,#071a35,#193d68);color:white;
+ border-radius:14px;padding:23px;margin-bottom:21px;
+ display:flex;justify-content:space-between;align-items:center;gap:20px
 }
 .welcome h2{margin:0 0 8px;font-size:20px}
 .welcome p{margin:0;color:#c8d5e5;font-size:12px;line-height:1.7}
 .welcome-icon{font-size:45px}
 .stats{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;margin-bottom:21px
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:14px;margin-bottom:21px
 }
 .stat-card{background:white;border:1px solid var(--border);border-radius:12px;padding:17px;min-width:0}
 .stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .stat-name{color:var(--muted);font-size:11px}
-.stat-icon{
-  width:35px;height:35px;display:grid;place-items:center;
-  border-radius:10px;background:#f1f4f9;font-size:17px
-}
+.stat-icon{width:35px;height:35px;display:grid;place-items:center;border-radius:10px;background:#f1f4f9;font-size:17px}
 .stat-value{display:block;font-size:25px;color:var(--navy);font-weight:800;margin:12px 0 5px}
 .stat-note{font-size:10px;color:var(--muted)}
 .grid-two{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-bottom:20px}
@@ -129,42 +128,21 @@ button{font:inherit;cursor:pointer}
 .view-link{color:#a17a2d;font-size:11px;font-weight:bold}
 .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .quick-card{
-  border:1px solid var(--border);border-radius:10px;
-  padding:14px;display:block;transition:.2s
+ border:1px solid var(--border);border-radius:10px;
+ padding:14px;display:block;transition:.2s
 }
-.quick-card:hover{border-color:var(--gold);background:#fffcf5}
+.quick-card:hover{border-color:var(--gold);background:#fffcf5;transform:translateY(-2px)}
 .quick-card span{font-size:20px}
 .quick-card strong{display:block;color:var(--navy);font-size:12px;margin:9px 0 4px}
 .quick-card small{color:var(--muted);font-size:10px}
-.quick-card.payment-card{
-  border-color:#d9c28e;
-  background:linear-gradient(135deg,#fffdf7,#fff8e9)
+.quick-card.payment-card{border-color:#d9c28e;background:linear-gradient(135deg,#fffdf7,#fff8e9)}
+.quick-card.refund-card{border-color:#e8c9c9;background:linear-gradient(135deg,#fffafa,#fff1f1)}
+.payment-icon,.refund-icon{
+ width:37px;height:37px;border-radius:10px;
+ display:grid;place-items:center;font-size:20px
 }
-.quick-card.payment-card:hover{
-  border-color:var(--gold);
-  background:#fff5d9;
-  transform:translateY(-2px)
-}
-.payment-card .payment-icon{
-  width:37px;height:37px;border-radius:10px;
-  display:grid;place-items:center;background:#f4e8c9;
-  color:var(--navy);font-size:20px
-}
-.payment-card strong{margin-top:10px}
-.quick-card.refund-card{
-  border-color:#e8c9c9;
-  background:linear-gradient(135deg,#fffafa,#fff1f1)
-}
-.quick-card.refund-card:hover{
-  border-color:#c34b4b;
-  background:#fff0f0;
-  transform:translateY(-2px)
-}
-.refund-card .refund-icon{
-  width:37px;height:37px;border-radius:10px;
-  display:grid;place-items:center;background:#f8e1e1;
-  color:#a53636;font-size:20px
-}
+.payment-icon{background:#f4e8c9;color:var(--navy)}
+.refund-icon{background:#f8e1e1;color:#a53636}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:520px}
 th{text-align:left;font-size:10px;color:var(--muted);background:#f7f9fc;padding:12px 10px}
@@ -180,33 +158,20 @@ td strong{color:var(--navy)}
 .refresh-btn:disabled{opacity:.5}
 .footer{text-align:center;padding:20px;color:#9aa5b5;font-size:10px}
 
-/* COMMISSION OVERVIEW */
 .commission-section{margin-bottom:21px}
 .commission-heading{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;flex-wrap:wrap;margin-bottom:14px
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;flex-wrap:wrap;margin-bottom:14px
 }
 .commission-heading h2{font-size:17px;color:var(--navy);margin:0 0 5px}
 .commission-heading p{font-size:11px;color:var(--muted);margin:0}
 .commission-actions{display:flex;gap:8px;flex-wrap:wrap}
-.commission-btn{
-  display:inline-block;padding:9px 13px;border-radius:7px;
-  background:var(--navy);color:white;font-size:10px;font-weight:bold
-}
+.commission-btn{display:inline-block;padding:9px 13px;border-radius:7px;background:var(--navy);color:white;font-size:10px;font-weight:bold}
 .commission-btn.gold{background:var(--gold);color:var(--navy)}
-.commission-stats{
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;margin-bottom:14px
-}
-.commission-card{
-  background:white;border:1px solid var(--border);
-  border-radius:11px;padding:16px;min-width:0
-}
+.commission-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.commission-card{background:white;border:1px solid var(--border);border-radius:11px;padding:16px;min-width:0}
 .commission-card .label{font-size:10px;color:var(--muted)}
-.commission-card .value{
-  display:block;font-size:22px;font-weight:800;
-  color:var(--navy);margin:11px 0 5px;overflow-wrap:anywhere
-}
+.commission-card .value{display:block;font-size:22px;font-weight:800;color:var(--navy);margin:11px 0 5px;overflow-wrap:anywhere}
 .commission-card .note{font-size:10px;color:var(--muted)}
 .commission-card.company{border-top:3px solid var(--gold)}
 .commission-card.profit{border-top:3px solid #315e91}
@@ -215,45 +180,38 @@ td strong{color:var(--navy)}
 .commission-card.orders{border-top:3px solid #7c70b8}
 .commission-table table{min-width:420px}
 .commission-table th,.commission-table td{padding:11px 10px}
-.level-pill{
-  display:inline-block;background:#edf2f8;color:var(--navy);
-  padding:5px 9px;border-radius:20px;font-weight:bold;font-size:10px
-}
-.commission-error{
-  display:none;background:#fff4f2;border:1px solid #f1d0cb;
-  color:#a34237;border-radius:9px;padding:12px;font-size:11px;line-height:1.6
-}
+.level-pill{display:inline-block;background:#edf2f8;color:var(--navy);padding:5px 9px;border-radius:20px;font-weight:bold;font-size:10px}
+.commission-error{display:none;background:#fff4f2;border:1px solid #f1d0cb;color:#a34237;border-radius:9px;padding:12px;font-size:11px;line-height:1.6}
 .commission-loading{color:var(--muted);font-size:11px;padding:15px;text-align:center}
-.commission-refresh{font-size:10px}
 
 @media(max-width:1100px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .grid-two{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .grid-two{grid-template-columns:1fr}
 }
 @media(max-width:800px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none;padding:12px}
-  .sidebar.open{display:block}
-  .mobile-menu{display:block}
-  .main{padding:17px}
+ .layout{grid-template-columns:1fr}
+ .sidebar{display:none;padding:12px}
+ .sidebar.open{display:block}
+ .mobile-menu{display:block}
+ .main{padding:17px}
 }
 @media(max-width:600px){
-  .commission-stats{grid-template-columns:1fr 1fr}
-  .commission-card .value{font-size:19px}
+ .commission-stats{grid-template-columns:1fr 1fr}
+ .commission-card .value{font-size:19px}
 }
 @media(max-width:480px){
-  .stats{grid-template-columns:1fr 1fr;gap:9px}
-  .stat-card{padding:13px}
-  .stat-value{font-size:21px}
-  .welcome{padding:18px}
-  .welcome h2{font-size:17px}
-  .welcome-icon{font-size:35px}
-  .topbar{padding:0 13px}
-  .brand{font-size:17px}
-  .admin-label{font-size:9px;padding:6px 8px}
-  .main{padding:13px}
-  .commission-stats{gap:8px}
-  .commission-card{padding:12px}
+ .stats{grid-template-columns:1fr 1fr;gap:9px}
+ .stat-card{padding:13px}
+ .stat-value{font-size:21px}
+ .welcome{padding:18px}
+ .welcome h2{font-size:17px}
+ .welcome-icon{font-size:35px}
+ .topbar{padding:0 13px}
+ .brand{font-size:17px}
+ .admin-label{font-size:9px;padding:6px 8px}
+ .main{padding:13px}
+ .commission-stats{gap:8px}
+ .commission-card{padding:12px}
 }
 </style>
 </head>
@@ -261,447 +219,375 @@ td strong{color:var(--navy)}
 <body>
 
 <div class="loading-screen" id="loadingScreen">
-  <div class="loading-box">
-    <div class="spinner"></div>
-    <strong>RUBALIA NETWORK</strong>
-    <p>Verifying administrator access...</p>
-  </div>
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying administrator access...</p>
+ </div>
 </div>
 
 <div class="error-screen" id="errorScreen">
-  <div class="error-card">
-    <h2 id="errorTitle">Access Error</h2>
-    <p id="errorMessage">Unable to verify administrator access.</p>
-    <a href="login.html">Login</a>
-    <button type="button" onclick="location.reload()">Try Again</button>
-  </div>
+ <div class="error-card">
+  <h2 id="errorTitle">Access Error</h2>
+  <p id="errorMessage">Unable to verify administrator access.</p>
+  <a href="login.html">Login</a>
+  <button type="button" onclick="location.reload()">Try Again</button>
+ </div>
 </div>
 
 <div id="adminApp" hidden>
 
 <header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="mobile-menu" id="menuBtn" type="button">☰</button>
-    <div class="brand">RUBALIA <span>NETWORK</span></div>
-  </div>
-  <div class="top-right">
-    <span class="admin-label">ADMIN PANEL</span>
-    <div class="admin-avatar" id="adminAvatar">A</div>
-  </div>
+ <div style="display:flex;align-items:center;gap:12px">
+  <button class="mobile-menu" id="menuBtn" type="button">☰</button>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+ </div>
+ <div class="top-right">
+  <span class="admin-label">ADMIN PANEL</span>
+  <div class="admin-avatar" id="adminAvatar">A</div>
+ </div>
 </header>
 
 <div class="layout">
 
 <aside class="sidebar" id="sidebar">
 
-  <div class="admin-profile">
-    <strong id="adminName">Administrator</strong>
-    <small id="adminEmail">Loading...</small>
-  </div>
+ <div class="admin-profile">
+  <strong id="adminName">Administrator</strong>
+  <small id="adminEmail">Loading...</small>
+ </div>
 
-  <div class="side-heading">Main Menu</div>
-  <a href="admin-dashboard.html" class="nav-link active">
-    <span class="nav-icon">▦</span> Dashboard
-  </a>
+ <div class="side-heading">Main Menu</div>
+ <a href="admin-dashboard.html" class="nav-link active">
+  <span class="nav-icon">▦</span> Dashboard
+ </a>
 
-  <div class="side-heading">Management</div>
+ <div class="side-heading">Management</div>
 
-  <a href="admin-users.html" class="nav-link">
-    <span class="nav-icon">👥</span> Users Management
-  </a>
+ <a href="admin/admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
+ <a href="admin/admin-partners.html" class="nav-link"><span class="nav-icon">🤝</span> Manage Partners</a>
+ <a href="admin/admin-applications.html" class="nav-link"><span class="nav-icon">📋</span> Partner Applications</a>
+ <a href="admin/admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
+ <a href="admin/admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Packages Management</a>
+ <a href="admin/admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
 
-  <a href="admin-partners.html" class="nav-link">
-    <span class="nav-icon">🤝</span> Manage Partners
-  </a>
+ <div class="side-heading">Finance</div>
 
-  <a href="admin-partners.html" class="nav-link">
-    <span class="nav-icon">➕</span> Add Partner
-  </a>
+ <a href="admin/admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
+ <a href="admin/admin-withdrawals.html" class="nav-link"><span class="nav-icon">💸</span> Withdraw Requests</a>
+ <a href="admin/admin-commissions.html" class="nav-link"><span class="nav-icon">📊</span> Commission Management</a>
+ <a href="admin/admin-refunds.html" class="nav-link"><span class="nav-icon">↩️</span> Refund Management</a>
+ <a href="admin/admin-reports.html" class="nav-link"><span class="nav-icon">📈</span> Financial Reports</a>
 
-  <a href="admin-applications.html" class="nav-link">
-    <span class="nav-icon">📋</span> Partner Applications
-  </a>
+ <div class="side-heading">Communication</div>
 
-  <a href="admin-products.html" class="nav-link">
-    <span class="nav-icon">📦</span> Products Management
-  </a>
+ <a href="admin/admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
+ <a href="admin/admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Tickets</a>
+ <a href="admin/admin-email-management.html" class="nav-link"><span class="nav-icon">✉️</span> Email Management</a>
+ <a href="admin/admin-sms-management.html" class="nav-link"><span class="nav-icon">📱</span> SMS Management</a>
 
-  <a href="admin-packages.html" class="nav-link">
-    <span class="nav-icon">➕</span> Add Package
-  </a>
+ <div class="side-heading">System</div>
 
-  <a href="admin-packages.html" class="nav-link">
-    <span class="nav-icon">🎁</span> Manage Packages
-  </a>
+ <a href="admin/admin-settings.html" class="nav-link"><span class="nav-icon">⚙️</span> Admin Settings</a>
+ <a href="admin/admin-audit-logs.html" class="nav-link"><span class="nav-icon">📜</span> Audit Logs</a>
+ <a href="admin/admin-system-health.html" class="nav-link"><span class="nav-icon">❤️</span> System Health</a>
+ <a href="admin/admin-api-management.html" class="nav-link"><span class="nav-icon">🔌</span> API Management</a>
+ <a href="admin/admin-error-logs.html" class="nav-link"><span class="nav-icon">⚠️</span> Error Logs</a>
+ <a href="admin/admin-backup.html" class="nav-link"><span class="nav-icon">💾</span> Database Backup</a>
+ <a href="admin/admin-database.html" class="nav-link"><span class="nav-icon">🗄️</span> Database Management</a>
 
-  <a href="admin-orders.html" class="nav-link">
-    <span class="nav-icon">🛒</span> Orders Management
-  </a>
+ <div class="side-heading">Website</div>
+ <a href="index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
 
-  <div class="side-heading">Finance</div>
-
-  <a href="admin-payments.html" class="nav-link">
-    <span class="nav-icon">💳</span> Payment Records
-  </a>
-
-  <a href="admin-withdrawals.html" class="nav-link">
-    <span class="nav-icon">💸</span> Withdraw Requests
-  </a>
-
-  <a href="admin-commissions.html" class="nav-link">
-    <span class="nav-icon">📊</span> Commission Settings
-  </a>
-
-  <!-- NEW REFUND MANAGEMENT LINK -->
-  <a href="admin-refunds.html" class="nav-link">
-    <span class="nav-icon">↩️</span> Refund Management
-  </a>
-
-  <div class="side-heading">Communication</div>
-
-  <a href="admin-announcements.html" class="nav-link">
-    <span class="nav-icon">📢</span> Announcements
-  </a>
-
-  <a href="admin-support.html" class="nav-link">
-    <span class="nav-icon">🎧</span> Support Requests
-  </a>
-
-  <div class="side-heading">System</div>
-
-  <a href="admin-settings.html" class="nav-link">
-    <span class="nav-icon">⚙️</span> Admin Settings
-  </a>
-
-  <a href="index.html" class="nav-link">
-    <span class="nav-icon">🌐</span> Visit Website
-  </a>
-
-  <button class="logout-btn" id="logoutBtn" type="button">
-    <span class="nav-icon">↪</span> Logout
-  </button>
+ <button class="logout-btn" id="logoutBtn" type="button">
+  <span class="nav-icon">↪</span> Logout
+ </button>
 
 </aside>
 
 <main class="main">
 
-  <div class="heading">
-    <div>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the Rubalia Network administration panel.</p>
-    </div>
-    <span class="live-badge">● LIVE SERVER DATA</span>
+ <div class="heading">
+  <div>
+   <h1>Admin Dashboard</h1>
+   <p>Welcome to the Rubalia Network administration panel.</p>
+  </div>
+  <span class="live-badge" id="serverBadge">● CONNECTING TO SERVER</span>
+ </div>
+
+ <section class="welcome">
+  <div>
+   <h2 id="welcomeTitle">Welcome, Administrator!</h2>
+   <p>
+    Manage Rubalia Network from one place.
+    Dashboard figures are loaded from your PostgreSQL database.
+   </p>
+  </div>
+  <div class="welcome-icon">👑</div>
+ </section>
+
+ <!-- DASHBOARD STATISTICS -->
+
+ <section class="stats">
+
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Total Users</span><span class="stat-icon">👥</span></div>
+   <strong class="stat-value" id="totalUsers">—</strong>
+   <span class="stat-note">All registered accounts</span>
   </div>
 
-  <section class="welcome">
-    <div>
-      <h2 id="welcomeTitle">Welcome, Administrator!</h2>
-      <p>
-        Manage Rubalia Network from one place.
-        Dashboard figures are loaded from your PostgreSQL database.
-      </p>
-    </div>
-    <div class="welcome-icon">👑</div>
-  </section>
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Active Users</span><span class="stat-icon">🟢</span></div>
+   <strong class="stat-value" id="activeUsers">—</strong>
+   <span class="stat-note">Active accounts</span>
+  </div>
 
-  <!-- DASHBOARD STATISTICS -->
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Total Products</span><span class="stat-icon">📦</span></div>
+   <strong class="stat-value" id="totalProducts">—</strong>
+   <span class="stat-note">All products in database</span>
+  </div>
 
-  <section class="stats">
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Active Products</span><span class="stat-icon">🛍️</span></div>
+   <strong class="stat-value" id="activeProducts">—</strong>
+   <span class="stat-note">Products available</span>
+  </div>
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Total Users</span>
-        <span class="stat-icon">👥</span>
-      </div>
-      <strong class="stat-value" id="totalUsers">—</strong>
-      <span class="stat-note">All registered accounts</span>
-    </div>
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Total Orders</span><span class="stat-icon">🛒</span></div>
+   <strong class="stat-value" id="totalOrders">—</strong>
+   <span class="stat-note">All recorded orders</span>
+  </div>
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Active Users</span>
-        <span class="stat-icon">🟢</span>
-      </div>
-      <strong class="stat-value" id="activeUsers">—</strong>
-      <span class="stat-note">Currently active accounts</span>
-    </div>
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Pending Orders</span><span class="stat-icon">⏳</span></div>
+   <strong class="stat-value" id="pendingOrders">—</strong>
+   <span class="stat-note">Awaiting processing</span>
+  </div>
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Total Products</span>
-        <span class="stat-icon">📦</span>
-      </div>
-      <strong class="stat-value" id="totalProducts">—</strong>
-      <span class="stat-note">All products in database</span>
-    </div>
+  <div class="stat-card">
+   <div class="stat-top"><span class="stat-name">Delivered Orders</span><span class="stat-icon">✅</span></div>
+   <strong class="stat-value" id="deliveredOrders">—</strong>
+   <span class="stat-note">Successfully delivered</span>
+  </div>
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Active Products</span>
-        <span class="stat-icon">🛍️</span>
-      </div>
-      <strong class="stat-value" id="activeProducts">—</strong>
-      <span class="stat-note">Products available</span>
-    </div>
+ </section>
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Total Orders</span>
-        <span class="stat-icon">🛒</span>
-      </div>
-      <strong class="stat-value" id="totalOrders">—</strong>
-      <span class="stat-note">All recorded orders</span>
-    </div>
+ <!-- COMMISSION OVERVIEW -->
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Pending Orders</span>
-        <span class="stat-icon">⏳</span>
-      </div>
-      <strong class="stat-value" id="pendingOrders">—</strong>
-      <span class="stat-note">Orders awaiting processing</span>
-    </div>
+ <section class="commission-section">
 
-    <div class="stat-card">
-      <div class="stat-top">
-        <span class="stat-name">Delivered Orders</span>
-        <span class="stat-icon">✅</span>
-      </div>
-      <strong class="stat-value" id="deliveredOrders">—</strong>
-      <span class="stat-note">Successfully delivered</span>
-    </div>
+  <div class="commission-heading">
+   <div>
+    <h2>Commission Overview</h2>
+    <p>10-Level Unilevel financial summary from the server.</p>
+   </div>
 
-  </section>
+   <div class="commission-actions">
+    <button class="refresh-btn" id="refreshCommissionBtn" type="button">↻ Refresh</button>
+    <a href="admin/admin-commissions.html" class="commission-btn gold">Commission Management →</a>
+   </div>
+  </div>
 
-  <!-- COMMISSION OVERVIEW -->
+  <div class="commission-error" id="commissionError"></div>
 
-  <section class="commission-section">
+  <div class="commission-stats">
 
-    <div class="commission-heading">
-      <div>
-        <h2>Commission Overview</h2>
-        <p>10-Level Unilevel financial summary from the server.</p>
-      </div>
+   <div class="commission-card profit">
+    <span class="label">Total Actual Profit</span>
+    <strong class="value" id="commissionGrossProfit">৳—</strong>
+    <span class="note">Recorded profit after direct costs</span>
+   </div>
 
-      <div class="commission-actions">
-        <button class="refresh-btn commission-refresh" id="refreshCommissionBtn" type="button">
-          ↻ Refresh
-        </button>
-        <a href="admin-commissions.html" class="commission-btn gold">
-          Commission Settings →
-        </a>
-      </div>
-    </div>
+   <div class="commission-card company">
+    <span class="label">Company Income</span>
+    <strong class="value" id="commissionCompanyShare">৳—</strong>
+    <span class="note">Company share</span>
+   </div>
 
-    <div class="commission-error" id="commissionError">
-      Commission report could not be loaded. Please check the Commission API and database migration.
-    </div>
+   <div class="commission-card distributed">
+    <span class="label">Distributed Commission</span>
+    <strong class="value" id="commissionDistributed">৳—</strong>
+    <span class="note">Commission recorded for members</span>
+   </div>
 
-    <div class="commission-stats">
+   <div class="commission-card unallocated">
+    <span class="label">Unallocated Commission</span>
+    <strong class="value" id="commissionUnallocated">৳—</strong>
+    <span class="note">Amounts without eligible uplines</span>
+   </div>
 
-      <div class="commission-card profit">
-        <span class="label">Total Actual Profit</span>
-        <strong class="value" id="commissionGrossProfit">৳—</strong>
-        <span class="note">Recorded profit after direct costs</span>
-      </div>
+   <div class="commission-card orders">
+    <span class="label">Commission Orders</span>
+    <strong class="value" id="commissionOrders">—</strong>
+    <span class="note">Orders processed by commission engine</span>
+   </div>
 
-      <div class="commission-card company">
-        <span class="label">Company Income</span>
-        <strong class="value" id="commissionCompanyShare">৳—</strong>
-        <span class="note">Company share including unallocated amounts</span>
-      </div>
-
-      <div class="commission-card distributed">
-        <span class="label">Distributed Commission</span>
-        <strong class="value" id="commissionDistributed">৳—</strong>
-        <span class="note">Commission recorded for members</span>
-      </div>
-
-      <div class="commission-card unallocated">
-        <span class="label">Unallocated Commission</span>
-        <strong class="value" id="commissionUnallocated">৳—</strong>
-        <span class="note">Amounts without eligible uplines</span>
-      </div>
-
-      <div class="commission-card orders">
-        <span class="label">Commission Orders</span>
-        <strong class="value" id="commissionOrders">—</strong>
-        <span class="note">Orders processed by commission engine</span>
-      </div>
-
-      <div class="commission-card">
-        <span class="label">Total Commission Levels</span>
-        <strong class="value">10</strong>
-        <span class="note">Unilevel commission structure</span>
-      </div>
-
-    </div>
-
-    <section class="panel commission-table">
-      <div class="panel-head">
-        <h3>Level-Wise Commission Report</h3>
-        <span class="live-badge">SERVER REPORT</span>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>LEVEL</th>
-              <th>COMMISSION RATE</th>
-              <th>TRANSACTIONS</th>
-              <th>TOTAL COMMISSION</th>
-            </tr>
-          </thead>
-
-          <tbody id="commissionLevelsBody">
-            <tr>
-              <td colspan="4" class="commission-loading">
-                Loading commission report...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-  </section>
-
-  <!-- QUICK ACTIONS AND ADMIN ACCOUNT -->
-
-  <div class="grid-two">
-
-    <section class="panel">
-      <div class="panel-head">
-        <h3>Quick Actions</h3>
-      </div>
-
-      <div class="quick-grid">
-
-        <a href="admin-users.html" class="quick-card">
-          <span>👥</span>
-          <strong>Manage Users</strong>
-          <small>View user records</small>
-        </a>
-
-        <a href="admin-products.html" class="quick-card">
-          <span>📦</span>
-          <strong>Manage Products</strong>
-          <small>Product management</small>
-        </a>
-
-        <a href="admin-packages.html" class="quick-card">
-          <span>➕</span>
-          <strong>Add Package</strong>
-          <small>Create a new package</small>
-        </a>
-
-        <a href="admin-packages.html" class="quick-card">
-          <span>🎁</span>
-          <strong>Manage Packages</strong>
-          <small>Edit and manage packages</small>
-        </a>
-
-        <a href="admin-partners.html" class="quick-card">
-          <span>➕</span>
-          <strong>Add Partner</strong>
-          <small>Open partner management</small>
-        </a>
-
-        <a href="admin-partners.html" class="quick-card">
-          <span>🤝</span>
-          <strong>Manage Partners</strong>
-          <small>View partner records</small>
-        </a>
-
-        <a href="admin-orders.html" class="quick-card">
-          <span>🛒</span>
-          <strong>Manage Orders</strong>
-          <small>Order management</small>
-        </a>
-
-        <a href="admin-payments.html" class="quick-card payment-card">
-          <span class="payment-icon">💳</span>
-          <strong>Payment Management</strong>
-          <small>Payment records, verification and gateway settings</small>
-        </a>
-
-        <!-- NEW REFUND QUICK ACTION -->
-        <a href="admin-refunds.html" class="quick-card refund-card">
-          <span class="refund-icon">↩️</span>
-          <strong>Refund Management</strong>
-          <small>Review, approve or reject customer refunds</small>
-        </a>
-
-        <a href="admin-announcements.html" class="quick-card">
-          <span>📢</span>
-          <strong>Announcements</strong>
-          <small>Send notifications</small>
-        </a>
-
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <h3>Administrator Account</h3>
-      </div>
-      <p style="font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 12px">
-        Signed in as:
-      </p>
-      <strong id="accountName" style="color:var(--navy);font-size:14px">—</strong>
-      <p id="accountEmail" style="font-size:12px;color:var(--muted);overflow-wrap:anywhere">—</p>
-      <span class="live-badge">Verified Admin</span>
-    </section>
+   <div class="commission-card">
+    <span class="label">Commission Levels</span>
+    <strong class="value">10</strong>
+    <span class="note">Unilevel structure</span>
+   </div>
 
   </div>
 
-  <!-- RECENT ORDERS -->
+  <section class="panel commission-table">
+   <div class="panel-head">
+    <h3>Level-Wise Commission Report</h3>
+    <span class="live-badge" id="commissionBadge">SERVER REPORT</span>
+   </div>
+
+   <div class="table-wrap">
+    <table>
+     <thead>
+      <tr>
+       <th>LEVEL</th>
+       <th>COMMISSION RATE</th>
+       <th>TRANSACTIONS</th>
+       <th>TOTAL COMMISSION</th>
+      </tr>
+     </thead>
+     <tbody id="commissionLevelsBody">
+      <tr><td colspan="4" class="commission-loading">Loading commission report...</td></tr>
+     </tbody>
+    </table>
+   </div>
+  </section>
+
+ </section>
+
+ <!-- QUICK ACTIONS -->
+
+ <div class="grid-two">
 
   <section class="panel">
-    <div class="panel-head">
-      <h3>Recent Orders</h3>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
-        <a href="admin-orders.html" class="view-link">View All →</a>
-      </div>
-    </div>
+   <div class="panel-head"><h3>Quick Actions</h3></div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ORDER ID</th>
-            <th>CUSTOMER</th>
-            <th>EMAIL</th>
-            <th>AMOUNT</th>
-            <th>STATUS</th>
-            <th>DATE</th>
-          </tr>
-        </thead>
-        <tbody id="ordersBody">
-          <tr><td colspan="6" class="empty-state">Loading orders...</td></tr>
-        </tbody>
-      </table>
-    </div>
+   <div class="quick-grid">
+
+    <a href="admin/admin-users.html" class="quick-card">
+     <span>👥</span>
+     <strong>Manage Users</strong>
+     <small>View user records</small>
+    </a>
+
+    <a href="admin/admin-products.html" class="quick-card">
+     <span>📦</span>
+     <strong>Manage Products</strong>
+     <small>Product management</small>
+    </a>
+
+    <a href="admin/admin-packages.html" class="quick-card">
+     <span>🎁</span>
+     <strong>Manage Packages</strong>
+     <small>Edit and manage packages</small>
+    </a>
+
+    <a href="admin/admin-partners.html" class="quick-card">
+     <span>🤝</span>
+     <strong>Manage Partners</strong>
+     <small>View partner records</small>
+    </a>
+
+    <a href="admin/admin-orders.html" class="quick-card">
+     <span>🛒</span>
+     <strong>Manage Orders</strong>
+     <small>Order management</small>
+    </a>
+
+    <a href="admin/admin-payments.html" class="quick-card payment-card">
+     <span class="payment-icon">💳</span>
+     <strong>Payment Management</strong>
+     <small>Payment records and verification</small>
+    </a>
+
+    <a href="admin/admin-refunds.html" class="quick-card refund-card">
+     <span class="refund-icon">↩️</span>
+     <strong>Refund Management</strong>
+     <small>Review customer refunds</small>
+    </a>
+
+    <a href="admin/admin-withdrawals.html" class="quick-card">
+     <span>💸</span>
+     <strong>Withdraw Requests</strong>
+     <small>Review withdrawal requests</small>
+    </a>
+
+    <a href="admin/admin-commissions.html" class="quick-card">
+     <span>📊</span>
+     <strong>Commission Management</strong>
+     <small>Commission settings and records</small>
+    </a>
+
+    <a href="admin/admin-announcements.html" class="quick-card">
+     <span>📢</span>
+     <strong>Announcements</strong>
+     <small>Send notifications</small>
+    </a>
+
+   </div>
   </section>
 
-  <div class="notice">
-    <strong>Important:</strong>
-    This dashboard displays information returned by the Rubalia server.
-    Commission figures are loaded separately from the Commission API.
-    Actual commission figures will appear after the commission database
-    migration and reporting API are correctly connected.
-    Refund Management is handled separately through the Refund API.
-    Cancelling an order does not automatically return money to the customer.
+  <section class="panel">
+   <div class="panel-head"><h3>Administrator Account</h3></div>
+
+   <p style="font-size:12px;color:var(--muted);line-height:1.8;margin:0 0 12px">
+    Signed in as:
+   </p>
+
+   <strong id="accountName" style="color:var(--navy);font-size:14px">—</strong>
+   <p id="accountEmail" style="font-size:12px;color:var(--muted);overflow-wrap:anywhere">—</p>
+   <span class="live-badge">Verified Admin</span>
+  </section>
+
+ </div>
+
+ <!-- RECENT ORDERS -->
+
+ <section class="panel">
+  <div class="panel-head">
+   <h3>Recent Orders</h3>
+   <div style="display:flex;gap:8px;align-items:center">
+    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
+    <a href="admin/admin-orders.html" class="view-link">View All →</a>
+   </div>
   </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>ORDER ID</th>
+      <th>CUSTOMER</th>
+      <th>EMAIL</th>
+      <th>AMOUNT</th>
+      <th>STATUS</th>
+      <th>DATE</th>
+     </tr>
+    </thead>
+    <tbody id="ordersBody">
+     <tr><td colspan="6" class="empty-state">Loading orders...</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </section>
+
+ <div class="notice">
+  <strong>Important:</strong>
+  Dashboard figures are loaded from the Rubalia server.
+  Commission information is loaded separately from the Commission API.
+  If an API is unavailable, its figures will remain unavailable rather than showing fabricated data.
+  Refund Management is handled separately through the Refund API.
+  Cancelling an order does not automatically return money to the customer.
+ </div>
 
 </main>
 </div>
 
 <footer class="footer">
-  © <span id="year"></span> Rubalia Network. All Rights Reserved.
-  <br>Administrator Dashboard
+ © <span id="year"></span> Rubalia Network. All Rights Reserved.
+ <br>Administrator Dashboard
 </footer>
 
 </div>
@@ -709,411 +595,434 @@ td strong{color:var(--navy)}
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
+// ==========================================
+// API CONFIGURATION
+// ==========================================
 
-let adminToken = "";
-let adminUser = null;
+const API_BASE="https://rubalia.onrender.com/api";
 
-const $ = (id) => document.getElementById(id);
+let adminToken="";
+let adminUser=null;
+
+const $=id=>document.getElementById(id);
 
 function showError(title,message){
-  $("loadingScreen").style.display="none";
-  $("adminApp").hidden=true;
-  $("errorTitle").textContent=title;
-  $("errorMessage").textContent=message;
-  $("errorScreen").style.display="flex";
+ $("loadingScreen").style.display="none";
+ $("adminApp").hidden=true;
+ $("errorTitle").textContent=title;
+ $("errorMessage").textContent=message;
+ $("errorScreen").style.display="flex";
 }
 
 function formatNumber(value){
-  const number=Number(value);
-  return Number.isFinite(number)
-    ? number.toLocaleString("en-US")
-    : "—";
+ if(value===null||value===undefined||value==="")return "—";
+ const number=Number(value);
+ return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
 }
 
 function formatMoney(value){
-  const number=Number(value);
-  if(!Number.isFinite(number)) return "৳—";
+ if(value===null||value===undefined||value==="")return "৳—";
+ const number=Number(value);
+ if(!Number.isFinite(number))return "৳—";
 
-  return "৳"+number.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
+ return "৳"+number.toLocaleString("en-BD",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
 }
 
 function formatDate(value){
-  if(!value) return "—";
+ if(!value)return "—";
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "—";
 
-  const date=new Date(value);
-
-  if(Number.isNaN(date.getTime())) return "—";
-
-  return date.toLocaleDateString("en-GB",{
-    day:"2-digit",
-    month:"short",
-    year:"numeric"
-  });
+ return date.toLocaleDateString("en-GB",{
+  day:"2-digit",month:"short",year:"numeric"
+ });
 }
 
 function initials(name){
-  const value=String(name || "A").trim();
-  return value ? value.charAt(0).toUpperCase() : "A";
+ const value=String(name||"A").trim();
+ return value?value.charAt(0).toUpperCase():"A";
 }
+
+// ==========================================
+// API REQUEST
+// ==========================================
 
 async function apiRequest(path){
-  const response=await fetch(API_BASE+path,{
-    method:"GET",
-    headers:{
-      "Authorization":"Bearer "+adminToken,
-      "Accept":"application/json"
-    },
-    cache:"no-store"
-  });
-
-  const data=await response.json().catch(()=>({}));
-
-  if(response.status===401){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    window.location.replace("login.html");
-    throw new Error("Your session has expired. Please login again.");
-  }
-
-  if(response.status===403){
-    throw new Error("Your account does not have administrator permission.");
-  }
-
-  if(!response.ok || data.success===false){
-    throw new Error(data.message || "Unable to load server information.");
-  }
-
-  return data;
-}
-
-function setStat(id,value){
-  $(id).textContent=formatNumber(value);
-}
-
-function showOrders(orders){
-  const body=$("ordersBody");
-  body.replaceChildren();
-
-  if(!Array.isArray(orders) || orders.length===0){
-    const row=document.createElement("tr");
-    const cell=document.createElement("td");
-    cell.colSpan=6;
-    cell.className="empty-state";
-    cell.textContent="No orders found in the database.";
-    row.appendChild(cell);
-    body.appendChild(row);
-    return;
-  }
-
-  orders.forEach(order=>{
-    const row=document.createElement("tr");
-
-    const values=[
-      order.order_number || ("#"+order.id),
-      order.customer_name || "—",
-      order.customer_email || "—",
-      formatMoney(order.total_amount),
-      order.status || "—",
-      formatDate(order.created_at)
-    ];
-
-    values.forEach((value,index)=>{
-      const cell=document.createElement("td");
-
-      if(index===0){
-        const strong=document.createElement("strong");
-        strong.textContent=String(value);
-        cell.appendChild(strong);
-      }else if(index===4){
-        const badge=document.createElement("span");
-        badge.className="status";
-        const status=String(value).toLowerCase();
-
-        if(status==="pending" || status==="processing"){
-          badge.classList.add("pending");
-        }else if(status==="delivered" || status==="completed"){
-          badge.classList.add("complete");
-        }else if(status==="cancelled"){
-          badge.classList.add("cancelled");
-        }
-
-        badge.textContent=String(value);
-        cell.appendChild(badge);
-      }else{
-        cell.textContent=String(value);
-      }
-
-      row.appendChild(cell);
-    });
-
-    body.appendChild(row);
-  });
-}
-
-
-// =====================================================
-// COMMISSION OVERVIEW
-// =====================================================
-
-function showCommissionError(message){
-  $("commissionError").style.display="block";
-  $("commissionError").textContent=message;
-
-  $("commissionGrossProfit").textContent="৳—";
-  $("commissionCompanyShare").textContent="৳—";
-  $("commissionDistributed").textContent="৳—";
-  $("commissionUnallocated").textContent="৳—";
-  $("commissionOrders").textContent="—";
-
-  const body=$("commissionLevelsBody");
-  body.replaceChildren();
-
-  const row=document.createElement("tr");
-  const cell=document.createElement("td");
-
-  cell.colSpan=4;
-  cell.className="commission-loading";
-  cell.textContent="Commission report is currently unavailable.";
-
-  row.appendChild(cell);
-  body.appendChild(row);
-}
-
-function showCommissionLevels(levels){
-  const body=$("commissionLevelsBody");
-  body.replaceChildren();
-
-  const levelMap=new Map();
-
-  if(Array.isArray(levels)){
-    levels.forEach(item=>{
-      levelMap.set(Number(item.level),item);
-    });
-  }
-
-  for(let level=1;level<=10;level++){
-    const item=levelMap.get(level);
-    const rates=[20,15,10,8,6,5,4,3,2,2];
-
-    const row=document.createElement("tr");
-
-    const levelCell=document.createElement("td");
-    const pill=document.createElement("span");
-    pill.className="level-pill";
-    pill.textContent="Level "+level;
-    levelCell.appendChild(pill);
-
-    const rateCell=document.createElement("td");
-    rateCell.textContent=rates[level-1]+"%";
-
-    const countCell=document.createElement("td");
-    countCell.textContent=formatNumber(item ? item.total_transactions : 0);
-
-    const amountCell=document.createElement("td");
-    const strong=document.createElement("strong");
-    strong.textContent=formatMoney(item ? item.total_commission : 0);
-    amountCell.appendChild(strong);
-
-    row.appendChild(levelCell);
-    row.appendChild(rateCell);
-    row.appendChild(countCell);
-    row.appendChild(amountCell);
-
-    body.appendChild(row);
-  }
-}
-
-async function loadCommissionReport(){
-  const button=$("refreshCommissionBtn");
-
-  button.disabled=true;
-  button.textContent="Loading...";
-
-  try{
-    const data=await apiRequest("/commission/admin/report");
-
-    const report=data.report || {};
-    const totals=report.totals || {};
-    const levels=report.levels || [];
-
-    const distributed=Array.isArray(levels)
-      ? levels.reduce((sum,item)=>{
-          const amount=Number(item.total_commission);
-          return sum+(Number.isFinite(amount)?amount:0);
-        },0)
-      : 0;
-
-    $("commissionGrossProfit").textContent=
-      formatMoney(totals.gross_profit);
-
-    $("commissionCompanyShare").textContent=
-      formatMoney(totals.company_share);
-
-    $("commissionDistributed").textContent=
-      formatMoney(distributed);
-
-    $("commissionUnallocated").textContent=
-      formatMoney(totals.unallocated_commission);
-
-    $("commissionOrders").textContent=
-      formatNumber(totals.total_orders);
-
-    showCommissionLevels(levels);
-
-    $("commissionError").style.display="none";
-
-  }catch(error){
-    if(error.message.includes("session has expired")){
-      return;
-    }
-
-    if(error.message.includes("administrator permission")){
-      showError("Access Denied",error.message);
-      return;
-    }
-
-    showCommissionError(
-      error.message+
-      " Please check the Commission API and database migration."
-    );
-
-  }finally{
-    button.disabled=false;
-    button.textContent="↻ Refresh";
-  }
-}
-
-
-// =====================================================
-// MAIN DASHBOARD DATA
-// =====================================================
-
-async function loadDashboardData(){
-  $("refreshBtn").disabled=true;
-  $("refreshBtn").textContent="Loading...";
-
-  try{
-    const results=await Promise.all([
-      apiRequest("/admin/dashboard"),
-      apiRequest("/admin/orders")
-    ]);
-
-    const dashboard=results[0].dashboard || {};
-    const orders=results[1].orders || [];
-
-    setStat("totalUsers",dashboard.total_users);
-    setStat("activeUsers",dashboard.active_users);
-    setStat("totalProducts",dashboard.total_products);
-    setStat("activeProducts",dashboard.active_products);
-    setStat("totalOrders",dashboard.total_orders);
-    setStat("pendingOrders",dashboard.pending_orders);
-    setStat("deliveredOrders",dashboard.delivered_orders);
-
-    showOrders(orders);
-
-  }catch(error){
-    if(error.message.includes("administrator permission")){
-      showError("Access Denied",error.message);
-    }else if(error.message.includes("session has expired")){
-      return;
-    }else{
-      showOrders([]);
-      showError(
-        "Dashboard Data Error",
-        error.message+" Please check the backend deployment and try again."
-      );
-    }
-  }finally{
-    $("refreshBtn").disabled=false;
-    $("refreshBtn").textContent="↻ Refresh";
-  }
-}
-
-
-// =====================================================
-// ADMIN AUTHENTICATION
-// =====================================================
-
-async function initializeAdmin(){
-  adminToken=sessionStorage.getItem("rubalia_token") || "";
-
-  if(!adminToken){
-    window.location.replace("login.html");
-    return;
-  }
-
-  try{
-    const data=await apiRequest("/auth/me");
-    const user=data.user || data.profile;
-
-    if(!user){
-      throw new Error("The server did not return account information.");
-    }
-
-    if(String(user.role).toLowerCase()!=="admin"){
-      window.location.replace("dashboard.html");
-      return;
-    }
-
-    adminUser=user;
-
-    const name=user.full_name || user.fullName || "Administrator";
-    const email=user.email || "";
-
-    $("adminName").textContent=name;
-    $("adminEmail").textContent=email;
-    $("accountName").textContent=name;
-    $("accountEmail").textContent=email;
-    $("adminAvatar").textContent=initials(name);
-    $("welcomeTitle").textContent="Welcome, "+name+"!";
-
-    $("year").textContent=new Date().getFullYear();
-
-    $("loadingScreen").style.display="none";
-    $("adminApp").hidden=false;
-
-    await loadDashboardData();
-    await loadCommissionReport();
-
-  }catch(error){
-    if(error.message.includes("administrator permission")){
-      showError("Access Denied",error.message);
-    }else{
-      showError("Unable to Verify Account",error.message);
-    }
-  }
-}
-
-
-// =====================================================
-// LOGOUT AND BUTTON EVENTS
-// =====================================================
-
-function logout(){
+ const response=await fetch(API_BASE+path,{
+  method:"GET",
+  headers:{
+   "Authorization":"Bearer "+adminToken,
+   "Accept":"application/json"
+  },
+  cache:"no-store"
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
   window.location.replace("login.html");
+  throw new Error("Your session has expired. Please login again.");
+ }
+
+ if(response.status===403){
+  throw new Error("Your account does not have administrator permission.");
+ }
+
+ if(!response.ok||data.success===false){
+  throw new Error(data.message||"Unable to load server information.");
+ }
+
+ return data;
+}
+
+function setStat(id,value){
+ $(id).textContent=formatNumber(value);
+}
+
+// ==========================================
+// RECENT ORDERS
+// ==========================================
+
+function showOrders(orders){
+ const body=$("ordersBody");
+ body.replaceChildren();
+
+ if(!Array.isArray(orders)||orders.length===0){
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+  cell.colSpan=6;
+  cell.className="empty-state";
+  cell.textContent="No orders found in the database.";
+  row.appendChild(cell);
+  body.appendChild(row);
+  return;
+ }
+
+ orders.forEach(order=>{
+  const row=document.createElement("tr");
+
+  const values=[
+   order.order_number||("#"+order.id),
+   order.customer_name||"—",
+   order.customer_email||"—",
+   formatMoney(order.total_amount),
+   order.status||"—",
+   formatDate(order.created_at)
+  ];
+
+  values.forEach((value,index)=>{
+   const cell=document.createElement("td");
+
+   if(index===0){
+    const strong=document.createElement("strong");
+    strong.textContent=String(value);
+    cell.appendChild(strong);
+   }else if(index===4){
+    const badge=document.createElement("span");
+    badge.className="status";
+
+    const status=String(value).toLowerCase();
+
+    if(status==="pending"||status==="processing"){
+     badge.classList.add("pending");
+    }else if(status==="delivered"||status==="completed"){
+     badge.classList.add("complete");
+    }else if(status==="cancelled"){
+     badge.classList.add("cancelled");
+    }
+
+    badge.textContent=String(value);
+    cell.appendChild(badge);
+   }else{
+    cell.textContent=String(value);
+   }
+
+   row.appendChild(cell);
+  });
+
+  body.appendChild(row);
+ });
+}
+
+// ==========================================
+// COMMISSION REPORT
+// ==========================================
+
+function showCommissionError(message){
+ $("commissionError").style.display="block";
+ $("commissionError").textContent=message;
+
+ $("commissionBadge").textContent="REPORT UNAVAILABLE";
+ $("commissionBadge").classList.add("offline");
+
+ $("commissionGrossProfit").textContent="৳—";
+ $("commissionCompanyShare").textContent="৳—";
+ $("commissionDistributed").textContent="৳—";
+ $("commissionUnallocated").textContent="৳—";
+ $("commissionOrders").textContent="—";
+
+ const body=$("commissionLevelsBody");
+ body.replaceChildren();
+
+ const row=document.createElement("tr");
+ const cell=document.createElement("td");
+ cell.colSpan=4;
+ cell.className="commission-loading";
+ cell.textContent="Commission report is currently unavailable.";
+ row.appendChild(cell);
+ body.appendChild(row);
+}
+
+function showCommissionLevels(levels){
+ const body=$("commissionLevelsBody");
+ body.replaceChildren();
+
+ if(!Array.isArray(levels)){
+  showCommissionError("The server returned an invalid commission levels report.");
+  return;
+ }
+
+ const levelMap=new Map();
+
+ levels.forEach(item=>{
+  const level=Number(item.level);
+  if(Number.isInteger(level)&&level>=1&&level<=10){
+   levelMap.set(level,item);
+  }
+ });
+
+ for(let level=1;level<=10;level++){
+  const item=levelMap.get(level);
+  const row=document.createElement("tr");
+
+  const levelCell=document.createElement("td");
+  const pill=document.createElement("span");
+  pill.className="level-pill";
+  pill.textContent="Level "+level;
+  levelCell.appendChild(pill);
+
+  const rateCell=document.createElement("td");
+  const rate=item?.commission_rate??item?.rate;
+  rateCell.textContent=rate===null||rate===undefined?"—":formatNumber(rate)+"%";
+
+  const countCell=document.createElement("td");
+  countCell.textContent=formatNumber(item?.total_transactions);
+
+  const amountCell=document.createElement("td");
+  const strong=document.createElement("strong");
+  strong.textContent=formatMoney(item?.total_commission);
+  amountCell.appendChild(strong);
+
+  row.append(levelCell,rateCell,countCell,amountCell);
+  body.appendChild(row);
+ }
+}
+
+async function loadCommissionReport(){
+ const button=$("refreshCommissionBtn");
+
+ button.disabled=true;
+ button.textContent="Loading...";
+
+ try{
+  const data=await apiRequest("/commission/admin/report");
+
+  const report=data.report||{};
+  const totals=report.totals||{};
+  const levels=report.levels||[];
+
+  if(!Array.isArray(levels)){
+   throw new Error("Invalid commission levels returned by server.");
+  }
+
+  const distributed=levels.reduce((sum,item)=>{
+   const amount=Number(item.total_commission);
+   return sum+(Number.isFinite(amount)?amount:0);
+  },0);
+
+  $("commissionGrossProfit").textContent=formatMoney(totals.gross_profit);
+  $("commissionCompanyShare").textContent=formatMoney(totals.company_share);
+  $("commissionDistributed").textContent=formatMoney(distributed);
+  $("commissionUnallocated").textContent=formatMoney(totals.unallocated_commission);
+  $("commissionOrders").textContent=formatNumber(totals.total_orders);
+
+  showCommissionLevels(levels);
+
+  $("commissionError").style.display="none";
+  $("commissionBadge").textContent="SERVER REPORT";
+  $("commissionBadge").classList.remove("offline");
+
+ }catch(error){
+
+  if(error.message.includes("session has expired"))return;
+
+  if(error.message.includes("administrator permission")){
+   showError("Access Denied",error.message);
+   return;
+  }
+
+  showCommissionError(
+   error.message+" Please check the Commission API and database migration."
+  );
+
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ Refresh";
+ }
+}
+
+// ==========================================
+// MAIN DASHBOARD DATA
+// ==========================================
+
+async function loadDashboardData(){
+ const button=$("refreshBtn");
+
+ button.disabled=true;
+ button.textContent="Loading...";
+
+ try{
+  const results=await Promise.all([
+   apiRequest("/admin/dashboard"),
+   apiRequest("/admin/orders")
+  ]);
+
+  const dashboard=results[0].dashboard||{};
+  const orders=results[1].orders||[];
+
+  setStat("totalUsers",dashboard.total_users);
+  setStat("activeUsers",dashboard.active_users);
+  setStat("totalProducts",dashboard.total_products);
+  setStat("activeProducts",dashboard.active_products);
+  setStat("totalOrders",dashboard.total_orders);
+  setStat("pendingOrders",dashboard.pending_orders);
+  setStat("deliveredOrders",dashboard.delivered_orders);
+
+  showOrders(orders);
+
+  $("serverBadge").textContent="● LIVE SERVER DATA";
+  $("serverBadge").classList.remove("offline");
+
+ }catch(error){
+
+  if(error.message.includes("administrator permission")){
+   showError("Access Denied",error.message);
+  }else if(error.message.includes("session has expired")){
+   return;
+  }else{
+   $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
+   $("serverBadge").classList.add("offline");
+
+   showOrders([]);
+
+   showError(
+    "Dashboard Data Error",
+    error.message+" Please check the backend deployment and API endpoints."
+   );
+  }
+
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ Refresh";
+ }
+}
+
+// ==========================================
+// ADMIN AUTHENTICATION
+// ==========================================
+
+async function initializeAdmin(){
+ adminToken=sessionStorage.getItem("rubalia_token")||"";
+
+ if(!adminToken){
+  window.location.replace("login.html");
+  return;
+ }
+
+ try{
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("The server did not return account information.");
+  }
+
+  if(String(user.role||"").toLowerCase()!=="admin"){
+   window.location.replace("dashboard.html");
+   return;
+  }
+
+  adminUser=user;
+
+  const name=user.full_name||user.fullName||"Administrator";
+  const email=user.email||"";
+
+  $("adminName").textContent=name;
+  $("adminEmail").textContent=email;
+  $("accountName").textContent=name;
+  $("accountEmail").textContent=email;
+  $("adminAvatar").textContent=initials(name);
+  $("welcomeTitle").textContent="Welcome, "+name+"!";
+
+  $("year").textContent=new Date().getFullYear();
+
+  $("loadingScreen").style.display="none";
+  $("adminApp").hidden=false;
+
+  await loadDashboardData();
+
+  if($("adminApp").hidden)return;
+
+  await loadCommissionReport();
+
+ }catch(error){
+
+  if(error.message.includes("administrator permission")){
+   showError("Access Denied",error.message);
+  }else{
+   showError("Unable to Verify Account",error.message);
+  }
+ }
+}
+
+// ==========================================
+// LOGOUT AND BUTTON EVENTS
+// ==========================================
+
+function logout(){
+ sessionStorage.removeItem("rubalia_token");
+ sessionStorage.removeItem("rubalia_user");
+ window.location.replace("login.html");
 }
 
 $("menuBtn").addEventListener("click",()=>{
-  $("sidebar").classList.toggle("open");
+ $("sidebar").classList.toggle("open");
 });
 
 $("logoutBtn").addEventListener("click",logout);
 
-$("refreshBtn").addEventListener("click",async()=>{
-  await loadDashboardData();
+$("refreshBtn").addEventListener("click",loadDashboardData);
+
+$("refreshCommissionBtn").addEventListener("click",loadCommissionReport);
+
+// Close mobile sidebar after navigation
+document.querySelectorAll(".sidebar a").forEach(link=>{
+ link.addEventListener("click",()=>{
+  $("sidebar").classList.remove("open");
+ });
 });
 
-$("refreshCommissionBtn").addEventListener("click",async()=>{
-  await loadCommissionReport();
-});
+// ==========================================
+// START
+// ==========================================
 
 initializeAdmin();
+
 </script>
 
 </body>
