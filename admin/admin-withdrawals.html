@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Admin Withdrawals</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#758198;
+  --border:#e4e9f1;
+  --green:#16845b;
+  --red:#d64b55;
+  --orange:#c27a16;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:22px 15px;
+  position:fixed;
+  inset:0 auto 0 0;
+  overflow-y:auto;
+  z-index:20;
+  transition:.25s;
+}
+.brand{
+  padding:5px 10px 24px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:18px;
+}
+.brand h2{margin:0;color:var(--gold);font-size:22px}
+.brand small{color:#b8c5d8;letter-spacing:2px;font-size:10px}
+.nav-title{
+  color:#91a4bf;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px 11px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:#dce5f2;
+  text-decoration:none;
+  padding:11px;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:13px;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff16;
+  color:var(--gold);
+}
+.main{
+  margin-left:245px;
+  width:calc(100% - 245px);
+  min-width:0;
+}
+.topbar{
+  background:white;
+  padding:17px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.topbar h3{margin:0;font-size:18px}
+.admin{font-size:12px;color:var(--muted)}
+.menu-btn{
+  display:none;
+  border:0;
+  background:var(--navy);
+  color:white;
+  padding:9px 12px;
+  border-radius:7px;
+}
+.content{padding:25px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.page-heading h1{font-size:25px;margin:0 0 6px}
+.page-heading p{margin:0;color:var(--muted);font-size:13px}
+.connection-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:#fff0f0;
+  color:#bd3c46;
+  border:1px solid #f2cccc;
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+.connection-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#d64b55;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.stat .label{font-size:12px;color:var(--muted)}
+.stat h2{margin:10px 0 4px;font-size:25px;color:var(--navy)}
+.stat small{font-size:11px;color:var(--muted)}
+.stat-icon{
+  width:35px;height:35px;border-radius:9px;
+  display:grid;place-items:center;
+  background:#f4eddb;color:#98701f;
+  font-size:18px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+.panel-head{
+  padding:18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.panel-head h3{margin:0;font-size:16px}
+.filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr auto;
+  gap:10px;
+  padding:16px;
+  border-bottom:1px solid var(--border);
+}
+input,select{
+  width:100%;
+  border:1px solid var(--border);
+  background:#fff;
+  padding:11px 12px;
+  border-radius:7px;
+  outline:none;
+  color:var(--text);
+  font-size:12px;
+}
+input:focus,select:focus{border-color:var(--gold)}
+input:disabled,select:disabled{
+  background:#f4f6f9;
+  cursor:not-allowed;
+}
+.btn{
+  border:0;
+  padding:10px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
+.btn-gold{background:var(--gold);color:#17243a}
+.btn-dark{background:var(--navy);color:white}
+.btn-light{background:#eef2f7;color:var(--navy)}
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1050px;
+}
+th{
+  text-align:left;
+  padding:13px 15px;
+  background:#f8f9fc;
+  color:#778398;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+td{
+  padding:14px 15px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+}
+.empty{
+  text-align:center;
+  padding:35px 20px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+.empty strong{color:var(--navy)}
+.note{
+  margin-top:16px;
+  padding:13px 15px;
+  border-radius:9px;
+  background:#fff8e8;
+  border:1px solid #f1dfb4;
+  color:#85651e;
+  font-size:11px;
+  line-height:1.7;
+}
+.note strong{display:block;margin-bottom:4px}
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:#06152dcc;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:50;
+}
+.modal-bg.show{display:flex}
+.modal{
+  width:100%;
+  max-width:540px;
+  max-height:90vh;
+  overflow:auto;
+  background:white;
+  border-radius:13px;
+}
+.modal-head{
+  padding:18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.modal-head h3{margin:0;font-size:17px}
+.close{
+  border:0;background:#eef1f6;
+  width:30px;height:30px;border-radius:50%;
+  cursor:pointer;font-size:17px;
+}
+.modal-body{padding:20px}
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--navy);
+  color:white;
+  padding:13px 18px;
+  border-radius:8px;
+  font-size:12px;
+  display:none;
+  z-index:100;
+  box-shadow:0 5px 20px #0002;
+  max-width:calc(100% - 40px);
+}
+.toast.show{display:block}
+@media(max-width:1050px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .menu-btn{display:block}
+  .topbar{padding:13px 15px}
+  .content{padding:17px 12px}
+  .filters{grid-template-columns:1fr 1fr}
+  .filters input{grid-column:1/-1}
+  .page-heading h1{font-size:21px}
+}
+@media(max-width:420px){
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .stat h2{font-size:21px}
+  .filters{grid-template-columns:1fr}
+  .filters input{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <h2>RUBALIA</h2>
+    <small>NETWORK ADMINISTRATION</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="../admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ Users</a>
+    <a href="admin-partners.html">♧ Partners</a>
+    <a href="admin-applications.html">▤ Applications</a>
+
+    <div class="nav-title">COMMERCE</div>
+    <a href="admin-products.html">▣ Products</a>
+    <a href="admin-orders.html">▤ Orders</a>
+    <a href="admin-payments.html">৳ Payments</a>
+    <a class="active" href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a href="admin-commissions.html">％ Commissions</a>
+
+    <div class="nav-title">MANAGEMENT</div>
+    <a href="admin-announcements.html">♢ Announcements</a>
+    <a href="admin-support.html">☏ Support</a>
+    <a href="admin-settings.html">⚙ Settings</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="../index.html">⌂ Visit Website</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+      <h3>Withdrawal Management</h3>
+    </div>
+    <div class="admin">ADMIN PANEL</div>
+  </header>
+
+  <section class="content">
+
+    <div class="page-heading">
+      <div>
+        <h1>Withdrawals</h1>
+        <p>Review and manage member withdrawal requests.</p>
+      </div>
+
+      <span class="connection-label">
+        <span class="connection-dot"></span>
+        API NOT CONNECTED
+      </span>
+    </div>
+
+    <div class="note" style="margin-top:0;margin-bottom:20px">
+      <strong>Withdrawal API Not Connected</strong>
+      The withdrawal management API has not yet been verified and connected.
+      No real withdrawal records or financial statistics are currently available.
+      Withdrawal approval and payment actions are disabled until backend integration.
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-icon">৳</div>
+        <div class="label">Total Withdrawal Amount</div>
+        <h2>—</h2>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">◷</div>
+        <div class="label">Pending Requests</div>
+        <h2>—</h2>
+        <small>Not available</small>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">✓</div>
+        <div class="label">Approved Requests</div>
+        <h2>—</h2>
+        <small>Not available</small>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">×</div>
+        <div class="label">Rejected Requests</div>
+        <h2>—</h2>
+        <small>Not available</small>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-head">
+        <h3>Withdrawal Request List</h3>
+
+        <button class="btn btn-light" onclick="resetFilters()" disabled>
+          Reset Filters
+        </button>
+      </div>
+
+      <div class="filters">
+
+        <input id="search" type="search"
+          placeholder="Search member, request ID or reference..."
+          disabled>
+
+        <select id="methodFilter" disabled>
+          <option value="">All Methods</option>
+        </select>
+
+        <select id="statusFilter" disabled>
+          <option value="">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Processing">Processing</option>
+          <option value="Paid">Paid</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+
+        <button class="btn btn-dark" disabled>
+          Search
+        </button>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Member</th>
+              <th>Method</th>
+              <th>Account</th>
+              <th>Reference</th>
+              <th>Amount</th>
+              <th>Request Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody id="withdrawalRows">
+            <tr>
+              <td colspan="9" class="empty">
+                <strong>No withdrawal data available.</strong><br>
+                The withdrawal API has not been connected yet.<br>
+                No sample or fictional withdrawal records are displayed.
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div class="panel-head">
+        <span style="font-size:11px;color:var(--muted)">
+          Withdrawal records: Not available
+        </span>
+        <span style="font-size:11px;color:var(--muted)">
+          Backend connection required
+        </span>
+      </div>
+
+    </div>
+
+    <div class="note">
+      <strong>Financial Security Notice</strong>
+      Actual withdrawal processing must be performed through verified backend
+      endpoints with administrator authorization and transaction records.
+      Never request or store a member's PIN, OTP, password, CVV or full card details.
+      Payment approval must not be based on frontend-only actions.
+    </div>
+
+  </section>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+const TOKEN_KEY = "rubalia_token";
+const USER_KEY = "rubalia_user";
+
+let adminVerified = false;
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+}
+
+async function verifyAdmin(){
+
+  const token = sessionStorage.getItem(TOKEN_KEY);
+
+  if(!token){
+    window.location.replace("../login.html");
+    return;
+  }
+
+  try{
+
+    const response = await fetch(API_BASE + "/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer " + token,
+        "Accept":"application/json"
+      }
+    });
+
+    if(response.status === 401 || response.status === 403){
+
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
+
+      window.location.replace("../login.html");
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error("Unable to verify administrator.");
+    }
+
+    const result = await response.json();
+
+    const user = result.user || result.profile || result;
+
+    if(!user || String(user.role || "").toLowerCase() !== "admin"){
+
+      window.location.replace("../dashboard.html");
+      return;
+    }
+
+    adminVerified = true;
+
+  }catch(error){
+
+    console.error("Admin verification error:",error);
+
+    showToast("Unable to verify admin access.");
+
+    setTimeout(()=>{
+      window.location.replace("../login.html");
+    },1800);
+  }
+}
+
+function resetFilters(){
+
+  if(!adminVerified){
+    showToast("Administrator verification required.");
+    return;
+  }
+
+  showToast("Withdrawal API is not connected.");
+}
+
+verifyAdmin();
+</script>
+
+</body>
+</html>
