@@ -73,6 +73,27 @@ async function initializeDatabase() {
 
 
   // =========================================================
+  // PRODUCT COST MIGRATION
+  // Used for actual profit calculation.
+  // =========================================================
+
+  await pool.query(`
+    ALTER TABLE products
+    ADD COLUMN IF NOT EXISTS cost_price
+      NUMERIC(12,2) NOT NULL DEFAULT 0,
+
+    ADD COLUMN IF NOT EXISTS delivery_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0,
+
+    ADD COLUMN IF NOT EXISTS packaging_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0,
+
+    ADD COLUMN IF NOT EXISTS other_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0;
+  `);
+
+
+  // =========================================================
   // PACKAGES
   // Every package contains exactly three different products.
   // =========================================================
@@ -126,6 +147,23 @@ async function initializeDatabase() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_packages_category
     ON packages(category);
+  `);
+
+
+  // =========================================================
+  // PACKAGE COST MIGRATION
+  // =========================================================
+
+  await pool.query(`
+    ALTER TABLE packages
+    ADD COLUMN IF NOT EXISTS delivery_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0,
+
+    ADD COLUMN IF NOT EXISTS packaging_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0,
+
+    ADD COLUMN IF NOT EXISTS other_cost
+      NUMERIC(12,2) NOT NULL DEFAULT 0;
   `);
 
 
@@ -186,7 +224,6 @@ async function initializeDatabase() {
       VARCHAR(20) NOT NULL DEFAULT 'unverified';
   `);
 
-  // Rebuild payment method constraint to include all supported methods.
   await pool.query(`
     ALTER TABLE orders
     DROP CONSTRAINT IF EXISTS orders_payment_method_valid;
@@ -281,7 +318,6 @@ async function initializeDatabase() {
     );
   `);
 
-  // Safe migration for existing order_items.
   await pool.query(`
     ALTER TABLE order_items
     ADD COLUMN IF NOT EXISTS package_id BIGINT
@@ -299,11 +335,11 @@ async function initializeDatabase() {
     ALTER COLUMN product_id DROP NOT NULL;
   `);
 
-  // Ensure existing rows have a valid item type.
   await pool.query(`
     UPDATE order_items
     SET item_type = 'product'
-    WHERE item_type IS NULL OR item_type NOT IN ('product', 'package');
+    WHERE item_type IS NULL
+       OR item_type NOT IN ('product', 'package');
   `);
 
   await pool.query(`
@@ -371,7 +407,6 @@ async function initializeDatabase() {
     );
   `);
 
-  // Explicit unique index for ON CONFLICT (user_id).
   await pool.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_wallets_user_id_unique
     ON wallets(user_id);
@@ -429,9 +464,179 @@ async function initializeDatabase() {
 
 
   // =========================================================
+  // WALLET COMMISSION MIGRATION
+  // Add commission as a valid transaction type.
+  // =========================================================
+
+  await pool.query(`
+    ALTER TABLE wallet_transactions
+    DROP CONSTRAINT IF EXISTS wallet_transaction_type_valid;
+  `);
+
+  await pool.query(`
+    ALTER TABLE wallet_transactions
+    DROP CONSTRAINT IF EXISTS wallet_transactions_transaction_type_check;
+  `);
+
+  await pool.query(`
+    ALTER TABLE wallet_transactions
+    ADD CONSTRAINT wallet_transaction_type_valid
+    CHECK (
+      transaction_type IN (
+        'deposit',
+        'withdrawal',
+        'purchase',
+        'refund',
+        'adjustment',
+        'commission'
+      )
+    );
+  `);
+
+
+  // =========================================================
+  // COMMISSION SETTINGS
+  // 10 LEVEL UNILEVEL STRUCTURE
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS commission_settings (
+      id SMALLINT PRIMARY KEY
+        CHECK (id = 1),
+
+      enabled BOOLEAN NOT NULL DEFAULT FALSE,
+
+      legal_approval_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+
+      gateway_fee_percent NUMERIC(7,4) NOT NULL DEFAULT 0,
+
+      level_rates JSONB NOT NULL DEFAULT
+        '[20,15,10,8,6,5,4,3,2,2]'::jsonb,
+
+      updated_by BIGINT
+        REFERENCES users(id),
+
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT commission_gateway_fee_range
+        CHECK (
+          gateway_fee_percent >= 0
+          AND gateway_fee_percent <= 100
+        )
+    );
+  `);
+
+  await pool.query(`
+    INSERT INTO commission_settings (id)
+    VALUES (1)
+    ON CONFLICT (id) DO NOTHING;
+  `);
+
+
+  // =========================================================
+  // MEMBER COMMISSION LEDGER
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS commission_ledger (
+      id BIGSERIAL PRIMARY KEY,
+
+      order_id BIGINT NOT NULL
+        REFERENCES orders(id),
+
+      beneficiary_id BIGINT
+        REFERENCES users(id),
+
+      level SMALLINT NOT NULL
+        CHECK (level BETWEEN 1 AND 10),
+
+      rate_percent NUMERIC(7,4) NOT NULL,
+
+      profit_base NUMERIC(14,2) NOT NULL,
+
+      amount NUMERIC(14,2) NOT NULL,
+
+      status VARCHAR(20) NOT NULL DEFAULT 'credited',
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT commission_order_level_unique
+        UNIQUE(order_id, level),
+
+      CONSTRAINT commission_rate_nonnegative
+        CHECK (rate_percent >= 0),
+
+      CONSTRAINT commission_amount_nonnegative
+        CHECK (amount >= 0),
+
+      CONSTRAINT commission_status_valid
+        CHECK (
+          status IN (
+            'credited',
+            'unallocated',
+            'reversed'
+          )
+        )
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_commission_ledger_beneficiary
+    ON commission_ledger(
+      beneficiary_id,
+      created_at DESC
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_commission_ledger_order
+    ON commission_ledger(order_id);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_commission_ledger_status
+    ON commission_ledger(status);
+  `);
+
+
+  // =========================================================
+  // COMPANY PROFIT LEDGER
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS company_profit_ledger (
+      id BIGSERIAL PRIMARY KEY,
+
+      order_id BIGINT NOT NULL UNIQUE
+        REFERENCES orders(id),
+
+      gross_profit NUMERIC(14,2) NOT NULL,
+
+      company_share NUMERIC(14,2) NOT NULL,
+
+      unallocated_commission NUMERIC(14,2) NOT NULL DEFAULT 0,
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT company_profit_nonnegative
+        CHECK (
+          gross_profit >= 0
+          AND company_share >= 0
+          AND unallocated_commission >= 0
+        )
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_company_profit_created
+    ON company_profit_ledger(created_at DESC);
+  `);
+
+
+  // =========================================================
   // PAYMENT GATEWAY SETTINGS
   // Admin manages these payment methods.
-  // All gateways are disabled by default.
+  // All disabled by default.
   // =========================================================
 
   await pool.query(`
@@ -636,9 +841,15 @@ async function initializeDatabase() {
   }
 
 
+  // =========================================================
+  // INITIALIZATION COMPLETE
+  // =========================================================
+
   console.log("Rubalia database initialization completed.");
   console.log("Existing database records preserved.");
   console.log("Wallet, orders and payment tables checked.");
+  console.log("Commission settings and ledgers checked.");
+  console.log("10-level Unilevel database structure checked.");
 }
 
 module.exports = { initializeDatabase };
