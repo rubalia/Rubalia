@@ -20,205 +20,94 @@
   --red:#d64545;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-.header{
-  background:var(--navy);
-  color:white;
-  padding:16px;
-}
-.header-inner{
-  max-width:1150px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+.header{background:var(--navy);color:white;padding:16px}
+.header-inner{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{font-size:19px;font-weight:800}
 .brand span{color:var(--gold)}
 .header p{font-size:12px;color:#dce5f3;margin-top:5px}
-.container{
-  max-width:1150px;
-  margin:20px auto;
-  padding:0 14px 40px;
-}
-.panel{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:18px;
-  margin-bottom:18px;
-}
+.container{max-width:1150px;margin:20px auto;padding:0 14px 40px}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:18px}
 .panel h2{font-size:19px;margin:0 0 17px}
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .field{display:flex;flex-direction:column;gap:7px}
 .field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:700}
 input,select,textarea{
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  font-size:14px;
-  background:white;
-  color:var(--text);
-  outline:none;
+  width:100%;padding:12px;border:1px solid var(--border);
+  border-radius:8px;font-size:14px;background:white;color:var(--text);outline:none
 }
 input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 textarea{min-height:85px;resize:vertical}
 .help{font-size:11px;color:var(--muted);line-height:1.5}
 button{cursor:pointer}
 button:disabled{opacity:.6;cursor:not-allowed}
-.btn{
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  font-size:12px;
-  font-weight:700;
-}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700}
 .primary{background:var(--gold);color:#17243a}
 .secondary{background:var(--navy);color:white}
 .success{background:#dcfce7;color:#166534}
 .danger{background:#fee2e2;color:#b91c1c}
 .light{background:#eef0ff;color:#5145e5}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-.section-title{
-  font-size:15px;
-  font-weight:800;
-  margin:22px 0 12px;
-  padding-bottom:9px;
-  border-bottom:1px solid var(--border);
-}
-.image-area{
-  border:2px dashed #c7c9e9;
-  background:#fafaff;
-  border-radius:10px;
-  padding:14px;
-}
-.image-preview{
-  width:100%;
-  max-height:220px;
-  object-fit:contain;
-  display:none;
-  margin-top:12px;
-  border-radius:8px;
-  background:#eee;
-}
+.section-title{font-size:15px;font-weight:800;margin:22px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.image-area{border:2px dashed #c7c9e9;background:#fafaff;border-radius:10px;padding:14px}
+.image-preview{width:100%;max-height:220px;object-fit:contain;display:none;margin-top:12px;border-radius:8px;background:#eee}
 .upload-status{font-size:11px;color:var(--muted);margin-top:8px}
-.product-cost-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:12px;
-  margin-top:10px;
-}
+.product-cost-card{background:white;border:1px solid var(--border);border-radius:9px;padding:12px;margin-top:10px}
 .product-cost-card strong{font-size:13px}
-.product-cost-card p{
-  margin:6px 0 0;
-  font-size:12px;
-  color:var(--muted);
-}
-.cost-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.cost-summary{
-  background:#f8f9fc;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  margin-top:15px;
-}
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:13px;
-  margin:8px 0;
-}
-.summary-total{
-  border-top:1px solid var(--border);
-  padding-top:11px;
-  margin-top:12px;
-  font-weight:800;
-  font-size:15px;
-}
+.product-cost-card p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.cost-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cost-summary{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:15px}
+.summary-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin:8px 0}
+.summary-total{border-top:1px solid var(--border);padding-top:11px;margin-top:12px;font-weight:800;font-size:15px}
 .profit{color:var(--green);font-weight:800}
 .loss{color:var(--red);font-weight:800}
-.message{
-  display:none;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:15px;
-  font-size:13px;
-  line-height:1.5;
-}
+.message{display:none;padding:12px;border-radius:8px;margin-bottom:15px;font-size:13px;line-height:1.5}
 .message.error{background:#fee2e2;color:#991b1b}
 .message.success{background:#dcfce7;color:#166534}
-.package-list{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.package-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  overflow:hidden;
-}
-.package-card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-  background:#eee;
-}
+.package-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.package-card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.package-card img{width:100%;height:160px;object-fit:cover;background:#eee}
 .package-info{padding:14px}
 .package-info h3{font-size:16px;margin:0 0 7px}
-.package-info p{
-  font-size:12px;
-  color:var(--muted);
-  margin:6px 0;
-  line-height:1.5;
-  overflow-wrap:anywhere;
-}
+.package-info p{font-size:12px;color:var(--muted);margin:6px 0;line-height:1.5;overflow-wrap:anywhere}
 .package-price{font-size:16px!important;font-weight:800;color:#9a6a0a!important}
-.package-cost{
-  background:#f8f9fc;
-  border-radius:8px;
-  padding:10px;
-  margin-top:10px;
-}
+.package-cost{background:#f8f9fc;border-radius:8px;padding:10px;margin-top:10px}
 .package-cost p{display:flex;justify-content:space-between;gap:8px}
-.status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  background:#eee;
-}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:800;text-transform:uppercase;background:#eee}
 .status.active{background:#dcfce7;color:#166534}
 .status.draft{background:#fef3c7;color:#92400e}
 .status.inactive,.status.archived{background:#fee2e2;color:#991b1b}
 .card-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .card-actions button{padding:8px 10px}
-.loading,.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-  font-size:13px;
+.loading,.empty{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+
+/* CATEGORY SELECT */
+.category-select-wrap{position:relative}
+.category-select-wrap select{
+  appearance:none;
+  -webkit-appearance:none;
+  padding-right:40px;
+  cursor:pointer;
+  background-color:#fff;
 }
+.category-select-wrap:after{
+  content:"⌄";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-55%);
+  pointer-events:none;
+  color:#9a6a0a;
+  font-size:20px;
+  font-weight:bold;
+}
+.category-hint{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
 @media(max-width:650px){
   .form-grid,.package-list,.cost-grid{grid-template-columns:1fr}
   .panel{padding:14px}
@@ -255,9 +144,25 @@ button:disabled{opacity:.6;cursor:not-allowed}
           <input id="name" maxlength="180" required placeholder="Enter package name">
         </div>
 
+        <!-- CATEGORY DROPDOWN -->
         <div class="field">
-          <label for="category">Category</label>
-          <input id="category" maxlength="100" placeholder="Starter Package">
+          <label for="category">Package Category *</label>
+          <div class="category-select-wrap">
+            <select id="category" required>
+              <option value="">Select Package Category</option>
+              <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+              <option value="Health & Wellness">Health & Wellness</option>
+              <option value="Personal Care">Personal Care</option>
+              <option value="Home & Kitchen">Home & Kitchen</option>
+              <option value="Food & Grocery">Food & Grocery</option>
+              <option value="Fashion & Clothing">Fashion & Clothing</option>
+              <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+              <option value="Baby & Kids">Baby & Kids</option>
+              <option value="Household Products">Household Products</option>
+              <option value="Lifestyle & Accessories">Lifestyle & Accessories</option>
+            </select>
+          </div>
+          <span class="category-hint">Choose the category that best matches this package.</span>
         </div>
 
         <div class="field">
@@ -280,14 +185,11 @@ button:disabled{opacity:.6;cursor:not-allowed}
           <div class="image-area">
             <input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp">
             <p class="help">JPG, PNG or WEBP. Maximum 5 MB.</p>
-
             <img id="imagePreview" class="image-preview" alt="Package preview">
-
             <div class="actions">
               <button type="button" class="btn primary" id="uploadButton">Upload Image</button>
               <button type="button" class="btn light" id="removeImageButton">Remove Image</button>
             </div>
-
             <div id="uploadStatus" class="upload-status">No image uploaded.</div>
           </div>
           <input type="hidden" id="imageUrl">
@@ -328,7 +230,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
       <div class="section-title">Package Additional Costs</div>
 
       <div class="cost-grid">
-
         <div class="field">
           <label for="deliveryCost">Package Delivery Cost (৳)</label>
           <input id="deliveryCost" type="number" min="0" step="0.01" value="0" required>
@@ -343,50 +244,19 @@ button:disabled{opacity:.6;cursor:not-allowed}
           <label for="otherCost">Package Other Cost (৳)</label>
           <input id="otherCost" type="number" min="0" step="0.01" value="0" required>
         </div>
-
       </div>
 
       <div class="cost-summary">
-        <div class="summary-row">
-          <span>Product 1 Cost Price</span>
-          <strong id="sumProduct1">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Product 2 Cost Price</span>
-          <strong id="sumProduct2">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Product 3 Cost Price</span>
-          <strong id="sumProduct3">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Total Product Cost</span>
-          <strong id="sumProducts">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Package Delivery</span>
-          <strong id="sumDelivery">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Package Packaging</span>
-          <strong id="sumPackaging">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Package Other Cost</span>
-          <strong id="sumOther">৳0.00</strong>
-        </div>
-        <div class="summary-row summary-total">
-          <span>Total Package Cost</span>
-          <strong id="sumTotal">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Package Selling Price</span>
-          <strong id="sumSelling">৳0.00</strong>
-        </div>
-        <div class="summary-row">
-          <span>Estimated Gross Profit</span>
-          <strong id="sumProfit">৳0.00</strong>
-        </div>
+        <div class="summary-row"><span>Product 1 Cost Price</span><strong id="sumProduct1">৳0.00</strong></div>
+        <div class="summary-row"><span>Product 2 Cost Price</span><strong id="sumProduct2">৳0.00</strong></div>
+        <div class="summary-row"><span>Product 3 Cost Price</span><strong id="sumProduct3">৳0.00</strong></div>
+        <div class="summary-row"><span>Total Product Cost</span><strong id="sumProducts">৳0.00</strong></div>
+        <div class="summary-row"><span>Package Delivery</span><strong id="sumDelivery">৳0.00</strong></div>
+        <div class="summary-row"><span>Package Packaging</span><strong id="sumPackaging">৳0.00</strong></div>
+        <div class="summary-row"><span>Package Other Cost</span><strong id="sumOther">৳0.00</strong></div>
+        <div class="summary-row summary-total"><span>Total Package Cost</span><strong id="sumTotal">৳0.00</strong></div>
+        <div class="summary-row"><span>Package Selling Price</span><strong id="sumSelling">৳0.00</strong></div>
+        <div class="summary-row"><span>Estimated Gross Profit</span><strong id="sumProfit">৳0.00</strong></div>
       </div>
 
       <p class="help" style="margin-top:10px">
@@ -398,9 +268,7 @@ button:disabled{opacity:.6;cursor:not-allowed}
 
       <div class="actions">
         <button type="submit" class="btn primary" id="saveButton">Create Package</button>
-        <button type="button" class="btn light" id="cancelButton" style="display:none">
-          Cancel Edit
-        </button>
+        <button type="button" class="btn light" id="cancelButton" style="display:none">Cancel Edit</button>
       </div>
 
     </form>
@@ -431,8 +299,8 @@ let changingStatus = false;
 const $ = id => document.getElementById(id);
 
 function money(value){
-  const amount = Number(value ?? 0);
-  return "৳" + (Number.isFinite(amount) ? amount : 0).toLocaleString("en-BD",{
+  const amount=Number(value ?? 0);
+  return "৳"+(Number.isFinite(amount)?amount:0).toLocaleString("en-BD",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
@@ -440,26 +308,18 @@ function money(value){
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g,char=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   })[char]);
 }
 
 function safeImageUrl(value){
-  const url = String(value || "").trim();
-
-  if(!url) return "";
-
+  const url=String(value || "").trim();
+  if(!url)return "";
   try{
-    const parsed = new URL(url);
-    if(parsed.protocol !== "https:" && parsed.protocol !== "http:") return "";
+    const parsed=new URL(url);
+    if(parsed.protocol!=="https:" && parsed.protocol!=="http:")return "";
     return url;
-  }catch(error){
-    return "";
-  }
+  }catch(error){return ""}
 }
 
 function showMessage(text,type="success"){
@@ -479,28 +339,18 @@ function goDashboard(){
 }
 
 function authHeaders(extra={}){
-  return {
-    Authorization:"Bearer "+token,
-    ...extra
-  };
+  return {Authorization:"Bearer "+token,...extra};
 }
 
 async function apiRequest(path,options={}){
   const response=await fetch(API+path,{
     ...options,
-    headers:{
-      ...authHeaders(),
-      ...(options.headers||{})
-    }
+    headers:{...authHeaders(),...(options.headers||{})}
   });
 
   let data={};
-
-  try{
-    data=await response.json();
-  }catch(error){
-    throw new Error("Invalid server response.");
-  }
+  try{data=await response.json()}
+  catch(error){throw new Error("Invalid server response.")}
 
   if(response.status===401){
     sessionStorage.removeItem("rubalia_token");
@@ -531,7 +381,6 @@ async function verifyAdmin(){
       location.href="../dashboard.html";
       return false;
     }
-
     return true;
   }catch(error){
     showMessage(error.message,"error");
@@ -539,30 +388,22 @@ async function verifyAdmin(){
   }
 }
 
-/*
-  The package backend calculates product component cost
-  using products.cost_price only.
-
-  Product delivery, packaging and other costs are displayed
-  separately for transparency. They are not added again.
-*/
+/* PRODUCT COST */
 function productCostPrice(product){
   return Number(product?.cost_price || 0);
 }
 
 function productActualCost(product){
-  return (
-    productCostPrice(product) +
-    Number(product?.delivery_cost || 0) +
-    Number(product?.packaging_cost || 0) +
-    Number(product?.other_cost || 0)
-  );
+  return productCostPrice(product)+
+    Number(product?.delivery_cost || 0)+
+    Number(product?.packaging_cost || 0)+
+    Number(product?.other_cost || 0);
 }
 
+/* LOAD PRODUCTS */
 async function loadProducts(){
   const data=await apiRequest("/products/admin/all");
-
-  products=Array.isArray(data.products) ? data.products : [];
+  products=Array.isArray(data.products)?data.products:[];
 
   const activeProducts=products.filter(p=>p.status==="active");
 
@@ -570,8 +411,7 @@ async function loadProducts(){
     '<option value="">Select a product</option>',
     ...activeProducts.map(p=>`
       <option value="${Number(p.id)}">
-        ${escapeHTML(p.name)}
-        ${p.sku ? " - "+escapeHTML(p.sku) : ""}
+        ${escapeHTML(p.name)}${p.sku?" - "+escapeHTML(p.sku):""}
       </option>
     `)
   ].join("");
@@ -615,9 +455,9 @@ function getPackageCalculation(){
   const p2=getSelectedProduct("product2");
   const p3=getSelectedProduct("product3");
 
-  const c1=p1 ? productCostPrice(p1) : 0;
-  const c2=p2 ? productCostPrice(p2) : 0;
-  const c3=p3 ? productCostPrice(p3) : 0;
+  const c1=p1?productCostPrice(p1):0;
+  const c2=p2?productCostPrice(p2):0;
+  const c3=p3?productCostPrice(p3):0;
 
   const delivery=Number($("deliveryCost").value || 0);
   const packaging=Number($("packagingCost").value || 0);
@@ -628,14 +468,8 @@ function getPackageCalculation(){
   const total=productTotal+delivery+packaging+other;
 
   return {
-    c1,c2,c3,
-    productTotal,
-    delivery,
-    packaging,
-    other,
-    total,
-    selling,
-    profit:selling-total
+    c1,c2,c3,productTotal,delivery,packaging,other,
+    total,selling,profit:selling-total
   };
 }
 
@@ -658,21 +492,20 @@ function updateCostSummary(){
 
   const profit=$("sumProfit");
   profit.textContent=money(c.profit);
-  profit.className=c.profit>=0 ? "profit" : "loss";
+  profit.className=c.profit>=0?"profit":"loss";
 }
 
+/* LOAD PACKAGES */
 async function loadPackages(){
   $("packageList").innerHTML='<div class="loading">Loading packages...</div>';
-
   const data=await apiRequest("/packages/admin/all");
-  packages=Array.isArray(data.packages) ? data.packages : [];
-
+  packages=Array.isArray(data.packages)?data.packages:[];
   renderPackages();
 }
 
 function getStatusClass(status){
   const allowed=["active","draft","inactive","archived"];
-  return allowed.includes(status) ? status : "";
+  return allowed.includes(status)?status:"";
 }
 
 function renderPackages(){
@@ -683,12 +516,8 @@ function renderPackages(){
 
   $("packageList").innerHTML=packages.map(item=>{
     const imageUrl=safeImageUrl(item.image_url);
-
     const image=imageUrl
-      ? `<img src="${escapeHTML(imageUrl)}"
-              alt="${escapeHTML(item.name)}"
-              loading="lazy"
-              onerror="this.style.display='none'">`
+      ? `<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(item.name)}" loading="lazy" onerror="this.style.display='none'">`
       : `<div style="height:100px;background:#eee;display:grid;place-items:center;color:#777">No Banner</div>`;
 
     const costs=item.costs || {};
@@ -696,10 +525,8 @@ function renderPackages(){
     const totalCost=Number(costs.totalCost || 0);
     const profit=Number(costs.estimatedProfit || 0);
 
-    const names=(Array.isArray(item.products) ? item.products : [])
-      .map(p=>p.name)
-      .filter(Boolean)
-      .join(", ");
+    const names=(Array.isArray(item.products)?item.products:[])
+      .map(p=>p.name).filter(Boolean).join(", ");
 
     const status=String(item.status || "unknown");
     const statusClass=getStatusClass(status);
@@ -708,18 +535,14 @@ function renderPackages(){
     return `
       <article class="package-card">
         ${image}
-
         <div class="package-info">
           <h3>${escapeHTML(item.name)}</h3>
-          <p>${escapeHTML(item.category || "No category")}</p>
+          <p>Category: ${escapeHTML(item.category || "No category")}</p>
           <p class="package-price">${money(item.price)}</p>
           <p>Stock: ${Number(item.stock || 0)}</p>
           <p>Products: ${escapeHTML(names || "Not available")}</p>
           <p>${escapeHTML(item.description || "")}</p>
-
-          <span class="status ${statusClass}">
-            ${escapeHTML(status)}
-          </span>
+          <span class="status ${statusClass}">${escapeHTML(status)}</span>
 
           <div class="package-cost">
             <p><span>Three Product Cost</span><strong>${money(productCost)}</strong></p>
@@ -727,35 +550,27 @@ function renderPackages(){
             <p><span>Package Packaging</span><strong>${money(costs.packagingCost)}</strong></p>
             <p><span>Package Other</span><strong>${money(costs.otherCost)}</strong></p>
             <p><span>Total Package Cost</span><strong>${money(totalCost)}</strong></p>
-            <p>
-              <span>Estimated Profit</span>
-              <strong class="${profit>=0?"profit":"loss"}">${money(profit)}</strong>
-            </p>
+            <p><span>Estimated Profit</span><strong class="${profit>=0?"profit":"loss"}">${money(profit)}</strong></p>
           </div>
 
           <div class="card-actions">
-            <button class="btn light" type="button"
-              onclick="editPackage(${id})">Edit</button>
+            <button class="btn light" type="button" onclick="editPackage(${id})">Edit</button>
 
-            ${status!=="active" && status!=="archived" ? `
-              <button class="btn success" type="button"
-                onclick="changeStatus(${id},'active')">Activate</button>
-            ` : ""}
+            ${status!=="active" && status!=="archived"?`
+              <button class="btn success" type="button" onclick="changeStatus(${id},'active')">Activate</button>
+            `:""}
 
-            ${status==="active" ? `
-              <button class="btn danger" type="button"
-                onclick="changeStatus(${id},'inactive')">Deactivate</button>
-            ` : ""}
+            ${status==="active"?`
+              <button class="btn danger" type="button" onclick="changeStatus(${id},'inactive')">Deactivate</button>
+            `:""}
 
-            ${status==="inactive" ? `
-              <button class="btn success" type="button"
-                onclick="changeStatus(${id},'draft')">Set Draft</button>
-            ` : ""}
+            ${status==="inactive"?`
+              <button class="btn success" type="button" onclick="changeStatus(${id},'draft')">Set Draft</button>
+            `:""}
 
-            ${status!=="archived" ? `
-              <button class="btn danger" type="button"
-                onclick="archivePackage(${id})">Archive</button>
-            ` : ""}
+            ${status!=="archived"?`
+              <button class="btn danger" type="button" onclick="archivePackage(${id})">Archive</button>
+            `:""}
           </div>
         </div>
       </article>
@@ -763,14 +578,10 @@ function renderPackages(){
   }).join("");
 }
 
-// =====================================================
-// IMAGE SELECTION AND PREVIEW
-// =====================================================
-
+/* IMAGE PREVIEW */
 $("imageFile").addEventListener("change",()=>{
   const file=$("imageFile").files[0];
-
-  if(!file) return;
+  if(!file)return;
 
   const allowed=["image/jpeg","image/png","image/webp"];
 
@@ -794,22 +605,15 @@ $("imageFile").addEventListener("change",()=>{
     $("uploadStatus").textContent="Image selected. Click Upload Image.";
   };
 
-  reader.onerror=()=>{
-    showMessage("Unable to preview the selected image.","error");
-  };
-
+  reader.onerror=()=>showMessage("Unable to preview the selected image.","error");
   reader.readAsDataURL(file);
 });
 
-// =====================================================
-// IMAGE UPLOAD
-// Backend: POST /api/upload/image
-// =====================================================
-
+/* IMAGE UPLOAD */
 $("uploadButton").addEventListener("click",async()=>{
   hideMessage();
 
-  if(uploading) return;
+  if(uploading)return;
 
   const file=$("imageFile").files[0];
 
@@ -838,12 +642,8 @@ $("uploadButton").addEventListener("click",async()=>{
     });
 
     let data={};
-
-    try{
-      data=await response.json();
-    }catch(error){
-      throw new Error("Invalid server response during image upload.");
-    }
+    try{data=await response.json()}
+    catch(error){throw new Error("Invalid server response during image upload.")}
 
     if(response.status===401){
       sessionStorage.removeItem("rubalia_token");
@@ -887,10 +687,7 @@ $("removeImageButton").addEventListener("click",()=>{
   $("uploadStatus").textContent="No image uploaded.";
 });
 
-// =====================================================
-// FORM RESET
-// =====================================================
-
+/* RESET FORM */
 function resetForm(){
   editingId=null;
   $("packageForm").reset();
@@ -912,19 +709,31 @@ function resetForm(){
   updateCostSummary();
 }
 
-// =====================================================
-// EDIT PACKAGE
-// =====================================================
-
+/* EDIT PACKAGE */
 function editPackage(id){
   const item=packages.find(p=>Number(p.id)===Number(id));
-
-  if(!item) return;
+  if(!item)return;
 
   editingId=Number(id);
 
   $("name").value=item.name || "";
-  $("category").value=item.category || "";
+
+  // Existing package category is selected in the dropdown.
+  const existingCategory=String(item.category || "");
+  const categorySelect=$("category");
+
+  const categoryExists=Array.from(categorySelect.options)
+    .some(option=>option.value===existingCategory);
+
+  if(existingCategory && !categoryExists){
+    const oldOption=document.createElement("option");
+    oldOption.value=existingCategory;
+    oldOption.textContent=existingCategory+" (Existing)";
+    categorySelect.appendChild(oldOption);
+  }
+
+  categorySelect.value=existingCategory;
+
   $("description").value=item.description || "";
   $("price").value=item.price ?? 0;
   $("stock").value=item.stock ?? 0;
@@ -936,7 +745,6 @@ function editPackage(id){
   $("imageUrl").value=safeImageUrl(item.image_url);
 
   const costs=item.costs || {};
-
   $("deliveryCost").value=costs.deliveryCost ?? 0;
   $("packagingCost").value=costs.packagingCost ?? 0;
   $("otherCost").value=costs.otherCost ?? 0;
@@ -961,10 +769,7 @@ function editPackage(id){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-// =====================================================
-// VALIDATION
-// =====================================================
-
+/* VALIDATION */
 function validateMoney(id,label){
   const value=$(id).value.trim();
 
@@ -980,18 +785,12 @@ function validateMoney(id,label){
   return Number(value);
 }
 
-// =====================================================
-// CREATE / UPDATE PACKAGE
-// Backend:
-// POST /api/packages
-// PUT  /api/packages/:id
-// =====================================================
-
+/* CREATE / UPDATE PACKAGE */
 $("packageForm").addEventListener("submit",async event=>{
   event.preventDefault();
   hideMessage();
 
-  if(saving) return;
+  if(saving)return;
 
   if(uploading){
     showMessage("Please wait for image upload to finish.","error");
@@ -1024,7 +823,7 @@ $("packageForm").addEventListener("submit",async event=>{
   try{
     payload={
       name:$("name").value.trim(),
-      category:$("category").value.trim(),
+      category:$("category").value,
       description:$("description").value.trim(),
       imageUrl:$("imageUrl").value.trim(),
 
@@ -1040,12 +839,12 @@ $("packageForm").addEventListener("submit",async event=>{
       otherCost:validateMoney("otherCost","Package Other Cost")
     };
 
-    if(payload.name.length<2 || payload.name.length>180){
-      throw new Error("Package name must be between 2 and 180 characters.");
+    if(!payload.category){
+      throw new Error("Please select a package category.");
     }
 
-    if(payload.category.length>100){
-      throw new Error("Category must not exceed 100 characters.");
+    if(payload.name.length<2 || payload.name.length>180){
+      throw new Error("Package name must be between 2 and 180 characters.");
     }
 
     if(payload.description.length>5000){
@@ -1067,10 +866,7 @@ $("packageForm").addEventListener("submit",async event=>{
 
   try{
     const isEditing=editingId!==null;
-
-    const endpoint=isEditing
-      ? "/packages/"+editingId
-      : "/packages";
+    const endpoint=isEditing?"/packages/"+editingId:"/packages";
 
     await apiRequest(endpoint,{
       method:isEditing?"PUT":"POST",
@@ -1080,8 +876,8 @@ $("packageForm").addEventListener("submit",async event=>{
 
     showMessage(
       isEditing
-        ? "Package and cost information updated successfully."
-        : "Package created successfully as draft."
+        ?"Package and cost information updated successfully."
+        :"Package created successfully as draft."
     );
 
     resetForm();
@@ -1092,18 +888,13 @@ $("packageForm").addEventListener("submit",async event=>{
   }finally{
     saving=false;
     $("saveButton").disabled=false;
-    $("saveButton").textContent=
-      editingId!==null ? "Update Package" : "Create Package";
+    $("saveButton").textContent=editingId!==null?"Update Package":"Create Package";
   }
 });
 
-// =====================================================
-// CHANGE PACKAGE STATUS
-// PATCH /api/packages/:id/status
-// =====================================================
-
+/* CHANGE STATUS */
 async function changeStatus(id,status){
-  if(changingStatus) return;
+  if(changingStatus)return;
 
   const allowed=["draft","active","inactive","archived"];
 
@@ -1112,7 +903,7 @@ async function changeStatus(id,status){
     return;
   }
 
-  if(!confirm("Change package status to "+status+"?")) return;
+  if(!confirm("Change package status to "+status+"?"))return;
 
   changingStatus=true;
 
@@ -1133,24 +924,15 @@ async function changeStatus(id,status){
   }
 }
 
-// =====================================================
-// ARCHIVE PACKAGE
-// DELETE /api/packages/:id
-// Backend archives the package; it does not permanently delete it.
-// =====================================================
-
+/* ARCHIVE PACKAGE */
 async function archivePackage(id){
-  if(!confirm("Are you sure you want to archive this package?")) return;
-
-  if(changingStatus) return;
+  if(!confirm("Are you sure you want to archive this package?"))return;
+  if(changingStatus)return;
 
   changingStatus=true;
 
   try{
-    await apiRequest("/packages/"+id,{
-      method:"DELETE"
-    });
-
+    await apiRequest("/packages/"+id,{method:"DELETE"});
     showMessage("Package archived successfully.");
     await loadPackages();
 
@@ -1161,18 +943,10 @@ async function archivePackage(id){
   }
 }
 
-// =====================================================
-// COST SUMMARY EVENTS
-// =====================================================
-
+/* COST SUMMARY EVENTS */
 [
-  "product1",
-  "product2",
-  "product3",
-  "deliveryCost",
-  "packagingCost",
-  "otherCost",
-  "price"
+  "product1","product2","product3",
+  "deliveryCost","packagingCost","otherCost","price"
 ].forEach(id=>{
   $(id).addEventListener("change",updateCostSummary);
   $(id).addEventListener("input",updateCostSummary);
@@ -1180,14 +954,10 @@ async function archivePackage(id){
 
 $("cancelButton").addEventListener("click",resetForm);
 
-// =====================================================
-// INITIALIZE
-// =====================================================
-
+/* INITIALIZE */
 async function initializePage(){
   const allowed=await verifyAdmin();
-
-  if(!allowed) return;
+  if(!allowed)return;
 
   try{
     await loadProducts();
@@ -1200,6 +970,5 @@ async function initializePage(){
 initializePage();
 
 </script>
-
 </body>
 </html>
