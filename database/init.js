@@ -148,6 +148,7 @@ async function initializeDatabase() {
     );
   `);
 
+  // Existing orders are preserved.
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_orders_user_id
     ON orders(user_id);
@@ -156,6 +157,62 @@ async function initializeDatabase() {
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_orders_created_at
     ON orders(created_at DESC);
+  `);
+
+
+  // ORDER PAYMENT MIGRATION
+  // Safe additive migration. Does not delete existing order data.
+  await pool.query(`
+    ALTER TABLE orders
+    ADD COLUMN IF NOT EXISTS payment_method
+      VARCHAR(30) NOT NULL DEFAULT 'legacy',
+    ADD COLUMN IF NOT EXISTS payment_status
+      VARCHAR(20) NOT NULL DEFAULT 'unverified';
+  `);
+
+  await pool.query(`
+    DO $$
+    BEGIN
+
+      IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'orders_payment_method_valid'
+          AND conrelid = 'orders'::regclass
+      ) THEN
+        ALTER TABLE orders
+        ADD CONSTRAINT orders_payment_method_valid
+        CHECK (
+          payment_method IN (
+            'legacy',
+            'wallet',
+            'bkash',
+            'nagad',
+            'sslcommerz'
+          )
+        );
+      END IF;
+
+      IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'orders_payment_status_valid'
+          AND conrelid = 'orders'::regclass
+      ) THEN
+        ALTER TABLE orders
+        ADD CONSTRAINT orders_payment_status_valid
+        CHECK (
+          payment_status IN (
+            'unverified',
+            'pending',
+            'paid',
+            'failed',
+            'refunded'
+          )
+        );
+      END IF;
+
+    END $$;
   `);
 
 
@@ -208,7 +265,7 @@ async function initializeDatabase() {
   `);
 
 
-  // SAFE MIGRATION FOR EXISTING DATABASES
+  // SAFE MIGRATION FOR EXISTING ORDER ITEMS
   // Existing product orders are preserved.
 
   await pool.query(`
@@ -230,9 +287,7 @@ async function initializeDatabase() {
     ALTER COLUMN product_id DROP NOT NULL;
   `);
 
-  // Add validation constraints to existing databases.
-  // The migration checks whether each constraint already exists.
-
+  // Add validation constraints if they do not exist.
   await pool.query(`
     DO $$
     BEGIN
