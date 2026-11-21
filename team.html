@@ -1,152 +1,285 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071a35">
-<title>My Team - RUBALIA NETWORK</title>
+<meta name="theme-color" content="#310d35">
+<title>My Team | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --light:#f3f5f9;
-  --text:#26354a;
-  --muted:#7a879a;
-  --border:#e3e8ef;
+  --purple:#7138d8;
+  --pink:#e94c9b;
+  --gold:#ffe58a;
+  --bg:#f4f3fa;
+  --text:#26334c;
+  --muted:#8490a5;
+  --border:#e9eaf3;
+  --green:#159b69;
+  --red:#dc4444;
 }
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--light);
+  background:var(--bg);
   color:var(--text);
 }
 a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+body.menu-open{overflow:hidden}
 
 /* HEADER */
-header{
-  height:65px;
-  background:var(--navy);
-  color:white;
+
+.app-header{
+  height:76px;
+  width:100%;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 24px;
-}
-.logo{
+  gap:12px;
+  padding:0 22px;
   color:white;
-  font-size:20px;
-  font-weight:800;
-  letter-spacing:1px;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 4px 15px rgba(35,10,45,.18);
+  position:relative;
+  z-index:100;
 }
-.logo span{color:var(--gold)}
-.header-right{
+.header-left{
   display:flex;
   align-items:center;
   gap:13px;
+  min-width:0;
 }
-.header-right a{font-size:13px;color:white}
-.avatar{
-  width:36px;
-  height:36px;
-  background:var(--gold);
-  color:var(--navy);
-  border-radius:50%;
+.menu-toggle{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:12px;
+  font-size:25px;
+  cursor:pointer;
+}
+.brand{
   display:flex;
   align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.brand-icon{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  display:flex;
   justify-content:center;
+  align-items:center;
+  color:#512a83;
+  font-size:27px;
+  font-weight:900;
+  flex-shrink:0;
+}
+.brand-text{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.brand-text span{color:#ffe58a}
+.brand-text small{
+  display:block;
+  font-size:9px;
+  letter-spacing:3px;
+  color:#f5dca4;
+  margin-top:4px;
+}
+.orders-button{
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:11px;
+  padding:12px 15px;
+  font-size:12px;
   font-weight:bold;
+  white-space:nowrap;
 }
 
-/* LAYOUT */
-.layout{
-  display:flex;
-  min-height:calc(100vh - 65px);
+/* SIDEBAR */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
 }
 .sidebar{
-  width:235px;
-  flex-shrink:0;
-  background:var(--navy2);
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  overflow-y:auto;
+  padding:20px 14px 25px;
   color:white;
-  padding:24px 14px;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  z-index:201;
+  transform:translateX(-105%);
+  transition:transform .28s ease;
+  box-shadow:10px 0 35px rgba(0,0,0,.2);
 }
-.profile-mini{
-  text-align:center;
-  padding-bottom:22px;
-  border-bottom:1px solid rgba(255,255,255,.15);
-  margin-bottom:18px;
+.sidebar.open{transform:translateX(0)}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:4px 7px 22px;
 }
-.profile-mini .avatar{
-  width:62px;
-  height:62px;
-  margin:0 auto 10px;
+.drawer-brand{
   font-size:22px;
+  font-weight:900;
+  color:#ffe58a;
+  letter-spacing:1px;
 }
-.profile-mini h3{font-size:14px;margin:0 0 5px}
-.profile-mini p{font-size:11px;color:#bac7d8;margin:0}
-.menu-title{
+.drawer-brand small{
+  display:block;
   font-size:10px;
-  letter-spacing:1.4px;
-  color:#aebbd0;
-  padding:12px;
+  letter-spacing:4px;
+  color:white;
+  margin-top:4px;
+}
+.drawer-close{
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:9px;
+  color:white;
+  background:rgba(255,255,255,.1);
+  font-size:22px;
+  cursor:pointer;
+}
+.menu-title{
+  color:#c8b5e9;
+  font-size:10px;
+  font-weight:bold;
+  padding:15px 12px 8px;
+  letter-spacing:1.5px;
 }
 .menu a{
-  display:block;
-  color:#dce4ef;
-  font-size:13px;
-  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px 12px;
   margin:3px 0;
-  border-radius:7px;
+  border-radius:9px;
+  color:#eee8fa;
+  font-size:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:.2s;
 }
 .menu a:hover,.menu a.active{
-  color:var(--gold);
-  background:rgba(214,173,85,.16);
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
+}
+.menu-icon{
+  width:23px;
+  text-align:center;
+  font-size:17px;
 }
 
 /* MAIN */
+
 main{
-  flex:1;
+  max-width:1150px;
+  margin:auto;
+  padding:25px 20px 40px;
   min-width:0;
-  padding:28px;
 }
 .page-heading{
-  margin-bottom:22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
 }
 .page-heading h1{
-  color:var(--navy);
-  font-size:25px;
+  color:#5728a5;
+  font-size:24px;
   margin:0 0 7px;
 }
 .page-heading p{
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
   margin:0;
 }
-.demo-notice{
-  padding:13px 15px;
-  border-radius:8px;
-  background:#fff8e8;
-  border:1px solid #efdfb9;
-  color:#806329;
+.refresh-btn{
+  border:1px solid var(--border);
+  background:white;
+  color:#6534b1;
+  padding:11px 14px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.refresh-btn:disabled{
+  opacity:.5;
+  cursor:wait;
+}
+
+/* NOTICE */
+
+.notice{
+  display:none;
+  border-radius:10px;
+  padding:13px;
+  margin-bottom:15px;
   font-size:12px;
-  line-height:1.7;
-  margin-bottom:22px;
+  line-height:1.6;
+}
+.notice.error{
+  display:block;
+  background:#fff0f1;
+  color:#a12b36;
+  border:1px solid #f4cbd0;
+}
+.notice.info{
+  display:block;
+  background:#f1edff;
+  color:#5c399e;
+  border:1px solid #ddd2fb;
+}
+.notice.success{
+  display:block;
+  background:#effaf3;
+  color:#17633b;
+  border:1px solid #c6ead2;
 }
 
 /* SUMMARY */
+
 .summary-grid{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;
-  margin-bottom:22px;
+  gap:13px;
+  margin-bottom:20px;
 }
 .summary-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:10px;
-  padding:19px;
+  border-radius:12px;
+  padding:17px;
+  box-shadow:0 4px 15px rgba(72,49,123,.035);
 }
 .summary-top{
   display:flex;
@@ -155,25 +288,27 @@ main{
   gap:8px;
 }
 .summary-card p{
-  font-size:12px;
+  font-size:11px;
   color:var(--muted);
   margin:0;
 }
 .summary-icon{
-  width:36px;
-  height:36px;
+  width:35px;
+  height:35px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#f8f2e4;
-  border-radius:8px;
-  font-size:18px;
+  background:#f4efff;
+  color:#7138d8;
+  border-radius:9px;
+  font-size:17px;
 }
 .summary-card strong{
   display:block;
-  color:var(--navy);
-  font-size:25px;
-  margin-top:14px;
+  color:#5728a5;
+  font-size:24px;
+  margin-top:13px;
+  overflow-wrap:anywhere;
 }
 .summary-card small{
   display:block;
@@ -183,703 +318,1039 @@ main{
 }
 
 /* PANEL */
+
 .panel{
   background:white;
   border:1px solid var(--border);
-  border-radius:11px;
-  padding:21px;
-  margin-bottom:20px;
+  border-radius:13px;
+  padding:19px;
+  margin-bottom:17px;
+  box-shadow:0 4px 15px rgba(72,49,123,.035);
 }
 .panel-heading{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:12px;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 .panel-heading h2{
-  color:var(--navy);
-  font-size:16px;
+  color:#5728a5;
+  font-size:15px;
   margin:0;
 }
 .panel-heading span{
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
 }
 
-/* REFERRAL */
-.referral-box{
-  background:linear-gradient(120deg,var(--navy),#183d68);
-  color:white;
-  border-radius:10px;
-  padding:23px;
-}
-.referral-box p{
-  color:#d3ddec;
-  font-size:12px;
-  margin:0 0 12px;
-}
-.referral-code-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.referral-code{
-  color:var(--gold);
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:1px;
-  overflow-wrap:anywhere;
-}
-.copy-btn{
-  border:0;
-  background:var(--gold);
-  color:var(--navy);
-  padding:11px 15px;
-  border-radius:6px;
-  font-weight:bold;
-  font-size:11px;
-  cursor:pointer;
-}
-.referral-note{
-  margin-top:15px;
-  font-size:11px;
-  color:#d3ddec;
-  line-height:1.6;
-}
+/* MEMBER INFO */
 
-/* SPONSOR */
-.sponsor-grid{
+.member-info{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
 }
-.sponsor-item{
-  background:#f8f9fb;
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:15px;
+.info-box{
+  padding:14px;
+  border:1px solid #eee1fa;
+  background:linear-gradient(130deg,#f7f2ff,#fff4fa);
+  border-radius:10px;
+  min-width:0;
 }
-.sponsor-item p{
+.info-box p{
   color:var(--muted);
-  font-size:11px;
-  margin:0 0 8px;
+  font-size:10px;
+  margin:0 0 7px;
 }
-.sponsor-item strong{
-  color:var(--navy);
+.info-box strong{
+  color:#5728a5;
   font-size:14px;
   overflow-wrap:anywhere;
 }
 
 /* LEVELS */
+
 .level-grid{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:12px;
+  gap:10px;
 }
 .level-card{
   border:1px solid var(--border);
-  background:#fafbfd;
-  border-radius:8px;
-  padding:15px 10px;
+  background:#faf9fd;
+  border-radius:9px;
+  padding:14px 8px;
   text-align:center;
 }
 .level-card span{
   display:block;
   color:var(--muted);
-  font-size:11px;
-  margin-bottom:9px;
+  font-size:10px;
+  margin-bottom:8px;
 }
 .level-card strong{
   display:block;
-  color:var(--navy);
+  color:#5728a5;
   font-size:22px;
 }
 .level-card small{
   display:block;
   color:#98752f;
-  font-size:10px;
-  margin-top:6px;
+  font-size:9px;
+  margin-top:5px;
 }
 
 /* SEARCH */
+
 .search-row{
   display:flex;
-  gap:10px;
+  gap:9px;
   flex-wrap:wrap;
-  margin-bottom:17px;
+  margin-bottom:15px;
 }
 .search-row input,
 .search-row select{
-  height:42px;
+  height:41px;
   border:1px solid var(--border);
-  border-radius:7px;
-  padding:0 12px;
-  font-size:12px;
+  border-radius:8px;
+  padding:0 11px;
+  font-size:11px;
   outline:none;
   background:white;
+  color:var(--text);
 }
 .search-row input{
   flex:1;
-  min-width:180px;
+  min-width:150px;
 }
-.search-row select{min-width:145px}
+.search-row select{min-width:130px}
 .search-row input:focus,
-.search-row select:focus{border-color:var(--gold)}
+.search-row select:focus{
+  border-color:#a77be5;
+}
 
 /* TABLE */
+
 .table-wrap{overflow-x:auto}
 table{
   width:100%;
-  min-width:650px;
+  min-width:680px;
   border-collapse:collapse;
 }
 th,td{
-  padding:14px 11px;
+  padding:13px 11px;
   text-align:left;
   border-bottom:1px solid var(--border);
-  font-size:12px;
+  font-size:11px;
 }
 th{
-  color:var(--muted);
-  font-size:10px;
-  background:#f8f9fb;
+  color:#7541b8;
+  font-size:9px;
+  background:#f6f1ff;
+  white-space:nowrap;
 }
 .member-name{
-  color:var(--navy);
+  color:#5728a5;
   font-weight:bold;
 }
-.member-id{
+.member-email{
   color:var(--muted);
   font-size:10px;
   margin-top:4px;
+  overflow-wrap:anywhere;
 }
 .level-badge{
   background:#f8f2e4;
   color:#8b6a2c;
-  padding:5px 9px;
+  padding:5px 8px;
   border-radius:20px;
-  font-size:10px;
+  font-size:9px;
   font-weight:bold;
+  white-space:nowrap;
 }
 .status{
-  background:#eaf0fa;
-  color:#46658e;
-  padding:5px 9px;
+  display:inline-block;
+  padding:5px 8px;
   border-radius:20px;
-  font-size:10px;
+  font-size:9px;
   font-weight:bold;
+  text-transform:capitalize;
+}
+.status.active{
+  background:#e5f8ef;
+  color:#16845b;
+}
+.status.inactive{
+  background:#fceaea;
+  color:#c34b4b;
+}
+.status.other{
+  background:#edf0f7;
+  color:#52627b;
 }
 .empty-message{
-  display:none;
   text-align:center;
   padding:25px;
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
 }
-
-/* INFORMATION */
-.info-text{
+.loading-box{
+  text-align:center;
+  padding:30px 15px;
   color:var(--muted);
   font-size:12px;
-  line-height:1.9;
 }
-.info-text strong{color:var(--navy)}
+.business-note{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+.business-note strong{color:#5728a5}
+
+/* FOOTER */
 
 footer{
   text-align:center;
   padding:22px;
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
 }
-.mobile-menu{
-  display:none;
-  background:none;
-  border:1px solid #60718a;
-  color:white;
-  border-radius:6px;
-  padding:6px 10px;
-  font-size:18px;
-}
+footer strong{color:#d94698}
+
+/* RESPONSIVE */
 
 @media(max-width:1000px){
-  .summary-grid{grid-template-columns:repeat(2,1fr)}
-  .level-grid{grid-template-columns:repeat(5,1fr)}
+  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .level-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 @media(max-width:700px){
-  header{padding:0 14px}
-  .mobile-menu{display:block}
-  .layout{display:block}
-  .sidebar{display:none;width:100%}
-  .sidebar.show{display:block}
-  .profile-mini{display:none}
-  main{padding:20px 14px}
-  .page-heading h1{font-size:22px}
-  .level-grid{grid-template-columns:repeat(2,1fr)}
-  .panel{padding:15px}
+  .app-header{
+    height:65px;
+    padding:0 11px;
+    gap:7px;
+  }
+  .header-left{gap:9px}
+  .menu-toggle{
+    width:41px;
+    height:41px;
+    font-size:22px;
+    border-radius:10px;
+  }
+  .brand{gap:7px}
+  .brand-icon{
+    width:40px;
+    height:40px;
+    font-size:23px;
+    border-radius:12px;
+  }
+  .brand-text{
+    font-size:13px;
+    letter-spacing:.5px;
+  }
+  .brand-text small{
+    font-size:7px;
+    letter-spacing:2.5px;
+    margin-top:3px;
+  }
+  .orders-button{
+    padding:10px 9px;
+    font-size:10px;
+    border-radius:9px;
+  }
+  main{padding:19px 13px 30px}
+  .page-heading h1{font-size:21px}
+  .page-heading p{font-size:10px}
+  .refresh-btn{padding:10px;font-size:10px}
+  .summary-grid{gap:9px;margin-bottom:15px}
+  .summary-card{padding:12px 10px}
+  .summary-card p{font-size:10px}
+  .summary-card strong{font-size:21px;margin-top:10px}
+  .summary-card small{font-size:9px}
+  .summary-icon{width:31px;height:31px;font-size:15px}
+  .panel{padding:13px;margin-bottom:13px}
+  .panel-heading h2{font-size:13px}
+  .panel-heading span{font-size:9px}
+  .level-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .level-card{padding:12px 7px}
+  .member-info{gap:8px}
+  .info-box{padding:11px}
+  .info-box strong{font-size:12px}
+  .search-row{gap:7px}
+  .search-row input{min-width:100%}
+  .search-row select{flex:1;min-width:0}
 }
-@media(max-width:420px){
-  .summary-grid{gap:10px}
-  .summary-card{padding:13px}
-  .summary-card strong{font-size:21px}
-  .sponsor-grid{grid-template-columns:1fr}
+@media(max-width:360px){
+  .brand-text{font-size:11px}
+  .brand-icon{width:36px;height:36px}
+  .orders-button{font-size:9px;padding:9px 7px}
+  .summary-card strong{font-size:19px}
+  .member-info{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
-    <a href="index.html" class="logo">RUBALIA <span>NETWORK</span></a>
+<!-- HEADER -->
+
+<header class="app-header">
+  <div class="header-left">
+    <button class="menu-toggle" id="menuToggle"
+      type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div class="brand-text">
+        RUBALIA <span>NETWORK</span>
+        <small>GROW WITH TRUST</small>
+      </div>
+    </a>
   </div>
 
-  <div class="header-right">
-    <a href="dashboard.html">Dashboard</a>
-    <div class="avatar">DM</div>
-  </div>
+  <a href="orders.html" class="orders-button">📦 My Orders</a>
 </header>
 
-<div class="layout">
+<!-- SIDEBAR OVERLAY -->
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
+<div class="drawer-overlay" id="drawerOverlay"></div>
 
-    <div class="profile-mini">
-      <div class="avatar">DM</div>
-      <h3>Demo Member</h3>
-      <p>Member ID: RN-DEMO-001</p>
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="drawer-top">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
     </div>
+    <button class="drawer-close" id="drawerClose"
+      type="button" aria-label="Close menu">×</button>
+  </div>
 
-    <div class="menu-title">MAIN MENU</div>
+  <div class="menu-title">MAIN MENU</div>
 
-    <nav class="menu">
-      <a href="dashboard.html">▦ &nbsp; Dashboard</a>
-      <a href="profile.html">👤 &nbsp; My Profile</a>
-      <a href="products.html">🛍️ &nbsp; Products</a>
-      <a href="orders.html">📦 &nbsp; My Orders</a>
-      <a href="team.html" class="active">👥 &nbsp; My Team</a>
-      <a href="income.html">💰 &nbsp; Income Details</a>
-      <a href="wallet.html">👛 &nbsp; My Wallet</a>
-      <a href="withdraw.html">💳 &nbsp; Withdraw</a>
-    </nav>
+  <nav class="menu">
+    <a href="dashboard.html">
+      <span class="menu-icon">⌂</span>Dashboard
+    </a>
+    <a href="profile.html">
+      <span class="menu-icon">♙</span>My Profile
+    </a>
+    <a href="dashboard.html">
+      <span class="menu-icon">▣</span>Packages
+    </a>
+    <a href="orders.html">
+      <span class="menu-icon">▤</span>My Orders
+    </a>
+    <a href="team.html" class="active">
+      <span class="menu-icon">♧</span>My Team
+    </a>
+    <a href="income.html">
+      <span class="menu-icon">৳</span>Income Details
+    </a>
+    <a href="wallet.html">
+      <span class="menu-icon">◈</span>My Wallet
+    </a>
+    <a href="withdraw.html">
+      <span class="menu-icon">⇧</span>Withdraw
+    </a>
+  </nav>
 
-    <div class="menu-title">ACCOUNT</div>
+  <div class="menu-title">ACCOUNT</div>
 
-    <nav class="menu">
-      <a href="settings.html">⚙️ &nbsp; Settings</a>
-      <a href="contact.html">☎ &nbsp; Support</a>
-      <a href="login.html" onclick="return confirmLogout()">↪ &nbsp; Logout</a>
-    </nav>
+  <nav class="menu">
+    <a href="settings.html">
+      <span class="menu-icon">⚙</span>Settings
+    </a>
+    <a href="contact.html">
+      <span class="menu-icon">✉</span>Contact Support
+    </a>
+    <a href="#" id="logoutLink">
+      <span class="menu-icon">↪</span>Logout
+    </a>
+  </nav>
 
-  </aside>
+</aside>
 
-  <!-- MAIN -->
-  <main>
+<!-- MAIN -->
 
-    <div class="page-heading">
+<main>
+
+  <div class="page-heading">
+    <div>
       <h1>My Team</h1>
-      <p>View your sponsor information and team overview.</p>
+      <p>Your actual team members and 10-level network overview.</p>
     </div>
 
-    <div class="demo-notice">
-      <strong>Important Business Notice:</strong>
-      All team information below is sample data. RUBALIA NETWORK's
-      proposed 10-level Unilevel structure is not an active commission
-      program. Any future compensation plan will require legal review,
-      regulatory compliance and a genuine product-sales basis.
-      Recruitment alone will not create an entitlement to income.
+    <button class="refresh-btn" id="refreshBtn" type="button">
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div class="notice" id="notice" role="status"></div>
+
+  <!-- SUMMARY -->
+
+  <section class="summary-grid">
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <p>Direct Members</p>
+        <div class="summary-icon">👥</div>
+      </div>
+      <strong id="directMembers">—</strong>
+      <small>Level 01 members</small>
     </div>
 
-    <!-- SUMMARY -->
-    <section class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-top">
+        <p>Total Team</p>
+        <div class="summary-icon">🌐</div>
+      </div>
+      <strong id="totalMembers">—</strong>
+      <small>Members across 10 levels</small>
+    </div>
 
-      <div class="summary-card">
-        <div class="summary-top">
-          <p>Direct Members</p>
-          <div class="summary-icon">👥</div>
-        </div>
-        <strong>05</strong>
-        <small>Sample information</small>
+    <div class="summary-card">
+      <div class="summary-top">
+        <p>Active Members</p>
+        <div class="summary-icon">✓</div>
+      </div>
+      <strong id="activeMembers">—</strong>
+      <small>Server account status: active</small>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-top">
+        <p>Team Commission</p>
+        <div class="summary-icon">৳</div>
+      </div>
+      <strong>৳0.00</strong>
+      <small>Commission program not activated</small>
+    </div>
+
+  </section>
+
+  <!-- MEMBER INFORMATION -->
+
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>My Account Information</h2>
+      <span>SERVER DATA</span>
+    </div>
+
+    <div class="member-info">
+
+      <div class="info-box">
+        <p>Member Name</p>
+        <strong id="memberName">Loading...</strong>
       </div>
 
-      <div class="summary-card">
-        <div class="summary-top">
-          <p>Total Team</p>
-          <div class="summary-icon">🌐</div>
-        </div>
-        <strong>24</strong>
-        <small>Sample information</small>
+      <div class="info-box">
+        <p>Member ID</p>
+        <strong id="memberId">Loading...</strong>
       </div>
 
-      <div class="summary-card">
-        <div class="summary-top">
-          <p>Active Members</p>
-          <div class="summary-icon">✓</div>
-        </div>
-        <strong>00</strong>
-        <small>Not verified in demo</small>
+      <div class="info-box">
+        <p>Account Email</p>
+        <strong id="memberEmail">Loading...</strong>
       </div>
 
-      <div class="summary-card">
-        <div class="summary-top">
-          <p>Team Commission</p>
-          <div class="summary-icon">৳</div>
-        </div>
-        <strong>৳0.00</strong>
-        <small>No commission program activated</small>
+      <div class="info-box">
+        <p>Account Status</p>
+        <strong id="memberStatus">Loading...</strong>
       </div>
 
-    </section>
+    </div>
 
-    <!-- REFERRAL CODE -->
-    <section class="panel">
+  </section>
 
-      <div class="panel-heading">
-        <h2>My Referral Information</h2>
-        <span>DEMO</span>
+  <!-- REFERRAL STATUS -->
+
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>Referral Information</h2>
+      <span>FEATURE STATUS</span>
+    </div>
+
+    <div class="notice info" style="display:block;margin:0">
+      Referral code and referral-link generation are not available
+      through the current backend API. This page does not display
+      a fake referral code or sample sponsor information.
+    </div>
+
+  </section>
+
+  <!-- LEVEL OVERVIEW -->
+
+  <section class="panel">
+
+    <div class="panel-heading">
+      <h2>10-Level Team Overview</h2>
+      <span>LIVE SERVER DATA</span>
+    </div>
+
+    <div class="level-grid" id="levelGrid">
+
+      <div class="loading-box" style="grid-column:1/-1">
+        Loading level information...
       </div>
 
-      <div class="referral-box">
+    </div>
 
-        <p>Your Sample Referral Code</p>
+  </section>
 
-        <div class="referral-code-row">
-          <div class="referral-code" id="referralCode">
-            RN-DEMO-001
-          </div>
+  <!-- TEAM MEMBERS -->
 
-          <button class="copy-btn" onclick="copyReferral()">
-            COPY CODE
-          </button>
-        </div>
+  <section class="panel">
 
-        <div class="referral-note">
-          This is a sample referral code for the frontend demonstration.
-          Real referral registration and sponsor assignment will be
-          implemented through the backend.
-        </div>
+    <div class="panel-heading">
+      <h2>Team Member List</h2>
+      <span id="memberCountLabel">Loading...</span>
+    </div>
 
-      </div>
+    <div class="search-row">
 
-    </section>
+      <input
+        type="search"
+        id="memberSearch"
+        placeholder="Search member name, email or ID..."
+        autocomplete="off">
 
-    <!-- SPONSOR -->
-    <section class="panel">
+      <select id="levelFilter">
+        <option value="all">All Levels</option>
+        <option value="1">Level 01</option>
+        <option value="2">Level 02</option>
+        <option value="3">Level 03</option>
+        <option value="4">Level 04</option>
+        <option value="5">Level 05</option>
+        <option value="6">Level 06</option>
+        <option value="7">Level 07</option>
+        <option value="8">Level 08</option>
+        <option value="9">Level 09</option>
+        <option value="10">Level 10</option>
+      </select>
 
-      <div class="panel-heading">
-        <h2>My Sponsor</h2>
-        <span>DEMO INFORMATION</span>
-      </div>
+    </div>
 
-      <div class="sponsor-grid">
+    <div class="table-wrap">
 
-        <div class="sponsor-item">
-          <p>Sponsor Name</p>
-          <strong>Demo Sponsor</strong>
-        </div>
+      <table>
+        <thead>
+          <tr>
+            <th>MEMBER</th>
+            <th>MEMBER ID</th>
+            <th>LEVEL</th>
+            <th>SPONSOR ID</th>
+            <th>STATUS</th>
+            <th>JOINED DATE</th>
+          </tr>
+        </thead>
 
-        <div class="sponsor-item">
-          <p>Sponsor ID</p>
-          <strong>RN-SPONSOR-001</strong>
-        </div>
+        <tbody id="teamTable">
+          <tr>
+            <td colspan="6" class="empty-message">
+              Loading team members...
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="sponsor-item">
-          <p>My Member ID</p>
-          <strong>RN-DEMO-001</strong>
-        </div>
+    </div>
 
-        <div class="sponsor-item">
-          <p>Network Structure</p>
-          <strong>Proposed Unilevel</strong>
-        </div>
+    <div class="empty-message" id="emptyMessage" hidden>
+      No matching team members found.
+    </div>
 
-      </div>
+  </section>
 
-    </section>
+  <!-- BUSINESS INFORMATION -->
 
-    <!-- LEVEL OVERVIEW -->
-    <section class="panel">
+  <section class="panel">
 
-      <div class="panel-heading">
-        <h2>10-Level Team Overview</h2>
-        <span>ILLUSTRATIVE ONLY</span>
-      </div>
+    <div class="panel-heading">
+      <h2>Network Business Information</h2>
+    </div>
 
-      <div class="level-grid">
+    <div class="business-note">
 
-        <div class="level-card">
-          <span>Level 01</span>
-          <strong>05</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 02</span>
-          <strong>07</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 03</span>
-          <strong>05</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 04</span>
-          <strong>03</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 05</span>
-          <strong>02</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 06</span>
-          <strong>01</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 07</span>
-          <strong>01</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 08</span>
-          <strong>00</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 09</span>
-          <strong>00</strong>
-          <small>Demo count</small>
-        </div>
-
-        <div class="level-card">
-          <span>Level 10</span>
-          <strong>00</strong>
-          <small>Demo count</small>
-        </div>
-
-      </div>
-
-      <p class="info-text" style="margin-bottom:0;margin-top:15px">
-        These figures are illustrative placeholders, not actual
-        registered members or verified network records.
+      <p>
+        <strong>Unilevel Structure:</strong>
+        The team overview displays the actual member hierarchy
+        returned by the RUBALIA NETWORK backend, up to 10 levels.
       </p>
 
-    </section>
+      <p>
+        <strong>Product Sales:</strong>
+        Any future compensation arrangement must be based on
+        legitimate product sales and documented business activity.
+      </p>
 
-    <!-- TEAM MEMBERS -->
-    <section class="panel">
+      <p style="margin-bottom:0">
+        <strong>Income:</strong>
+        Membership or team size does not guarantee earnings.
+        No team commission is currently activated.
+      </p>
 
-      <div class="panel-heading">
-        <h2>Team Member List</h2>
-        <span>EXAMPLE RECORDS</span>
-      </div>
+    </div>
 
-      <div class="search-row">
+  </section>
 
-        <input
-          type="search"
-          id="memberSearch"
-          placeholder="Search member name or ID..."
-        >
+</main>
 
-        <select id="levelFilter">
-          <option value="all">All Levels</option>
-          <option value="1">Level 01</option>
-          <option value="2">Level 02</option>
-          <option value="3">Level 03</option>
-        </select>
-
-      </div>
-
-      <div class="table-wrap">
-
-        <table>
-          <thead>
-            <tr>
-              <th>MEMBER</th>
-              <th>MEMBER ID</th>
-              <th>LEVEL</th>
-              <th>SPONSOR ID</th>
-              <th>RECORD TYPE</th>
-            </tr>
-          </thead>
-
-          <tbody id="teamTable">
-
-            <tr data-level="1">
-              <td class="member-name">Demo Member A</td>
-              <td>RN-DEMO-101</td>
-              <td><span class="level-badge">Level 01</span></td>
-              <td>RN-DEMO-001</td>
-              <td><span class="status">Sample</span></td>
-            </tr>
-
-            <tr data-level="1">
-              <td class="member-name">Demo Member B</td>
-              <td>RN-DEMO-102</td>
-              <td><span class="level-badge">Level 01</span></td>
-              <td>RN-DEMO-001</td>
-              <td><span class="status">Sample</span></td>
-            </tr>
-
-            <tr data-level="2">
-              <td class="member-name">Demo Member C</td>
-              <td>RN-DEMO-201</td>
-              <td><span class="level-badge">Level 02</span></td>
-              <td>RN-DEMO-101</td>
-              <td><span class="status">Sample</span></td>
-            </tr>
-
-            <tr data-level="2">
-              <td class="member-name">Demo Member D</td>
-              <td>RN-DEMO-202</td>
-              <td><span class="level-badge">Level 02</span></td>
-              <td>RN-DEMO-102</td>
-              <td><span class="status">Sample</span></td>
-            </tr>
-
-            <tr data-level="3">
-              <td class="member-name">Demo Member E</td>
-              <td>RN-DEMO-301</td>
-              <td><span class="level-badge">Level 03</span></td>
-              <td>RN-DEMO-201</td>
-              <td><span class="status">Sample</span></td>
-            </tr>
-
-          </tbody>
-        </table>
-
-      </div>
-
-      <div class="empty-message" id="emptyMessage">
-        No matching sample members found.
-      </div>
-
-    </section>
-
-    <!-- BUSINESS INFORMATION -->
-    <section class="panel">
-
-      <div class="panel-heading">
-        <h2>Network Business Information</h2>
-      </div>
-
-      <div class="info-text">
-        <p>
-          <strong>Unilevel Structure:</strong>
-          The proposed model places members in one direct referral
-          structure. The number of levels and any compensation rules
-          remain subject to legal and commercial review.
-        </p>
-
-        <p>
-          <strong>Product Sales:</strong>
-          Any future compensation arrangement must be based on
-          legitimate product sales and documented business activity,
-          not simply on recruiting new members.
-        </p>
-
-        <p style="margin-bottom:0">
-          <strong>Income:</strong>
-          Membership or team size does not guarantee earnings.
-          No commission is currently activated on this demo page.
-        </p>
-      </div>
-
-    </section>
-
-    <footer>
-      © <span style="color:#b58b3d">RUBALIA NETWORK</span>
-      — My Team Demo
-    </footer>
-
-  </main>
-</div>
+<footer>
+  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
+</footer>
 
 <script>
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("show");
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+let token = "";
+let currentUser = null;
+let teamMembers = [];
+let levelSummary = [];
+
+/* ELEMENT HELPER */
+
+const $ = id => document.getElementById(id);
+
+/* SIDEBAR */
+
+const sidebar = $("sidebar");
+const overlay = $("drawerOverlay");
+const menuToggle = $("menuToggle");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
+  menuToggle.setAttribute("aria-expanded","true");
 }
 
-function confirmLogout(){
-  return confirm("Do you want to return to the login page?");
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
+  menuToggle.setAttribute("aria-expanded","false");
 }
 
-function copyReferral(){
-  const code=document.getElementById("referralCode").textContent.trim();
-
-  if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(code)
-      .then(()=>alert("Demo referral code copied: "+code))
-      .catch(()=>fallbackCopy(code));
+menuToggle.addEventListener("click",function(){
+  if(sidebar.classList.contains("open")){
+    closeMenu();
   }else{
-    fallbackCopy(code);
+    openMenu();
   }
+});
+
+$("drawerClose").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape") closeMenu();
+});
+
+sidebar.querySelectorAll("a").forEach(function(link){
+  if(link.id!=="logoutLink"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+$("logoutLink").addEventListener("click",function(event){
+  event.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+  }
+});
+
+/* HELPERS */
+
+function formatDate(value){
+  if(!value) return "—";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleDateString("en-GB",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
 }
 
-function fallbackCopy(code){
-  const input=document.createElement("textarea");
-  input.value=code;
-  document.body.appendChild(input);
-  input.select();
-
-  try{
-    document.execCommand("copy");
-    alert("Demo referral code copied: "+code);
-  }catch(error){
-    alert("Your sample referral code is: "+code);
-  }
-
-  input.remove();
+function showNotice(type,message){
+  const notice = $("notice");
+  notice.className = "notice "+type;
+  notice.textContent = message;
 }
 
-function filterTeam(){
-  const search=document.getElementById("memberSearch")
-    .value.toLowerCase();
+function clearNotice(){
+  $("notice").className = "notice";
+  $("notice").textContent = "";
+}
 
-  const level=document.getElementById("levelFilter").value;
+function safeText(value,fallback="—"){
+  if(value===null || value===undefined || value===""){
+    return fallback;
+  }
 
-  const rows=document.querySelectorAll("#teamTable tr");
-  let visible=0;
+  return String(value);
+}
 
-  rows.forEach(row=>{
-    const text=row.textContent.toLowerCase();
-    const rowLevel=row.dataset.level;
+/* API REQUEST */
 
-    const matchesSearch=text.includes(search);
-    const matchesLevel=level==="all" || rowLevel===level;
-
-    if(matchesSearch && matchesLevel){
-      row.style.display="";
-      visible++;
-    }else{
-      row.style.display="none";
-    }
+async function apiRequest(path){
+  const response = await fetch(API_BASE+path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer "+token,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
   });
 
-  document.getElementById("emptyMessage").style.display=
-    visible===0?"block":"none";
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status===401){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your login session has expired.");
+  }
+
+  if(response.status===403){
+    throw new Error(data.message || "Access denied.");
+  }
+
+  if(!response.ok || data.success===false){
+    throw new Error(data.message || "Unable to load team information.");
+  }
+
+  return data;
 }
 
-document.getElementById("memberSearch")
-  .addEventListener("input",filterTeam);
+/* AUTHENTICATION */
 
-document.getElementById("levelFilter")
-  .addEventListener("change",filterTeam);
+async function verifyUser(){
+  const data = await apiRequest("/auth/me");
+
+  const user = data.user || data.profile;
+
+  if(!user){
+    throw new Error("Unable to verify your account.");
+  }
+
+  if(String(user.role || "").toLowerCase()==="admin"){
+    location.replace("admin-dashboard.html");
+    throw new Error("Opening administrator dashboard.");
+  }
+
+  if(
+    user.status &&
+    String(user.status).toLowerCase()!=="active"
+  ){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+    throw new Error("Your account is not active.");
+  }
+
+  currentUser = user;
+
+  $("memberName").textContent =
+    safeText(user.full_name,"RUBALIA MEMBER");
+
+  $("memberId").textContent =
+    safeText(user.id);
+
+  $("memberEmail").textContent =
+    safeText(user.email);
+
+  $("memberStatus").textContent =
+    safeText(user.status);
+
+}
+
+/* SUMMARY */
+
+function renderSummary(data){
+  const members = Array.isArray(data.members)
+    ? data.members
+    : [];
+
+  const directCount = members.filter(member=>
+    Number(member.level)===1
+  ).length;
+
+  const activeCount = members.filter(member=>
+    String(member.status || "").toLowerCase()==="active"
+  ).length;
+
+  $("directMembers").textContent = directCount;
+  $("totalMembers").textContent =
+    Number(data.totalMembers ?? members.length);
+
+  $("activeMembers").textContent = activeCount;
+
+  $("memberCountLabel").textContent =
+    members.length+" Members";
+}
+
+/* LEVEL SUMMARY */
+
+function renderLevels(summary){
+  const grid = $("levelGrid");
+  grid.replaceChildren();
+
+  const summaryMap = new Map();
+
+  summary.forEach(item=>{
+    summaryMap.set(Number(item.level),Number(item.members || 0));
+  });
+
+  for(let level=1;level<=10;level++){
+    const count = summaryMap.get(level) || 0;
+
+    const card = document.createElement("div");
+    card.className = "level-card";
+
+    const label = document.createElement("span");
+    label.textContent =
+      "Level "+String(level).padStart(2,"0");
+
+    const number = document.createElement("strong");
+    number.textContent = count;
+
+    const small = document.createElement("small");
+    small.textContent = "Members";
+
+    card.append(label,number,small);
+    grid.appendChild(card);
+  }
+}
+
+/* TEAM TABLE */
+
+function createCell(text){
+  const cell = document.createElement("td");
+  cell.textContent = safeText(text);
+  return cell;
+}
+
+function renderTeamTable(){
+  const body = $("teamTable");
+  body.replaceChildren();
+
+  const search = $("memberSearch")
+    .value.trim().toLowerCase();
+
+  const selectedLevel = $("levelFilter").value;
+
+  const filtered = teamMembers.filter(member=>{
+    const searchText = [
+      member.full_name,
+      member.email,
+      member.id,
+      member.sponsor_id
+    ].join(" ").toLowerCase();
+
+    const matchesSearch =
+      !search || searchText.includes(search);
+
+    const matchesLevel =
+      selectedLevel==="all" ||
+      Number(member.level)===Number(selectedLevel);
+
+    return matchesSearch && matchesLevel;
+  });
+
+  $("emptyMessage").hidden = filtered.length>0;
+
+  if(!filtered.length){
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+
+    cell.colSpan = 6;
+    cell.className = "empty-message";
+    cell.textContent = teamMembers.length
+      ? "No matching team members found."
+      : "No team members have been registered under your network yet.";
+
+    row.appendChild(cell);
+    body.appendChild(row);
+    return;
+  }
+
+  filtered.forEach(member=>{
+    const row = document.createElement("tr");
+
+    /* NAME + EMAIL */
+
+    const nameCell = document.createElement("td");
+
+    const name = document.createElement("div");
+    name.className = "member-name";
+    name.textContent = safeText(
+      member.full_name,
+      "Unnamed Member"
+    );
+
+    const email = document.createElement("div");
+    email.className = "member-email";
+    email.textContent = safeText(member.email,"");
+
+    nameCell.append(name,email);
+
+    /* MEMBER ID */
+
+    const idCell = createCell(member.id);
+
+    /* LEVEL */
+
+    const levelCell = document.createElement("td");
+
+    const levelBadge = document.createElement("span");
+    levelBadge.className = "level-badge";
+    levelBadge.textContent =
+      "Level "+String(member.level).padStart(2,"0");
+
+    levelCell.appendChild(levelBadge);
+
+    /* SPONSOR ID */
+
+    const sponsorCell = createCell(member.sponsor_id);
+
+    /* STATUS */
+
+    const statusCell = document.createElement("td");
+
+    const statusBadge = document.createElement("span");
+    const statusValue = String(
+      member.status || "unknown"
+    ).toLowerCase();
+
+    statusBadge.className =
+      "status "+(
+        statusValue==="active"
+          ? "active"
+          : statusValue==="inactive"
+            ? "inactive"
+            : "other"
+      );
+
+    statusBadge.textContent = statusValue;
+    statusCell.appendChild(statusBadge);
+
+    /* JOIN DATE */
+
+    const dateCell = createCell(
+      formatDate(member.created_at)
+    );
+
+    row.append(
+      nameCell,
+      idCell,
+      levelCell,
+      sponsorCell,
+      statusCell,
+      dateCell
+    );
+
+    body.appendChild(row);
+  });
+}
+
+/* LOAD TEAM */
+
+async function loadTeam(){
+  const refreshButton = $("refreshBtn");
+
+  refreshButton.disabled = true;
+  refreshButton.textContent = "Loading...";
+
+  clearNotice();
+
+  try{
+    token = sessionStorage.getItem("rubalia_token") || "";
+
+    if(!token){
+      location.replace("login.html");
+      return;
+    }
+
+    await verifyUser();
+
+    const data = await apiRequest("/team");
+
+    if(!Array.isArray(data.members)){
+      throw new Error("The server returned an invalid team response.");
+    }
+
+    teamMembers = data.members;
+
+    levelSummary = Array.isArray(data.levelSummary)
+      ? data.levelSummary
+      : [];
+
+    renderSummary(data);
+    renderLevels(levelSummary);
+    renderTeamTable();
+
+  }catch(error){
+
+    if(error.message==="Opening administrator dashboard."){
+      return;
+    }
+
+    if(
+      error.message==="Your login session has expired." ||
+      error.message==="Your account is not active."
+    ){
+      return;
+    }
+
+    showNotice(
+      "error",
+      error.message || "Unable to load your team. Please try again."
+    );
+
+    $("directMembers").textContent = "—";
+    $("totalMembers").textContent = "—";
+    $("activeMembers").textContent = "—";
+    $("memberCountLabel").textContent = "Unavailable";
+
+    $("levelGrid").innerHTML =
+      '<div class="loading-box" style="grid-column:1/-1">Team level information is unavailable.</div>';
+
+    $("teamTable").innerHTML =
+      '<tr><td colspan="6" class="empty-message">Team information could not be loaded.</td></tr>';
+
+  }finally{
+    refreshButton.disabled = false;
+    refreshButton.textContent = "↻ Refresh";
+  }
+}
+
+/* SEARCH AND FILTER */
+
+$("memberSearch").addEventListener("input",renderTeamTable);
+$("levelFilter").addEventListener("change",renderTeamTable);
+$("refreshBtn").addEventListener("click",loadTeam);
+
+/* START */
+
+loadTeam();
+
 </script>
 
 </body>
