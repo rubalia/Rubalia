@@ -9,11 +9,20 @@ const rateLimit = require("express-rate-limit");
 const pool = require("./config/database");
 
 const { initializeDatabase } = require("./database/init");
-const { runPartnerMigration } = require("./database/partner-migration");
+
+const {
+  runPartnerMigration
+} = require("./database/partner-migration");
+
 const {
   runCommissionSafetyMigration
 } = require("./database/commission-safety-migration");
 
+const {
+  runProductCostMigration
+} = require("./database/product-cost-migration");
+
+// Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
 const productRoutes = require("./routes/product.routes");
@@ -29,11 +38,13 @@ const referralRoutes = require("./routes/referral.routes");
 const commissionRoutes = require("./routes/commission.routes");
 const refundRoutes = require("./routes/refund.routes");
 
+// Commission Worker
 const {
   startCommissionWorker,
   stopCommissionWorker
 } = require("./workers/commission.worker");
 
+// Error Handlers
 const {
   notFoundHandler,
   errorHandler
@@ -42,10 +53,16 @@ const {
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Render reverse proxy support
+// =====================================================
+// RENDER PROXY
+// =====================================================
+
 app.set("trust proxy", 1);
 
-// Allowed frontend origins
+// =====================================================
+// CORS CONFIGURATION
+// =====================================================
+
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map((origin) => origin.trim())
@@ -57,7 +74,10 @@ const localOrigins = [
   "http://127.0.0.1:5500"
 ];
 
-// Security
+// =====================================================
+// SECURITY
+// =====================================================
+
 app.use(helmet());
 
 app.use(cors({
@@ -77,10 +97,16 @@ app.use(cors({
   }
 }));
 
-// JSON Request Body
+// =====================================================
+// JSON BODY
+// =====================================================
+
 app.use(express.json({ limit: "1mb" }));
 
-// Login Rate Limit
+// =====================================================
+// LOGIN RATE LIMIT
+// =====================================================
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 20,
@@ -92,7 +118,10 @@ const loginLimiter = rateLimit({
   }
 });
 
-// Registration Rate Limit
+// =====================================================
+// REGISTRATION RATE LIMIT
+// =====================================================
+
 const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   limit: 5,
@@ -104,7 +133,10 @@ const registerLimiter = rateLimit({
   }
 });
 
-// API Health Check
+// =====================================================
+// API HEALTH CHECK
+// =====================================================
+
 app.get("/api/health", async (req, res) => {
   try {
     await pool.query("SELECT 1");
@@ -128,12 +160,18 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// Authentication Routes
+// =====================================================
+// AUTHENTICATION ROUTES
+// =====================================================
+
 app.use("/api/auth/login", loginLimiter);
 app.use("/api/auth/register", registerLimiter);
 app.use("/api/auth", authRoutes);
 
-// Other API Routes
+// =====================================================
+// OTHER API ROUTES
+// =====================================================
+
 app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/packages", packageRoutes);
@@ -143,25 +181,46 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Referral Routes
+// =====================================================
+// REFERRAL ROUTES
+// =====================================================
+
 app.use("/api/referral", referralRoutes);
 
-// Commission Routes
+// =====================================================
+// COMMISSION ROUTES
+// =====================================================
+
 app.use("/api/commission", commissionRoutes);
 
-// Refund Routes
+// =====================================================
+// REFUND ROUTES
+// =====================================================
+
 app.use("/api/refunds", refundRoutes);
 
-// Payment Routes
+// =====================================================
+// PAYMENT ROUTES
+// =====================================================
+
 app.use("/api/payment", paymentRoutes);
 
-// Image Upload Routes
+// =====================================================
+// IMAGE UPLOAD ROUTES
+// =====================================================
+
 app.use("/api/upload", uploadRoutes);
 
-// 404 Handler
+// =====================================================
+// 404 HANDLER
+// =====================================================
+
 app.use(notFoundHandler);
 
-// Global Error Handler
+// =====================================================
+// GLOBAL ERROR HANDLER
+// =====================================================
+
 app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(error);
@@ -177,24 +236,42 @@ app.use((error, req, res, next) => {
   return errorHandler(error, req, res, next);
 });
 
-// Start Server
+// =====================================================
+// START SERVER
+// =====================================================
+
 async function startServer() {
   try {
-    // Initialize existing database tables
+    // 1. Initialize database
     await initializeDatabase();
 
-    // Run additive Partner System migration
+    console.log("Database initialization completed.");
+
+    // 2. Partner migration
     // Existing database records will be preserved.
     await runPartnerMigration();
 
-    // Run additive Commission Safety migration
+    console.log("Partner migration completed.");
+
+    // 3. Commission safety migration
     // Existing orders and financial records will be preserved.
     await runCommissionSafetyMigration();
 
-    // Start automatic commission release worker
+    console.log("Commission safety migration completed.");
+
+    // 4. Product and Package Cost migration
+    // Adds cost columns and cost_snapshot if missing.
+    // Existing order snapshots are not rewritten.
+    await runProductCostMigration();
+
+    console.log("Product cost migration completed.");
+
+    // 5. Start automatic commission release worker
     startCommissionWorker(pool);
 
-    // Start HTTP server
+    console.log("Commission worker started.");
+
+    // 6. Start HTTP server
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
@@ -202,16 +279,19 @@ async function startServer() {
       console.log("Referral route registered.");
       console.log("Commission route registered.");
       console.log("Refund route registered.");
-      console.log("Commission worker started.");
-      console.log("Partner migration completed.");
-      console.log("Commission safety migration completed.");
+      console.log("Product cost management enabled.");
+      console.log("Package cost management enabled.");
     });
 
-    // Graceful shutdown
+    // =================================================
+    // GRACEFUL SHUTDOWN
+    // =================================================
+
     let shuttingDown = false;
 
     async function shutdown(signal) {
       if (shuttingDown) return;
+
       shuttingDown = true;
 
       console.log(`${signal} received. Shutting down...`);
@@ -222,10 +302,17 @@ async function startServer() {
         server.close(async () => {
           try {
             await pool.end();
+
             console.log("Rubalia API shutdown completed.");
+
             process.exit(0);
+
           } catch (error) {
-            console.error("Database shutdown failed:", error.message);
+            console.error(
+              "Database shutdown failed:",
+              error.message
+            );
+
             process.exit(1);
           }
         });
@@ -241,6 +328,7 @@ async function startServer() {
 
   } catch (error) {
     console.error("Startup failed:", error.message);
+
     process.exit(1);
   }
 }
