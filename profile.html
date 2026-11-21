@@ -3,263 +3,616 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#7138d8">
-<meta name="description" content="Manage your RUBALIA NETWORK member profile.">
+<meta name="description" content="RUBALIA NETWORK Member Profile">
 <meta http-equiv="Cache-Control" content="no-store">
-<title>My Profile | RUBALIA NETWORK</title>
+<title>My Account | RUBALIA NETWORK</title>
 
 <style>
 :root{
   --purple:#7138d8;
-  --pink:#ec4899;
-  --blue:#3184ed;
-  --cyan:#20c6d7;
-  --orange:#ff9b42;
-  --green:#159b69;
-  --red:#dc4444;
-  --text:#26334c;
+  --pink:#e84b9c;
+  --dark:#35206f;
+  --text:#28344c;
   --muted:#8290a5;
-  --border:#e9eaf3;
+  --border:#e8eaf2;
   --bg:#f5f4fc;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 a{text-decoration:none;color:inherit}
 button{font-family:inherit}
 
 header{
-  min-height:70px;background:linear-gradient(110deg,#5624bd,#883fe0,#e34b9b);
-  color:white;display:flex;align-items:center;justify-content:space-between;
-  padding:10px 22px;position:sticky;top:0;z-index:100;
+  min-height:68px;
+  background:linear-gradient(110deg,#5624bd,#883fe0,#e34b9b);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  position:sticky;
+  top:0;
+  z-index:100;
   box-shadow:0 5px 20px rgba(93,42,177,.2);
 }
-.header-left,.header-right{display:flex;align-items:center;gap:13px}
-.logo{color:white;font-size:20px;font-weight:900;letter-spacing:1px}
+.header-left,.header-right{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.logo{
+  color:white;
+  font-size:19px;
+  font-weight:900;
+  letter-spacing:1px;
+}
 .logo span{color:#ffe58a}
-.header-right a{color:white;font-size:13px;font-weight:bold}
-.header-right a:hover{color:#ffe58a}
+.header-right a{
+  color:white;
+  font-size:13px;
+  font-weight:bold;
+}
 .avatar-small{
-  width:38px;height:38px;background:linear-gradient(135deg,#ffe58a,#ffb84d);
-  color:#6128bd;display:flex;align-items:center;justify-content:center;
-  border-radius:50%;font-weight:900;border:2px solid rgba(255,255,255,.7);
+  width:38px;
+  height:38px;
+  background:#ffe58a;
+  color:#6128bd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-weight:900;
+  border:2px solid white;
 }
 .mobile-menu{
-  display:none;background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.4);color:white;
-  border-radius:9px;padding:7px 11px;font-size:19px;cursor:pointer;
+  display:none;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.4);
+  color:white;
+  border-radius:9px;
+  padding:7px 11px;
+  font-size:19px;
+  cursor:pointer;
 }
-.layout{display:flex;min-height:calc(100vh - 70px)}
+.layout{
+  display:flex;
+  min-height:calc(100vh - 68px);
+}
 .sidebar{
-  width:245px;flex-shrink:0;background:linear-gradient(180deg,#30206d,#51258d,#77349e);
-  padding:24px 14px;color:white;
+  width:245px;
+  flex-shrink:0;
+  background:linear-gradient(180deg,#30206d,#51258d,#77349e);
+  padding:24px 14px;
+  color:white;
 }
 .profile-mini{
-  text-align:center;padding-bottom:22px;
-  border-bottom:1px solid rgba(255,255,255,.18);margin-bottom:18px;
+  text-align:center;
+  padding-bottom:22px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  margin-bottom:18px;
 }
 .profile-mini .avatar{
-  width:68px;height:68px;background:linear-gradient(135deg,#ffe58a,#ff9d54);
-  color:#6028a8;border-radius:50%;margin:auto auto 10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:23px;font-weight:900;border:3px solid rgba(255,255,255,.45);
+  width:68px;
+  height:68px;
+  background:linear-gradient(135deg,#ffe58a,#ff9d54);
+  color:#6028a8;
+  border-radius:50%;
+  margin:auto auto 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:900;
+  border:3px solid rgba(255,255,255,.45);
 }
-.profile-mini h3{font-size:14px;margin:0 0 5px;overflow-wrap:anywhere}
-.profile-mini p{font-size:11px;color:#e1d8f6;margin:0;overflow-wrap:anywhere}
-.menu-title{font-size:10px;letter-spacing:1.5px;color:#d0baf2;padding:12px;font-weight:bold}
+.profile-mini h3{
+  font-size:14px;
+  margin:0 0 5px;
+  overflow-wrap:anywhere;
+}
+.profile-mini p{
+  font-size:11px;
+  color:#e1d8f6;
+  margin:0;
+  overflow-wrap:anywhere;
+}
+.menu-title{
+  font-size:10px;
+  letter-spacing:1.5px;
+  color:#d0baf2;
+  padding:12px;
+  font-weight:bold;
+}
 .menu a{
-  display:block;color:#f0eafa;font-size:13px;padding:12px;
-  margin:4px 0;border-radius:9px;transition:.2s;
+  display:block;
+  color:#f0eafa;
+  font-size:13px;
+  padding:12px;
+  margin:4px 0;
+  border-radius:9px;
+  transition:.2s;
 }
 .menu a:hover,.menu a.active{
-  color:white;background:linear-gradient(100deg,#e64c9a,#a14de0);
-  box-shadow:0 5px 14px rgba(0,0,0,.15);transform:translateX(3px);
+  color:white;
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  box-shadow:0 5px 14px rgba(0,0,0,.15);
 }
-main{flex:1;min-width:0;padding:28px}
+main{
+  flex:1;
+  min-width:0;
+  padding:25px;
+}
 .page-heading{
-  margin-bottom:23px;padding:23px 25px;border-radius:17px;color:white;
+  margin-bottom:20px;
+  padding:21px 24px;
+  border-radius:16px;
+  color:white;
   background:linear-gradient(110deg,#6334d2,#9c45dd,#e44c9b);
   box-shadow:0 9px 25px rgba(120,55,194,.18);
-  position:relative;overflow:hidden;
 }
-.page-heading:after{
-  content:"";position:absolute;width:180px;height:180px;
-  right:-35px;top:-75px;border-radius:50%;background:rgba(255,255,255,.12);
+.page-heading h1{
+  font-size:25px;
+  margin:0 0 7px;
 }
-.page-heading h1{font-size:26px;margin:0 0 8px;position:relative;z-index:1}
-.page-heading p{font-size:13px;margin:0;line-height:1.7;color:#f1e8ff;position:relative;z-index:1}
-
+.page-heading p{
+  font-size:13px;
+  margin:0;
+  line-height:1.6;
+  color:#f1e8ff;
+}
 .loading-box{
-  background:white;border:1px solid var(--border);border-radius:15px;
-  padding:40px 20px;text-align:center;color:var(--muted);line-height:1.8;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:35px 20px;
+  text-align:center;
+  color:var(--muted);
+  line-height:1.8;
 }
 .spinner{
-  width:37px;height:37px;border:4px solid #eee8fa;
-  border-top-color:var(--pink);border-right-color:var(--purple);
-  border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px;
+  width:35px;
+  height:35px;
+  border:4px solid #eee8fa;
+  border-top-color:#e84b9c;
+  border-right-color:#7138d8;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 13px;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-box{
-  display:none;background:#fff0f2;border:1px solid #ffc9d2;color:#a32d45;
-  padding:16px;border-radius:11px;line-height:1.7;font-size:13px;margin-bottom:20px;
+  display:none;
+  background:#fff0f2;
+  border:1px solid #ffc9d2;
+  color:#a32d45;
+  padding:15px;
+  border-radius:11px;
+  line-height:1.7;
+  font-size:13px;
+  margin-bottom:18px;
 }
 .profile-content{display:none}
-.profile-layout{
-  display:grid;grid-template-columns:310px minmax(0,1fr);
-  gap:20px;align-items:start;
+
+/* MAIN PROFILE CARD */
+
+.account-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+  padding:25px 27px 23px;
+  margin-bottom:18px;
+  background:linear-gradient(125deg,#f1f7ff,#dce8f5,#edf4fc);
+  border:1px solid #dce6f2;
+  box-shadow:0 8px 25px rgba(47,66,105,.09);
 }
-.card{
-  background:white;border:1px solid var(--border);border-radius:16px;
-  padding:23px;margin-bottom:19px;box-shadow:0 6px 22px rgba(72,49,123,.055);
+.account-card:after{
+  content:"";
+  position:absolute;
+  width:230px;
+  height:230px;
+  right:-55px;
+  top:20px;
+  border-radius:50%;
+  border:28px solid rgba(255,255,255,.28);
+  pointer-events:none;
 }
-.profile-card{text-align:center;overflow:hidden;position:relative;border:0;background:white}
-.profile-card:before{
-  content:"";display:block;height:105px;position:absolute;top:0;left:0;right:0;
-  background:linear-gradient(120deg,#6336d4,#a448e2,#ed579f);
+.account-main{
+  display:flex;
+  align-items:center;
+  gap:23px;
+  position:relative;
+  z-index:1;
 }
-.avatar-large{
-  width:112px;height:112px;margin:35px auto 15px;position:relative;
-  border-radius:50%;background:linear-gradient(135deg,#ffe58a,#ff9d54);
-  display:flex;align-items:center;justify-content:center;font-size:39px;
-  color:#682ab0;font-weight:900;border:6px solid white;
-  box-shadow:0 5px 18px rgba(90,42,170,.2);
+.account-avatar{
+  width:145px;
+  height:145px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffe58a,#ff9d54);
+  border:7px solid white;
+  box-shadow:0 5px 18px rgba(40,55,85,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#642ab1;
+  font-size:43px;
+  font-weight:900;
 }
-.profile-card h2{color:#5728a5;font-size:20px;margin:0 0 8px;overflow-wrap:anywhere}
-.profile-email{color:var(--muted);font-size:12px;overflow-wrap:anywhere;line-height:1.6}
-.status-badge{
-  display:inline-block;background:#e3f9ef;color:#138451;
-  padding:8px 15px;border-radius:20px;font-size:11px;
-  font-weight:900;margin-top:15px;text-transform:uppercase;
+.account-details{
+  min-width:0;
+  flex:1;
 }
-.profile-divider{height:1px;background:var(--border);margin:22px 0}
-.profile-info{
-  display:flex;justify-content:space-between;gap:12px;
-  font-size:12px;margin:16px 0;text-align:left;
+.member-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 20px;
+  border-radius:30px;
+  background:linear-gradient(120deg,#777b83,#454951);
+  color:white;
+  font-size:16px;
+  font-weight:900;
+  margin-bottom:13px;
 }
-.profile-info span{color:var(--muted)}
-.profile-info strong{
-  color:#5728a5;text-align:right;overflow-wrap:anywhere;text-transform:capitalize;
+.account-name-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
-.card-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
-.card-title h2{color:#53289e;font-size:17px;margin:0}
-.section-label{font-size:10px;color:#df4c9b;font-weight:900;letter-spacing:1px}
+.account-name{
+  color:#111827;
+  font-size:27px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+.member-copy{
+  border:0;
+  background:transparent;
+  font-size:23px;
+  cursor:pointer;
+  color:#171717;
+}
+.account-subtitle{
+  color:#646d7a;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:10px;
+  overflow-wrap:anywhere;
+}
+.join-date{
+  color:#687383;
+  font-size:14px;
+  font-weight:bold;
+  margin-top:15px;
+}
+.account-status{
+  display:inline-block;
+  margin-top:12px;
+  padding:6px 13px;
+  border-radius:20px;
+  background:#e3f9ef;
+  color:#138451;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.balance-area{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:22px;
+  position:relative;
+  z-index:1;
+}
+.balance-label{
+  font-size:12px;
+  color:#657185;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+.balance-amount{
+  font-size:35px;
+  color:#343d4b;
+  font-weight:900;
+}
+.balance-refresh{
+  border:0;
+  background:transparent;
+  color:#8795a6;
+  font-size:35px;
+  cursor:pointer;
+}
+.account-actions{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+  margin-top:21px;
+  position:relative;
+  z-index:1;
+}
+.account-action{
+  border:1px solid #e0e5ed;
+  background:linear-gradient(180deg,#fff,#f1f3f6);
+  color:#414957;
+  border-radius:40px;
+  padding:15px 8px;
+  text-align:center;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 5px 12px rgba(40,50,70,.13);
+  transition:.2s;
+}
+.account-action:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 17px rgba(40,50,70,.18);
+}
+
+/* ACCOUNT DETAILS - MY CARD */
+
+.account-details-panel{
+  display:none;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 6px 22px rgba(72,49,123,.055);
+}
+.account-details-panel.show{display:block}
+.section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+.section-heading h2{
+  color:#53289e;
+  font-size:17px;
+  margin:0;
+}
+.close-details{
+  border:0;
+  background:#f1eaff;
+  color:#6734bd;
+  border-radius:8px;
+  padding:8px 12px;
+  font-weight:bold;
+  cursor:pointer;
+}
 .detail-row{
-  display:flex;justify-content:space-between;gap:15px;
-  padding:16px 0;border-bottom:1px solid var(--border);font-size:13px;
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
 }
 .detail-row:last-child{border-bottom:0}
 .detail-row span{color:var(--muted)}
-.detail-row strong{color:#542a9d;text-align:right;overflow-wrap:anywhere}
+.detail-row strong{
+  color:#542a9d;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+
+/* SLIM REFERRAL CARD */
+
+.referral-card{
+  background:linear-gradient(110deg,#392078,#6734bd,#a93c9d);
+  color:white;
+  border:0;
+  border-radius:15px;
+  padding:15px 17px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(72,40,140,.12);
+}
+.referral-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.referral-top h2{
+  color:white;
+  font-size:16px;
+  margin:0;
+}
+.referral-top span{
+  color:#ffe58a;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.referral-line{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.referral-field{
+  min-width:0;
+  padding:9px 10px;
+  border-radius:9px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+}
+.referral-field label{
+  display:block;
+  color:#eadcff;
+  font-size:9px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.referral-value{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.referral-value strong{
+  flex:1;
+  min-width:0;
+  overflow-wrap:anywhere;
+  font-size:11px;
+  color:white;
+  line-height:1.5;
+}
+.copy-btn{
+  flex-shrink:0;
+  border:0;
+  border-radius:6px;
+  padding:7px 9px;
+  background:#ffe58a;
+  color:#55268f;
+  font-weight:900;
+  font-size:9px;
+  cursor:pointer;
+}
+.copy-btn:disabled{opacity:.5;cursor:not-allowed}
+.referral-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+  font-size:10px;
+  color:#f2e8ff;
+}
+.referral-bottom strong{color:#ffe58a}
+.referral-error{
+  display:none;
+  font-size:10px;
+  color:#ffe2e9;
+  line-height:1.5;
+  margin-top:8px;
+}
+.referral-stats{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+.referral-stats span{color:#eadcff}
+.referral-stats strong{color:white;font-size:12px}
+.level-details{
+  margin-top:9px;
+  font-size:10px;
+}
+.level-details summary{
+  cursor:pointer;
+  color:#ffe58a;
+  font-weight:bold;
+}
+.level-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:5px;
+  margin-top:8px;
+}
+.level-item{
+  background:rgba(255,255,255,.12);
+  padding:7px 4px;
+  border-radius:6px;
+  text-align:center;
+  color:#eee3ff;
+}
+.level-item strong{
+  display:block;
+  color:white;
+  margin-top:4px;
+}
+
+/* OTHER */
+
+.info-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(72,49,123,.045);
+}
+.info-card h2{
+  color:#53289e;
+  font-size:16px;
+  margin:0 0 12px;
+}
 .info-note{
-  padding:15px;background:linear-gradient(120deg,#fff2fa,#f1edff);
-  border:1px solid #eadcfb;color:#7042a6;border-radius:11px;
-  font-size:12px;line-height:1.8;
+  padding:13px;
+  background:linear-gradient(120deg,#fff2fa,#f1edff);
+  border:1px solid #eadcfb;
+  color:#7042a6;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.8;
 }
 .security-row{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:15px 0;border-bottom:1px solid var(--border);font-size:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
 }
 .security-row:last-child{border:0}
 .security-row span{color:var(--muted)}
 .security-row a{color:#d94491;font-weight:bold}
-.security-row a:hover{text-decoration:underline}
-.action-area{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;border:0;
-  padding:12px 18px;border-radius:9px;font-size:11px;font-weight:900;
-  cursor:pointer;transition:.2s;
+footer{
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+  font-size:11px;
 }
-.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
-.btn-primary{background:linear-gradient(100deg,#6937d4,#df499f);color:white;box-shadow:0 5px 13px rgba(132,52,192,.2)}
-.btn-secondary{background:linear-gradient(100deg,#e9e4ff,#fce5f3);color:#682caa}
-.btn-danger{background:#fff0f2;color:var(--red)}
-
-/* REFERRAL CARD */
-
-.referral-card{
-  background:linear-gradient(135deg,#382078,#6734bd,#bd429f);
-  color:white;border:0;overflow:hidden;position:relative;
-}
-.referral-card:after{
-  content:"";position:absolute;width:180px;height:180px;
-  right:-60px;top:-70px;border:25px solid rgba(255,255,255,.07);
-  border-radius:50%;pointer-events:none;
-}
-.referral-card .card-title{position:relative;z-index:1}
-.referral-card .card-title h2{color:white}
-.referral-card .section-label{color:#ffe58a}
-.referral-intro{font-size:12px;color:#eee2ff;line-height:1.7;margin:-8px 0 20px}
-.referral-field{position:relative;z-index:1;margin:15px 0}
-.referral-field label{
-  display:block;font-size:10px;font-weight:900;
-  letter-spacing:1px;color:#eadcff;margin-bottom:8px;
-}
-.referral-value{
-  display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);
-  border-radius:10px;padding:9px;
-}
-.referral-value strong{
-  flex:1;min-width:0;overflow-wrap:anywhere;
-  font-size:13px;color:white;line-height:1.5;
-}
-.copy-btn{
-  flex-shrink:0;border:0;border-radius:7px;padding:9px 11px;
-  background:#ffe58a;color:#55268f;font-weight:900;
-  font-size:10px;cursor:pointer;
-}
-.copy-btn:disabled{opacity:.5;cursor:not-allowed}
-.referral-sponsor{
-  margin-top:17px;padding:12px 14px;
-  border-radius:10px;background:rgba(255,255,255,.11);
-  font-size:12px;color:#f2e8ff;line-height:1.7;
-  position:relative;z-index:1;
-}
-.referral-sponsor strong{color:#ffe58a}
-.referral-stats{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;margin-top:18px;position:relative;z-index:1;
-}
-.referral-stat{
-  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
-  border-radius:10px;padding:13px;
-}
-.referral-stat span{display:block;font-size:10px;color:#eadcff;margin-bottom:7px}
-.referral-stat strong{font-size:22px;color:#fff;font-weight:900}
-.referral-error{font-size:11px;color:#ffe2e9;line-height:1.6;margin-top:12px}
-.level-list{margin-top:16px;position:relative;z-index:1}
-.level-list h3{font-size:12px;margin:0 0 10px;color:#ffe58a}
-.level-row{
-  display:flex;justify-content:space-between;gap:10px;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.13);
-  font-size:11px;color:#f1e8ff;
-}
-.level-row:last-child{border-bottom:0}
-.level-row strong{color:white}
-footer{text-align:center;padding:20px;color:var(--muted);font-size:11px}
 footer span{color:#d94698;font-weight:bold}
 
-@media(max-width:950px){.profile-layout{grid-template-columns:1fr}}
+@media(max-width:950px){
+  main{padding:20px}
+}
 @media(max-width:700px){
-  header{padding:10px 14px}
+  header{padding:10px 13px}
   .mobile-menu{display:block}
   .layout{display:block}
   .sidebar{display:none;width:100%}
   .sidebar.show{display:block}
   .profile-mini{display:none}
-  main{padding:19px 13px}
-  .page-heading{padding:21px 19px}
-  .page-heading h1{font-size:23px}
-  .card{padding:19px}
-  .header-right{gap:9px}
+  main{padding:15px 12px}
+  .page-heading{padding:18px}
+  .page-heading h1{font-size:22px}
+  .account-card{padding:19px 16px;border-radius:19px}
+  .account-main{gap:13px}
+  .account-avatar{width:94px;height:94px;font-size:30px;border-width:5px}
+  .member-pill{font-size:12px;padding:7px 13px;margin-bottom:8px}
+  .account-name{font-size:20px}
+  .account-subtitle{font-size:12px;margin-top:7px}
+  .join-date{font-size:11px;margin-top:9px}
+  .balance-amount{font-size:29px}
+  .account-action{font-size:14px;padding:13px 5px}
+  .account-actions{gap:8px}
+  .referral-line{grid-template-columns:1fr}
+  .referral-card{padding:13px}
+  .referral-stats{gap:10px}
 }
 @media(max-width:380px){
-  .logo{font-size:16px}
+  .logo{font-size:15px}
   .header-right a{font-size:11px}
-  .detail-row{font-size:12px}
-  .section-label{font-size:9px}
-  .referral-value strong{font-size:11px}
-  .copy-btn{padding:8px;font-size:9px}
+  .account-main{align-items:flex-start}
+  .account-avatar{width:78px;height:78px;font-size:25px}
+  .account-name{font-size:17px}
+  .account-actions{gap:6px}
+  .account-action{font-size:12px;padding:12px 3px}
+  .balance-amount{font-size:26px}
+  .referral-stats{width:100%;justify-content:space-between}
 }
 </style>
 </head>
@@ -268,7 +621,7 @@ footer span{color:#d94698;font-weight:bold}
 
 <header>
   <div class="header-left">
-    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation menu">☰</button>
+    <button class="mobile-menu" id="mobileMenu" type="button">☰</button>
     <a href="index.html" class="logo">RUBALIA <span>NETWORK</span></a>
   </div>
   <div class="header-right">
@@ -307,9 +660,10 @@ footer span{color:#d94698;font-weight:bold}
   </aside>
 
   <main>
+
     <div class="page-heading">
-      <h1>👤 My Profile</h1>
-      <p>View your RUBALIA NETWORK account information.</p>
+      <h1>👤 My Account</h1>
+      <p>Manage your RUBALIA NETWORK account.</p>
     </div>
 
     <div class="error-box" id="errorBox" role="alert"></div>
@@ -320,179 +674,178 @@ footer span{color:#d94698;font-weight:bold}
     </div>
 
     <div class="profile-content" id="profileContent">
-      <div class="profile-layout">
 
-        <div>
-          <section class="card profile-card">
-            <div class="avatar-large" id="largeAvatar">--</div>
-            <h2 id="profileName">Member</h2>
-            <div class="profile-email" id="profileEmail"></div>
-            <span class="status-badge" id="statusBadge">ACTIVE</span>
-            <div class="profile-divider"></div>
+      <!-- PROFILE CARD -->
+      <section class="account-card">
 
-            <div class="profile-info">
-              <span>Account Role</span>
-              <strong id="profileRole">Customer</strong>
-            </div>
-            <div class="profile-info">
-              <span>Account Status</span>
-              <strong id="profileStatus">Active</strong>
-            </div>
-            <div class="profile-info">
-              <span>Member Since</span>
-              <strong id="profileSince">Not available</strong>
-            </div>
-            <div class="profile-info">
-              <span>Member ID</span>
-              <strong id="profileMemberId">Loading...</strong>
-            </div>
-          </section>
+        <div class="account-main">
+          <div class="account-avatar" id="largeAvatar">--</div>
 
-          <section class="card">
-            <div class="card-title">
-              <h2>🔐 Account Security</h2>
+          <div class="account-details">
+            <div class="member-pill">✦ RUBALIA MEMBER</div>
+
+            <div class="account-name-row">
+              <div class="account-name" id="profileName">Member</div>
+              <button class="member-copy" id="copyMemberBtn"
+                type="button" title="Copy Member ID">▣</button>
             </div>
-            <div class="security-row">
-              <span>Password</span>
-              <a href="forgot-password.html">Password Help</a>
+
+            <div class="account-subtitle">
+              Member ID: <strong id="profileMemberId">Loading...</strong>
             </div>
-            <div class="security-row">
-              <span>Login Session</span>
-              <strong style="color:#159b69">Authenticated</strong>
+
+            <div class="join-date">
+              Joined: <span id="profileSince">Not available</span>
             </div>
-            <div class="security-row">
-              <span>Account Access</span>
-              <strong>Server Verified</strong>
-            </div>
-          </section>
+
+            <span class="account-status" id="statusBadge">ACTIVE</span>
+          </div>
         </div>
 
-        <div>
-
-          <!-- MY REFERRAL -->
-          <section class="card referral-card">
-            <div class="card-title">
-              <h2>🔗 My Referral</h2>
-              <span class="section-label">INVITE MEMBERS</span>
-            </div>
-
-            <p class="referral-intro">
-              Share your referral link with others. When someone registers
-              using your link, your Member ID will be recorded as their Sponsor.
-            </p>
-
-            <div class="referral-field">
-              <label>YOUR MEMBER ID / REFERRAL CODE</label>
-              <div class="referral-value">
-                <strong id="referralCode">Loading...</strong>
-                <button class="copy-btn" type="button"
-                  data-copy="referralCode" disabled>COPY</button>
-              </div>
-            </div>
-
-            <div class="referral-field">
-              <label>YOUR REFERRAL LINK</label>
-              <div class="referral-value">
-                <strong id="referralLink">Loading...</strong>
-                <button class="copy-btn" type="button"
-                  data-copy="referralLink" disabled>COPY</button>
-              </div>
-            </div>
-
-            <div class="referral-sponsor">
-              Your Sponsor ID:
-              <strong id="sponsorId">Loading...</strong>
-            </div>
-
-            <div class="referral-stats">
-              <div class="referral-stat">
-                <span>Direct Referrals</span>
-                <strong id="directReferrals">—</strong>
-              </div>
-              <div class="referral-stat">
-                <span>Total Team (10 Levels)</span>
-                <strong id="totalReferrals">—</strong>
-              </div>
-            </div>
-
-            <div class="level-list">
-              <h3>10 LEVEL TEAM SUMMARY</h3>
-              <div id="levelSummary">
-                <div class="level-row"><span>Loading levels...</span><strong>—</strong></div>
-              </div>
-            </div>
-
-            <div id="referralError" class="referral-error" style="display:none"></div>
-          </section>
-
-          <section class="card">
-            <div class="card-title">
-              <h2>📋 Personal Information</h2>
-              <span class="section-label">ACCOUNT DETAILS</span>
-            </div>
-
-            <div class="detail-row">
-              <span>Full Name</span>
-              <strong id="detailName">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Email Address</span>
-              <strong id="detailEmail">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Account Role</span>
-              <strong id="detailRole">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Account Status</span>
-              <strong id="detailStatus">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Member ID</span>
-              <strong id="detailMemberId">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Sponsor ID</span>
-              <strong id="detailSponsorId">—</strong>
-            </div>
-            <div class="detail-row">
-              <span>Registration Date</span>
-              <strong id="detailCreated">Not available</strong>
-            </div>
-          </section>
-
-          <section class="card">
-            <div class="card-title">
-              <h2>⚙️ Profile Management</h2>
-            </div>
-            <div class="info-note">
-              Your account information is retrieved from the RUBALIA
-              NETWORK server. Profile editing, mobile number, address and
-              other additional information will appear when the required
-              backend features are implemented.
-            </div>
-            <div class="action-area">
-              <a href="dashboard.html" class="btn btn-primary">BACK TO DASHBOARD</a>
-              <button type="button" class="btn btn-secondary" id="refreshBtn">
-                ↻ REFRESH PROFILE
-              </button>
-            </div>
-          </section>
-
-          <section class="card">
-            <div class="card-title">
-              <h2>💡 Important Information</h2>
-            </div>
-            <p style="font-size:13px;line-height:1.9;color:#8290a5;margin:0">
-              Keep your account credentials private. Never share your
-              password, OTP or verification codes with anyone. If you notice
-              unfamiliar account activity, contact the support team.
-            </p>
-          </section>
+        <div class="balance-area">
+          <div>
+            <div class="balance-label">WALLET BALANCE</div>
+            <div class="balance-amount" id="walletBalance">৳ 0.00</div>
+          </div>
+          <button class="balance-refresh" id="refreshBalance"
+            type="button" title="Refresh balance">⟳</button>
         </div>
-      </div>
 
-      <footer>© <span>RUBALIA NETWORK</span> — Member Profile</footer>
+        <div class="account-actions">
+          <a href="deposit.html" class="account-action">জমা দিন</a>
+          <a href="withdraw.html" class="account-action">উত্তোলন</a>
+          <button type="button" class="account-action" id="myCardBtn">
+            আমার কার্ড
+          </button>
+        </div>
+
+      </section>
+
+      <!-- MY CARD / ACCOUNT DETAILS -->
+      <section class="account-details-panel" id="accountDetailsPanel">
+        <div class="section-heading">
+          <h2>📋 Account Details</h2>
+          <button type="button" class="close-details" id="closeDetails">
+            CLOSE ✕
+          </button>
+        </div>
+
+        <div class="detail-row">
+          <span>Full Name</span>
+          <strong id="detailName">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Email Address</span>
+          <strong id="detailEmail">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Account Role</span>
+          <strong id="detailRole">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Account Status</span>
+          <strong id="detailStatus">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Member ID</span>
+          <strong id="detailMemberId">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Sponsor ID</span>
+          <strong id="detailSponsorId">—</strong>
+        </div>
+        <div class="detail-row">
+          <span>Registration Date</span>
+          <strong id="detailCreated">—</strong>
+        </div>
+      </section>
+
+      <!-- SLIM REFERRAL CARD -->
+      <section class="referral-card">
+
+        <div class="referral-top">
+          <h2>🔗 My Referral</h2>
+          <span>INVITE MEMBERS</span>
+        </div>
+
+        <div class="referral-line">
+
+          <div class="referral-field">
+            <label>MEMBER ID / REFERRAL CODE</label>
+            <div class="referral-value">
+              <strong id="referralCode">Loading...</strong>
+              <button class="copy-btn" type="button"
+                data-copy="referralCode" disabled>COPY</button>
+            </div>
+          </div>
+
+          <div class="referral-field">
+            <label>YOUR REFERRAL LINK</label>
+            <div class="referral-value">
+              <strong id="referralLink">Loading...</strong>
+              <button class="copy-btn" type="button"
+                data-copy="referralLink" disabled>COPY</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="referral-bottom">
+          <div>
+            Sponsor ID:
+            <strong id="sponsorId">Loading...</strong>
+          </div>
+
+          <div class="referral-stats">
+            <div>
+              <span>Direct:</span>
+              <strong id="directReferrals">—</strong>
+            </div>
+            <div>
+              <span>10 Level Team:</span>
+              <strong id="totalReferrals">—</strong>
+            </div>
+          </div>
+        </div>
+
+        <details class="level-details">
+          <summary>View 10 Level Team Summary</summary>
+          <div class="level-grid" id="levelSummary">
+            <div class="level-item">Loading...</div>
+          </div>
+        </details>
+
+        <div id="referralError" class="referral-error"></div>
+      </section>
+
+      <!-- SECURITY -->
+      <section class="info-card">
+        <h2>🔐 Account Security</h2>
+        <div class="security-row">
+          <span>Password</span>
+          <a href="forgot-password.html">Password Help</a>
+        </div>
+        <div class="security-row">
+          <span>Login Session</span>
+          <strong style="color:#159b69">Authenticated</strong>
+        </div>
+        <div class="security-row">
+          <span>Account Access</span>
+          <strong>Server Verified</strong>
+        </div>
+      </section>
+
+      <section class="info-card">
+        <h2>💡 Important Information</h2>
+        <div class="info-note">
+          Keep your account credentials private. Never share your
+          password, OTP or verification codes with anyone. Contact
+          support if you notice unfamiliar account activity.
+        </div>
+      </section>
+
+      <footer>© <span>RUBALIA NETWORK</span> — My Account</footer>
+
     </div>
   </main>
 </div>
@@ -506,6 +859,8 @@ const loadingBox = document.getElementById("loadingBox");
 const profileContent = document.getElementById("profileContent");
 const errorBox = document.getElementById("errorBox");
 
+let currentMemberId = "";
+
 function getToken(){
   return sessionStorage.getItem("rubalia_token");
 }
@@ -518,8 +873,13 @@ function logout(){
 
 function initials(name){
   if(!name) return "RN";
-  const parts = name.trim().split(/\s+/);
-  if(parts.length === 1) return parts[0].substring(0,2).toUpperCase();
+
+  const parts = String(name).trim().split(/\s+/);
+
+  if(parts.length === 1){
+    return parts[0].substring(0,2).toUpperCase();
+  }
+
   return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
 }
 
@@ -532,10 +892,17 @@ function safeText(value,fallback){
 
 function formatDate(value){
   if(!value) return "Not available";
+
   const date = new Date(value);
-  if(Number.isNaN(date.getTime())) return "Not available";
+
+  if(Number.isNaN(date.getTime())){
+    return "Not available";
+  }
+
   return date.toLocaleDateString("en-GB",{
-    day:"2-digit",month:"short",year:"numeric"
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
   });
 }
 
@@ -546,18 +913,56 @@ function showError(message){
   errorBox.textContent = message;
 }
 
+async function apiGet(path){
+  const token = getToken();
+
+  if(!token){
+    logout();
+    throw new Error("Please login again.");
+  }
+
+  const response = await fetch(API_BASE + path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer " + token,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(function(){
+    return {};
+  });
+
+  if(response.status === 401 || response.status === 403){
+    logout();
+    throw new Error("Your session has expired.");
+  }
+
+  if(!response.ok || data.success === false){
+    throw new Error(data.message || "Unable to load information.");
+  }
+
+  return data;
+}
+
+/* PROFILE DETAILS */
+
 function showProfile(user){
   const name = safeText(user.full_name,"Member");
   const email = safeText(user.email,"Not available");
   const role = safeText(user.role,"Customer");
   const status = safeText(user.status,"Unknown");
-  const avatar = initials(name);
-  const memberId = safeText(
-    user.memberId,
-    user.id ? "RUB" + String(user.id).padStart(6,"0") : "Not available"
-  );
+
+  currentMemberId = user.memberId ||
+    (user.id ? "RUB" + String(user.id).padStart(6,"0") : "Not available");
+
   const sponsorId = user.sponsorId ||
-    (user.sponsor_id ? "RUB" + String(user.sponsor_id).padStart(6,"0") : null);
+    (user.sponsor_id
+      ? "RUB" + String(user.sponsor_id).padStart(6,"0")
+      : "No Sponsor");
+
+  const avatar = initials(name);
 
   document.getElementById("headerAvatar").textContent = avatar;
   document.getElementById("sidebarAvatar").textContent = avatar;
@@ -567,59 +972,60 @@ function showProfile(user){
   document.getElementById("sidebarEmail").textContent = email;
 
   document.getElementById("profileName").textContent = name;
-  document.getElementById("profileEmail").textContent = email;
-  document.getElementById("profileRole").textContent = role;
-  document.getElementById("profileStatus").textContent = status;
-  document.getElementById("profileMemberId").textContent = memberId;
+  document.getElementById("profileMemberId").textContent = currentMemberId;
+  document.getElementById("profileSince").textContent =
+    formatDate(user.created_at);
 
-  const isActive = status.toLowerCase() === "active";
   const badge = document.getElementById("statusBadge");
   badge.textContent = status;
-  badge.style.background = isActive ? "#e3f9ef" : "#fff0e5";
-  badge.style.color = isActive ? "#138451" : "#b46a20";
 
-  document.getElementById("profileSince").textContent = formatDate(user.created_at);
+  if(status.toLowerCase() === "active"){
+    badge.style.background = "#e3f9ef";
+    badge.style.color = "#138451";
+  }else{
+    badge.style.background = "#fff0e5";
+    badge.style.color = "#b46a20";
+  }
 
   document.getElementById("detailName").textContent = name;
   document.getElementById("detailEmail").textContent = email;
   document.getElementById("detailRole").textContent = role;
   document.getElementById("detailStatus").textContent = status;
-  document.getElementById("detailMemberId").textContent = memberId;
-  document.getElementById("detailSponsorId").textContent =
-    sponsorId || "No Sponsor";
-  document.getElementById("detailCreated").textContent = formatDate(user.created_at);
-
-  document.getElementById("sponsorId").textContent =
-    sponsorId || "No Sponsor (Direct Registration)";
-
-  loadingBox.style.display = "none";
-  errorBox.style.display = "none";
-  profileContent.style.display = "block";
+  document.getElementById("detailMemberId").textContent = currentMemberId;
+  document.getElementById("detailSponsorId").textContent = sponsorId;
+  document.getElementById("detailCreated").textContent =
+    formatDate(user.created_at);
 }
 
-async function apiGet(path){
-  const response = await fetch(API_BASE + path,{
-    method:"GET",
-    headers:{
-      "Authorization":"Bearer " + getToken(),
-      "Accept":"application/json"
-    },
-    cache:"no-store"
-  });
+/* WALLET BALANCE */
 
-  const data = await response.json().catch(function(){return {};});
+async function loadWallet(){
+  const balanceElement = document.getElementById("walletBalance");
 
-  if(response.status === 401 || response.status === 403){
-    logout();
-    throw new Error("Your session has expired.");
+  try{
+    const data = await apiGet("/wallet");
+
+    const wallet = data.wallet || data;
+
+    const balance = Number(wallet.balance);
+
+    if(!Number.isFinite(balance)){
+      throw new Error("Wallet balance was not returned.");
+    }
+
+    balanceElement.textContent = "৳ " +
+      balance.toLocaleString("en-BD",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      });
+
+  }catch(error){
+    balanceElement.textContent = "৳ --.--";
+    console.error("Wallet loading error:",error);
   }
-
-  if(!response.ok || !data.success){
-    throw new Error(data.message || "Unable to load information.");
-  }
-
-  return data;
 }
+
+/* REFERRAL INFORMATION */
 
 async function loadReferral(){
   const referralError = document.getElementById("referralError");
@@ -643,10 +1049,16 @@ async function loadReferral(){
     document.getElementById("sponsorId").textContent =
       referral.member && referral.member.sponsorId
         ? referral.member.sponsorId
-        : "No Sponsor (Direct Registration)";
+        : "No Sponsor";
 
     document.querySelectorAll("[data-copy]").forEach(function(button){
-      button.disabled = false;
+      const id = button.dataset.copy;
+      const value = document.getElementById(id).textContent.trim();
+
+      button.disabled =
+        !value ||
+        value === "Loading..." ||
+        value === "Not available";
     });
 
     document.getElementById("directReferrals").textContent =
@@ -657,6 +1069,7 @@ async function loadReferral(){
 
     const levels = Array.isArray(stats.levels) ? stats.levels : [];
     const levelSummary = document.getElementById("levelSummary");
+
     levelSummary.replaceChildren();
 
     for(let level = 1; level <= 10; level++){
@@ -664,17 +1077,18 @@ async function loadReferral(){
         return Number(row.level) === level;
       });
 
-      const row = document.createElement("div");
-      row.className = "level-row";
+      const box = document.createElement("div");
+      box.className = "level-item";
 
       const label = document.createElement("span");
       label.textContent = "Level " + level;
 
       const count = document.createElement("strong");
-      count.textContent = Number(item ? item.members : 0).toLocaleString();
+      count.textContent =
+        Number(item ? item.members : 0).toLocaleString();
 
-      row.append(label,count);
-      levelSummary.appendChild(row);
+      box.append(label,count);
+      levelSummary.appendChild(box);
     }
 
   }catch(error){
@@ -684,11 +1098,9 @@ async function loadReferral(){
   }
 }
 
-/* COPY REFERRAL CODE OR LINK */
+/* COPY TEXT */
 
-async function copyReferralValue(elementId,button){
-  const value = document.getElementById(elementId).textContent.trim();
-
+async function copyText(value,button){
   if(!value || value === "Loading..." || value === "Not available"){
     return;
   }
@@ -700,8 +1112,10 @@ async function copyReferralValue(elementId,button){
     textarea.value = value;
     textarea.style.position = "fixed";
     textarea.style.opacity = "0";
+
     document.body.appendChild(textarea);
     textarea.select();
+
     const copied = document.execCommand("copy");
     textarea.remove();
 
@@ -713,6 +1127,7 @@ async function copyReferralValue(elementId,button){
 
   const oldText = button.textContent;
   button.textContent = "COPIED!";
+
   setTimeout(function(){
     button.textContent = oldText;
   },1500);
@@ -720,16 +1135,44 @@ async function copyReferralValue(elementId,button){
 
 document.querySelectorAll("[data-copy]").forEach(function(button){
   button.addEventListener("click",function(){
-    copyReferralValue(button.dataset.copy,button);
+    const value = document.getElementById(
+      button.dataset.copy
+    ).textContent.trim();
+
+    copyText(value,button);
   });
+});
+
+document.getElementById("copyMemberBtn").addEventListener("click",function(){
+  copyText(currentMemberId,this);
+});
+
+/* MY CARD BUTTON */
+
+document.getElementById("myCardBtn").addEventListener("click",function(){
+  const panel = document.getElementById("accountDetailsPanel");
+  panel.classList.toggle("show");
+
+  if(panel.classList.contains("show")){
+    panel.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+    this.textContent = "বন্ধ করুন";
+  }else{
+    this.textContent = "আমার কার্ড";
+  }
+});
+
+document.getElementById("closeDetails").addEventListener("click",function(){
+  document.getElementById("accountDetailsPanel").classList.remove("show");
+  document.getElementById("myCardBtn").textContent = "আমার কার্ড";
 });
 
 /* LOAD PROFILE */
 
 async function loadProfile(){
-  const token = getToken();
-
-  if(!token){
+  if(!getToken()){
     window.location.replace("login.html");
     return;
   }
@@ -742,23 +1185,30 @@ async function loadProfile(){
     const data = await apiGet("/auth/me");
 
     if(!data.user){
-      throw new Error("Account information was not returned by the server.");
+      throw new Error("Account information was not returned.");
     }
 
     sessionStorage.setItem("rubalia_user",JSON.stringify(data.user));
+
     showProfile(data.user);
 
-    // Load referral information separately.
+    loadingBox.style.display = "none";
+    profileContent.style.display = "block";
+
+    // Load independent information after profile appears.
+    loadWallet();
     loadReferral();
 
   }catch(error){
     showError(
       error.message === "Failed to fetch"
-        ? "Unable to connect to the server. Please check your internet connection and try again."
-        : (error.message || "Something went wrong. Please try again.")
+        ? "Unable to connect to the server. Check your internet connection."
+        : (error.message || "Something went wrong.")
     );
   }
 }
+
+/* NAVIGATION AND REFRESH */
 
 document.getElementById("mobileMenu").addEventListener("click",function(){
   document.getElementById("sidebar").classList.toggle("show");
@@ -766,11 +1216,14 @@ document.getElementById("mobileMenu").addEventListener("click",function(){
 
 document.getElementById("logoutLink").addEventListener("click",function(event){
   event.preventDefault();
-  if(confirm("Are you sure you want to log out?")) logout();
+
+  if(confirm("Are you sure you want to log out?")){
+    logout();
+  }
 });
 
-document.getElementById("refreshBtn").addEventListener("click",function(){
-  loadProfile();
+document.getElementById("refreshBalance").addEventListener("click",function(){
+  loadWallet();
 });
 
 loadProfile();
