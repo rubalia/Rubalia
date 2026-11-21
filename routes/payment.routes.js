@@ -1,3 +1,4 @@
+
 "use strict";
 
 const express = require("express");
@@ -8,37 +9,6 @@ const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
 
 const router = express.Router();
-
-/*
-|--------------------------------------------------------------------------
-| RUBALIA NETWORK PAYMENT ROUTES
-|--------------------------------------------------------------------------
-|
-| Customer:
-|   POST  /api/payment/request
-|   GET   /api/payment/my-requests
-|   GET   /api/payment/methods
-|
-| Admin:
-|   GET   /api/payment/admin/requests
-|   GET   /api/payment/admin/requests/:id
-|   PATCH /api/payment/admin/requests/:id/approve
-|   PATCH /api/payment/admin/requests/:id/reject
-|   GET   /api/payment/admin/settings
-|   PUT   /api/payment/admin/settings/:gateway
-|
-| Supported gateways:
-|   bkash, nagad, rocket, upay, muktopay, usdt_bep20
-|
-| USDT network:
-|   BEP20 only
-|
-| Important:
-|   This is manual payment verification.
-|   It does not call any payment provider API.
-|   Admin must verify the transaction independently.
-|--------------------------------------------------------------------------
-*/
 
 const GATEWAYS = {
   bkash: {
@@ -88,16 +58,6 @@ function validQuantity(value) {
     Number.isInteger(Number(value)) &&
     Number(value) > 0 &&
     Number(value) <= MAX_QUANTITY
-  );
-}
-
-function validMoney(value) {
-  const number = Number(value);
-
-  return (
-    Number.isFinite(number) &&
-    number > 0 &&
-    number <= 999999999999
   );
 }
 
@@ -158,7 +118,6 @@ function normalizeItems(items) {
     }
 
     const key = `${type}:${id}`;
-
     const previous = itemMap.get(key);
 
     const totalQuantity =
@@ -206,36 +165,47 @@ function moneyToCents(value) {
   return cents;
 }
 
-function gatewayTransactionReference(value, gateway) {
+function transactionReference(value, gateway) {
   const reference = cleanText(value, 180);
 
   if (reference.length < 5) {
     return null;
   }
 
-  // A transaction reference must not contain control characters.
   if (/[\u0000-\u001F\u007F]/.test(reference)) {
     return null;
   }
 
-  // USDT transaction hash must be a 0x-prefixed 32-byte hash.
-  if (gateway === "usdt_bep20") {
-    if (!/^0x[a-fA-F0-9]{64}$/.test(reference)) {
-      return null;
-    }
+  if (
+    gateway === "usdt_bep20" &&
+    !/^0x[a-fA-F0-9]{64}$/.test(reference)
+  ) {
+    return null;
   }
 
   return reference;
 }
 
-/*
-|--------------------------------------------------------------------------
-| CUSTOMER: AVAILABLE PAYMENT METHODS
-|--------------------------------------------------------------------------
-|
-| GET /api/payment/methods
-|--------------------------------------------------------------------------
-*/
+function parseCheckoutData(value) {
+  if (typeof value === "string") {
+    return JSON.parse(value);
+  }
+
+  return value;
+}
+
+function sendError(res, status, message) {
+  return res.status(status).json({
+    success: false,
+    message
+  });
+}
+
+
+// =========================================================
+// CUSTOMER: AVAILABLE PAYMENT METHODS
+// GET /api/payment/methods
+// =========================================================
 
 router.get(
   "/methods",
@@ -277,7 +247,9 @@ router.get(
             account_number:
               setting?.account_number || null,
             wallet_address:
-              setting?.wallet_address || null,
+              gateway === "usdt_bep20"
+                ? setting?.wallet_address || null
+                : null,
             usdt_rate:
               gateway === "usdt_bep20"
                 ? setting?.usdt_rate || null
@@ -297,35 +269,11 @@ router.get(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| CUSTOMER: CREATE PAYMENT REQUEST
-|--------------------------------------------------------------------------
-|
-| POST /api/payment/request
-|
-| Body:
-| {
-|   "gateway": "bkash",
-|   "transactionReference": "TXN123456789",
-|   "items": [
-|     {
-|       "type": "package",
-|       "packageId": 1,
-|       "quantity": 1
-|     }
-|   ],
-|   "shippingName": "Customer Name",
-|   "shippingPhone": "01XXXXXXXXX",
-|   "shippingAddress": "Full address"
-| }
-|
-| For USDT:
-|   gateway = "usdt_bep20"
-|   transactionReference = "0x..."
-|
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// CUSTOMER: CREATE PAYMENT REQUEST
+// POST /api/payment/request
+// =========================================================
 
 router.post(
   "/request",
@@ -337,47 +285,40 @@ router.post(
       ).toLowerCase().trim();
 
       if (!GATEWAYS[gateway]) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid payment gateway."
-        });
+        return sendError(res, 400, "Invalid payment gateway.");
       }
 
-      const transactionReference =
-        gatewayTransactionReference(
-          req.body.transactionReference,
-          gateway
-        );
+      const txReference = transactionReference(
+        req.body.transactionReference,
+        gateway
+      );
 
-      if (!transactionReference) {
-        return res.status(400).json({
-          success: false,
-          message:
-            gateway === "usdt_bep20"
-              ? "Please provide a valid BEP20 transaction hash."
-              : "Please provide a valid transaction reference."
-        });
+      if (!txReference) {
+        return sendError(
+          res,
+          400,
+          gateway === "usdt_bep20"
+            ? "Please provide a valid BEP20 transaction hash."
+            : "Please provide a valid transaction reference."
+        );
       }
 
       const items = normalizeItems(req.body.items);
 
       if (!items) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid order items."
-        });
+        return sendError(res, 400, "Invalid order items.");
       }
 
       const shipping = cleanShipping(req.body);
 
       if (!shipping) {
-        return res.status(400).json({
-          success: false,
-          message: "Please provide valid delivery information."
-        });
+        return sendError(
+          res,
+          400,
+          "Please provide valid delivery information."
+        );
       }
 
-      // Check gateway configuration.
       const settingResult = await pool.query(
         `SELECT
           gateway,
@@ -397,36 +338,46 @@ router.post(
         !settingResult.rows.length ||
         !settingResult.rows[0].enabled
       ) {
-        return res.status(400).json({
-          success: false,
-          message: "This payment method is currently unavailable."
-        });
+        return sendError(
+          res,
+          400,
+          "This payment method is currently unavailable."
+        );
       }
 
       const setting = settingResult.rows[0];
 
       if (
+        gateway !== "usdt_bep20" &&
+        (!setting.account_number ||
+          setting.account_number.trim().length < 5)
+      ) {
+        return sendError(
+          res,
+          400,
+          "Payment account is not configured."
+        );
+      }
+
+      if (
         gateway === "usdt_bep20" &&
         (
           setting.network !== "BEP20" ||
-          !setting.wallet_address ||
-          !setting.usdt_rate ||
+          !/^0x[a-fA-F0-9]{40}$/.test(
+            String(setting.wallet_address || "")
+          ) ||
+          !Number.isFinite(Number(setting.usdt_rate)) ||
           Number(setting.usdt_rate) <= 0
         )
       ) {
-        return res.status(400).json({
-          success: false,
-          message: "USDT BEP20 payment is not configured correctly."
-        });
+        return sendError(
+          res,
+          400,
+          "USDT BEP20 payment is not configured correctly."
+        );
       }
 
-      /*
-       * Check current product/package prices.
-       * The customer cannot choose their own order amount.
-       * Stock is NOT reduced at this stage.
-       */
       let totalCents = 0;
-
       const verifiedItems = [];
 
       for (const requested of items) {
@@ -444,22 +395,23 @@ router.post(
         );
 
         if (!result.rows.length) {
-          return res.status(400).json({
-            success: false,
-            message:
-              isPackage
-                ? "A selected package is unavailable."
-                : "A selected product is unavailable."
-          });
+          return sendError(
+            res,
+            400,
+            isPackage
+              ? "A selected package is unavailable."
+              : "A selected product is unavailable."
+          );
         }
 
         const item = result.rows[0];
 
         if (Number(item.stock) < requested.quantity) {
-          return res.status(409).json({
-            success: false,
-            message: `Insufficient stock for ${item.name}.`
-          });
+          return sendError(
+            res,
+            409,
+            `Insufficient stock for ${item.name}.`
+          );
         }
 
         const unitCents = moneyToCents(item.price);
@@ -472,10 +424,7 @@ router.post(
           totalCents <= 0 ||
           totalCents > 99999999999900
         ) {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid order amount."
-          });
+          return sendError(res, 400, "Invalid order amount.");
         }
 
         verifiedItems.push({
@@ -495,13 +444,6 @@ router.post(
       if (gateway === "usdt_bep20") {
         const rate = Number(setting.usdt_rate);
 
-        if (!Number.isFinite(rate) || rate <= 0) {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid USDT exchange rate."
-          });
-        }
-
         expectedUsdt = Number(
           (totalAmount / rate).toFixed(6)
         );
@@ -510,10 +452,11 @@ router.post(
           !Number.isFinite(expectedUsdt) ||
           expectedUsdt <= 0
         ) {
-          return res.status(400).json({
-            success: false,
-            message: "Invalid USDT payment amount."
-          });
+          return sendError(
+            res,
+            400,
+            "Invalid USDT payment amount."
+          );
         }
       }
 
@@ -534,9 +477,12 @@ router.post(
       const paymentReference = makeReference();
 
       /*
-       * The transaction reference has a UNIQUE constraint
-       * in the database. This prevents duplicate submissions.
+       * IMPORTANT:
+       * amount is always BDT.
+       * currency is always BDT.
+       * expected_usdt stores the separate USDT amount.
        */
+
       const insertResult = await pool.query(
         `INSERT INTO payment_requests (
           user_id,
@@ -549,7 +495,7 @@ router.post(
           checkout_data,
           status
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending')
+        VALUES ($1, $2, $3, $4, $5, 'BDT', $6, $7, 'pending')
         RETURNING
           id,
           payment_reference,
@@ -564,9 +510,8 @@ router.post(
           req.auth.id,
           paymentReference,
           gateway,
-          transactionReference,
+          txReference,
           totalAmount.toFixed(2),
-          GATEWAYS[gateway].currency,
           expectedUsdt,
           JSON.stringify(checkoutData)
         ]
@@ -575,8 +520,10 @@ router.post(
       return res.status(201).json({
         success: true,
         message:
-          "Payment request submitted. It is waiting for Admin verification.",
+          "Payment request submitted. Waiting for Admin verification.",
+
         payment: insertResult.rows[0],
+
         payment_instructions: {
           gateway,
           account_number: setting.account_number || null,
@@ -586,22 +533,25 @@ router.post(
               : null,
           network:
             gateway === "usdt_bep20" ? "BEP20" : null,
-          expected_amount:
-            gateway === "usdt_bep20"
-              ? expectedUsdt
-              : totalAmount,
-          currency: GATEWAYS[gateway].currency,
+
+          // BDT order amount
+          order_amount_bdt: totalAmount,
+
+          // Actual amount to send in USDT
+          expected_usdt: expectedUsdt,
+
+          currency: "BDT",
           instructions: setting.instructions || null
         }
       });
 
     } catch (error) {
       if (error.code === "23505") {
-        return res.status(409).json({
-          success: false,
-          message:
-            "This transaction reference has already been submitted."
-        });
+        return sendError(
+          res,
+          409,
+          "This transaction reference has already been submitted."
+        );
       }
 
       next(error);
@@ -609,14 +559,11 @@ router.post(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| CUSTOMER: MY PAYMENT REQUESTS
-|--------------------------------------------------------------------------
-|
-| GET /api/payment/my-requests
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// CUSTOMER: MY PAYMENT REQUESTS
+// GET /api/payment/my-requests
+// =========================================================
 
 router.get(
   "/my-requests",
@@ -654,11 +601,10 @@ router.get(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN ROUTES
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN ROUTES
+// =========================================================
 
 router.use(
   "/admin",
@@ -666,14 +612,11 @@ router.use(
   requireAdmin
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: PAYMENT REQUEST LIST
-|--------------------------------------------------------------------------
-|
-| GET /api/payment/admin/requests?status=pending
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: PAYMENT REQUEST LIST
+// GET /api/payment/admin/requests
+// =========================================================
 
 router.get(
   "/admin/requests",
@@ -689,10 +632,11 @@ router.get(
       ];
 
       if (!allowedStatuses.includes(status)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid payment status filter."
-        });
+        return sendError(
+          res,
+          400,
+          "Invalid payment status filter."
+        );
       }
 
       const values = [];
@@ -742,24 +686,22 @@ router.get(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: PAYMENT REQUEST DETAILS
-|--------------------------------------------------------------------------
-|
-| GET /api/payment/admin/requests/:id
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: PAYMENT REQUEST DETAILS
+// GET /api/payment/admin/requests/:id
+// =========================================================
 
 router.get(
   "/admin/requests/:id",
   async (req, res, next) => {
     try {
       if (!validId(req.params.id)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid payment request ID."
-        });
+        return sendError(
+          res,
+          400,
+          "Invalid payment request ID."
+        );
       }
 
       const result = await pool.query(
@@ -774,10 +716,11 @@ router.get(
       );
 
       if (!result.rows.length) {
-        return res.status(404).json({
-          success: false,
-          message: "Payment request not found."
-        });
+        return sendError(
+          res,
+          404,
+          "Payment request not found."
+        );
       }
 
       return res.json({
@@ -791,35 +734,24 @@ router.get(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: APPROVE PAYMENT AND CREATE ORDER
-|--------------------------------------------------------------------------
-|
-| PATCH /api/payment/admin/requests/:id/approve
-|
-| Body:
-| {
-|   "adminNote": "Payment verified"
-| }
-|
-| Admin must independently verify the transaction.
-| Stock is reduced only during this approval transaction.
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: APPROVE PAYMENT AND CREATE ORDER
+// PATCH /api/payment/admin/requests/:id/approve
+// =========================================================
 
 router.patch(
   "/admin/requests/:id/approve",
   async (req, res, next) => {
     if (!validId(req.params.id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payment request ID."
-      });
+      return sendError(
+        res,
+        400,
+        "Invalid payment request ID."
+      );
     }
 
     const client = await pool.connect();
-
     let transactionStarted = false;
 
     try {
@@ -845,7 +777,9 @@ router.patch(
 
       if (payment.status !== "pending") {
         throw Object.assign(
-          new Error("This payment request has already been processed."),
+          new Error(
+            "This payment request has already been processed."
+          ),
           { statusCode: 409 }
         );
       }
@@ -859,10 +793,9 @@ router.patch(
         );
       }
 
-      const checkoutData =
-        typeof payment.checkout_data === "string"
-          ? JSON.parse(payment.checkout_data)
-          : payment.checkout_data;
+      const checkoutData = parseCheckoutData(
+        payment.checkout_data
+      );
 
       if (
         !checkoutData ||
@@ -891,11 +824,7 @@ router.patch(
       let totalCents = 0;
       const orderItems = [];
 
-      /*
-       * Recheck current price and stock.
-       * If price changed or stock is unavailable,
-       * approval is stopped. No order is created.
-       */
+      // Recheck product/package price and stock.
       for (const savedItem of checkoutData.items) {
         const type = String(savedItem.type || "");
         const id = Number(savedItem.id);
@@ -929,7 +858,9 @@ router.patch(
 
         if (!itemResult.rows.length) {
           throw Object.assign(
-            new Error("A product or package is no longer available."),
+            new Error(
+              "A product or package is no longer available."
+            ),
             { statusCode: 409 }
           );
         }
@@ -962,7 +893,7 @@ router.patch(
           subtotal: subtotalCents / 100
         });
 
-        // Stock is deducted only after Admin approval.
+        // Stock deduction is inside the same transaction.
         await client.query(
           isPackage
             ? `UPDATE packages
@@ -991,13 +922,24 @@ router.patch(
         );
       }
 
-      /*
-       * USDT approval must also match the saved BEP20 settings.
-       * The Admin should verify the transaction on BNB Smart Chain.
-       */
+      // All requests store their order amount in BDT.
+      if (payment.currency !== "BDT") {
+        throw Object.assign(
+          new Error(
+            "Invalid payment currency. Manual review required."
+          ),
+          { statusCode: 409 }
+        );
+      }
+
+      // USDT: validate saved BEP20 destination and expected amount.
       if (gateway === "usdt_bep20") {
         const settingsResult = await client.query(
-          `SELECT enabled, wallet_address, network, usdt_rate
+          `SELECT
+            enabled,
+            wallet_address,
+            network,
+            usdt_rate
            FROM payment_gateway_settings
            WHERE gateway = 'usdt_bep20'
            FOR UPDATE`
@@ -1016,23 +958,44 @@ router.patch(
           settings.network !== "BEP20" ||
           !settings.wallet_address ||
           !checkoutData.walletAddress ||
-          settings.wallet_address !== checkoutData.walletAddress
+          settings.wallet_address.toLowerCase() !==
+            String(checkoutData.walletAddress).toLowerCase()
         ) {
           throw Object.assign(
-            new Error("USDT wallet configuration has changed. Manual review required."),
+            new Error(
+              "USDT wallet configuration has changed. Manual review required."
+            ),
             { statusCode: 409 }
           );
         }
 
+        const expectedUsdt = Number(checkoutData.expectedUsdt);
+        const savedExpectedUsdt = Number(payment.expected_usdt);
+
         if (
-          !checkoutData.expectedUsdt ||
-          Number(checkoutData.expectedUsdt) <= 0
+          !Number.isFinite(expectedUsdt) ||
+          expectedUsdt <= 0 ||
+          !Number.isFinite(savedExpectedUsdt) ||
+          savedExpectedUsdt <= 0 ||
+          Math.abs(expectedUsdt - savedExpectedUsdt) > 0.000001
         ) {
           throw Object.assign(
             new Error("Invalid expected USDT amount."),
             { statusCode: 400 }
           );
         }
+
+        /*
+         * IMPORTANT:
+         * This code does not verify the blockchain transaction.
+         * Admin must independently check:
+         * - BNB Smart Chain (BEP20)
+         * - Correct USDT token contract
+         * - Correct recipient address
+         * - Exact amount
+         * - Successful transaction
+         * - Sufficient confirmations
+         */
       }
 
       const orderNumber = makeOrderNumber();
@@ -1090,10 +1053,20 @@ router.patch(
         );
       }
 
-      const adminNote = cleanText(
-        req.body.adminNote || "Payment manually verified by Admin.",
-        1000
-      );
+      let adminNote = cleanText(req.body.adminNote, 1000);
+
+      if (gateway === "usdt_bep20" && adminNote.length < 5) {
+        throw Object.assign(
+          new Error(
+            "For USDT approval, enter an Admin note confirming manual blockchain verification."
+          ),
+          { statusCode: 400 }
+        );
+      }
+
+      if (!adminNote) {
+        adminNote = "Payment manually verified by Admin.";
+      }
 
       const updatedPayment = await client.query(
         `UPDATE payment_requests
@@ -1159,29 +1132,22 @@ router.patch(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: REJECT PAYMENT
-|--------------------------------------------------------------------------
-|
-| PATCH /api/payment/admin/requests/:id/reject
-|
-| Body:
-| {
-|   "adminNote": "Transaction not found"
-| }
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: REJECT PAYMENT
+// PATCH /api/payment/admin/requests/:id/reject
+// =========================================================
 
 router.patch(
   "/admin/requests/:id/reject",
   async (req, res, next) => {
     try {
       if (!validId(req.params.id)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid payment request ID."
-        });
+        return sendError(
+          res,
+          400,
+          "Invalid payment request ID."
+        );
       }
 
       const adminNote = cleanText(
@@ -1190,10 +1156,11 @@ router.patch(
       );
 
       if (adminNote.length < 3) {
-        return res.status(400).json({
-          success: false,
-          message: "Please provide a rejection reason."
-        });
+        return sendError(
+          res,
+          400,
+          "Please provide a rejection reason."
+        );
       }
 
       const result = await pool.query(
@@ -1205,7 +1172,12 @@ router.patch(
              updated_at = NOW()
          WHERE id = $3
            AND status = 'pending'
-         RETURNING id, payment_reference, status, admin_note, verified_at`,
+         RETURNING
+           id,
+           payment_reference,
+           status,
+           admin_note,
+           verified_at`,
         [
           adminNote,
           req.auth.id,
@@ -1214,10 +1186,11 @@ router.patch(
       );
 
       if (!result.rows.length) {
-        return res.status(404).json({
-          success: false,
-          message: "Pending payment request not found."
-        });
+        return sendError(
+          res,
+          404,
+          "Pending payment request not found."
+        );
       }
 
       return res.json({
@@ -1232,14 +1205,11 @@ router.patch(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: VIEW GATEWAY SETTINGS
-|--------------------------------------------------------------------------
-|
-| GET /api/payment/admin/settings
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: VIEW GATEWAY SETTINGS
+// GET /api/payment/admin/settings
+// =========================================================
 
 router.get(
   "/admin/settings",
@@ -1271,31 +1241,11 @@ router.get(
   }
 );
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: UPDATE GATEWAY SETTINGS
-|--------------------------------------------------------------------------
-|
-| PUT /api/payment/admin/settings/:gateway
-|
-| Example bKash:
-| {
-|   "enabled": true,
-|   "accountNumber": "01XXXXXXXXX",
-|   "instructions": "Send money to this merchant number."
-| }
-|
-| Example USDT:
-| {
-|   "enabled": true,
-|   "walletAddress": "0x...",
-|   "network": "BEP20",
-|   "usdtRate": 120,
-|   "instructions": "Send USDT using BEP20 network only."
-| }
-|
-|--------------------------------------------------------------------------
-*/
+
+// =========================================================
+// ADMIN: UPDATE GATEWAY SETTINGS
+// PUT /api/payment/admin/settings/:gateway
+// =========================================================
 
 router.put(
   "/admin/settings/:gateway",
@@ -1306,10 +1256,11 @@ router.put(
       ).toLowerCase().trim();
 
       if (!GATEWAYS[gateway]) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid payment gateway."
-        });
+        return sendError(
+          res,
+          400,
+          "Invalid payment gateway."
+        );
       }
 
       const enabled = req.body.enabled === true;
@@ -1318,6 +1269,14 @@ router.put(
         req.body.displayName || GATEWAYS[gateway].name,
         100
       );
+
+      if (!displayName) {
+        return sendError(
+          res,
+          400,
+          "Display name is required."
+        );
+      }
 
       const instructions = cleanText(
         req.body.instructions,
@@ -1355,27 +1314,32 @@ router.put(
             usdtRate > 10000000
           )
         ) {
-          return res.status(400).json({
-            success: false,
-            message:
-              "To enable USDT, provide a valid BEP20 wallet address, BEP20 network and valid USDT exchange rate."
-          });
+          return sendError(
+            res,
+            400,
+            "To enable USDT, provide a valid BEP20 wallet address, BEP20 network and valid USDT exchange rate."
+          );
         }
 
-        // If disabled, preserve existing values unless new valid values are supplied.
         if (!walletAddress) walletAddress = null;
-        if (network !== "BEP20") network = "BEP20";
-        if (!Number.isFinite(usdtRate) || usdtRate <= 0) {
+        if (network !== "BEP20") network = null;
+
+        if (
+          !Number.isFinite(usdtRate) ||
+          usdtRate <= 0
+        ) {
           usdtRate = null;
         }
 
-      } else {
-        if (enabled && accountNumber.length < 5) {
-          return res.status(400).json({
-            success: false,
-            message: "Please provide a valid payment account number."
-          });
-        }
+      } else if (
+        enabled &&
+        accountNumber.length < 5
+      ) {
+        return sendError(
+          res,
+          400,
+          "Please provide a valid payment account number."
+        );
       }
 
       const result = await pool.query(
@@ -1391,34 +1355,41 @@ router.put(
           updated_at
         )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+
         ON CONFLICT (gateway)
         DO UPDATE SET
           enabled = EXCLUDED.enabled,
           display_name = EXCLUDED.display_name,
           instructions = EXCLUDED.instructions,
+
           account_number = CASE
             WHEN EXCLUDED.account_number IS NOT NULL
               AND EXCLUDED.account_number <> ''
             THEN EXCLUDED.account_number
             ELSE payment_gateway_settings.account_number
           END,
+
           wallet_address = CASE
             WHEN EXCLUDED.wallet_address IS NOT NULL
               AND EXCLUDED.wallet_address <> ''
             THEN EXCLUDED.wallet_address
             ELSE payment_gateway_settings.wallet_address
           END,
+
           network = CASE
             WHEN EXCLUDED.network IS NOT NULL
             THEN EXCLUDED.network
             ELSE payment_gateway_settings.network
           END,
+
           usdt_rate = CASE
             WHEN EXCLUDED.usdt_rate IS NOT NULL
             THEN EXCLUDED.usdt_rate
             ELSE payment_gateway_settings.usdt_rate
           END,
+
           updated_at = NOW()
+
         RETURNING
           gateway,
           enabled,
