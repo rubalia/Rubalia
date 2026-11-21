@@ -1,10 +1,17 @@
 
+"use strict";
+
 const express = require("express");
 const crypto = require("crypto");
 
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
+
+const {
+  prepareOrderCommission,
+  reverseOrderCommission
+} = require("../services/commission.service");
 
 const router = express.Router();
 
@@ -28,6 +35,20 @@ function validQuantity(value) {
   return Number.isInteger(Number(value)) &&
     Number(value) > 0 &&
     Number(value) <= MAX_QUANTITY;
+}
+
+function moneyCents(value) {
+  const number = Number(value);
+
+  if (!Number.isFinite(number) || number < 0) {
+    throw new Error("Invalid cost information.");
+  }
+
+  return Math.round(number * 100);
+}
+
+function moneyValue(cents) {
+  return (cents / 100).toFixed(2);
 }
 
 function cleanShipping(body) {
@@ -59,9 +80,62 @@ function makeOrderNumber() {
 }
 
 // =====================================================
+// BUILD IMMUTABLE PRODUCT COST SNAPSHOT
+// =====================================================
+
+function buildProductSnapshot(product) {
+  return {
+    version: 1,
+    itemType: "product",
+    productCost: moneyValue(moneyCents(product.cost_price)),
+    deliveryCost: moneyValue(moneyCents(product.delivery_cost)),
+    packagingCost: moneyValue(moneyCents(product.packaging_cost)),
+    otherCost: moneyValue(moneyCents(product.other_cost))
+  };
+}
+
+// =====================================================
+// BUILD IMMUTABLE PACKAGE COST SNAPSHOT
+// Includes all 3 component product costs and expenses.
+// Package-level delivery/packaging/other costs are added
+// separately to avoid omitting package expenses.
+// =====================================================
+
+function buildPackageSnapshot(pkg) {
+  return {
+    version: 1,
+    itemType: "package",
+
+    componentCosts: [
+      {
+        productCost: moneyValue(moneyCents(pkg.p1_cost)),
+        deliveryCost: moneyValue(moneyCents(pkg.p1_delivery)),
+        packagingCost: moneyValue(moneyCents(pkg.p1_packaging)),
+        otherCost: moneyValue(moneyCents(pkg.p1_other))
+      },
+      {
+        productCost: moneyValue(moneyCents(pkg.p2_cost)),
+        deliveryCost: moneyValue(moneyCents(pkg.p2_delivery)),
+        packagingCost: moneyValue(moneyCents(pkg.p2_packaging)),
+        otherCost: moneyValue(moneyCents(pkg.p2_other))
+      },
+      {
+        productCost: moneyValue(moneyCents(pkg.p3_cost)),
+        deliveryCost: moneyValue(moneyCents(pkg.p3_delivery)),
+        packagingCost: moneyValue(moneyCents(pkg.p3_packaging)),
+        otherCost: moneyValue(moneyCents(pkg.p3_other))
+      }
+    ],
+
+    deliveryCost: moneyValue(moneyCents(pkg.delivery_cost)),
+    packagingCost: moneyValue(moneyCents(pkg.packaging_cost)),
+    otherCost: moneyValue(moneyCents(pkg.other_cost))
+  };
+}
+
+// =====================================================
 // POST /api/orders
 // Customer: Wallet payment দিয়ে অর্ডার তৈরি
-// COD এবং unverified gateway payment গ্রহণ করা হবে না।
 // =====================================================
 
 router.post("/", authenticateToken, async (req, res, next) => {
@@ -101,7 +175,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
       });
     }
 
-    // Validate and combine duplicate items.
     const itemMap = new Map();
 
     for (const item of items) {
@@ -152,7 +225,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
     await client.query("BEGIN");
     transactionStarted = true;
 
-    // Create wallet if it does not exist.
     await client.query(
       `INSERT INTO wallets (user_id)
        VALUES ($1)
@@ -160,7 +232,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
       [req.auth.id]
     );
 
-    // Lock wallet to prevent simultaneous double spending.
     const walletResult = await client.query(
       `SELECT id, balance
        FROM wallets
@@ -181,22 +252,71 @@ router.post("/", authenticateToken, async (req, res, next) => {
     let totalCents = 0;
     const orderItems = [];
 
-    // Check stock and lock selected products/packages.
     for (const requested of itemMap.values()) {
       const isPackage = requested.type === "package";
 
-      const result = await client.query(
-        isPackage
-          ? `SELECT id, name, price, stock
-             FROM packages
-             WHERE id = $1 AND status = 'active'
-             FOR UPDATE`
-          : `SELECT id, name, price, stock
-             FROM products
-             WHERE id = $1 AND status = 'active'
-             FOR UPDATE`,
-        [requested.id]
-      );
+      let result;
+
+      if (isPackage) {
+        result = await client.query(
+          `
+          SELECT
+            pa.id,
+            pa.name,
+            pa.price,
+            pa.stock,
+            pa.delivery_cost,
+            pa.packaging_cost,
+            pa.other_cost,
+
+            p1.cost_price AS p1_cost,
+            p1.delivery_cost AS p1_delivery,
+            p1.packaging_cost AS p1_packaging,
+            p1.other_cost AS p1_other,
+
+            p2.cost_price AS p2_cost,
+            p2.delivery_cost AS p2_delivery,
+            p2.packaging_cost AS p2_packaging,
+            p2.other_cost AS p2_other,
+
+            p3.cost_price AS p3_cost,
+            p3.delivery_cost AS p3_delivery,
+            p3.packaging_cost AS p3_packaging,
+            p3.other_cost AS p3_other
+
+          FROM packages pa
+
+          JOIN products p1 ON p1.id = pa.product_1_id
+          JOIN products p2 ON p2.id = pa.product_2_id
+          JOIN products p3 ON p3.id = pa.product_3_id
+
+          WHERE pa.id = $1
+            AND pa.status = 'active'
+
+          FOR UPDATE OF pa, p1, p2, p3
+          `,
+          [requested.id]
+        );
+      } else {
+        result = await client.query(
+          `
+          SELECT
+            id,
+            name,
+            price,
+            stock,
+            cost_price,
+            delivery_cost,
+            packaging_cost,
+            other_cost
+          FROM products
+          WHERE id = $1
+            AND status = 'active'
+          FOR UPDATE
+          `,
+          [requested.id]
+        );
+      }
 
       if (!result.rows.length) {
         throw Object.assign(
@@ -218,14 +338,9 @@ router.post("/", authenticateToken, async (req, res, next) => {
         );
       }
 
-      // Calculate money in paisa to avoid floating-point errors.
-      const unitCents = Math.round(Number(item.price) * 100);
-
-      if (!Number.isSafeInteger(unitCents) || unitCents < 0) {
-        throw new Error("Invalid item price.");
-      }
-
+      const unitCents = moneyCents(item.price);
       const subtotalCents = unitCents * requested.quantity;
+
       totalCents += subtotalCents;
 
       if (
@@ -235,6 +350,10 @@ router.post("/", authenticateToken, async (req, res, next) => {
         throw new Error("Invalid order total.");
       }
 
+      const costSnapshot = isPackage
+        ? buildPackageSnapshot(item)
+        : buildProductSnapshot(item);
+
       orderItems.push({
         type: requested.type,
         productId: isPackage ? null : item.id,
@@ -242,7 +361,8 @@ router.post("/", authenticateToken, async (req, res, next) => {
         productName: item.name,
         unitPrice: unitCents / 100,
         quantity: requested.quantity,
-        subtotal: subtotalCents / 100
+        subtotal: subtotalCents / 100,
+        costSnapshot
       });
     }
 
@@ -254,7 +374,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
     }
 
     const totalAmount = totalCents / 100;
-    const balanceCents = Math.round(Number(wallet.balance) * 100);
+    const balanceCents = moneyCents(wallet.balance);
 
     if (balanceCents < totalCents) {
       throw Object.assign(
@@ -265,7 +385,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
       );
     }
 
-    // Deduct wallet balance atomically.
     const debit = await client.query(
       `UPDATE wallets
        SET balance = balance - $1,
@@ -285,8 +404,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
 
     const orderNumber = makeOrderNumber();
 
-    // Wallet payment is already paid.
-    // Order itself remains pending until Admin confirms it.
     const orderResult = await client.query(
       `INSERT INTO orders (
         user_id,
@@ -297,9 +414,13 @@ router.post("/", authenticateToken, async (req, res, next) => {
         shipping_address,
         status,
         payment_method,
-        payment_status
+        payment_status,
+        commission_status
       )
-      VALUES ($1, $2, $3, $4, $5, $6, 'pending', 'wallet', 'paid')
+      VALUES (
+        $1, $2, $3, $4, $5, $6,
+        'pending', 'wallet', 'paid', 'not_eligible'
+      )
       RETURNING *`,
       [
         req.auth.id,
@@ -313,7 +434,6 @@ router.post("/", authenticateToken, async (req, res, next) => {
 
     const order = orderResult.rows[0];
 
-    // Save order items and reduce stock.
     for (const item of orderItems) {
       await client.query(
         `INSERT INTO order_items (
@@ -324,9 +444,10 @@ router.post("/", authenticateToken, async (req, res, next) => {
           product_name,
           unit_price,
           quantity,
-          subtotal
+          subtotal,
+          cost_snapshot
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb)`,
         [
           order.id,
           item.productId,
@@ -335,29 +456,41 @@ router.post("/", authenticateToken, async (req, res, next) => {
           item.productName,
           item.unitPrice.toFixed(2),
           item.quantity,
-          item.subtotal.toFixed(2)
+          item.subtotal.toFixed(2),
+          JSON.stringify(item.costSnapshot)
         ]
       );
 
-      await client.query(
+      const stockResult = await client.query(
         item.type === "package"
           ? `UPDATE packages
              SET stock = stock - $1,
                  updated_at = NOW()
              WHERE id = $2
-               AND stock >= $1`
+               AND stock >= $1
+             RETURNING id`
           : `UPDATE products
              SET stock = stock - $1,
                  updated_at = NOW()
              WHERE id = $2
-               AND stock >= $1`,
-        [item.quantity, item.type === "package"
-          ? item.packageId
-          : item.productId]
+               AND stock >= $1
+             RETURNING id`,
+        [
+          item.quantity,
+          item.type === "package"
+            ? item.packageId
+            : item.productId
+        ]
       );
+
+      if (!stockResult.rows.length) {
+        throw Object.assign(
+          new Error(`Stock changed while placing order: ${item.productName}.`),
+          { statusCode: 409 }
+        );
+      }
     }
 
-    // Record wallet purchase.
     await client.query(
       `INSERT INTO wallet_transactions (
         wallet_id,
@@ -394,7 +527,15 @@ router.post("/", authenticateToken, async (req, res, next) => {
         shipping_name: order.shipping_name,
         shipping_phone: order.shipping_phone,
         shipping_address: order.shipping_address,
-        items: orderItems,
+        items: orderItems.map(item => ({
+          type: item.type,
+          productId: item.productId,
+          packageId: item.packageId,
+          productName: item.productName,
+          unitPrice: item.unitPrice,
+          quantity: item.quantity,
+          subtotal: item.subtotal
+        })),
         wallet_balance: debit.rows[0].balance
       }
     });
@@ -436,6 +577,8 @@ router.get("/", authenticateToken, async (req, res, next) => {
         o.status,
         o.payment_method,
         o.payment_status,
+        o.commission_status,
+        o.refund_period_ends_at,
         o.created_at,
         o.updated_at,
         COALESCE(
@@ -495,6 +638,8 @@ router.get(
           o.status,
           o.payment_method,
           o.payment_status,
+          o.commission_status,
+          o.refund_period_ends_at,
           o.created_at,
           o.updated_at,
           COALESCE(
@@ -533,6 +678,8 @@ router.get(
 // =====================================================
 // PATCH /api/orders/:id/status
 // Admin: অর্ডারের অবস্থা পরিবর্তন করবে।
+// Delivered হলে pending commission তৈরি হবে।
+// Cancelled হলে pending/released commission reverse হবে।
 // =====================================================
 
 router.patch(
@@ -570,7 +717,8 @@ router.patch(
           order_number,
           status,
           payment_method,
-          payment_status
+          payment_status,
+          commission_status
          FROM orders
          WHERE id = $1
          FOR UPDATE`,
@@ -578,77 +726,145 @@ router.patch(
       );
 
       if (!currentResult.rows.length) {
-        await client.query("ROLLBACK");
-        transactionStarted = false;
-
-        return res.status(404).json({
-          success: false,
-          message: "Order not found."
-        });
+        throw Object.assign(
+          new Error("Order not found."),
+          { statusCode: 404 }
+        );
       }
 
       const current = currentResult.rows[0];
 
-      // Do not process an order with an unpaid gateway request.
-      // Legacy orders are retained for historical compatibility.
       if (
         current.payment_status !== "paid" &&
         current.payment_method !== "legacy"
       ) {
-        await client.query("ROLLBACK");
+        throw Object.assign(
+          new Error(
+            "This order cannot be processed because its payment has not been verified."
+          ),
+          { statusCode: 409 }
+        );
+      }
+
+      // Delivered orders cannot be reopened.
+      // Refund handling must use a separate verified refund workflow.
+      if (current.status === "delivered") {
+        throw Object.assign(
+          new Error(
+            "A delivered order cannot be changed through this endpoint. Use the refund workflow if a refund is required."
+          ),
+          { statusCode: 409 }
+        );
+      }
+
+      if (current.status === "cancelled" && status !== "cancelled") {
+        throw Object.assign(
+          new Error("A cancelled order cannot be reopened."),
+          { statusCode: 409 }
+        );
+      }
+
+      if (current.status === status) {
+        await client.query("COMMIT");
         transactionStarted = false;
 
-        return res.status(409).json({
-          success: false,
-          message:
-            "This order cannot be processed because its payment has not been verified."
+        return res.json({
+          success: true,
+          message: "Order already has this status.",
+          order: current
         });
       }
 
-      // Delivered and cancelled orders cannot be reopened.
-      if (
-        current.status === "delivered" ||
-        current.status === "cancelled"
-      ) {
-        if (status !== current.status) {
-          await client.query("ROLLBACK");
-          transactionStarted = false;
+      let result;
 
-          return res.status(409).json({
-            success: false,
-            message:
-              "A delivered or cancelled order cannot be changed."
-          });
-        }
-      }
-
-      const result = await client.query(
-        `UPDATE orders
-         SET status = $1,
+      if (status === "delivered") {
+        result = await client.query(
+          `UPDATE orders
+           SET
+             status = 'delivered',
+             delivered_at = NOW(),
              updated_at = NOW()
-         WHERE id = $2
-         RETURNING
-           id,
-           order_number,
-           status,
-           payment_method,
-           payment_status,
-           updated_at`,
-        [status, orderId]
-      );
+           WHERE id = $1
+           RETURNING
+             id,
+             order_number,
+             status,
+             payment_method,
+             payment_status,
+             delivered_at,
+             commission_status,
+             refund_period_ends_at,
+             updated_at`,
+          [orderId]
+        );
+
+        if (current.payment_status === "paid") {
+          await prepareOrderCommission(client, orderId);
+        }
+
+      } else if (status === "cancelled") {
+        result = await client.query(
+          `UPDATE orders
+           SET
+             status = 'cancelled',
+             updated_at = NOW()
+           WHERE id = $1
+           RETURNING
+             id,
+             order_number,
+             status,
+             payment_method,
+             payment_status,
+             commission_status,
+             updated_at`,
+          [orderId]
+        );
+
+        await reverseOrderCommission(client, orderId);
+
+      } else {
+        result = await client.query(
+          `UPDATE orders
+           SET
+             status = $1,
+             updated_at = NOW()
+           WHERE id = $2
+           RETURNING
+             id,
+             order_number,
+             status,
+             payment_method,
+             payment_status,
+             commission_status,
+             updated_at`,
+          [status, orderId]
+        );
+      }
 
       await client.query("COMMIT");
       transactionStarted = false;
 
       return res.json({
         success: true,
-        message: "Order status updated successfully.",
+        message:
+          status === "delivered"
+            ? "Order delivered. Commission is pending until the return/refund period ends."
+            : status === "cancelled"
+              ? "Order cancelled. Any commission entries have been reversed."
+              : "Order status updated successfully.",
         order: result.rows[0]
       });
 
     } catch (error) {
       if (transactionStarted) {
         await client.query("ROLLBACK").catch(() => {});
+      }
+
+      if (error.statusCode) {
+        return res.status(error.statusCode).json({
+          success: false,
+          message: error.message
+        });
       }
 
       next(error);
