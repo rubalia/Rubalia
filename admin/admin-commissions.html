@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia Network - Admin Commissions</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f3f6fb;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#758198;
+  --border:#e4e9f1;
+  --green:#16845b;
+  --red:#d64b55;
+  --orange:#c27a16;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input,select{font:inherit}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:22px 15px;
+  position:fixed;
+  inset:0 auto 0 0;
+  overflow-y:auto;
+  z-index:20;
+  transition:.25s;
+}
+.brand{
+  padding:5px 10px 24px;
+  border-bottom:1px solid #ffffff20;
+  margin-bottom:18px;
+}
+.brand h2{margin:0;color:var(--gold);font-size:22px}
+.brand small{color:#b8c5d8;letter-spacing:2px;font-size:10px}
+.nav-title{
+  color:#91a4bf;
+  font-size:10px;
+  letter-spacing:1.5px;
+  padding:12px 11px 8px;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:#dce5f2;
+  text-decoration:none;
+  padding:11px;
+  border-radius:8px;
+  margin:3px 0;
+  font-size:13px;
+}
+.nav a:hover,.nav a.active{
+  background:#ffffff16;
+  color:var(--gold);
+}
+.main{
+  margin-left:245px;
+  width:calc(100% - 245px);
+  min-width:0;
+}
+.topbar{
+  background:white;
+  padding:17px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.topbar h3{margin:0;font-size:18px}
+.admin{font-size:12px;color:var(--muted)}
+.menu-btn{
+  display:none;
+  border:0;
+  background:var(--navy);
+  color:white;
+  padding:9px 12px;
+  border-radius:7px;
+}
+.content{padding:25px;max-width:1500px;margin:auto}
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.page-heading h1{font-size:25px;margin:0 0 6px}
+.page-heading p{margin:0;color:var(--muted);font-size:13px}
+.connection-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:#fff0f0;
+  color:#bd3c46;
+  border:1px solid #f2cccc;
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+.connection-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:#d64b55;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+.stat{
+  background:white;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.stat .label{font-size:12px;color:var(--muted)}
+.stat h2{margin:10px 0 4px;font-size:25px;color:var(--navy)}
+.stat small{font-size:11px;color:var(--muted)}
+.stat-icon{
+  width:35px;height:35px;border-radius:9px;
+  display:grid;place-items:center;
+  background:#f4eddb;color:#98701f;
+  font-size:18px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.panel-head{
+  padding:18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.panel-head h3{margin:0;font-size:16px}
+.panel-head p{margin:5px 0 0;color:var(--muted);font-size:11px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{
+  text-align:left;
+  padding:13px 15px;
+  background:#f8f9fc;
+  color:#778398;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+td{
+  padding:13px 15px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+}
+.amount{font-weight:bold;color:var(--navy)}
+.level-badge{
+  background:#f5eddb;
+  color:#8a681e;
+  padding:5px 9px;
+  border-radius:6px;
+  font-weight:bold;
+  font-size:10px;
+}
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+}
+.pending{background:#fff4df;color:#a46a0b}
+.approved{background:#e4f6ed;color:#14774e}
+.rejected{background:#ffeded;color:#c43e48}
+.inactive{background:#eef1f5;color:#647087}
+.filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr auto;
+  gap:10px;
+  padding:16px;
+  border-bottom:1px solid var(--border);
+}
+input,select{
+  width:100%;
+  border:1px solid var(--border);
+  background:#fff;
+  padding:11px 12px;
+  border-radius:7px;
+  outline:none;
+  color:var(--text);
+  font-size:12px;
+}
+input:focus,select:focus{border-color:var(--gold)}
+input:disabled,select:disabled{
+  background:#f4f6f9;
+  cursor:not-allowed;
+}
+.btn{
+  border:0;
+  padding:10px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
+.btn-dark{background:var(--navy);color:white}
+.btn-light{background:#eef2f7;color:var(--navy)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.empty{
+  text-align:center;
+  padding:35px 20px;
+  color:var(--muted);
+  line-height:1.8;
+}
+.empty strong{color:var(--navy)}
+.pagination{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 17px;
+  color:var(--muted);
+  font-size:11px;
+  border-top:1px solid var(--border);
+}
+.level-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  padding:17px;
+}
+.level-card{
+  background:#f8f9fc;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:15px;
+}
+.level-card span{font-size:11px;color:var(--muted)}
+.level-card h3{margin:8px 0 4px;color:var(--navy);font-size:18px}
+.level-card small{font-size:10px;color:var(--muted)}
+.info{
+  margin:0 17px 17px;
+  padding:13px 15px;
+  border-radius:9px;
+  background:#fff8e8;
+  border:1px solid #f1dfb4;
+  color:#85651e;
+  font-size:11px;
+  line-height:1.6;
+}
+.note{
+  padding:13px 15px;
+  border-radius:9px;
+  background:#fff8e8;
+  border:1px solid #f1dfb4;
+  color:#85651e;
+  font-size:11px;
+  line-height:1.6;
+}
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:#06152dcc;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:50;
+}
+.modal-bg.show{display:flex}
+.modal{
+  width:100%;
+  max-width:540px;
+  max-height:90vh;
+  overflow:auto;
+  background:white;
+  border-radius:13px;
+}
+.modal-head{
+  padding:18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.modal-head h3{margin:0;font-size:17px}
+.close{
+  border:0;background:#eef1f6;
+  width:30px;height:30px;border-radius:50%;
+  cursor:pointer;font-size:17px;
+}
+.modal-body{padding:20px}
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+.detail{
+  padding:12px;
+  background:#f7f9fc;
+  border-radius:8px;
+}
+.detail small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.detail strong{font-size:12px;word-break:break-word}
+.modal-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--navy);
+  color:white;
+  padding:13px 18px;
+  border-radius:8px;
+  font-size:12px;
+  display:none;
+  z-index:100;
+  max-width:calc(100% - 40px);
+}
+.toast.show{display:block}
+@media(max-width:1050px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .level-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:760px){
+  .sidebar{transform:translateX(-100%);transition:.25s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  .menu-btn{display:block}
+  .topbar{padding:13px 15px}
+  .content{padding:17px 12px}
+  .filters{grid-template-columns:1fr 1fr}
+  .filters input{grid-column:1/-1}
+  .page-heading h1{font-size:21px}
+}
+@media(max-width:480px){
+  .stats{gap:9px}
+  .stat{padding:13px}
+  .stat h2{font-size:21px}
+  .filters{grid-template-columns:1fr}
+  .filters input{grid-column:auto}
+  .level-grid{grid-template-columns:repeat(2,1fr);gap:8px;padding:12px}
+  .level-card{padding:12px}
+  .detail-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <h2>RUBALIA</h2>
+    <small>NETWORK ADMINISTRATION</small>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="../admin-dashboard.html">▦ Dashboard</a>
+    <a href="admin-users.html">♙ Users</a>
+    <a href="admin-partners.html">♧ Partners</a>
+    <a href="admin-applications.html">▤ Applications</a>
+
+    <div class="nav-title">COMMERCE</div>
+    <a href="admin-products.html">▣ Products</a>
+    <a href="admin-orders.html">▤ Orders</a>
+    <a href="admin-payments.html">৳ Payments</a>
+    <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+    <a class="active" href="admin-commissions.html">％ Commissions</a>
+
+    <div class="nav-title">MANAGEMENT</div>
+    <a href="admin-announcements.html">♢ Announcements</a>
+    <a href="admin-support.html">☏ Support</a>
+    <a href="admin-settings.html">⚙ Settings</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="../index.html">⌂ Visit Website</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h3>Commission Management</h3>
+  </div>
+  <div class="admin">ADMIN PANEL</div>
+</header>
+
+<section class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Commission Management</h1>
+      <p>Review the 10-level Unilevel commission structure and records.</p>
+    </div>
+
+    <span class="connection-label">
+      <span class="connection-dot"></span>
+      API NOT CONNECTED
+    </span>
+  </div>
+
+  <div class="note" style="margin-bottom:20px">
+    <strong>Commission Data Connection</strong>
+    The existing commission report endpoint is being checked.
+    Commission figures will only be displayed after a valid backend response
+    is received. No sample or fictional commission records are used here.
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-icon">৳</div>
+      <div class="label">Total Commission</div>
+      <h2 id="totalCommission">—</h2>
+      <small>Waiting for backend report</small>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">◷</div>
+      <div class="label">Pending Records</div>
+      <h2 id="pendingCount">—</h2>
+      <small>Waiting for backend report</small>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">✓</div>
+      <div class="label">Approved Records</div>
+      <h2 id="approvedCount">—</h2>
+      <small>Waiting for backend report</small>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">％</div>
+      <div class="label">Active Commission Rate</div>
+      <h2 id="activeRate">—</h2>
+      <small>Not verified</small>
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="panel-head">
+      <div>
+        <h3>10-Level Unilevel Structure</h3>
+        <p>Commission rates will be displayed when configured data is available.</p>
+      </div>
+      <span class="connection-label">NOT CONFIGURED</span>
+    </div>
+
+    <div class="level-grid" id="levelGrid">
+
+      <div class="level-card">
+        <span>Unilevel Level 1</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 2</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 3</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 4</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 5</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 6</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 7</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 8</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 9</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+      <div class="level-card">
+        <span>Unilevel Level 10</span>
+        <h3>Not Configured</h3>
+        <small>Waiting for backend data</small>
+      </div>
+
+    </div>
+
+    <div class="info">
+      <strong>Important:</strong>
+      Commission rates and eligibility rules must be based on genuine product
+      sales, sustainable product margins and applicable legal requirements.
+      No commission is activated by this page.
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <div class="panel-head">
+      <div>
+        <h3>Commission Records</h3>
+        <p>Real records will appear here after API integration.</p>
+      </div>
+      <button class="btn btn-light" onclick="resetFilters()" disabled>
+        Reset Filters
+      </button>
+    </div>
+
+    <div class="filters">
+
+      <input id="search" type="search"
+        placeholder="Search member, order or commission ID..."
+        disabled>
+
+      <select id="levelFilter" disabled>
+        <option value="">All Levels</option>
+        <option value="1">Level 1</option>
+        <option value="2">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+        <option value="5">Level 5</option>
+        <option value="6">Level 6</option>
+        <option value="7">Level 7</option>
+        <option value="8">Level 8</option>
+        <option value="9">Level 9</option>
+        <option value="10">Level 10</option>
+      </select>
+
+      <select id="statusFilter" disabled>
+        <option value="">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+
+      <button class="btn btn-dark" disabled>Search</button>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Commission ID</th>
+            <th>Beneficiary</th>
+            <th>Level</th>
+            <th>Order ID</th>
+            <th>Product Sales</th>
+            <th>Commission Rate</th>
+            <th>Commission</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="commissionRows">
+          <tr>
+            <td colspan="10" class="empty">
+              <strong>No commission data available.</strong><br>
+              No sample or fictional records are displayed.<br>
+              Waiting for verified backend data.
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="pagination">
+      <span id="recordCount">Commission records: Not available</span>
+      <span>Backend connection required</span>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <strong>Legal and business notice</strong>
+    A product-based compensation plan must be based on genuine retail sales,
+    sustainable product margins and transparent eligibility rules.
+    Recruitment alone must not generate rewards. No commission is payable
+    or activated through this frontend page.
+  </div>
+
+</section>
+</main>
+</div>
+
+<div class="modal-bg" id="modalBg" onclick="outsideClose(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Commission Details</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+const TOKEN_KEY = "rubalia_token";
+const USER_KEY = "rubalia_user";
+
+let adminVerified = false;
+let commissionReport = null;
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+}
+
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+function money(value){
+  const amount = Number(value);
+
+  if(!Number.isFinite(amount)) return "—";
+
+  return "৳ " + amount.toLocaleString("en-IN",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+
+async function verifyAdmin(){
+
+  const token = sessionStorage.getItem(TOKEN_KEY);
+
+  if(!token){
+    window.location.replace("../login.html");
+    return false;
+  }
+
+  try{
+
+    const response = await fetch(API_BASE + "/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer " + token,
+        "Accept":"application/json"
+      }
+    });
+
+    if(response.status === 401 || response.status === 403){
+
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
+
+      window.location.replace("../login.html");
+      return false;
+    }
+
+    if(!response.ok){
+      throw new Error("Unable to verify administrator.");
+    }
+
+    const result = await response.json();
+
+    const user = result.user || result.profile || result;
+
+    if(!user || String(user.role || "").toLowerCase() !== "admin"){
+
+      window.location.replace("../dashboard.html");
+      return false;
+    }
+
+    adminVerified = true;
+    return true;
+
+  }catch(error){
+
+    console.error("Admin verification error:",error);
+
+    showToast("Unable to verify admin access.");
+
+    setTimeout(()=>{
+      window.location.replace("../login.html");
+    },1800);
+
+    return false;
+  }
+}
+
+/*
+  Existing backend endpoint:
+  GET /api/commission/admin/report
+
+  The exact response shape must be verified before displaying
+  any commission totals, levels or individual records.
+*/
+
+async function loadCommissionReport(){
+
+  if(!adminVerified) return;
+
+  const token = sessionStorage.getItem(TOKEN_KEY);
+
+  try{
+
+    const response = await fetch(
+      API_BASE + "/commission/admin/report",
+      {
+        method:"GET",
+        headers:{
+          "Authorization":"Bearer " + token,
+          "Accept":"application/json"
+        }
+      }
+    );
+
+    if(response.status === 401 || response.status === 403){
+
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
+
+      window.location.replace("../login.html");
+      return;
+    }
+
+    if(!response.ok){
+
+      throw new Error(
+        "Commission report unavailable. HTTP " + response.status
+      );
+    }
+
+    const data = await response.json();
+
+    /*
+      Do not guess the backend response fields.
+      Store the response for inspection during integration.
+      Keep UI unavailable until exact response mapping is verified.
+    */
+
+    commissionReport = data;
+
+    console.log(
+      "Commission report received. Response structure:",
+      data
+    );
+
+    showToast(
+      "Commission report received. Data mapping needs verification."
+    );
+
+  }catch(error){
+
+    console.error("Commission report error:",error);
+
+    showToast("Commission report is currently unavailable.");
+  }
+}
+
+function resetFilters(){
+
+  if(!adminVerified) return;
+
+  showToast("Commission records are not available yet.");
+}
+
+function closeModal(){
+  document.getElementById("modalBg").classList.remove("show");
+}
+
+function outsideClose(event){
+
+  if(event.target.id === "modalBg"){
+    closeModal();
+  }
+}
+
+async function initializePage(){
+
+  const verified = await verifyAdmin();
+
+  if(!verified) return;
+
+  await loadCommissionReport();
+}
+
+initializePage();
+</script>
+
+</body>
+</html>
