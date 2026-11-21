@@ -12,23 +12,43 @@ const express = require("express");
 const pool = require("../config/database");
 
 const { authenticateToken } = require("../middleware/auth");
-
 const { requireAdmin } = require("../middleware/admin");
 
 const {
-  releaseOrderCommission,
-  DEFAULT_RATES
+  DEFAULT_RATES,
+  validateRates,
+  releaseOrderCommission
 } = require("../services/commission.service");
 
 const router = express.Router();
 
-
-// =====================================================
-// MEMBER AUTHENTICATION
-// All routes require login.
-// =====================================================
-
 router.use(authenticateToken);
+
+// =====================================================
+// HELPERS
+// =====================================================
+
+function validId(value) {
+  return Number.isSafeInteger(Number(value)) && Number(value) > 0;
+}
+
+function validCost(value) {
+  const number = Number(value);
+
+  return (
+    Number.isFinite(number) &&
+    number >= 0 &&
+    number <= 9999999999
+  );
+}
+
+function validRefundPeriod(value) {
+  return (
+    Number.isInteger(Number(value)) &&
+    Number(value) >= 0 &&
+    Number(value) <= 365
+  );
+}
 
 
 // =====================================================
@@ -38,34 +58,54 @@ router.use(authenticateToken);
 
 router.get("/me", async (req, res, next) => {
   try {
-
     const memberId = req.auth.id;
 
     const summaryResult = await pool.query(
       `
       SELECT
-
         COALESCE(
           SUM(amount) FILTER (
             WHERE status = 'credited'
-          ),
-          0
+          ), 0
         ) AS total_earned,
 
         COALESCE(
           SUM(amount) FILTER (
+            WHERE status = 'pending'
+          ), 0
+        ) AS total_pending,
+
+        COALESCE(
+          SUM(amount) FILTER (
             WHERE status = 'reversed'
-          ),
-          0
+          ), 0
         ) AS total_reversed,
 
         COUNT(*) FILTER (
           WHERE status = 'credited'
-        ) AS total_transactions
+        ) AS total_transactions,
+
+        COUNT(*) FILTER (
+          WHERE status = 'pending'
+        ) AS pending_transactions
 
       FROM commission_ledger
 
       WHERE beneficiary_id = $1
+      `,
+      [memberId]
+    );
+
+    const debtResult = await pool.query(
+      `
+      SELECT
+        COALESCE(
+          SUM(original_amount - recovered_amount),
+          0
+        ) AS outstanding_debt
+      FROM commission_reversal_debts
+      WHERE user_id = $1
+        AND status IN ('open', 'partially_recovered')
       `,
       [memberId]
     );
@@ -77,8 +117,13 @@ router.get("/me", async (req, res, next) => {
 
       income: {
         totalEarned: Number(summary.total_earned),
+        totalPending: Number(summary.total_pending),
         totalReversed: Number(summary.total_reversed),
-        totalTransactions: Number(summary.total_transactions)
+        totalTransactions: Number(summary.total_transactions),
+        pendingTransactions: Number(summary.pending_transactions),
+        outstandingDebt: Number(
+          debtResult.rows[0].outstanding_debt
+        )
       }
     });
 
@@ -95,23 +140,20 @@ router.get("/me", async (req, res, next) => {
 
 router.get("/transactions", async (req, res, next) => {
   try {
-
-    const memberId = req.auth.id;
-
     const result = await pool.query(
       `
       SELECT
-
         cl.id,
         cl.order_id,
         o.order_number,
-
         cl.level,
         cl.rate_percent,
         cl.profit_base,
         cl.amount,
         cl.status,
-        cl.created_at
+        cl.created_at,
+        cl.released_at,
+        cl.reversed_at
 
       FROM commission_ledger cl
 
@@ -124,7 +166,7 @@ router.get("/transactions", async (req, res, next) => {
 
       LIMIT 200
       `,
-      [memberId]
+      [req.auth.id]
     );
 
     return res.json({
@@ -147,9 +189,7 @@ router.get(
   "/admin/settings",
   requireAdmin,
   async (req, res, next) => {
-
     try {
-
       const result = await pool.query(
         `
         SELECT
@@ -158,6 +198,7 @@ router.get(
           legal_approval_confirmed,
           gateway_fee_percent,
           level_rates,
+          refund_period_days,
           updated_by,
           updated_at
 
@@ -195,9 +236,7 @@ router.put(
   "/admin/settings",
   requireAdmin,
   async (req, res, next) => {
-
     try {
-
       const enabled = req.body.enabled === true;
 
       const legalApprovalConfirmed =
@@ -206,11 +245,21 @@ router.put(
       const gatewayFeePercent =
         Number(req.body.gatewayFeePercent ?? 0);
 
-      const rates =
-        req.body.levelRates ?? DEFAULT_RATES;
+      const refundPeriodDays =
+        Number(req.body.refundPeriodDays ?? 7);
 
+      let rates;
 
-      // Validate gateway fee.
+      try {
+        rates = validateRates(
+          req.body.levelRates ?? DEFAULT_RATES
+        );
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: error.message
+        });
+      }
 
       if (
         !Number.isFinite(gatewayFeePercent) ||
@@ -223,64 +272,32 @@ router.put(
         });
       }
 
-
-      // Validate all 10 levels.
-
-      if (
-        !Array.isArray(rates) ||
-        rates.length !== 10 ||
-        rates.some(
-          rate =>
-            !Number.isFinite(Number(rate)) ||
-            Number(rate) < 0 ||
-            Number(rate) > 75
-        )
-      ) {
+      if (!validRefundPeriod(refundPeriodDays)) {
         return res.status(400).json({
           success: false,
-          message: "Exactly 10 valid commission rates are required."
+          message: "Refund period must be between 0 and 365 days."
         });
       }
-
-      const totalRate = rates.reduce(
-        (sum, rate) => sum + Number(rate),
-        0
-      );
-
-      if (Math.abs(totalRate - 75) > 0.0001) {
-        return res.status(400).json({
-          success: false,
-          message: "The 10 commission levels must total exactly 75%."
-        });
-      }
-
-
-      // Live commission activation requires explicit approval confirmation.
 
       if (enabled && !legalApprovalConfirmed) {
         return res.status(409).json({
           success: false,
-          message: "Required legal approval must be confirmed before enabling commissions."
+          message:
+            "Required legal approval must be confirmed before enabling commissions."
         });
       }
-
 
       const result = await pool.query(
         `
         UPDATE commission_settings
 
         SET
-
           enabled = $1,
-
           legal_approval_confirmed = $2,
-
           gateway_fee_percent = $3,
-
           level_rates = $4::jsonb,
-
-          updated_by = $5,
-
+          refund_period_days = $5,
+          updated_by = $6,
           updated_at = NOW()
 
         WHERE id = 1
@@ -291,10 +308,18 @@ router.put(
           enabled,
           legalApprovalConfirmed,
           gatewayFeePercent,
-          JSON.stringify(rates.map(Number)),
+          JSON.stringify(rates),
+          refundPeriodDays,
           req.auth.id
         ]
       );
+
+      if (!result.rows.length) {
+        return res.status(404).json({
+          success: false,
+          message: "Commission settings not found."
+        });
+      }
 
       return res.json({
         success: true,
@@ -318,30 +343,20 @@ router.put(
   "/admin/costs/product/:id",
   requireAdmin,
   async (req, res, next) => {
-
     try {
-
       const productId = Number(req.params.id);
 
-      const costPrice = Number(req.body.costPrice ?? 0);
-
-      const deliveryCost = Number(req.body.deliveryCost ?? 0);
-
-      const packagingCost = Number(req.body.packagingCost ?? 0);
-
-      const otherCost = Number(req.body.otherCost ?? 0);
-
-
-      if (
-        !Number.isSafeInteger(productId) ||
-        productId <= 0
-      ) {
+      if (!validId(productId)) {
         return res.status(400).json({
           success: false,
           message: "Invalid product ID."
         });
       }
 
+      const costPrice = Number(req.body.costPrice ?? 0);
+      const deliveryCost = Number(req.body.deliveryCost ?? 0);
+      const packagingCost = Number(req.body.packagingCost ?? 0);
+      const otherCost = Number(req.body.otherCost ?? 0);
 
       const costs = [
         costPrice,
@@ -350,35 +365,22 @@ router.put(
         otherCost
       ];
 
-      if (
-        costs.some(
-          value =>
-            !Number.isFinite(value) ||
-            value < 0 ||
-            value > 9999999999
-        )
-      ) {
+      if (costs.some(value => !validCost(value))) {
         return res.status(400).json({
           success: false,
           message: "Invalid product cost information."
         });
       }
 
-
       const result = await pool.query(
         `
         UPDATE products
 
         SET
-
           cost_price = $1,
-
           delivery_cost = $2,
-
           packaging_cost = $3,
-
           other_cost = $4,
-
           updated_at = NOW()
 
         WHERE id = $5
@@ -400,14 +402,12 @@ router.put(
         ]
       );
 
-
       if (!result.rows.length) {
         return res.status(404).json({
           success: false,
           message: "Product not found."
         });
       }
-
 
       return res.json({
         success: true,
@@ -431,28 +431,19 @@ router.put(
   "/admin/costs/package/:id",
   requireAdmin,
   async (req, res, next) => {
-
     try {
-
       const packageId = Number(req.params.id);
 
-      const deliveryCost = Number(req.body.deliveryCost ?? 0);
-
-      const packagingCost = Number(req.body.packagingCost ?? 0);
-
-      const otherCost = Number(req.body.otherCost ?? 0);
-
-
-      if (
-        !Number.isSafeInteger(packageId) ||
-        packageId <= 0
-      ) {
+      if (!validId(packageId)) {
         return res.status(400).json({
           success: false,
           message: "Invalid package ID."
         });
       }
 
+      const deliveryCost = Number(req.body.deliveryCost ?? 0);
+      const packagingCost = Number(req.body.packagingCost ?? 0);
+      const otherCost = Number(req.body.otherCost ?? 0);
 
       const costs = [
         deliveryCost,
@@ -460,33 +451,21 @@ router.put(
         otherCost
       ];
 
-      if (
-        costs.some(
-          value =>
-            !Number.isFinite(value) ||
-            value < 0 ||
-            value > 9999999999
-        )
-      ) {
+      if (costs.some(value => !validCost(value))) {
         return res.status(400).json({
           success: false,
           message: "Invalid package cost information."
         });
       }
 
-
       const result = await pool.query(
         `
         UPDATE packages
 
         SET
-
           delivery_cost = $1,
-
           packaging_cost = $2,
-
           other_cost = $3,
-
           updated_at = NOW()
 
         WHERE id = $4
@@ -506,14 +485,12 @@ router.put(
         ]
       );
 
-
       if (!result.rows.length) {
         return res.status(404).json({
           success: false,
           message: "Package not found."
         });
       }
-
 
       return res.json({
         success: true,
@@ -531,75 +508,69 @@ router.put(
 // =====================================================
 // 7. ADMIN RELEASE ORDER COMMISSION
 // POST /api/commission/admin/orders/:id/release
+//
+// The service checks:
+// - Commission enabled
+// - Legal approval
+// - Paid and delivered order
+// - Refund period completed
+// - All 10 pending ledger rows
+// - Sponsor eligibility
+// - Duplicate release prevention
 // =====================================================
 
 router.post(
   "/admin/orders/:id/release",
   requireAdmin,
   async (req, res, next) => {
-
     const client = await pool.connect();
-
     let transactionStarted = false;
 
     try {
-
       const orderId = Number(req.params.id);
 
-      if (
-        !Number.isSafeInteger(orderId) ||
-        orderId <= 0
-      ) {
+      if (!validId(orderId)) {
         return res.status(400).json({
           success: false,
           message: "Invalid order ID."
         });
       }
 
-
       await client.query("BEGIN");
-
       transactionStarted = true;
-
-
-      // The service checks:
-      // - Commission settings
-      // - Legal approval confirmation
-      // - Paid order
-      // - Delivered order
-      // - Duplicate commission
-      // - Actual order profit
-      // - Ten-level sponsor chain
 
       const commission = await releaseOrderCommission(
         client,
         orderId
       );
 
-
       await client.query("COMMIT");
-
       transactionStarted = false;
-
 
       return res.json({
         success: true,
-        message: "Order commission processed successfully.",
+        message: commission.duplicate
+          ? "Commission was already released."
+          : "Order commission released successfully.",
         commission
       });
 
     } catch (error) {
-
       if (transactionStarted) {
         await client.query("ROLLBACK").catch(() => {});
       }
 
-      if (
-        error.message === "Commission engine is disabled." ||
-        error.message === "Required legal approval has not been confirmed." ||
-        error.message === "Commission has already been processed for this order." ||
-        error.message === "Only paid and delivered orders are eligible for commission."
-      ) {
+      const conflictMessages = [
+        "Commission engine is disabled.",
+        "Required legal approval has not been confirmed.",
+        "Only paid and delivered orders can release commission.",
+        "Order does not have pending commission.",
+        "Refund/return period has not ended. Commission cannot be released yet.",
+        "Refund period end time is missing.",
+        "A reversed order cannot be prepared for commission again."
+      ];
+
+      if (conflictMessages.includes(error.message)) {
         return res.status(409).json({
           success: false,
           message: error.message
@@ -616,26 +587,94 @@ router.post(
       next(error);
 
     } finally {
-
       client.release();
-
     }
   }
 );
 
 
 // =====================================================
-// 8. ADMIN COMPANY PROFIT REPORT
+// 8. ADMIN PENDING COMMISSION ORDERS
+// GET /api/commission/admin/pending
+// =====================================================
+
+router.get(
+  "/admin/pending",
+  requireAdmin,
+  async (req, res, next) => {
+    try {
+      const result = await pool.query(
+        `
+        SELECT
+          o.id AS order_id,
+          o.order_number,
+          o.user_id,
+          u.full_name AS customer_name,
+          o.total_amount,
+          o.delivered_at,
+          o.refund_period_ends_at,
+          o.commission_status,
+
+          CASE
+            WHEN o.refund_period_ends_at <= NOW()
+            THEN TRUE
+            ELSE FALSE
+          END AS refund_period_completed,
+
+          COALESCE(
+            SUM(cl.amount),
+            0
+          ) AS commission_pool
+
+        FROM orders o
+
+        JOIN users u
+          ON u.id = o.user_id
+
+        LEFT JOIN commission_ledger cl
+          ON cl.order_id = o.id
+
+        WHERE o.status = 'delivered'
+          AND o.payment_status = 'paid'
+          AND o.commission_status = 'pending'
+
+        GROUP BY o.id, u.full_name
+
+        ORDER BY o.refund_period_ends_at ASC
+
+        LIMIT 500
+        `
+      );
+
+      return res.json({
+        success: true,
+        orders: result.rows
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+// =====================================================
+// 9. ADMIN COMPANY PROFIT REPORT
 // GET /api/commission/admin/report
+//
+// Company share = 25%
+// Unallocated commission = separate part of the 75% pool
+//
+// Total retained = company share + unallocated commission
+// Do not add unallocated commission into company_share
+// in the database.
 // =====================================================
 
 router.get(
   "/admin/report",
   requireAdmin,
   async (req, res, next) => {
-
     try {
-
       const totalsResult = await pool.query(
         `
         SELECT
@@ -643,17 +682,22 @@ router.get(
           COALESCE(
             SUM(gross_profit),
             0
-          ) AS gross_profit,
+          ) AS net_profit,
 
           COALESCE(
             SUM(company_share),
             0
-          ) AS company_share,
+          ) AS company_share_25_percent,
 
           COALESCE(
             SUM(unallocated_commission),
             0
           ) AS unallocated_commission,
+
+          COALESCE(
+            SUM(company_share + unallocated_commission),
+            0
+          ) AS total_company_retained,
 
           COUNT(*) AS total_orders
 
@@ -661,23 +705,56 @@ router.get(
         `
       );
 
-
       const levelsResult = await pool.query(
         `
         SELECT
-
           level,
 
-          COUNT(*) AS total_transactions,
+          COUNT(*) FILTER (
+            WHERE status = 'credited'
+          ) AS credited_transactions,
+
+          COUNT(*) FILTER (
+            WHERE status = 'pending'
+          ) AS pending_transactions,
+
+          COUNT(*) FILTER (
+            WHERE status = 'unallocated'
+          ) AS unallocated_transactions,
+
+          COUNT(*) FILTER (
+            WHERE status = 'reversed'
+          ) AS reversed_transactions,
 
           COALESCE(
-            SUM(amount),
+            SUM(amount) FILTER (
+              WHERE status = 'credited'
+            ),
             0
-          ) AS total_commission
+          ) AS credited_amount,
+
+          COALESCE(
+            SUM(amount) FILTER (
+              WHERE status = 'pending'
+            ),
+            0
+          ) AS pending_amount,
+
+          COALESCE(
+            SUM(amount) FILTER (
+              WHERE status = 'unallocated'
+            ),
+            0
+          ) AS unallocated_amount,
+
+          COALESCE(
+            SUM(amount) FILTER (
+              WHERE status = 'reversed'
+            ),
+            0
+          ) AS reversed_amount
 
         FROM commission_ledger
-
-        WHERE status = 'credited'
 
         GROUP BY level
 
@@ -685,13 +762,41 @@ router.get(
         `
       );
 
+      const debtResult = await pool.query(
+        `
+        SELECT
+          COALESCE(
+            SUM(original_amount - recovered_amount),
+            0
+          ) AS outstanding_reversal_debt,
+
+          COUNT(*) FILTER (
+            WHERE status IN ('open', 'partially_recovered')
+          ) AS outstanding_debt_accounts
+
+        FROM commission_reversal_debts
+        `
+      );
+
+      const statusResult = await pool.query(
+        `
+        SELECT
+          commission_status,
+          COUNT(*) AS total_orders
+        FROM orders
+        GROUP BY commission_status
+        ORDER BY commission_status
+        `
+      );
 
       return res.json({
         success: true,
 
         report: {
           totals: totalsResult.rows[0],
-          levels: levelsResult.rows
+          levels: levelsResult.rows,
+          reversalDebts: debtResult.rows[0],
+          orderStatuses: statusResult.rows
         }
       });
 
