@@ -6,14 +6,11 @@
 // 10 LEVEL UNILEVEL COMMISSION ENGINE
 // =====================================================
 
-const DEFAULT_RATES = [
-  20, 15, 10, 8, 6, 5, 4, 3, 2, 2
-];
+const DEFAULT_RATES = [20, 15, 10, 8, 6, 5, 4, 3, 2, 2];
 
 const COMPANY_SHARE_PERCENT = 25;
 const TOTAL_COMMISSION_PERCENT = 75;
 const LEVEL_COUNT = 10;
-
 
 // =====================================================
 // MONEY HELPERS
@@ -30,6 +27,10 @@ function toCents(value) {
 }
 
 function fromCents(value) {
+  if (!Number.isSafeInteger(value)) {
+    throw new Error("Invalid cents value.");
+  }
+
   return (value / 100).toFixed(2);
 }
 
@@ -59,10 +60,7 @@ function validateRates(rates) {
     throw new Error("Invalid commission percentage.");
   }
 
-  const total = normalized.reduce(
-    (sum, rate) => sum + rate,
-    0
-  );
+  const total = normalized.reduce((sum, rate) => sum + rate, 0);
 
   if (Math.abs(total - TOTAL_COMMISSION_PERCENT) > 0.0001) {
     throw new Error(
@@ -73,37 +71,85 @@ function validateRates(rates) {
   return normalized;
 }
 
+// =====================================================
+// EXACT CENT-BASED COMMISSION ALLOCATION
+//
+// Uses largest remainder method.
+// Sum of all 10 levels always equals commission pool.
+// =====================================================
+
+function calculateCommissionAllocation(profitCents, rates) {
+  if (!Number.isSafeInteger(profitCents) || profitCents <= 0) {
+    throw new Error("Invalid profit amount.");
+  }
+
+  const normalizedRates = validateRates(rates);
+
+  const commissionPoolCents = Math.round(
+    profitCents * TOTAL_COMMISSION_PERCENT / 100
+  );
+
+  const companyShareCents = profitCents - commissionPoolCents;
+
+  const rawShares = normalizedRates.map((rate, index) => {
+    const exact = profitCents * rate / 100;
+    const base = Math.floor(exact);
+
+    return {
+      level: index + 1,
+      rate,
+      cents: base,
+      remainder: exact - base
+    };
+  });
+
+  let allocated = rawShares.reduce(
+    (sum, item) => sum + item.cents,
+    0
+  );
+
+  let remaining = commissionPoolCents - allocated;
+
+  const priority = [...rawShares].sort((a, b) => {
+    if (b.remainder !== a.remainder) {
+      return b.remainder - a.remainder;
+    }
+
+    return a.level - b.level;
+  });
+
+  for (let i = 0; i < remaining; i++) {
+    priority[i].cents += 1;
+  }
+
+  allocated = rawShares.reduce(
+    (sum, item) => sum + item.cents,
+    0
+  );
+
+  if (allocated !== commissionPoolCents) {
+    throw new Error("Commission allocation validation failed.");
+  }
+
+  if (companyShareCents + allocated !== profitCents) {
+    throw new Error("Company and commission split validation failed.");
+  }
+
+  return {
+    companyShareCents,
+    commissionPoolCents,
+    levels: rawShares
+      .sort((a, b) => a.level - b.level)
+      .map(item => ({
+        level: item.level,
+        rate: item.rate,
+        amountCents: item.cents
+      }))
+  };
+}
 
 // =====================================================
 // COST SNAPSHOT VALIDATION
-//
-// Product snapshot format:
-// {
-//   itemType: "product",
-//   productCost: "100.00",
-//   deliveryCost: "10.00",
-//   packagingCost: "5.00",
-//   otherCost: "2.00"
-// }
-//
-// Package snapshot format:
-// {
-//   itemType: "package",
-//   componentCosts: [
-//     { productCost: "100.00", deliveryCost: "0.00",
-//       packagingCost: "0.00", otherCost: "0.00" },
-//     { productCost: "100.00", deliveryCost: "0.00",
-//       packagingCost: "0.00", otherCost: "0.00" },
-//     { productCost: "100.00", deliveryCost: "0.00",
-//       packagingCost: "0.00", otherCost: "0.00" }
-//   ],
-//   deliveryCost: "10.00",
-//   packagingCost: "5.00",
-//   otherCost: "2.00"
-// }
-//
-// Order creation must save this snapshot.
-// Never read current product/package costs here.
 // =====================================================
 
 function snapshotMoney(snapshot, key) {
@@ -163,7 +209,6 @@ function calculateSnapshotItemCost(snapshot, itemType) {
   throw new Error("Unsupported order item type.");
 }
 
-
 // =====================================================
 // CALCULATE ORDER NET PROFIT
 // Uses only immutable order-time snapshots.
@@ -216,6 +261,7 @@ async function calculateOrderProfit(
     }
 
     const subtotalCents = toCents(item.subtotal);
+
     const unitCostCents = calculateSnapshotItemCost(
       snapshot,
       item.item_type
@@ -240,9 +286,7 @@ async function calculateOrderProfit(
   );
 
   const actualProfitCents =
-    revenueCents -
-    directCostCents -
-    gatewayFeeCents;
+    revenueCents - directCostCents - gatewayFeeCents;
 
   if (actualProfitCents <= 0) {
     throw new Error(
@@ -262,7 +306,6 @@ async function calculateOrderProfit(
     actualProfitCents
   };
 }
-
 
 // =====================================================
 // GET 10 LEVEL SPONSOR CHAIN
@@ -305,18 +348,8 @@ async function getSponsorChain(client, buyerId) {
   return sponsors;
 }
 
-
 // =====================================================
 // CHECK SPONSOR COMMISSION ELIGIBILITY
-//
-// A sponsor must:
-// - Exist
-// - Have active account status
-// - Have partner role
-// - Have partner_activated_at set
-//
-// Ineligible sponsor level becomes unallocated.
-// It is not transferred to another level.
 // =====================================================
 
 async function getEligibleSponsor(client, sponsorId) {
@@ -340,9 +373,7 @@ async function getEligibleSponsor(client, sponsorId) {
 
   const sponsor = result.rows[0];
 
-  if (!sponsor) {
-    return null;
-  }
+  if (!sponsor) return null;
 
   if (String(sponsor.status).toLowerCase() !== "active") {
     return null;
@@ -358,7 +389,6 @@ async function getEligibleSponsor(client, sponsorId) {
 
   return sponsor;
 }
-
 
 // =====================================================
 // CREATE WALLET IF NOT EXISTS
@@ -379,12 +409,8 @@ async function getOrCreateWallet(client, memberId) {
   return result.rows[0].id;
 }
 
-
 // =====================================================
 // APPLY EXISTING COMMISSION REVERSAL DEBTS
-//
-// Future commissions first recover old debts.
-// Only the remaining amount is credited.
 // =====================================================
 
 async function recoverCommissionDebts(
@@ -411,17 +437,13 @@ async function recoverCommissionDebts(
   );
 
   for (const debt of debtsResult.rows) {
-    if (remainingCents <= 0) {
-      break;
-    }
+    if (remainingCents <= 0) break;
 
     const outstandingCents =
       toCents(debt.original_amount) -
       toCents(debt.recovered_amount);
 
-    if (outstandingCents <= 0) {
-      continue;
-    }
+    if (outstandingCents <= 0) continue;
 
     const recovery = Math.min(
       remainingCents,
@@ -459,7 +481,6 @@ async function recoverCommissionDebts(
     recoveredCents
   };
 }
-
 
 // =====================================================
 // CREDIT MEMBER WALLET
@@ -501,10 +522,7 @@ async function creditMemberWallet(
         updated_at = NOW()
       WHERE id = $2
       `,
-      [
-        fromCents(recovery.creditedCents),
-        walletId
-      ]
+      [fromCents(recovery.creditedCents), walletId]
     );
 
     await client.query(
@@ -545,7 +563,7 @@ async function creditMemberWallet(
         walletId,
         fromCents(recovery.recoveredCents),
         `COM-DEBT-RECOVERY-${ledgerId}`,
-        `Recovery of previous commission reversal debt`
+        "Recovery of previous commission reversal debt"
       ]
     );
   }
@@ -553,15 +571,8 @@ async function creditMemberWallet(
   return recovery;
 }
 
-
 // =====================================================
 // PREPARE COMMISSION AFTER ORDER DELIVERY
-//
-// This creates PENDING ledger entries only.
-// It does not credit any wallet.
-//
-// Call inside a PostgreSQL transaction after an order
-// becomes delivered.
 // =====================================================
 
 async function prepareOrderCommission(client, orderId) {
@@ -664,8 +675,10 @@ async function prepareOrderCommission(client, orderId) {
 
   const profitCents = profit.actualProfitCents;
 
-  const companyShareCents = Math.round(
-    profitCents * COMPANY_SHARE_PERCENT / 100
+  // Exact integer-cent split: company + commission = 100%.
+  const allocation = calculateCommissionAllocation(
+    profitCents,
+    rates
   );
 
   const deliveredAt = order.delivered_at
@@ -692,19 +705,8 @@ async function prepareOrderCommission(client, orderId) {
     order.user_id
   );
 
-  let totalCommissionCents = 0;
-
-  for (let index = 0; index < LEVEL_COUNT; index++) {
-    const level = index + 1;
-    const rate = rates[index];
-
-    const amountCents = Math.round(
-      profitCents * rate / 100
-    );
-
-    totalCommissionCents += amountCents;
-
-    const sponsorId = sponsorChain[index];
+  for (const levelEntry of allocation.levels) {
+    const sponsorId = sponsorChain[levelEntry.level - 1];
 
     const eligibleSponsor = await getEligibleSponsor(
       client,
@@ -729,17 +731,11 @@ async function prepareOrderCommission(client, orderId) {
       [
         orderId,
         eligibleSponsor ? eligibleSponsor.id : null,
-        level,
-        rate,
+        levelEntry.level,
+        levelEntry.rate,
         fromCents(profitCents),
-        fromCents(amountCents)
+        fromCents(levelEntry.amountCents)
       ]
-    );
-  }
-
-  if (totalCommissionCents !== Math.round(profitCents * 0.75)) {
-    throw new Error(
-      "Commission pool rounding validation failed."
     );
   }
 
@@ -758,7 +754,7 @@ async function prepareOrderCommission(client, orderId) {
     [
       orderId,
       fromCents(profitCents),
-      fromCents(companyShareCents)
+      fromCents(allocation.companyShareCents)
     ]
   );
 
@@ -772,11 +768,7 @@ async function prepareOrderCommission(client, orderId) {
       updated_at = NOW()
     WHERE id = $3
     `,
-    [
-      deliveredAt,
-      refundPeriodEndsAt,
-      orderId
-    ]
+    [deliveredAt, refundPeriodEndsAt, orderId]
   );
 
   return {
@@ -788,18 +780,14 @@ async function prepareOrderCommission(client, orderId) {
     directCosts: profit.directCosts,
     gatewayFee: profit.gatewayFee,
     netProfit: profit.actualProfit,
-    companyShare: fromCents(companyShareCents),
-    commissionPool: fromCents(totalCommissionCents),
+    companyShare: fromCents(allocation.companyShareCents),
+    commissionPool: fromCents(allocation.commissionPoolCents),
     refundPeriodEndsAt
   };
 }
 
-
 // =====================================================
 // RELEASE MATURED COMMISSION
-//
-// Call inside a PostgreSQL transaction.
-// No wallet credit before refund_period_ends_at.
 // =====================================================
 
 async function releaseOrderCommission(client, orderId) {
@@ -866,9 +854,7 @@ async function releaseOrderCommission(client, orderId) {
   }
 
   if (order.commission_status !== "pending") {
-    throw new Error(
-      "Order does not have pending commission."
-    );
+    throw new Error("Order does not have pending commission.");
   }
 
   if (!order.refund_period_ends_at) {
@@ -920,7 +906,6 @@ async function releaseOrderCommission(client, orderId) {
 
     const amountCents = toCents(entry.amount);
 
-    // Check eligibility again at the time of release.
     const eligibleSponsor = await getEligibleSponsor(
       client,
       entry.beneficiary_id
@@ -1007,10 +992,7 @@ async function releaseOrderCommission(client, orderId) {
     SET unallocated_commission = $1
     WHERE order_id = $2
     `,
-    [
-      fromCents(unallocatedCents),
-      orderId
-    ]
+    [fromCents(unallocatedCents), orderId]
   );
 
   await client.query(
@@ -1038,14 +1020,11 @@ async function releaseOrderCommission(client, orderId) {
   };
 }
 
-
 // =====================================================
-// REVERSE COMMISSION ON REFUND/CANCELLATION
-//
+// REVERSE COMMISSION ON REFUND
 // Pending entries are voided.
 // Released entries are debited from available wallet
-// balances. Any amount already spent becomes debt and
-// is recovered from future commissions.
+// balances. Any amount already spent becomes debt.
 // =====================================================
 
 async function reverseOrderCommission(client, orderId) {
@@ -1171,10 +1150,7 @@ async function reverseOrderCommission(client, orderId) {
           updated_at = NOW()
         WHERE id = $2
         `,
-        [
-          fromCents(debitCents),
-          walletId
-        ]
+        [fromCents(debitCents), walletId]
       );
 
       await client.query(
@@ -1264,7 +1240,6 @@ async function reverseOrderCommission(client, orderId) {
   };
 }
 
-
 // =====================================================
 // EXPORT
 // =====================================================
@@ -1277,6 +1252,7 @@ module.exports = {
   toCents,
   fromCents,
   validateRates,
+  calculateCommissionAllocation,
 
   calculateSnapshotItemCost,
   calculateOrderProfit,
