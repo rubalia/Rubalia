@@ -73,22 +73,51 @@ main{max-width:1450px;margin:auto;padding:17px 10px 48px}
 .page-intro h1{margin:0 0 5px;font-size:21px}
 .page-intro p{margin:0;color:#f4e5ee;font-size:12px;line-height:1.5}
 
-/* CATEGORY BANNERS: original artwork is displayed without editing */
+/* EMPTY PROMOTIONAL SLIDER SPACE — content can be added later */
+.promo-slider-space{
+  width:100%;height:190px;margin:0 0 17px;border-radius:15px;
+  background:transparent;
+}
+
+/* CATEGORY BANNERS — artwork is built into HTML/CSS; no image uploads needed */
 .category-grid{
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;align-items:stretch
+  gap:15px;align-items:stretch
 }
 .category-card{
-  display:block;width:100%;min-width:0;padding:0;border:1px solid rgba(117,79,145,.2);
-  border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;
-  box-shadow:0 6px 16px rgba(39,20,58,.10);transition:transform .2s,box-shadow .2s
+  position:relative;display:flex;flex-direction:column;align-items:flex-start;
+  justify-content:center;text-align:left;width:100%;min-width:0;min-height:185px;
+  padding:18px 14px 16px 18px;border:1px solid rgba(255,255,255,.55);
+  border-radius:15px;overflow:hidden;color:#fff;cursor:pointer;
+  box-shadow:0 8px 19px rgba(39,20,58,.16),inset 0 1px 0 rgba(255,255,255,.4);
+  isolation:isolate;transition:transform .2s,box-shadow .2s
 }
-.category-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(39,20,58,.16)}
-.category-card img{
-  display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;
-  background:#fff
+.category-card:before{
+  content:"";position:absolute;z-index:-1;width:185px;height:185px;border-radius:50%;
+  right:-28px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 0 0 17px rgba(255,255,255,.045),0 0 0 36px rgba(255,255,255,.035)
 }
+.category-card:after{
+  content:"";position:absolute;z-index:-1;left:-25px;bottom:-60px;width:170px;height:100px;
+  border-radius:50%;background:rgba(255,255,255,.09);filter:blur(2px)
+}
+.category-card:hover{transform:translateY(-3px);box-shadow:0 13px 25px rgba(39,20,58,.22)}
 .category-card:focus-visible{outline:3px solid #e72c76;outline-offset:3px}
+.art-title{display:block;max-width:70%;font-size:clamp(17px,2.1vw,25px);line-height:1.12;font-weight:900;text-shadow:0 2px 5px rgba(0,0,0,.22)}
+.art-sub{display:block;max-width:72%;margin-top:10px;font-size:clamp(9px,1vw,11px);font-weight:700;letter-spacing:.25px;color:rgba(255,255,255,.9)}
+.art-emoji{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:clamp(48px,7vw,76px);filter:drop-shadow(0 7px 5px rgba(0,0,0,.2))}
+.art-leaf{position:absolute;right:18px;top:12px;font-size:22px;color:rgba(255,255,255,.65)}
+.beauty{background:radial-gradient(circle at 83% 22%,#ff9bc5 0,transparent 34%),linear-gradient(115deg,#481044,#9b1766 58%,#df438d)}
+.wellness{background:radial-gradient(circle at 82% 20%,#9be9a0 0,transparent 36%),linear-gradient(115deg,#064b43,#07866c 58%,#42b78b)}
+.personal{background:radial-gradient(circle at 82% 18%,#b7a2ff 0,transparent 36%),linear-gradient(115deg,#282064,#6542a8 58%,#a05ac4)}
+.home{background:radial-gradient(circle at 82% 20%,#ffe39a 0,transparent 36%),linear-gradient(115deg,#123d70,#167eb2 58%,#42b7c2)}
+.food{background:radial-gradient(circle at 82% 20%,#e6f18b 0,transparent 36%),linear-gradient(115deg,#315d16,#6b9d1c 58%,#b5bd35)}
+.fashion{background:radial-gradient(circle at 82% 20%,#ffb0d7 0,transparent 36%),linear-gradient(115deg,#3b185e,#7b2b9d 58%,#c34c9a)}
+.electronics{background:radial-gradient(circle at 82% 20%,#a3d5ff 0,transparent 36%),linear-gradient(115deg,#102e67,#145caa 58%,#397fda)}
+.baby{background:radial-gradient(circle at 82% 20%,#ffe0a6 0,transparent 36%),linear-gradient(115deg,#693c82,#a653a2 58%,#e18aa9)}
+.household{background:radial-gradient(circle at 82% 20%,#b6e8ff 0,transparent 36%),linear-gradient(115deg,#173c65,#287a9d 58%,#54b8b2)}
+.lifestyle{background:radial-gradient(circle at 82% 20%,#ffd49b 0,transparent 36%),linear-gradient(115deg,#32204e,#67407d 58%,#b06c9a)}
 
 /* PACKAGE VIEW */
 .packages-view{display:none}
@@ -192,9 +221,14 @@ footer strong{color:#f4d58c}
   .page-intro{margin:0 5px 12px;padding:13px 14px}
   .page-intro h1{font-size:18px}
   .page-intro p{font-size:10px}
-  .category-grid{gap:9px}
-  .category-card{border-radius:9px}
-  .category-card img{aspect-ratio:3/1}
+  .promo-slider-space{height:155px;margin-bottom:13px}
+  .category-grid{gap:10px}
+  .category-card{min-height:158px;padding:13px 9px 12px 12px;border-radius:11px}
+  .category-card:before{width:125px;height:125px;right:-23px}
+  .art-title{font-size:clamp(14px,3.4vw,19px);max-width:78%}
+  .art-sub{font-size:8px;max-width:82%;margin-top:8px;line-height:1.35}
+  .art-emoji{right:6px;font-size:clamp(37px,9vw,54px)}
+  .art-leaf{right:10px;top:8px;font-size:17px}
   .section-heading{padding:0 5px}
   .section-heading h2{font-size:16px}
   .search-section{padding:0 5px}
@@ -213,8 +247,12 @@ footer strong{color:#f4d58c}
 @media(max-width:360px){
   .brand-text{font-size:11px}.brand-icon{width:36px;height:36px}
   .header-action{font-size:9px;padding:9px 7px}
+  .promo-slider-space{height:125px}
   .category-grid{gap:7px}
-  .category-card{border-radius:7px}
+  .category-card{min-height:137px;padding:10px 7px 10px 9px;border-radius:9px}
+  .art-title{font-size:13px}
+  .art-sub{font-size:7px}
+  .art-emoji{font-size:35px;right:4px}
   .item-image{height:88px}.item-body{padding:5px;gap:5px}
   .item-title{font-size:10px}.item-description{font-size:7px}
   .item-price{font-size:10px}.buy-btn{padding:7px 5px;font-size:7px}
@@ -260,45 +298,59 @@ footer strong{color:#f4d58c}
 </aside>
 
 <main>
+  <!-- RESERVED PROMOTIONAL SLIDER AREA
+       Keep this area empty for now. Promotional banner slides can be added here later. -->
+  <section class="promo-slider-space" aria-label="Promotional banner area"></section>
+
   <section class="page-intro">
-    <h1 id="pageTitle">Explore Categories</h1>
-    <p id="pageSubtitle">Choose a product category to explore its available packages.</p>
+    <h1 id="pageTitle">Product Categories</h1>
+    <p id="pageSubtitle">Choose a category to explore its available packages.</p>
   </section>
 
   <div class="notice" id="notice" role="status"></div>
 
-  <!-- DASHBOARD: ONLY THE 10 CATEGORY BANNERS -->
+  <!-- DASHBOARD: 10 SELF-CONTAINED CATEGORY BANNERS -->
   <section class="category-view" id="categoryView">
     <div class="category-grid" id="categoryGrid">
-      <button class="category-card" type="button" data-category="Beauty & Cosmetics" aria-label="Open Beauty and Cosmetics">
-        <img src="assets/categories/beauty-cosmetics.png" alt="Beauty & Cosmetics" loading="lazy">
+      <button class="category-card beauty" type="button" data-category="Beauty & Cosmetics" aria-label="Open Beauty and Cosmetics">
+        <span class="art-leaf">✿</span><span class="art-emoji">💄</span>
+        <span class="art-title">Beauty &amp;<br>Cosmetics</span><span class="art-sub">Beauty • Makeup • Fragrance</span>
       </button>
-      <button class="category-card" type="button" data-category="Health & Wellness" aria-label="Open Health and Wellness">
-        <img src="assets/categories/health-wellness.png" alt="Health & Wellness" loading="lazy">
+      <button class="category-card wellness" type="button" data-category="Health & Wellness" aria-label="Open Health and Wellness">
+        <span class="art-leaf">✚</span><span class="art-emoji">🌿</span>
+        <span class="art-title">Health &amp;<br>Wellness</span><span class="art-sub">Nutrition • Fitness • Wellness</span>
       </button>
-      <button class="category-card" type="button" data-category="Personal Care" aria-label="Open Personal Care">
-        <img src="assets/categories/personal-care.png" alt="Personal Care" loading="lazy">
+      <button class="category-card personal" type="button" data-category="Personal Care" aria-label="Open Personal Care">
+        <span class="art-leaf">✦</span><span class="art-emoji">🧴</span>
+        <span class="art-title">Personal Care</span><span class="art-sub">Skin • Hair • Daily Hygiene</span>
       </button>
-      <button class="category-card" type="button" data-category="Home & Kitchen" aria-label="Open Home and Kitchen">
-        <img src="assets/categories/home-kitchen.png" alt="Home & Kitchen" loading="lazy">
+      <button class="category-card home" type="button" data-category="Home & Kitchen" aria-label="Open Home and Kitchen">
+        <span class="art-leaf">⌂</span><span class="art-emoji">🍳</span>
+        <span class="art-title">Home &amp;<br>Kitchen</span><span class="art-sub">Kitchen • Decor • Essentials</span>
       </button>
-      <button class="category-card" type="button" data-category="Food & Grocery" aria-label="Open Food and Grocery">
-        <img src="assets/categories/food-grocery.png" alt="Food & Grocery" loading="lazy">
+      <button class="category-card food" type="button" data-category="Food & Grocery" aria-label="Open Food and Grocery">
+        <span class="art-leaf">✿</span><span class="art-emoji">🥑</span>
+        <span class="art-title">Food &amp;<br>Grocery</span><span class="art-sub">Fresh Food • Grocery • Snacks</span>
       </button>
-      <button class="category-card" type="button" data-category="Fashion & Clothing" aria-label="Open Fashion and Clothing">
-        <img src="assets/categories/fashion-clothing.png" alt="Fashion & Clothing" loading="lazy">
+      <button class="category-card fashion" type="button" data-category="Fashion & Clothing" aria-label="Open Fashion and Clothing">
+        <span class="art-leaf">✧</span><span class="art-emoji">👗</span>
+        <span class="art-title">Fashion &amp;<br>Clothing</span><span class="art-sub">Style • Clothing • Accessories</span>
       </button>
-      <button class="category-card" type="button" data-category="Electronics & Gadgets" aria-label="Open Electronics and Gadgets">
-        <img src="assets/categories/electronics-gadgets.png" alt="Electronics & Gadgets" loading="lazy">
+      <button class="category-card electronics" type="button" data-category="Electronics & Gadgets" aria-label="Open Electronics and Gadgets">
+        <span class="art-leaf">⌁</span><span class="art-emoji">🎧</span>
+        <span class="art-title">Electronics &amp;<br>Gadgets</span><span class="art-sub">Devices • Audio • Smart Tech</span>
       </button>
-      <button class="category-card" type="button" data-category="Baby & Kids" aria-label="Open Baby and Kids">
-        <img src="assets/categories/baby-kids.png" alt="Baby & Kids" loading="lazy">
+      <button class="category-card baby" type="button" data-category="Baby & Kids" aria-label="Open Baby and Kids">
+        <span class="art-leaf">♡</span><span class="art-emoji">🧸</span>
+        <span class="art-title">Baby &amp; Kids</span><span class="art-sub">Baby Care • Toys • Kids Wear</span>
       </button>
-      <button class="category-card" type="button" data-category="Household Products" aria-label="Open Household Products">
-        <img src="assets/categories/household-products.png" alt="Household Products" loading="lazy">
+      <button class="category-card household" type="button" data-category="Household Products" aria-label="Open Household Products">
+        <span class="art-leaf">✧</span><span class="art-emoji">🧹</span>
+        <span class="art-title">Household<br>Products</span><span class="art-sub">Cleaning • Laundry • Home Care</span>
       </button>
-      <button class="category-card" type="button" data-category="Lifestyle & Accessories" aria-label="Open Lifestyle and Accessories">
-        <img src="assets/categories/lifestyle-accessories.png" alt="Lifestyle & Accessories" loading="lazy">
+      <button class="category-card lifestyle" type="button" data-category="Lifestyle & Accessories" aria-label="Open Lifestyle and Accessories">
+        <span class="art-leaf">✦</span><span class="art-emoji">👜</span>
+        <span class="art-title">Lifestyle &amp;<br>Accessories</span><span class="art-sub">Watches • Bags • Everyday Style</span>
       </button>
     </div>
   </section>
@@ -332,7 +384,6 @@ footer strong{color:#f4d58c}
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
-const CATEGORY_IMAGE_BASE = "assets/categories/";
 
 const CATEGORIES = [
   "Beauty & Cosmetics",
