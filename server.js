@@ -7,8 +7,12 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const pool = require("./config/database");
+
 const { initializeDatabase } = require("./database/init");
 const { runPartnerMigration } = require("./database/partner-migration");
+const {
+  runCommissionSafetyMigration
+} = require("./database/commission-safety-migration");
 
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -140,37 +144,15 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
 
 // Referral Routes
-// GET /api/referral/me
-// GET /api/referral/verify/:code
-// GET /api/referral/stats
-// GET /api/referral/direct
 app.use("/api/referral", referralRoutes);
 
 // Commission Routes
-// GET  /api/commission/me
-// GET  /api/commission/transactions
-// GET  /api/commission/admin/settings
-// PUT  /api/commission/admin/settings
-// PUT  /api/commission/admin/costs/product/:id
-// PUT  /api/commission/admin/costs/package/:id
-// POST /api/commission/admin/orders/:id/release
-// GET  /api/commission/admin/report
 app.use("/api/commission", commissionRoutes);
 
 // Payment Routes
-// GET  /api/payment/methods
-// POST /api/payment/request
-// GET  /api/payment/my-requests
-// GET  /api/payment/admin/requests
-// GET  /api/payment/admin/requests/:id
-// PATCH /api/payment/admin/requests/:id/approve
-// PATCH /api/payment/admin/requests/:id/reject
-// GET  /api/payment/admin/settings
-// PUT  /api/payment/admin/settings/:gateway
 app.use("/api/payment", paymentRoutes);
 
 // Image Upload Routes
-// Admin only: POST /api/upload/image
 app.use("/api/upload", uploadRoutes);
 
 // 404 Handler
@@ -202,6 +184,11 @@ async function startServer() {
     // Existing database records will be preserved.
     await runPartnerMigration();
 
+    // Run additive Commission Safety migration
+    // Existing orders, wallet balances and financial records
+    // will be preserved.
+    await runCommissionSafetyMigration();
+
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
@@ -209,6 +196,7 @@ async function startServer() {
       console.log("Referral route registered.");
       console.log("Commission route registered.");
       console.log("Partner migration completed.");
+      console.log("Commission safety migration completed.");
     });
 
   } catch (error) {
