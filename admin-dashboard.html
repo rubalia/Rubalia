@@ -166,6 +166,52 @@ td strong{color:var(--navy)}
 .refresh-btn:disabled{opacity:.5}
 .footer{text-align:center;padding:20px;color:#9aa5b5;font-size:10px}
 
+/* COMMISSION OVERVIEW */
+.commission-section{margin-bottom:21px}
+.commission-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin-bottom:14px
+}
+.commission-heading h2{font-size:17px;color:var(--navy);margin:0 0 5px}
+.commission-heading p{font-size:11px;color:var(--muted);margin:0}
+.commission-actions{display:flex;gap:8px;flex-wrap:wrap}
+.commission-btn{
+  display:inline-block;padding:9px 13px;border-radius:7px;
+  background:var(--navy);color:white;font-size:10px;font-weight:bold
+}
+.commission-btn.gold{background:var(--gold);color:var(--navy)}
+.commission-stats{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;margin-bottom:14px
+}
+.commission-card{
+  background:white;border:1px solid var(--border);
+  border-radius:11px;padding:16px;min-width:0
+}
+.commission-card .label{font-size:10px;color:var(--muted)}
+.commission-card .value{
+  display:block;font-size:22px;font-weight:800;
+  color:var(--navy);margin:11px 0 5px;overflow-wrap:anywhere
+}
+.commission-card .note{font-size:10px;color:var(--muted)}
+.commission-card.company{border-top:3px solid var(--gold)}
+.commission-card.profit{border-top:3px solid #315e91}
+.commission-card.distributed{border-top:3px solid var(--green)}
+.commission-card.unallocated{border-top:3px solid #c58b32}
+.commission-card.orders{border-top:3px solid #7c70b8}
+.commission-table table{min-width:420px}
+.commission-table th,.commission-table td{padding:11px 10px}
+.level-pill{
+  display:inline-block;background:#edf2f8;color:var(--navy);
+  padding:5px 9px;border-radius:20px;font-weight:bold;font-size:10px
+}
+.commission-error{
+  display:none;background:#fff4f2;border:1px solid #f1d0cb;
+  color:#a34237;border-radius:9px;padding:12px;font-size:11px;line-height:1.6
+}
+.commission-loading{color:var(--muted);font-size:11px;padding:15px;text-align:center}
+.commission-refresh{font-size:10px}
+
 @media(max-width:1100px){
   .stats{grid-template-columns:repeat(2,1fr)}
   .grid-two{grid-template-columns:1fr}
@@ -176,6 +222,10 @@ td strong{color:var(--navy)}
   .sidebar.open{display:block}
   .mobile-menu{display:block}
   .main{padding:17px}
+}
+@media(max-width:600px){
+  .commission-stats{grid-template-columns:1fr 1fr}
+  .commission-card .value{font-size:19px}
 }
 @media(max-width:480px){
   .stats{grid-template-columns:1fr 1fr;gap:9px}
@@ -188,6 +238,8 @@ td strong{color:var(--navy)}
   .brand{font-size:17px}
   .admin-label{font-size:9px;padding:6px 8px}
   .main{padding:13px}
+  .commission-stats{gap:8px}
+  .commission-card{padding:12px}
 }
 </style>
 </head>
@@ -333,6 +385,8 @@ td strong{color:var(--navy)}
     <div class="welcome-icon">👑</div>
   </section>
 
+  <!-- EXISTING DASHBOARD STATISTICS -->
+
   <section class="stats">
 
     <div class="stat-card">
@@ -399,6 +453,102 @@ td strong{color:var(--navy)}
     </div>
 
   </section>
+
+  <!-- NEW COMMISSION OVERVIEW -->
+
+  <section class="commission-section">
+
+    <div class="commission-heading">
+      <div>
+        <h2>Commission Overview</h2>
+        <p>10-Level Unilevel financial summary from the server.</p>
+      </div>
+
+      <div class="commission-actions">
+        <button class="refresh-btn commission-refresh" id="refreshCommissionBtn" type="button">
+          ↻ Refresh
+        </button>
+        <a href="admin-commissions.html" class="commission-btn gold">
+          Commission Settings →
+        </a>
+      </div>
+    </div>
+
+    <div class="commission-error" id="commissionError">
+      Commission report could not be loaded. Please check the Commission API and database migration.
+    </div>
+
+    <div class="commission-stats">
+
+      <div class="commission-card profit">
+        <span class="label">Total Actual Profit</span>
+        <strong class="value" id="commissionGrossProfit">৳—</strong>
+        <span class="note">Recorded profit after direct costs</span>
+      </div>
+
+      <div class="commission-card company">
+        <span class="label">Company Income</span>
+        <strong class="value" id="commissionCompanyShare">৳—</strong>
+        <span class="note">Company share including unallocated amounts</span>
+      </div>
+
+      <div class="commission-card distributed">
+        <span class="label">Distributed Commission</span>
+        <strong class="value" id="commissionDistributed">৳—</strong>
+        <span class="note">Commission recorded for members</span>
+      </div>
+
+      <div class="commission-card unallocated">
+        <span class="label">Unallocated Commission</span>
+        <strong class="value" id="commissionUnallocated">৳—</strong>
+        <span class="note">Amounts without eligible uplines</span>
+      </div>
+
+      <div class="commission-card orders">
+        <span class="label">Commission Orders</span>
+        <strong class="value" id="commissionOrders">—</strong>
+        <span class="note">Orders processed by commission engine</span>
+      </div>
+
+      <div class="commission-card">
+        <span class="label">Total Commission Levels</span>
+        <strong class="value">10</strong>
+        <span class="note">Unilevel commission structure</span>
+      </div>
+
+    </div>
+
+    <section class="panel commission-table">
+      <div class="panel-head">
+        <h3>Level-Wise Commission Report</h3>
+        <span class="live-badge">SERVER REPORT</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>LEVEL</th>
+              <th>COMMISSION RATE</th>
+              <th>TRANSACTIONS</th>
+              <th>TOTAL COMMISSION</th>
+            </tr>
+          </thead>
+
+          <tbody id="commissionLevelsBody">
+            <tr>
+              <td colspan="4" class="commission-loading">
+                Loading commission report...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </section>
+
+  <!-- QUICK ACTIONS AND ADMIN ACCOUNT -->
 
   <div class="grid-two">
 
@@ -480,6 +630,8 @@ td strong{color:var(--navy)}
 
   </div>
 
+  <!-- RECENT ORDERS -->
+
   <section class="panel">
     <div class="panel-head">
       <h3>Recent Orders</h3>
@@ -511,9 +663,9 @@ td strong{color:var(--navy)}
   <div class="notice">
     <strong>Important:</strong>
     This dashboard displays information returned by the Rubalia server.
-    Commission, wallet and payment figures are not displayed here because
-    their live financial reporting endpoints have not yet been connected.
-    Open Payment Management to review payment requests and gateway settings.
+    Commission figures are loaded separately from the Commission API.
+    Actual commission figures will appear after the commission database
+    migration and reporting API are correctly connected.
   </div>
 
 </main>
@@ -553,7 +705,8 @@ function formatNumber(value){
 
 function formatMoney(value){
   const number=Number(value);
-  if(!Number.isFinite(number)) return "—";
+  if(!Number.isFinite(number)) return "৳—";
+
   return "৳"+number.toLocaleString("en-BD",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
@@ -562,8 +715,11 @@ function formatMoney(value){
 
 function formatDate(value){
   if(!value) return "—";
+
   const date=new Date(value);
+
   if(Number.isNaN(date.getTime())) return "—";
+
   return date.toLocaleDateString("en-GB",{
     day:"2-digit",
     month:"short",
@@ -670,6 +826,145 @@ function showOrders(orders){
   });
 }
 
+
+// =====================================================
+// COMMISSION OVERVIEW
+// =====================================================
+
+function showCommissionError(message){
+  $("commissionError").style.display="block";
+  $("commissionError").textContent=message;
+
+  $("commissionGrossProfit").textContent="৳—";
+  $("commissionCompanyShare").textContent="৳—";
+  $("commissionDistributed").textContent="৳—";
+  $("commissionUnallocated").textContent="৳—";
+  $("commissionOrders").textContent="—";
+
+  const body=$("commissionLevelsBody");
+  body.replaceChildren();
+
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+
+  cell.colSpan=4;
+  cell.className="commission-loading";
+  cell.textContent="Commission report is currently unavailable.";
+
+  row.appendChild(cell);
+  body.appendChild(row);
+}
+
+function showCommissionLevels(levels){
+  const body=$("commissionLevelsBody");
+  body.replaceChildren();
+
+  const levelMap=new Map();
+
+  if(Array.isArray(levels)){
+    levels.forEach(item=>{
+      levelMap.set(Number(item.level),item);
+    });
+  }
+
+  for(let level=1;level<=10;level++){
+    const item=levelMap.get(level);
+
+    const rates=[20,15,10,8,6,5,4,3,2,2];
+
+    const row=document.createElement("tr");
+
+    const levelCell=document.createElement("td");
+    const pill=document.createElement("span");
+    pill.className="level-pill";
+    pill.textContent="Level "+level;
+    levelCell.appendChild(pill);
+
+    const rateCell=document.createElement("td");
+    rateCell.textContent=rates[level-1]+"%";
+
+    const countCell=document.createElement("td");
+    countCell.textContent=formatNumber(item ? item.total_transactions : 0);
+
+    const amountCell=document.createElement("td");
+    const strong=document.createElement("strong");
+    strong.textContent=formatMoney(item ? item.total_commission : 0);
+    amountCell.appendChild(strong);
+
+    row.appendChild(levelCell);
+    row.appendChild(rateCell);
+    row.appendChild(countCell);
+    row.appendChild(amountCell);
+
+    body.appendChild(row);
+  }
+}
+
+async function loadCommissionReport(){
+  const button=$("refreshCommissionBtn");
+
+  button.disabled=true;
+  button.textContent="Loading...";
+
+  try{
+    const data=await apiRequest("/commission/admin/report");
+
+    const report=data.report || {};
+    const totals=report.totals || {};
+    const levels=report.levels || [];
+
+    const distributed=Array.isArray(levels)
+      ? levels.reduce((sum,item)=>{
+          const amount=Number(item.total_commission);
+          return sum+(Number.isFinite(amount)?amount:0);
+        },0)
+      : 0;
+
+    $("commissionGrossProfit").textContent=
+      formatMoney(totals.gross_profit);
+
+    $("commissionCompanyShare").textContent=
+      formatMoney(totals.company_share);
+
+    $("commissionDistributed").textContent=
+      formatMoney(distributed);
+
+    $("commissionUnallocated").textContent=
+      formatMoney(totals.unallocated_commission);
+
+    $("commissionOrders").textContent=
+      formatNumber(totals.total_orders);
+
+    showCommissionLevels(levels);
+
+    $("commissionError").style.display="none";
+
+  }catch(error){
+    if(error.message.includes("session has expired")){
+      return;
+    }
+
+    if(error.message.includes("administrator permission")){
+      showError("Access Denied",error.message);
+      return;
+    }
+
+    showCommissionError(
+      error.message+
+      " Please check the Commission API and database migration."
+    );
+
+  }finally{
+    button.disabled=false;
+    button.textContent="↻ Refresh";
+  }
+}
+
+
+// =====================================================
+// MAIN DASHBOARD DATA
+// =====================================================
+
 async function loadDashboardData(){
   $("refreshBtn").disabled=true;
   $("refreshBtn").textContent="Loading...";
@@ -711,6 +1006,11 @@ async function loadDashboardData(){
   }
 }
 
+
+// =====================================================
+// ADMIN AUTHENTICATION
+// =====================================================
+
 async function initializeAdmin(){
   adminToken=sessionStorage.getItem("rubalia_token") || "";
 
@@ -751,6 +1051,10 @@ async function initializeAdmin(){
 
     await loadDashboardData();
 
+    // Commission report loads separately.
+    // A commission API error will not hide the main dashboard.
+    await loadCommissionReport();
+
   }catch(error){
     if(error.message.includes("administrator permission")){
       showError("Access Denied",error.message);
@@ -759,6 +1063,11 @@ async function initializeAdmin(){
     }
   }
 }
+
+
+// =====================================================
+// LOGOUT AND BUTTON EVENTS
+// =====================================================
 
 function logout(){
   sessionStorage.removeItem("rubalia_token");
@@ -771,7 +1080,14 @@ $("menuBtn").addEventListener("click",()=>{
 });
 
 $("logoutBtn").addEventListener("click",logout);
-$("refreshBtn").addEventListener("click",loadDashboardData);
+
+$("refreshBtn").addEventListener("click",async()=>{
+  await loadDashboardData();
+});
+
+$("refreshCommissionBtn").addEventListener("click",async()=>{
+  await loadCommissionReport();
+});
 
 initializeAdmin();
 </script>
