@@ -4,975 +4,356 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#310d35">
-<meta name="description" content="RUBALIA NETWORK Packages">
-<title>Packages | RUBALIA NETWORK</title>
+<meta name="description" content="RUBALIA NETWORK Product Categories and Packages">
+<title>Dashboard | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --red:#a71952;
-  --pink:#e72c76;
-  --dark:#21172f;
-  --gold:#e5bd68;
-  --bg:#f7f5f9;
-  --white:#fff;
-  --text:#29243a;
-  --muted:#858196;
-  --border:#eae6ee;
-  --green:#16804b;
-  --shadow:0 5px 18px rgba(31,20,49,.07);
+  --red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#e5bd68;
+  --bg:#f7f5f9;--white:#fff;--text:#29243a;--muted:#858196;
+  --border:#eae6ee;--green:#16804b;--shadow:0 5px 18px rgba(31,20,49,.07);
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button,input{font-family:inherit}
 body.menu-open{overflow:hidden}
 
 /* HEADER */
-
 .app-header{
-  height:76px;
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 22px;
-  color:white;
+  height:76px;width:100%;display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:0 22px;color:white;
   background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 4px 15px rgba(35,10,45,.18);
-  position:relative;
-  z-index:100;
+  box-shadow:0 4px 15px rgba(35,10,45,.18);position:relative;z-index:100
 }
-.header-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
-}
+.header-left{display:flex;align-items:center;gap:13px;min-width:0}
 .menu-toggle{
-  width:48px;
-  height:48px;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:12px;
-  font-size:25px;
-  cursor:pointer;
+  width:48px;height:48px;flex-shrink:0;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);color:white;border-radius:12px;font-size:25px;cursor:pointer
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
 .brand-icon{
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  background:linear-gradient(140deg,#ffe58a,#e6a928);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#512a83;
-  font-size:27px;
-  font-weight:900;
-  flex-shrink:0;
-  box-shadow:0 4px 10px rgba(0,0,0,.18),inset 0 2px 4px rgba(255,255,255,.6);
+  width:48px;height:48px;border-radius:14px;background:linear-gradient(140deg,#ffe58a,#e6a928);
+  display:flex;justify-content:center;align-items:center;color:#512a83;font-size:27px;
+  font-weight:900;flex-shrink:0;box-shadow:0 4px 10px rgba(0,0,0,.18),inset 0 2px 4px rgba(255,255,255,.6)
 }
-.brand-text{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:1px;
-  white-space:nowrap;
-}
+.brand-text{font-size:17px;font-weight:900;letter-spacing:1px;white-space:nowrap}
 .brand-text span{color:#ffe58a}
-.brand-text small{
-  display:block;
-  font-size:9px;
-  letter-spacing:3px;
-  color:#f5dca4;
-  margin-top:4px;
-}
-.orders-button{
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:11px;
-  padding:12px 15px;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
+.brand-text small{display:block;font-size:9px;letter-spacing:3px;color:#f5dca4;margin-top:4px}
+.header-action{
+  border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:white;
+  border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;white-space:nowrap
 }
 
 /* DRAWER */
-
-.drawer-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(12,5,24,.58);
-  z-index:200;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
-}
-.drawer-overlay.show{
-  opacity:1;
-  visibility:visible;
-}
+.drawer-overlay{position:fixed;inset:0;background:rgba(12,5,24,.58);z-index:200;opacity:0;visibility:hidden;transition:.25s}
+.drawer-overlay.show{opacity:1;visibility:visible}
 .sidebar{
-  position:fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  width:285px;
-  max-width:85vw;
-  overflow-y:auto;
-  padding:20px 14px 25px;
-  color:white;
-  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
-  z-index:201;
-  transform:translateX(-105%);
-  transition:transform .28s ease;
-  box-shadow:10px 0 35px rgba(0,0,0,.2);
+  position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;
+  color:white;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;
+  transform:translateX(-105%);transition:transform .28s ease;box-shadow:10px 0 35px rgba(0,0,0,.2)
 }
 .sidebar.open{transform:translateX(0)}
-.drawer-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:4px 7px 22px;
-}
-.drawer-brand{
-  font-size:22px;
-  font-weight:900;
-  color:#ffe58a;
-  letter-spacing:1px;
-}
-.drawer-brand small{
-  display:block;
-  font-size:10px;
-  letter-spacing:4px;
-  color:white;
-  margin-top:4px;
-}
-.drawer-close{
-  width:36px;
-  height:36px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;
-  color:white;
-  background:rgba(255,255,255,.1);
-  font-size:22px;
-  cursor:pointer;
-}
-.menu-title{
-  color:#c8b5e9;
-  font-size:10px;
-  font-weight:bold;
-  padding:15px 12px 8px;
-  letter-spacing:1.5px;
-}
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:13px 12px;
-  margin:3px 0;
-  border-radius:9px;
-  color:#eee8fa;
-  font-size:13px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  transition:.2s;
-}
-.menu a:hover,.menu a.active{
-  background:linear-gradient(100deg,#e64c9a,#a14de0);
-  color:white;
-}
-.menu-icon{
-  width:23px;
-  text-align:center;
-  font-size:17px;
-}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
+.drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:white;margin-top:4px}
+.drawer-close{width:36px;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:9px;color:white;background:rgba(255,255,255,.1);font-size:22px;cursor:pointer}
+.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
+.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid rgba(255,255,255,.08);transition:.2s}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:white}
+.menu-icon{width:23px;text-align:center;font-size:17px}
 
-/* MAIN */
+/* PAGE */
+main{max-width:1450px;margin:auto;padding:17px 10px 48px}
+.page-intro{
+  margin:0 0 15px;padding:16px 18px;border-radius:13px;color:#fff;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  box-shadow:0 5px 16px rgba(31,20,49,.10)
+}
+.page-intro h1{margin:0 0 5px;font-size:21px}
+.page-intro p{margin:0;color:#f4e5ee;font-size:12px;line-height:1.5}
 
-main{
-  max-width:1150px;
-  margin:auto;
-  padding:18px 20px 50px;
+/* CATEGORY BANNERS: original artwork is displayed without editing */
+.category-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;align-items:stretch
 }
+.category-card{
+  display:block;width:100%;min-width:0;padding:0;border:1px solid rgba(117,79,145,.2);
+  border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;
+  box-shadow:0 6px 16px rgba(39,20,58,.10);transition:transform .2s,box-shadow .2s
+}
+.category-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(39,20,58,.16)}
+.category-card img{
+  display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:contain;
+  background:#fff
+}
+.category-card:focus-visible{outline:3px solid #e72c76;outline-offset:3px}
 
-/* BANNER - ORIGINAL SIZE */
-
-.slider-wrap{
-  position:relative;
-  width:100%;
-  height:145px;
-  overflow:hidden;
-  border-radius:13px;
-  background:#241831;
-  box-shadow:0 7px 20px rgba(31,20,49,.12);
+/* PACKAGE VIEW */
+.packages-view{display:none}
+.packages-view.active{display:block}
+.category-view.hidden{display:none}
+.section-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 13px
 }
-.slider-track{
-  width:100%;
-  height:100%;
-  position:relative;
+.section-heading h2{margin:0;color:#30243e;font-size:19px}
+.section-heading p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.section-count{color:#9a6c38;font-size:10px;font-weight:bold;white-space:nowrap}
+.back-button{
+  border:1px solid #e3d7e9;background:#fff;color:#6c2863;padding:10px 13px;
+  border-radius:9px;font-size:11px;font-weight:bold;cursor:pointer;margin-bottom:13px
 }
-.slide{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  padding:17px 23px;
-  color:white;
-  opacity:0;
-  visibility:hidden;
-  transform:scale(1.025);
-  transition:opacity .7s ease,transform .9s ease;
-}
-.slide.active{
-  opacity:1;
-  visibility:visible;
-  transform:scale(1);
-}
-.slide-content{
-  position:relative;
-  z-index:2;
-  max-width:72%;
-}
-.slide-tag{
-  display:inline-block;
-  font-size:8px;
-  font-weight:bold;
-  letter-spacing:2px;
-  color:#f6d993;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:20px;
-  padding:5px 9px;
-}
-.slide h2{
-  margin:9px 0 5px;
-  font-size:21px;
-  line-height:1.2;
-}
-.slide p{
-  margin:0;
-  color:#f0e4ec;
-  font-size:10px;
-  line-height:1.6;
-}
-.slide-decoration{
-  position:absolute;
-  right:25px;
-  top:50%;
-  transform:translateY(-50%);
-  width:105px;
-  height:105px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  font-size:48px;
-  box-shadow:0 0 35px rgba(255,255,255,.12);
-}
-.slide-decoration:after{
-  content:"";
-  position:absolute;
-  width:130px;
-  height:130px;
-  border:1px solid rgba(255,255,255,.17);
-  border-radius:50%;
-}
-.slide-one{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,210,120,.35),transparent 35%),
-    linear-gradient(110deg,#20172f,#861544,#c3265e);
-}
-.slide-two{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,255,255,.25),transparent 35%),
-    linear-gradient(110deg,#122e35,#087c70,#24a28b);
-}
-.slide-three{
-  background:
-    radial-gradient(circle at 85% 20%,rgba(255,220,130,.3),transparent 35%),
-    linear-gradient(110deg,#282044,#62409a,#a34e91);
-}
-.slider-dots{
-  position:absolute;
-  bottom:9px;
-  left:0;
-  right:0;
-  z-index:5;
-  display:flex;
-  justify-content:center;
-  gap:6px;
-}
-.slider-dot{
-  width:6px;
-  height:6px;
-  padding:0;
-  border:0;
-  border-radius:10px;
-  background:rgba(255,255,255,.5);
-  cursor:pointer;
-  transition:.3s;
-}
-.slider-dot.active{
-  width:19px;
-  background:#f5d58e;
-}
-
-/* SEARCH */
-
-.search-section{
-  margin:17px 0 22px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-.search-box{
-  flex:1;
-  position:relative;
-}
+.search-section{margin:0 0 16px;display:flex;align-items:center;gap:9px}
+.search-box{flex:1;position:relative}
 .search-box input{
-  width:100%;
-  height:42px;
-  padding:0 13px 0 38px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  background:white;
-  outline:none;
-  color:var(--text);
-  font-size:12px;
+  width:100%;height:42px;padding:0 13px 0 38px;border:1px solid var(--border);
+  border-radius:9px;background:white;outline:none;color:var(--text);font-size:12px
 }
 .search-box input:focus{border-color:#c64d81}
-.search-icon{
-  position:absolute;
-  left:13px;
-  top:12px;
-  color:#9c91a4;
-  font-size:16px;
-}
+.search-icon{position:absolute;left:13px;top:12px;color:#9c91a4;font-size:16px}
 .refresh-btn{
-  border:1px solid var(--border);
-  background:white;
-  color:#6d5269;
-  padding:12px;
-  border-radius:9px;
-  font-size:10px;
-  font-weight:bold;
-  cursor:pointer;
+  border:1px solid var(--border);background:white;color:#6d5269;padding:12px;
+  border-radius:9px;font-size:10px;font-weight:bold;cursor:pointer
 }
-.refresh-btn:disabled{
-  opacity:.5;
-  cursor:wait;
-}
+.refresh-btn:disabled{opacity:.5;cursor:wait}
 
-/* PACKAGE SECTION */
-
-.section-heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin:15px 0 12px;
-}
-.section-heading h2{
-  margin:0;
-  color:#30243e;
-  font-size:18px;
-}
-.section-heading p{
-  margin:4px 0 0;
-  color:var(--muted);
-  font-size:10px;
-}
-.section-count{
-  color:#9a6c38;
-  font-size:10px;
-  font-weight:bold;
-}
-
-/* PACKAGE GRID */
-
-.package-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
-  align-items:start;
-}
-
-/* MAIN PACKAGE CARD */
-
+/* PACKAGE CARDS */
+.package-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;align-items:start}
 .item-card{
-  min-width:0;
-  overflow:hidden;
-  position:relative;
-  border-radius:14px;
+  min-width:0;overflow:hidden;position:relative;border-radius:14px;
   background:linear-gradient(145deg,#ffffff,#f2edff,#e6f4ff);
   border:1px solid rgba(151,119,198,.3);
-  box-shadow:
-    0 8px 18px rgba(66,43,110,.12),
-    0 3px 6px rgba(66,43,110,.06),
-    inset 0 1px 0 #fff;
-  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 8px 18px rgba(66,43,110,.12),0 3px 6px rgba(66,43,110,.06),inset 0 1px 0 #fff;
+  transition:transform .25s,box-shadow .25s
 }
-.item-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 13px 23px rgba(66,43,110,.17);
-}
-
-/* IMAGE */
-
-.item-image{
-  height:115px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);
-  border-bottom:1px solid rgba(255,255,255,.8);
-}
-.item-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.image-placeholder{
-  display:grid;
-  place-items:center;
-  width:100%;
-  height:100%;
-  color:#9974c1;
-  font-size:36px;
-}
-
-/* COMPACT DETAILS AREA */
-
-.item-body{
-  padding:7px;
-  background:linear-gradient(145deg,#f8f4ff,#eaf0ff,#edf9f8);
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-/* 3D PACKAGE LABEL */
-
+.item-card:hover{transform:translateY(-3px);box-shadow:0 13px 23px rgba(66,43,110,.17)}
+.item-image{height:135px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);border-bottom:1px solid rgba(255,255,255,.8)}
+.item-image img{width:100%;height:100%;object-fit:cover}
+.image-placeholder{display:grid;place-items:center;width:100%;height:100%;color:#9974c1;font-size:36px}
+.item-body{padding:8px;background:linear-gradient(145deg,#f8f4ff,#eaf0ff,#edf9f8);display:flex;flex-direction:column;gap:7px}
 .item-type{
-  display:inline-flex;
-  align-items:center;
-  align-self:flex-start;
-  padding:5px 11px;
-  border-radius:20px;
-  color:#fff;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.8px;
-  background:
-    linear-gradient(145deg,#ffb5dc 0%,#e85ba8 48%,#a72b78 100%);
-  border:1px solid rgba(255,255,255,.65);
-  box-shadow:
-    0 3px 0 #8b286c,
-    0 5px 8px rgba(139,40,108,.2),
-    inset 0 1px 3px rgba(255,255,255,.65);
-  text-shadow:0 1px 2px rgba(80,20,60,.3);
+  display:inline-flex;align-items:center;align-self:flex-start;padding:5px 11px;border-radius:20px;
+  color:#fff;font-size:8px;font-weight:900;letter-spacing:.8px;
+  background:linear-gradient(145deg,#ffb5dc 0%,#e85ba8 48%,#a72b78 100%);
+  border:1px solid rgba(255,255,255,.65);box-shadow:0 3px 0 #8b286c,0 5px 8px rgba(139,40,108,.2),inset 0 1px 3px rgba(255,255,255,.65);
+  text-shadow:0 1px 2px rgba(80,20,60,.3)
 }
-
-/* 3D PACKAGE NAME */
-
 .item-title{
-  margin:0;
-  padding:7px 9px;
-  border-radius:8px;
-  color:#fff;
-  font-size:12px;
-  line-height:1.3;
-  overflow-wrap:anywhere;
-  background:
-    radial-gradient(circle at 90% 0%,rgba(255,255,255,.3),transparent 45%),
-    linear-gradient(145deg,#7651bd,#6840a9 55%,#45266f);
-  border:1px solid rgba(255,255,255,.4);
-  box-shadow:
-    0 3px 0 #38205d,
-    0 5px 8px rgba(62,35,100,.17),
-    inset 0 1px 2px rgba(255,255,255,.35);
-  text-shadow:0 1px 2px rgba(0,0,0,.2);
+  margin:0;padding:7px 9px;border-radius:8px;color:#fff;font-size:12px;line-height:1.3;overflow-wrap:anywhere;
+  background:radial-gradient(circle at 90% 0%,rgba(255,255,255,.3),transparent 45%),linear-gradient(145deg,#7651bd,#6840a9 55%,#45266f);
+  border:1px solid rgba(255,255,255,.4);box-shadow:0 3px 0 #38205d,0 5px 8px rgba(62,35,100,.17),inset 0 1px 2px rgba(255,255,255,.35);
+  text-shadow:0 1px 2px rgba(0,0,0,.2)
 }
-
-/* 3D DESCRIPTION */
-
 .item-description{
-  min-height:29px;
-  max-height:29px;
-  overflow:hidden;
-  margin:0;
-  padding:6px 8px;
-  border-radius:7px;
-  color:#28536b;
-  font-size:9px;
-  line-height:1.5;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(255,255,255,.75),transparent 50%),
-    linear-gradient(145deg,#d8f4ff,#b9e5f2 55%,#a5d5e9);
-  border:1px solid rgba(255,255,255,.8);
-  box-shadow:
-    0 3px 0 #78b4cc,
-    0 4px 7px rgba(40,115,145,.12),
-    inset 0 1px 2px rgba(255,255,255,.8);
+  min-height:32px;max-height:32px;overflow:hidden;margin:0;padding:6px 8px;border-radius:7px;color:#28536b;
+  font-size:9px;line-height:1.5;background:radial-gradient(circle at 100% 0%,rgba(255,255,255,.75),transparent 50%),linear-gradient(145deg,#d8f4ff,#b9e5f2 55%,#a5d5e9);
+  border:1px solid rgba(255,255,255,.8);box-shadow:0 3px 0 #78b4cc,0 4px 7px rgba(40,115,145,.12),inset 0 1px 2px rgba(255,255,255,.8)
 }
-
-/* SEPARATOR */
-
-.item-separator{
-  height:1px;
-  width:100%;
-  margin:1px 0 0;
-  background:linear-gradient(90deg,transparent,#9c91b4,#d5c9e8,transparent);
-}
-
-/* COMPLETE 3D PRICE BACKGROUND */
-
+.item-separator{height:1px;width:100%;margin:1px 0 0;background:linear-gradient(90deg,transparent,#9c91b4,#d5c9e8,transparent)}
 .item-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-  padding:8px;
-  border-radius:10px;
-  background:
-    radial-gradient(circle at 90% 0%,rgba(255,255,255,.22),transparent 45%),
-    linear-gradient(145deg,#164b79,#087e91 52%,#20a99c);
-  border:1px solid rgba(255,255,255,.6);
-  box-shadow:
-    0 4px 0 #103d60,
-    0 7px 10px rgba(12,74,105,.17),
-    inset 0 1px 3px rgba(255,255,255,.4);
+  display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px;border-radius:10px;
+  background:radial-gradient(circle at 90% 0%,rgba(255,255,255,.22),transparent 45%),linear-gradient(145deg,#164b79,#087e91 52%,#20a99c);
+  border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 0 #103d60,0 7px 10px rgba(12,74,105,.17),inset 0 1px 3px rgba(255,255,255,.4)
 }
-
-/* PRICE TEXT INSIDE PANEL */
-
-.price-stock{
-  min-width:0;
-  flex:1;
-}
-.item-price{
-  color:#fff;
-  font-size:13px;
-  font-weight:900;
-  overflow-wrap:anywhere;
-  text-shadow:0 1px 3px rgba(0,0,0,.2);
-}
-.item-price small{
-  display:block;
-  margin-bottom:3px;
-  color:#d9fff6;
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:.8px;
-  text-shadow:none;
-}
-.item-stock{
-  margin-top:5px;
-  color:#e1fff0;
-  font-size:8px;
-  font-weight:bold;
-}
+.price-stock{min-width:0;flex:1}
+.item-price{color:#fff;font-size:13px;font-weight:900;overflow-wrap:anywhere;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+.item-price small{display:block;margin-bottom:3px;color:#d9fff6;font-size:7px;font-weight:900;letter-spacing:.8px;text-shadow:none}
+.item-stock{margin-top:5px;color:#e1fff0;font-size:8px;font-weight:bold}
 .item-stock.out{color:#ffe0e0}
-
-/* 3D BUY BUTTON */
-
 .buy-btn{
-  display:inline-block;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.5);
-  padding:9px 9px;
-  border-radius:8px;
-  background:linear-gradient(145deg,#ff5597,#e51e70 55%,#a80f50);
-  color:white;
-  font-size:8px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
-  box-shadow:
-    0 4px 0 #78103d,
-    0 6px 9px rgba(100,10,50,.22),
-    inset 0 1px 3px rgba(255,255,255,.45);
-  transition:.2s;
+  display:inline-block;flex-shrink:0;border:1px solid rgba(255,255,255,.5);padding:9px;border-radius:8px;
+  background:linear-gradient(145deg,#ff5597,#e51e70 55%,#a80f50);color:white;font-size:8px;font-weight:900;
+  cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #78103d,0 6px 9px rgba(100,10,50,.22),inset 0 1px 3px rgba(255,255,255,.45);transition:.2s
 }
-.buy-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:
-    0 6px 0 #78103d,
-    0 8px 12px rgba(100,10,50,.25),
-    inset 0 1px 3px rgba(255,255,255,.5);
-}
-.buy-btn:active{
-  transform:translateY(2px);
-  box-shadow:0 2px 0 #78103d;
-}
-.buy-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-/* STATES */
-
-.state-box{
-  grid-column:1/-1;
-  padding:35px 15px;
-  border:1px dashed #dcd3e0;
-  border-radius:12px;
-  background:white;
-  text-align:center;
-}
+.buy-btn:hover{transform:translateY(-2px)}
+.buy-btn:disabled{opacity:.45;cursor:not-allowed}
+.state-box{grid-column:1/-1;padding:35px 15px;border:1px dashed #dcd3e0;border-radius:12px;background:white;text-align:center}
 .state-icon{font-size:30px;margin-bottom:9px}
-.state-box h3{
-  margin:0 0 7px;
-  color:#3b2d46;
-  font-size:15px;
-}
-.state-box p{
-  margin:0;
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.7;
-}
-.state-box button{
-  margin-top:12px;
-  border:0;
-  padding:9px 14px;
-  border-radius:8px;
-  color:white;
-  background:#a51d54;
-  font-size:10px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-/* NOTICE */
-
-.notice{
-  display:none;
-  margin:12px 0;
-  padding:12px;
-  border-radius:9px;
-  font-size:11px;
-  line-height:1.6;
-}
-.notice.error{
-  display:block;
-  background:#fff0f1;
-  color:#a12b36;
-  border:1px solid #f4cbd0;
-}
-.notice.success{
-  display:block;
-  background:#effaf3;
-  color:#17633b;
-  border:1px solid #c6ead2;
-}
-
-/* FOOTER */
-
-footer{
-  padding:25px 15px;
-  background:linear-gradient(110deg,#17152f,#74133e);
-  color:#d9cbd9;
-  text-align:center;
-  font-size:10px;
-}
+.state-box h3{margin:0 0 7px;color:#3b2d46;font-size:15px}
+.state-box p{margin:0;color:var(--muted);font-size:10px;line-height:1.7}
+.state-box button{margin-top:12px;border:0;padding:9px 14px;border-radius:8px;color:white;background:#a51d54;font-size:10px;font-weight:bold;cursor:pointer}
+.notice{display:none;margin:12px 0;padding:12px;border-radius:9px;font-size:11px;line-height:1.6}
+.notice.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+footer{padding:25px 15px;background:linear-gradient(110deg,#17152f,#74133e);color:#d9cbd9;text-align:center;font-size:10px}
 footer strong{color:#f4d58c}
 
-/* MOBILE */
-
 @media(max-width:700px){
-  .app-header{
-    height:65px;
-    padding:0 11px;
-    gap:7px;
-  }
+  .app-header{height:65px;padding:0 11px;gap:7px}
   .header-left{gap:9px}
-  .menu-toggle{
-    width:41px;
-    height:41px;
-    font-size:22px;
-    border-radius:10px;
-  }
+  .menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
   .brand{gap:7px}
-  .brand-icon{
-    width:40px;
-    height:40px;
-    font-size:23px;
-    border-radius:12px;
-  }
-  .brand-text{
-    font-size:13px;
-    letter-spacing:.5px;
-  }
-  .brand-text small{
-    font-size:7px;
-    letter-spacing:2.5px;
-    margin-top:3px;
-  }
-  .orders-button{
-    padding:10px 9px;
-    font-size:10px;
-    border-radius:9px;
-  }
-  main{padding:13px 11px 35px}
-
-  /* BANNER SIZE PRESERVED */
-  .slider-wrap{
-    height:125px;
-    border-radius:11px;
-  }
-  .slide{padding:13px 15px}
-  .slide-content{max-width:73%}
-  .slide h2{font-size:17px}
-  .slide p{font-size:9px}
-  .slide-tag{font-size:7px}
-  .slide-decoration{
-    right:13px;
-    width:75px;
-    height:75px;
-    font-size:34px;
-  }
-  .slide-decoration:after{
-    width:95px;
-    height:95px;
-  }
-
-  .search-section{margin:14px 0 18px}
-  .search-box input{height:40px}
-  .refresh-btn{padding:11px 9px}
+  .brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
+  .brand-text{font-size:13px;letter-spacing:.5px}
+  .brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
+  .header-action{padding:10px 9px;font-size:10px;border-radius:9px}
+  main{padding:12px 5px 35px}
+  .page-intro{margin:0 5px 12px;padding:13px 14px}
+  .page-intro h1{font-size:18px}
+  .page-intro p{font-size:10px}
+  .category-grid{gap:9px}
+  .category-card{border-radius:9px}
+  .category-card img{aspect-ratio:3/1}
+  .section-heading{padding:0 5px}
   .section-heading h2{font-size:16px}
-  .package-grid{gap:9px}
-
-  /* SLIM CARD */
-  .item-image{height:105px}
+  .search-section{padding:0 5px}
+  .package-grid{gap:8px;padding:0 3px}
+  .item-image{height:112px}
   .item-body{padding:6px;gap:5px}
   .item-type{padding:4px 9px;font-size:7px}
   .item-title{padding:6px 7px;font-size:11px}
-  .item-description{
-    min-height:26px;
-    max-height:26px;
-    padding:5px 7px;
-    font-size:8px;
-  }
-  .item-bottom{
-    padding:7px;
-    gap:5px;
-    border-radius:8px;
-    box-shadow:
-      0 3px 0 #103d60,
-      0 5px 8px rgba(12,74,105,.15),
-      inset 0 1px 2px rgba(255,255,255,.4);
-  }
+  .item-description{min-height:28px;max-height:28px;padding:5px 7px;font-size:8px}
+  .item-bottom{padding:7px;gap:5px;border-radius:8px}
   .item-price{font-size:11px}
   .item-price small{font-size:6px}
   .item-stock{font-size:7px;margin-top:4px}
-  .buy-btn{
-    padding:8px 7px;
-    font-size:8px;
-    border-radius:7px;
-  }
+  .buy-btn{padding:8px 7px;font-size:8px;border-radius:7px}
 }
-
 @media(max-width:360px){
-  .brand-text{font-size:11px}
-  .brand-icon{width:36px;height:36px}
-  .orders-button{font-size:9px;padding:9px 7px}
-  .item-image{height:88px}
-  .item-body{padding:5px;gap:5px}
-  .item-title{font-size:10px}
-  .item-description{font-size:7px}
-  .item-price{font-size:10px}
-  .buy-btn{padding:7px 5px;font-size:7px}
+  .brand-text{font-size:11px}.brand-icon{width:36px;height:36px}
+  .header-action{font-size:9px;padding:9px 7px}
+  .category-grid{gap:7px}
+  .category-card{border-radius:7px}
+  .item-image{height:88px}.item-body{padding:5px;gap:5px}
+  .item-title{font-size:10px}.item-description{font-size:7px}
+  .item-price{font-size:10px}.buy-btn{padding:7px 5px;font-size:7px}
 }
 </style>
 </head>
 
 <body>
-
 <header class="app-header">
   <div class="header-left">
-    <button class="menu-toggle" id="menuToggle"
-      type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     <a href="dashboard.html" class="brand">
       <div class="brand-icon">R</div>
-      <div class="brand-text">
-        RUBALIA <span>NETWORK</span>
-        <small>GROW WITH TRUST</small>
-      </div>
+      <div class="brand-text">RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
     </a>
   </div>
-
-  <a href="orders.html" class="orders-button">📦 My Orders</a>
+  <a href="orders.html" class="header-action">📦 My Orders</a>
 </header>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
-
 <aside class="sidebar" id="sidebar">
   <div class="drawer-top">
-    <div class="drawer-brand">
-      RUBALIA
-      <small>NETWORK</small>
-    </div>
-    <button class="drawer-close" id="drawerClose"
-      type="button" aria-label="Close menu">×</button>
+    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
   </div>
-
   <div class="menu-title">MAIN MENU</div>
-
   <nav class="menu">
-    <a href="dashboard.html">
-      <span class="menu-icon">⌂</span>Dashboard
-    </a>
-    <a href="profile.html">
-      <span class="menu-icon">♙</span>My Profile
-    </a>
-    <a href="dashboard.html" class="active">
-      <span class="menu-icon">▣</span>Packages
-    </a>
-    <a href="orders.html">
-      <span class="menu-icon">▤</span>My Orders
-    </a>
-    <a href="team.html">
-      <span class="menu-icon">♧</span>My Team
-    </a>
-    <a href="income.html">
-      <span class="menu-icon">৳</span>Income Details
-    </a>
-    <a href="wallet.html">
-      <span class="menu-icon">◈</span>My Wallet
-    </a>
-    <a href="withdraw.html">
-      <span class="menu-icon">⇧</span>Withdraw
-    </a>
+    <a href="dashboard.html" class="active"><span class="menu-icon">⌂</span>Dashboard</a>
+    <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
+    <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
+    <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
+    <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
+    <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
+    <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
+    <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
   </nav>
-
   <div class="menu-title">ACCOUNT</div>
-
   <nav class="menu">
-    <a href="settings.html">
-      <span class="menu-icon">⚙</span>Settings
-    </a>
-    <a href="contact.html">
-      <span class="menu-icon">✉</span>Contact Support
-    </a>
-    <a href="#" id="logoutLink">
-      <span class="menu-icon">↪</span>Logout
-    </a>
+    <a href="settings.html"><span class="menu-icon">⚙</span>Settings</a>
+    <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
+    <a href="#" id="logoutLink"><span class="menu-icon">↪</span>Logout</a>
   </nav>
 </aside>
 
 <main>
-
-  <section class="slider-wrap">
-    <div class="slider-track" id="sliderTrack">
-
-      <article class="slide slide-one active">
-        <div class="slide-content">
-          <span class="slide-tag">RUBALIA NETWORK</span>
-          <h2>Grow With Trust</h2>
-          <p>Discover our product packages and explore new opportunities.</p>
-        </div>
-        <div class="slide-decoration">💎</div>
-      </article>
-
-      <article class="slide slide-two">
-        <div class="slide-content">
-          <span class="slide-tag">QUALITY COLLECTION</span>
-          <h2>Choose Your Package</h2>
-          <p>Explore our available collections in one place.</p>
-        </div>
-        <div class="slide-decoration">📦</div>
-      </article>
-
-      <article class="slide slide-three">
-        <div class="slide-content">
-          <span class="slide-tag">RUBALIA STORE</span>
-          <h2>Discover More</h2>
-          <p>Find a package that matches your needs.</p>
-        </div>
-        <div class="slide-decoration">✨</div>
-      </article>
-
-    </div>
-
-    <div class="slider-dots" id="sliderDots">
-      <button class="slider-dot active" aria-label="Slide 1"></button>
-      <button class="slider-dot" aria-label="Slide 2"></button>
-      <button class="slider-dot" aria-label="Slide 3"></button>
-    </div>
+  <section class="page-intro">
+    <h1 id="pageTitle">Explore Categories</h1>
+    <p id="pageSubtitle">Choose a product category to explore its available packages.</p>
   </section>
 
   <div class="notice" id="notice" role="status"></div>
 
-  <section class="search-section">
-    <div class="search-box">
-      <span class="search-icon">⌕</span>
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search packages..."
-        autocomplete="off">
+  <!-- DASHBOARD: ONLY THE 10 CATEGORY BANNERS -->
+  <section class="category-view" id="categoryView">
+    <div class="category-grid" id="categoryGrid">
+      <button class="category-card" type="button" data-category="Beauty & Cosmetics" aria-label="Open Beauty and Cosmetics">
+        <img src="assets/categories/beauty-cosmetics.png" alt="Beauty & Cosmetics" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Health & Wellness" aria-label="Open Health and Wellness">
+        <img src="assets/categories/health-wellness.png" alt="Health & Wellness" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Personal Care" aria-label="Open Personal Care">
+        <img src="assets/categories/personal-care.png" alt="Personal Care" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Home & Kitchen" aria-label="Open Home and Kitchen">
+        <img src="assets/categories/home-kitchen.png" alt="Home & Kitchen" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Food & Grocery" aria-label="Open Food and Grocery">
+        <img src="assets/categories/food-grocery.png" alt="Food & Grocery" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Fashion & Clothing" aria-label="Open Fashion and Clothing">
+        <img src="assets/categories/fashion-clothing.png" alt="Fashion & Clothing" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Electronics & Gadgets" aria-label="Open Electronics and Gadgets">
+        <img src="assets/categories/electronics-gadgets.png" alt="Electronics & Gadgets" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Baby & Kids" aria-label="Open Baby and Kids">
+        <img src="assets/categories/baby-kids.png" alt="Baby & Kids" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Household Products" aria-label="Open Household Products">
+        <img src="assets/categories/household-products.png" alt="Household Products" loading="lazy">
+      </button>
+      <button class="category-card" type="button" data-category="Lifestyle & Accessories" aria-label="Open Lifestyle and Accessories">
+        <img src="assets/categories/lifestyle-accessories.png" alt="Lifestyle & Accessories" loading="lazy">
+      </button>
     </div>
-
-    <button class="refresh-btn" id="refreshBtn" type="button">
-      ↻ Refresh
-    </button>
   </section>
 
-  <section id="packages">
+  <!-- PACKAGES ARE SHOWN ONLY AFTER A CATEGORY IS SELECTED -->
+  <section class="packages-view" id="packagesView">
+    <button class="back-button" id="backToCategories" type="button">← All Categories</button>
     <div class="section-heading">
       <div>
-        <h2>Our Packages</h2>
-        <p>Choose from our available packages.</p>
+        <h2 id="selectedCategoryTitle">Category Packages</h2>
+        <p>Packages loaded from RUBALIA NETWORK server.</p>
       </div>
-      <span class="section-count" id="packageCount">Loading...</span>
+      <span class="section-count" id="packageCount">Not loaded</span>
     </div>
-
-    <div class="package-grid" id="packageGrid">
-      <div class="state-box">
-        <div class="state-icon">⏳</div>
-        <h3>Loading Packages</h3>
-        <p>Please wait while we load available packages.</p>
+    <section class="search-section">
+      <div class="search-box">
+        <span class="search-icon">⌕</span>
+        <input type="search" id="searchInput" placeholder="Search packages in this category..." autocomplete="off">
       </div>
+      <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
+    </section>
+    <div class="package-grid" id="packageGrid">
+      <div class="state-box"><div class="state-icon">📦</div><h3>Select a Category</h3><p>Choose a category to load its packages.</p></div>
     </div>
   </section>
-
 </main>
 
-<footer>
-  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
-</footer>
+<footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
 <script>
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
+const CATEGORY_IMAGE_BASE = "assets/categories/";
+
+const CATEGORIES = [
+  "Beauty & Cosmetics",
+  "Health & Wellness",
+  "Personal Care",
+  "Home & Kitchen",
+  "Food & Grocery",
+  "Fashion & Clothing",
+  "Electronics & Gadgets",
+  "Baby & Kids",
+  "Household Products",
+  "Lifestyle & Accessories"
+];
 
 let allPackages = [];
-let sliderIndex = 0;
-let sliderTimer = null;
+let selectedCategory = "";
 let loading = false;
 
 const $ = id => document.getElementById(id);
 
-/* HAMBURGER MENU */
-
+/* DRAWER */
 const sidebar = $("sidebar");
 const overlay = $("drawerOverlay");
 const menuToggle = $("menuToggle");
@@ -983,40 +364,27 @@ function openMenu(){
   document.body.classList.add("menu-open");
   menuToggle.setAttribute("aria-expanded","true");
 }
-
 function closeMenu(){
   sidebar.classList.remove("open");
   overlay.classList.remove("show");
   document.body.classList.remove("menu-open");
   menuToggle.setAttribute("aria-expanded","false");
 }
-
 menuToggle.addEventListener("click",function(){
-  if(sidebar.classList.contains("open")){
-    closeMenu();
-  }else{
-    openMenu();
-  }
+  sidebar.classList.contains("open") ? closeMenu() : openMenu();
 });
-
 $("drawerClose").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
-
 document.addEventListener("keydown",function(event){
   if(event.key==="Escape") closeMenu();
 });
-
 sidebar.querySelectorAll("a").forEach(function(link){
-  if(link.id!=="logoutLink"){
-    link.addEventListener("click",closeMenu);
-  }
+  if(link.id!=="logoutLink") link.addEventListener("click",closeMenu);
 });
 
 /* LOGOUT */
-
 $("logoutLink").addEventListener("click",function(event){
   event.preventDefault();
-
   if(confirm("Are you sure you want to log out?")){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
@@ -1025,238 +393,164 @@ $("logoutLink").addEventListener("click",function(event){
 });
 
 /* HELPERS */
-
 function safeImageURL(value){
   if(!value) return "";
-
   try{
     const url = new URL(value,location.href);
-
-    if(url.protocol==="https:" || url.protocol==="http:"){
-      return url.href;
-    }
+    if(url.protocol==="https:" || url.protocol==="http:") return url.href;
   }catch(error){}
-
   return "";
 }
-
 function formatPrice(value){
   const number = Number(value);
-
-  if(!Number.isFinite(number)){
-    return "Price unavailable";
-  }
-
-  return "৳ " + number.toLocaleString("en-BD",{
-    maximumFractionDigits:2
-  });
+  if(!Number.isFinite(number)) return "Price unavailable";
+  return "৳ " + number.toLocaleString("en-BD",{maximumFractionDigits:2});
 }
-
 function showNotice(type,text){
   const notice = $("notice");
   notice.className = "notice " + type;
   notice.textContent = text;
 }
-
 function clearNotice(){
   $("notice").className = "notice";
   $("notice").textContent = "";
 }
-
-/* SLIDER */
-
-function showSlide(index){
-  const slides = document.querySelectorAll(".slide");
-  const dots = document.querySelectorAll(".slider-dot");
-
-  if(!slides.length) return;
-
-  sliderIndex = (index + slides.length) % slides.length;
-
-  slides.forEach(function(slide,i){
-    slide.classList.toggle("active",i===sliderIndex);
-  });
-
-  dots.forEach(function(dot,i){
-    dot.classList.toggle("active",i===sliderIndex);
-  });
-}
-
-function restartSlider(){
-  if(sliderTimer){
-    clearInterval(sliderTimer);
-  }
-
-  sliderTimer = setInterval(function(){
-    showSlide(sliderIndex+1);
-  },5000);
-}
-
-function startSlider(){
-  document.querySelectorAll(".slider-dot").forEach(function(dot,index){
-    dot.addEventListener("click",function(){
-      showSlide(index);
-      restartSlider();
-    });
-  });
-
-  restartSlider();
-}
-
-/* LOADING STATE */
-
 function showState(container,icon,title,description,buttonText){
   container.replaceChildren();
-
   const box = document.createElement("div");
   box.className = "state-box";
-
   const iconElement = document.createElement("div");
   iconElement.className = "state-icon";
   iconElement.textContent = icon;
-
   const heading = document.createElement("h3");
   heading.textContent = title;
-
   const paragraph = document.createElement("p");
   paragraph.textContent = description;
-
   box.append(iconElement,heading,paragraph);
-
   if(buttonText){
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = buttonText;
-    button.addEventListener("click",loadStore);
+    button.addEventListener("click",loadPackages);
     box.appendChild(button);
   }
-
   container.appendChild(box);
 }
 
 /* API */
-
 async function fetchJSON(path,token){
   const response = await fetch(API_BASE+path,{
     method:"GET",
-    headers:{
-      "Accept":"application/json",
-      "Authorization":"Bearer "+token
-    },
+    headers:{"Accept":"application/json","Authorization":"Bearer "+token},
     cache:"no-store"
   });
-
-  const data = await response.json().catch(function(){
-    return {};
-  });
-
+  const data = await response.json().catch(function(){return {};});
   if(response.status===401 || response.status===403){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     location.replace("login.html");
     throw new Error("Your login session has expired.");
   }
-
   if(!response.ok || data.success===false){
-    throw new Error(
-      data.message || "Unable to load store information."
-    );
+    throw new Error(data.message || "Unable to load store information.");
   }
-
   return data;
 }
 
 /* AUTHENTICATION */
-
 async function verifySession(){
   const token = sessionStorage.getItem("rubalia_token");
-
   if(!token){
     location.replace("login.html");
     throw new Error("Login required.");
   }
-
   const data = await fetchJSON("/auth/me",token);
   const user = data.user || data.profile;
-
-  if(!user){
-    throw new Error("Unable to verify your account.");
-  }
-
-  const role = String(user.role || "").toLowerCase();
-
-  if(role==="admin"){
+  if(!user) throw new Error("Unable to verify your account.");
+  if(String(user.role || "").toLowerCase()==="admin"){
     location.replace("admin-dashboard.html");
     throw new Error("Opening Admin Dashboard.");
   }
-
-  if(user.status &&
-     String(user.status).toLowerCase()!=="active"){
-
+  if(user.status && String(user.status).toLowerCase()!=="active"){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
-
     location.replace("login.html");
-
     throw new Error("Your account is not active.");
   }
-
+  sessionStorage.setItem("rubalia_user",JSON.stringify({
+    id:user.id,full_name:user.full_name,email:user.email,role:user.role,status:user.status
+  }));
   return token;
 }
 
-/* PACKAGE RENDER */
+/* CATEGORY NAVIGATION */
+function openCategory(category){
+  if(!CATEGORIES.includes(category)) return;
+  selectedCategory = category;
+  clearNotice();
+  $("categoryView").classList.add("hidden");
+  $("packagesView").classList.add("active");
+  $("pageTitle").textContent = category;
+  $("pageSubtitle").textContent = "Browse packages available in this category.";
+  $("selectedCategoryTitle").textContent = category;
+  $("searchInput").value = "";
+  allPackages = [];
+  $("packageCount").textContent = "Loading...";
+  showState($("packageGrid"),"⏳","Loading Packages","Fetching this category's packages from the server.");
+  window.scrollTo({top:0,behavior:"smooth"});
+  loadPackages();
+}
+function showCategories(){
+  selectedCategory = "";
+  $("packagesView").classList.remove("active");
+  $("categoryView").classList.remove("hidden");
+  $("pageTitle").textContent = "Explore Categories";
+  $("pageSubtitle").textContent = "Choose a product category to explore its available packages.";
+  $("searchInput").value = "";
+  clearNotice();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".category-card").forEach(function(card){
+  card.addEventListener("click",function(){
+    openCategory(card.dataset.category);
+  });
+});
+$("backToCategories").addEventListener("click",showCategories);
 
+/* PACKAGE RENDER */
 function renderPackages(packages){
   const grid = $("packageGrid");
-
-  $("packageCount").textContent =
-    packages.length + " Available";
-
+  $("packageCount").textContent = packages.length + " Available";
   grid.replaceChildren();
 
   if(!packages.length){
-    showState(
-      grid,
-      "📦",
-      "No Packages Available",
-      "There are currently no active packages available."
-    );
+    showState(grid,"📦","No Packages In This Category","There are currently no active packages listed in this category.");
     return;
   }
 
   packages.forEach(function(item){
-
     const id = Number(item.id);
-    const validPackageId =
-      Number.isSafeInteger(id) && id>0;
-
+    const validPackageId = Number.isSafeInteger(id) && id>0;
     const name = item.name || "Unnamed Package";
-    const description =
-      item.description || "Explore this RUBALIA product package.";
-
+    const description = item.description || "Explore this RUBALIA product package.";
     const card = document.createElement("article");
     card.className = "item-card";
 
     const imageBox = document.createElement("div");
     imageBox.className = "item-image";
-
     const imageURL = safeImageURL(item.image_url);
-
     if(imageURL){
       const image = document.createElement("img");
       image.src = imageURL;
       image.alt = name;
       image.loading = "lazy";
-
       image.addEventListener("error",function(){
         imageBox.replaceChildren();
-
         const placeholder = document.createElement("div");
         placeholder.className = "image-placeholder";
         placeholder.textContent = "📦";
         imageBox.appendChild(placeholder);
       });
-
       imageBox.appendChild(image);
     }else{
       const placeholder = document.createElement("div");
@@ -1267,69 +561,41 @@ function renderPackages(packages){
 
     const body = document.createElement("div");
     body.className = "item-body";
-
     const type = document.createElement("span");
     type.className = "item-type";
     type.textContent = "PACKAGE";
-
     const title = document.createElement("h3");
     title.className = "item-title";
     title.textContent = name;
-
     const desc = document.createElement("p");
     desc.className = "item-description";
     desc.textContent = description;
-
     const separator = document.createElement("div");
     separator.className = "item-separator";
-
     const bottom = document.createElement("div");
     bottom.className = "item-bottom";
-
     const priceStock = document.createElement("div");
     priceStock.className = "price-stock";
-
     const price = document.createElement("div");
     price.className = "item-price";
-
     const priceLabel = document.createElement("small");
     priceLabel.textContent = "PACKAGE PRICE";
+    price.append(priceLabel,document.createTextNode(formatPrice(item.price)));
 
-    price.append(
-      priceLabel,
-      document.createTextNode(formatPrice(item.price))
-    );
-
-    const stockKnown =
-      item.stock!==null &&
-      item.stock!==undefined &&
-      item.stock!=="";
-
+    const stockKnown = item.stock!==null && item.stock!==undefined && item.stock!=="";
     const stock = Number(item.stock);
     const outOfStock = stockKnown && stock<=0;
-
     const stockText = document.createElement("div");
     stockText.className = "item-stock"+(outOfStock?" out":"");
-
-    stockText.textContent = stockKnown
-      ? (outOfStock?"Out of Stock":"Stock: "+stock)
-      : "Stock unavailable";
-
+    stockText.textContent = stockKnown ? (outOfStock?"Out of Stock":"Stock: "+stock) : "Stock unavailable";
     priceStock.append(price,stockText);
 
     const buy = document.createElement("button");
     buy.className = "buy-btn";
     buy.type = "button";
-
-    buy.textContent = outOfStock
-      ? "UNAVAILABLE"
-      : "BUY NOW";
-
+    buy.textContent = outOfStock ? "UNAVAILABLE" : "BUY NOW";
     buy.disabled = outOfStock || !validPackageId;
-
-    buy.addEventListener("click",function(){
-      buyPackage(id);
-    });
+    buy.addEventListener("click",function(){buyPackage(id);});
 
     bottom.append(priceStock,buy);
     body.append(type,title,desc,separator,bottom);
@@ -1339,118 +605,74 @@ function renderPackages(packages){
 }
 
 /* SEARCH */
-
 function filterPackages(){
   const query = $("searchInput").value.trim().toLowerCase();
-
   const filtered = allPackages.filter(function(item){
-    return [
-      item.name,
-      item.description,
-      item.category
-    ].some(function(value){
-      return String(value || "")
-        .toLowerCase()
-        .includes(query);
+    return [item.name,item.description,item.category].some(function(value){
+      return String(value || "").toLowerCase().includes(query);
     });
   });
-
   renderPackages(filtered);
 }
-
 $("searchInput").addEventListener("input",filterPackages);
 
 /* BUY PACKAGE */
-
 function buyPackage(id){
   if(!Number.isSafeInteger(id) || id<=0) return;
-
-  location.href =
-    "checkout.html?type=package&id="+encodeURIComponent(id);
+  location.href = "checkout.html?type=package&id="+encodeURIComponent(id);
 }
 
-/* LOAD PACKAGES */
-
-async function loadStore(){
-  if(loading) return;
-
+/* LOAD SELECTED CATEGORY PACKAGES */
+async function loadPackages(){
+  if(loading || !selectedCategory) return;
   loading = true;
   clearNotice();
-
   const refreshButton = $("refreshBtn");
   refreshButton.disabled = true;
   refreshButton.textContent = "Loading...";
-
-  const grid = $("packageGrid");
-
-  showState(
-    grid,
-    "⏳",
-    "Loading Packages",
-    "Connecting to RUBALIA NETWORK..."
-  );
-
+  showState($("packageGrid"),"⏳","Loading Packages","Connecting to RUBALIA NETWORK...");
   $("packageCount").textContent = "Loading...";
 
   try{
     const token = await verifySession();
+    const packageData = await fetchJSON("/packages",token);
+    const packages = Array.isArray(packageData.packages) ? packageData.packages : [];
 
-    const packageData = await fetchJSON(
-      "/packages",
-      token
-    );
-
-    if(packageData.success===false){
-      throw new Error("Package information could not be loaded.");
-    }
-
-    allPackages = Array.isArray(packageData.packages)
-      ? packageData.packages
-      : [];
-
+    /* Filter by the category stored on each package in PostgreSQL/API response.
+       No sample or hard-coded package records are used. */
+    allPackages = packages.filter(function(item){
+      return String(item.category || "").trim().toLowerCase() === selectedCategory.toLowerCase();
+    });
     filterPackages();
-
   }catch(error){
-
-    const ignoredErrors = [
-      "Login required.",
-      "Opening Admin Dashboard.",
-      "Your account is not active.",
-      "Your login session has expired."
+    const ignored = [
+      "Login required.","Opening Admin Dashboard.",
+      "Your account is not active.","Your login session has expired."
     ];
-
-    if(!ignoredErrors.includes(error.message)){
-      showNotice(
-        "error",
-        error.message || "Unable to load packages. Please try again."
-      );
-
-      showState(
-        grid,
-        "⚠️",
-        "Packages Could Not Load",
-        "Please check your connection and try again.",
-        "Retry"
-      );
-
+    if(!ignored.includes(error.message)){
+      showNotice("error",error.message || "Unable to load packages. Please try again.");
+      showState($("packageGrid"),"⚠️","Packages Could Not Load","Please check your connection and try again.","Retry");
       $("packageCount").textContent = "Unavailable";
     }
-
   }finally{
     loading = false;
     refreshButton.disabled = false;
     refreshButton.textContent = "↻ Refresh";
   }
 }
+$("refreshBtn").addEventListener("click",loadPackages);
 
-/* START */
-
-startSlider();
-loadStore();
-
-$("refreshBtn").addEventListener("click",loadStore);
-
+/* START: verify account only; do not load packages until a category is clicked */
+(async function(){
+  try{
+    await verifySession();
+  }catch(error){
+    const ignored = ["Login required.","Opening Admin Dashboard.","Your account is not active.","Your login session has expired."];
+    if(!ignored.includes(error.message)){
+      showNotice("error",error.message || "Unable to verify your session.");
+    }
+  }
+})();
 </script>
-
 </body>
 </html>
