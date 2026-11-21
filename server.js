@@ -18,6 +18,7 @@ const teamRoutes = require("./routes/team.routes");
 const walletRoutes = require("./routes/wallet.routes");
 const adminRoutes = require("./routes/admin.routes");
 const notificationRoutes = require("./routes/notification.routes");
+const uploadRoutes = require("./routes/upload.routes");
 
 const {
   notFoundHandler,
@@ -30,6 +31,7 @@ const PORT = process.env.PORT || 10000;
 // Render reverse proxy support
 app.set("trust proxy", 1);
 
+// Allowed frontend origins
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map((origin) => origin.trim())
@@ -41,6 +43,7 @@ const localOrigins = [
   "http://127.0.0.1:5500"
 ];
 
+// Security
 app.use(helmet());
 
 app.use(cors({
@@ -60,6 +63,7 @@ app.use(cors({
   }
 }));
 
+// JSON Request Body
 app.use(express.json({ limit: "1mb" }));
 
 // Login Rate Limit
@@ -111,7 +115,6 @@ app.get("/api/health", async (req, res) => {
 });
 
 // Authentication Routes
-// Login and registration have separate limits.
 app.use("/api/auth/login", loginLimiter);
 app.use("/api/auth/register", registerLimiter);
 app.use("/api/auth", authRoutes);
@@ -125,6 +128,10 @@ app.use("/api/team", teamRoutes);
 app.use("/api/wallet", walletRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
+
+// Cloudinary Image Upload Routes
+// Admin only: POST /api/upload/image
+app.use("/api/upload", uploadRoutes);
 
 // 404 Handler
 app.use(notFoundHandler);
@@ -152,6 +159,7 @@ async function startServer() {
 
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
+      console.log("Cloudinary upload route registered.");
     });
 
   } catch (error) {
