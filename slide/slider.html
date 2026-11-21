@@ -60,34 +60,38 @@ html,body{
 <body>
 
 <div class="slider" id="slider">
-  <div class="loading">Loading Rubalia promotions...</div>
+  <div class="loading">Loading all Rubalia promotions...</div>
 </div>
 
 <script>
 "use strict";
 
 /*
-  RUBALIA PROMOTION SLIDER
-  Files must be in the same folder:
-  alibaba.html
-  welcome.html
-  reffer.html
+  RUBALIA AUTO PROMOTION SLIDER
+
+  Automatically targets EVERY .html file inside this same /slide folder,
+  except slider.html itself.
+
+  New HTML files added to /slide will be included automatically.
 */
 
-const SLIDES = [
-  {file:"./alibaba.html", duration:4000},
-  {file:"./welcome.html", duration:4000},
-  {file:"./reffer.html", duration:4000}
-];
+const GITHUB_API =
+  "https://api.github.com/repos/rubalia/Rubalia/contents/slide?ref=main";
+
+const SLIDE_DURATION = 4000;
+const REFRESH_DURATION = 5 * 60 * 1000;
 
 const slider = document.getElementById("slider");
 
-let currentIndex = 0;
-let timer = null;
+let slideFiles = [];
 let frames = [];
+let currentIndex = 0;
+let slideTimer = null;
+let refreshTimer = null;
+let isLoading = false;
 
-function showMessage(text,className="loading"){
-  clearTimeout(timer);
+function showMessage(text, className = "loading"){
+  clearTimeout(slideTimer);
   slider.replaceChildren();
 
   const box = document.createElement("div");
@@ -102,35 +106,38 @@ function showSlide(index){
 
   currentIndex = index;
 
-  frames.forEach((frame,i)=>{
-    frame.classList.toggle("active",i === currentIndex);
+  frames.forEach((frame, i) => {
+    frame.classList.toggle("active", i === currentIndex);
   });
 
-  clearTimeout(timer);
+  clearTimeout(slideTimer);
 
-  timer = setTimeout(()=>{
-    const nextIndex = (currentIndex + 1) % frames.length;
-    showSlide(nextIndex);
-  },SLIDES[currentIndex].duration);
+  slideTimer = setTimeout(() => {
+    showSlide((currentIndex + 1) % frames.length);
+  }, SLIDE_DURATION);
 }
 
-function loadSlides(){
-  clearTimeout(timer);
+function buildSlides(files){
+  clearTimeout(slideTimer);
+
   slider.replaceChildren();
   frames = [];
+  currentIndex = 0;
 
-  SLIDES.forEach((slide,index)=>{
+  slideFiles = files;
+
+  slideFiles.forEach((file, index) => {
     const frame = document.createElement("iframe");
 
     frame.className = "slide-frame";
-    frame.src = slide.file;
-    frame.title = slide.file.replace("./","").replace(".html","");
+    frame.src = "./" + encodeURIComponent(file);
+    frame.title = file;
     frame.loading = "eager";
-    frame.setAttribute("scrolling","no");
-    frame.setAttribute("allowfullscreen","");
+    frame.setAttribute("scrolling", "no");
+    frame.setAttribute("allowfullscreen", "");
 
-    frame.addEventListener("error",()=>{
-      console.error("Could not load slide:",slide.file);
+    frame.addEventListener("error", () => {
+      console.error("Rubalia slide failed to load:", file);
     });
 
     frames.push(frame);
@@ -140,12 +147,65 @@ function loadSlides(){
   if(frames.length){
     showSlide(0);
   }else{
-    showMessage("No promotion slides configured.","error");
+    showMessage("No HTML promotion files found in the slide folder.");
   }
 }
 
-loadSlides();
-</script>
+async function loadSlides(){
+  if(isLoading) return;
+  isLoading = true;
 
+  try{
+    const response = await fetch(GITHUB_API, {
+      cache: "no-store",
+      headers: {
+        "Accept": "application/vnd.github+json"
+      }
+    });
+
+    if(!response.ok){
+      throw new Error("GitHub API returned " + response.status);
+    }
+
+    const items = await response.json();
+
+    const htmlFiles = items
+      .filter(item =>
+        item.type === "file" &&
+        item.name.toLowerCase().endsWith(".html") &&
+        item.name.toLowerCase() !== "slider.html"
+      )
+      .map(item => item.name)
+      .sort((a, b) => a.localeCompare(b));
+
+    const oldFiles = JSON.stringify(slideFiles);
+    const newFiles = JSON.stringify(htmlFiles);
+
+    if(oldFiles !== newFiles || frames.length === 0){
+      buildSlides(htmlFiles);
+    }
+
+  }catch(error){
+    console.error("Rubalia slider error:", error);
+
+    if(frames.length === 0){
+      showMessage(
+        "Could not load the slide folder. Check GitHub Pages or API access.",
+        "error"
+      );
+    }
+
+  }finally{
+    isLoading = false;
+  }
+}
+
+/* Load all current HTML files. */
+loadSlides();
+
+/* Detect newly added or removed HTML files every five minutes. */
+refreshTimer = setInterval(loadSlides, REFRESH_DURATION);
+
+</script>
 </body>
 </html>
