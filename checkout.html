@@ -9,433 +9,132 @@
 
 <style>
 :root{
-  --red:#a71952;
-  --pink:#e72c76;
-  --dark:#21172f;
-  --gold:#d9ae5b;
-  --bg:#f7f5f9;
-  --white:#fff;
-  --text:#29243a;
-  --muted:#858196;
-  --border:#eae6ee;
-  --green:#16804b;
-  --danger:#b42336;
+  --red:#a71952;--pink:#e72c76;--dark:#21172f;
+  --gold:#d9ae5b;--bg:#f7f5f9;--white:#fff;
+  --text:#29243a;--muted:#858196;--border:#eae6ee;
+  --green:#16804b;--danger:#b42336;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
-button,input,textarea{font:inherit}
-
+button,input,textarea,select{font:inherit}
 header{
-  min-height:65px;
-  padding:12px 5%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  min-height:65px;padding:12px 5%;display:flex;
+  align-items:center;justify-content:space-between;
   background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);
-  color:white;
+  color:white
 }
 .logo{font-size:19px;font-weight:900;letter-spacing:1px}
 .logo span{color:#f5dda0}
-.header-link{
-  padding:9px 13px;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:8px;
-  font-size:11px;
-  font-weight:bold;
-}
-
-main{
-  width:100%;
-  max-width:1050px;
-  margin:30px auto;
-  padding:0 17px 45px;
-}
+.header-link{padding:9px 13px;border:1px solid rgba(255,255,255,.3);border-radius:8px;font-size:11px;font-weight:bold}
+main{width:100%;max-width:1050px;margin:30px auto;padding:0 17px 45px}
 .page-heading{margin-bottom:22px}
-.page-heading h1{
-  font-size:25px;
-  color:#30243e;
-  margin:0 0 7px;
-}
-.page-heading p{
-  font-size:12px;
-  color:var(--muted);
-  margin:0;
-  line-height:1.7;
-}
-
-.checkout-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  align-items:start;
-}
-.panel{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:21px;
-  box-shadow:0 8px 25px rgba(31,20,49,.05);
-}
-.panel h2{
-  margin:0 0 17px;
-  color:#30243e;
-  font-size:16px;
-}
-.package-image{
-  width:100%;
-  height:235px;
-  overflow:hidden;
-  border-radius:11px;
-  background:linear-gradient(135deg,#f9e8ef,#eee8f6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#a51d54;
-  font-size:45px;
-}
-.package-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.package-name{
-  margin:17px 0 8px;
-  color:#30243e;
-  font-size:21px;
-  font-weight:900;
-}
-.package-description{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
-}
-.price-row{
-  margin-top:17px;
-  padding:15px 0;
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+.page-heading h1{font-size:25px;color:#30243e;margin:0 0 7px}
+.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+.checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.panel{background:white;border:1px solid var(--border);border-radius:15px;padding:21px;box-shadow:0 8px 25px rgba(31,20,49,.05)}
+.panel h2{margin:0 0 17px;color:#30243e;font-size:16px}
+.package-image{width:100%;height:235px;overflow:hidden;border-radius:11px;background:linear-gradient(135deg,#f9e8ef,#eee8f6);display:flex;align-items:center;justify-content:center;color:#a51d54;font-size:45px}
+.package-image img{width:100%;height:100%;object-fit:cover}
+.package-name{margin:17px 0 8px;color:#30243e;font-size:21px;font-weight:900}
+.package-description{color:var(--muted);font-size:12px;line-height:1.7}
+.price-row{margin-top:17px;padding:15px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .price-label{font-size:11px;color:var(--muted)}
-.price-value{
-  font-size:23px;
-  color:#a71952;
-  font-weight:900;
-}
-.stock-text{
-  font-size:11px;
-  color:var(--green);
-  margin-top:12px;
-}
+.price-value{font-size:23px;color:#a71952;font-weight:900}
+.stock-text{font-size:11px;color:var(--green);margin-top:12px}
 .product-list{margin-top:19px}
-.product-list h3{
-  font-size:12px;
-  color:#30243e;
-}
-.product-item{
-  padding:10px 0;
-  border-bottom:1px solid #f0edf2;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:11px;
-}
+.product-list h3{font-size:12px;color:#30243e}
+.product-item{padding:10px 0;border-bottom:1px solid #f0edf2;display:flex;justify-content:space-between;gap:10px;font-size:11px}
 .product-item span:last-child{color:var(--muted)}
-
 .form-group{margin-bottom:15px}
-.form-group label.field-label{
-  display:block;
-  margin-bottom:7px;
-  color:#4b4055;
-  font-size:11px;
-  font-weight:bold;
+.field-label{display:block;margin-bottom:7px;color:#4b4055;font-size:11px;font-weight:bold}
+.form-group input,.form-group textarea{
+  width:100%;border:1px solid #e5dfeb;border-radius:9px;
+  background:#fff;color:var(--text);padding:13px;font-size:12px;outline:none
 }
-.form-group input,
-.form-group textarea{
-  width:100%;
-  border:1px solid #e5dfeb;
-  border-radius:9px;
-  background:#fff;
-  color:var(--text);
-  padding:13px;
-  font-size:12px;
-  outline:none;
-}
-.form-group input:focus,
-.form-group textarea:focus{
-  border-color:#c64d81;
-  box-shadow:0 0 0 3px rgba(214,0,69,.07);
-}
+.form-group input:focus,.form-group textarea:focus{border-color:#c64d81;box-shadow:0 0 0 3px rgba(214,0,69,.07)}
 .form-group textarea{min-height:95px;resize:vertical}
-
-.quantity-control{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.quantity-control{display:flex;align-items:center;gap:12px}
+.quantity-control button{width:37px;height:37px;border:1px solid var(--border);background:#fff;color:#a71952;border-radius:8px;font-size:20px;font-weight:bold}
+.quantity-control input{width:65px;text-align:center;padding:10px 5px}
+.summary{margin-top:20px;padding:15px;border-radius:10px;background:#fbf7fa}
+.summary-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:12px}
+.summary-total{border-top:1px solid #e8dfe7;margin-top:7px;padding-top:14px;font-size:16px;font-weight:900;color:#a71952}
+.wallet-card{margin-top:15px;padding:17px;border-radius:12px;color:white;background:linear-gradient(120deg,#21172f,#751640,#a71952)}
+.wallet-title{font-size:11px;color:#f3dbe7}
+.wallet-amount{margin-top:8px;font-size:25px;font-weight:900}
+.wallet-note{margin-top:8px;font-size:10px;color:#f3dbe7;line-height:1.6}
+.wallet-status,.gateway-instructions{margin-top:12px;padding:12px;border-radius:9px;font-size:11px;line-height:1.7}
+.good{color:#17633b;background:#effaf3;border:1px solid #c6ead2}
+.bad{color:#a12b36;background:#fff0f1;border:1px solid #f4cbd0}
+.info{color:#34558a;background:#f1f5ff;border:1px solid #d7e2fa}
+.payment-options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.payment-option{
+  display:flex;align-items:center;gap:9px;padding:12px;
+  border:1px solid var(--border);border-radius:9px;
+  cursor:pointer;background:#fff;font-size:11px
 }
-.quantity-control button{
-  width:37px;
-  height:37px;
-  border:1px solid var(--border);
-  background:#fff;
-  color:#a71952;
-  border-radius:8px;
-  font-size:20px;
-  font-weight:bold;
-}
-.quantity-control input{
-  width:65px;
-  text-align:center;
-  padding:10px 5px;
-}
-
-.summary{
-  margin-top:20px;
-  padding:15px;
-  border-radius:10px;
-  background:#fbf7fa;
-}
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  padding:8px 0;
-  font-size:12px;
-}
-.summary-total{
-  border-top:1px solid #e8dfe7;
-  margin-top:7px;
-  padding-top:14px;
-  font-size:16px;
-  font-weight:900;
-  color:#a71952;
-}
-
-.wallet-card{
-  margin-top:18px;
-  padding:17px;
-  border-radius:12px;
-  color:white;
-  background:linear-gradient(120deg,#21172f,#751640,#a71952);
-}
-.wallet-card .wallet-title{
-  font-size:11px;
-  color:#f3dbe7;
-}
-.wallet-card .wallet-amount{
-  margin-top:8px;
-  font-size:25px;
-  font-weight:900;
-}
-.wallet-card .wallet-note{
-  margin-top:8px;
-  font-size:10px;
-  color:#f3dbe7;
-  line-height:1.6;
-}
-.wallet-status{
-  margin-top:12px;
-  padding:12px;
-  border-radius:9px;
-  font-size:11px;
-  line-height:1.7;
-}
-.wallet-status.good{
-  color:#17633b;
-  background:#effaf3;
-  border:1px solid #c6ead2;
-}
-.wallet-status.bad{
-  color:#a12b36;
-  background:#fff0f1;
-  border:1px solid #f4cbd0;
-}
-.wallet-status.info{
-  color:#34558a;
-  background:#f1f5ff;
-  border:1px solid #d7e2fa;
-}
-
-.payment-method{
-  padding:14px;
-  border:1px solid #ead8e2;
-  background:#fff9fc;
-  border-radius:10px;
-  display:flex;
-  gap:11px;
-  align-items:center;
-  font-size:12px;
-}
-.payment-method .payment-icon{font-size:22px}
-.payment-method strong{
-  display:block;
-  margin-bottom:4px;
-}
-.payment-method small{
-  color:var(--muted);
-  font-size:10px;
-  line-height:1.6;
-}
-
-.submit-btn{
-  width:100%;
-  margin-top:18px;
-  padding:15px;
-  border:0;
-  border-radius:9px;
-  color:white;
-  background:linear-gradient(110deg,#ed286a,#9b164f);
-  font-size:12px;
-  font-weight:900;
-  cursor:pointer;
-}
-.submit-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-.add-funds-link{
-  display:block;
-  text-align:center;
-  margin-top:12px;
-  color:#a71952;
-  font-size:11px;
-  font-weight:bold;
-  text-decoration:underline;
-}
-
-.message{
-  display:none;
-  padding:13px;
-  margin-bottom:15px;
-  border-radius:9px;
-  font-size:12px;
-  line-height:1.7;
-}
-.message.error{
-  display:block;
-  background:#fff0f1;
-  color:#a12b36;
-  border:1px solid #f4cbd0;
-}
-.message.success{
-  display:block;
-  background:#effaf3;
-  color:#17633b;
-  border:1px solid #c6ead2;
-}
-.message.info{
-  display:block;
-  background:#f1f5ff;
-  color:#34558a;
-  border:1px solid #d7e2fa;
-}
-
-.success-card{
-  display:none;
-  text-align:center;
-  background:white;
-  border:1px solid #d5eadb;
-  border-radius:15px;
-  padding:30px 20px;
-}
+.payment-option:has(input:checked){border-color:#b52c68;background:#fff5f9;box-shadow:0 0 0 2px rgba(167,25,82,.07)}
+.payment-option input{accent-color:#a71952}
+.payment-option strong{display:block;font-size:11px}
+.payment-option small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.payment-option.disabled{opacity:.45;cursor:not-allowed}
+.gateway-instructions{background:#fff9fc;border:1px solid #ead8e2;color:#594458}
+.gateway-instructions strong{color:#a71952}
+.instruction-line{margin-top:8px;overflow-wrap:anywhere}
+.copy-btn{border:1px solid #d9c8d4;background:#fff;color:#a71952;border-radius:6px;padding:6px 9px;font-size:10px;font-weight:bold;margin-top:7px}
+.submit-btn{width:100%;margin-top:18px;padding:15px;border:0;border-radius:9px;color:white;background:linear-gradient(110deg,#ed286a,#9b164f);font-size:12px;font-weight:900;cursor:pointer}
+.submit-btn:disabled{opacity:.45;cursor:not-allowed}
+.add-funds-link{display:block;text-align:center;margin-top:12px;color:#a71952;font-size:11px;font-weight:bold;text-decoration:underline}
+.message{display:none;padding:13px;margin-bottom:15px;border-radius:9px;font-size:12px;line-height:1.7}
+.message.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.message.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+.message.info{display:block;background:#f1f5ff;color:#34558a;border:1px solid #d7e2fa}
+.success-card{display:none;text-align:center;background:white;border:1px solid #d5eadb;border-radius:15px;padding:30px 20px}
 .success-icon{font-size:48px}
 .success-card h2{color:#16804b}
-.order-number{
-  padding:13px;
-  background:#f1faf4;
-  border-radius:8px;
-  font-weight:bold;
-  color:#17633b;
-  margin:17px 0;
-  overflow-wrap:anywhere;
-}
-.success-card a{
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:8px;
-  background:#a71952;
-  color:white;
-  font-size:12px;
-  font-weight:bold;
-}
-footer{
-  text-align:center;
-  padding:25px;
-  background:#21152f;
-  color:#d9cbd9;
-  font-size:10px;
-}
+.order-number{padding:13px;background:#f1faf4;border-radius:8px;font-weight:bold;color:#17633b;margin:17px 0;overflow-wrap:anywhere}
+.success-card a{display:inline-block;padding:12px 18px;border-radius:8px;background:#a71952;color:white;font-size:12px;font-weight:bold;margin:5px}
+footer{text-align:center;padding:25px;background:#21152f;color:#d9cbd9;font-size:10px}
 footer strong{color:#f5dda0}
-
-@media(max-width:750px){
-  .checkout-grid{grid-template-columns:1fr}
-  main{margin:22px auto}
-  .package-image{height:205px}
-}
+.hidden{display:none!important}
+@media(max-width:750px){.checkout-grid{grid-template-columns:1fr}main{margin:22px auto}.package-image{height:205px}}
+@media(max-width:420px){.payment-options{grid-template-columns:1fr}.panel{padding:16px}}
 </style>
 </head>
 
 <body>
 
 <header>
-  <a href="dashboard.html" class="logo">
-    RUBALIA <span>NETWORK</span>
-  </a>
-  <a href="dashboard.html" class="header-link">
-    ← Back to Shop
-  </a>
+  <a href="dashboard.html" class="logo">RUBALIA <span>NETWORK</span></a>
+  <a href="dashboard.html" class="header-link">← Back to Shop</a>
 </header>
 
 <main>
-
   <div class="page-heading">
     <h1>Complete Your Order</h1>
-    <p>
-      Review your package, provide delivery information
-      and pay securely using your wallet balance.
-    </p>
+    <p>Review your package, provide delivery information and choose a payment method.</p>
   </div>
 
   <div id="pageMessage" class="message"></div>
 
   <section class="success-card" id="successCard">
-    <div class="success-icon">🎉</div>
-    <h2>Payment Successful!</h2>
-    <p>Your order has been successfully placed.</p>
-
-    <div class="order-number" id="successOrderNumber">—</div>
-
+    <div class="success-icon" id="successIcon">🎉</div>
+    <h2 id="successTitle">Order Submitted</h2>
+    <p id="successDescription">Your order information has been submitted.</p>
+    <div class="order-number" id="successReference">—</div>
     <p id="successTotal"></p>
-    <p id="successWalletBalance"></p>
-
-    <a href="orders.html">View My Orders</a>
-    <br><br>
-    <a href="dashboard.html" style="background:#30243e">
-      Continue Shopping
-    </a>
+    <p id="successStatus"></p>
+    <a href="orders.html" id="ordersLink">View My Orders</a>
+    <a href="dashboard.html" style="background:#30243e">Continue Shopping</a>
   </section>
 
   <div class="checkout-grid" id="checkoutGrid" hidden>
 
-    <!-- PACKAGE DETAILS -->
     <section class="panel">
-
       <h2>Package Details</h2>
-
       <div class="package-image" id="packageImage">📦</div>
-
-      <div class="package-name" id="packageName">
-        Loading...
-      </div>
-
+      <div class="package-name" id="packageName">Loading...</div>
       <div class="package-description" id="packageDescription"></div>
 
       <div class="price-row">
@@ -447,179 +146,97 @@ footer strong{color:#f5dda0}
 
       <div class="product-list">
         <h3>Included Products</h3>
-        <div id="includedProducts">
-          Loading products...
-        </div>
+        <div id="includedProducts">Loading products...</div>
       </div>
-
     </section>
 
-    <!-- CUSTOMER FORM -->
     <section class="panel">
-
       <h2>Delivery Information</h2>
 
       <form id="checkoutForm">
-
         <div class="form-group">
-          <label class="field-label" for="customerName">
-            Full Name *
-          </label>
-          <input
-            id="customerName"
-            name="customerName"
-            type="text"
-            minlength="2"
-            maxlength="120"
-            autocomplete="name"
-            required
-            placeholder="Enter your full name">
+          <label class="field-label" for="customerName">Full Name *</label>
+          <input id="customerName" type="text" minlength="2" maxlength="120" autocomplete="name" required placeholder="Enter your full name">
         </div>
 
         <div class="form-group">
-          <label class="field-label" for="customerPhone">
-            Mobile Number *
-          </label>
-          <input
-            id="customerPhone"
-            name="customerPhone"
-            type="tel"
-            minlength="6"
-            maxlength="30"
-            autocomplete="tel"
-            required
-            placeholder="01XXXXXXXXX">
+          <label class="field-label" for="customerPhone">Mobile Number *</label>
+          <input id="customerPhone" type="tel" minlength="6" maxlength="30" autocomplete="tel" required placeholder="01XXXXXXXXX">
         </div>
 
         <div class="form-group">
-          <label class="field-label" for="customerAddress">
-            Full Delivery Address *
-          </label>
-          <textarea
-            id="customerAddress"
-            name="customerAddress"
-            minlength="5"
-            maxlength="2000"
-            autocomplete="street-address"
-            required
-            placeholder="House, Road, Village, Union, Upazila, District"></textarea>
+          <label class="field-label" for="customerAddress">Full Delivery Address *</label>
+          <textarea id="customerAddress" minlength="5" maxlength="2000" autocomplete="street-address" required placeholder="House, Road, Village, Union, Upazila, District"></textarea>
         </div>
 
         <div class="form-group">
           <label class="field-label">Quantity *</label>
-
           <div class="quantity-control">
-            <button
-              type="button"
-              id="minusBtn"
-              aria-label="Decrease quantity">−</button>
-
-            <input
-              id="quantity"
-              type="number"
-              min="1"
-              max="100"
-              value="1"
-              readonly>
-
-            <button
-              type="button"
-              id="plusBtn"
-              aria-label="Increase quantity">+</button>
+            <button type="button" id="minusBtn" aria-label="Decrease quantity">−</button>
+            <input id="quantity" type="number" min="1" max="100" value="1" readonly>
+            <button type="button" id="plusBtn" aria-label="Increase quantity">+</button>
           </div>
         </div>
 
-        <!-- ORDER SUMMARY -->
         <div class="summary">
-
-          <div class="summary-row">
-            <span>Package Price</span>
-            <strong id="summaryPrice">৳ 0.00</strong>
-          </div>
-
-          <div class="summary-row">
-            <span>Quantity</span>
-            <strong id="summaryQuantity">1</strong>
-          </div>
-
-          <div class="summary-row summary-total">
-            <span>Total Payable</span>
-            <strong id="summaryTotal">৳ 0.00</strong>
-          </div>
-
-          <div style="font-size:10px;color:#858196;margin-top:9px">
-            Delivery charge, if applicable, will be confirmed separately.
-          </div>
-
+          <div class="summary-row"><span>Package Price</span><strong id="summaryPrice">৳ 0.00</strong></div>
+          <div class="summary-row"><span>Quantity</span><strong id="summaryQuantity">1</strong></div>
+          <div class="summary-row summary-total"><span>Total Payable</span><strong id="summaryTotal">৳ 0.00</strong></div>
+          <div style="font-size:10px;color:#858196;margin-top:9px">Delivery charge, if applicable, will be confirmed separately.</div>
         </div>
 
-        <!-- PAYMENT METHOD -->
         <div class="form-group" style="margin-top:18px">
+          <label class="field-label">SELECT PAYMENT METHOD</label>
 
-          <label class="field-label">PAYMENT METHOD</label>
+          <div class="payment-options" id="paymentOptions">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="wallet" checked>
+              <span><strong>Wallet Balance</strong><small>Pay from your Rubalia wallet</small></span>
+            </label>
+            <div id="gatewayOptions" style="display:contents"></div>
+          </div>
 
-          <div class="payment-method">
-            <span class="payment-icon">💳</span>
-            <span>
-              <strong>RUBALIA Wallet Balance</strong>
-              <small>
-                Pay directly from your available wallet balance.
+          <div id="walletArea">
+            <div class="wallet-card">
+              <div class="wallet-title">AVAILABLE WALLET BALANCE</div>
+              <div class="wallet-amount" id="walletBalance">Loading...</div>
+              <div class="wallet-note">Your wallet balance will be checked again by the server before payment.</div>
+            </div>
+            <div id="walletStatus" class="wallet-status info">Checking wallet balance...</div>
+            <a class="add-funds-link" href="deposit.html">Add Money to Wallet</a>
+          </div>
+
+          <div id="gatewayArea" class="hidden">
+            <div id="gatewayInstructions" class="gateway-instructions">
+              Select a payment method to view instructions.
+            </div>
+
+            <div class="form-group" style="margin-top:14px">
+              <label class="field-label" id="transactionLabel" for="transactionReference">Transaction ID / Reference *</label>
+              <input id="transactionReference" type="text" maxlength="180" placeholder="Enter transaction reference" autocomplete="off">
+              <small id="transactionHelp" style="display:block;color:#858196;font-size:10px;line-height:1.6;margin-top:6px">
+                Enter the transaction reference after completing your payment.
               </small>
-            </span>
-          </div>
-
-          <div class="wallet-card">
-
-            <div class="wallet-title">
-              AVAILABLE WALLET BALANCE
             </div>
 
-            <div class="wallet-amount" id="walletBalance">
-              Loading...
+            <div id="usdtAmountBox" class="wallet-status info hidden"></div>
+            <div class="wallet-status info">
+              Your payment will remain Pending until an administrator verifies it. Do not submit a transaction reference unless you have actually completed the payment.
             </div>
-
-            <div class="wallet-note">
-              Your wallet balance will be checked again by the
-              server before payment.
-            </div>
-
           </div>
-
-          <div id="walletStatus" class="wallet-status info">
-            Checking your wallet balance...
-          </div>
-
-          <a class="add-funds-link" href="deposit.html">
-            Add Money to Wallet
-          </a>
-
         </div>
 
-        <button
-          type="submit"
-          class="submit-btn"
-          id="submitBtn"
-          disabled>
-          LOADING...
-        </button>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>LOADING...</button>
 
         <p style="font-size:10px;color:#858196;line-height:1.7;margin:12px 0 0">
-          Your order will be confirmed only after the server
-          successfully deducts the full payment from your wallet.
-          Cash on Delivery is not available.
+          Cash on Delivery is not available. Gateway payments require manual Admin verification. Never share your PIN, OTP, password or card security details.
         </p>
-
       </form>
-
     </section>
-
   </div>
-
 </main>
 
-<footer>
-  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
-</footer>
+<footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
 <script>
 "use strict";
@@ -631,522 +248,567 @@ let packageData = null;
 let packageId = 0;
 let walletBalance = 0;
 let walletLoaded = false;
-let orderSubmitting = false;
+let methodsLoaded = false;
+let paymentMethods = [];
+let selectedGateway = "";
+let submitting = false;
 
 const $ = id => document.getElementById(id);
 
-function showMessage(type, text) {
-  const box = $("pageMessage");
-  box.className = "message " + type;
-  box.textContent = text;
-  box.style.display = "block";
+function showMessage(type,text){
+  const box=$("pageMessage");
+  box.className="message "+type;
+  box.textContent=text;
+  box.style.display="block";
+}
+function clearMessage(){
+  $("pageMessage").className="message";
+  $("pageMessage").textContent="";
+  $("pageMessage").style.display="none";
+}
+function money(value){
+  const n=Number(value);
+  if(!Number.isFinite(n)) return "৳ 0.00";
+  return "৳ "+n.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
 }
 
-function clearMessage() {
-  const box = $("pageMessage");
-  box.className = "message";
-  box.textContent = "";
-  box.style.display = "none";
-}
-
-function formatMoney(value) {
-  const number = Number(value);
-
-  return "৳ " + number.toLocaleString("en-BD", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
-
-async function apiRequest(path, options = {}) {
-  const response = await fetch(API_BASE + path, {
+async function apiRequest(path,options={}){
+  const response=await fetch(API_BASE+path,{
     ...options,
-
-    headers: {
-      "Accept": "application/json",
-
-      ...(options.body
-        ? {"Content-Type": "application/json"}
-        : {}),
-
-      ...(token
-        ? {"Authorization": "Bearer " + token}
-        : {}),
-
-      ...(options.headers || {})
+    headers:{
+      "Accept":"application/json",
+      ...(options.body?{"Content-Type":"application/json"}:{}),
+      ...(token?{"Authorization":"Bearer "+token}:{}),
+      ...(options.headers||{})
     },
-
-    cache: "no-store"
+    cache:"no-store"
   });
 
-  const data = await response.json().catch(() => ({}));
+  const data=await response.json().catch(()=>({}));
 
-  if (response.status === 401) {
+  if(response.status===401){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
-
     window.location.replace("login.html");
-
-    throw new Error(
-      "Your login session has expired. Please login again."
-    );
+    throw new Error("Your login session has expired. Please login again.");
   }
 
-  if (!response.ok || data.success === false) {
-    throw new Error(
-      data.message || "Request failed. Please try again."
-    );
+  if(!response.ok||data.success===false){
+    throw new Error(data.message||"Request failed. Please try again.");
   }
-
   return data;
 }
 
-function getQuantity() {
+function quantity(){
   return Number($("quantity").value);
 }
-
-function getOrderTotal() {
-  if (!packageData) return 0;
-
-  return Number(packageData.price) * getQuantity();
+function totalAmount(){
+  return packageData?Number(packageData.price)*quantity():0;
+}
+function selectedMethod(){
+  return document.querySelector('input[name="paymentMethod"]:checked')?.value||"wallet";
 }
 
-function updateTotal() {
-  if (!packageData) return;
-
-  const quantity = getQuantity();
-  const price = Number(packageData.price);
-  const total = price * quantity;
-
-  $("summaryPrice").textContent = formatMoney(price);
-  $("summaryQuantity").textContent = quantity;
-  $("summaryTotal").textContent = formatMoney(total);
-
-  updatePaymentStatus();
+function updateSummary(){
+  if(!packageData)return;
+  const q=quantity(),price=Number(packageData.price);
+  $("summaryPrice").textContent=money(price);
+  $("summaryQuantity").textContent=q;
+  $("summaryTotal").textContent=money(price*q);
+  updatePaymentUI();
 }
 
-function updatePaymentStatus() {
-  if (!walletLoaded || !packageData) {
-    $("submitBtn").disabled = true;
+function updatePaymentUI(){
+  if(!packageData||!methodsLoaded||submitting){
+    $("submitBtn").disabled=true;
     return;
   }
 
-  if (orderSubmitting) {
-    $("submitBtn").disabled = true;
-    return;
-  }
+  const method=selectedMethod();
+  const total=totalAmount();
 
-  const total = getOrderTotal();
+  $("walletArea").classList.toggle("hidden",method!=="wallet");
+  $("gatewayArea").classList.toggle("hidden",method==="wallet");
 
-  if (walletBalance >= total && total > 0) {
-    $("walletStatus").className = "wallet-status good";
+  if(method==="wallet"){
+    if(!walletLoaded){
+      $("submitBtn").disabled=true;
+      $("submitBtn").textContent="LOADING WALLET...";
+      return;
+    }
+    if(walletBalance>=total&&total>0){
+      $("walletStatus").className="wallet-status good";
+      $("walletStatus").textContent="Your wallet balance is sufficient.";
+      $("submitBtn").disabled=false;
+      $("submitBtn").textContent="PAY & PLACE ORDER";
+    }else{
+      $("walletStatus").className="wallet-status bad";
+      $("walletStatus").textContent="Insufficient wallet balance. Add money before placing this order.";
+      $("submitBtn").disabled=true;
+      $("submitBtn").textContent="INSUFFICIENT BALANCE";
+    }
+  }else{
+    const methodInfo=paymentMethods.find(m=>m.gateway===method);
+    const ref=$("transactionReference").value.trim();
 
-    $("walletStatus").textContent =
-      "Your wallet balance is sufficient. You can place this order.";
-
-    $("submitBtn").disabled = false;
-    $("submitBtn").textContent = "PAY & PLACE ORDER";
-
-  } else {
-    $("walletStatus").className = "wallet-status bad";
-
-    $("walletStatus").textContent =
-      "Insufficient wallet balance. Please add money before placing your order.";
-
-    $("submitBtn").disabled = true;
-    $("submitBtn").textContent = "INSUFFICIENT BALANCE";
-  }
-}
-
-function renderPackage(item) {
-  packageData = item;
-
-  $("packageName").textContent =
-    item.name || "Package";
-
-  $("packageDescription").textContent =
-    item.description || "RUBALIA NETWORK package.";
-
-  $("packagePrice").textContent =
-    formatMoney(item.price);
-
-  const stock = Number(item.stock);
-
-  $("stockText").textContent =
-    "Available Stock: " + stock;
-
-  if (item.image_url) {
-    const image = document.createElement("img");
-
-    image.src = item.image_url;
-    image.alt = item.name || "Package banner";
-
-    image.onerror = () => {
-      $("packageImage").textContent = "📦";
-    };
-
-    $("packageImage").replaceChildren(image);
-
-  } else {
-    $("packageImage").textContent = "📦";
-  }
-
-  const productBox = $("includedProducts");
-
-  productBox.replaceChildren();
-
-  if (Array.isArray(item.products) && item.products.length) {
-
-    item.products.forEach(product => {
-
-      const row = document.createElement("div");
-      row.className = "product-item";
-
-      const name = document.createElement("span");
-      name.textContent = product.name || "Product";
-
-      const price = document.createElement("span");
-      price.textContent = formatMoney(product.price);
-
-      row.append(name, price);
-
-      productBox.appendChild(row);
-    });
-
-  } else {
-    productBox.textContent =
-      "Product details are not available.";
-  }
-
-  $("quantity").max = Math.min(100, stock);
-
-  if (stock < 1) {
-    $("submitBtn").disabled = true;
-
-    showMessage(
-      "error",
-      "This package is currently out of stock."
-    );
-  }
-
-  updateTotal();
-}
-
-async function loadWallet() {
-  const data = await apiRequest("/wallet");
-
-  if (!data.wallet) {
-    throw new Error("Wallet information was not returned.");
-  }
-
-  walletBalance = Number(data.wallet.balance);
-
-  if (!Number.isFinite(walletBalance) || walletBalance < 0) {
-    throw new Error("Invalid wallet balance.");
-  }
-
-  walletLoaded = true;
-
-  $("walletBalance").textContent =
-    formatMoney(walletBalance);
-
-  updatePaymentStatus();
-}
-
-async function initializeCheckout() {
-
-  token =
-    sessionStorage.getItem("rubalia_token") || "";
-
-  if (!token) {
-    const currentUrl =
-      window.location.pathname + window.location.search;
-
-    window.location.replace(
-      "login.html?redirect=" + encodeURIComponent(currentUrl)
-    );
-
-    return;
-  }
-
-  const params =
-    new URLSearchParams(window.location.search);
-
-  const type = params.get("type");
-
-  packageId = Number(params.get("id"));
-
-  if (
-    type !== "package" ||
-    !Number.isSafeInteger(packageId) ||
-    packageId < 1
-  ) {
-    showMessage(
-      "error",
-      "Invalid package link. Please return to the shop."
-    );
-
-    return;
-  }
-
-  try {
-
-    const me = await apiRequest("/auth/me");
-
-    if (!me.user) {
-      throw new Error(
-        "Unable to verify your account."
-      );
+    if(!methodInfo||!methodInfo.enabled){
+      $("submitBtn").disabled=true;
+      $("submitBtn").textContent="PAYMENT METHOD UNAVAILABLE";
+      return;
     }
 
-    if (
-      String(me.user.role).toLowerCase() === "admin"
-    ) {
+    if(!ref){
+      $("submitBtn").disabled=true;
+      $("submitBtn").textContent="ENTER TRANSACTION REFERENCE";
+      return;
+    }
+
+    if(method==="usdt_bep20"&&!/^0x[a-fA-F0-9]{64}$/.test(ref)){
+      $("submitBtn").disabled=true;
+      $("submitBtn").textContent="ENTER VALID TRANSACTION HASH";
+      return;
+    }
+
+    $("submitBtn").disabled=false;
+    $("submitBtn").textContent="SUBMIT PAYMENT FOR VERIFICATION";
+  }
+}
+
+function renderPackage(item){
+  packageData=item;
+  $("packageName").textContent=item.name||"Package";
+  $("packageDescription").textContent=item.description||"RUBALIA NETWORK package.";
+  $("packagePrice").textContent=money(item.price);
+
+  const stock=Number(item.stock);
+  $("stockText").textContent="Available Stock: "+stock;
+  $("quantity").max=Math.min(100,Math.max(0,stock));
+
+  if(item.image_url){
+    const img=document.createElement("img");
+    img.src=item.image_url;
+    img.alt=item.name||"Package banner";
+    img.onerror=()=>{$("packageImage").textContent="📦";};
+    $("packageImage").replaceChildren(img);
+  }else{
+    $("packageImage").textContent="📦";
+  }
+
+  const productBox=$("includedProducts");
+  productBox.replaceChildren();
+
+  if(Array.isArray(item.products)&&item.products.length){
+    item.products.forEach(product=>{
+      const row=document.createElement("div");
+      row.className="product-item";
+      const name=document.createElement("span");
+      name.textContent=product.name||"Product";
+      const price=document.createElement("span");
+      price.textContent=money(product.price);
+      row.append(name,price);
+      productBox.appendChild(row);
+    });
+  }else{
+    productBox.textContent="Product details are not available.";
+  }
+
+  if(stock<1){
+    showMessage("error","This package is currently out of stock.");
+  }
+  updateSummary();
+}
+
+async function loadWallet(){
+  const data=await apiRequest("/wallet");
+  if(!data.wallet)throw new Error("Wallet information was not returned.");
+
+  walletBalance=Number(data.wallet.balance);
+  if(!Number.isFinite(walletBalance)||walletBalance<0){
+    throw new Error("Invalid wallet balance.");
+  }
+  walletLoaded=true;
+  $("walletBalance").textContent=money(walletBalance);
+  updatePaymentUI();
+}
+
+function renderGatewayInstructions(method){
+  selectedGateway=method;
+  const item=paymentMethods.find(m=>m.gateway===method);
+  const box=$("gatewayInstructions");
+  const usdtBox=$("usdtAmountBox");
+
+  usdtBox.classList.add("hidden");
+
+  if(!item){
+    box.textContent="Payment method information is unavailable.";
+    return;
+  }
+
+  let html="<strong>"+escapeHTML(item.display_name||item.name||method)+"</strong>";
+
+  if(item.instructions){
+    html+="<div class='instruction-line'>"+escapeHTML(item.instructions)+"</div>";
+  }
+
+  if(method==="usdt_bep20"){
+    html+="<div class='instruction-line'><strong>Network:</strong> BEP20 (BNB Smart Chain)</div>";
+    html+="<div class='instruction-line'><strong>USDT Wallet Address:</strong><br>"+escapeHTML(item.wallet_address||"Not configured")+"</div>";
+
+    if(item.wallet_address){
+      html+="<button type='button' class='copy-btn' id='copyAddressBtn'>Copy Wallet Address</button>";
+    }
+
+    if(item.usdt_rate&&Number(item.usdt_rate)>0){
+      const usdt=totalAmount()/Number(item.usdt_rate);
+      usdtBox.classList.remove("hidden");
+      usdtBox.textContent="Estimated USDT to send: "+usdt.toFixed(6)+" USDT. Exchange rate: 1 USDT = ৳"+Number(item.usdt_rate).toFixed(4)+". Confirm the exact amount shown by the payment instructions before sending.";
+    }
+  }else{
+    html+="<div class='instruction-line'><strong>Payment Account:</strong><br>"+escapeHTML(item.account_number||"Not configured")+"</div>";
+    if(item.account_number){
+      html+="<button type='button' class='copy-btn' id='copyAddressBtn'>Copy Account Number</button>";
+    }
+  }
+
+  box.innerHTML=html;
+
+  const copyBtn=$("copyAddressBtn");
+  if(copyBtn){
+    copyBtn.addEventListener("click",()=>{
+      const value=method==="usdt_bep20"?item.wallet_address:item.account_number;
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(value).then(()=>{
+          copyBtn.textContent="Copied!";
+        }).catch(()=>{copyBtn.textContent="Copy failed";});
+      }else{
+        copyBtn.textContent="Copy not supported";
+      }
+    });
+  }
+
+  $("transactionLabel").textContent=method==="usdt_bep20"
+    ?"BEP20 Transaction Hash *":"Transaction ID / Reference *";
+
+  $("transactionReference").placeholder=method==="usdt_bep20"
+    ?"0x followed by 64 hexadecimal characters"
+    :"Enter transaction ID / reference";
+
+  $("transactionHelp").textContent=method==="usdt_bep20"
+    ?"Submit the transaction hash after sending USDT on the BEP20 network. Admin will verify the transaction on-chain."
+    :"Complete the payment first, then enter the transaction reference provided by your payment app.";
+
+  $("transactionReference").value="";
+  updatePaymentUI();
+}
+
+function renderPaymentMethods(){
+  const container=$("gatewayOptions");
+  container.replaceChildren();
+
+  const labels={
+    bkash:["💗","bKash"],
+    nagad:["🟠","Nagad"],
+    rocket:["🟣","Rocket"],
+    upay:["🔵","Upay"],
+    muktopay:["💳","MuktoPay"],
+    usdt_bep20:["₮","USDT (BEP20)"]
+  };
+
+  paymentMethods.forEach(method=>{
+    if(!method.enabled)return;
+
+    const info=labels[method.gateway]||["💳",method.display_name||method.gateway];
+    const label=document.createElement("label");
+    label.className="payment-option";
+
+    const radio=document.createElement("input");
+    radio.type="radio";
+    radio.name="paymentMethod";
+    radio.value=method.gateway;
+
+    const content=document.createElement("span");
+    const strong=document.createElement("strong");
+    strong.textContent=info[1];
+    const small=document.createElement("small");
+    small.textContent=method.gateway==="usdt_bep20"?"BEP20 network":"Manual verification";
+
+    content.append(strong,small);
+    label.append(radio,content);
+    container.appendChild(label);
+
+    radio.addEventListener("change",()=>{
+      renderGatewayInstructions(method.gateway);
+      updatePaymentUI();
+    });
+  });
+
+  if(!paymentMethods.some(m=>m.enabled)){
+    const note=document.createElement("div");
+    note.className="wallet-status info";
+    note.style.gridColumn="1/-1";
+    note.textContent="No gateway payment methods are currently enabled by the administrator.";
+    container.appendChild(note);
+  }
+
+  methodsLoaded=true;
+  updatePaymentUI();
+}
+
+async function loadPaymentMethods(){
+  const data=await apiRequest("/payment/methods");
+  paymentMethods=Array.isArray(data.methods)?data.methods:[];
+  renderPaymentMethods();
+}
+
+function showSubmissionResult(data,gateway){
+  $("checkoutGrid").hidden=true;
+  $("successCard").style.display="block";
+
+  const payment=data.payment||{};
+  const reference=payment.payment_reference||payment.reference||"Payment request submitted";
+
+  $("successIcon").textContent="⏳";
+  $("successTitle").textContent="Payment Submitted";
+  $("successDescription").textContent="Your payment request has been submitted. It will remain pending until an administrator verifies your transaction.";
+  $("successReference").textContent="Payment Reference: "+reference;
+  $("successTotal").textContent="Order Amount: "+money(payment.amount??totalAmount());
+  $("successStatus").textContent="Status: Pending Admin Verification";
+
+  $("ordersLink").textContent="View Payment Records";
+  $("ordersLink").href="wallet.html";
+}
+
+function showWalletOrderSuccess(order){
+  $("checkoutGrid").hidden=true;
+  $("successCard").style.display="block";
+
+  $("successIcon").textContent="🎉";
+  $("successTitle").textContent="Payment Successful!";
+  $("successDescription").textContent="Your order has been successfully placed.";
+  $("successReference").textContent=order.order_number||("Order #"+order.id);
+  $("successTotal").textContent="Amount Paid: "+money(order.total_amount);
+  $("successStatus").textContent="Remaining Wallet Balance: "+money(order.wallet_balance??walletBalance);
+  $("ordersLink").textContent="View My Orders";
+  $("ordersLink").href="orders.html";
+}
+
+async function initializeCheckout(){
+  token=sessionStorage.getItem("rubalia_token")||"";
+
+  if(!token){
+    const current=window.location.pathname+window.location.search;
+    window.location.replace("login.html?redirect="+encodeURIComponent(current));
+    return;
+  }
+
+  const params=new URLSearchParams(window.location.search);
+  if(params.get("type")!=="package"){
+    showMessage("error","This checkout page currently supports package purchases only.");
+    return;
+  }
+
+  packageId=Number(params.get("id"));
+  if(!Number.isSafeInteger(packageId)||packageId<1){
+    showMessage("error","Invalid package link. Please return to the shop.");
+    return;
+  }
+
+  try{
+    const me=await apiRequest("/auth/me");
+    const user=me.user||me.profile;
+
+    if(!user)throw new Error("Unable to verify your account.");
+
+    if(String(user.role).toLowerCase()==="admin"){
       window.location.replace("admin-dashboard.html");
       return;
     }
 
-    // Load wallet.
-    await loadWallet();
+    const [walletData,methodsData,packageResult]=await Promise.all([
+      loadWallet(),
+      loadPaymentMethods(),
+      apiRequest("/packages/"+packageId)
+    ]);
 
-    // Load selected package.
-    const data = await apiRequest(
-      "/packages/" + packageId
-    );
-
-    if (!data.package) {
-      throw new Error(
-        "Package information was not returned by the server."
-      );
+    if(!packageResult.package){
+      throw new Error("Package information was not returned by the server.");
     }
 
-    renderPackage(data.package);
+    renderPackage(packageResult.package);
+    $("checkoutGrid").hidden=false;
 
-    $("checkoutGrid").hidden = false;
+    $("customerName").value=user.full_name||user.fullName||"";
 
-    $("customerName").value =
-      me.user.full_name ||
-      me.user.fullName ||
-      "";
-
-  } catch (error) {
-
-    showMessage("error", error.message);
-
-    $("submitBtn").disabled = true;
-    $("submitBtn").textContent = "CHECKOUT UNAVAILABLE";
+  }catch(error){
+    showMessage("error",error.message);
+    $("submitBtn").disabled=true;
+    $("submitBtn").textContent="CHECKOUT UNAVAILABLE";
   }
 }
 
-// Decrease quantity.
-$("minusBtn").addEventListener("click", () => {
-
-  const quantity = getQuantity();
-
-  if (quantity > 1) {
-    $("quantity").value = quantity - 1;
-    updateTotal();
+$("minusBtn").addEventListener("click",()=>{
+  const q=quantity();
+  if(q>1){
+    $("quantity").value=q-1;
+    updateSummary();
   }
-
 });
 
-// Increase quantity.
-$("plusBtn").addEventListener("click", () => {
-
-  const quantity = getQuantity();
-  const max = Number($("quantity").max);
-
-  if (quantity < max && quantity < 100) {
-    $("quantity").value = quantity + 1;
-    updateTotal();
+$("plusBtn").addEventListener("click",()=>{
+  const q=quantity();
+  const max=Number($("quantity").max);
+  if(q<max&&q<100){
+    $("quantity").value=q+1;
+    updateSummary();
   }
-
 });
 
-// Submit wallet payment and order.
-$("checkoutForm").addEventListener(
-  "submit",
-  async event => {
+$("transactionReference").addEventListener("input",updatePaymentUI);
 
-    event.preventDefault();
+document.querySelectorAll('input[name="paymentMethod"]').forEach(input=>{
+  input.addEventListener("change",updatePaymentUI);
+});
 
-    if (orderSubmitting) return;
+$("checkoutForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  if(submitting)return;
+  clearMessage();
 
-    clearMessage();
+  if(!packageData||!walletLoaded||!methodsLoaded){
+    showMessage("error","Checkout information is not ready. Please reload.");
+    return;
+  }
 
-    if (!packageData || !walletLoaded) {
-      showMessage(
-        "error",
-        "Package or wallet information is not ready."
-      );
+  const shippingName=$("customerName").value.trim();
+  const shippingPhone=$("customerPhone").value.trim();
+  const shippingAddress=$("customerAddress").value.trim();
+  const q=quantity();
+  const total=totalAmount();
+  const method=selectedMethod();
 
+  if(shippingName.length<2||shippingPhone.length<6||shippingAddress.length<5){
+    showMessage("error","Please complete all delivery information.");
+    return;
+  }
+
+  if(!Number.isInteger(q)||q<1||q>100||q>Number(packageData.stock)){
+    showMessage("error","Please select a valid quantity within available stock.");
+    return;
+  }
+
+  if(!Number.isFinite(total)||total<=0){
+    showMessage("error","Invalid order amount.");
+    return;
+  }
+
+  const items=[{
+    type:"package",
+    packageId:packageId,
+    quantity:q
+  }];
+
+  if(method==="wallet"){
+    if(walletBalance<total){
+      showMessage("error","Insufficient wallet balance.");
+      updatePaymentUI();
       return;
     }
 
-    const shippingName =
-      $("customerName").value.trim();
+    if(!confirm("Pay "+money(total)+" from your RUBALIA Wallet and place this order?")){
+      return;
+    }
+  }else{
+    const gateway=paymentMethods.find(m=>m.gateway===method);
+    const transactionReference=$("transactionReference").value.trim();
 
-    const shippingPhone =
-      $("customerPhone").value.trim();
-
-    const shippingAddress =
-      $("customerAddress").value.trim();
-
-    const quantity = getQuantity();
-
-    if (
-      shippingName.length < 2 ||
-      shippingPhone.length < 6 ||
-      shippingAddress.length < 5
-    ) {
-      showMessage(
-        "error",
-        "Please complete all delivery information."
-      );
-
+    if(!gateway||!gateway.enabled){
+      showMessage("error","This payment method is not currently available.");
       return;
     }
 
-    if (
-      !Number.isInteger(quantity) ||
-      quantity < 1 ||
-      quantity > 100
-    ) {
-      showMessage(
-        "error",
-        "Please select a valid quantity."
-      );
-
+    if(!transactionReference){
+      showMessage("error","Please enter your transaction reference.");
       return;
     }
 
-    const total = getOrderTotal();
-
-    if (!Number.isFinite(total) || total <= 0) {
-      showMessage(
-        "error",
-        "Invalid order amount."
-      );
-
+    if(method==="usdt_bep20"&&!/^0x[a-fA-F0-9]{64}$/.test(transactionReference)){
+      showMessage("error","Please enter a valid BEP20 transaction hash.");
       return;
     }
 
-    if (walletBalance < total) {
-      showMessage(
-        "error",
-        "Insufficient wallet balance. Please add money first."
-      );
-
-      updatePaymentStatus();
-
+    if(!confirm("Have you completed the payment of "+money(total)+" using "+(gateway.display_name||method)+"? Submit this payment for Admin verification?")){
       return;
     }
+  }
 
-    const confirmed = window.confirm(
-      "Pay " + formatMoney(total) +
-      " from your RUBALIA Wallet and place this order?"
-    );
+  submitting=true;
+  $("submitBtn").disabled=true;
+  $("submitBtn").textContent="PROCESSING...";
 
-    if (!confirmed) return;
-
-    orderSubmitting = true;
-
-    $("submitBtn").disabled = true;
-    $("submitBtn").textContent = "PROCESSING PAYMENT...";
-
-    try {
-
-      const result = await apiRequest(
-        "/orders",
-        {
-          method: "POST",
-
-          body: JSON.stringify({
-
-            // Backend only accepts wallet payments.
-            paymentMethod: "wallet",
-
-            items: [{
-              type: "package",
-              packageId: packageId,
-              quantity: quantity
-            }],
-
-            shippingName,
-            shippingPhone,
-            shippingAddress
-
-          })
-        }
-      );
-
-      if (!result.order) {
-        throw new Error(
-          "The server did not return order confirmation."
-        );
-      }
-
-      // Update displayed wallet balance from server response.
-      if (
-        result.order.wallet_balance !== undefined
-      ) {
-        walletBalance =
-          Number(result.order.wallet_balance);
-
-        $("walletBalance").textContent =
-          formatMoney(walletBalance);
-      }
-
-      $("checkoutGrid").hidden = true;
-
-      $("pageMessage").style.display = "none";
-
-      $("successCard").style.display = "block";
-
-      $("successOrderNumber").textContent =
-        result.order.order_number ||
-        ("Order #" + result.order.id);
-
-      $("successTotal").textContent =
-        "Amount Paid: " +
-        formatMoney(result.order.total_amount);
-
-      $("successWalletBalance").textContent =
-        "Remaining Wallet Balance: " +
-        formatMoney(walletBalance);
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+  try{
+    if(method==="wallet"){
+      const result=await apiRequest("/orders",{
+        method:"POST",
+        body:JSON.stringify({
+          paymentMethod:"wallet",
+          items,
+          shippingName,
+          shippingPhone,
+          shippingAddress
+        })
       });
 
-    } catch (error) {
-
-      showMessage("error", error.message);
-
-      orderSubmitting = false;
-
-      $("submitBtn").disabled = false;
-      $("submitBtn").textContent = "PAY & PLACE ORDER";
-
-      // Refresh wallet in case another transaction occurred.
-      try {
-        await loadWallet();
-      } catch (_) {
-        $("walletStatus").className =
-          "wallet-status bad";
-
-        $("walletStatus").textContent =
-          "Could not refresh wallet balance. Please reload the page.";
+      if(!result.order){
+        throw new Error("The server did not return order confirmation.");
       }
+
+      if(result.order.wallet_balance!==undefined){
+        walletBalance=Number(result.order.wallet_balance);
+      }
+
+      showWalletOrderSuccess(result.order);
+
+    }else{
+      const result=await apiRequest("/payment/request",{
+        method:"POST",
+        body:JSON.stringify({
+          gateway:method,
+          transactionReference:$("transactionReference").value.trim(),
+          items,
+          shippingName,
+          shippingPhone,
+          shippingAddress
+        })
+      });
+
+      if(!result.payment){
+        throw new Error("The server did not return payment request information.");
+      }
+
+      showSubmissionResult(result,method);
     }
 
+    window.scrollTo({top:0,behavior:"smooth"});
+
+  }catch(error){
+    showMessage("error",error.message);
+    submitting=false;
+    updatePaymentUI();
+
+    try{
+      await loadWallet();
+    }catch(_){
+      $("walletStatus").textContent="Could not refresh wallet balance. Please reload the page.";
+    }
   }
-);
+});
 
-// Start checkout.
 initializeCheckout();
-
 </script>
 
 </body>
