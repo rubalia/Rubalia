@@ -10,11 +10,16 @@
 <style>
 :root{
   --red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#e5bd68;
-  --bg:#f7f5f9;--white:#fff;--text:#29243a;--muted:#858196;
+  --bg:#eee6f1;--white:#fff;--text:#29243a;--muted:#858196;
   --border:#eae6ee;--green:#16804b;--shadow:0 5px 18px rgba(31,20,49,.07);
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(145deg,#f2eaf4 0%,#e7dce9 48%,#f4e8ef 100%);
+  color:var(--text)
+}
 a{text-decoration:none;color:inherit}
 button,input{font-family:inherit}
 body.menu-open{overflow:hidden}
@@ -65,17 +70,30 @@ body.menu-open{overflow:hidden}
 
 /* PAGE */
 main{max-width:1450px;margin:auto;padding:17px 10px 48px}
-.page-intro{
-  margin:0 0 15px;padding:16px 18px;border-radius:13px;color:#fff;
+ .page-intro{
+  margin:0 0 15px;padding:18px 18px;border-radius:13px;color:#fff;
   background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 5px 16px rgba(31,20,49,.10)
+  box-shadow:0 5px 16px rgba(31,20,49,.10);
+  text-align:center
 }
-.page-intro h1{margin:0 0 5px;font-size:21px}
-.page-intro p{margin:0;color:#f4e5ee;font-size:12px;line-height:1.5}
+.page-intro h1{margin:0 0 7px;font-size:22px;text-align:center}
+.page-intro p{margin:0;color:#f4e5ee;font-size:12px;line-height:1.5;text-align:center}
 
 /* EMPTY PROMOTIONAL SLIDER SPACE — content can be added later */
 .promo-slider-space{
-  width:100%;height:190px;margin:0 0 17px;border-radius:15px;
+  width:100%;
+  height:190px;
+  margin:0 0 17px;
+  overflow:hidden;
+  border-radius:15px;
+  background:linear-gradient(120deg,#24112f,#65164d,#a51e43);
+  box-shadow:0 7px 20px rgba(31,20,49,.13);
+}
+.promo-slider-space iframe{
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
   background:transparent;
 }
 
@@ -289,9 +307,15 @@ footer strong{color:#f4d58c}
 </aside>
 
 <main>
-  <!-- RESERVED PROMOTIONAL SLIDER AREA
-       Keep this area empty for now. Promotional banner slides can be added here later. -->
-  <section class="promo-slider-space" aria-label="Promotional banner area"></section>
+  <!-- PROMOTIONAL SLIDER: content is managed separately in slide/slider.html -->
+  <section class="promo-slider-space" aria-label="Promotional banner slider">
+    <iframe
+      src="slide/slider.html"
+      title="RUBALIA promotional slider"
+      loading="lazy"
+      allow="autoplay"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </section>
 
   <section class="page-intro">
     <h1 id="pageTitle">Product Categories</h1>
