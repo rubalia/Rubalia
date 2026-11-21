@@ -161,9 +161,35 @@ function snapshotMoney(snapshot, key) {
     throw new Error(`Order cost snapshot is missing ${key}.`);
   }
 
-  return toCents(snapshot[key]);
+  const cents = toCents(snapshot[key]);
+
+  if (cents < 0) {
+    throw new Error(`Order cost snapshot has negative ${key}.`);
+  }
+
+  return cents;
 }
 
+/**
+ * PRODUCT COST
+ *
+ * Product:
+ * Cost Price
+ * + Delivery Cost
+ * + Packaging Cost
+ * + Other Cost
+ *
+ * PACKAGE COST
+ *
+ * Three component Product Cost Prices only
+ * + Package Delivery Cost
+ * + Package Packaging Cost
+ * + Package Other Cost
+ *
+ * IMPORTANT:
+ * Product-level delivery, packaging and other costs
+ * are not added again inside a package.
+ */
 function calculateSnapshotItemCost(snapshot, itemType) {
   if (!snapshot || typeof snapshot !== "object") {
     throw new Error("Order cost snapshot is invalid.");
@@ -191,13 +217,15 @@ function calculateSnapshotItemCost(snapshot, itemType) {
     let componentTotal = 0;
 
     for (const component of snapshot.componentCosts) {
-      componentTotal +=
-        snapshotMoney(component, "productCost") +
-        snapshotMoney(component, "deliveryCost") +
-        snapshotMoney(component, "packagingCost") +
-        snapshotMoney(component, "otherCost");
+      // Only the actual Cost Price of each component Product.
+      // Do not add component delivery/packaging/other costs.
+      componentTotal += snapshotMoney(
+        component,
+        "productCost"
+      );
     }
 
+    // Package-level additional costs.
     const packageExtra =
       snapshotMoney(snapshot, "deliveryCost") +
       snapshotMoney(snapshot, "packagingCost") +
@@ -211,7 +239,9 @@ function calculateSnapshotItemCost(snapshot, itemType) {
 
 // =====================================================
 // CALCULATE ORDER NET PROFIT
+//
 // Uses only immutable order-time snapshots.
+// Never reads current Product or Package costs.
 // =====================================================
 
 async function calculateOrderProfit(
@@ -675,7 +705,6 @@ async function prepareOrderCommission(client, orderId) {
 
   const profitCents = profit.actualProfitCents;
 
-  // Exact integer-cent split: company + commission = 100%.
   const allocation = calculateCommissionAllocation(
     profitCents,
     rates
@@ -1022,6 +1051,7 @@ async function releaseOrderCommission(client, orderId) {
 
 // =====================================================
 // REVERSE COMMISSION ON REFUND
+//
 // Pending entries are voided.
 // Released entries are debited from available wallet
 // balances. Any amount already spent becomes debt.
