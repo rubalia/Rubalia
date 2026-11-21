@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Packages | Rubalia Network</title>
+
+<style>
+:root {
+  --primary:#635bff;
+  --secondary:#8b5cf6;
+  --dark:#172033;
+  --muted:#718096;
+  --bg:#f4f6fc;
+  --white:#ffffff;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --border:#e5e7eb;
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+
+.header {
+  background:linear-gradient(120deg,#5145e5,#9333ea);
+  color:white;
+  padding:22px 16px;
+}
+
+.header-inner {
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.header h1 {
+  font-size:22px;
+}
+
+.header p {
+  font-size:12px;
+  margin-top:5px;
+  opacity:.85;
+}
+
+.header button {
+  background:white;
+  color:#5145e5;
+  border:0;
+  padding:10px 14px;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.container {
+  max-width:1100px;
+  margin:22px auto;
+  padding:0 14px 40px;
+}
+
+.panel {
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.045);
+}
+
+.panel h2 {
+  font-size:19px;
+  margin-bottom:17px;
+}
+
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+
+.field {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full {
+  grid-column:1/-1;
+}
+
+label {
+  font-size:13px;
+  font-weight:bold;
+}
+
+input,select,textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  outline:none;
+  font-size:14px;
+  background:white;
+}
+
+input:focus,select:focus,textarea:focus {
+  border-color:var(--primary);
+}
+
+textarea {
+  min-height:90px;
+  resize:vertical;
+}
+
+.help {
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+button {
+  cursor:pointer;
+}
+
+.btn {
+  border:0;
+  padding:11px 16px;
+  border-radius:9px;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.btn-primary {
+  background:var(--primary);
+  color:white;
+}
+
+.btn-secondary {
+  background:#eef0ff;
+  color:#5145e5;
+}
+
+.btn-success {
+  background:#dcfce7;
+  color:#166534;
+}
+
+.btn-danger {
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.btn-dark {
+  background:#1e293b;
+  color:white;
+}
+
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:17px;
+}
+
+.image-area {
+  border:2px dashed #c7c9e9;
+  background:#fafaff;
+  border-radius:13px;
+  padding:16px;
+}
+
+.image-preview {
+  width:100%;
+  max-height:230px;
+  object-fit:contain;
+  border-radius:10px;
+  display:none;
+  margin-top:13px;
+  background:#eee;
+}
+
+.upload-status {
+  font-size:12px;
+  margin-top:9px;
+  color:var(--muted);
+}
+
+.package-list {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+
+.package-card {
+  border:1px solid var(--border);
+  border-radius:13px;
+  overflow:hidden;
+  background:white;
+}
+
+.package-card img {
+  width:100%;
+  height:175px;
+  object-fit:cover;
+  background:#eee;
+}
+
+.package-info {
+  padding:14px;
+}
+
+.package-info h3 {
+  font-size:17px;
+  margin-bottom:7px;
+}
+
+.package-info p {
+  font-size:12px;
+  color:var(--muted);
+  margin:5px 0;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+
+.price {
+  font-weight:bold;
+  color:var(--primary)!important;
+  font-size:16px!important;
+}
+
+.status {
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  margin:7px 0;
+  text-transform:uppercase;
+  background:#e5e7eb;
+}
+
+.status.active {
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status.draft {
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.status.inactive,.status.archived {
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.card-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.card-actions button {
+  padding:8px 10px;
+  font-size:11px;
+}
+
+.message {
+  padding:12px;
+  border-radius:9px;
+  margin-bottom:15px;
+  font-size:13px;
+  display:none;
+  line-height:1.5;
+}
+
+.message.error {
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.message.success {
+  background:#dcfce7;
+  color:#166534;
+}
+
+.loading {
+  color:var(--muted);
+  padding:15px;
+  text-align:center;
+  font-size:13px;
+}
+
+.empty {
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  grid-column:1/-1;
+}
+
+@media(max-width:650px) {
+  .form-grid,.package-list {
+    grid-template-columns:1fr;
+  }
+
+  .header h1 {
+    font-size:18px;
+  }
+
+  .panel {
+    padding:15px;
+  }
+
+  .header-inner {
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <h1>RUBALIA NETWORK</h1>
+      <p>Admin Package Management</p>
+    </div>
+    <button onclick="goDashboard()">Dashboard</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <div id="message" class="message"></div>
+
+  <section class="panel">
+    <h2 id="formTitle">Create New Package</h2>
+
+    <form id="packageForm">
+
+      <div class="form-grid">
+
+        <div class="field full">
+          <label>Package Name *</label>
+          <input id="name" type="text" maxlength="180"
+                 placeholder="Enter package name" required>
+        </div>
+
+        <div class="field">
+          <label>Category</label>
+          <input id="category" type="text" maxlength="100"
+                 placeholder="Example: Starter Package">
+        </div>
+
+        <div class="field">
+          <label>Package Price *</label>
+          <input id="price" type="number" min="0"
+                 step="0.01" required placeholder="Enter price">
+        </div>
+
+        <div class="field">
+          <label>Available Stock *</label>
+          <input id="stock" type="number" min="0"
+                 step="1" required placeholder="Enter stock">
+        </div>
+
+        <div class="field full">
+          <label>Description</label>
+          <textarea id="description" maxlength="5000"
+                    placeholder="Package description"></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Package Banner Image</label>
+
+          <div class="image-area">
+
+            <input type="file" id="imageFile"
+                   accept="image/jpeg,image/png,image/webp">
+
+            <p class="help">
+              JPG, PNG or WEBP. Maximum 5 MB.
+              Select an image from your mobile gallery.
+            </p>
+
+            <img id="imagePreview" class="image-preview"
+                 alt="Package banner preview">
+
+            <div class="actions">
+              <button type="button" class="btn btn-primary"
+                      id="uploadButton">
+                Upload Image
+              </button>
+
+              <button type="button" class="btn btn-secondary"
+                      id="removeImageButton">
+                Remove Image
+              </button>
+            </div>
+
+            <div id="uploadStatus" class="upload-status">
+              No image uploaded.
+            </div>
+
+          </div>
+
+          <input type="hidden" id="imageUrl">
+        </div>
+
+        <div class="field full">
+          <label>First Product *</label>
+          <select id="product1" required>
+            <option value="">Loading products...</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Second Product *</label>
+          <select id="product2" required>
+            <option value="">Loading products...</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label>Third Product *</label>
+          <select id="product3" required>
+            <option value="">Loading products...</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary"
+                id="saveButton">
+          Create Package
+        </button>
+
+        <button type="button" class="btn btn-secondary"
+                id="cancelButton" style="display:none">
+          Cancel Edit
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>All Packages</h2>
+    <div id="packageList" class="package-list">
+      <div class="loading">Loading packages...</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+"use strict";
+
+const API = "https://rubalia.onrender.com/api";
+
+const token = sessionStorage.getItem("rubalia_token");
+
+let packages = [];
+let products = [];
+let editingId = null;
+let uploading = false;
+
+const $ = (id) => document.getElementById(id);
+
+function authHeaders(extra = {}) {
+  return {
+    Authorization: "Bearer " + token,
+    ...extra
+  };
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+function showMessage(text, type = "success") {
+  const box = $("message");
+
+  box.textContent = text;
+  box.className = "message " + type;
+  box.style.display = "block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function hideMessage() {
+  $("message").style.display = "none";
+}
+
+function goDashboard() {
+  window.location.href = "admin-dashboard.html";
+}
+
+async function apiRequest(url, options = {}) {
+  const response = await fetch(API + url, {
+    ...options,
+    headers: {
+      ...authHeaders(),
+      ...(options.headers || {})
+    }
+  });
+
+  let data;
+
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("Invalid server response.");
+  }
+
+  if (response.status === 401) {
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+
+    window.location.href = "login.html";
+    throw new Error("Session expired. Please login again.");
+  }
+
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || "Request failed.");
+  }
+
+  return data;
+}
+
+// Verify admin account
+async function verifyAdmin() {
+  if (!token) {
+    window.location.href = "login.html";
+    return false;
+  }
+
+  try {
+    const data = await apiRequest("/auth/me");
+
+    const user = data.user || data.profile || data;
+
+    if (user.role !== "admin") {
+      alert("Admin access required.");
+      window.location.href = "dashboard.html";
+      return false;
+    }
+
+    return true;
+
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+// Load products
+async function loadProducts() {
+  const data = await apiRequest("/products");
+
+  products = data.products || [];
+
+  const options = [
+    '<option value="">Select a product</option>',
+    ...products.map(product => `
+      <option value="${Number(product.id)}">
+        ${escapeHTML(product.name)}
+        ${product.sku ? " - " + escapeHTML(product.sku) : ""}
+      </option>
+    `)
+  ].join("");
+
+  ["product1","product2","product3"].forEach(id => {
+    $(id).innerHTML = options;
+  });
+}
+
+// Load all packages
+async function loadPackages() {
+  $("packageList").innerHTML =
+    '<div class="loading">Loading packages...</div>';
+
+  try {
+    const data = await apiRequest("/packages/admin/all");
+
+    packages = data.packages || [];
+
+    renderPackages();
+
+  } catch (error) {
+    $("packageList").innerHTML =
+      '<div class="empty">Unable to load packages.</div>';
+
+    showMessage(error.message, "error");
+  }
+}
+
+function renderPackages() {
+  if (!packages.length) {
+    $("packageList").innerHTML =
+      '<div class="empty">No packages found. Create your first package.</div>';
+    return;
+  }
+
+  $("packageList").innerHTML = packages.map(item => {
+
+    const image = item.image_url
+      ? `<img src="${escapeHTML(item.image_url)}"
+           alt="${escapeHTML(item.name)}"
+           loading="lazy"
+           onerror="this.style.display='none'">`
+      : `<div style="height:100px;background:#eee;display:grid;place-items:center;color:#777">
+           No Banner Image
+         </div>`;
+
+    const productNames = (item.products || [])
+      .map(p => p.name)
+      .join(", ");
+
+    return `
+      <article class="package-card">
+
+        ${image}
+
+        <div class="package-info">
+
+          <h3>${escapeHTML(item.name)}</h3>
+
+          <p>${escapeHTML(item.category || "No category")}</p>
+
+          <p class="price">
+            ৳${Number(item.price).toLocaleString("en-BD")}
+          </p>
+
+          <p>Stock: ${Number(item.stock)}</p>
+
+          <p>Products: ${escapeHTML(productNames)}</p>
+
+          <p>${escapeHTML(item.description || "")}</p>
+
+          <span class="status ${escapeHTML(item.status)}">
+            ${escapeHTML(item.status)}
+          </span>
+
+          <div class="card-actions">
+
+            <button class="btn btn-secondary"
+                    onclick="editPackage(${Number(item.id)})">
+              Edit
+            </button>
+
+            ${item.status !== "active" ? `
+              <button class="btn btn-success"
+                      onclick="changeStatus(${Number(item.id)},'active')">
+                Activate
+              </button>
+            ` : `
+              <button class="btn btn-danger"
+                      onclick="changeStatus(${Number(item.id)},'inactive')">
+                Deactivate
+              </button>
+            `}
+
+            ${item.status !== "archived" ? `
+              <button class="btn btn-danger"
+                      onclick="archivePackage(${Number(item.id)})">
+                Archive
+              </button>
+            ` : ""}
+          </div>
+
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+// Image selection and preview
+$("imageFile").addEventListener("change", () => {
+  const file = $("imageFile").files[0];
+
+  if (!file) return;
+
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  if (!allowed.includes(file.type)) {
+    $("imageFile").value = "";
+    showMessage("Only JPG, PNG and WEBP images are allowed.", "error");
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    $("imageFile").value = "";
+    showMessage("Image must not exceed 5 MB.", "error");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = event => {
+    $("imagePreview").src = event.target.result;
+    $("imagePreview").style.display = "block";
+    $("uploadStatus").textContent =
+      "Image selected. Click Upload Image to save it.";
+  };
+
+  reader.readAsDataURL(file);
+});
+
+// Upload image to Cloudinary through backend
+$("uploadButton").addEventListener("click", async () => {
+  hideMessage();
+
+  if (uploading) return;
+
+  const file = $("imageFile").files[0];
+
+  if (!file) {
+    showMessage("Please select an image first.", "error");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  uploading = true;
+  $("uploadButton").disabled = true;
+  $("uploadButton").textContent = "Uploading...";
+  $("uploadStatus").textContent = "Uploading image to Cloudinary...";
+
+  try {
+    const response = await fetch(API + "/upload/image", {
+      method:"POST",
+      headers: authHeaders(),
+      body:formData
+    });
+
+    const data = await response.json();
+
+    if (response.status === 401) {
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Image upload failed.");
+    }
+
+    const url = data.image && data.image.url;
+
+    if (!url) {
+      throw new Error("Server did not return an image URL.");
+    }
+
+    $("imageUrl").value = url;
+    $("imagePreview").src = url;
+    $("imagePreview").style.display = "block";
+
+    $("uploadStatus").textContent =
+      "Image uploaded successfully! Ready to save with package.";
+
+    showMessage("Banner uploaded successfully.", "success");
+
+  } catch (error) {
+    $("uploadStatus").textContent = error.message;
+    showMessage(error.message, "error");
+
+  } finally {
+    uploading = false;
+    $("uploadButton").disabled = false;
+    $("uploadButton").textContent = "Upload Image";
+  }
+});
+
+// Remove selected image
+$("removeImageButton").addEventListener("click", () => {
+  $("imageFile").value = "";
+  $("imageUrl").value = "";
+  $("imagePreview").src = "";
+  $("imagePreview").style.display = "none";
+  $("uploadStatus").textContent = "No image uploaded.";
+});
+
+// Reset form
+function resetForm() {
+  editingId = null;
+
+  $("packageForm").reset();
+
+  $("imageUrl").value = "";
+  $("imagePreview").src = "";
+  $("imagePreview").style.display = "none";
+  $("uploadStatus").textContent = "No image uploaded.";
+
+  $("formTitle").textContent = "Create New Package";
+  $("saveButton").textContent = "Create Package";
+  $("cancelButton").style.display = "none";
+
+  $("imageFile").value = "";
+}
+
+// Edit package
+function editPackage(id) {
+  const item = packages.find(p => Number(p.id) === Number(id));
+
+  if (!item) return;
+
+  editingId = Number(id);
+
+  $("name").value = item.name || "";
+  $("category").value = item.category || "";
+  $("description").value = item.description || "";
+  $("price").value = item.price ?? 0;
+  $("stock").value = item.stock ?? 0;
+
+  $("product1").value = item.products?.[0]?.id || "";
+  $("product2").value = item.products?.[1]?.id || "";
+  $("product3").value = item.products?.[2]?.id || "";
+
+  $("imageUrl").value = item.image_url || "";
+
+  $("imageFile").value = "";
+
+  if (item.image_url) {
+    $("imagePreview").src = item.image_url;
+    $("imagePreview").style.display = "block";
+    $("uploadStatus").textContent = "Existing banner image.";
+  } else {
+    $("imagePreview").style.display = "none";
+    $("uploadStatus").textContent = "No image uploaded.";
+  }
+
+  $("formTitle").textContent = "Edit Package #" + id;
+  $("saveButton").textContent = "Update Package";
+  $("cancelButton").style.display = "inline-block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// Create or update package
+$("packageForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  hideMessage();
+
+  if (uploading) {
+    showMessage("Please wait for image upload to finish.", "error");
+    return;
+  }
+
+  const product1Id = Number($("product1").value);
+  const product2Id = Number($("product2").value);
+  const product3Id = Number($("product3").value);
+
+  if (
+    !product1Id ||
+    !product2Id ||
+    !product3Id ||
+    new Set([product1Id,product2Id,product3Id]).size !== 3
+  ) {
+    showMessage("Select three different products.", "error");
+    return;
+  }
+
+  const payload = {
+    name:$("name").value.trim(),
+    category:$("category").value.trim(),
+    description:$("description").value.trim(),
+    imageUrl:$("imageUrl").value.trim(),
+    product1Id,
+    product2Id,
+    product3Id,
+    price:Number($("price").value),
+    stock:Number($("stock").value)
+  };
+
+  $("saveButton").disabled = true;
+  $("saveButton").textContent = "Saving...";
+
+  try {
+    const isEditing = editingId !== null;
+
+    await apiRequest(
+      isEditing ? "/packages/" + editingId : "/packages",
+      {
+        method:isEditing ? "PUT" : "POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(payload)
+      }
+    );
+
+    showMessage(
+      isEditing
+        ? "Package updated successfully."
+        : "Package created successfully as draft.",
+      "success"
+    );
+
+    resetForm();
+    await loadPackages();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+
+  } finally {
+    $("saveButton").disabled = false;
+    $("saveButton").textContent =
+      editingId !== null ? "Update Package" : "Create Package";
+  }
+});
+
+// Change package status
+async function changeStatus(id, status) {
+  if (!confirm("Change package status to " + status + "?")) return;
+
+  try {
+    await apiRequest("/packages/" + id + "/status", {
+      method:"PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({status})
+    });
+
+    showMessage("Package status updated.", "success");
+    await loadPackages();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+// Archive package
+async function archivePackage(id) {
+  if (!confirm("Are you sure you want to archive this package?")) return;
+
+  try {
+    await apiRequest("/packages/" + id, {
+      method:"DELETE"
+    });
+
+    showMessage("Package archived successfully.", "success");
+    await loadPackages();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+$("cancelButton").addEventListener("click", resetForm);
+
+// Initialize
+async function initializePage() {
+  const allowed = await verifyAdmin();
+
+  if (!allowed) return;
+
+  try {
+    await loadProducts();
+    await loadPackages();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+initializePage();
+</script>
+
+</body>
+</html>
