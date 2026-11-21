@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071a35">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#24112f">
 <title>Withdraw | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
+  --navy:#24112f;
+  --navy2:#4b104f;
   --gold:#d5ad55;
   --gold2:#f0d48b;
   --bg:#f3f5f9;
@@ -20,146 +20,388 @@
   --red:#d64b4b;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text)
+}
+body.menu-open{overflow:hidden}
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 
-.layout{display:flex;min-height:100vh}
-.sidebar{
-  width:250px;background:var(--navy);color:white;
-  padding:24px 16px;flex-shrink:0
+.topbar{
+  height:76px;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  color:white;
+  position:sticky;
+  top:0;
+  z-index:100
+}
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:13px
+}
+.menu-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:9px;
+  font-size:23px;
+  cursor:pointer
 }
 .brand{
-  font-size:21px;font-weight:900;color:var(--gold2);
-  padding:5px 10px 25px;letter-spacing:1px
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:17px
+}
+.brand-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#f0d48b,#c28a36);
+  color:#32152e;
+  border-radius:10px;
+  font-size:21px
 }
 .brand small{
-  display:block;font-size:10px;letter-spacing:4px;
-  color:#fff;margin-top:5px
+  display:block;
+  font-size:9px;
+  letter-spacing:4px;
+  color:#f0d48b;
+  margin-top:3px
+}
+.page-label{
+  font-size:12px;
+  color:#f5dca4;
+  font-weight:bold
+}
+
+/* DRAWER */
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  height:100vh;
+  height:100dvh;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  color:white;
+  z-index:201;
+  transform:translateX(-105%);
+  transition:.28s;
+  overflow-y:auto;
+  padding:22px 15px
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 8px 25px;
+  border-bottom:1px solid rgba(255,255,255,.13)
+}
+.drawer-brand{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:1px
+}
+.drawer-brand small{
+  display:block;
+  color:#f0d48b;
+  font-size:9px;
+  letter-spacing:4px;
+  margin-top:4px
+}
+.close-menu{
+  border:0;
+  background:rgba(255,255,255,.1);
+  color:white;
+  width:35px;
+  height:35px;
+  border-radius:8px;
+  font-size:23px;
+  cursor:pointer
 }
 .menu-title{
-  color:#8495ad;font-size:10px;font-weight:bold;
-  padding:15px 12px 8px;letter-spacing:1.5px
+  color:#c0afd7;
+  font-size:10px;
+  font-weight:bold;
+  padding:22px 12px 9px;
+  letter-spacing:1.5px
 }
 .menu a{
-  display:block;padding:12px;margin:3px 0;
-  border-radius:8px;color:#d8e0ec;font-size:13px
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin:4px 0;
+  border-radius:9px;
+  color:#eee7f7;
+  font-size:13px;
+  transition:.2s
 }
 .menu a:hover,.menu a.active{
-  background:#18375e;color:var(--gold2)
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white
 }
-.main{flex:1;min-width:0}
-.topbar{
-  height:68px;background:white;display:flex;
-  justify-content:space-between;align-items:center;
-  padding:0 30px;border-bottom:1px solid var(--border)
+.menu a span{
+  width:20px;
+  text-align:center;
+  font-size:16px
 }
-.topbar strong{color:var(--navy)}
-.member{font-size:12px;color:var(--muted)}
-.content{padding:28px;max-width:1250px;margin:auto}
+
+/* MAIN */
+.main{min-height:calc(100vh - 76px)}
+.content{
+  padding:28px;
+  max-width:1250px;
+  margin:auto
+}
 .heading{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:15px;flex-wrap:wrap;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
   margin-bottom:22px
 }
-.heading h1{font-size:25px;color:var(--navy)}
-.heading p{font-size:13px;color:var(--muted);margin-top:7px}
-.demo-tag{
-  background:#fff4d8;color:#8a651c;padding:8px 13px;
-  border-radius:20px;font-size:11px;font-weight:bold
+.heading h1{
+  font-size:25px;
+  color:var(--navy)
+}
+.heading p{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:7px
+}
+.member-info{
+  font-size:11px;
+  color:var(--muted)
 }
 .notice{
-  background:#fff8e8;border:1px solid #f0dca9;
-  border-left:4px solid var(--gold);border-radius:10px;
-  padding:15px;margin-bottom:22px;
-  font-size:12px;line-height:1.7;color:#755719
+  display:none;
+  border-radius:10px;
+  padding:14px 16px;
+  margin-bottom:20px;
+  font-size:12px;
+  line-height:1.7
+}
+.notice.show{display:block}
+.notice.error{
+  background:#fff0f0;
+  border:1px solid #f3c7c7;
+  color:#a52e2e
+}
+.notice.success{
+  background:#eaf8f1;
+  border:1px solid #b8e6cf;
+  color:#176a49
+}
+.notice.info{
+  background:#fff8e8;
+  border:1px solid #f0dca9;
+  color:#755719
 }
 .balance{
   background:linear-gradient(125deg,#071a35,#173b68);
-  border-radius:14px;padding:25px;color:white;margin-bottom:22px
+  border-radius:14px;
+  padding:25px;
+  color:white;
+  margin-bottom:22px
 }
-.balance-label{font-size:12px;color:#c4d1e3}
+.balance-label{
+  font-size:12px;
+  color:#c4d1e3
+}
 .balance-amount{
-  font-size:35px;font-weight:900;color:var(--gold2);
+  font-size:35px;
+  font-weight:900;
+  color:var(--gold2);
   margin:12px 0
 }
-.balance small{font-size:11px;color:#b5c4d9}
+.balance small{
+  font-size:11px;
+  color:#b5c4d9
+}
 .grid{
-  display:grid;grid-template-columns:1fr 1.4fr;
-  gap:20px;align-items:start
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:20px;
+  align-items:start
 }
 .card{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:21px;margin-bottom:22px
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:21px;
+  margin-bottom:22px
 }
-.card h2{font-size:16px;color:var(--navy)}
-.card-sub{font-size:11px;color:var(--muted);margin-top:6px;margin-bottom:18px}
+.card h2{
+  font-size:16px;
+  color:var(--navy)
+}
+.card-sub{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:6px;
+  margin-bottom:18px
+}
 .stat-row{
-  display:flex;justify-content:space-between;
-  padding:14px 0;border-bottom:1px solid var(--border);
-  font-size:12px;gap:10px
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+  gap:10px
 }
 .stat-row:last-child{border-bottom:0}
 .stat-row span{color:var(--muted)}
 .stat-row strong{color:var(--navy)}
 .form-group{margin-bottom:16px}
 .form-group label{
-  display:block;font-size:12px;font-weight:bold;
-  color:#44546a;margin-bottom:8px
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  color:#44546a;
+  margin-bottom:8px
 }
 .form-group input,.form-group select{
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:8px;background:white;outline:none;
-  font-size:13px;color:var(--text)
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  outline:none;
+  font-size:13px;
+  color:var(--text)
 }
 .form-group input:focus,.form-group select:focus{
   border-color:var(--gold)
 }
-.help{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+.help{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+  line-height:1.5
+}
 .submit-btn{
-  width:100%;border:0;background:var(--navy);
-  color:white;padding:14px;border-radius:8px;
-  font-size:13px;font-weight:bold;cursor:pointer
+  width:100%;
+  border:0;
+  background:var(--navy);
+  color:white;
+  padding:14px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+  cursor:pointer
 }
 .submit-btn:hover{background:var(--navy2)}
+.submit-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed
+}
 .summary{
-  background:#f7f8fb;border:1px solid var(--border);
-  border-radius:9px;padding:15px;margin:18px 0
+  background:#f7f8fb;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:15px;
+  margin:18px 0
 }
 .summary-row{
-  display:flex;justify-content:space-between;
-  font-size:12px;padding:7px 0
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  padding:7px 0;
+  gap:10px
 }
 .summary-row span{color:var(--muted)}
 .summary-row strong{color:var(--navy)}
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th{
-  text-align:left;background:#f6f7fa;color:#68778c;
-  padding:13px;font-size:11px
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:720px
 }
-td{padding:14px 13px;border-bottom:1px solid var(--border);font-size:12px}
+th{
+  text-align:left;
+  background:#f6f7fa;
+  color:#68778c;
+  padding:13px;
+  font-size:11px
+}
+td{
+  padding:14px 13px;
+  border-bottom:1px solid var(--border);
+  font-size:12px
+}
 td strong{color:var(--navy)}
 .status{
-  background:#fff4d8;color:#8a651c;
-  padding:6px 10px;border-radius:20px;
-  font-size:10px;font-weight:bold
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:bold;
+  text-transform:capitalize;
+  background:#edf0f5;
+  color:#526176
 }
-.empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
-.footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+.status.pending{background:#fff4d8;color:#8a651c}
+.status.approved{background:#e5f0ff;color:#245a9b}
+.status.processing{background:#f0eaff;color:#7042a4}
+.status.paid{background:#e3f7ed;color:#16865b}
+.status.rejected{background:#ffeded;color:#c23d3d}
+.empty{
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+  font-size:13px
+}
+.loading{
+  text-align:center;
+  padding:25px;
+  color:var(--muted);
+  font-size:12px
+}
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:20px
+}
 
 @media(max-width:950px){
-  .sidebar{width:210px}
   .grid{grid-template-columns:1fr}
 }
 @media(max-width:650px){
-  .layout{display:block}
-  .sidebar{width:100%;padding:15px}
-  .brand{padding:5px 8px 15px}
-  .menu-title{display:none}
-  .menu{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}
-  .menu a{white-space:nowrap;font-size:11px;padding:10px}
-  .topbar{height:55px;padding:0 16px}
+  .topbar{height:65px;padding:0 13px}
+  .brand{font-size:14px}
+  .brand-icon{width:34px;height:34px}
+  .page-label{font-size:10px}
   .content{padding:17px 13px}
   .heading h1{font-size:21px}
   .balance{padding:21px}
@@ -170,105 +412,119 @@ td strong{color:var(--navy)}
 </head>
 
 <body>
-<div class="layout">
 
-<aside class="sidebar">
-  <div class="brand">
-    RUBALIA
-    <small>NETWORK</small>
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" id="menuBtn"
+      aria-label="Open navigation" aria-expanded="false">☰</button>
+
+    <div class="brand">
+      <div class="brand-icon">R</div>
+      <div>
+        RUBALIA
+        <small>NETWORK</small>
+      </div>
+    </div>
+  </div>
+
+  <span class="page-label">WITHDRAW</span>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="drawer-head">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+    <button class="close-menu" id="closeMenu"
+      aria-label="Close navigation">×</button>
   </div>
 
   <div class="menu-title">MAIN MENU</div>
+
   <nav class="menu">
-    <a href="dashboard.html">⌂ Dashboard</a>
-    <a href="profile.html">♙ My Profile</a>
-    <a href="products.html">▣ Products</a>
-    <a href="orders.html">▤ My Orders</a>
-    <a href="team.html">♧ My Team</a>
-    <a href="income.html">৳ Income Details</a>
-    <a href="wallet.html">◈ My Wallet</a>
-    <a href="withdraw.html" class="active">⇧ Withdraw</a>
+    <a href="dashboard.html"><span>⌂</span> Dashboard</a>
+    <a href="profile.html"><span>♙</span> My Profile</a>
+    <a href="dashboard.html"><span>▣</span> Packages</a>
+    <a href="orders.html"><span>▤</span> My Orders</a>
+    <a href="team.html"><span>♧</span> My Team</a>
+    <a href="income.html"><span>৳</span> Income Details</a>
+    <a href="wallet.html"><span>◈</span> My Wallet</a>
+    <a href="withdraw.html" class="active"><span>⇧</span> Withdraw</a>
   </nav>
 
   <div class="menu-title">ACCOUNT</div>
+
   <nav class="menu">
-    <a href="settings.html">⚙ Settings</a>
-    <a href="contact.html">✉ Contact Support</a>
-    <a href="login.html">↪ Logout</a>
+    <a href="settings.html"><span>⚙</span> Settings</a>
+    <a href="contact.html"><span>✉</span> Contact Support</a>
+    <a href="#" id="logoutBtn"><span>↪</span> Logout</a>
   </nav>
 </aside>
 
 <main class="main">
-
-<header class="topbar">
-  <strong>Withdraw Request</strong>
-  <span class="member">Member Panel · Demo</span>
-</header>
-
 <div class="content">
 
   <div class="heading">
     <div>
       <h1>Withdraw Request</h1>
-      <p>Manage your withdrawal information.</p>
+      <p>Request a withdrawal from your available wallet balance.</p>
     </div>
-    <span class="demo-tag">DEMO VERSION</span>
+    <div class="member-info" id="memberInfo">Loading account...</div>
   </div>
 
-  <div class="notice">
-    <strong>⚠ Withdrawal Service Not Activated</strong>
-    This page is a frontend demonstration. No real withdrawal request
-    will be submitted, and no money will be transferred. Actual withdrawal
-    features require secure backend processing, verified payment methods
-    and applicable legal compliance.
-  </div>
+  <div id="notice" class="notice"></div>
 
   <section class="balance">
-    <div class="balance-label">AVAILABLE WITHDRAWAL BALANCE</div>
-    <div class="balance-amount">৳0.00</div>
-    <small>Demo balance · No withdrawable funds</small>
+    <div class="balance-label">AVAILABLE WALLET BALANCE</div>
+    <div class="balance-amount" id="balanceAmount">৳0.00</div>
+    <small>Live balance from your Rubalia wallet</small>
   </section>
 
   <div class="grid">
 
     <section class="card">
       <h2>Withdrawal Summary</h2>
-      <p class="card-sub">Current demo wallet information</p>
+      <p class="card-sub">Your current wallet and withdrawal information</p>
 
       <div class="stat-row">
         <span>Available Balance</span>
-        <strong>৳0.00</strong>
+        <strong id="summaryBalance">৳0.00</strong>
       </div>
 
       <div class="stat-row">
         <span>Pending Withdrawal</span>
-        <strong>৳0.00</strong>
+        <strong id="pendingAmount">৳0.00</strong>
       </div>
 
       <div class="stat-row">
-        <span>Total Withdrawn</span>
-        <strong>৳0.00</strong>
+        <span>Total Paid Withdrawals</span>
+        <strong id="totalWithdrawn">৳0.00</strong>
       </div>
 
       <div class="stat-row">
         <span>Minimum Withdrawal</span>
-        <strong>Not Set</strong>
+        <strong>Server controlled</strong>
       </div>
 
       <div class="stat-row">
         <span>Withdrawal Fee</span>
-        <strong>Not Set</strong>
+        <strong>Calculated by server</strong>
       </div>
 
       <p class="help" style="margin-top:15px">
-        Minimum amount, processing time and fees will be published
-        only after the actual withdrawal policy is approved.
+        The backend validates the minimum amount, maximum amount,
+        available balance and withdrawal fee before accepting a request.
       </p>
     </section>
 
     <section class="card">
       <h2>Create Withdrawal Request</h2>
-      <p class="card-sub">Demo form — submission is disabled</p>
+      <p class="card-sub">
+        Enter your payment details carefully.
+      </p>
 
       <form id="withdrawForm">
 
@@ -280,28 +536,35 @@ td strong{color:var(--navy)}
             <option value="nagad">Nagad</option>
             <option value="rocket">Rocket</option>
             <option value="bank">Bank Transfer</option>
-            <option value="other">Other Approved Method</option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="amount">Withdrawal Amount (BDT)</label>
-          <input type="number" id="amount" min="1"
+          <input type="number" id="amount"
+            min="1" step="0.01"
             placeholder="Enter amount" required>
+          <p class="help">
+            The server will check the permitted amount and your available balance.
+          </p>
         </div>
 
         <div class="form-group">
           <label for="accountName">Account Holder Name</label>
           <input type="text" id="accountName"
+            maxlength="150"
             placeholder="Enter account holder name" required>
         </div>
 
         <div class="form-group">
           <label for="accountNumber">Account Number</label>
           <input type="text" id="accountNumber"
+            minlength="5" maxlength="100"
+            autocomplete="off"
             placeholder="Enter account number" required>
           <p class="help">
             Never enter your PIN, password, OTP or CVV.
+            Your account number is encrypted by the backend.
           </p>
         </div>
 
@@ -311,21 +574,22 @@ td strong{color:var(--navy)}
             <strong id="summaryAmount">৳0.00</strong>
           </div>
           <div class="summary-row">
-            <span>Estimated Fee</span>
-            <strong>Not Set</strong>
+            <span>Withdrawal Fee</span>
+            <strong>Server calculated</strong>
           </div>
           <div class="summary-row">
-            <span>Estimated Receive Amount</span>
-            <strong>Not Available</strong>
+            <span>Expected Receive Amount</span>
+            <strong>Shown after server processing</strong>
           </div>
         </div>
 
-        <button type="submit" class="submit-btn">
-          Submit Demo Request
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Submit Withdrawal Request
         </button>
 
         <p class="help" style="text-align:center;margin-top:10px">
-          This button will not create a real withdrawal request.
+          Your requested amount will be reserved from your wallet.
+          Payment is processed manually after Admin approval.
         </p>
 
       </form>
@@ -335,7 +599,7 @@ td strong{color:var(--navy)}
 
   <section class="card">
     <h2>Withdrawal History</h2>
-    <p class="card-sub">Your previous withdrawal requests</p>
+    <p class="card-sub">Your latest withdrawal requests</p>
 
     <div class="table-wrap">
       <table>
@@ -344,15 +608,17 @@ td strong{color:var(--navy)}
             <th>Request ID</th>
             <th>Method</th>
             <th>Amount</th>
+            <th>Fee</th>
+            <th>Receive</th>
             <th>Status</th>
             <th>Date</th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody id="historyBody">
           <tr>
-            <td colspan="5" class="empty">
-              No real withdrawal requests available.
-              Withdrawal service is not activated.
+            <td colspan="7" class="loading">
+              Loading withdrawal history...
             </td>
           </tr>
         </tbody>
@@ -365,32 +631,405 @@ td strong{color:var(--navy)}
 <footer class="footer">
   © 2026 RUBALIA NETWORK. All Rights Reserved.
   <br><br>
-  Frontend Demo · No real withdrawal processing.
+  Secure Wallet · Backend Verified Withdrawal Requests
 </footer>
 
 </main>
-</div>
 
 <script>
-const amountInput = document.getElementById("amount");
-const summaryAmount = document.getElementById("summaryAmount");
+"use strict";
 
-amountInput.addEventListener("input", function(){
+const API = "https://rubalia.onrender.com/api";
+
+const token = sessionStorage.getItem("rubalia_token");
+
+const balanceAmount = document.getElementById("balanceAmount");
+const summaryBalance = document.getElementById("summaryBalance");
+const pendingAmount = document.getElementById("pendingAmount");
+const totalWithdrawn = document.getElementById("totalWithdrawn");
+const summaryAmount = document.getElementById("summaryAmount");
+const amountInput = document.getElementById("amount");
+const notice = document.getElementById("notice");
+const historyBody = document.getElementById("historyBody");
+const submitBtn = document.getElementById("submitBtn");
+
+let currentBalance = 0;
+let isSubmitting = false;
+
+function money(value){
+  const n = Number(value);
+  return "৳" + (Number.isFinite(n) ? n.toFixed(2) : "0.00");
+}
+
+function showNotice(message,type="info"){
+  notice.className = "notice show " + type;
+  notice.textContent = message;
+  notice.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function hideNotice(){
+  notice.className = "notice";
+  notice.textContent = "";
+}
+
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g,function(char){
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char];
+  });
+}
+
+async function apiRequest(path,options={}){
+  const response = await fetch(API + path,{
+    ...options,
+    headers:{
+      "Authorization":"Bearer " + token,
+      ...(options.headers || {})
+    }
+  });
+
+  let data = {};
+
+  try{
+    data = await response.json();
+  }catch(e){
+    data = {};
+  }
+
+  if(response.status === 401 || response.status === 403){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.href = "login.html";
+    throw new Error("Your session has expired. Please log in again.");
+  }
+
+  if(!response.ok || data.success === false){
+    throw new Error(data.message || "Request failed. Please try again.");
+  }
+
+  return data;
+}
+
+/* AUTHENTICATION */
+
+async function checkAuth(){
+  if(!token){
+    location.href = "login.html";
+    return false;
+  }
+
+  try{
+    const data = await apiRequest("/auth/me");
+    const user = data.user || data.profile || {};
+
+    if(String(user.role || "").toLowerCase() === "admin"){
+      location.href = "admin-dashboard.html";
+      return false;
+    }
+
+    sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+
+    document.getElementById("memberInfo").textContent =
+      user.memberId
+        ? "Member ID: " + user.memberId
+        : (user.full_name || "Member Account");
+
+    return true;
+
+  }catch(error){
+    if(error.message){
+      showNotice(error.message,"error");
+    }
+    return false;
+  }
+}
+
+/* WALLET */
+
+async function loadWallet(){
+  const data = await apiRequest("/wallet");
+  const wallet = data.wallet || {};
+
+  currentBalance = Number(wallet.balance || 0);
+
+  if(!Number.isFinite(currentBalance)){
+    currentBalance = 0;
+  }
+
+  balanceAmount.textContent = money(currentBalance);
+  summaryBalance.textContent = money(currentBalance);
+}
+
+/* WITHDRAWAL HISTORY */
+
+function statusClass(status){
+  const allowed = [
+    "pending",
+    "approved",
+    "processing",
+    "paid",
+    "rejected"
+  ];
+
+  return allowed.includes(String(status).toLowerCase())
+    ? String(status).toLowerCase()
+    : "";
+}
+
+function formatDate(value){
+  if(!value) return "—";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleString();
+}
+
+function renderHistory(items){
+  if(!Array.isArray(items) || !items.length){
+    historyBody.innerHTML =
+      '<tr><td colspan="7" class="empty">No withdrawal requests found.</td></tr>';
+
+    pendingAmount.textContent = money(0);
+    totalWithdrawn.textContent = money(0);
+    return;
+  }
+
+  let pending = 0;
+  let paid = 0;
+
+  items.forEach(item=>{
+    const amount = Number(item.amount || 0);
+    const status = String(item.status || "").toLowerCase();
+
+    if(["pending","approved","processing"].includes(status)){
+      pending += amount;
+    }
+
+    if(status === "paid"){
+      paid += amount;
+    }
+  });
+
+  pendingAmount.textContent = money(pending);
+  totalWithdrawn.textContent = money(paid);
+
+  historyBody.innerHTML = items.map(item=>{
+    const status = String(item.status || "unknown").toLowerCase();
+
+    return `
+      <tr>
+        <td><strong>${escapeHTML(item.request_reference || ("#" + item.id))}</strong></td>
+        <td>${escapeHTML(item.payment_method || "—")}</td>
+        <td>${money(item.amount)}</td>
+        <td>${money(item.fee)}</td>
+        <td>${money(item.net_amount)}</td>
+        <td>
+          <span class="status ${statusClass(status)}">
+            ${escapeHTML(status)}
+          </span>
+        </td>
+        <td>${escapeHTML(formatDate(item.requested_at))}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function loadHistory(){
+  const data = await apiRequest("/wallet/withdrawals");
+  renderHistory(data.withdrawals || []);
+}
+
+/* SUMMARY */
+
+amountInput.addEventListener("input",function(){
   const amount = Number(this.value);
+
   summaryAmount.textContent =
-    "৳" + (Number.isFinite(amount) && amount > 0
-      ? amount.toFixed(2)
-      : "0.00");
+    money(Number.isFinite(amount) && amount > 0 ? amount : 0);
 });
 
-document.getElementById("withdrawForm").addEventListener("submit",function(e){
+/* SUBMIT WITHDRAWAL */
+
+document.getElementById("withdrawForm").addEventListener("submit",async function(e){
   e.preventDefault();
 
-  alert(
-    "Demo Only: Withdrawal service is not activated. " +
-    "No real request has been submitted."
+  if(isSubmitting) return;
+
+  hideNotice();
+
+  const method = document.getElementById("method").value;
+  const amount = Number(amountInput.value);
+  const accountName = document.getElementById("accountName").value.trim();
+  const accountNumber = document.getElementById("accountNumber").value.trim();
+
+  if(!method){
+    showNotice("Please select a withdrawal method.","error");
+    return;
+  }
+
+  if(!Number.isFinite(amount) || amount <= 0){
+    showNotice("Please enter a valid withdrawal amount.","error");
+    return;
+  }
+
+  if(accountName.length < 2 || accountName.length > 150){
+    showNotice("Please enter a valid account holder name.","error");
+    return;
+  }
+
+  if(accountNumber.length < 5 || accountNumber.length > 100){
+    showNotice("Please enter a valid account number.","error");
+    return;
+  }
+
+  if(amount > currentBalance){
+    showNotice("Your requested amount exceeds your available wallet balance.","error");
+    return;
+  }
+
+  const confirmed = confirm(
+    "Confirm your withdrawal request?\n\n" +
+    "Method: " + method.toUpperCase() + "\n" +
+    "Amount: " + money(amount) + "\n\n" +
+    "The amount will be reserved from your wallet."
   );
+
+  if(!confirmed) return;
+
+  isSubmitting = true;
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+
+  try{
+    const idempotencyKey =
+      "rubalia-withdraw-" +
+      Date.now() + "-" +
+      Math.random().toString(36).slice(2,14);
+
+    const data = await apiRequest("/wallet/withdraw",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Idempotency-Key":idempotencyKey
+      },
+      body:JSON.stringify({
+        amount:amount,
+        payment_method:method,
+        account_name:accountName,
+        account_number:accountNumber
+      })
+    });
+
+    const request = data.request || {};
+
+    document.getElementById("withdrawForm").reset();
+    summaryAmount.textContent = money(0);
+
+    showNotice(
+      data.message ||
+      ("Withdrawal request submitted successfully. Reference: " +
+      (request.request_reference || "Created")),
+      "success"
+    );
+
+    await Promise.all([
+      loadWallet(),
+      loadHistory()
+    ]);
+
+  }catch(error){
+    showNotice(error.message || "Unable to submit withdrawal request.","error");
+  }finally{
+    isSubmitting = false;
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Withdrawal Request";
+  }
 });
+
+/* NAVIGATION DRAWER */
+
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("drawerOverlay");
+const menuBtn = document.getElementById("menuBtn");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
+  menuBtn.setAttribute("aria-expanded","true");
+}
+
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
+  menuBtn.setAttribute("aria-expanded","false");
+}
+
+menuBtn.addEventListener("click",function(){
+  if(sidebar.classList.contains("open")){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+});
+
+document.getElementById("closeMenu").addEventListener("click",closeMenu);
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",function(e){
+  if(e.key === "Escape") closeMenu();
+});
+
+document.querySelectorAll(".menu a").forEach(link=>{
+  if(link.id !== "logoutBtn"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+document.getElementById("logoutBtn").addEventListener("click",function(e){
+  e.preventDefault();
+
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+
+  location.href = "login.html";
+});
+
+/* INITIALIZE */
+
+async function initialize(){
+  try{
+    const authenticated = await checkAuth();
+
+    if(!authenticated) return;
+
+    await Promise.all([
+      loadWallet(),
+      loadHistory()
+    ]);
+
+  }catch(error){
+    showNotice(
+      error.message || "Unable to load wallet information. Please refresh.",
+      "error"
+    );
+
+    historyBody.innerHTML =
+      '<tr><td colspan="7" class="empty">Unable to load withdrawal history.</td></tr>';
+  }
+}
+
+initialize();
 </script>
 
 </body>
