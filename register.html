@@ -71,6 +71,13 @@ body{
 .heading small{color:#b18a43;font-size:10px;font-weight:900;letter-spacing:3px}
 .heading h2{font-size:27px;color:#30233e;margin:9px 0}
 .heading p{font-size:12px;color:var(--muted);line-height:1.6}
+.account-notice{
+  display:none;margin:-7px 0 21px;padding:13px;
+  border-radius:12px;background:#effaf3;
+  border:1px solid #c6ead2;color:#17633b;
+  text-align:center;font-size:12px;line-height:1.7;
+}
+.account-notice strong{display:block;font-size:14px;margin-bottom:3px}
 .form-group{margin-bottom:17px}
 .form-group label{display:block;font-size:12px;font-weight:800;color:#40334d;margin-bottom:8px}
 .required{color:#d60045}
@@ -161,9 +168,17 @@ body{
   </div>
 
   <div class="heading">
-    <small>MEMBER REGISTRATION</small>
-    <h2>Create Account</h2>
-    <p>Enter your details to create your member account.</p>
+    <small id="registrationLabel">MEMBER REGISTRATION</small>
+    <h2 id="registrationTitle">Create Account</h2>
+    <p id="registrationDescription">
+      Enter your details to create your member account.
+    </p>
+  </div>
+
+  <div class="account-notice" id="partnerNotice">
+    <strong>FREE PARTNER REGISTRATION</strong>
+    Create your Partner account without any registration fee.
+    No income or commission is guaranteed by registration.
   </div>
 
   <form id="registerForm" novalidate>
@@ -186,9 +201,11 @@ body{
       </div>
     </div>
 
-    <!-- REFERRAL CODE -->
     <div class="form-group">
-      <label for="referralCode">Referral Code <span style="color:#888397;font-weight:normal">(Optional)</span></label>
+      <label for="referralCode">
+        Referral Code
+        <span style="color:#888397;font-weight:normal">(Optional)</span>
+      </label>
       <div class="input-wrap">
         <input type="text" id="referralCode"
           placeholder="Example: RUB000001"
@@ -251,6 +268,9 @@ body{
 
 const API_BASE = "https://rubalia.onrender.com/api";
 
+const params = new URLSearchParams(window.location.search);
+const isPartnerRegistration = params.get("partner") === "1";
+
 const form = document.getElementById("registerForm");
 const submitBtn = document.getElementById("submitBtn");
 const message = document.getElementById("formMessage");
@@ -269,8 +289,25 @@ const strengthText = document.getElementById("strengthText");
 
 let verifiedReferralCode = "";
 let referralIsValid = false;
-let referralChecking = false;
 let referralRequestNumber = 0;
+
+// Registration page mode
+if(isPartnerRegistration){
+  document.title = "Free Partner Registration | RUBALIA NETWORK";
+
+  document.getElementById("registrationLabel").textContent =
+    "PARTNER REGISTRATION";
+
+  document.getElementById("registrationTitle").textContent =
+    "Become a Partner";
+
+  document.getElementById("registrationDescription").textContent =
+    "Create your free RUBALIA NETWORK Partner account.";
+
+  document.getElementById("partnerNotice").style.display = "block";
+
+  submitBtn.textContent = "CREATE FREE PARTNER ACCOUNT";
+}
 
 /* SHOW / HIDE PASSWORD */
 
@@ -278,6 +315,7 @@ document.querySelectorAll(".show-btn").forEach(function(button){
   button.addEventListener("click",function(){
     const field = document.getElementById(button.dataset.target);
     const isHidden = field.type === "password";
+
     field.type = isHidden ? "text" : "password";
     button.textContent = isHidden ? "HIDE" : "SHOW";
   });
@@ -320,17 +358,14 @@ async function verifyReferralCode(){
 
   if(!code){
     clearReferralStatus();
-    referralChecking = false;
     return true;
   }
 
   if(!/^RUB\d{6,}$/.test(code)){
     showReferralStatus("error","Invalid format. Example: RUB000001");
-    referralChecking = false;
     return false;
   }
 
-  referralChecking = true;
   showReferralStatus("info","Verifying referral code...");
 
   try{
@@ -352,7 +387,6 @@ async function verifyReferralCode(){
         "error",
         data.message || "Referral code is invalid or inactive."
       );
-      referralChecking = false;
       return false;
     }
 
@@ -369,7 +403,6 @@ async function verifyReferralCode(){
       " | Member ID: " + code
     );
 
-    referralChecking = false;
     return true;
 
   }catch(error){
@@ -378,8 +411,8 @@ async function verifyReferralCode(){
         "error",
         "Unable to verify referral code. Please check your internet connection and try again."
       );
-      referralChecking = false;
     }
+
     return false;
   }
 }
@@ -387,7 +420,6 @@ async function verifyReferralCode(){
 /* READ REFERRAL CODE FROM URL */
 
 (function loadReferralFromUrl(){
-  const params = new URLSearchParams(window.location.search);
   const urlReferral = params.get("ref");
 
   if(urlReferral){
@@ -406,7 +438,6 @@ referralInput.addEventListener("input",function(){
   referralIsValid = false;
   verifiedReferralCode = "";
   referralRequestNumber++;
-  referralChecking = false;
 
   clearReferralStatus();
   clearMessage();
@@ -431,6 +462,7 @@ passwordInput.addEventListener("input",function(){
   strengthBox.style.display = "block";
 
   let score = 0;
+
   if(password.length >= 8) score++;
   if(/[a-z]/.test(password)) score++;
   if(/[A-Z]/.test(password)) score++;
@@ -478,6 +510,8 @@ form.addEventListener("submit",async function(event){
   const confirmPassword = confirmPasswordInput.value;
   const referralCode = referralInput.value.trim().toUpperCase();
 
+  clearMessage();
+
   if(fullName.length < 2 || fullName.length > 120){
     showMessage("error","Please enter your full name (2–120 characters).");
     fullNameInput.focus();
@@ -508,28 +542,40 @@ form.addEventListener("submit",async function(event){
     return;
   }
 
-  /* Verify referral again before registration. */
-
+  // Verify referral before registration.
   if(referralCode){
     const isVerified = await verifyReferralCode();
 
-    if(!isVerified || !referralIsValid ||
+    if(!isVerified ||
+       !referralIsValid ||
        verifiedReferralCode !== referralCode){
-      showMessage("error","Please enter a valid Referral Code before registration.");
+
+      showMessage(
+        "error",
+        "Please enter a valid Referral Code before registration."
+      );
+
       referralInput.focus();
       return;
     }
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "CREATING ACCOUNT...";
-  clearMessage();
+
+  submitBtn.textContent = isPartnerRegistration
+    ? "CREATING PARTNER ACCOUNT..."
+    : "CREATING ACCOUNT...";
 
   try{
     const requestBody = {
       fullName: fullName,
       email: email,
-      password: password
+      password: password,
+
+      // Partner registration is selected by ?partner=1
+      accountType: isPartnerRegistration
+        ? "partner"
+        : "customer"
     };
 
     if(referralCode){
@@ -560,6 +606,7 @@ form.addEventListener("submit",async function(event){
 
     try{
       sessionStorage.setItem("rubalia_token",data.token);
+
       sessionStorage.setItem(
         "rubalia_user",
         JSON.stringify(data.user)
@@ -572,9 +619,13 @@ form.addEventListener("submit",async function(event){
 
     const memberId = data.user.memberId || "";
 
+    const accountType = data.user.role === "partner"
+      ? "Partner"
+      : "Customer";
+
     showMessage(
       "success",
-      "Account created successfully!" +
+      accountType + " account created successfully!" +
       (memberId ? " Your Member ID: " + memberId : "") +
       " Redirecting..."
     );
@@ -592,7 +643,10 @@ form.addEventListener("submit",async function(event){
     );
 
     submitBtn.disabled = false;
-    submitBtn.textContent = "CREATE ACCOUNT";
+
+    submitBtn.textContent = isPartnerRegistration
+      ? "CREATE FREE PARTNER ACCOUNT"
+      : "CREATE ACCOUNT";
   }
 });
 </script>
