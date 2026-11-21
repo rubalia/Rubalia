@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +32,7 @@ a{text-decoration:none;color:inherit}
 button,input{font-family:inherit}
 body.menu-open{overflow:hidden}
 
-/* TOP HEADER - SAME AS WALLET */
+/* HEADER */
 
 .app-header{
   height:76px;
@@ -84,6 +83,7 @@ body.menu-open{overflow:hidden}
   font-size:27px;
   font-weight:900;
   flex-shrink:0;
+  box-shadow:0 4px 10px rgba(0,0,0,.18),inset 0 2px 4px rgba(255,255,255,.6);
 }
 .brand-text{
   font-size:17px;
@@ -208,7 +208,7 @@ main{
   padding:18px 20px 50px;
 }
 
-/* SLIDER */
+/* BANNER - ORIGINAL SIZE PRESERVED */
 
 .slider-wrap{
   position:relative;
@@ -408,24 +408,43 @@ main{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:11px;
+  align-items:start;
 }
+
+/* PREMIUM PACKAGE CARD */
+
 .item-card{
   min-width:0;
   overflow:hidden;
-  background:white;
-  border:1px solid var(--border);
-  border-radius:11px;
-  box-shadow:var(--shadow);
-  transition:transform .2s;
+  position:relative;
+  border-radius:15px;
+  background:linear-gradient(145deg,#ffffff 0%,#f3efff 48%,#e9f3ff 100%);
+  border:1px solid rgba(151,119,198,.25);
+  box-shadow:
+    0 9px 20px rgba(66,43,110,.10),
+    0 3px 6px rgba(66,43,110,.06),
+    inset 0 1px 0 rgba(255,255,255,.95);
+  transition:transform .25s,box-shadow .25s;
 }
-.item-card:hover{transform:translateY(-3px)}
+
+.item-card:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 14px 25px rgba(66,43,110,.16),
+    0 4px 8px rgba(66,43,110,.08),
+    inset 0 1px 0 white;
+}
+
+/* PACKAGE IMAGE */
+
 .item-image{
   height:115px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  background:linear-gradient(135deg,#f9e8ef,#eee8f6);
+  background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);
+  border-bottom:1px solid rgba(255,255,255,.8);
 }
 .item-image img{
   width:100%;
@@ -437,74 +456,129 @@ main{
   place-items:center;
   width:100%;
   height:100%;
-  color:#b17a9a;
+  color:#9974c1;
   font-size:36px;
 }
-.item-body{padding:10px}
+
+/* PACKAGE DETAILS BACKGROUND */
+
+.item-body{
+  padding:9px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(255,255,255,.9),transparent 40%),
+    linear-gradient(145deg,#f9f5ff,#eef2ff 55%,#f0fbfa);
+}
+
 .item-type{
   display:inline-block;
-  padding:4px 7px;
+  padding:4px 8px;
   border-radius:20px;
-  background:#f9edf3;
-  color:#a51d54;
+  background:linear-gradient(135deg,#fce4f0,#f2dcff);
+  color:#982b69;
   font-size:8px;
   font-weight:bold;
   letter-spacing:.5px;
+  border:1px solid rgba(193,103,161,.14);
+  box-shadow:0 2px 4px rgba(102,48,107,.07);
 }
+
 .item-title{
-  margin:8px 0 5px;
+  margin:7px 0 4px;
   color:#30243e;
-  font-size:13px;
+  font-size:12px;
   line-height:1.35;
   overflow-wrap:anywhere;
 }
+
 .item-description{
-  height:30px;
+  height:26px;
   overflow:hidden;
   margin:0;
-  color:var(--muted);
+  color:#77748b;
   font-size:9px;
   line-height:1.5;
 }
+
+/* SEPARATE 3D PRICE PANEL */
+
 .item-bottom{
-  margin-top:9px;
-  padding-top:9px;
-  border-top:1px solid #f0edf2;
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid rgba(112,91,148,.13);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:5px;
+  gap:6px;
 }
+
 .item-price{
-  color:#8b1748;
-  font-size:14px;
+  min-width:0;
+  flex:1;
+  padding:8px 9px;
+  border-radius:10px;
+  color:#fff;
+  font-size:13px;
   font-weight:900;
   overflow-wrap:anywhere;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(255,255,255,.25),transparent 45%),
+    linear-gradient(135deg,#087d75,#079b91 55%,#086a75);
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:
+    0 4px 0 #07545b,
+    0 7px 11px rgba(4,87,89,.18),
+    inset 0 1px 2px rgba(255,255,255,.45);
+  text-shadow:0 1px 3px rgba(0,0,0,.18);
 }
+
 .item-price small{
   display:block;
-  margin-bottom:3px;
-  color:#9991a1;
-  font-size:8px;
-  font-weight:normal;
+  margin-bottom:4px;
+  color:#d8fff4;
+  font-size:7px;
+  font-weight:bold;
+  letter-spacing:.7px;
+  text-shadow:none;
 }
+
 .item-stock{
-  margin-top:5px;
-  color:var(--green);
+  margin-top:7px;
+  color:#16804b;
   font-size:9px;
+  font-weight:bold;
 }
 .item-stock.out{color:#c0392b}
+
+/* BUY BUTTON */
+
 .buy-btn{
   display:inline-block;
-  border:0;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,.35);
   padding:9px 9px;
-  border-radius:7px;
-  background:linear-gradient(110deg,#ed286a,#9b164f);
+  border-radius:9px;
+  background:linear-gradient(145deg,#ff4384,#d51c65 55%,#94124b);
   color:white;
-  font-size:9px;
+  font-size:8px;
   font-weight:900;
   cursor:pointer;
   white-space:nowrap;
+  box-shadow:
+    0 4px 0 #79123f,
+    0 7px 10px rgba(156,19,77,.20),
+    inset 0 1px 2px rgba(255,255,255,.35);
+  transition:.2s;
+}
+.buy-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 6px 0 #79123f,
+    0 9px 13px rgba(156,19,77,.24),
+    inset 0 1px 2px rgba(255,255,255,.4);
+}
+.buy-btn:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #79123f;
 }
 .buy-btn:disabled{
   opacity:.45;
@@ -579,7 +653,7 @@ footer{
 }
 footer strong{color:#f4d58c}
 
-/* MOBILE APP VIEW */
+/* MOBILE */
 
 @media(max-width:700px){
   .app-header{
@@ -616,6 +690,8 @@ footer strong{color:#f4d58c}
     border-radius:9px;
   }
   main{padding:13px 11px 35px}
+
+  /* Banner size unchanged */
   .slider-wrap{
     height:125px;
     border-radius:11px;
@@ -635,35 +711,48 @@ footer strong{color:#f4d58c}
     width:95px;
     height:95px;
   }
+
   .search-section{margin:14px 0 18px}
   .search-box input{height:40px}
   .refresh-btn{padding:11px 9px}
   .section-heading h2{font-size:16px}
   .package-grid{gap:9px}
+
+  /* Thinner package details */
   .item-image{height:105px}
   .item-body{padding:8px}
-  .item-title{font-size:12px}
-  .item-description{font-size:8px;height:27px}
-  .item-price{font-size:12px}
-  .item-stock{font-size:8px}
-  .buy-btn{padding:8px 7px;font-size:8px}
+  .item-title{font-size:11px}
+  .item-description{font-size:8px;height:25px}
+  .item-bottom{gap:5px;margin-top:7px;padding-top:7px}
+  .item-price{
+    padding:7px;
+    font-size:11px;
+    border-radius:8px;
+    box-shadow:0 3px 0 #07545b,0 5px 8px rgba(4,87,89,.16),inset 0 1px 2px rgba(255,255,255,.4);
+  }
+  .item-price small{font-size:6px}
+  .item-stock{font-size:8px;margin-top:6px}
+  .buy-btn{
+    padding:8px 7px;
+    font-size:8px;
+    border-radius:8px;
+  }
 }
+
 @media(max-width:360px){
   .brand-text{font-size:11px}
   .brand-icon{width:36px;height:36px}
   .orders-button{font-size:9px;padding:9px 7px}
   .item-image{height:88px}
   .item-body{padding:7px}
-  .item-title{font-size:11px}
-  .item-price{font-size:11px}
+  .item-title{font-size:10px}
+  .item-price{font-size:10px;padding:6px}
   .buy-btn{padding:7px 5px;font-size:7px}
 }
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <header class="app-header">
   <div class="header-left">
@@ -682,11 +771,7 @@ footer strong{color:#f4d58c}
   <a href="orders.html" class="orders-button">📦 My Orders</a>
 </header>
 
-<!-- DRAWER OVERLAY -->
-
 <div class="drawer-overlay" id="drawerOverlay"></div>
-
-<!-- SIDEBAR -->
 
 <aside class="sidebar" id="sidebar">
   <div class="drawer-top">
@@ -701,13 +786,13 @@ footer strong{color:#f4d58c}
   <div class="menu-title">MAIN MENU</div>
 
   <nav class="menu">
-    <a href="dashboard.html" class="active">
+    <a href="dashboard.html">
       <span class="menu-icon">⌂</span>Dashboard
     </a>
     <a href="profile.html">
       <span class="menu-icon">♙</span>My Profile
     </a>
-    <a href="dashboard.html">
+    <a href="dashboard.html" class="active">
       <span class="menu-icon">▣</span>Packages
     </a>
     <a href="orders.html">
@@ -742,11 +827,7 @@ footer strong{color:#f4d58c}
   </nav>
 </aside>
 
-<!-- MAIN -->
-
 <main>
-
-  <!-- SLIDER -->
 
   <section class="slider-wrap">
     <div class="slider-track" id="sliderTrack">
@@ -789,8 +870,6 @@ footer strong{color:#f4d58c}
 
   <div class="notice" id="notice" role="status"></div>
 
-  <!-- PACKAGE SEARCH -->
-
   <section class="search-section">
     <div class="search-box">
       <span class="search-icon">⌕</span>
@@ -805,8 +884,6 @@ footer strong{color:#f4d58c}
       ↻ Refresh
     </button>
   </section>
-
-  <!-- PACKAGES ONLY -->
 
   <section id="packages">
     <div class="section-heading">
@@ -898,18 +975,6 @@ $("logoutLink").addEventListener("click",function(event){
 });
 
 /* HELPERS */
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,function(char){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[char];
-  });
-}
 
 function safeImageURL(value){
   if(!value) return "";
@@ -1035,7 +1100,7 @@ async function fetchJSON(path,token){
     return {};
   });
 
-  if(response.status===401){
+  if(response.status===401 || response.status===403){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     location.replace("login.html");
@@ -1250,7 +1315,7 @@ function buyPackage(id){
     "checkout.html?type=package&id="+encodeURIComponent(id);
 }
 
-/* LOAD PACKAGES ONLY */
+/* LOAD PACKAGES */
 
 async function loadStore(){
   if(loading) return;
@@ -1276,8 +1341,6 @@ async function loadStore(){
   try{
     const token = await verifySession();
 
-    // Only packages API is called.
-    // Individual product API is not requested.
     const packageData = await fetchJSON(
       "/packages",
       token
