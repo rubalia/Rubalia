@@ -20,6 +20,9 @@ const adminRoutes = require("./routes/admin.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const uploadRoutes = require("./routes/upload.routes");
 
+// Payment Routes
+const paymentRoutes = require("./routes/payment.routes");
+
 const {
   notFoundHandler,
   errorHandler
@@ -129,7 +132,19 @@ app.use("/api/wallet", walletRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-// Cloudinary Image Upload Routes
+// Payment Routes
+// GET  /api/payment/methods
+// POST /api/payment/request
+// GET  /api/payment/my-requests
+// GET  /api/payment/admin/requests
+// GET  /api/payment/admin/requests/:id
+// PATCH /api/payment/admin/requests/:id/approve
+// PATCH /api/payment/admin/requests/:id/reject
+// GET  /api/payment/admin/settings
+// PUT  /api/payment/admin/settings/:gateway
+app.use("/api/payment", paymentRoutes);
+
+// Image Upload Routes
 // Admin only: POST /api/upload/image
 app.use("/api/upload", uploadRoutes);
 
@@ -160,6 +175,7 @@ async function startServer() {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
+      console.log("Payment route registered.");
     });
 
   } catch (error) {
