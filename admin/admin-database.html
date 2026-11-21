@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Database Management | Rubalia Network</title>
+
+<style>
+:root{
+  --navy:#071a35;--navy2:#102b50;--blue:#1765a8;
+  --gold:#d6ad55;--gold2:#f1d58e;--bg:#f3f6fb;
+  --white:#fff;--text:#17263d;--muted:#7b8798;
+  --border:#e4eaf2;--green:#16865b;--red:#d84b4b;
+  --orange:#d58a25;--shadow:0 8px 24px rgba(7,26,53,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+a{text-decoration:none;color:inherit}
+.app{min-height:100vh}
+.sidebar{
+ width:250px;background:var(--navy);color:white;position:fixed;
+ left:0;top:0;bottom:0;overflow-y:auto;padding:22px 15px;z-index:20
+}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 8px 25px;
+ border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:20px}
+.brand-logo{width:42px;height:42px;border-radius:13px;
+ background:linear-gradient(135deg,var(--gold),#fff0bd);
+ color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:22px}
+.brand h2{font-size:17px;letter-spacing:1px}
+.brand small{display:block;color:#b9c8dc;font-size:10px;margin-top:4px}
+.nav-title{color:#8498b5;font-size:10px;font-weight:bold;letter-spacing:1.5px;padding:13px 10px 8px}
+.nav a{display:flex;align-items:center;gap:11px;padding:11px 12px;margin:3px 0;
+ border-radius:9px;color:#c5d2e4;font-size:12px;transition:.2s}
+.nav a:hover,.nav a.active{background:rgba(214,173,85,.15);color:var(--gold2)}
+.nav .ico{width:20px;text-align:center;font-size:15px}
+.sidebar-note{margin:22px 5px 5px;padding:13px;border:1px solid rgba(255,255,255,.12);
+ border-radius:10px;color:#b9c8dc;font-size:10px;line-height:1.7}
+.main{margin-left:250px;min-height:100vh}
+.topbar{background:white;height:70px;padding:0 28px;display:flex;align-items:center;
+ justify-content:space-between;border-bottom:1px solid var(--border);
+ position:sticky;top:0;z-index:10}
+.top-left{display:flex;align-items:center;gap:13px}
+.menu-btn{display:none;border:0;background:#edf2f8;padding:9px 12px;border-radius:8px;cursor:pointer}
+.topbar h3{font-size:16px}
+.topbar small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.top-right{display:flex;align-items:center;gap:12px}
+.live-tag{background:#fff3d7;color:#986b16;border:1px solid #f0dfb7;
+ border-radius:30px;padding:7px 11px;font-size:10px;font-weight:bold}
+.admin-avatar{width:35px;height:35px;border-radius:50%;background:var(--navy2);
+ color:var(--gold2);display:grid;place-items:center;font-weight:bold}
+.content{padding:25px 28px 40px;max-width:1500px;margin:auto}
+.page-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:20px}
+.page-heading h1{font-size:23px;color:var(--navy)}
+.page-heading p{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.6}
+.btn{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:11px;
+ font-weight:bold;display:inline-flex;align-items:center;gap:7px}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf2f8;color:var(--navy)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.notice{padding:13px 15px;border-radius:10px;border:1px solid #f0dfb7;
+ background:#fff9e9;color:#87651e;font-size:11px;line-height:1.7;margin-bottom:20px}
+.notice strong{color:#6f5012}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:17px;box-shadow:var(--shadow)}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-icon{width:34px;height:34px;border-radius:10px;background:#edf3fa;display:grid;place-items:center;font-size:16px}
+.stat-value{font-size:23px;font-weight:800;color:var(--navy);margin-top:13px}
+.stat-foot{font-size:10px;color:var(--muted);margin-top:6px}
+.section{background:white;border:1px solid var(--border);border-radius:12px;
+ padding:18px;box-shadow:var(--shadow);margin-bottom:18px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.section-head h3{font-size:14px;color:var(--navy)}
+.section-head p{font-size:10px;color:var(--muted);margin-top:5px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th{text-align:left;background:#f6f8fb;color:#738096;font-size:10px;padding:12px 11px;white-space:nowrap}
+td{padding:13px 11px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.table-name{font-weight:bold;color:var(--navy)}
+.muted{color:var(--muted)}
+.status{display:inline-block;padding:5px 8px;border-radius:30px;font-size:9px;font-weight:bold}
+.status.good{background:#e8f7ef;color:#16865b}
+.status.warn{background:#fff2df;color:#bd791c}
+.status.off{background:#f1f2f5;color:#697587}
+.status.bad{background:#fff0f0;color:#d84b4b}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.info-row{display:flex;justify-content:space-between;align-items:center;gap:10px;
+ padding:12px 0;border-bottom:1px solid #edf0f5;font-size:11px}
+.info-row:last-child{border:0}
+.info-row span:first-child{color:var(--muted)}
+.query-box{background:#101f35;color:#d7e7fb;border-radius:9px;padding:15px;
+ font-family:monospace;font-size:11px;line-height:1.8;overflow-x:auto}
+.query-box .comment{color:#7d9cbd}
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.health-item{border:1px solid var(--border);border-radius:10px;padding:14px}
+.health-item small{font-size:10px;color:var(--muted)}
+.health-item strong{display:block;font-size:15px;margin:9px 0;color:var(--navy)}
+.health-item p{font-size:10px;color:var(--muted);line-height:1.5}
+.footer{text-align:center;color:#9aa5b4;font-size:10px;padding:20px 0 5px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(4,15,31,.6);
+ z-index:50;align-items:center;justify-content:center;padding:15px}
+.modal-backdrop.show{display:flex}
+.modal{width:100%;max-width:440px;background:white;border-radius:14px;padding:22px;
+ box-shadow:0 15px 50px rgba(0,0,0,.2)}
+.modal h3{font-size:16px;color:var(--navy);margin-bottom:10px}
+.modal p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px;white-space:pre-line}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;
+ padding:12px 17px;border-radius:9px;font-size:11px;z-index:80;
+ opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0}.menu-btn{display:block}
+ .topbar{padding:0 16px}.content{padding:20px 15px 35px}
+}
+@media(max-width:600px){
+ .page-heading{flex-direction:column}.grid{gap:10px}
+ .stat{padding:13px}.stat-value{font-size:20px}
+ .two-col,.health-grid{grid-template-columns:1fr}
+ .topbar h3{font-size:13px}.live-tag{font-size:9px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">R</div>
+    <div><h2>RUBALIA</h2><small>NETWORK ADMIN PANEL</small></div>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-title">MAIN MENU</div>
+    <a href="../admin-dashboard.html"><span class="ico">▦</span> Dashboard</a>
+    <a href="admin-users.html"><span class="ico">♙</span> Users</a>
+    <a href="admin-partners.html"><span class="ico">♧</span> Partners</a>
+    <a href="admin-applications.html"><span class="ico">▤</span> Applications</a>
+
+    <div class="nav-title">BUSINESS MANAGEMENT</div>
+    <a href="admin-products.html"><span class="ico">▣</span> Products</a>
+    <a href="admin-packages.html"><span class="ico">▣</span> Packages</a>
+    <a href="admin-orders.html"><span class="ico">▤</span> Orders</a>
+    <a href="admin-payments.html"><span class="ico">৳</span> Payments</a>
+    <a href="admin-withdrawals.html"><span class="ico">⇧</span> Withdrawals</a>
+    <a href="admin-commissions.html"><span class="ico">％</span> Commissions</a>
+
+    <div class="nav-title">COMMUNICATION</div>
+    <a href="admin-announcements.html"><span class="ico">♢</span> Announcements</a>
+    <a href="admin-support.html"><span class="ico">✉</span> Support</a>
+
+    <div class="nav-title">SYSTEM MANAGEMENT</div>
+    <a href="admin-settings.html"><span class="ico">⚙</span> Settings</a>
+    <a href="admin-reports.html"><span class="ico">▥</span> Reports</a>
+    <a href="admin-audit-logs.html"><span class="ico">◷</span> Audit Logs</a>
+    <a href="admin-roles.html"><span class="ico">♙</span> Roles & Permissions</a>
+    <a href="admin-security.html"><span class="ico">⬡</span> Security Center</a>
+    <a href="admin-backup.html"><span class="ico">▧</span> Backup & Restore</a>
+    <a class="active" href="admin-database.html"><span class="ico">▤</span> Database Management</a>
+
+    <div class="nav-title">WEBSITE</div>
+    <a href="../index.html"><span class="ico">⌂</span> Visit Website</a>
+  </nav>
+
+  <div class="sidebar-note">
+    <strong>DATABASE SCHEMA VIEW</strong><br>
+    This page displays the schema defined in the backend initialization file. It does not inspect live PostgreSQL tables.
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div class="top-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div>
+      <h3>Database Management</h3>
+      <small>System Management / Database</small>
+    </div>
+  </div>
+  <div class="top-right">
+    <span class="live-tag">SCHEMA VIEW</span>
+    <div class="admin-avatar" id="adminAvatar">A</div>
+  </div>
+</header>
+
+<div class="content">
+
+  <div class="page-heading">
+    <div>
+      <h1>Database Management Center</h1>
+      <p>Rubalia PostgreSQL schema overview and database configuration information.</p>
+    </div>
+    <button class="btn btn-gold" onclick="refreshSchema()">↻ Refresh View</button>
+  </div>
+
+  <div class="notice">
+    <strong>Important:</strong>
+    The table list below is based on the backend's <strong>database/init.js</strong> file.
+    It confirms which tables are defined by the initialization code, not whether the live database is currently reachable.
+    No SQL query, data modification, deletion, backup or maintenance operation is performed by this page.
+  </div>
+
+  <div class="grid">
+    <div class="stat">
+      <div class="stat-top"><span class="stat-label">Database Engine</span><span class="stat-icon">🔌</span></div>
+      <div class="stat-value" style="font-size:18px">PostgreSQL</div>
+      <div class="stat-foot"><span class="status good">BACKEND CONFIGURED</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span class="stat-label">Schema Tables</span><span class="stat-icon">▤</span></div>
+      <div class="stat-value" id="tableCount">13</div>
+      <div class="stat-foot">Defined in database initialization</div>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span class="stat-label">Live Records</span><span class="stat-icon">▦</span></div>
+      <div class="stat-value" style="font-size:18px">Unknown</div>
+      <div class="stat-foot">No live count endpoint verified</div>
+    </div>
+    <div class="stat">
+      <div class="stat-top"><span class="stat-label">Database Health</span><span class="stat-icon">♥</span></div>
+      <div class="stat-value" style="font-size:18px">Unknown</div>
+      <div class="stat-foot">Live health check not available</div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Configuration</h3>
+        <p>Backend connection configuration overview.</p>
+      </div>
+      <span class="status off">LIVE CONNECTION UNVERIFIED</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="info-row"><span>Database Engine</span><strong>PostgreSQL</strong></div>
+        <div class="info-row"><span>Connection Module</span><strong>config/database.js</strong></div>
+        <div class="info-row"><span>Database Host</span><strong>Server environment</strong></div>
+        <div class="info-row"><span>Database Name</span><strong>Not exposed</strong></div>
+        <div class="info-row"><span>Connection Test</span><strong>Not performed</strong></div>
+      </div>
+      <div class="query-box">
+        <div class="comment">-- Backend configuration concept</div>
+        DB_ENGINE = PostgreSQL<br>
+        DB_HOST = SERVER_ENVIRONMENT<br>
+        DB_PORT = 5432<br>
+        DB_NAME = SERVER_SECRET<br>
+        DB_USER = SERVER_SECRET<br>
+        DB_PASSWORD = SERVER_SECRET<br><br>
+        <div class="comment">-- Never expose credentials in frontend HTML.</div>
+        <div class="comment">-- Database access must remain server-side.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Actual Backend Tables</h3>
+        <p>These 13 tables are defined in the inspected database initialization file.</p>
+      </div>
+      <span class="status good">SCHEMA DEFINED</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>TABLE NAME</th>
+            <th>DESCRIPTION</th>
+            <th>RECORD COUNT</th>
+            <th>SCHEMA STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="tablesBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Health Monitoring</h3>
+        <p>Live monitoring is not yet connected to this page.</p>
+      </div>
+      <span class="status off">NOT CONNECTED</span>
+    </div>
+
+    <div class="health-grid">
+      <div class="health-item">
+        <small>Connection Pool</small>
+        <strong>Not measured</strong>
+        <p>No verified monitoring endpoint is connected.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Size</small>
+        <strong>Not measured</strong>
+        <p>Actual PostgreSQL storage usage is unavailable.</p>
+      </div>
+      <div class="health-item">
+        <small>Query Performance</small>
+        <strong>Not measured</strong>
+        <p>No live query statistics have been collected.</p>
+      </div>
+      <div class="health-item">
+        <small>Active Connections</small>
+        <strong>Unknown</strong>
+        <p>Live PostgreSQL connection count is unavailable.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Backups</small>
+        <strong>Not verified</strong>
+        <p>Backup availability and restore testing are not confirmed here.</p>
+      </div>
+      <div class="health-item">
+        <small>Database Security</small>
+        <strong>Not audited</strong>
+        <p>A production security audit is still required.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Database Architecture</h3>
+          <p>Verified table groups from the backend schema.</p>
+        </div>
+      </div>
+      <div class="info-row"><span>Member accounts</span><strong>users</strong></div>
+      <div class="info-row"><span>Products and packages</span><strong>2 tables</strong></div>
+      <div class="info-row"><span>Orders</span><strong>orders, order_items</strong></div>
+      <div class="info-row"><span>Wallet system</span><strong>2 tables</strong></div>
+      <div class="info-row"><span>Commission system</span><strong>3 tables</strong></div>
+      <div class="info-row"><span>Payment system</span><strong>2 tables</strong></div>
+      <div class="info-row"><span>Notifications</span><strong>notifications</strong></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h3>Query Monitor</h3>
+          <p>Database queries are not executed from this frontend page.</p>
+        </div>
+        <span class="status off">INACTIVE</span>
+      </div>
+      <div class="query-box">
+        <div class="comment">-- Example only; not executed</div>
+        SELECT id, full_name, email<br>
+        FROM users<br>
+        ORDER BY created_at DESC;<br><br>
+        <div class="comment">-- Execution status: NOT RUN</div>
+        <div class="comment">-- Execution time: Not measured</div>
+        <div class="comment">-- Returned rows: Not available</div>
+      </div>
+      <div style="margin-top:13px">
+        <button class="btn btn-light" onclick="showModal('Query Monitor','This is an informational preview only. A secure backend query-monitoring endpoint has not been connected.')">
+          View Information
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Database Maintenance</h3>
+        <p>These operations require secure backend implementation.</p>
+      </div>
+      <span class="status warn">DISABLED</span>
+    </div>
+
+    <div class="health-grid">
+      <div class="health-item">
+        <strong>Health Check</strong>
+        <p>Backend health-check endpoint is not connected.</p>
+        <button class="btn btn-light" disabled>Unavailable</button>
+      </div>
+      <div class="health-item">
+        <strong>Database Optimization</strong>
+        <p>Maintenance operations must be performed securely on the backend.</p>
+        <button class="btn btn-light" disabled>Unavailable</button>
+      </div>
+      <div class="health-item">
+        <strong>Index Inspection</strong>
+        <p>Live index information has not been retrieved.</p>
+        <button class="btn btn-light" disabled>Unavailable</button>
+      </div>
+      <div class="health-item">
+        <strong>Backup Verification</strong>
+        <p>Backup files and restore status are not verified.</p>
+        <button class="btn btn-light" disabled>Unavailable</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Schema Notes</h3>
+        <p>Important differences between the actual backend schema and the previous demo table list.</p>
+      </div>
+    </div>
+
+    <div class="info-row">
+      <span>Partner relationship</span>
+      <strong>users.sponsor_id</strong>
+    </div>
+    <div class="info-row">
+      <span>Payment records</span>
+      <strong>payment_requests</strong>
+    </div>
+    <div class="info-row">
+      <span>Payment gateway configuration</span>
+      <strong>payment_gateway_settings</strong>
+    </div>
+    <div class="info-row">
+      <span>Withdrawal transactions</span>
+      <strong>wallet_transactions</strong>
+    </div>
+    <div class="info-row">
+      <span>Commission records</span>
+      <strong>commission_ledger</strong>
+    </div>
+    <div class="info-row">
+      <span>Company profit records</span>
+      <strong>company_profit_ledger</strong>
+    </div>
+    <div class="info-row">
+      <span>Admin activity log table</span>
+      <strong>Not defined in init.js</strong>
+    </div>
+    <div class="info-row">
+      <span>Support ticket table</span>
+      <strong>Not defined in init.js</strong>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h3>Production Database Checklist</h3>
+        <p>Items requiring separate verification before production operation.</p>
+      </div>
+    </div>
+    <div class="info-row"><span>PostgreSQL initialization code exists</span><span class="status good">DEFINED</span></div>
+    <div class="info-row"><span>Live database connection verified from this page</span><span class="status off">NOT VERIFIED</span></div>
+    <div class="info-row"><span>Database backup and restore tested</span><span class="status off">NOT VERIFIED</span></div>
+    <div class="info-row"><span>Live database monitoring configured</span><span class="status off">NOT VERIFIED</span></div>
+    <div class="info-row"><span>Admin audit logging table defined</span><span class="status warn">NOT DEFINED</span></div>
+    <div class="info-row"><span>Commission legal review</span><span class="status warn">PENDING</span></div>
+  </section>
+
+  <div class="footer">
+    © <span id="year"></span> Rubalia Network · Admin Database Management
+  </div>
+
+</div>
+</main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h3 id="modalTitle">Database Information</h3>
+    <p id="modalText"></p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+const databaseTables = [
+  {
+    name:"users",
+    description:"Member accounts, authentication data, roles, account status and sponsor relationship.",
+    details:"Stores full_name, email, password_hash, role, status, sponsor_id, created_at and updated_at. Passwords are stored as hashes, not plain text."
+  },
+  {
+    name:"products",
+    description:"Product catalogue, pricing, stock and product cost information.",
+    details:"Stores product name, SKU, description, price, stock, status, cost_price, delivery_cost, packaging_cost and other_cost."
+  },
+  {
+    name:"packages",
+    description:"Product packages containing three different products.",
+    details:"Stores package name, category, description, image URL, three product references, price, stock, status and cost fields."
+  },
+  {
+    name:"orders",
+    description:"Customer orders, shipping information and payment status.",
+    details:"Stores user_id, order_number, total_amount, shipping information, order status, payment_method and payment_status."
+  },
+  {
+    name:"order_items",
+    description:"Individual product or package items belonging to an order.",
+    details:"Stores order_id, product_id or package_id, item_type, product_name, unit_price, quantity and subtotal."
+  },
+  {
+    name:"wallets",
+    description:"Member wallet balances and currency.",
+    details:"Stores user_id, balance, currency and timestamps. Each user has a unique wallet."
+  },
+  {
+    name:"wallet_transactions",
+    description:"Wallet deposits, withdrawals, purchases, refunds, adjustments and commissions.",
+    details:"Stores wallet_id, transaction_type, amount, reference, description, status and created_at. Withdrawal transactions use transaction_type = withdrawal."
+  },
+  {
+    name:"commission_settings",
+    description:"Global commission configuration for the 10-level Unilevel structure.",
+    details:"Stores enabled, legal_approval_confirmed, gateway_fee_percent and level_rates. The database default has commissions disabled."
+  },
+  {
+    name:"commission_ledger",
+    description:"Member commission allocation records for order-related earnings.",
+    details:"Stores order_id, beneficiary_id, level, rate_percent, profit_base, amount and status. The schema limits levels to 1 through 10."
+  },
+  {
+    name:"company_profit_ledger",
+    description:"Company share, gross profit and unallocated commission records.",
+    details:"Stores order_id, gross_profit, company_share and unallocated_commission."
+  },
+  {
+    name:"payment_gateway_settings",
+    description:"Admin-managed payment gateway configuration.",
+    details:"Supports bKash, Nagad, Rocket, Upay, MuktoPay and USDT BEP20. Gateway records are initialized disabled."
+  },
+  {
+    name:"payment_requests",
+    description:"Member payment submissions and admin verification records.",
+    details:"Stores user_id, payment_reference, gateway, transaction_reference, amount, currency, checkout_data, status, admin_note and verification details."
+  },
+  {
+    name:"notifications",
+    description:"Member notifications and read/unread status.",
+    details:"Stores user_id, title, message, notification_type, is_read and created_at."
+  }
+];
+
+function renderTables(){
+  const body = document.getElementById("tablesBody");
+  body.replaceChildren();
+
+  databaseTables.forEach(table=>{
+    const tr = document.createElement("tr");
+
+    const name = document.createElement("td");
+    name.className = "table-name";
+    name.textContent = table.name;
+
+    const description = document.createElement("td");
+    description.textContent = table.description;
+
+    const records = document.createElement("td");
+    records.textContent = "Not queried";
+    records.className = "muted";
+
+    const status = document.createElement("td");
+    const badge = document.createElement("span");
+    badge.className = "status good";
+    badge.textContent = "DEFINED IN BACKEND";
+    status.appendChild(badge);
+
+    const action = document.createElement("td");
+    const button = document.createElement("button");
+    button.className = "btn btn-light";
+    button.textContent = "Details";
+    button.addEventListener("click",()=>showModal(
+      "Table: "+table.name,
+      table.details+"\n\nThis describes the schema defined in database/init.js. It does not confirm live database availability or current record counts."
+    ));
+    action.appendChild(button);
+
+    [name,description,records,status,action].forEach(cell=>tr.appendChild(cell));
+    body.appendChild(tr);
+  });
+
+  document.getElementById("tableCount").textContent = databaseTables.length;
+}
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showModal(title,text){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalText").textContent = text;
+  document.getElementById("modalBackdrop").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("modalBackdrop").classList.remove("show");
+}
+
+function showToast(message){
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  window.setTimeout(()=>toast.classList.remove("show"),3000);
+}
+
+function refreshSchema(){
+  renderTables();
+  showToast("Schema view refreshed. No database query was executed.");
+}
+
+async function verifyAdmin(){
+  const token = sessionStorage.getItem("rubalia_token");
+
+  if(!token){
+    window.location.href = "../login.html";
+    return;
+  }
+
+  try{
+    const response = await fetch(API_BASE+"/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer "+token,
+        "Accept":"application/json"
+      },
+      cache:"no-store"
+    });
+
+    if(response.status === 401){
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+      window.location.href = "../login.html";
+      return;
+    }
+
+    if(!response.ok){
+      throw new Error("Unable to verify administrator account.");
+    }
+
+    const data = await response.json();
+    const user = data.user || data.profile || data;
+
+    if(!user || String(user.role || "").toLowerCase() !== "admin"){
+      window.location.href = "../dashboard.html";
+      return;
+    }
+
+    const name = user.full_name || user.name || "Admin";
+    document.getElementById("adminAvatar").textContent =
+      name.trim().charAt(0).toUpperCase() || "A";
+
+  }catch(error){
+    console.error("Admin authentication error:",error);
+    showModal(
+      "Authentication Error",
+      "The administrator session could not be verified. Please check your connection and sign in again if necessary."
+    );
+  }
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("modalBackdrop").addEventListener("click",function(event){
+  if(event.target === this) closeModal();
+});
+
+document.addEventListener("keydown",function(event){
+  if(event.key === "Escape") closeModal();
+});
+
+renderTables();
+verifyAdmin();
+</script>
+</body>
+</html>
