@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -21,6 +20,10 @@ const {
 const {
   runProductCostMigration
 } = require("./database/product-cost-migration");
+
+const {
+  runProductCategoryMigration
+} = require("./database/product-category-migration");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -266,12 +269,18 @@ async function startServer() {
 
     console.log("Product cost migration completed.");
 
-    // 5. Start automatic commission release worker
+    // 5. Product Category migration
+    // Adds the category column without deleting existing products.
+    await runProductCategoryMigration();
+
+    console.log("Product category migration completed.");
+
+    // 6. Start automatic commission release worker
     startCommissionWorker(pool);
 
     console.log("Commission worker started.");
 
-    // 6. Start HTTP server
+    // 7. Start HTTP server
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
@@ -281,6 +290,7 @@ async function startServer() {
       console.log("Refund route registered.");
       console.log("Product cost management enabled.");
       console.log("Package cost management enabled.");
+      console.log("Product category management enabled.");
     });
 
     // =================================================
