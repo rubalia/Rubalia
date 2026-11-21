@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,7 @@
   --muted:#858196;
   --border:#eae6ee;
   --green:#16804b;
+  --danger:#b42336;
 }
 *{box-sizing:border-box}
 body{
@@ -47,6 +49,7 @@ header{
   font-size:11px;
   font-weight:bold;
 }
+
 main{
   width:100%;
   max-width:1050px;
@@ -54,8 +57,17 @@ main{
   padding:0 17px 45px;
 }
 .page-heading{margin-bottom:22px}
-.page-heading h1{font-size:25px;color:#30243e;margin:0 0 7px}
-.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+.page-heading h1{
+  font-size:25px;
+  color:#30243e;
+  margin:0 0 7px;
+}
+.page-heading p{
+  font-size:12px;
+  color:var(--muted);
+  margin:0;
+  line-height:1.7;
+}
 
 .checkout-grid{
   display:grid;
@@ -113,10 +125,21 @@ main{
   align-items:center;
 }
 .price-label{font-size:11px;color:var(--muted)}
-.price-value{font-size:23px;color:#a71952;font-weight:900}
-.stock-text{font-size:11px;color:var(--green);margin-top:12px}
+.price-value{
+  font-size:23px;
+  color:#a71952;
+  font-weight:900;
+}
+.stock-text{
+  font-size:11px;
+  color:var(--green);
+  margin-top:12px;
+}
 .product-list{margin-top:19px}
-.product-list h3{font-size:12px;color:#30243e}
+.product-list h3{
+  font-size:12px;
+  color:#30243e;
+}
 .product-item{
   padding:10px 0;
   border-bottom:1px solid #f0edf2;
@@ -128,14 +151,15 @@ main{
 .product-item span:last-child{color:var(--muted)}
 
 .form-group{margin-bottom:15px}
-.form-group label{
+.form-group label.field-label{
   display:block;
   margin-bottom:7px;
   color:#4b4055;
   font-size:11px;
   font-weight:bold;
 }
-.form-group input,.form-group textarea{
+.form-group input,
+.form-group textarea{
   width:100%;
   border:1px solid #e5dfeb;
   border-radius:9px;
@@ -145,18 +169,21 @@ main{
   font-size:12px;
   outline:none;
 }
-.form-group input:focus,.form-group textarea:focus{
+.form-group input:focus,
+.form-group textarea:focus{
   border-color:#c64d81;
   box-shadow:0 0 0 3px rgba(214,0,69,.07);
 }
 .form-group textarea{min-height:95px;resize:vertical}
+
 .quantity-control{
   display:flex;
   align-items:center;
   gap:12px;
 }
 .quantity-control button{
-  width:37px;height:37px;
+  width:37px;
+  height:37px;
   border:1px solid var(--border);
   background:#fff;
   color:#a71952;
@@ -169,6 +196,7 @@ main{
   text-align:center;
   padding:10px 5px;
 }
+
 .summary{
   margin-top:20px;
   padding:15px;
@@ -190,7 +218,53 @@ main{
   font-weight:900;
   color:#a71952;
 }
-.payment-box{
+
+.wallet-card{
+  margin-top:18px;
+  padding:17px;
+  border-radius:12px;
+  color:white;
+  background:linear-gradient(120deg,#21172f,#751640,#a71952);
+}
+.wallet-card .wallet-title{
+  font-size:11px;
+  color:#f3dbe7;
+}
+.wallet-card .wallet-amount{
+  margin-top:8px;
+  font-size:25px;
+  font-weight:900;
+}
+.wallet-card .wallet-note{
+  margin-top:8px;
+  font-size:10px;
+  color:#f3dbe7;
+  line-height:1.6;
+}
+.wallet-status{
+  margin-top:12px;
+  padding:12px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.7;
+}
+.wallet-status.good{
+  color:#17633b;
+  background:#effaf3;
+  border:1px solid #c6ead2;
+}
+.wallet-status.bad{
+  color:#a12b36;
+  background:#fff0f1;
+  border:1px solid #f4cbd0;
+}
+.wallet-status.info{
+  color:#34558a;
+  background:#f1f5ff;
+  border:1px solid #d7e2fa;
+}
+
+.payment-method{
   padding:14px;
   border:1px solid #ead8e2;
   background:#fff9fc;
@@ -200,9 +274,16 @@ main{
   align-items:center;
   font-size:12px;
 }
-.payment-box input{accent-color:#a71952}
-.payment-box strong{display:block;margin-bottom:4px}
-.payment-box small{color:var(--muted);font-size:10px}
+.payment-method .payment-icon{font-size:22px}
+.payment-method strong{
+  display:block;
+  margin-bottom:4px;
+}
+.payment-method small{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
 
 .submit-btn{
   width:100%;
@@ -216,7 +297,20 @@ main{
   font-weight:900;
   cursor:pointer;
 }
-.submit-btn:disabled{opacity:.55;cursor:not-allowed}
+.submit-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+.add-funds-link{
+  display:block;
+  text-align:center;
+  margin-top:12px;
+  color:#a71952;
+  font-size:11px;
+  font-weight:bold;
+  text-decoration:underline;
+}
+
 .message{
   display:none;
   padding:13px;
@@ -225,9 +319,25 @@ main{
   font-size:12px;
   line-height:1.7;
 }
-.message.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
-.message.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
-.message.info{display:block;background:#f1f5ff;color:#34558a;border:1px solid #d7e2fa}
+.message.error{
+  display:block;
+  background:#fff0f1;
+  color:#a12b36;
+  border:1px solid #f4cbd0;
+}
+.message.success{
+  display:block;
+  background:#effaf3;
+  color:#17633b;
+  border:1px solid #c6ead2;
+}
+.message.info{
+  display:block;
+  background:#f1f5ff;
+  color:#34558a;
+  border:1px solid #d7e2fa;
+}
+
 .success-card{
   display:none;
   text-align:center;
@@ -276,39 +386,56 @@ footer strong{color:#f5dda0}
 <body>
 
 <header>
-  <a href="dashboard.html" class="logo">RUBALIA <span>NETWORK</span></a>
-  <a href="dashboard.html" class="header-link">← Back to Shop</a>
+  <a href="dashboard.html" class="logo">
+    RUBALIA <span>NETWORK</span>
+  </a>
+  <a href="dashboard.html" class="header-link">
+    ← Back to Shop
+  </a>
 </header>
 
 <main>
 
   <div class="page-heading">
     <h1>Complete Your Order</h1>
-    <p>Review your package and provide your delivery information.</p>
+    <p>
+      Review your package, provide delivery information
+      and pay securely using your wallet balance.
+    </p>
   </div>
 
   <div id="pageMessage" class="message"></div>
 
   <section class="success-card" id="successCard">
     <div class="success-icon">🎉</div>
-    <h2>Order Placed Successfully!</h2>
-    <p>Your order has been received by RUBALIA NETWORK.</p>
+    <h2>Payment Successful!</h2>
+    <p>Your order has been successfully placed.</p>
+
     <div class="order-number" id="successOrderNumber">—</div>
+
     <p id="successTotal"></p>
+    <p id="successWalletBalance"></p>
+
     <a href="orders.html">View My Orders</a>
     <br><br>
-    <a href="dashboard.html" style="background:#30243e">Continue Shopping</a>
+    <a href="dashboard.html" style="background:#30243e">
+      Continue Shopping
+    </a>
   </section>
 
   <div class="checkout-grid" id="checkoutGrid" hidden>
 
     <!-- PACKAGE DETAILS -->
     <section class="panel">
+
       <h2>Package Details</h2>
 
       <div class="package-image" id="packageImage">📦</div>
 
-      <div class="package-name" id="packageName">Loading...</div>
+      <div class="package-name" id="packageName">
+        Loading...
+      </div>
+
       <div class="package-description" id="packageDescription"></div>
 
       <div class="price-row">
@@ -324,16 +451,20 @@ footer strong{color:#f5dda0}
           Loading products...
         </div>
       </div>
+
     </section>
 
     <!-- CUSTOMER FORM -->
     <section class="panel">
+
       <h2>Delivery Information</h2>
 
       <form id="checkoutForm">
 
         <div class="form-group">
-          <label for="customerName">Full Name *</label>
+          <label class="field-label" for="customerName">
+            Full Name *
+          </label>
           <input
             id="customerName"
             name="customerName"
@@ -346,7 +477,9 @@ footer strong{color:#f5dda0}
         </div>
 
         <div class="form-group">
-          <label for="customerPhone">Mobile Number *</label>
+          <label class="field-label" for="customerPhone">
+            Mobile Number *
+          </label>
           <input
             id="customerPhone"
             name="customerPhone"
@@ -359,7 +492,9 @@ footer strong{color:#f5dda0}
         </div>
 
         <div class="form-group">
-          <label for="customerAddress">Full Delivery Address *</label>
+          <label class="field-label" for="customerAddress">
+            Full Delivery Address *
+          </label>
           <textarea
             id="customerAddress"
             name="customerAddress"
@@ -371,9 +506,14 @@ footer strong{color:#f5dda0}
         </div>
 
         <div class="form-group">
-          <label>Quantity *</label>
+          <label class="field-label">Quantity *</label>
+
           <div class="quantity-control">
-            <button type="button" id="minusBtn" aria-label="Decrease quantity">−</button>
+            <button
+              type="button"
+              id="minusBtn"
+              aria-label="Decrease quantity">−</button>
+
             <input
               id="quantity"
               type="number"
@@ -381,48 +521,96 @@ footer strong{color:#f5dda0}
               max="100"
               value="1"
               readonly>
-            <button type="button" id="plusBtn" aria-label="Increase quantity">+</button>
+
+            <button
+              type="button"
+              id="plusBtn"
+              aria-label="Increase quantity">+</button>
           </div>
         </div>
 
+        <!-- ORDER SUMMARY -->
         <div class="summary">
+
           <div class="summary-row">
             <span>Package Price</span>
-            <strong id="summaryPrice">৳ 0</strong>
+            <strong id="summaryPrice">৳ 0.00</strong>
           </div>
+
           <div class="summary-row">
             <span>Quantity</span>
             <strong id="summaryQuantity">1</strong>
           </div>
+
           <div class="summary-row summary-total">
-            <span>Total</span>
-            <strong id="summaryTotal">৳ 0</strong>
+            <span>Total Payable</span>
+            <strong id="summaryTotal">৳ 0.00</strong>
           </div>
+
           <div style="font-size:10px;color:#858196;margin-top:9px">
-            Delivery charge, if applicable, will be confirmed by the seller.
+            Delivery charge, if applicable, will be confirmed separately.
           </div>
+
         </div>
 
+        <!-- PAYMENT METHOD -->
         <div class="form-group" style="margin-top:18px">
-          <label>Payment Method</label>
-          <label class="payment-box">
-            <input type="radio" checked disabled>
+
+          <label class="field-label">PAYMENT METHOD</label>
+
+          <div class="payment-method">
+            <span class="payment-icon">💳</span>
             <span>
-              <strong>Cash on Delivery</strong>
-              <small>Pay when your package is delivered.</small>
+              <strong>RUBALIA Wallet Balance</strong>
+              <small>
+                Pay directly from your available wallet balance.
+              </small>
             </span>
-          </label>
+          </div>
+
+          <div class="wallet-card">
+
+            <div class="wallet-title">
+              AVAILABLE WALLET BALANCE
+            </div>
+
+            <div class="wallet-amount" id="walletBalance">
+              Loading...
+            </div>
+
+            <div class="wallet-note">
+              Your wallet balance will be checked again by the
+              server before payment.
+            </div>
+
+          </div>
+
+          <div id="walletStatus" class="wallet-status info">
+            Checking your wallet balance...
+          </div>
+
+          <a class="add-funds-link" href="deposit.html">
+            Add Money to Wallet
+          </a>
+
         </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">
-          CONFIRM ORDER
+        <button
+          type="submit"
+          class="submit-btn"
+          id="submitBtn"
+          disabled>
+          LOADING...
         </button>
 
         <p style="font-size:10px;color:#858196;line-height:1.7;margin:12px 0 0">
-          By confirming, you agree to submit this order to RUBALIA NETWORK.
+          Your order will be confirmed only after the server
+          successfully deducts the full payment from your wallet.
+          Cash on Delivery is not available.
         </p>
 
       </form>
+
     </section>
 
   </div>
@@ -441,6 +629,9 @@ const API_BASE = "https://rubalia.onrender.com/api";
 let token = "";
 let packageData = null;
 let packageId = 0;
+let walletBalance = 0;
+let walletLoaded = false;
+let orderSubmitting = false;
 
 const $ = id => document.getElementById(id);
 
@@ -460,6 +651,7 @@ function clearMessage() {
 
 function formatMoney(value) {
   const number = Number(value);
+
   return "৳ " + number.toLocaleString("en-BD", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
@@ -469,12 +661,21 @@ function formatMoney(value) {
 async function apiRequest(path, options = {}) {
   const response = await fetch(API_BASE + path, {
     ...options,
+
     headers: {
       "Accept": "application/json",
-      ...(options.body ? {"Content-Type": "application/json"} : {}),
-      ...(token ? {"Authorization": "Bearer " + token} : {}),
+
+      ...(options.body
+        ? {"Content-Type": "application/json"}
+        : {}),
+
+      ...(token
+        ? {"Authorization": "Bearer " + token}
+        : {}),
+
       ...(options.headers || {})
     },
+
     cache: "no-store"
   });
 
@@ -483,12 +684,18 @@ async function apiRequest(path, options = {}) {
   if (response.status === 401) {
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
+
     window.location.replace("login.html");
-    throw new Error("Your login session has expired. Please login again.");
+
+    throw new Error(
+      "Your login session has expired. Please login again."
+    );
   }
 
   if (!response.ok || data.success === false) {
-    throw new Error(data.message || "Request failed. Please try again.");
+    throw new Error(
+      data.message || "Request failed. Please try again."
+    );
   }
 
   return data;
@@ -496,6 +703,12 @@ async function apiRequest(path, options = {}) {
 
 function getQuantity() {
   return Number($("quantity").value);
+}
+
+function getOrderTotal() {
+  if (!packageData) return 0;
+
+  return Number(packageData.price) * getQuantity();
 }
 
 function updateTotal() {
@@ -508,38 +721,84 @@ function updateTotal() {
   $("summaryPrice").textContent = formatMoney(price);
   $("summaryQuantity").textContent = quantity;
   $("summaryTotal").textContent = formatMoney(total);
+
+  updatePaymentStatus();
+}
+
+function updatePaymentStatus() {
+  if (!walletLoaded || !packageData) {
+    $("submitBtn").disabled = true;
+    return;
+  }
+
+  if (orderSubmitting) {
+    $("submitBtn").disabled = true;
+    return;
+  }
+
+  const total = getOrderTotal();
+
+  if (walletBalance >= total && total > 0) {
+    $("walletStatus").className = "wallet-status good";
+
+    $("walletStatus").textContent =
+      "Your wallet balance is sufficient. You can place this order.";
+
+    $("submitBtn").disabled = false;
+    $("submitBtn").textContent = "PAY & PLACE ORDER";
+
+  } else {
+    $("walletStatus").className = "wallet-status bad";
+
+    $("walletStatus").textContent =
+      "Insufficient wallet balance. Please add money before placing your order.";
+
+    $("submitBtn").disabled = true;
+    $("submitBtn").textContent = "INSUFFICIENT BALANCE";
+  }
 }
 
 function renderPackage(item) {
   packageData = item;
 
-  $("packageName").textContent = item.name || "Package";
+  $("packageName").textContent =
+    item.name || "Package";
+
   $("packageDescription").textContent =
     item.description || "RUBALIA NETWORK package.";
 
-  $("packagePrice").textContent = formatMoney(item.price);
+  $("packagePrice").textContent =
+    formatMoney(item.price);
 
   const stock = Number(item.stock);
-  $("stockText").textContent = "Available Stock: " + stock;
+
+  $("stockText").textContent =
+    "Available Stock: " + stock;
 
   if (item.image_url) {
     const image = document.createElement("img");
+
     image.src = item.image_url;
     image.alt = item.name || "Package banner";
+
     image.onerror = () => {
       $("packageImage").textContent = "📦";
     };
 
     $("packageImage").replaceChildren(image);
+
   } else {
     $("packageImage").textContent = "📦";
   }
 
   const productBox = $("includedProducts");
+
   productBox.replaceChildren();
 
   if (Array.isArray(item.products) && item.products.length) {
+
     item.products.forEach(product => {
+
       const row = document.createElement("div");
       row.className = "product-item";
 
@@ -550,80 +809,150 @@ function renderPackage(item) {
       price.textContent = formatMoney(product.price);
 
       row.append(name, price);
+
       productBox.appendChild(row);
     });
+
   } else {
-    productBox.textContent = "Product details are not available.";
+    productBox.textContent =
+      "Product details are not available.";
   }
 
   $("quantity").max = Math.min(100, stock);
 
   if (stock < 1) {
     $("submitBtn").disabled = true;
-    showMessage("error", "This package is currently out of stock.");
+
+    showMessage(
+      "error",
+      "This package is currently out of stock."
+    );
   }
 
   updateTotal();
 }
 
+async function loadWallet() {
+  const data = await apiRequest("/wallet");
+
+  if (!data.wallet) {
+    throw new Error("Wallet information was not returned.");
+  }
+
+  walletBalance = Number(data.wallet.balance);
+
+  if (!Number.isFinite(walletBalance) || walletBalance < 0) {
+    throw new Error("Invalid wallet balance.");
+  }
+
+  walletLoaded = true;
+
+  $("walletBalance").textContent =
+    formatMoney(walletBalance);
+
+  updatePaymentStatus();
+}
+
 async function initializeCheckout() {
-  token = sessionStorage.getItem("rubalia_token") || "";
+
+  token =
+    sessionStorage.getItem("rubalia_token") || "";
 
   if (!token) {
-    const currentUrl = window.location.pathname + window.location.search;
+    const currentUrl =
+      window.location.pathname + window.location.search;
+
     window.location.replace(
       "login.html?redirect=" + encodeURIComponent(currentUrl)
     );
+
     return;
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params =
+    new URLSearchParams(window.location.search);
+
   const type = params.get("type");
+
   packageId = Number(params.get("id"));
 
-  if (type !== "package" || !Number.isSafeInteger(packageId) || packageId < 1) {
-    showMessage("error", "Invalid package link. Please return to the shop.");
+  if (
+    type !== "package" ||
+    !Number.isSafeInteger(packageId) ||
+    packageId < 1
+  ) {
+    showMessage(
+      "error",
+      "Invalid package link. Please return to the shop."
+    );
+
     return;
   }
 
   try {
+
     const me = await apiRequest("/auth/me");
 
     if (!me.user) {
-      throw new Error("Unable to verify your account.");
+      throw new Error(
+        "Unable to verify your account."
+      );
     }
 
-    if (String(me.user.role).toLowerCase() === "admin") {
+    if (
+      String(me.user.role).toLowerCase() === "admin"
+    ) {
       window.location.replace("admin-dashboard.html");
       return;
     }
 
-    const data = await apiRequest("/packages/" + packageId);
+    // Load wallet.
+    await loadWallet();
+
+    // Load selected package.
+    const data = await apiRequest(
+      "/packages/" + packageId
+    );
 
     if (!data.package) {
-      throw new Error("Package information was not returned by the server.");
+      throw new Error(
+        "Package information was not returned by the server."
+      );
     }
 
     renderPackage(data.package);
+
     $("checkoutGrid").hidden = false;
 
-    // Prefill customer name when available.
     $("customerName").value =
-      me.user.full_name || me.user.fullName || "";
+      me.user.full_name ||
+      me.user.fullName ||
+      "";
+
   } catch (error) {
+
     showMessage("error", error.message);
+
+    $("submitBtn").disabled = true;
+    $("submitBtn").textContent = "CHECKOUT UNAVAILABLE";
   }
 }
 
+// Decrease quantity.
 $("minusBtn").addEventListener("click", () => {
+
   const quantity = getQuantity();
+
   if (quantity > 1) {
     $("quantity").value = quantity - 1;
     updateTotal();
   }
+
 });
 
+// Increase quantity.
 $("plusBtn").addEventListener("click", () => {
+
   const quantity = getQuantity();
   const max = Number($("quantity").max);
 
@@ -631,78 +960,193 @@ $("plusBtn").addEventListener("click", () => {
     $("quantity").value = quantity + 1;
     updateTotal();
   }
+
 });
 
-$("checkoutForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  clearMessage();
+// Submit wallet payment and order.
+$("checkoutForm").addEventListener(
+  "submit",
+  async event => {
 
-  if (!packageData) {
-    showMessage("error", "Package information is not ready.");
-    return;
-  }
+    event.preventDefault();
 
-  const shippingName = $("customerName").value.trim();
-  const shippingPhone = $("customerPhone").value.trim();
-  const shippingAddress = $("customerAddress").value.trim();
-  const quantity = getQuantity();
+    if (orderSubmitting) return;
 
-  if (shippingName.length < 2 ||
-      shippingPhone.length < 6 ||
-      shippingAddress.length < 5) {
-    showMessage("error", "Please complete all delivery information.");
-    return;
-  }
+    clearMessage();
 
-  if (!Number.isInteger(quantity) ||
-      quantity < 1 ||
-      quantity > 100) {
-    showMessage("error", "Please select a valid quantity.");
-    return;
-  }
+    if (!packageData || !walletLoaded) {
+      showMessage(
+        "error",
+        "Package or wallet information is not ready."
+      );
 
-  $("submitBtn").disabled = true;
-  $("submitBtn").textContent = "PLACING ORDER...";
-
-  try {
-    const result = await apiRequest("/orders", {
-      method: "POST",
-      body: JSON.stringify({
-        items: [{
-          type: "package",
-          packageId: packageId,
-          quantity: quantity
-        }],
-        shippingName,
-        shippingPhone,
-        shippingAddress
-      })
-    });
-
-    if (!result.order) {
-      throw new Error("The server did not return order confirmation.");
+      return;
     }
 
-    $("checkoutGrid").hidden = true;
-    $("pageMessage").style.display = "none";
-    $("successCard").style.display = "block";
+    const shippingName =
+      $("customerName").value.trim();
 
-    $("successOrderNumber").textContent =
-      result.order.order_number || ("Order #" + result.order.id);
+    const shippingPhone =
+      $("customerPhone").value.trim();
 
-    $("successTotal").textContent =
-      "Order Total: " + formatMoney(result.order.total_amount);
+    const shippingAddress =
+      $("customerAddress").value.trim();
 
-    window.scrollTo({top: 0, behavior: "smooth"});
+    const quantity = getQuantity();
 
-  } catch (error) {
-    showMessage("error", error.message);
-    $("submitBtn").disabled = false;
-    $("submitBtn").textContent = "CONFIRM ORDER";
+    if (
+      shippingName.length < 2 ||
+      shippingPhone.length < 6 ||
+      shippingAddress.length < 5
+    ) {
+      showMessage(
+        "error",
+        "Please complete all delivery information."
+      );
+
+      return;
+    }
+
+    if (
+      !Number.isInteger(quantity) ||
+      quantity < 1 ||
+      quantity > 100
+    ) {
+      showMessage(
+        "error",
+        "Please select a valid quantity."
+      );
+
+      return;
+    }
+
+    const total = getOrderTotal();
+
+    if (!Number.isFinite(total) || total <= 0) {
+      showMessage(
+        "error",
+        "Invalid order amount."
+      );
+
+      return;
+    }
+
+    if (walletBalance < total) {
+      showMessage(
+        "error",
+        "Insufficient wallet balance. Please add money first."
+      );
+
+      updatePaymentStatus();
+
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Pay " + formatMoney(total) +
+      " from your RUBALIA Wallet and place this order?"
+    );
+
+    if (!confirmed) return;
+
+    orderSubmitting = true;
+
+    $("submitBtn").disabled = true;
+    $("submitBtn").textContent = "PROCESSING PAYMENT...";
+
+    try {
+
+      const result = await apiRequest(
+        "/orders",
+        {
+          method: "POST",
+
+          body: JSON.stringify({
+
+            // Backend only accepts wallet payments.
+            paymentMethod: "wallet",
+
+            items: [{
+              type: "package",
+              packageId: packageId,
+              quantity: quantity
+            }],
+
+            shippingName,
+            shippingPhone,
+            shippingAddress
+
+          })
+        }
+      );
+
+      if (!result.order) {
+        throw new Error(
+          "The server did not return order confirmation."
+        );
+      }
+
+      // Update displayed wallet balance from server response.
+      if (
+        result.order.wallet_balance !== undefined
+      ) {
+        walletBalance =
+          Number(result.order.wallet_balance);
+
+        $("walletBalance").textContent =
+          formatMoney(walletBalance);
+      }
+
+      $("checkoutGrid").hidden = true;
+
+      $("pageMessage").style.display = "none";
+
+      $("successCard").style.display = "block";
+
+      $("successOrderNumber").textContent =
+        result.order.order_number ||
+        ("Order #" + result.order.id);
+
+      $("successTotal").textContent =
+        "Amount Paid: " +
+        formatMoney(result.order.total_amount);
+
+      $("successWalletBalance").textContent =
+        "Remaining Wallet Balance: " +
+        formatMoney(walletBalance);
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    } catch (error) {
+
+      showMessage("error", error.message);
+
+      orderSubmitting = false;
+
+      $("submitBtn").disabled = false;
+      $("submitBtn").textContent = "PAY & PLACE ORDER";
+
+      // Refresh wallet in case another transaction occurred.
+      try {
+        await loadWallet();
+      } catch (_) {
+        $("walletStatus").className =
+          "wallet-status bad";
+
+        $("walletStatus").textContent =
+          "Could not refresh wallet balance. Please reload the page.";
+      }
+    }
+
   }
-});
+);
 
+// Start checkout.
 initializeCheckout();
+
 </script>
 
 </body>
