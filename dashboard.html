@@ -5,15 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#8b1748">
-<meta name="description" content="Explore RUBALIA NETWORK products and packages.">
-<title>Shop | RUBALIA NETWORK</title>
+<meta name="description" content="Explore RUBALIA NETWORK packages.">
+<title>Packages | RUBALIA NETWORK</title>
 
 <style>
 :root{
   --red:#a71952;
   --pink:#e72c76;
   --dark:#21172f;
-  --navy:#17213b;
   --gold:#d9ae5b;
   --gold-light:#f5dda0;
   --bg:#f7f5f9;
@@ -22,28 +21,24 @@
   --muted:#858196;
   --border:#eae6ee;
   --green:#16804b;
-  --shadow:0 8px 28px rgba(31,20,49,.07);
+  --shadow:0 5px 18px rgba(31,20,49,.06);
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-
 a{text-decoration:none;color:inherit}
-button{font-family:inherit}
+button,input{font:inherit}
 
 /* HEADER */
-
 header{
   position:sticky;
   top:0;
   z-index:50;
-  height:70px;
+  height:65px;
   padding:0 5%;
   display:flex;
   align-items:center;
@@ -52,463 +47,368 @@ header{
   background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);
   box-shadow:0 4px 18px rgba(30,15,42,.17);
 }
-
 .header-left,.header-right{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:13px;
 }
-
 .logo{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-size:19px;
+  gap:9px;
+  font-size:17px;
   font-weight:900;
   letter-spacing:1px;
 }
-
 .logo-mark{
-  width:39px;
-  height:39px;
+  width:36px;
+  height:36px;
   display:grid;
   place-items:center;
-  border-radius:12px;
+  border-radius:10px;
   color:#fff;
-  font-size:23px;
+  font-size:21px;
   background:linear-gradient(145deg,#f5d98f,#bd8b37);
-  box-shadow:0 4px 12px rgba(0,0,0,.18);
 }
-
 .logo-text span{color:var(--gold-light)}
-
 .logo small{
   display:block;
-  font-size:9px;
-  letter-spacing:4px;
-  margin-top:3px;
+  font-size:8px;
+  letter-spacing:3px;
+  margin-top:2px;
   color:#f5dba6;
 }
-
 .nav-links{
   display:flex;
   align-items:center;
-  gap:23px;
+  gap:22px;
 }
-
 .nav-links a{
   color:#f3eaf0;
-  font-size:12px;
+  font-size:11px;
   font-weight:bold;
-  transition:.2s;
 }
-
 .nav-links a:hover{color:var(--gold-light)}
-
 .cart-link{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:10px 14px;
+  padding:9px 12px;
   border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;
+  border-radius:8px;
   color:white;
-  font-size:12px;
+  font-size:11px;
   font-weight:bold;
 }
-
 .mobile-menu{
   display:none;
   border:1px solid rgba(255,255,255,.3);
   background:rgba(255,255,255,.1);
   color:white;
   border-radius:8px;
-  padding:8px 11px;
+  padding:7px 10px;
   font-size:18px;
   cursor:pointer;
 }
-
-/* MOBILE NAV */
-
 .mobile-nav{
   display:none;
   position:fixed;
-  top:70px;
+  top:65px;
   left:0;
   right:0;
   z-index:49;
-  padding:13px 18px;
+  padding:12px 16px;
   background:#241831;
   box-shadow:0 10px 20px rgba(0,0,0,.15);
 }
-
 .mobile-nav.show{display:grid;gap:4px}
-
 .mobile-nav a{
-  padding:12px;
+  padding:11px;
   color:white;
-  font-size:13px;
-  border-radius:8px;
+  font-size:12px;
+  border-radius:7px;
 }
-
-.mobile-nav a:hover{
-  background:rgba(255,255,255,.1);
-}
+.mobile-nav a:hover{background:rgba(255,255,255,.1)}
 
 /* MAIN */
-
 main{
-  max-width:1250px;
+  max-width:1100px;
   margin:auto;
-  padding:25px 25px 60px;
+  padding:22px 20px 50px;
 }
 
 /* HERO */
-
 .hero{
   position:relative;
   overflow:hidden;
-  min-height:225px;
+  min-height:175px;
   display:flex;
   align-items:center;
-  padding:35px 40px;
-  border-radius:19px;
+  padding:25px 30px;
+  border-radius:15px;
   color:white;
   background:
-    radial-gradient(circle at 90% 15%,rgba(246,199,112,.35),transparent 30%),
+    radial-gradient(circle at 90% 15%,rgba(246,199,112,.3),transparent 30%),
     linear-gradient(115deg,#241a3b,#78133f 65%,#b5235d);
-  box-shadow:0 12px 30px rgba(111,22,65,.15);
+  box-shadow:0 10px 25px rgba(111,22,65,.12);
 }
-
 .hero:after{
   content:"R";
   position:absolute;
-  right:45px;
+  right:35px;
   top:-65px;
-  font-size:260px;
+  font-size:220px;
   font-weight:900;
   color:rgba(255,255,255,.045);
   pointer-events:none;
 }
-
-.hero-content{
-  position:relative;
-  z-index:1;
-  max-width:600px;
-}
-
+.hero-content{position:relative;z-index:1;max-width:550px}
 .hero-tag{
   display:inline-block;
-  padding:7px 12px;
+  padding:6px 10px;
   border:1px solid rgba(255,255,255,.3);
   border-radius:20px;
   color:#f6d993;
-  font-size:9px;
+  font-size:8px;
   font-weight:bold;
   letter-spacing:2px;
 }
-
-.hero h1{
-  margin:15px 0 10px;
-  font-size:30px;
-}
-
+.hero h1{margin:12px 0 7px;font-size:25px}
 .hero p{
   margin:0;
   color:#e8dce5;
-  font-size:13px;
-  line-height:1.8;
+  font-size:11px;
+  line-height:1.7;
 }
-
 .hero-button{
   display:inline-block;
-  margin-top:20px;
-  padding:12px 19px;
-  border-radius:8px;
+  margin-top:14px;
+  padding:10px 15px;
+  border-radius:7px;
   background:linear-gradient(120deg,#f4d991,#d3a64f);
   color:#321b35;
-  font-size:11px;
+  font-size:9px;
   font-weight:900;
 }
 
 /* SEARCH */
-
 .search-section{
-  margin:25px 0;
+  margin:20px 0;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:15px;
+  gap:10px;
 }
-
-.search-box{
-  flex:1;
-  max-width:470px;
-  position:relative;
-}
-
+.search-box{flex:1;position:relative}
 .search-box input{
   width:100%;
-  height:46px;
-  padding:0 15px 0 42px;
+  height:42px;
+  padding:0 13px 0 38px;
   border:1px solid var(--border);
-  border-radius:10px;
+  border-radius:9px;
   background:white;
   outline:none;
   color:var(--text);
-  font-size:12px;
+  font-size:11px;
 }
-
 .search-box input:focus{
   border-color:#c64d81;
-  box-shadow:0 0 0 3px rgba(214,0,69,.07);
+  box-shadow:0 0 0 3px rgba(214,0,69,.06);
 }
-
 .search-icon{
   position:absolute;
-  left:15px;
-  top:14px;
+  left:13px;
+  top:12px;
   color:#9c91a4;
-  font-size:16px;
+  font-size:15px;
 }
-
 .refresh-btn{
   border:1px solid var(--border);
   background:white;
   color:#6d5269;
-  padding:12px 15px;
-  border-radius:9px;
-  font-size:11px;
+  padding:11px 13px;
+  border-radius:8px;
+  font-size:10px;
   font-weight:bold;
   cursor:pointer;
 }
 
 /* SECTION */
-
 .section-heading{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  margin:32px 0 16px;
+  margin:25px 0 13px;
 }
-
 .section-heading h2{
   margin:0;
   color:#30243e;
-  font-size:19px;
+  font-size:18px;
 }
-
 .section-heading p{
-  margin:5px 0 0;
+  margin:4px 0 0;
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
 }
-
 .section-count{
   color:#9a6c38;
-  font-size:10px;
+  font-size:9px;
   font-weight:bold;
 }
 
-/* PACKAGE GRID */
-
-.package-grid,.product-grid{
+/* TWO CARDS PER ROW */
+.package-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:18px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
 }
-
-.item-card{
+.package-card{
   min-width:0;
   overflow:hidden;
   background:white;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:11px;
   box-shadow:var(--shadow);
-  transition:transform .25s,box-shadow .25s;
+  transition:transform .2s,box-shadow .2s;
 }
-
-.item-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 14px 32px rgba(31,20,49,.11);
+.package-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 22px rgba(31,20,49,.1);
 }
-
-.item-image{
-  height:190px;
+.package-image{
+  height:125px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  background:
-    radial-gradient(circle at 30% 20%,#fff,#f8e8f0 60%,#eee1ed);
+  background:linear-gradient(135deg,#f9e8ef,#eee8f6);
 }
-
-.item-image img{
+.package-image img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
-
 .image-placeholder{
   display:grid;
   place-items:center;
   width:100%;
   height:100%;
   color:#b17a9a;
-  font-size:48px;
-  background:linear-gradient(135deg,#f9e8ef,#eee8f6);
+  font-size:35px;
 }
-
-.item-body{padding:17px}
-
-.item-type{
+.package-body{padding:11px}
+.package-type{
   display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
+  padding:4px 7px;
+  border-radius:15px;
   background:#f9edf3;
   color:#a51d54;
-  font-size:9px;
+  font-size:7px;
   font-weight:bold;
-  letter-spacing:1px;
+  letter-spacing:.7px;
 }
-
-.item-title{
-  margin:12px 0 8px;
+.package-title{
+  margin:8px 0 5px;
   color:#30243e;
-  font-size:16px;
+  font-size:12px;
   line-height:1.4;
   overflow-wrap:anywhere;
 }
-
-.item-description{
-  min-height:38px;
+.package-description{
   margin:0;
   color:var(--muted);
-  font-size:11px;
-  line-height:1.7;
+  font-size:9px;
+  line-height:1.5;
+  min-height:27px;
   overflow-wrap:anywhere;
 }
-
-.item-bottom{
-  margin-top:17px;
-  padding-top:14px;
+.package-bottom{
+  margin-top:10px;
+  padding-top:9px;
   border-top:1px solid #f0edf2;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
+  gap:5px;
 }
-
-.item-price{
+.package-price{
   color:#8b1748;
-  font-size:18px;
+  font-size:14px;
   font-weight:900;
   overflow-wrap:anywhere;
 }
-
-.item-price small{
+.package-price small{
   display:block;
-  margin-bottom:4px;
+  margin-bottom:3px;
   color:#9991a1;
-  font-size:9px;
+  font-size:7px;
   font-weight:normal;
 }
-
-.item-stock{
-  margin-top:7px;
+.package-stock{
+  margin-top:4px;
   color:var(--green);
-  font-size:10px;
+  font-size:8px;
 }
-
-.item-stock.out{
-  color:#c0392b;
-}
-
+.package-stock.out{color:#c0392b}
 .buy-btn{
   display:inline-block;
   border:0;
-  padding:11px 13px;
-  border-radius:8px;
+  padding:9px 10px;
+  border-radius:7px;
   background:linear-gradient(110deg,#ed286a,#9b164f);
   color:white;
-  font-size:10px;
+  font-size:8px;
   font-weight:900;
   cursor:pointer;
   white-space:nowrap;
-  transition:.2s;
 }
+.buy-btn:disabled{opacity:.45;cursor:not-allowed}
 
-.buy-btn:hover{
-  filter:brightness(1.1);
-  transform:translateY(-1px);
-}
-
-.buy-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
-}
-
-/* EMPTY / LOADING */
-
+/* STATES */
 .state-box{
   grid-column:1/-1;
-  padding:45px 20px;
+  padding:35px 15px;
   border:1px dashed #dcd3e0;
-  border-radius:13px;
+  border-radius:11px;
   background:white;
   text-align:center;
 }
-
-.state-icon{
-  font-size:35px;
-  margin-bottom:12px;
-}
-
+.state-icon{font-size:30px;margin-bottom:9px}
 .state-box h3{
-  margin:0 0 8px;
+  margin:0 0 7px;
   color:#3b2d46;
-  font-size:16px;
+  font-size:14px;
 }
-
 .state-box p{
   margin:0;
   color:var(--muted);
-  font-size:11px;
-  line-height:1.7;
+  font-size:10px;
+  line-height:1.6;
 }
-
 .state-box button{
-  margin-top:15px;
+  margin-top:12px;
   border:0;
-  padding:10px 16px;
-  border-radius:8px;
+  padding:9px 14px;
+  border-radius:7px;
   color:white;
   background:#a51d54;
-  font-size:11px;
+  font-size:10px;
   font-weight:bold;
   cursor:pointer;
 }
 
-/* NOTIFICATION */
-
+/* NOTICE */
 .notice{
   display:none;
-  margin:15px 0;
-  padding:13px 15px;
-  border-radius:9px;
-  font-size:11px;
+  margin:13px 0;
+  padding:11px 13px;
+  border-radius:8px;
+  font-size:10px;
   line-height:1.6;
 }
-
 .notice.error{
   display:block;
   background:#fff0f1;
   color:#a12b36;
   border:1px solid #f4cbd0;
 }
-
 .notice.success{
   display:block;
   background:#effaf3;
@@ -517,68 +417,50 @@ main{
 }
 
 /* FOOTER */
-
 footer{
-  padding:28px 15px;
+  padding:23px 15px;
   background:linear-gradient(110deg,#17152f,#74133e);
   color:#d9cbd9;
   text-align:center;
-  font-size:11px;
+  font-size:10px;
 }
-
 footer strong{color:#f4d58c}
 
 /* RESPONSIVE */
-
-@media(max-width:950px){
-  .package-grid,.product-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
-}
-
 @media(max-width:650px){
-  header{height:63px;padding:0 14px}
-  .logo{font-size:15px}
-  .logo-mark{width:34px;height:34px;font-size:20px}
+  header{height:60px;padding:0 12px}
+  .logo{font-size:14px}
+  .logo-mark{width:32px;height:32px;font-size:18px}
+  .logo small{font-size:7px;letter-spacing:2px}
   .nav-links{display:none}
   .mobile-menu{display:block}
-  .cart-link{padding:9px 10px;font-size:10px}
-  .mobile-nav{top:63px}
-
-  main{padding:17px 13px 40px}
-
-  .hero{
-    min-height:200px;
-    padding:25px 21px;
-    border-radius:15px;
-  }
-
-  .hero h1{font-size:24px}
-  .hero p{font-size:11px}
-  .hero:after{right:0;font-size:180px}
-
-  .search-section{margin:19px 0}
-  .search-box input{height:43px}
-  .refresh-btn{padding:11px}
-
-  .section-heading{margin:25px 0 13px}
-  .section-heading h2{font-size:17px}
-
-  .package-grid,.product-grid{gap:11px}
-  .item-image{height:145px}
-  .item-body{padding:12px}
-  .item-title{font-size:13px;margin:9px 0 6px}
-  .item-description{font-size:10px;min-height:48px}
-  .item-price{font-size:15px}
-  .buy-btn{padding:10px 9px;font-size:9px}
-  .item-bottom{align-items:flex-end}
+  .cart-link{padding:8px 9px;font-size:9px}
+  .mobile-nav{top:60px}
+  main{padding:14px 10px 35px}
+  .hero{min-height:165px;padding:21px 17px;border-radius:12px}
+  .hero h1{font-size:21px}
+  .hero p{font-size:10px}
+  .hero:after{right:0;font-size:165px}
+  .search-section{margin:16px 0}
+  .search-box input{height:40px}
+  .refresh-btn{padding:10px}
+  .section-heading{margin:20px 0 11px}
+  .section-heading h2{font-size:16px}
+  .package-grid{gap:9px}
+  .package-image{height:105px}
+  .package-body{padding:9px}
+  .package-title{font-size:11px}
+  .package-description{font-size:8px;min-height:25px}
+  .package-price{font-size:12px}
+  .buy-btn{padding:8px 7px;font-size:7px}
 }
-
-@media(max-width:370px){
-  .package-grid,.product-grid{grid-template-columns:1fr}
-  .item-image{height:185px}
-  .item-body{padding:16px}
-  .item-title{font-size:15px}
+@media(max-width:340px){
+  .package-grid{gap:6px}
+  .package-image{height:90px}
+  .package-body{padding:7px}
+  .package-title{font-size:10px}
+  .package-price{font-size:11px}
+  .buy-btn{padding:7px 5px;font-size:7px}
 }
 </style>
 </head>
@@ -587,11 +469,8 @@ footer strong{color:#f4d58c}
 
 <header>
   <div class="header-left">
-
-    <button
-      class="mobile-menu"
-      type="button"
-      onclick="toggleMobileMenu()">☰</button>
+    <button class="mobile-menu" type="button"
+      onclick="toggleMobileMenu()" aria-label="Open menu">☰</button>
 
     <a href="dashboard.html" class="logo">
       <span class="logo-mark">R</span>
@@ -600,27 +479,23 @@ footer strong{color:#f4d58c}
         <small>GROW WITH TRUST</small>
       </span>
     </a>
-
   </div>
 
   <nav class="nav-links">
-    <a href="dashboard.html">Shop</a>
+    <a href="dashboard.html">Packages</a>
     <a href="orders.html">My Orders</a>
     <a href="contact.html">Support</a>
   </nav>
 
   <div class="header-right">
-    <a href="orders.html" class="cart-link">
-      📦 My Orders
-    </a>
+    <a href="orders.html" class="cart-link">📦 My Orders</a>
   </div>
 </header>
 
 <nav class="mobile-nav" id="mobileNav">
-  <a href="dashboard.html">🛍️ Shop</a>
+  <a href="dashboard.html">📦 Packages</a>
   <a href="orders.html">📦 My Orders</a>
   <a href="contact.html">💬 Support</a>
-  <a href="products.html">🛒 All Products</a>
 </nav>
 
 <main>
@@ -628,17 +503,12 @@ footer strong{color:#f4d58c}
   <section class="hero">
     <div class="hero-content">
       <span class="hero-tag">RUBALIA NETWORK STORE</span>
-
-      <h1>Discover Products & Packages</h1>
-
+      <h1>Discover Our Packages</h1>
       <p>
-        Explore our available product collections and packages.
-        Choose the products that match your needs and place your order.
+        Explore our available product packages.
+        Choose a package that matches your needs and place your order.
       </p>
-
-      <a href="#packages" class="hero-button">
-        EXPLORE PACKAGES
-      </a>
+      <a href="#packages" class="hero-button">EXPLORE PACKAGES</a>
     </div>
   </section>
 
@@ -647,16 +517,11 @@ footer strong{color:#f4d58c}
   <section class="search-section">
     <div class="search-box">
       <span class="search-icon">⌕</span>
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search products and packages..."
+      <input type="search" id="searchInput"
+        placeholder="Search packages..."
         autocomplete="off">
     </div>
-
-    <button
-      class="refresh-btn"
-      type="button"
+    <button class="refresh-btn" type="button"
       onclick="loadStore()">↻ Refresh</button>
   </section>
 
@@ -664,34 +529,16 @@ footer strong{color:#f4d58c}
     <div class="section-heading">
       <div>
         <h2>Our Packages</h2>
-        <p>Explore available product packages.</p>
+        <p>Choose from our available packages.</p>
       </div>
       <span class="section-count" id="packageCount">Loading...</span>
     </div>
 
     <div class="package-grid" id="packageGrid">
       <div class="state-box">
-        <div class="spinner"></div>
+        <div class="state-icon">⏳</div>
         <h3>Loading Packages</h3>
         <p>Please wait while we load available packages.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="products">
-    <div class="section-heading">
-      <div>
-        <h2>Our Products</h2>
-        <p>Browse individual products available in our store.</p>
-      </div>
-      <span class="section-count" id="productCount">Loading...</span>
-    </div>
-
-    <div class="product-grid" id="productGrid">
-      <div class="state-box">
-        <div class="spinner"></div>
-        <h3>Loading Products</h3>
-        <p>Please wait while we load available products.</p>
       </div>
     </div>
   </section>
@@ -705,10 +552,10 @@ footer strong{color:#f4d58c}
 <script>
 "use strict";
 
-const API_BASE="https://rubalia.onrender.com/api";
+const API_BASE = "https://rubalia.onrender.com/api";
 
-let allPackages=[];
-let allProducts=[];
+let allPackages = [];
+let loading = false;
 
 function escapeHTML(value){
   return String(value ?? "").replace(/[&<>"']/g,function(char){
@@ -723,31 +570,29 @@ function escapeHTML(value){
 }
 
 function formatPrice(value){
-  if(value===null || value===undefined || value===""){
+  const number = Number(value);
+
+  if(value === null || value === undefined || value === "" ||
+     !Number.isFinite(number)){
     return "Price unavailable";
   }
 
-  const number=Number(value);
-
-  if(!Number.isFinite(number)){
-    return escapeHTML(value);
-  }
-
-  return "৳ "+number.toLocaleString("en-BD",{
+  return "৳ " + number.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
 
 function showNotice(type,text){
-  const notice=document.getElementById("notice");
-  notice.className="notice "+type;
-  notice.textContent=text;
+  const notice = document.getElementById("notice");
+  notice.className = "notice " + type;
+  notice.textContent = text;
 }
 
 function clearNotice(){
-  const notice=document.getElementById("notice");
-  notice.className="notice";
-  notice.textContent="";
+  const notice = document.getElementById("notice");
+  notice.className = "notice";
+  notice.textContent = "";
 }
 
 function toggleMobileMenu(){
@@ -755,7 +600,7 @@ function toggleMobileMenu(){
 }
 
 function showState(container,icon,title,description,buttonText){
-  container.innerHTML=`
+  container.innerHTML = `
     <div class="state-box">
       <div class="state-icon">${icon}</div>
       <h3>${escapeHTML(title)}</h3>
@@ -769,63 +614,59 @@ function showState(container,icon,title,description,buttonText){
 }
 
 async function fetchJSON(url,token){
-  const headers={
-    "Accept":"application/json"
-  };
-
-  if(token){
-    headers.Authorization="Bearer "+token;
-  }
-
-  const response=await fetch(url,{
+  const response = await fetch(url,{
     method:"GET",
-    headers,
+    headers:{
+      "Accept":"application/json",
+      "Authorization":"Bearer " + token
+    },
     cache:"no-store"
   });
 
-  const data=await response.json().catch(function(){
+  const data = await response.json().catch(function(){
     return {};
   });
 
-  if(response.status===401){
+  if(response.status === 401){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     window.location.replace("login.html");
     throw new Error("Your login session has expired.");
   }
 
-  if(!response.ok){
-    throw new Error(data.message || "Unable to load store information.");
+  if(!response.ok || data.success === false){
+    throw new Error(
+      data.message || "Unable to load store information."
+    );
   }
 
   return data;
 }
 
 /* AUTHENTICATION */
-
 async function verifySession(){
-  const token=sessionStorage.getItem("rubalia_token");
+  const token = sessionStorage.getItem("rubalia_token");
 
   if(!token){
     window.location.replace("login.html");
     throw new Error("Login required.");
   }
 
-  const data=await fetchJSON(API_BASE+"/auth/me",token);
+  const data = await fetchJSON(API_BASE + "/auth/me",token);
 
-  if(!data.success || !data.user){
+  if(!data.user){
     throw new Error("Unable to verify your account.");
   }
 
-  const role=String(data.user.role || "").toLowerCase();
+  const role = String(data.user.role || "").toLowerCase();
 
-  if(role==="admin"){
+  if(role === "admin"){
     window.location.replace("admin-dashboard.html");
     throw new Error("Opening Admin Dashboard.");
   }
 
   if(data.user.status &&
-     String(data.user.status).toLowerCase()!=="active"){
+     String(data.user.status).toLowerCase() !== "active"){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     window.location.replace("login.html");
@@ -835,13 +676,12 @@ async function verifySession(){
   return token;
 }
 
-/* PACKAGE RENDER */
-
+/* PACKAGE CARD */
 function renderPackages(packages){
-  const grid=document.getElementById("packageGrid");
+  const grid = document.getElementById("packageGrid");
 
-  document.getElementById("packageCount").textContent=
-    packages.length+" Available";
+  document.getElementById("packageCount").textContent =
+    packages.length + " Available";
 
   if(!packages.length){
     showState(
@@ -853,50 +693,49 @@ function renderPackages(packages){
     return;
   }
 
-  grid.innerHTML=packages.map(function(item){
-    const id=Number(item.id);
-    const name=escapeHTML(item.name || "Unnamed Package");
-    const description=escapeHTML(
+  grid.innerHTML = packages.map(function(item){
+    const id = Number(item.id);
+    const name = escapeHTML(item.name || "Unnamed Package");
+    const description = escapeHTML(
       item.description || "Explore this RUBALIA product package."
     );
 
-    const image=item.image_url
+    const image = item.image_url
       ? `<img src="${escapeHTML(item.image_url)}"
           alt="${name}"
           loading="lazy"
           onerror="this.parentElement.innerHTML='<div class=&quot;image-placeholder&quot;>📦</div>'">`
       : `<div class="image-placeholder">📦</div>`;
 
-    const stock=Number(item.stock);
-    const stockKnown=item.stock!==null &&
-                     item.stock!==undefined &&
-                     item.stock!=="";
+    const stock = Number(item.stock);
+    const stockKnown = item.stock !== null &&
+      item.stock !== undefined && item.stock !== "";
 
-    const outOfStock=stockKnown && stock<=0;
+    const outOfStock = stockKnown && stock <= 0;
+    const stockText = stockKnown
+      ? (outOfStock ? "Out of Stock" : "Stock: " + stock)
+      : "Stock unavailable";
 
-    const stockText=stockKnown
-      ? (outOfStock ? "Out of Stock" : "Stock: "+stock)
-      : "Stock information unavailable";
+    const invalidId = !Number.isSafeInteger(id) || id <= 0;
 
     return `
-      <article class="item-card">
-        <div class="item-image">${image}</div>
+      <article class="package-card">
+        <div class="package-image">${image}</div>
 
-        <div class="item-body">
-          <span class="item-type">PRODUCT PACKAGE</span>
+        <div class="package-body">
+          <span class="package-type">PRODUCT PACKAGE</span>
 
-          <h3 class="item-title">${name}</h3>
+          <h3 class="package-title">${name}</h3>
 
-          <p class="item-description">${description}</p>
+          <p class="package-description">${description}</p>
 
-          <div class="item-bottom">
+          <div class="package-bottom">
             <div>
-              <div class="item-price">
+              <div class="package-price">
                 <small>PACKAGE PRICE</small>
                 ${formatPrice(item.price)}
               </div>
-
-              <div class="item-stock ${outOfStock?"out":""}">
+              <div class="package-stock ${outOfStock ? "out" : ""}">
                 ${escapeHTML(stockText)}
               </div>
             </div>
@@ -904,11 +743,9 @@ function renderPackages(packages){
             <button
               class="buy-btn"
               type="button"
-              ${outOfStock || !Number.isInteger(id) || id<=0
-                ?"disabled"
-                :""}
-              onclick="buyPackage(${id})">
-              ${outOfStock?"UNAVAILABLE":"BUY NOW"}
+              ${outOfStock || invalidId ? "disabled" : ""}
+              onclick="buyPackage(${invalidId ? 0 : id})">
+              ${outOfStock || invalidId ? "UNAVAILABLE" : "BUY NOW"}
             </button>
           </div>
         </div>
@@ -917,213 +754,96 @@ function renderPackages(packages){
   }).join("");
 }
 
-/* PRODUCT RENDER */
-
-function renderProducts(products){
-  const grid=document.getElementById("productGrid");
-
-  document.getElementById("productCount").textContent=
-    products.length+" Available";
-
-  if(!products.length){
-    showState(
-      grid,
-      "🛍️",
-      "No Products Available",
-      "There are currently no active individual products available."
-    );
-    return;
-  }
-
-  grid.innerHTML=products.map(function(item){
-    const id=Number(item.id);
-    const name=escapeHTML(item.name || "Unnamed Product");
-    const description=escapeHTML(
-      item.description || "Product details will be updated soon."
-    );
-
-    // Product API currently has no image_url field.
-    const image=`
-      <div class="image-placeholder">🛍️</div>
-    `;
-
-    const stock=Number(item.stock);
-    const stockKnown=item.stock!==null &&
-                     item.stock!==undefined &&
-                     item.stock!=="";
-
-    const outOfStock=stockKnown && stock<=0;
-
-    const stockText=stockKnown
-      ? (outOfStock ? "Out of Stock" : "Stock: "+stock)
-      : "Stock information unavailable";
-
-    return `
-      <article class="item-card">
-        <div class="item-image">${image}</div>
-
-        <div class="item-body">
-          <span class="item-type">INDIVIDUAL PRODUCT</span>
-
-          <h3 class="item-title">${name}</h3>
-
-          <p class="item-description">${description}</p>
-
-          <div class="item-bottom">
-            <div>
-              <div class="item-price">
-                <small>PRODUCT PRICE</small>
-                ${formatPrice(item.price)}
-              </div>
-
-              <div class="item-stock ${outOfStock?"out":""}">
-                ${escapeHTML(stockText)}
-              </div>
-            </div>
-
-            <button
-              class="buy-btn"
-              type="button"
-              ${outOfStock || !Number.isInteger(id) || id<=0
-                ?"disabled"
-                :""}
-              onclick="buyProduct(${id})">
-              ${outOfStock?"UNAVAILABLE":"BUY NOW"}
-            </button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-/* SEARCH */
-
-function filterStore(){
-  const query=document.getElementById("searchInput")
+/* SEARCH PACKAGES ONLY */
+function filterPackages(){
+  const query = document.getElementById("searchInput")
     .value.trim().toLowerCase();
 
-  const packages=allPackages.filter(function(item){
-    return [
-      item.name,
-      item.description
-    ].some(function(value){
-      return String(value || "").toLowerCase().includes(query);
-    });
-  });
-
-  const products=allProducts.filter(function(item){
+  const filtered = allPackages.filter(function(item){
     return [
       item.name,
       item.description,
-      item.sku
+      item.category
     ].some(function(value){
       return String(value || "").toLowerCase().includes(query);
     });
   });
 
-  renderPackages(packages);
-  renderProducts(products);
+  renderPackages(filtered);
 }
 
 document.getElementById("searchInput")
-  .addEventListener("input",filterStore);
+  .addEventListener("input",filterPackages);
 
-/* BUY ACTIONS */
-
+/* BUY PACKAGE */
 function buyPackage(id){
-  if(!Number.isInteger(id) || id<=0) return;
+  if(!Number.isSafeInteger(id) || id <= 0) return;
 
-  window.location.href=
-    "checkout.html?type=package&id="+encodeURIComponent(id);
+  window.location.href =
+    "checkout.html?type=package&id=" + encodeURIComponent(id);
 }
 
-function buyProduct(id){
-  if(!Number.isInteger(id) || id<=0) return;
-
-  window.location.href=
-    "checkout.html?type=product&id="+encodeURIComponent(id);
-}
-
-/* LOAD STORE */
-
+/* LOAD PACKAGES ONLY */
 async function loadStore(){
+  if(loading) return;
+
+  loading = true;
   clearNotice();
 
-  const packageGrid=document.getElementById("packageGrid");
-  const productGrid=document.getElementById("productGrid");
+  const grid = document.getElementById("packageGrid");
 
   showState(
-    packageGrid,
+    grid,
     "⏳",
     "Loading Packages",
     "Connecting to RUBALIA NETWORK..."
   );
 
-  showState(
-    productGrid,
-    "⏳",
-    "Loading Products",
-    "Connecting to RUBALIA NETWORK..."
-  );
+  document.getElementById("packageCount").textContent = "Loading...";
 
   try{
-    const token=await verifySession();
+    const token = await verifySession();
 
-    const results=await Promise.all([
-      fetchJSON(API_BASE+"/packages",token),
-      fetchJSON(API_BASE+"/products",token)
-    ]);
+    const data = await fetchJSON(
+      API_BASE + "/packages",
+      token
+    );
 
-    const packageData=results[0];
-    const productData=results[1];
-
-    if(!packageData.success){
+    if(!Array.isArray(data.packages)){
       throw new Error("Package information could not be loaded.");
     }
 
-    if(!productData.success){
-      throw new Error("Product information could not be loaded.");
-    }
+    allPackages = data.packages;
 
-    allPackages=Array.isArray(packageData.packages)
-      ? packageData.packages
-      : [];
-
-    allProducts=Array.isArray(productData.products)
-      ? productData.products
-      : [];
-
-    renderPackages(allPackages);
-    renderProducts(allProducts);
+    filterPackages();
 
   }catch(error){
-    if(error.message==="Login required." ||
-       error.message==="Opening Admin Dashboard." ||
-       error.message==="Your account is not active."){
+    if(
+      error.message === "Login required." ||
+      error.message === "Opening Admin Dashboard." ||
+      error.message === "Your account is not active." ||
+      error.message === "Your login session has expired."
+    ){
       return;
     }
 
     showNotice(
       "error",
-      error.message || "Unable to load the store. Please try again."
+      error.message || "Unable to load packages. Please try again."
     );
 
+    document.getElementById("packageCount").textContent = "Unavailable";
+
     showState(
-      packageGrid,
+      grid,
       "⚠️",
       "Packages Could Not Load",
-      "Please check your connection and try again.",
+      "Please check your internet connection and try again.",
       "Retry"
     );
 
-    showState(
-      productGrid,
-      "⚠️",
-      "Products Could Not Load",
-      "Please check your connection and try again.",
-      "Retry"
-    );
+  }finally{
+    loading = false;
   }
 }
 
