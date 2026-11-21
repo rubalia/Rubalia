@@ -1,0 +1,1018 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>User Management | Rubalia Network</title>
+
+<style>
+:root{
+ --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
+ --gold-light:#f3dfa9;--bg:#f3f6fb;--white:#fff;
+ --text:#18263c;--muted:#78869a;--border:#e5eaf1;
+ --green:#16845b;--red:#c34b4b;--blue:#2875c7;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+
+.topbar{
+ min-height:65px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:10px 22px;position:sticky;top:0;z-index:20
+}
+.brand{font-size:20px;font-weight:800;letter-spacing:.5px}
+.brand span{color:var(--gold)}
+.top-right{display:flex;align-items:center;gap:13px}
+.admin-label{
+ background:rgba(214,173,85,.17);
+ border:1px solid rgba(214,173,85,.4);
+ color:var(--gold-light);padding:7px 11px;
+ border-radius:20px;font-size:10px;font-weight:bold
+}
+.avatar{
+ width:35px;height:35px;border-radius:50%;
+ display:grid;place-items:center;background:var(--gold);
+ color:var(--navy);font-weight:bold
+}
+.mobile-menu{
+ display:none;border:1px solid rgba(255,255,255,.25);
+ background:transparent;color:white;border-radius:7px;padding:7px 10px
+}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:calc(100vh - 65px)}
+.sidebar{background:var(--navy2);color:white;padding:20px 13px}
+.admin-profile{padding:8px 10px 20px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.13)}
+.admin-profile strong{display:block;font-size:14px;margin-bottom:6px}
+.admin-profile small{color:#b8c7d9;font-size:11px;overflow-wrap:anywhere}
+.side-heading{
+ color:#9eafc5;font-size:10px;font-weight:bold;
+ text-transform:uppercase;letter-spacing:1.3px;margin:19px 11px 9px
+}
+.nav-link,.logout-btn{
+ display:flex;align-items:center;gap:11px;padding:11px 12px;
+ border-radius:8px;margin:3px 0;font-size:12px;
+ color:#dce6f2;width:100%
+}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{
+ background:rgba(214,173,85,.17);color:var(--gold-light)
+}
+.nav-icon{width:19px;text-align:center;font-size:15px}
+.logout-btn{background:transparent;border:0;text-align:left}
+.main{padding:25px;max-width:1450px;width:100%;margin:auto}
+.heading{
+ display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:14px;margin-bottom:22px
+}
+.heading h1{color:var(--navy);font-size:25px;margin:0 0 7px}
+.heading p{color:var(--muted);font-size:12px;margin:0}
+.server-badge{
+ background:#e7f7ef;color:var(--green);
+ border-radius:20px;padding:8px 12px;font-size:10px;font-weight:bold
+}
+.server-badge.offline{background:#fceaea;color:var(--red)}
+.stats{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:13px;margin-bottom:20px
+}
+.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stat small{color:var(--muted);font-size:11px}
+.stat-icon{
+ width:34px;height:34px;display:grid;place-items:center;
+ background:#f0f3f8;border-radius:10px;font-size:17px
+}
+.stat strong{display:block;font-size:24px;color:var(--navy);margin:11px 0 4px}
+.stat .note{color:var(--muted);font-size:10px}
+.panel{background:white;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:19px}
+.panel-head{
+ display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:12px;margin-bottom:16px
+}
+.panel-head h3{margin:0;color:var(--navy);font-size:15px}
+.tools{
+ display:grid;grid-template-columns:minmax(180px,1fr) 180px 160px auto;
+ gap:10px;margin-bottom:15px
+}
+.field{
+ width:100%;padding:11px 12px;border:1px solid var(--border);
+ background:white;border-radius:8px;color:var(--text);
+ outline:none;font-size:12px;min-width:0
+}
+.field:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(214,173,85,.12)}
+.table-wrap{overflow-x:auto}
+table{width:100%;min-width:760px;border-collapse:collapse}
+th{
+ text-align:left;background:#f6f8fb;color:var(--muted);
+ font-size:10px;padding:13px 10px;white-space:nowrap
+}
+td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:nowrap}
+.user-cell{display:flex;align-items:center;gap:9px}
+.user-avatar{
+ width:33px;height:33px;border-radius:50%;
+ background:#eaf0f8;color:var(--navy);
+ display:grid;place-items:center;font-weight:bold;flex-shrink:0
+}
+.user-name{color:var(--navy);font-weight:bold}
+.user-email{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.role{
+ background:#edf3fc;color:#2866a5;padding:5px 8px;
+ border-radius:20px;font-size:9px;font-weight:bold
+}
+.role.partner{background:#fff4df;color:#926619}
+.role.customer{background:#eaf7ef;color:#16845b}
+.status{
+ display:inline-block;padding:5px 8px;border-radius:20px;
+ font-size:9px;font-weight:bold
+}
+.status.active{background:#e7f7ef;color:#16845b}
+.status.inactive{background:#f0f1f4;color:#687487}
+.status.suspended{background:#fff0ed;color:#b94b3e}
+.status.pending{background:#fff2dc;color:#a16b14}
+.action-btn{
+ background:white;border:1px solid var(--border);
+ color:var(--navy);border-radius:6px;padding:7px 10px;font-size:10px
+}
+.action-btn:hover{border-color:var(--gold);color:#9a7429}
+.empty{
+ display:none;text-align:center;padding:28px;color:var(--muted);font-size:12px
+}
+.loading-row{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.pagination{
+ display:flex;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;gap:10px;margin-top:15px
+}
+.pagination small{color:var(--muted);font-size:10px}
+.page-btn,.refresh-btn{
+ border:1px solid var(--border);background:white;color:var(--navy);
+ padding:8px 11px;border-radius:6px;font-size:10px
+}
+.page-btn:disabled,.refresh-btn:disabled{opacity:.4;cursor:not-allowed}
+.notice{
+ background:#fff9eb;border:1px solid #f0dfb8;color:#76591e;
+ padding:14px;border-radius:10px;font-size:11px;line-height:1.7
+}
+.alert{
+ display:none;padding:12px;border-radius:8px;
+ font-size:11px;line-height:1.6;margin-bottom:14px
+}
+.alert.error{display:block;background:#fff0ed;color:#b94b3e;border:1px solid #f0d0ca}
+.alert.success{display:block;background:#e7f7ef;color:#16845b;border:1px solid #c8ead8}
+.modal{
+ display:none;position:fixed;inset:0;background:rgba(3,13,29,.68);
+ z-index:30;align-items:center;justify-content:center;padding:17px
+}
+.modal.show{display:flex}
+.modal-box{
+ background:white;width:100%;max-width:480px;max-height:85vh;
+ overflow:auto;border-radius:14px;padding:22px;position:relative
+}
+.modal-box h2{color:var(--navy);font-size:19px;margin:0 35px 18px 0}
+.close{
+ position:absolute;right:14px;top:13px;width:31px;height:31px;
+ border:0;border-radius:50%;background:#f0f2f6;font-size:18px
+}
+.detail-row{
+ padding:11px 0;border-bottom:1px solid var(--border);
+ display:flex;justify-content:space-between;gap:15px;font-size:12px
+}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row strong{color:var(--navy);text-align:right;overflow-wrap:anywhere}
+.modal-loading{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.footer{text-align:center;color:#9aa5b5;font-size:10px;padding:20px}
+
+.loading-screen{
+ position:fixed;inset:0;z-index:1000;background:var(--bg);
+ display:flex;align-items:center;justify-content:center;padding:20px
+}
+.loading-box{
+ width:100%;max-width:400px;background:white;padding:28px;
+ border:1px solid var(--border);border-radius:14px;text-align:center
+}
+.loading-box strong{color:var(--navy)}
+.loading-box p{color:var(--muted);font-size:12px}
+.spinner{
+ width:36px;height:36px;border:4px solid #e3e8ef;
+ border-top-color:var(--gold);border-radius:50%;
+ margin:0 auto 15px;animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-screen{
+ display:none;position:fixed;inset:0;z-index:1001;
+ background:var(--bg);align-items:center;justify-content:center;padding:20px
+}
+.error-card{
+ width:100%;max-width:420px;padding:28px;background:white;
+ border:1px solid var(--border);border-radius:14px;text-align:center
+}
+.error-card h2{color:var(--navy)}
+.error-card p{color:var(--muted);font-size:12px;line-height:1.7}
+.error-card a,.error-card button{
+ display:inline-block;margin:7px 4px 0;padding:11px 17px;
+ border:0;border-radius:7px;background:var(--gold);color:var(--navy);font-weight:bold
+}
+
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:950px){.tools{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{display:none;padding:12px}
+ .sidebar.open{display:block}
+ .side-heading{margin-top:12px}
+ .mobile-menu{display:block}
+ .main{padding:17px}
+}
+@media(max-width:580px){
+ .tools{grid-template-columns:1fr}
+ .stats{gap:9px}
+ .stat{padding:13px}
+ .stat strong{font-size:21px}
+ .main{padding:13px}
+ .topbar{padding:10px 13px}
+ .brand{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying administrator access...</p>
+ </div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+ <div class="error-card">
+  <h2 id="errorTitle">Access Error</h2>
+  <p id="errorMessage">Unable to verify administrator access.</p>
+  <a href="../login.html">Login</a>
+  <button type="button" onclick="location.reload()">Try Again</button>
+ </div>
+</div>
+
+<div id="adminApp" hidden>
+
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:12px">
+  <button class="mobile-menu" id="menuBtn" type="button">☰</button>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+ </div>
+ <div class="top-right">
+  <span class="admin-label">ADMIN PANEL</span>
+  <div class="avatar" id="adminAvatar">A</div>
+ </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="admin-profile">
+  <strong id="adminName">Administrator</strong>
+  <small id="adminEmail">Loading...</small>
+ </div>
+
+ <div class="side-heading">Main Menu</div>
+ <a href="../admin-dashboard.html" class="nav-link">
+  <span class="nav-icon">▦</span> Dashboard
+ </a>
+
+ <div class="side-heading">Management</div>
+ <a href="admin-users.html" class="nav-link active"><span class="nav-icon">👥</span> Users Management</a>
+ <a href="admin-partners.html" class="nav-link"><span class="nav-icon">🤝</span> Partners Management</a>
+ <a href="admin-applications.html" class="nav-link"><span class="nav-icon">📋</span> Partner Applications</a>
+ <a href="admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
+ <a href="admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Packages Management</a>
+ <a href="admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
+
+ <div class="side-heading">Finance</div>
+ <a href="admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
+ <a href="admin-withdrawals.html" class="nav-link"><span class="nav-icon">💸</span> Withdraw Requests</a>
+ <a href="admin-commissions.html" class="nav-link"><span class="nav-icon">📊</span> Commission Management</a>
+ <a href="admin-reports.html" class="nav-link"><span class="nav-icon">📈</span> Financial Reports</a>
+
+ <div class="side-heading">Communication</div>
+ <a href="admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
+ <a href="admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Tickets</a>
+ <a href="admin-email-management.html" class="nav-link"><span class="nav-icon">✉️</span> Email Management</a>
+ <a href="admin-sms-management.html" class="nav-link"><span class="nav-icon">📱</span> SMS Management</a>
+
+ <div class="side-heading">System</div>
+ <a href="admin-settings.html" class="nav-link"><span class="nav-icon">⚙️</span> Admin Settings</a>
+ <a href="admin-audit-logs.html" class="nav-link"><span class="nav-icon">📜</span> Audit Logs</a>
+ <a href="admin-system-health.html" class="nav-link"><span class="nav-icon">❤️</span> System Health</a>
+ <a href="admin-api-management.html" class="nav-link"><span class="nav-icon">🔌</span> API Management</a>
+ <a href="admin-error-logs.html" class="nav-link"><span class="nav-icon">⚠️</span> Error Logs</a>
+ <a href="admin-backup.html" class="nav-link"><span class="nav-icon">💾</span> Database Backup</a>
+ <a href="admin-database.html" class="nav-link"><span class="nav-icon">🗄️</span> Database Management</a>
+
+ <div class="side-heading">Website</div>
+ <a href="../index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
+ <button class="logout-btn" id="logoutBtn" type="button">
+  <span class="nav-icon">↪</span> Logout
+ </button>
+
+</aside>
+
+<main class="main">
+
+ <div class="heading">
+  <div>
+   <h1>User Management</h1>
+   <p>View and manage registered Rubalia Network accounts.</p>
+  </div>
+  <span class="server-badge" id="serverBadge">● CONNECTING TO SERVER</span>
+ </div>
+
+ <div class="alert" id="pageAlert" role="alert"></div>
+
+ <section class="stats">
+
+  <div class="stat">
+   <div class="stat-top"><small>Total Users</small><span class="stat-icon">👥</span></div>
+   <strong id="totalUsers">—</strong>
+   <span class="note">Registered accounts</span>
+  </div>
+
+  <div class="stat">
+   <div class="stat-top"><small>Active Users</small><span class="stat-icon">✅</span></div>
+   <strong id="activeUsers">—</strong>
+   <span class="note">Active accounts</span>
+  </div>
+
+  <div class="stat">
+   <div class="stat-top"><small>Inactive Users</small><span class="stat-icon">⏸️</span></div>
+   <strong id="inactiveUsers">—</strong>
+   <span class="note">Inactive accounts</span>
+  </div>
+
+  <div class="stat">
+   <div class="stat-top"><small>Partners</small><span class="stat-icon">🤝</span></div>
+   <strong id="partnerUsers">—</strong>
+   <span class="note">Registered partners</span>
+  </div>
+
+ </section>
+
+ <section class="panel">
+
+  <div class="panel-head">
+   <h3>Registered Users</h3>
+   <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
+  </div>
+
+  <div class="tools">
+
+   <input type="search" class="field" id="searchInput"
+    placeholder="Search name, email or user ID...">
+
+   <select class="field" id="roleFilter">
+    <option value="all">All User Roles</option>
+    <option value="customer">Customer</option>
+    <option value="partner">Partner</option>
+    <option value="admin">Admin</option>
+   </select>
+
+   <select class="field" id="statusFilter">
+    <option value="all">All Statuses</option>
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+    <option value="suspended">Suspended</option>
+   </select>
+
+   <button class="refresh-btn" id="searchBtn" type="button">Search</button>
+
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>USER</th>
+      <th>USER ID</th>
+      <th>ROLE</th>
+      <th>REGISTRATION</th>
+      <th>STATUS</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+    <tbody id="userTable">
+     <tr><td colspan="6" class="loading-row">Loading users from server...</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="empty" id="emptyState">No matching users found.</div>
+
+  <div class="pagination">
+   <small id="resultCount">Loading...</small>
+   <div>
+    <button class="page-btn" id="prevBtn" disabled>Previous</button>
+    <button class="page-btn" id="nextBtn" disabled>Next</button>
+   </div>
+  </div>
+
+ </section>
+
+ <div class="notice">
+  <strong>Admin Security Notice:</strong><br>
+  User passwords, OTPs, PINs and authentication secrets are never displayed.
+  User account information is retrieved through protected Admin APIs.
+  All sensitive account changes must be authorized and recorded by the backend.
+ </div>
+
+</main>
+</div>
+
+<footer class="footer">
+ © <span id="year"></span> Rubalia Network. All Rights Reserved.
+ <br>User Management
+</footer>
+
+<div class="modal" id="userModal">
+ <div class="modal-box">
+  <button class="close" id="closeModal" type="button">×</button>
+  <h2>User Details</h2>
+  <div id="userDetails">
+   <div class="modal-loading">Loading user information...</div>
+  </div>
+ </div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+// ==========================================
+// CONFIGURATION
+// ==========================================
+
+const API_BASE="https://rubalia.onrender.com/api";
+const PAGE_SIZE=20;
+
+let adminToken="";
+let currentPage=1;
+let totalPages=1;
+let totalRecords=0;
+let searchTimer=null;
+
+const $=id=>document.getElementById(id);
+
+// ==========================================
+// ALERTS AND UTILITIES
+// ==========================================
+
+function showAlert(message,type="error"){
+ const alert=$("pageAlert");
+ alert.className="alert "+type;
+ alert.textContent=message;
+ alert.style.display="block";
+}
+
+function hideAlert(){
+ $("pageAlert").style.display="none";
+}
+
+function showFatalError(title,message){
+ $("loadingScreen").style.display="none";
+ $("adminApp").hidden=true;
+ $("errorTitle").textContent=title;
+ $("errorMessage").textContent=message;
+ $("errorScreen").style.display="flex";
+}
+
+function formatNumber(value){
+ if(value===null||value===undefined||value==="")return "—";
+ const number=Number(value);
+ return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
+}
+
+function formatDate(value){
+ if(!value)return "—";
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "—";
+
+ return date.toLocaleDateString("en-GB",{
+  day:"2-digit",month:"short",year:"numeric"
+ });
+}
+
+function getInitials(name){
+ const parts=String(name||"U").trim().split(/\s+/);
+ return parts.map(x=>x.charAt(0)).join("").slice(0,2).toUpperCase();
+}
+
+function normalizeStatus(value){
+ const status=String(value||"").toLowerCase();
+
+ if(status==="active"||status==="approved")return "Active";
+ if(status==="inactive")return "Inactive";
+ if(status==="suspended"||status==="blocked")return "Suspended";
+ if(status==="pending")return "Pending";
+
+ return value?String(value):"Unknown";
+}
+
+function normalizeRole(value){
+ return String(value||"Customer").toLowerCase();
+}
+
+function roleClass(role){
+ const value=normalizeRole(role);
+
+ if(value==="partner")return "role partner";
+ if(value==="customer"||value==="user")return "role customer";
+
+ return "role";
+}
+
+// ==========================================
+// API REQUEST
+// ==========================================
+
+async function apiRequest(path,options={}){
+ const headers={
+  "Authorization":"Bearer "+adminToken,
+  "Accept":"application/json",
+  ...(options.headers||{})
+ };
+
+ const response=await fetch(API_BASE+path,{
+  ...options,
+  headers,
+  cache:"no-store"
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  window.location.replace("../login.html");
+  throw new Error("Your session has expired.");
+ }
+
+ if(response.status===403){
+  throw new Error("You do not have administrator permission.");
+ }
+
+ if(!response.ok||data.success===false){
+  throw new Error(data.message||"Server request failed.");
+ }
+
+ return data;
+}
+
+// ==========================================
+// ADMIN AUTHENTICATION
+// ==========================================
+
+async function initializeAdmin(){
+ adminToken=sessionStorage.getItem("rubalia_token")||"";
+
+ if(!adminToken){
+  window.location.replace("../login.html");
+  return;
+ }
+
+ try{
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("Unable to retrieve administrator information.");
+  }
+
+  if(String(user.role||"").toLowerCase()!=="admin"){
+   window.location.replace("../dashboard.html");
+   return;
+  }
+
+  const name=user.full_name||user.fullName||"Administrator";
+
+  $("adminName").textContent=name;
+  $("adminEmail").textContent=user.email||"";
+  $("adminAvatar").textContent=getInitials(name);
+
+  $("year").textContent=new Date().getFullYear();
+
+  $("loadingScreen").style.display="none";
+  $("adminApp").hidden=false;
+
+  await loadStatistics();
+  await loadUsers();
+
+ }catch(error){
+  if(error.message.includes("session has expired"))return;
+
+  showFatalError(
+   "Unable to Verify Administrator",
+   error.message
+  );
+ }
+}
+
+// ==========================================
+// STATISTICS
+// ==========================================
+
+async function loadStatistics(){
+ try{
+  const data=await apiRequest("/admin/users/stats");
+
+  const stats=data.stats||data;
+
+  $("totalUsers").textContent=formatNumber(stats.total_users);
+  $("activeUsers").textContent=formatNumber(stats.active_users);
+  $("inactiveUsers").textContent=formatNumber(stats.inactive_users);
+  $("partnerUsers").textContent=formatNumber(stats.total_partners);
+
+ }catch(error){
+  if(error.message.includes("session has expired"))return;
+  if(error.message.includes("administrator permission")){
+   showFatalError("Access Denied",error.message);
+   return;
+  }
+
+  $("totalUsers").textContent="—";
+  $("activeUsers").textContent="—";
+  $("inactiveUsers").textContent="—";
+  $("partnerUsers").textContent="—";
+
+  showAlert("User statistics could not be loaded: "+error.message);
+ }
+}
+
+// ==========================================
+// LOAD USERS
+// ==========================================
+
+function buildUsersQuery(){
+ const params=new URLSearchParams();
+
+ params.set("page",String(currentPage));
+ params.set("limit",String(PAGE_SIZE));
+
+ const search=$("searchInput").value.trim();
+ const role=$("roleFilter").value;
+ const status=$("statusFilter").value;
+
+ if(search)params.set("search",search);
+ if(role!=="all")params.set("role",role);
+ if(status!=="all")params.set("status",status);
+
+ return params.toString();
+}
+
+async function loadUsers(){
+ const button=$("refreshBtn");
+ button.disabled=true;
+ button.textContent="Loading...";
+
+ hideAlert();
+
+ $("userTable").innerHTML=
+  '<tr><td colspan="6" class="loading-row">Loading users from PostgreSQL...</td></tr>';
+
+ $("emptyState").style.display="none";
+
+ try{
+  const query=buildUsersQuery();
+  const data=await apiRequest("/admin/users?"+query);
+
+  const users=data.users||data.data||[];
+
+  if(!Array.isArray(users)){
+   throw new Error("Invalid users response from server.");
+  }
+
+  const pagination=data.pagination||{};
+
+  totalRecords=Number(
+   pagination.total??data.total??users.length
+  );
+
+  totalPages=Number(
+   pagination.totalPages||
+   pagination.total_pages||
+   Math.max(1,Math.ceil(totalRecords/PAGE_SIZE))
+  );
+
+  currentPage=Number(pagination.page||currentPage);
+
+  renderUsers(users);
+
+  $("resultCount").textContent=
+   "Showing "+(
+    totalRecords===0?0:(currentPage-1)*PAGE_SIZE+1
+   )+"–"+Math.min(currentPage*PAGE_SIZE,totalRecords)+
+   " of "+formatNumber(totalRecords)+" users";
+
+  $("prevBtn").disabled=currentPage<=1;
+  $("nextBtn").disabled=currentPage>=totalPages||users.length===0;
+
+  $("serverBadge").textContent="● LIVE SERVER DATA";
+  $("serverBadge").classList.remove("offline");
+
+ }catch(error){
+
+  if(error.message.includes("session has expired"))return;
+
+  if(error.message.includes("administrator permission")){
+   showFatalError("Access Denied",error.message);
+   return;
+  }
+
+  $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
+  $("serverBadge").classList.add("offline");
+
+  $("userTable").innerHTML=
+   '<tr><td colspan="6" class="loading-row">Unable to load users.</td></tr>';
+
+  $("resultCount").textContent="User data unavailable";
+
+  showAlert(
+   error.message+
+   " Check the /admin/users API and PostgreSQL database."
+  );
+
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ Refresh";
+ }
+}
+
+// ==========================================
+// RENDER USERS
+// ==========================================
+
+function renderUsers(users){
+ const table=$("userTable");
+ table.replaceChildren();
+
+ if(users.length===0){
+  $("emptyState").style.display="block";
+  return;
+ }
+
+ $("emptyState").style.display="none";
+
+ users.forEach(user=>{
+  const row=document.createElement("tr");
+
+  const fullName=user.full_name||user.fullName||user.name||"Unknown User";
+  const email=user.email||"—";
+  const id=user.user_id||user.member_id||user.id||"—";
+  const role=user.role||"Customer";
+  const status=normalizeStatus(user.status||user.account_status);
+
+  // USER
+  const userCell=document.createElement("td");
+  const wrap=document.createElement("div");
+  wrap.className="user-cell";
+
+  const avatar=document.createElement("div");
+  avatar.className="user-avatar";
+  avatar.textContent=getInitials(fullName);
+
+  const nameWrap=document.createElement("div");
+
+  const name=document.createElement("span");
+  name.className="user-name";
+  name.textContent=fullName;
+
+  const emailElement=document.createElement("span");
+  emailElement.className="user-email";
+  emailElement.textContent=email;
+
+  nameWrap.append(name,emailElement);
+  wrap.append(avatar,nameWrap);
+  userCell.append(wrap);
+
+  // ID
+  const idCell=document.createElement("td");
+  idCell.textContent=id;
+
+  // ROLE
+  const roleCell=document.createElement("td");
+  const roleBadge=document.createElement("span");
+  roleBadge.className=roleClass(role);
+  roleBadge.textContent=String(role);
+  roleCell.append(roleBadge);
+
+  // REGISTRATION
+  const dateCell=document.createElement("td");
+  dateCell.textContent=formatDate(
+   user.created_at||user.registered_at
+  );
+
+  // STATUS
+  const statusCell=document.createElement("td");
+  const statusBadge=document.createElement("span");
+  statusBadge.className="status "+status.toLowerCase();
+  statusBadge.textContent=status;
+  statusCell.append(statusBadge);
+
+  // ACTION
+  const actionCell=document.createElement("td");
+  const viewButton=document.createElement("button");
+  viewButton.type="button";
+  viewButton.className="action-btn";
+  viewButton.textContent="View Details";
+
+  viewButton.addEventListener("click",()=>{
+   showDetails(id);
+  });
+
+  actionCell.append(viewButton);
+
+  row.append(
+   userCell,idCell,roleCell,dateCell,statusCell,actionCell
+  );
+
+  table.append(row);
+ });
+}
+
+// ==========================================
+// USER DETAILS
+// ==========================================
+
+async function showDetails(userId){
+ const modal=$("userModal");
+ const details=$("userDetails");
+
+ modal.classList.add("show");
+
+ details.innerHTML=
+  '<div class="modal-loading">Loading user information...</div>';
+
+ try{
+  const data=await apiRequest(
+   "/admin/users/"+encodeURIComponent(userId)
+  );
+
+  const user=data.user||data;
+
+  if(!user||typeof user!=="object"){
+   throw new Error("User information not found.");
+  }
+
+  details.replaceChildren();
+
+  const fields=[
+   ["Full Name",user.full_name||user.fullName||user.name],
+   ["User ID",user.user_id||user.member_id||user.id],
+   ["Email",user.email],
+   ["Phone",user.phone||user.phone_number],
+   ["Role",user.role],
+   ["Account Status",normalizeStatus(user.status||user.account_status)],
+   ["Registration Date",formatDate(user.created_at||user.registered_at)],
+   ["Updated Date",formatDate(user.updated_at)],
+   ["Referral Code",user.referral_code],
+   ["Sponsor ID",user.sponsor_id],
+   ["Country",user.country],
+   ["Address",user.address]
+  ];
+
+  fields.forEach(([label,value])=>{
+   if(value===null||value===undefined||value==="")return;
+
+   const row=document.createElement("div");
+   row.className="detail-row";
+
+   const labelElement=document.createElement("span");
+   labelElement.textContent=label;
+
+   const valueElement=document.createElement("strong");
+   valueElement.textContent=String(value);
+
+   row.append(labelElement,valueElement);
+   details.append(row);
+  });
+
+ }catch(error){
+  details.replaceChildren();
+
+  const message=document.createElement("div");
+  message.className="modal-loading";
+  message.textContent=error.message;
+
+  details.append(message);
+ }
+}
+
+// ==========================================
+// SEARCH AND FILTER
+// ==========================================
+
+function applyFilters(){
+ currentPage=1;
+ loadUsers();
+}
+
+$("searchBtn").addEventListener("click",applyFilters);
+
+$("searchInput").addEventListener("keydown",event=>{
+ if(event.key==="Enter"){
+  applyFilters();
+ }
+});
+
+$("searchInput").addEventListener("input",()=>{
+ clearTimeout(searchTimer);
+ searchTimer=setTimeout(applyFilters,450);
+});
+
+$("roleFilter").addEventListener("change",applyFilters);
+$("statusFilter").addEventListener("change",applyFilters);
+
+// ==========================================
+// PAGINATION
+// ==========================================
+
+$("prevBtn").addEventListener("click",()=>{
+ if(currentPage>1){
+  currentPage--;
+  loadUsers();
+ }
+});
+
+$("nextBtn").addEventListener("click",()=>{
+ if(currentPage<totalPages){
+  currentPage++;
+  loadUsers();
+ }
+});
+
+// ==========================================
+// REFRESH
+// ==========================================
+
+$("refreshBtn").addEventListener("click",async()=>{
+ await Promise.all([
+  loadStatistics(),
+  loadUsers()
+ ]);
+});
+
+// ==========================================
+// MODAL
+// ==========================================
+
+function closeModal(){
+ $("userModal").classList.remove("show");
+}
+
+$("closeModal").addEventListener("click",closeModal);
+
+$("userModal").addEventListener("click",event=>{
+ if(event.target.id==="userModal")closeModal();
+});
+
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape")closeModal();
+});
+
+// ==========================================
+// MOBILE MENU
+// ==========================================
+
+$("menuBtn").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
+
+document.querySelectorAll(".sidebar a").forEach(link=>{
+ link.addEventListener("click",()=>{
+  $("sidebar").classList.remove("open");
+ });
+});
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+$("logoutBtn").addEventListener("click",()=>{
+ sessionStorage.removeItem("rubalia_token");
+ sessionStorage.removeItem("rubalia_user");
+ window.location.replace("../login.html");
+});
+
+// ==========================================
+// START
+// ==========================================
+
+initializeAdmin();
+
+</script>
+
+</body>
+</html>
