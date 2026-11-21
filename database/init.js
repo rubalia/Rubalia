@@ -1,9 +1,14 @@
 
+"use strict";
+
 const pool = require("../config/database");
 
 async function initializeDatabase() {
 
+  // =========================================================
   // USERS
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id BIGSERIAL PRIMARY KEY,
@@ -34,7 +39,10 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
   // PRODUCTS
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS products (
       id BIGSERIAL PRIMARY KEY,
@@ -64,8 +72,11 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
   // PACKAGES
   // Every package contains exactly three different products.
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS packages (
       id BIGSERIAL PRIMARY KEY,
@@ -118,7 +129,10 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
   // ORDERS
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS orders (
       id BIGSERIAL PRIMARY KEY,
@@ -148,7 +162,6 @@ async function initializeDatabase() {
     );
   `);
 
-  // Existing orders are preserved.
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_orders_user_id
     ON orders(user_id);
@@ -160,8 +173,11 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
   // ORDER PAYMENT MIGRATION
-  // Safe additive migration. Does not delete existing order data.
+  // Existing order records are preserved.
+  // =========================================================
+
   await pool.query(`
     ALTER TABLE orders
     ADD COLUMN IF NOT EXISTS payment_method
@@ -170,54 +186,55 @@ async function initializeDatabase() {
       VARCHAR(20) NOT NULL DEFAULT 'unverified';
   `);
 
+  // Rebuild payment method constraint to include all supported methods.
   await pool.query(`
-    DO $$
-    BEGIN
+    ALTER TABLE orders
+    DROP CONSTRAINT IF EXISTS orders_payment_method_valid;
+  `);
 
-      IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'orders_payment_method_valid'
-          AND conrelid = 'orders'::regclass
-      ) THEN
-        ALTER TABLE orders
-        ADD CONSTRAINT orders_payment_method_valid
-        CHECK (
-          payment_method IN (
-            'legacy',
-            'wallet',
-            'bkash',
-            'nagad',
-            'sslcommerz'
-          )
-        );
-      END IF;
+  await pool.query(`
+    ALTER TABLE orders
+    ADD CONSTRAINT orders_payment_method_valid
+    CHECK (
+      payment_method IN (
+        'legacy',
+        'wallet',
+        'bkash',
+        'nagad',
+        'rocket',
+        'upay',
+        'muktopay',
+        'usdt_bep20',
+        'sslcommerz'
+      )
+    );
+  `);
 
-      IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'orders_payment_status_valid'
-          AND conrelid = 'orders'::regclass
-      ) THEN
-        ALTER TABLE orders
-        ADD CONSTRAINT orders_payment_status_valid
-        CHECK (
-          payment_status IN (
-            'unverified',
-            'pending',
-            'paid',
-            'failed',
-            'refunded'
-          )
-        );
-      END IF;
+  await pool.query(`
+    ALTER TABLE orders
+    DROP CONSTRAINT IF EXISTS orders_payment_status_valid;
+  `);
 
-    END $$;
+  await pool.query(`
+    ALTER TABLE orders
+    ADD CONSTRAINT orders_payment_status_valid
+    CHECK (
+      payment_status IN (
+        'unverified',
+        'pending',
+        'paid',
+        'failed',
+        'refunded'
+      )
+    );
   `);
 
 
+  // =========================================================
   // ORDER ITEMS
-  // Supports both individual products and packages.
+  // Supports products and packages.
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS order_items (
       id BIGSERIAL PRIMARY KEY,
@@ -264,10 +281,7 @@ async function initializeDatabase() {
     );
   `);
 
-
-  // SAFE MIGRATION FOR EXISTING ORDER ITEMS
-  // Existing product orders are preserved.
-
+  // Safe migration for existing order_items.
   await pool.query(`
     ALTER TABLE order_items
     ADD COLUMN IF NOT EXISTS package_id BIGINT
@@ -280,49 +294,46 @@ async function initializeDatabase() {
     NOT NULL DEFAULT 'product';
   `);
 
-  // Old product_id was NOT NULL.
-  // Package orders do not require a product_id.
   await pool.query(`
     ALTER TABLE order_items
     ALTER COLUMN product_id DROP NOT NULL;
   `);
 
-  // Add validation constraints if they do not exist.
+  // Ensure existing rows have a valid item type.
   await pool.query(`
-    DO $$
-    BEGIN
+    UPDATE order_items
+    SET item_type = 'product'
+    WHERE item_type IS NULL OR item_type NOT IN ('product', 'package');
+  `);
 
-      IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'order_items_type_valid'
-          AND conrelid = 'order_items'::regclass
-      ) THEN
-        ALTER TABLE order_items
-        ADD CONSTRAINT order_items_type_valid
-        CHECK (item_type IN ('product', 'package'));
-      END IF;
+  await pool.query(`
+    ALTER TABLE order_items
+    DROP CONSTRAINT IF EXISTS order_items_type_valid;
+  `);
 
-      IF NOT EXISTS (
-        SELECT 1
-        FROM pg_constraint
-        WHERE conname = 'order_items_reference_valid'
-          AND conrelid = 'order_items'::regclass
-      ) THEN
-        ALTER TABLE order_items
-        ADD CONSTRAINT order_items_reference_valid
-        CHECK (
-          (item_type = 'product'
-            AND product_id IS NOT NULL
-            AND package_id IS NULL)
-          OR
-          (item_type = 'package'
-            AND package_id IS NOT NULL
-            AND product_id IS NULL)
-        );
-      END IF;
+  await pool.query(`
+    ALTER TABLE order_items
+    ADD CONSTRAINT order_items_type_valid
+    CHECK (item_type IN ('product', 'package'));
+  `);
 
-    END $$;
+  await pool.query(`
+    ALTER TABLE order_items
+    DROP CONSTRAINT IF EXISTS order_items_reference_valid;
+  `);
+
+  await pool.query(`
+    ALTER TABLE order_items
+    ADD CONSTRAINT order_items_reference_valid
+    CHECK (
+      (item_type = 'product'
+        AND product_id IS NOT NULL
+        AND package_id IS NULL)
+      OR
+      (item_type = 'package'
+        AND package_id IS NOT NULL
+        AND product_id IS NULL)
+    );
   `);
 
   await pool.query(`
@@ -341,7 +352,11 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
   // WALLETS
+  // Existing balances are preserved.
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS wallets (
       id BIGSERIAL PRIMARY KEY,
@@ -356,8 +371,17 @@ async function initializeDatabase() {
     );
   `);
 
+  // Explicit unique index for ON CONFLICT (user_id).
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_wallets_user_id_unique
+    ON wallets(user_id);
+  `);
 
+
+  // =========================================================
   // WALLET TRANSACTIONS
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS wallet_transactions (
       id BIGSERIAL PRIMARY KEY,
@@ -404,16 +428,169 @@ async function initializeDatabase() {
   `);
 
 
+  // =========================================================
+  // PAYMENT GATEWAY SETTINGS
+  // Admin manages these payment methods.
+  // All gateways are disabled by default.
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS payment_gateway_settings (
+      gateway VARCHAR(30) PRIMARY KEY,
+
+      enabled BOOLEAN NOT NULL DEFAULT FALSE,
+
+      display_name VARCHAR(100) NOT NULL,
+
+      instructions TEXT,
+
+      account_number VARCHAR(100),
+
+      wallet_address VARCHAR(150),
+
+      network VARCHAR(20),
+
+      usdt_rate NUMERIC(14, 4),
+
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT payment_gateway_settings_gateway_valid
+        CHECK (
+          gateway IN (
+            'bkash',
+            'nagad',
+            'rocket',
+            'upay',
+            'muktopay',
+            'usdt_bep20'
+          )
+        ),
+
+      CONSTRAINT payment_gateway_settings_network_valid
+        CHECK (
+          network IS NULL OR network = 'BEP20'
+        ),
+
+      CONSTRAINT payment_gateway_settings_rate_positive
+        CHECK (
+          usdt_rate IS NULL OR usdt_rate > 0
+        )
+    );
+  `);
+
+
+  // =========================================================
+  // PAYMENT REQUESTS
+  // Pending payments do not create orders or reduce stock.
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS payment_requests (
+      id BIGSERIAL PRIMARY KEY,
+
+      user_id BIGINT NOT NULL
+        REFERENCES users(id),
+
+      payment_reference VARCHAR(60) UNIQUE NOT NULL,
+
+      gateway VARCHAR(30) NOT NULL,
+
+      transaction_reference VARCHAR(180) UNIQUE NOT NULL,
+
+      amount NUMERIC(14, 2) NOT NULL,
+
+      currency VARCHAR(5) NOT NULL DEFAULT 'BDT',
+
+      expected_usdt NUMERIC(20, 6),
+
+      checkout_data JSONB NOT NULL,
+
+      status VARCHAR(20) NOT NULL DEFAULT 'pending',
+
+      admin_note TEXT,
+
+      verified_by BIGINT
+        REFERENCES users(id),
+
+      verified_at TIMESTAMPTZ,
+
+      order_id BIGINT
+        REFERENCES orders(id),
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      CONSTRAINT payment_requests_amount_positive
+        CHECK (amount > 0),
+
+      CONSTRAINT payment_requests_status_valid
+        CHECK (
+          status IN ('pending', 'approved', 'rejected')
+        ),
+
+      CONSTRAINT payment_requests_gateway_valid
+        CHECK (
+          gateway IN (
+            'bkash',
+            'nagad',
+            'rocket',
+            'upay',
+            'muktopay',
+            'usdt_bep20'
+          )
+        ),
+
+      CONSTRAINT payment_requests_currency_valid
+        CHECK (currency IN ('BDT', 'USDT')),
+
+      CONSTRAINT payment_requests_expected_usdt_positive
+        CHECK (
+          expected_usdt IS NULL OR expected_usdt > 0
+        )
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_payment_requests_user_id
+    ON payment_requests(user_id);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_payment_requests_status
+    ON payment_requests(status);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_payment_requests_created_at
+    ON payment_requests(created_at DESC);
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_payment_requests_gateway
+    ON payment_requests(gateway);
+  `);
+
+
+  // =========================================================
   // NOTIFICATIONS
+  // =========================================================
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS notifications (
       id BIGSERIAL PRIMARY KEY,
+
       user_id BIGINT NOT NULL
         REFERENCES users(id) ON DELETE CASCADE,
+
       title VARCHAR(180) NOT NULL,
+
       message TEXT NOT NULL,
+
       notification_type VARCHAR(40) NOT NULL DEFAULT 'general',
+
       is_read BOOLEAN NOT NULL DEFAULT FALSE,
+
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
   `);
@@ -430,7 +607,38 @@ async function initializeDatabase() {
   `);
 
 
-  console.log("Database initialization and migrations completed.");
+  // =========================================================
+  // INITIAL PAYMENT GATEWAY RECORDS
+  // All disabled until Admin configures them.
+  // Existing settings are not overwritten.
+  // =========================================================
+
+  const defaultGateways = [
+    ["bkash", "bKash"],
+    ["nagad", "Nagad"],
+    ["rocket", "Rocket"],
+    ["upay", "Upay"],
+    ["muktopay", "MuktoPay"],
+    ["usdt_bep20", "USDT (BEP20)"]
+  ];
+
+  for (const [gateway, displayName] of defaultGateways) {
+    await pool.query(
+      `INSERT INTO payment_gateway_settings (
+        gateway,
+        enabled,
+        display_name
+      )
+      VALUES ($1, FALSE, $2)
+      ON CONFLICT (gateway) DO NOTHING`,
+      [gateway, displayName]
+    );
+  }
+
+
+  console.log("Rubalia database initialization completed.");
+  console.log("Existing database records preserved.");
+  console.log("Wallet, orders and payment tables checked.");
 }
 
 module.exports = { initializeDatabase };
