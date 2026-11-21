@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#7138d8">
 <meta name="description" content="RUBALIA NETWORK Member Profile">
 <meta http-equiv="Cache-Control" content="no-store">
-<title>My Account | RUBALIA NETWORK</title>
+<title>My Profile | RUBALIA NETWORK</title>
 
 <style>
 :root{
@@ -19,15 +19,20 @@
   --border:#e8eaf2;
   --bg:#f5f4fc;
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
+
 a{text-decoration:none;color:inherit}
-button{font-family:inherit}
+button{font-family:inherit;}
+
+/* HEADER */
 
 header{
   min-height:68px;
@@ -42,23 +47,28 @@ header{
   z-index:100;
   box-shadow:0 5px 20px rgba(93,42,177,.2);
 }
+
 .header-left,.header-right{
   display:flex;
   align-items:center;
   gap:13px;
 }
+
 .logo{
   color:white;
   font-size:19px;
   font-weight:900;
   letter-spacing:1px;
 }
+
 .logo span{color:#ffe58a}
+
 .header-right a{
   color:white;
   font-size:13px;
   font-weight:bold;
 }
+
 .avatar-small{
   width:38px;
   height:38px;
@@ -71,6 +81,7 @@ header{
   font-weight:900;
   border:2px solid white;
 }
+
 .mobile-menu{
   display:none;
   background:rgba(255,255,255,.15);
@@ -81,10 +92,14 @@ header{
   font-size:19px;
   cursor:pointer;
 }
+
+/* LAYOUT */
+
 .layout{
   display:flex;
   min-height:calc(100vh - 68px);
 }
+
 .sidebar{
   width:245px;
   flex-shrink:0;
@@ -92,12 +107,14 @@ header{
   padding:24px 14px;
   color:white;
 }
+
 .profile-mini{
   text-align:center;
   padding-bottom:22px;
   border-bottom:1px solid rgba(255,255,255,.18);
   margin-bottom:18px;
 }
+
 .profile-mini .avatar{
   width:68px;
   height:68px;
@@ -112,17 +129,20 @@ header{
   font-weight:900;
   border:3px solid rgba(255,255,255,.45);
 }
+
 .profile-mini h3{
   font-size:14px;
   margin:0 0 5px;
   overflow-wrap:anywhere;
 }
+
 .profile-mini p{
   font-size:11px;
   color:#e1d8f6;
   margin:0;
   overflow-wrap:anywhere;
 }
+
 .menu-title{
   font-size:10px;
   letter-spacing:1.5px;
@@ -130,6 +150,7 @@ header{
   padding:12px;
   font-weight:bold;
 }
+
 .menu a{
   display:block;
   color:#f0eafa;
@@ -139,34 +160,21 @@ header{
   border-radius:9px;
   transition:.2s;
 }
+
 .menu a:hover,.menu a.active{
   color:white;
   background:linear-gradient(100deg,#e64c9a,#a14de0);
   box-shadow:0 5px 14px rgba(0,0,0,.15);
 }
+
 main{
   flex:1;
   min-width:0;
-  padding:25px;
+  padding:22px;
 }
-.page-heading{
-  margin-bottom:20px;
-  padding:21px 24px;
-  border-radius:16px;
-  color:white;
-  background:linear-gradient(110deg,#6334d2,#9c45dd,#e44c9b);
-  box-shadow:0 9px 25px rgba(120,55,194,.18);
-}
-.page-heading h1{
-  font-size:25px;
-  margin:0 0 7px;
-}
-.page-heading p{
-  font-size:13px;
-  margin:0;
-  line-height:1.6;
-  color:#f1e8ff;
-}
+
+/* LOADING */
+
 .loading-box{
   background:white;
   border:1px solid var(--border);
@@ -176,6 +184,7 @@ main{
   color:var(--muted);
   line-height:1.8;
 }
+
 .spinner{
   width:35px;
   height:35px;
@@ -186,7 +195,11 @@ main{
   animation:spin .8s linear infinite;
   margin:0 auto 13px;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
 .error-box{
   display:none;
   background:#fff0f2;
@@ -198,166 +211,190 @@ main{
   font-size:13px;
   margin-bottom:18px;
 }
+
 .profile-content{display:none}
 
-/* MAIN PROFILE CARD */
+/* PROFILE CARD - COMPACT */
 
 .account-card{
   position:relative;
   overflow:hidden;
-  border-radius:24px;
-  padding:25px 27px 23px;
-  margin-bottom:18px;
+  border-radius:20px;
+  padding:14px 20px;
+  margin-bottom:15px;
   background:linear-gradient(125deg,#f1f7ff,#dce8f5,#edf4fc);
   border:1px solid #dce6f2;
-  box-shadow:0 8px 25px rgba(47,66,105,.09);
+  box-shadow:0 6px 18px rgba(47,66,105,.08);
 }
+
 .account-card:after{
   content:"";
   position:absolute;
-  width:230px;
-  height:230px;
+  width:180px;
+  height:180px;
   right:-55px;
-  top:20px;
+  top:10px;
   border-radius:50%;
-  border:28px solid rgba(255,255,255,.28);
+  border:22px solid rgba(255,255,255,.25);
   pointer-events:none;
 }
+
 .account-main{
   display:flex;
   align-items:center;
-  gap:23px;
+  gap:16px;
   position:relative;
   z-index:1;
 }
+
 .account-avatar{
-  width:145px;
-  height:145px;
+  width:82px;
+  height:82px;
   flex-shrink:0;
   border-radius:50%;
   background:linear-gradient(135deg,#ffe58a,#ff9d54);
-  border:7px solid white;
-  box-shadow:0 5px 18px rgba(40,55,85,.15);
+  border:5px solid white;
+  box-shadow:0 4px 12px rgba(40,55,85,.12);
   display:flex;
   align-items:center;
   justify-content:center;
   color:#642ab1;
-  font-size:43px;
+  font-size:27px;
   font-weight:900;
 }
+
 .account-details{
   min-width:0;
   flex:1;
 }
+
 .member-pill{
   display:inline-flex;
   align-items:center;
-  gap:8px;
-  padding:9px 20px;
+  gap:7px;
+  padding:6px 13px;
   border-radius:30px;
   background:linear-gradient(120deg,#777b83,#454951);
   color:white;
-  font-size:16px;
+  font-size:11px;
   font-weight:900;
-  margin-bottom:13px;
+  margin-bottom:7px;
 }
+
 .account-name-row{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
   flex-wrap:wrap;
 }
+
 .account-name{
   color:#111827;
-  font-size:27px;
+  font-size:20px;
   font-weight:900;
   overflow-wrap:anywhere;
 }
+
 .member-copy{
   border:0;
   background:transparent;
-  font-size:23px;
+  font-size:19px;
   cursor:pointer;
   color:#171717;
+  padding:2px;
 }
+
 .account-subtitle{
   color:#646d7a;
-  font-size:15px;
+  font-size:11px;
   font-weight:bold;
-  margin-top:10px;
+  margin-top:5px;
   overflow-wrap:anywhere;
 }
+
 .join-date{
   color:#687383;
-  font-size:14px;
+  font-size:11px;
   font-weight:bold;
-  margin-top:15px;
+  margin-top:7px;
 }
+
 .account-status{
   display:inline-block;
-  margin-top:12px;
-  padding:6px 13px;
+  margin-top:7px;
+  padding:5px 11px;
   border-radius:20px;
   background:#e3f9ef;
   color:#138451;
-  font-size:10px;
+  font-size:9px;
   font-weight:900;
   text-transform:uppercase;
 }
+
+/* WALLET BALANCE */
+
 .balance-area{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  margin-top:22px;
+  margin-top:10px;
   position:relative;
   z-index:1;
 }
+
 .balance-label{
-  font-size:12px;
+  font-size:10px;
   color:#657185;
   font-weight:bold;
-  margin-bottom:5px;
+  margin-bottom:3px;
 }
+
 .balance-amount{
-  font-size:35px;
+  font-size:27px;
   color:#343d4b;
   font-weight:900;
 }
+
 .balance-refresh{
   border:0;
   background:transparent;
   color:#8795a6;
-  font-size:35px;
+  font-size:27px;
   cursor:pointer;
 }
+
+/* ACTION BUTTONS */
+
 .account-actions{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:13px;
-  margin-top:21px;
+  gap:9px;
+  margin-top:13px;
   position:relative;
   z-index:1;
 }
+
 .account-action{
   border:1px solid #e0e5ed;
   background:linear-gradient(180deg,#fff,#f1f3f6);
   color:#414957;
   border-radius:40px;
-  padding:15px 8px;
+  padding:11px 5px;
   text-align:center;
-  font-size:17px;
+  font-size:13px;
   font-weight:900;
   cursor:pointer;
-  box-shadow:0 5px 12px rgba(40,50,70,.13);
+  box-shadow:0 4px 10px rgba(40,50,70,.10);
   transition:.2s;
 }
+
 .account-action:hover{
   transform:translateY(-2px);
   box-shadow:0 8px 17px rgba(40,50,70,.18);
 }
 
-/* ACCOUNT DETAILS - MY CARD */
+/* SECURITY / ACCOUNT DETAILS PANEL */
 
 .account-details-panel{
   display:none;
@@ -368,7 +405,9 @@ main{
   margin-bottom:18px;
   box-shadow:0 6px 22px rgba(72,49,123,.055);
 }
+
 .account-details-panel.show{display:block}
+
 .section-heading{
   display:flex;
   align-items:center;
@@ -376,11 +415,13 @@ main{
   gap:10px;
   margin-bottom:12px;
 }
+
 .section-heading h2{
   color:#53289e;
   font-size:17px;
   margin:0;
 }
+
 .close-details{
   border:0;
   background:#f1eaff;
@@ -390,6 +431,7 @@ main{
   font-weight:bold;
   cursor:pointer;
 }
+
 .detail-row{
   display:flex;
   justify-content:space-between;
@@ -398,8 +440,11 @@ main{
   border-bottom:1px solid var(--border);
   font-size:13px;
 }
+
 .detail-row:last-child{border-bottom:0}
+
 .detail-row span{color:var(--muted)}
+
 .detail-row strong{
   color:#542a9d;
   text-align:right;
@@ -413,10 +458,11 @@ main{
   color:white;
   border:0;
   border-radius:15px;
-  padding:15px 17px;
+  padding:13px;
   margin-bottom:18px;
   box-shadow:0 5px 18px rgba(72,40,140,.12);
 }
+
 .referral-top{
   display:flex;
   align-items:center;
@@ -424,22 +470,26 @@ main{
   gap:10px;
   margin-bottom:10px;
 }
+
 .referral-top h2{
   color:white;
   font-size:16px;
   margin:0;
 }
+
 .referral-top span{
   color:#ffe58a;
   font-size:9px;
   font-weight:900;
   letter-spacing:1px;
 }
+
 .referral-line{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
+
 .referral-field{
   min-width:0;
   padding:9px 10px;
@@ -447,6 +497,7 @@ main{
   background:rgba(255,255,255,.12);
   border:1px solid rgba(255,255,255,.18);
 }
+
 .referral-field label{
   display:block;
   color:#eadcff;
@@ -454,11 +505,13 @@ main{
   font-weight:900;
   margin-bottom:6px;
 }
+
 .referral-value{
   display:flex;
   align-items:center;
   gap:6px;
 }
+
 .referral-value strong{
   flex:1;
   min-width:0;
@@ -467,6 +520,7 @@ main{
   color:white;
   line-height:1.5;
 }
+
 .copy-btn{
   flex-shrink:0;
   border:0;
@@ -478,7 +532,12 @@ main{
   font-size:9px;
   cursor:pointer;
 }
-.copy-btn:disabled{opacity:.5;cursor:not-allowed}
+
+.copy-btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
 .referral-bottom{
   display:flex;
   align-items:center;
@@ -489,7 +548,9 @@ main{
   font-size:10px;
   color:#f2e8ff;
 }
+
 .referral-bottom strong{color:#ffe58a}
+
 .referral-error{
   display:none;
   font-size:10px;
@@ -497,28 +558,34 @@ main{
   line-height:1.5;
   margin-top:8px;
 }
+
 .referral-stats{
   display:flex;
   align-items:center;
   gap:15px;
 }
+
 .referral-stats span{color:#eadcff}
 .referral-stats strong{color:white;font-size:12px}
+
 .level-details{
   margin-top:9px;
   font-size:10px;
 }
+
 .level-details summary{
   cursor:pointer;
   color:#ffe58a;
   font-weight:bold;
 }
+
 .level-grid{
   display:grid;
   grid-template-columns:repeat(5,minmax(0,1fr));
   gap:5px;
   margin-top:8px;
 }
+
 .level-item{
   background:rgba(255,255,255,.12);
   padding:7px 4px;
@@ -526,13 +593,14 @@ main{
   text-align:center;
   color:#eee3ff;
 }
+
 .level-item strong{
   display:block;
   color:white;
   margin-top:4px;
 }
 
-/* OTHER */
+/* IMPORTANT INFORMATION */
 
 .info-card{
   background:white;
@@ -542,11 +610,13 @@ main{
   margin-bottom:18px;
   box-shadow:0 5px 18px rgba(72,49,123,.045);
 }
+
 .info-card h2{
   color:#53289e;
   font-size:16px;
   margin:0 0 12px;
 }
+
 .info-note{
   padding:13px;
   background:linear-gradient(120deg,#fff2fa,#f1edff);
@@ -556,63 +626,132 @@ main{
   font-size:12px;
   line-height:1.8;
 }
-.security-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 0;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
-.security-row:last-child{border:0}
-.security-row span{color:var(--muted)}
-.security-row a{color:#d94491;font-weight:bold}
+
 footer{
   text-align:center;
   padding:20px;
   color:var(--muted);
   font-size:11px;
 }
-footer span{color:#d94698;font-weight:bold}
+
+footer span{
+  color:#d94698;
+  font-weight:bold;
+}
+
+/* RESPONSIVE */
 
 @media(max-width:950px){
-  main{padding:20px}
+  main{padding:18px}
 }
+
 @media(max-width:700px){
   header{padding:10px 13px}
+
   .mobile-menu{display:block}
+
   .layout{display:block}
-  .sidebar{display:none;width:100%}
+
+  .sidebar{
+    display:none;
+    width:100%;
+  }
+
   .sidebar.show{display:block}
+
   .profile-mini{display:none}
+
   main{padding:15px 12px}
-  .page-heading{padding:18px}
-  .page-heading h1{font-size:22px}
-  .account-card{padding:19px 16px;border-radius:19px}
-  .account-main{gap:13px}
-  .account-avatar{width:94px;height:94px;font-size:30px;border-width:5px}
-  .member-pill{font-size:12px;padding:7px 13px;margin-bottom:8px}
-  .account-name{font-size:20px}
-  .account-subtitle{font-size:12px;margin-top:7px}
-  .join-date{font-size:11px;margin-top:9px}
-  .balance-amount{font-size:29px}
-  .account-action{font-size:14px;padding:13px 5px}
-  .account-actions{gap:8px}
-  .referral-line{grid-template-columns:1fr}
+
+  .account-card{
+    padding:13px 12px;
+    border-radius:17px;
+  }
+
+  .account-main{
+    gap:11px;
+    align-items:center;
+  }
+
+  .account-avatar{
+    width:70px;
+    height:70px;
+    font-size:23px;
+    border-width:5px;
+  }
+
+  .member-pill{
+    font-size:10px;
+    padding:5px 10px;
+    margin-bottom:6px;
+  }
+
+  .account-name{font-size:17px}
+
+  .account-subtitle{
+    font-size:10px;
+    margin-top:5px;
+  }
+
+  .join-date{
+    font-size:10px;
+    margin-top:6px;
+  }
+
+  .account-status{
+    font-size:8px;
+    padding:4px 9px;
+    margin-top:6px;
+  }
+
+  .balance-area{margin-top:9px}
+
+  .balance-amount{font-size:25px}
+
+  .account-actions{gap:6px}
+
+  .account-action{
+    font-size:12px;
+    padding:10px 3px;
+  }
+
+  .referral-line{
+    grid-template-columns:1fr;
+  }
+
   .referral-card{padding:13px}
+
   .referral-stats{gap:10px}
 }
+
 @media(max-width:380px){
   .logo{font-size:15px}
+
   .header-right a{font-size:11px}
+
   .account-main{align-items:flex-start}
-  .account-avatar{width:78px;height:78px;font-size:25px}
-  .account-name{font-size:17px}
-  .account-actions{gap:6px}
-  .account-action{font-size:12px;padding:12px 3px}
-  .balance-amount{font-size:26px}
-  .referral-stats{width:100%;justify-content:space-between}
+
+  .account-avatar{
+    width:65px;
+    height:65px;
+    font-size:21px;
+  }
+
+  .account-name{font-size:16px}
+
+  .account-actions{gap:5px}
+
+  .account-action{
+    font-size:11px;
+    padding:10px 2px;
+  }
+
+  .balance-amount{font-size:24px}
+
+  .referral-stats{
+    width:100%;
+    justify-content:space-between;
+  }
 }
 </style>
 </head>
@@ -621,9 +760,14 @@ footer span{color:#d94698;font-weight:bold}
 
 <header>
   <div class="header-left">
-    <button class="mobile-menu" id="mobileMenu" type="button">☰</button>
-    <a href="index.html" class="logo">RUBALIA <span>NETWORK</span></a>
+    <button class="mobile-menu" id="mobileMenu" type="button"
+      aria-label="Open menu">☰</button>
+
+    <a href="index.html" class="logo">
+      RUBALIA <span>NETWORK</span>
+    </a>
   </div>
+
   <div class="header-right">
     <a href="dashboard.html">Dashboard</a>
     <div class="avatar-small" id="headerAvatar">--</div>
@@ -633,6 +777,7 @@ footer span{color:#d94698;font-weight:bold}
 <div class="layout">
 
   <aside class="sidebar" id="sidebar">
+
     <div class="profile-mini">
       <div class="avatar" id="sidebarAvatar">--</div>
       <h3 id="sidebarName">Loading...</h3>
@@ -640,6 +785,7 @@ footer span{color:#d94698;font-weight:bold}
     </div>
 
     <div class="menu-title">MAIN MENU</div>
+
     <nav class="menu">
       <a href="dashboard.html">▦ &nbsp; Dashboard</a>
       <a href="profile.html" class="active">👤 &nbsp; My Profile</a>
@@ -652,19 +798,16 @@ footer span{color:#d94698;font-weight:bold}
     </nav>
 
     <div class="menu-title">ACCOUNT</div>
+
     <nav class="menu">
       <a href="settings.html">⚙️ &nbsp; Settings</a>
       <a href="contact.html">☎ &nbsp; Support</a>
       <a href="#" id="logoutLink">↪ &nbsp; Logout</a>
     </nav>
+
   </aside>
 
   <main>
-
-    <div class="page-heading">
-      <h1>👤 My Account</h1>
-      <p>Manage your RUBALIA NETWORK account.</p>
-    </div>
 
     <div class="error-box" id="errorBox" role="alert"></div>
 
@@ -675,56 +818,73 @@ footer span{color:#d94698;font-weight:bold}
 
     <div class="profile-content" id="profileContent">
 
-      <!-- PROFILE CARD -->
+      <!-- COMPACT PROFILE CARD -->
+
       <section class="account-card">
 
         <div class="account-main">
+
           <div class="account-avatar" id="largeAvatar">--</div>
 
           <div class="account-details">
+
             <div class="member-pill">✦ RUBALIA MEMBER</div>
 
             <div class="account-name-row">
               <div class="account-name" id="profileName">Member</div>
+
               <button class="member-copy" id="copyMemberBtn"
                 type="button" title="Copy Member ID">▣</button>
             </div>
 
             <div class="account-subtitle">
-              Member ID: <strong id="profileMemberId">Loading...</strong>
+              Member ID:
+              <strong id="profileMemberId">Loading...</strong>
             </div>
 
             <div class="join-date">
-              Joined: <span id="profileSince">Not available</span>
+              Joined:
+              <span id="profileSince">Not available</span>
             </div>
 
             <span class="account-status" id="statusBadge">ACTIVE</span>
+
           </div>
         </div>
 
         <div class="balance-area">
+
           <div>
             <div class="balance-label">WALLET BALANCE</div>
             <div class="balance-amount" id="walletBalance">৳ 0.00</div>
           </div>
+
           <button class="balance-refresh" id="refreshBalance"
             type="button" title="Refresh balance">⟳</button>
+
         </div>
 
         <div class="account-actions">
-          <a href="deposit.html" class="account-action">জমা দিন</a>
-          <a href="withdraw.html" class="account-action">উত্তোলন</a>
+
+          <a href="deposit.html" class="account-action">Deposit</a>
+
+          <a href="withdraw.html" class="account-action">Withdraw</a>
+
           <button type="button" class="account-action" id="myCardBtn">
-            আমার কার্ড
+            Security
           </button>
+
         </div>
 
       </section>
 
-      <!-- MY CARD / ACCOUNT DETAILS -->
+      <!-- SECURITY BUTTON OPENS ACCOUNT DETAILS -->
+
       <section class="account-details-panel" id="accountDetailsPanel">
+
         <div class="section-heading">
-          <h2>📋 Account Details</h2>
+          <h2>🔐 Account Details</h2>
+
           <button type="button" class="close-details" id="closeDetails">
             CLOSE ✕
           </button>
@@ -734,33 +894,52 @@ footer span{color:#d94698;font-weight:bold}
           <span>Full Name</span>
           <strong id="detailName">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Email Address</span>
           <strong id="detailEmail">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Account Role</span>
           <strong id="detailRole">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Account Status</span>
           <strong id="detailStatus">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Member ID</span>
           <strong id="detailMemberId">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Sponsor ID</span>
           <strong id="detailSponsorId">—</strong>
         </div>
+
         <div class="detail-row">
           <span>Registration Date</span>
           <strong id="detailCreated">—</strong>
         </div>
+
+        <div class="detail-row">
+          <span>Password</span>
+          <a href="forgot-password.html"
+            style="color:#d94491;font-weight:bold">Password Help</a>
+        </div>
+
+        <div class="detail-row">
+          <span>Login Session</span>
+          <strong style="color:#159b69">Authenticated</strong>
+        </div>
+
       </section>
 
       <!-- SLIM REFERRAL CARD -->
+
       <section class="referral-card">
 
         <div class="referral-top">
@@ -772,8 +951,10 @@ footer span{color:#d94698;font-weight:bold}
 
           <div class="referral-field">
             <label>MEMBER ID / REFERRAL CODE</label>
+
             <div class="referral-value">
               <strong id="referralCode">Loading...</strong>
+
               <button class="copy-btn" type="button"
                 data-copy="referralCode" disabled>COPY</button>
             </div>
@@ -781,8 +962,10 @@ footer span{color:#d94698;font-weight:bold}
 
           <div class="referral-field">
             <label>YOUR REFERRAL LINK</label>
+
             <div class="referral-value">
               <strong id="referralLink">Loading...</strong>
+
               <button class="copy-btn" type="button"
                 data-copy="referralLink" disabled>COPY</button>
             </div>
@@ -791,60 +974,59 @@ footer span{color:#d94698;font-weight:bold}
         </div>
 
         <div class="referral-bottom">
+
           <div>
             Sponsor ID:
             <strong id="sponsorId">Loading...</strong>
           </div>
 
           <div class="referral-stats">
+
             <div>
               <span>Direct:</span>
               <strong id="directReferrals">—</strong>
             </div>
+
             <div>
               <span>10 Level Team:</span>
               <strong id="totalReferrals">—</strong>
             </div>
+
           </div>
+
         </div>
 
         <details class="level-details">
+
           <summary>View 10 Level Team Summary</summary>
+
           <div class="level-grid" id="levelSummary">
             <div class="level-item">Loading...</div>
           </div>
+
         </details>
 
         <div id="referralError" class="referral-error"></div>
+
       </section>
 
-      <!-- SECURITY -->
-      <section class="info-card">
-        <h2>🔐 Account Security</h2>
-        <div class="security-row">
-          <span>Password</span>
-          <a href="forgot-password.html">Password Help</a>
-        </div>
-        <div class="security-row">
-          <span>Login Session</span>
-          <strong style="color:#159b69">Authenticated</strong>
-        </div>
-        <div class="security-row">
-          <span>Account Access</span>
-          <strong>Server Verified</strong>
-        </div>
-      </section>
+      <!-- IMPORTANT INFORMATION -->
 
       <section class="info-card">
+
         <h2>💡 Important Information</h2>
+
         <div class="info-note">
           Keep your account credentials private. Never share your
           password, OTP or verification codes with anyone. Contact
           support if you notice unfamiliar account activity.
         </div>
+
       </section>
 
-      <footer>© <span>RUBALIA NETWORK</span> — My Account</footer>
+      <footer>
+        © <span>RUBALIA NETWORK</span> — My Profile
+      </footer>
 
     </div>
   </main>
@@ -861,6 +1043,8 @@ const errorBox = document.getElementById("errorBox");
 
 let currentMemberId = "";
 
+/* AUTHENTICATION */
+
 function getToken(){
   return sessionStorage.getItem("rubalia_token");
 }
@@ -871,6 +1055,8 @@ function logout(){
   window.location.replace("login.html");
 }
 
+/* HELPERS */
+
 function initials(name){
   if(!name) return "RN";
 
@@ -880,13 +1066,17 @@ function initials(name){
     return parts[0].substring(0,2).toUpperCase();
   }
 
-  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+  return (
+    parts[0][0] +
+    parts[parts.length-1][0]
+  ).toUpperCase();
 }
 
 function safeText(value,fallback){
   if(value === null || value === undefined || value === ""){
     return fallback || "Not available";
   }
+
   return String(value);
 }
 
@@ -913,7 +1103,10 @@ function showError(message){
   errorBox.textContent = message;
 }
 
+/* API REQUEST */
+
 async function apiGet(path){
+
   const token = getToken();
 
   if(!token){
@@ -940,7 +1133,9 @@ async function apiGet(path){
   }
 
   if(!response.ok || data.success === false){
-    throw new Error(data.message || "Unable to load information.");
+    throw new Error(
+      data.message || "Unable to load information."
+    );
   }
 
   return data;
@@ -949,18 +1144,25 @@ async function apiGet(path){
 /* PROFILE DETAILS */
 
 function showProfile(user){
+
   const name = safeText(user.full_name,"Member");
   const email = safeText(user.email,"Not available");
   const role = safeText(user.role,"Customer");
   const status = safeText(user.status,"Unknown");
 
   currentMemberId = user.memberId ||
-    (user.id ? "RUB" + String(user.id).padStart(6,"0") : "Not available");
+    (
+      user.id
+        ? "RUB" + String(user.id).padStart(6,"0")
+        : "Not available"
+    );
 
   const sponsorId = user.sponsorId ||
-    (user.sponsor_id
-      ? "RUB" + String(user.sponsor_id).padStart(6,"0")
-      : "No Sponsor");
+    (
+      user.sponsor_id
+        ? "RUB" + String(user.sponsor_id).padStart(6,"0")
+        : "No Sponsor"
+    );
 
   const avatar = initials(name);
 
@@ -972,11 +1174,14 @@ function showProfile(user){
   document.getElementById("sidebarEmail").textContent = email;
 
   document.getElementById("profileName").textContent = name;
-  document.getElementById("profileMemberId").textContent = currentMemberId;
+  document.getElementById("profileMemberId").textContent =
+    currentMemberId;
+
   document.getElementById("profileSince").textContent =
     formatDate(user.created_at);
 
   const badge = document.getElementById("statusBadge");
+
   badge.textContent = status;
 
   if(status.toLowerCase() === "active"){
@@ -991,22 +1196,32 @@ function showProfile(user){
   document.getElementById("detailEmail").textContent = email;
   document.getElementById("detailRole").textContent = role;
   document.getElementById("detailStatus").textContent = status;
-  document.getElementById("detailMemberId").textContent = currentMemberId;
-  document.getElementById("detailSponsorId").textContent = sponsorId;
+
+  document.getElementById("detailMemberId").textContent =
+    currentMemberId;
+
+  document.getElementById("detailSponsorId").textContent =
+    sponsorId;
+
   document.getElementById("detailCreated").textContent =
     formatDate(user.created_at);
+
 }
 
 /* WALLET BALANCE */
 
 async function loadWallet(){
-  const balanceElement = document.getElementById("walletBalance");
+
+  const balanceElement =
+    document.getElementById("walletBalance");
+
+  balanceElement.textContent = "Loading...";
 
   try{
+
     const data = await apiGet("/wallet");
 
     const wallet = data.wallet || data;
-
     const balance = Number(wallet.balance);
 
     if(!Number.isFinite(balance)){
@@ -1020,7 +1235,9 @@ async function loadWallet(){
       });
 
   }catch(error){
+
     balanceElement.textContent = "৳ --.--";
+
     console.error("Wallet loading error:",error);
   }
 }
@@ -1028,10 +1245,14 @@ async function loadWallet(){
 /* REFERRAL INFORMATION */
 
 async function loadReferral(){
-  const referralError = document.getElementById("referralError");
+
+  const referralError =
+    document.getElementById("referralError");
+
   referralError.style.display = "none";
 
   try{
+
     const results = await Promise.all([
       apiGet("/referral/me"),
       apiGet("/referral/stats")
@@ -1052,13 +1273,17 @@ async function loadReferral(){
         : "No Sponsor";
 
     document.querySelectorAll("[data-copy]").forEach(function(button){
+
       const id = button.dataset.copy;
-      const value = document.getElementById(id).textContent.trim();
+
+      const value = document.getElementById(id)
+        .textContent.trim();
 
       button.disabled =
         !value ||
         value === "Loading..." ||
         value === "Not available";
+
     });
 
     document.getElementById("directReferrals").textContent =
@@ -1067,12 +1292,17 @@ async function loadReferral(){
     document.getElementById("totalReferrals").textContent =
       Number(stats.totalMembers || 0).toLocaleString();
 
-    const levels = Array.isArray(stats.levels) ? stats.levels : [];
-    const levelSummary = document.getElementById("levelSummary");
+    const levels = Array.isArray(stats.levels)
+      ? stats.levels
+      : [];
+
+    const levelSummary =
+      document.getElementById("levelSummary");
 
     levelSummary.replaceChildren();
 
     for(let level = 1; level <= 10; level++){
+
       const item = levels.find(function(row){
         return Number(row.level) === level;
       });
@@ -1084,94 +1314,145 @@ async function loadReferral(){
       label.textContent = "Level " + level;
 
       const count = document.createElement("strong");
+
       count.textContent =
         Number(item ? item.members : 0).toLocaleString();
 
       box.append(label,count);
+
       levelSummary.appendChild(box);
     }
 
   }catch(error){
+
     referralError.style.display = "block";
+
     referralError.textContent =
-      "Referral information could not be loaded: " + error.message;
+      "Referral information could not be loaded: " +
+      error.message;
+
   }
 }
 
 /* COPY TEXT */
 
 async function copyText(value,button){
-  if(!value || value === "Loading..." || value === "Not available"){
+
+  if(
+    !value ||
+    value === "Loading..." ||
+    value === "Not available"
+  ){
     return;
   }
 
   try{
+
     await navigator.clipboard.writeText(value);
+
   }catch(error){
+
     const textarea = document.createElement("textarea");
+
     textarea.value = value;
     textarea.style.position = "fixed";
     textarea.style.opacity = "0";
 
     document.body.appendChild(textarea);
+
     textarea.select();
 
     const copied = document.execCommand("copy");
+
     textarea.remove();
 
     if(!copied){
       alert("Unable to copy. Please copy manually.");
       return;
     }
+
   }
 
   const oldText = button.textContent;
+
   button.textContent = "COPIED!";
 
   setTimeout(function(){
     button.textContent = oldText;
   },1500);
+
 }
 
+/* REFERRAL COPY BUTTONS */
+
 document.querySelectorAll("[data-copy]").forEach(function(button){
+
   button.addEventListener("click",function(){
+
     const value = document.getElementById(
       button.dataset.copy
     ).textContent.trim();
 
     copyText(value,button);
+
   });
+
 });
 
-document.getElementById("copyMemberBtn").addEventListener("click",function(){
+/* MEMBER ID COPY */
+
+document.getElementById("copyMemberBtn")
+.addEventListener("click",function(){
+
   copyText(currentMemberId,this);
+
 });
 
-/* MY CARD BUTTON */
+/* SECURITY BUTTON */
 
-document.getElementById("myCardBtn").addEventListener("click",function(){
-  const panel = document.getElementById("accountDetailsPanel");
+document.getElementById("myCardBtn")
+.addEventListener("click",function(){
+
+  const panel =
+    document.getElementById("accountDetailsPanel");
+
   panel.classList.toggle("show");
 
   if(panel.classList.contains("show")){
+
     panel.scrollIntoView({
       behavior:"smooth",
       block:"start"
     });
-    this.textContent = "বন্ধ করুন";
+
+    this.textContent = "Close";
+
   }else{
-    this.textContent = "আমার কার্ড";
+
+    this.textContent = "Security";
+
   }
+
 });
 
-document.getElementById("closeDetails").addEventListener("click",function(){
-  document.getElementById("accountDetailsPanel").classList.remove("show");
-  document.getElementById("myCardBtn").textContent = "আমার কার্ড";
+/* CLOSE SECURITY PANEL */
+
+document.getElementById("closeDetails")
+.addEventListener("click",function(){
+
+  document
+    .getElementById("accountDetailsPanel")
+    .classList.remove("show");
+
+  document.getElementById("myCardBtn").textContent =
+    "Security";
+
 });
 
 /* LOAD PROFILE */
 
 async function loadProfile(){
+
   if(!getToken()){
     window.location.replace("login.html");
     return;
@@ -1182,51 +1463,76 @@ async function loadProfile(){
   errorBox.style.display = "none";
 
   try{
+
     const data = await apiGet("/auth/me");
 
     if(!data.user){
-      throw new Error("Account information was not returned.");
+      throw new Error(
+        "Account information was not returned."
+      );
     }
 
-    sessionStorage.setItem("rubalia_user",JSON.stringify(data.user));
+    sessionStorage.setItem(
+      "rubalia_user",
+      JSON.stringify(data.user)
+    );
 
     showProfile(data.user);
 
     loadingBox.style.display = "none";
     profileContent.style.display = "block";
 
-    // Load independent information after profile appears.
+    // Load wallet and referral information.
     loadWallet();
     loadReferral();
 
   }catch(error){
+
     showError(
       error.message === "Failed to fetch"
         ? "Unable to connect to the server. Check your internet connection."
         : (error.message || "Something went wrong.")
     );
+
   }
+
 }
 
-/* NAVIGATION AND REFRESH */
+/* MOBILE MENU */
 
-document.getElementById("mobileMenu").addEventListener("click",function(){
-  document.getElementById("sidebar").classList.toggle("show");
+document.getElementById("mobileMenu")
+.addEventListener("click",function(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("show");
+
 });
 
-document.getElementById("logoutLink").addEventListener("click",function(event){
+/* LOGOUT */
+
+document.getElementById("logoutLink")
+.addEventListener("click",function(event){
+
   event.preventDefault();
 
   if(confirm("Are you sure you want to log out?")){
     logout();
   }
+
 });
 
-document.getElementById("refreshBalance").addEventListener("click",function(){
+/* REFRESH WALLET */
+
+document.getElementById("refreshBalance")
+.addEventListener("click",function(){
   loadWallet();
 });
 
+/* START */
+
 loadProfile();
+
 </script>
 
 </body>
