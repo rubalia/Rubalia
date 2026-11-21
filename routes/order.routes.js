@@ -9,8 +9,7 @@ const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
 
 const {
-  prepareOrderCommission,
-  reverseOrderCommission
+  prepareOrderCommission
 } = require("../services/commission.service");
 
 const router = express.Router();
@@ -96,9 +95,6 @@ function buildProductSnapshot(product) {
 
 // =====================================================
 // BUILD IMMUTABLE PACKAGE COST SNAPSHOT
-// Includes all 3 component product costs and expenses.
-// Package-level delivery/packaging/other costs are added
-// separately to avoid omitting package expenses.
 // =====================================================
 
 function buildPackageSnapshot(pkg) {
@@ -578,7 +574,11 @@ router.get("/", authenticateToken, async (req, res, next) => {
         o.payment_method,
         o.payment_status,
         o.commission_status,
+        o.refund_status,
         o.refund_period_ends_at,
+        o.refund_requested_at,
+        o.refund_confirmed_at,
+        o.refund_admin_note,
         o.created_at,
         o.updated_at,
         COALESCE(
@@ -639,7 +639,11 @@ router.get(
           o.payment_method,
           o.payment_status,
           o.commission_status,
+          o.refund_status,
           o.refund_period_ends_at,
+          o.refund_requested_at,
+          o.refund_confirmed_at,
+          o.refund_admin_note,
           o.created_at,
           o.updated_at,
           COALESCE(
@@ -678,8 +682,13 @@ router.get(
 // =====================================================
 // PATCH /api/orders/:id/status
 // Admin: অর্ডারের অবস্থা পরিবর্তন করবে।
-// Delivered হলে pending commission তৈরি হবে।
-// Cancelled হলে pending/released commission reverse হবে।
+//
+// গুরুত্বপূর্ণ নিয়ম:
+// - Delivered হলে Commission pending হবে।
+// - Cancelled হলে কোনো স্বয়ংক্রিয় Refund হবে না।
+// - Cancelled হলেই Commission reverse হবে না।
+// - Refund নিশ্চিত করার সময় refund.routes.js
+//   Commission reversal এবং Wallet refund করবে।
 // =====================================================
 
 router.patch(
@@ -718,7 +727,8 @@ router.patch(
           status,
           payment_method,
           payment_status,
-          commission_status
+          commission_status,
+          refund_status
          FROM orders
          WHERE id = $1
          FOR UPDATE`,
@@ -746,13 +756,16 @@ router.patch(
         );
       }
 
-      // Delivered orders cannot be reopened.
-      // Refund handling must use a separate verified refund workflow.
-      if (current.status === "delivered") {
+      if (current.payment_status === "refunded") {
         throw Object.assign(
-          new Error(
-            "A delivered order cannot be changed through this endpoint. Use the refund workflow if a refund is required."
-          ),
+          new Error("A refunded order cannot be changed."),
+          { statusCode: 409 }
+        );
+      }
+
+      if (current.refund_status === "completed") {
+        throw Object.assign(
+          new Error("A completed refund order cannot be changed."),
           { statusCode: 409 }
         );
       }
@@ -778,6 +791,13 @@ router.patch(
       let result;
 
       if (status === "delivered") {
+        if (current.status === "cancelled") {
+          throw Object.assign(
+            new Error("A cancelled order cannot be delivered."),
+            { statusCode: 409 }
+          );
+        }
+
         result = await client.query(
           `UPDATE orders
            SET
@@ -794,6 +814,7 @@ router.patch(
              delivered_at,
              commission_status,
              refund_period_ends_at,
+             refund_status,
              updated_at`,
           [orderId]
         );
@@ -803,6 +824,8 @@ router.patch(
         }
 
       } else if (status === "cancelled") {
+        // Cancellation does not automatically refund money.
+        // Commission reversal happens only after Admin confirms refund.
         result = await client.query(
           `UPDATE orders
            SET
@@ -816,13 +839,21 @@ router.patch(
              payment_method,
              payment_status,
              commission_status,
+             refund_status,
              updated_at`,
           [orderId]
         );
 
-        await reverseOrderCommission(client, orderId);
-
       } else {
+        if (current.status === "delivered") {
+          throw Object.assign(
+            new Error(
+              "A delivered order cannot be moved to another processing status. Cancel it first if a refund discussion is required."
+            ),
+            { statusCode: 409 }
+          );
+        }
+
         result = await client.query(
           `UPDATE orders
            SET
@@ -836,6 +867,7 @@ router.patch(
              payment_method,
              payment_status,
              commission_status,
+             refund_status,
              updated_at`,
           [status, orderId]
         );
@@ -850,7 +882,7 @@ router.patch(
           status === "delivered"
             ? "Order delivered. Commission is pending until the return/refund period ends."
             : status === "cancelled"
-              ? "Order cancelled. Any commission entries have been reversed."
+              ? "Order cancelled. No money has been refunded. Admin must contact the customer and confirm a refund separately."
               : "Order status updated successfully.",
         order: result.rows[0]
       });
