@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#071a35">
+<title>Rubalia - Admin Products</title>
+
+<style>
+:root{
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d9ad55;
+  --bg:#f3f5f9;
+  --white:#fff;
+  --text:#17243a;
+  --muted:#778397;
+  --border:#e2e7ef;
+  --green:#168653;
+  --red:#d64545;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{
+  background:var(--navy);color:white;padding:15px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:10
+}
+.brand{font-size:18px;font-weight:800}
+.brand span{color:var(--gold)}
+.header-right{font-size:12px;color:#dce5f3}
+.container{max-width:1200px;margin:auto;padding:20px}
+.page-title{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;flex-wrap:wrap;margin-bottom:20px
+}
+h1{font-size:24px;margin:0 0 6px}
+.subtitle{font-size:13px;color:var(--muted)}
+button{border:0;border-radius:8px;padding:11px 15px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+.primary{background:var(--gold);color:#17243a}
+.secondary{background:var(--navy);color:white}
+.danger{background:#fff0f0;color:var(--red)}
+.small{padding:7px 10px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{font-size:25px;font-weight:800;margin-top:9px}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:17px;margin-bottom:18px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+input,textarea,select{
+  width:100%;padding:12px;border:1px solid #dce2eb;
+  border-radius:8px;font-size:14px;background:white;color:var(--text);outline:none
+}
+input:focus,textarea:focus,select:focus{border-color:var(--gold)}
+.search{flex:1;min-width:180px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1050px}
+th,td{padding:13px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+th{background:#f8f9fc;color:#59677b}
+.product-name{font-weight:700}
+.muted{color:var(--muted);font-size:11px;margin-top:4px}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.status-active{background:#e4f7ed;color:#168653}
+.status-draft{background:#fff4d9;color:#9a6a0a}
+.status-archived{background:#f1f1f1;color:#777}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.message{padding:13px;border-radius:9px;font-size:13px;margin-bottom:15px;display:none;line-height:1.6}
+.error{background:#fff0f0;color:#b52c2c}
+.success{background:#e7f8ee;color:#137346}
+.empty{text-align:center;padding:35px;color:var(--muted)}
+.modal{
+  display:none;position:fixed;inset:0;background:#0009;z-index:30;
+  align-items:center;justify-content:center;padding:15px
+}
+.modal.show{display:flex}
+.modal-box{
+  background:white;width:100%;max-width:560px;max-height:92vh;
+  overflow:auto;border-radius:14px;padding:20px
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-head h2{font-size:20px;margin:0}
+.close{background:#f0f2f6;color:#333;padding:7px 11px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.field small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.cost-heading{font-size:15px;font-weight:800;margin:20px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cost-summary{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:15px}
+.cost-summary div{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin:7px 0}
+.cost-summary .total{border-top:1px solid var(--border);padding-top:10px;margin-top:12px;font-size:15px;font-weight:800}
+.cost-note{color:var(--muted);font-size:11px;line-height:1.5;margin-top:10px}
+.form-actions{display:flex;gap:10px;margin-top:18px}
+.form-actions button{flex:1}
+#loading{text-align:center;padding:25px;color:var(--muted)}
+#access{
+  display:none;max-width:500px;margin:70px auto;padding:25px;
+  background:white;border-radius:13px;text-align:center
+}
+.cost-cell{font-weight:700;color:#9a6a0a}
+@media(max-width:600px){
+  .container{padding:13px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:last-child{grid-column:1/-1}
+  h1{font-size:21px}
+  .page-title button{width:100%}
+  .cost-grid{grid-template-columns:1fr}
+  .modal-box{padding:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+  <div class="header-right">ADMIN PANEL</div>
+</header>
+
+<div id="access">
+  <h2>Admin Access Required</h2>
+  <p id="accessText">Please login with your administrator account.</p>
+  <button class="primary" id="loginButton" type="button">Go to Login</button>
+</div>
+
+<main class="container" id="main" style="display:none">
+
+  <div class="page-title">
+    <div>
+      <h1>Product Management</h1>
+      <div class="subtitle">
+        Manage products, selling prices and actual product costs
+      </div>
+    </div>
+    <button class="primary" id="addProductButton" type="button">
+      + Add Product
+    </button>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Total Products</div>
+      <div class="stat-value" id="totalProducts">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total Stock</div>
+      <div class="stat-value" id="totalStock">—</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Out of Stock</div>
+      <div class="stat-value" id="outStock">—</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <input class="search" id="searchInput" type="search"
+        placeholder="Search product name or SKU..." autocomplete="off">
+      <button class="secondary" id="refreshButton" type="button">Refresh</button>
+    </div>
+
+    <div id="loading">Loading products...</div>
+
+    <div class="table-wrap" id="tableWrap" style="display:none">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>SKU</th>
+            <th>Selling Price</th>
+            <th>Actual Cost</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productRows"></tbody>
+      </table>
+    </div>
+
+    <div class="empty" id="empty" style="display:none">
+      No products found.
+    </div>
+  </section>
+</main>
+
+<div class="modal" id="productModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2 id="modalTitle">Add Product</h2>
+      <button class="close" type="button" id="closeModalButton">✕</button>
+    </div>
+
+    <form id="productForm">
+      <input type="hidden" id="productId">
+
+      <div class="field">
+        <label>Product Name *</label>
+        <input id="name" maxlength="180" required placeholder="Enter product name">
+      </div>
+
+      <div class="field">
+        <label>SKU (Optional)</label>
+        <input id="sku" maxlength="80" placeholder="Enter product SKU">
+      </div>
+
+      <div class="field">
+        <label>Selling Price (৳) *</label>
+        <input id="price" type="number" min="0" max="999999999999.99"
+          step="0.01" required placeholder="0.00">
+      </div>
+
+      <div class="field">
+        <label>Stock Quantity *</label>
+        <input id="stock" type="number" min="0" step="1"
+          required placeholder="0">
+      </div>
+
+      <div class="field">
+        <label>Status</label>
+        <select id="status">
+          <option value="active">Active</option>
+          <option value="draft">Draft</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Description</label>
+        <textarea id="description" rows="4" placeholder="Write product details..."></textarea>
+      </div>
+
+      <div class="cost-heading">Product Cost Management</div>
+
+      <div class="cost-grid">
+        <div class="field">
+          <label>Cost Price (৳) *</label>
+          <input id="costPrice" type="number" min="0" max="999999999999.99"
+            step="0.01" required value="0">
+          <small>Actual purchase or production cost.</small>
+        </div>
+
+        <div class="field">
+          <label>Delivery Cost (৳) *</label>
+          <input id="deliveryCost" type="number" min="0" max="999999999999.99"
+            step="0.01" required value="0">
+          <small>Delivery expense for this product.</small>
+        </div>
+
+        <div class="field">
+          <label>Packaging Cost (৳) *</label>
+          <input id="packagingCost" type="number" min="0" max="999999999999.99"
+            step="0.01" required value="0">
+        </div>
+
+        <div class="field">
+          <label>Other Cost (৳) *</label>
+          <input id="otherCost" type="number" min="0" max="999999999999.99"
+            step="0.01" required value="0">
+        </div>
+      </div>
+
+      <div class="cost-summary">
+        <div><span>Cost Price</span><strong id="summaryCostPrice">৳0.00</strong></div>
+        <div><span>Delivery Cost</span><strong id="summaryDelivery">৳0.00</strong></div>
+        <div><span>Packaging Cost</span><strong id="summaryPackaging">৳0.00</strong></div>
+        <div><span>Other Cost</span><strong id="summaryOther">৳0.00</strong></div>
+        <div class="total"><span>Total Actual Cost</span><strong id="summaryTotal">৳0.00</strong></div>
+      </div>
+
+      <div class="cost-note">
+        Total Actual Cost is used by the order cost snapshot and
+        commission calculation. Updating a product's current cost
+        does not change previously created orders.
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="secondary" id="cancelButton">Cancel</button>
+        <button type="submit" class="primary" id="saveButton">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+let token = sessionStorage.getItem("rubalia_token") || "";
+let products = [];
+let saving = false;
+let loadingProducts = false;
+let messageTimer = null;
+
+const $ = id => document.getElementById(id);
+
+const COST_INPUTS = [
+  "costPrice",
+  "deliveryCost",
+  "packagingCost",
+  "otherCost"
+];
+
+function redirectLogin(){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  location.replace("../login.html");
+}
+
+function showAccess(message){
+  $("main").style.display = "none";
+  $("access").style.display = "block";
+  $("accessText").textContent = message;
+}
+
+function showMessage(message,type){
+  const box = $("message");
+
+  box.textContent = message;
+  box.className = "message " + type;
+  box.style.display = "block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  if(messageTimer) clearTimeout(messageTimer);
+
+  messageTimer = setTimeout(()=>{
+    box.style.display = "none";
+  },5000);
+}
+
+async function apiRequest(path,options={}){
+  const headers = {
+    "Accept":"application/json",
+    "Authorization":"Bearer " + token,
+    ...(options.body ? {"Content-Type":"application/json"} : {}),
+    ...(options.headers || {})
+  };
+
+  const response = await fetch(API_BASE + path,{
+    method:options.method || "GET",
+    headers,
+    body:options.body,
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status === 401){
+    redirectLogin();
+    throw new Error("Your session expired. Please login again.");
+  }
+
+  if(response.status === 403){
+    throw new Error(data.message || "Administrator permission required.");
+  }
+
+  if(!response.ok || data.success === false){
+    throw new Error(data.message || "Server request failed.");
+  }
+
+  return data;
+}
+
+async function verifyAdmin(){
+  if(!token){
+    showAccess("Please login with your Admin account first.");
+    return false;
+  }
+
+  try{
+    const data = await apiRequest("/auth/me");
+    const user = data.user || data.profile;
+
+    if(!user){
+      throw new Error("Account information was not returned.");
+    }
+
+    if(String(user.role || "").toLowerCase() !== "admin"){
+      showAccess("Your account does not have Admin permission.");
+      return false;
+    }
+
+    $("main").style.display = "block";
+    await loadProducts();
+
+    return true;
+
+  }catch(error){
+    if(!sessionStorage.getItem("rubalia_token")){
+      return false;
+    }
+
+    showAccess(error.message || "Admin verification failed.");
+    return false;
+  }
+}
+
+async function loadProducts(){
+  if(loadingProducts) return;
+
+  loadingProducts = true;
+
+  $("loading").style.display = "block";
+  $("loading").textContent = "Loading products...";
+  $("tableWrap").style.display = "none";
+  $("empty").style.display = "none";
+  $("refreshButton").disabled = true;
+
+  try{
+    const data = await apiRequest("/products/admin/all");
+
+    if(!Array.isArray(data.products)){
+      throw new Error("Unexpected product list response from server.");
+    }
+
+    products = data.products;
+
+    updateStats();
+    renderProducts();
+
+    $("loading").style.display = "none";
+
+  }catch(error){
+    $("loading").style.display = "block";
+    $("loading").textContent = "Unable to load products.";
+
+    products = [];
+    updateStats();
+
+    showMessage(error.message,"error");
+
+  }finally{
+    loadingProducts = false;
+    $("refreshButton").disabled = false;
+  }
+}
+
+function updateStats(){
+  $("totalProducts").textContent = products.length.toLocaleString();
+
+  $("totalStock").textContent = products.reduce(
+    (sum,p)=>sum + Number(p.stock || 0),
+    0
+  ).toLocaleString();
+
+  $("outStock").textContent = products.filter(
+    p=>Number(p.stock) === 0
+  ).length.toLocaleString();
+}
+
+function money(value){
+  const number = Number(value);
+
+  if(!Number.isFinite(number)) return "—";
+
+  return "৳" + number.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+}
+
+function calculateProductCost(product){
+  return (
+    Number(product.cost_price || 0) +
+    Number(product.delivery_cost || 0) +
+    Number(product.packaging_cost || 0) +
+    Number(product.other_cost || 0)
+  );
+}
+
+function appendCell(row,value){
+  const cell = document.createElement("td");
+  cell.textContent = String(value ?? "—");
+  row.appendChild(cell);
+  return cell;
+}
+
+function renderProducts(){
+  const query = $("searchInput").value.trim().toLowerCase();
+
+  const filtered = products.filter(p=>
+    String(p.name || "").toLowerCase().includes(query) ||
+    String(p.sku || "").toLowerCase().includes(query)
+  );
+
+  const rows = $("productRows");
+  rows.replaceChildren();
+
+  $("tableWrap").style.display = filtered.length ? "block" : "none";
+  $("empty").style.display = filtered.length ? "none" : "block";
+
+  filtered.forEach(product=>{
+    const tr = document.createElement("tr");
+
+    const nameCell = document.createElement("td");
+    const name = document.createElement("div");
+    name.className = "product-name";
+    name.textContent = product.name || "Unnamed Product";
+
+    const id = document.createElement("div");
+    id.className = "muted";
+    id.textContent = "ID: " + product.id;
+
+    nameCell.append(name,id);
+    tr.appendChild(nameCell);
+
+    appendCell(tr,product.sku || "—");
+    appendCell(tr,money(product.price));
+
+    const costCell = document.createElement("td");
+    const cost = document.createElement("div");
+    cost.className = "cost-cell";
+    cost.textContent = money(calculateProductCost(product));
+
+    const costDetail = document.createElement("div");
+    costDetail.className = "muted";
+    costDetail.textContent = "Price: " + money(product.cost_price);
+
+    costCell.append(cost,costDetail);
+    tr.appendChild(costCell);
+
+    appendCell(tr,Number(product.stock || 0));
+
+    const statusCell = document.createElement("td");
+    const badge = document.createElement("span");
+    const status = String(product.status || "draft").toLowerCase();
+
+    badge.className = "status " +
+      (status === "active" ? "status-active" :
+       status === "draft" ? "status-draft" : "status-archived");
+
+    badge.textContent = status;
+    statusCell.appendChild(badge);
+    tr.appendChild(statusCell);
+
+    const actionCell = document.createElement("td");
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const editButton = document.createElement("button");
+    editButton.className = "small secondary";
+    editButton.type = "button";
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click",()=>editProduct(product.id));
+
+    const archiveButton = document.createElement("button");
+    archiveButton.className = "small danger";
+    archiveButton.type = "button";
+    archiveButton.textContent = status === "archived" ? "Archived" : "Archive";
+    archiveButton.disabled = status === "archived";
+    archiveButton.addEventListener("click",()=>archiveProduct(product.id));
+
+    actions.append(editButton,archiveButton);
+    actionCell.appendChild(actions);
+    tr.appendChild(actionCell);
+
+    rows.appendChild(tr);
+  });
+}
+
+function getInputNumber(id){
+  return Number($(id).value || 0);
+}
+
+function updateCostSummary(){
+  const costPrice = getInputNumber("costPrice");
+  const delivery = getInputNumber("deliveryCost");
+  const packaging = getInputNumber("packagingCost");
+  const other = getInputNumber("otherCost");
+
+  $("summaryCostPrice").textContent = money(costPrice);
+  $("summaryDelivery").textContent = money(delivery);
+  $("summaryPackaging").textContent = money(packaging);
+  $("summaryOther").textContent = money(other);
+  $("summaryTotal").textContent = money(
+    costPrice + delivery + packaging + other
+  );
+}
+
+function resetCostFields(){
+  COST_INPUTS.forEach(id=>$(id).value = "0");
+  updateCostSummary();
+}
+
+function openAddModal(){
+  $("productForm").reset();
+  $("productId").value = "";
+
+  $("modalTitle").textContent = "Add Product";
+  $("saveButton").textContent = "Save Product";
+  $("status").value = "active";
+
+  resetCostFields();
+
+  $("productModal").classList.add("show");
+}
+
+function closeModal(){
+  if(saving) return;
+  $("productModal").classList.remove("show");
+}
+
+function editProduct(id){
+  const product = products.find(p=>String(p.id)===String(id));
+  if(!product) return;
+
+  $("productId").value = product.id;
+  $("name").value = product.name || "";
+  $("sku").value = product.sku || "";
+  $("price").value = product.price ?? 0;
+  $("stock").value = product.stock ?? 0;
+  $("description").value = product.description || "";
+  $("status").value = product.status || "draft";
+
+  $("costPrice").value = product.cost_price ?? 0;
+  $("deliveryCost").value = product.delivery_cost ?? 0;
+  $("packagingCost").value = product.packaging_cost ?? 0;
+  $("otherCost").value = product.other_cost ?? 0;
+
+  updateCostSummary();
+
+  $("modalTitle").textContent = "Edit Product";
+  $("saveButton").textContent = "Update Product";
+
+  $("productModal").classList.add("show");
+}
+
+function validateMoneyField(id,label){
+  const input = $(id);
+  const value = input.value.trim();
+
+  if(
+    value === "" ||
+    !/^\d{1,12}(\.\d{1,2})?$/.test(value) ||
+    !Number.isFinite(Number(value)) ||
+    Number(value) < 0
+  ){
+    throw new Error(
+      label + " must be a valid non-negative amount with up to 2 decimal places."
+    );
+  }
+
+  return Number(value).toFixed(2);
+}
+
+$("productForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  if(saving) return;
+
+  const id = $("productId").value;
+  let payload;
+
+  try{
+    payload = {
+      name:$("name").value.trim(),
+      sku:$("sku").value.trim(),
+      price:validateMoneyField("price","Selling Price"),
+      stock:Number($("stock").value),
+      status:$("status").value,
+      description:$("description").value.trim(),
+
+      costPrice:validateMoneyField("costPrice","Cost Price"),
+      deliveryCost:validateMoneyField("deliveryCost","Delivery Cost"),
+      packagingCost:validateMoneyField("packagingCost","Packaging Cost"),
+      otherCost:validateMoneyField("otherCost","Other Cost")
+    };
+
+    if(!payload.name){
+      throw new Error("Product name is required.");
+    }
+
+    if(payload.name.length > 180){
+      throw new Error("Product name cannot exceed 180 characters.");
+    }
+
+    if(payload.sku.length > 80){
+      throw new Error("SKU cannot exceed 80 characters.");
+    }
+
+    if(
+      !Number.isSafeInteger(payload.stock) ||
+      payload.stock < 0
+    ){
+      throw new Error("Stock must be a non-negative whole number.");
+    }
+
+    if(!["active","draft","archived"].includes(payload.status)){
+      throw new Error("Invalid product status.");
+    }
+
+  }catch(error){
+    showMessage(error.message,"error");
+    return;
+  }
+
+  saving = true;
+
+  $("saveButton").disabled = true;
+  $("cancelButton").disabled = true;
+  $("closeModalButton").disabled = true;
+  $("saveButton").textContent = "Saving...";
+
+  try{
+    const path = id
+      ? "/products/" + encodeURIComponent(id)
+      : "/products";
+
+    const method = id ? "PUT" : "POST";
+
+    const result = await apiRequest(path,{
+      method,
+      body:JSON.stringify(payload)
+    });
+
+    $("productModal").classList.remove("show");
+
+    showMessage(
+      result.message ||
+      (id ? "Product updated successfully." : "Product created successfully."),
+      "success"
+    );
+
+    await loadProducts();
+
+  }catch(error){
+    showMessage(error.message,"error");
+
+  }finally{
+    saving = false;
+
+    $("saveButton").disabled = false;
+    $("cancelButton").disabled = false;
+    $("closeModalButton").disabled = false;
+
+    $("saveButton").textContent =
+      $("productId").value ? "Update Product" : "Save Product";
+  }
+});
+
+async function archiveProduct(id){
+  const product = products.find(p=>String(p.id)===String(id));
+  if(!product) return;
+
+  if(String(product.status).toLowerCase()==="archived") return;
+
+  if(!confirm(
+    'Archive "' + product.name +
+    '"? The product will be marked as archived, not permanently deleted.'
+  )){
+    return;
+  }
+
+  try{
+    const result = await apiRequest(
+      "/products/" + encodeURIComponent(id),
+      {method:"DELETE"}
+    );
+
+    showMessage(
+      result.message || "Product archived successfully.",
+      "success"
+    );
+
+    await loadProducts();
+
+  }catch(error){
+    showMessage(error.message,"error");
+  }
+}
+
+COST_INPUTS.forEach(id=>{
+  $(id).addEventListener("input",updateCostSummary);
+});
+
+$("searchInput").addEventListener("input",renderProducts);
+$("refreshButton").addEventListener("click",loadProducts);
+$("addProductButton").addEventListener("click",openAddModal);
+$("closeModalButton").addEventListener("click",closeModal);
+$("cancelButton").addEventListener("click",closeModal);
+$("loginButton").addEventListener("click",()=>{
+  location.href = "../login.html";
+});
+
+$("productModal").addEventListener("click",event=>{
+  if(event.target === $("productModal")) closeModal();
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape") closeModal();
+});
+
+verifyAdmin();
+</script>
+
+</body>
+          </html>
