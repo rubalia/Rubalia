@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#21152f">
+<title>Checkout | RUBALIA NETWORK</title>
+
+<style>
+:root{
+  --red:#a71952;
+  --pink:#e72c76;
+  --dark:#21172f;
+  --gold:#d9ae5b;
+  --bg:#f7f5f9;
+  --white:#fff;
+  --text:#29243a;
+  --muted:#858196;
+  --border:#eae6ee;
+  --green:#16804b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+
+header{
+  min-height:65px;
+  padding:12px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);
+  color:white;
+}
+.logo{font-size:19px;font-weight:900;letter-spacing:1px}
+.logo span{color:#f5dda0}
+.header-link{
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
+}
+main{
+  width:100%;
+  max-width:1050px;
+  margin:30px auto;
+  padding:0 17px 45px;
+}
+.page-heading{margin-bottom:22px}
+.page-heading h1{font-size:25px;color:#30243e;margin:0 0 7px}
+.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+
+.checkout-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  align-items:start;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:21px;
+  box-shadow:0 8px 25px rgba(31,20,49,.05);
+}
+.panel h2{
+  margin:0 0 17px;
+  color:#30243e;
+  font-size:16px;
+}
+.package-image{
+  width:100%;
+  height:235px;
+  overflow:hidden;
+  border-radius:11px;
+  background:linear-gradient(135deg,#f9e8ef,#eee8f6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#a51d54;
+  font-size:45px;
+}
+.package-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.package-name{
+  margin:17px 0 8px;
+  color:#30243e;
+  font-size:21px;
+  font-weight:900;
+}
+.package-description{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+.price-row{
+  margin-top:17px;
+  padding:15px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.price-label{font-size:11px;color:var(--muted)}
+.price-value{font-size:23px;color:#a71952;font-weight:900}
+.stock-text{font-size:11px;color:var(--green);margin-top:12px}
+.product-list{margin-top:19px}
+.product-list h3{font-size:12px;color:#30243e}
+.product-item{
+  padding:10px 0;
+  border-bottom:1px solid #f0edf2;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:11px;
+}
+.product-item span:last-child{color:var(--muted)}
+
+.form-group{margin-bottom:15px}
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  color:#4b4055;
+  font-size:11px;
+  font-weight:bold;
+}
+.form-group input,.form-group textarea{
+  width:100%;
+  border:1px solid #e5dfeb;
+  border-radius:9px;
+  background:#fff;
+  color:var(--text);
+  padding:13px;
+  font-size:12px;
+  outline:none;
+}
+.form-group input:focus,.form-group textarea:focus{
+  border-color:#c64d81;
+  box-shadow:0 0 0 3px rgba(214,0,69,.07);
+}
+.form-group textarea{min-height:95px;resize:vertical}
+.quantity-control{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.quantity-control button{
+  width:37px;height:37px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:#a71952;
+  border-radius:8px;
+  font-size:20px;
+  font-weight:bold;
+}
+.quantity-control input{
+  width:65px;
+  text-align:center;
+  padding:10px 5px;
+}
+.summary{
+  margin-top:20px;
+  padding:15px;
+  border-radius:10px;
+  background:#fbf7fa;
+}
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 0;
+  font-size:12px;
+}
+.summary-total{
+  border-top:1px solid #e8dfe7;
+  margin-top:7px;
+  padding-top:14px;
+  font-size:16px;
+  font-weight:900;
+  color:#a71952;
+}
+.payment-box{
+  padding:14px;
+  border:1px solid #ead8e2;
+  background:#fff9fc;
+  border-radius:10px;
+  display:flex;
+  gap:11px;
+  align-items:center;
+  font-size:12px;
+}
+.payment-box input{accent-color:#a71952}
+.payment-box strong{display:block;margin-bottom:4px}
+.payment-box small{color:var(--muted);font-size:10px}
+
+.submit-btn{
+  width:100%;
+  margin-top:18px;
+  padding:15px;
+  border:0;
+  border-radius:9px;
+  color:white;
+  background:linear-gradient(110deg,#ed286a,#9b164f);
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.submit-btn:disabled{opacity:.55;cursor:not-allowed}
+.message{
+  display:none;
+  padding:13px;
+  margin-bottom:15px;
+  border-radius:9px;
+  font-size:12px;
+  line-height:1.7;
+}
+.message.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.message.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+.message.info{display:block;background:#f1f5ff;color:#34558a;border:1px solid #d7e2fa}
+.success-card{
+  display:none;
+  text-align:center;
+  background:white;
+  border:1px solid #d5eadb;
+  border-radius:15px;
+  padding:30px 20px;
+}
+.success-icon{font-size:48px}
+.success-card h2{color:#16804b}
+.order-number{
+  padding:13px;
+  background:#f1faf4;
+  border-radius:8px;
+  font-weight:bold;
+  color:#17633b;
+  margin:17px 0;
+  overflow-wrap:anywhere;
+}
+.success-card a{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:8px;
+  background:#a71952;
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  background:#21152f;
+  color:#d9cbd9;
+  font-size:10px;
+}
+footer strong{color:#f5dda0}
+
+@media(max-width:750px){
+  .checkout-grid{grid-template-columns:1fr}
+  main{margin:22px auto}
+  .package-image{height:205px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="dashboard.html" class="logo">RUBALIA <span>NETWORK</span></a>
+  <a href="dashboard.html" class="header-link">← Back to Shop</a>
+</header>
+
+<main>
+
+  <div class="page-heading">
+    <h1>Complete Your Order</h1>
+    <p>Review your package and provide your delivery information.</p>
+  </div>
+
+  <div id="pageMessage" class="message"></div>
+
+  <section class="success-card" id="successCard">
+    <div class="success-icon">🎉</div>
+    <h2>Order Placed Successfully!</h2>
+    <p>Your order has been received by RUBALIA NETWORK.</p>
+    <div class="order-number" id="successOrderNumber">—</div>
+    <p id="successTotal"></p>
+    <a href="orders.html">View My Orders</a>
+    <br><br>
+    <a href="dashboard.html" style="background:#30243e">Continue Shopping</a>
+  </section>
+
+  <div class="checkout-grid" id="checkoutGrid" hidden>
+
+    <!-- PACKAGE DETAILS -->
+    <section class="panel">
+      <h2>Package Details</h2>
+
+      <div class="package-image" id="packageImage">📦</div>
+
+      <div class="package-name" id="packageName">Loading...</div>
+      <div class="package-description" id="packageDescription"></div>
+
+      <div class="price-row">
+        <span class="price-label">Package Price</span>
+        <span class="price-value" id="packagePrice">—</span>
+      </div>
+
+      <div class="stock-text" id="stockText"></div>
+
+      <div class="product-list">
+        <h3>Included Products</h3>
+        <div id="includedProducts">
+          Loading products...
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOMER FORM -->
+    <section class="panel">
+      <h2>Delivery Information</h2>
+
+      <form id="checkoutForm">
+
+        <div class="form-group">
+          <label for="customerName">Full Name *</label>
+          <input
+            id="customerName"
+            name="customerName"
+            type="text"
+            minlength="2"
+            maxlength="120"
+            autocomplete="name"
+            required
+            placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="customerPhone">Mobile Number *</label>
+          <input
+            id="customerPhone"
+            name="customerPhone"
+            type="tel"
+            minlength="6"
+            maxlength="30"
+            autocomplete="tel"
+            required
+            placeholder="01XXXXXXXXX">
+        </div>
+
+        <div class="form-group">
+          <label for="customerAddress">Full Delivery Address *</label>
+          <textarea
+            id="customerAddress"
+            name="customerAddress"
+            minlength="5"
+            maxlength="2000"
+            autocomplete="street-address"
+            required
+            placeholder="House, Road, Village, Union, Upazila, District"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Quantity *</label>
+          <div class="quantity-control">
+            <button type="button" id="minusBtn" aria-label="Decrease quantity">−</button>
+            <input
+              id="quantity"
+              type="number"
+              min="1"
+              max="100"
+              value="1"
+              readonly>
+            <button type="button" id="plusBtn" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="summary-row">
+            <span>Package Price</span>
+            <strong id="summaryPrice">৳ 0</strong>
+          </div>
+          <div class="summary-row">
+            <span>Quantity</span>
+            <strong id="summaryQuantity">1</strong>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <strong id="summaryTotal">৳ 0</strong>
+          </div>
+          <div style="font-size:10px;color:#858196;margin-top:9px">
+            Delivery charge, if applicable, will be confirmed by the seller.
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:18px">
+          <label>Payment Method</label>
+          <label class="payment-box">
+            <input type="radio" checked disabled>
+            <span>
+              <strong>Cash on Delivery</strong>
+              <small>Pay when your package is delivered.</small>
+            </span>
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          CONFIRM ORDER
+        </button>
+
+        <p style="font-size:10px;color:#858196;line-height:1.7;margin:12px 0 0">
+          By confirming, you agree to submit this order to RUBALIA NETWORK.
+        </p>
+
+      </form>
+    </section>
+
+  </div>
+
+</main>
+
+<footer>
+  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
+</footer>
+
+<script>
+"use strict";
+
+const API_BASE = "https://rubalia.onrender.com/api";
+
+let token = "";
+let packageData = null;
+let packageId = 0;
+
+const $ = id => document.getElementById(id);
+
+function showMessage(type, text) {
+  const box = $("pageMessage");
+  box.className = "message " + type;
+  box.textContent = text;
+  box.style.display = "block";
+}
+
+function clearMessage() {
+  const box = $("pageMessage");
+  box.className = "message";
+  box.textContent = "";
+  box.style.display = "none";
+}
+
+function formatMoney(value) {
+  const number = Number(value);
+  return "৳ " + number.toLocaleString("en-BD", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+async function apiRequest(path, options = {}) {
+  const response = await fetch(API_BASE + path, {
+    ...options,
+    headers: {
+      "Accept": "application/json",
+      ...(options.body ? {"Content-Type": "application/json"} : {}),
+      ...(token ? {"Authorization": "Bearer " + token} : {}),
+      ...(options.headers || {})
+    },
+    cache: "no-store"
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (response.status === 401) {
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    window.location.replace("login.html");
+    throw new Error("Your login session has expired. Please login again.");
+  }
+
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || "Request failed. Please try again.");
+  }
+
+  return data;
+}
+
+function getQuantity() {
+  return Number($("quantity").value);
+}
+
+function updateTotal() {
+  if (!packageData) return;
+
+  const quantity = getQuantity();
+  const price = Number(packageData.price);
+  const total = price * quantity;
+
+  $("summaryPrice").textContent = formatMoney(price);
+  $("summaryQuantity").textContent = quantity;
+  $("summaryTotal").textContent = formatMoney(total);
+}
+
+function renderPackage(item) {
+  packageData = item;
+
+  $("packageName").textContent = item.name || "Package";
+  $("packageDescription").textContent =
+    item.description || "RUBALIA NETWORK package.";
+
+  $("packagePrice").textContent = formatMoney(item.price);
+
+  const stock = Number(item.stock);
+  $("stockText").textContent = "Available Stock: " + stock;
+
+  if (item.image_url) {
+    const image = document.createElement("img");
+    image.src = item.image_url;
+    image.alt = item.name || "Package banner";
+    image.onerror = () => {
+      $("packageImage").textContent = "📦";
+    };
+
+    $("packageImage").replaceChildren(image);
+  } else {
+    $("packageImage").textContent = "📦";
+  }
+
+  const productBox = $("includedProducts");
+  productBox.replaceChildren();
+
+  if (Array.isArray(item.products) && item.products.length) {
+    item.products.forEach(product => {
+      const row = document.createElement("div");
+      row.className = "product-item";
+
+      const name = document.createElement("span");
+      name.textContent = product.name || "Product";
+
+      const price = document.createElement("span");
+      price.textContent = formatMoney(product.price);
+
+      row.append(name, price);
+      productBox.appendChild(row);
+    });
+  } else {
+    productBox.textContent = "Product details are not available.";
+  }
+
+  $("quantity").max = Math.min(100, stock);
+
+  if (stock < 1) {
+    $("submitBtn").disabled = true;
+    showMessage("error", "This package is currently out of stock.");
+  }
+
+  updateTotal();
+}
+
+async function initializeCheckout() {
+  token = sessionStorage.getItem("rubalia_token") || "";
+
+  if (!token) {
+    const currentUrl = window.location.pathname + window.location.search;
+    window.location.replace(
+      "login.html?redirect=" + encodeURIComponent(currentUrl)
+    );
+    return;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get("type");
+  packageId = Number(params.get("id"));
+
+  if (type !== "package" || !Number.isSafeInteger(packageId) || packageId < 1) {
+    showMessage("error", "Invalid package link. Please return to the shop.");
+    return;
+  }
+
+  try {
+    const me = await apiRequest("/auth/me");
+
+    if (!me.user) {
+      throw new Error("Unable to verify your account.");
+    }
+
+    if (String(me.user.role).toLowerCase() === "admin") {
+      window.location.replace("admin-dashboard.html");
+      return;
+    }
+
+    const data = await apiRequest("/packages/" + packageId);
+
+    if (!data.package) {
+      throw new Error("Package information was not returned by the server.");
+    }
+
+    renderPackage(data.package);
+    $("checkoutGrid").hidden = false;
+
+    // Prefill customer name when available.
+    $("customerName").value =
+      me.user.full_name || me.user.fullName || "";
+  } catch (error) {
+    showMessage("error", error.message);
+  }
+}
+
+$("minusBtn").addEventListener("click", () => {
+  const quantity = getQuantity();
+  if (quantity > 1) {
+    $("quantity").value = quantity - 1;
+    updateTotal();
+  }
+});
+
+$("plusBtn").addEventListener("click", () => {
+  const quantity = getQuantity();
+  const max = Number($("quantity").max);
+
+  if (quantity < max && quantity < 100) {
+    $("quantity").value = quantity + 1;
+    updateTotal();
+  }
+});
+
+$("checkoutForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  clearMessage();
+
+  if (!packageData) {
+    showMessage("error", "Package information is not ready.");
+    return;
+  }
+
+  const shippingName = $("customerName").value.trim();
+  const shippingPhone = $("customerPhone").value.trim();
+  const shippingAddress = $("customerAddress").value.trim();
+  const quantity = getQuantity();
+
+  if (shippingName.length < 2 ||
+      shippingPhone.length < 6 ||
+      shippingAddress.length < 5) {
+    showMessage("error", "Please complete all delivery information.");
+    return;
+  }
+
+  if (!Number.isInteger(quantity) ||
+      quantity < 1 ||
+      quantity > 100) {
+    showMessage("error", "Please select a valid quantity.");
+    return;
+  }
+
+  $("submitBtn").disabled = true;
+  $("submitBtn").textContent = "PLACING ORDER...";
+
+  try {
+    const result = await apiRequest("/orders", {
+      method: "POST",
+      body: JSON.stringify({
+        items: [{
+          type: "package",
+          packageId: packageId,
+          quantity: quantity
+        }],
+        shippingName,
+        shippingPhone,
+        shippingAddress
+      })
+    });
+
+    if (!result.order) {
+      throw new Error("The server did not return order confirmation.");
+    }
+
+    $("checkoutGrid").hidden = true;
+    $("pageMessage").style.display = "none";
+    $("successCard").style.display = "block";
+
+    $("successOrderNumber").textContent =
+      result.order.order_number || ("Order #" + result.order.id);
+
+    $("successTotal").textContent =
+      "Order Total: " + formatMoney(result.order.total_amount);
+
+    window.scrollTo({top: 0, behavior: "smooth"});
+
+  } catch (error) {
+    showMessage("error", error.message);
+    $("submitBtn").disabled = false;
+    $("submitBtn").textContent = "CONFIRM ORDER";
+  }
+});
+
+initializeCheckout();
+</script>
+
+</body>
+</html>
