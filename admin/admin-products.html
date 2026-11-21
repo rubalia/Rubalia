@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +55,7 @@ input,textarea,select{
 input:focus,textarea:focus,select:focus{border-color:var(--gold)}
 .search{flex:1;min-width:180px}
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1050px}
+table{width:100%;border-collapse:collapse;min-width:1150px}
 th,td{padding:13px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
 th{background:#f8f9fc;color:#59677b}
 .product-name{font-weight:700}
@@ -99,6 +98,42 @@ th{background:#f8f9fc;color:#59677b}
   background:white;border-radius:13px;text-align:center
 }
 .cost-cell{font-weight:700;color:#9a6a0a}
+
+/* CATEGORY DROPDOWN */
+.category-select-wrap{position:relative}
+.category-select-wrap select{
+  appearance:none;
+  -webkit-appearance:none;
+  padding-right:40px;
+  cursor:pointer;
+  background:white;
+}
+.category-select-wrap:after{
+  content:"⌄";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-55%);
+  pointer-events:none;
+  color:#9a6a0a;
+  font-size:20px;
+  font-weight:bold;
+}
+.category-hint{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+}
+.category-badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:6px;
+  background:#f3f0e7;
+  color:#85621f;
+  font-size:11px;
+  font-weight:700;
+}
 @media(max-width:600px){
   .container{padding:13px}
   .stats{grid-template-columns:1fr 1fr}
@@ -130,7 +165,7 @@ th{background:#f8f9fc;color:#59677b}
     <div>
       <h1>Product Management</h1>
       <div class="subtitle">
-        Manage products, selling prices and actual product costs
+        Manage products, categories, selling prices and actual product costs
       </div>
     </div>
     <button class="primary" id="addProductButton" type="button">
@@ -142,15 +177,15 @@ th{background:#f8f9fc;color:#59677b}
 
   <section class="stats">
     <div class="stat">
-      <div class="stat-label">Total Products</div>
+      <div class="stat-label">Total Products Loaded</div>
       <div class="stat-value" id="totalProducts">—</div>
     </div>
     <div class="stat">
-      <div class="stat-label">Total Stock</div>
+      <div class="stat-label">Total Stock Loaded</div>
       <div class="stat-value" id="totalStock">—</div>
     </div>
     <div class="stat">
-      <div class="stat-label">Out of Stock</div>
+      <div class="stat-label">Out of Stock Loaded</div>
       <div class="stat-value" id="outStock">—</div>
     </div>
   </section>
@@ -158,7 +193,7 @@ th{background:#f8f9fc;color:#59677b}
   <section class="panel">
     <div class="toolbar">
       <input class="search" id="searchInput" type="search"
-        placeholder="Search product name or SKU..." autocomplete="off">
+        placeholder="Search product name, SKU or category..." autocomplete="off">
       <button class="secondary" id="refreshButton" type="button">Refresh</button>
     </div>
 
@@ -169,6 +204,7 @@ th{background:#f8f9fc;color:#59677b}
         <thead>
           <tr>
             <th>Product</th>
+            <th>Category</th>
             <th>SKU</th>
             <th>Selling Price</th>
             <th>Actual Cost</th>
@@ -199,29 +235,50 @@ th{background:#f8f9fc;color:#59677b}
       <input type="hidden" id="productId">
 
       <div class="field">
-        <label>Product Name *</label>
+        <label for="name">Product Name *</label>
         <input id="name" maxlength="180" required placeholder="Enter product name">
       </div>
 
+      <!-- CATEGORY DROPDOWN -->
       <div class="field">
-        <label>SKU (Optional)</label>
+        <label for="category">Product Category *</label>
+        <div class="category-select-wrap">
+          <select id="category" required>
+            <option value="">Select Product Category</option>
+            <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+            <option value="Health & Wellness">Health & Wellness</option>
+            <option value="Personal Care">Personal Care</option>
+            <option value="Home & Kitchen">Home & Kitchen</option>
+            <option value="Food & Grocery">Food & Grocery</option>
+            <option value="Fashion & Clothing">Fashion & Clothing</option>
+            <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+            <option value="Baby & Kids">Baby & Kids</option>
+            <option value="Household Products">Household Products</option>
+            <option value="Lifestyle & Accessories">Lifestyle & Accessories</option>
+          </select>
+        </div>
+        <small class="category-hint">Select the category that best matches this product.</small>
+      </div>
+
+      <div class="field">
+        <label for="sku">SKU (Optional)</label>
         <input id="sku" maxlength="80" placeholder="Enter product SKU">
       </div>
 
       <div class="field">
-        <label>Selling Price (৳) *</label>
+        <label for="price">Selling Price (৳) *</label>
         <input id="price" type="number" min="0" max="999999999999.99"
           step="0.01" required placeholder="0.00">
       </div>
 
       <div class="field">
-        <label>Stock Quantity *</label>
+        <label for="stock">Stock Quantity *</label>
         <input id="stock" type="number" min="0" step="1"
           required placeholder="0">
       </div>
 
       <div class="field">
-        <label>Status</label>
+        <label for="status">Status</label>
         <select id="status">
           <option value="active">Active</option>
           <option value="draft">Draft</option>
@@ -230,35 +287,35 @@ th{background:#f8f9fc;color:#59677b}
       </div>
 
       <div class="field">
-        <label>Description</label>
-        <textarea id="description" rows="4" placeholder="Write product details..."></textarea>
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" maxlength="5000" placeholder="Write product details..."></textarea>
       </div>
 
       <div class="cost-heading">Product Cost Management</div>
 
       <div class="cost-grid">
         <div class="field">
-          <label>Cost Price (৳) *</label>
+          <label for="costPrice">Cost Price (৳) *</label>
           <input id="costPrice" type="number" min="0" max="999999999999.99"
             step="0.01" required value="0">
           <small>Actual purchase or production cost.</small>
         </div>
 
         <div class="field">
-          <label>Delivery Cost (৳) *</label>
+          <label for="deliveryCost">Delivery Cost (৳) *</label>
           <input id="deliveryCost" type="number" min="0" max="999999999999.99"
             step="0.01" required value="0">
           <small>Delivery expense for this product.</small>
         </div>
 
         <div class="field">
-          <label>Packaging Cost (৳) *</label>
+          <label for="packagingCost">Packaging Cost (৳) *</label>
           <input id="packagingCost" type="number" min="0" max="999999999999.99"
             step="0.01" required value="0">
         </div>
 
         <div class="field">
-          <label>Other Cost (৳) *</label>
+          <label for="otherCost">Other Cost (৳) *</label>
           <input id="otherCost" type="number" min="0" max="999999999999.99"
             step="0.01" required value="0">
         </div>
@@ -305,6 +362,19 @@ const COST_INPUTS = [
   "otherCost"
 ];
 
+const PRODUCT_CATEGORIES = [
+  "Beauty & Cosmetics",
+  "Health & Wellness",
+  "Personal Care",
+  "Home & Kitchen",
+  "Food & Grocery",
+  "Fashion & Clothing",
+  "Electronics & Gadgets",
+  "Baby & Kids",
+  "Household Products",
+  "Lifestyle & Accessories"
+];
+
 function redirectLogin(){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
@@ -319,7 +389,6 @@ function showAccess(message){
 
 function showMessage(message,type){
   const box = $("message");
-
   box.textContent = message;
   box.className = "message " + type;
   box.style.display = "block";
@@ -387,7 +456,6 @@ async function verifyAdmin(){
 
     $("main").style.display = "block";
     await loadProducts();
-
     return true;
 
   }catch(error){
@@ -419,10 +487,8 @@ async function loadProducts(){
     }
 
     products = data.products;
-
     updateStats();
     renderProducts();
-
     $("loading").style.display = "none";
 
   }catch(error){
@@ -431,7 +497,6 @@ async function loadProducts(){
 
     products = [];
     updateStats();
-
     showMessage(error.message,"error");
 
   }finally{
@@ -444,8 +509,7 @@ function updateStats(){
   $("totalProducts").textContent = products.length.toLocaleString();
 
   $("totalStock").textContent = products.reduce(
-    (sum,p)=>sum + Number(p.stock || 0),
-    0
+    (sum,p)=>sum + Number(p.stock || 0),0
   ).toLocaleString();
 
   $("outStock").textContent = products.filter(
@@ -455,7 +519,6 @@ function updateStats(){
 
 function money(value){
   const number = Number(value);
-
   if(!Number.isFinite(number)) return "—";
 
   return "৳" + number.toLocaleString("en-BD",{
@@ -485,7 +548,8 @@ function renderProducts(){
 
   const filtered = products.filter(p=>
     String(p.name || "").toLowerCase().includes(query) ||
-    String(p.sku || "").toLowerCase().includes(query)
+    String(p.sku || "").toLowerCase().includes(query) ||
+    String(p.category || "").toLowerCase().includes(query)
   );
 
   const rows = $("productRows");
@@ -509,6 +573,13 @@ function renderProducts(){
     nameCell.append(name,id);
     tr.appendChild(nameCell);
 
+    const categoryCell = document.createElement("td");
+    const category = document.createElement("span");
+    category.className = "category-badge";
+    category.textContent = product.category || "Not assigned";
+    categoryCell.appendChild(category);
+    tr.appendChild(categoryCell);
+
     appendCell(tr,product.sku || "—");
     appendCell(tr,money(product.price));
 
@@ -519,7 +590,7 @@ function renderProducts(){
 
     const costDetail = document.createElement("div");
     costDetail.className = "muted";
-    costDetail.textContent = "Price: " + money(product.cost_price);
+    costDetail.textContent = "Base Price: " + money(product.cost_price);
 
     costCell.append(cost,costDetail);
     tr.appendChild(costCell);
@@ -563,6 +634,7 @@ function renderProducts(){
   });
 }
 
+/* COST SUMMARY */
 function getInputNumber(id){
   return Number($(id).value || 0);
 }
@@ -577,6 +649,7 @@ function updateCostSummary(){
   $("summaryDelivery").textContent = money(delivery);
   $("summaryPackaging").textContent = money(packaging);
   $("summaryOther").textContent = money(other);
+
   $("summaryTotal").textContent = money(
     costPrice + delivery + packaging + other
   );
@@ -587,6 +660,7 @@ function resetCostFields(){
   updateCostSummary();
 }
 
+/* ADD PRODUCT */
 function openAddModal(){
   $("productForm").reset();
   $("productId").value = "";
@@ -594,17 +668,19 @@ function openAddModal(){
   $("modalTitle").textContent = "Add Product";
   $("saveButton").textContent = "Save Product";
   $("status").value = "active";
+  $("category").value = "";
 
   resetCostFields();
-
   $("productModal").classList.add("show");
 }
 
+/* CLOSE MODAL */
 function closeModal(){
   if(saving) return;
   $("productModal").classList.remove("show");
 }
 
+/* EDIT PRODUCT */
 function editProduct(id){
   const product = products.find(p=>String(p.id)===String(id));
   if(!product) return;
@@ -617,6 +693,24 @@ function editProduct(id){
   $("description").value = product.description || "";
   $("status").value = product.status || "draft";
 
+  // Load existing category into dropdown.
+  const existingCategory = String(product.category || "");
+  const categorySelect = $("category");
+
+  const exists = Array.from(categorySelect.options).some(
+    option=>option.value === existingCategory
+  );
+
+  // Preserve any old category not included in the current 10 categories.
+  if(existingCategory && !exists){
+    const oldOption = document.createElement("option");
+    oldOption.value = existingCategory;
+    oldOption.textContent = existingCategory + " (Existing)";
+    categorySelect.appendChild(oldOption);
+  }
+
+  categorySelect.value = existingCategory;
+
   $("costPrice").value = product.cost_price ?? 0;
   $("deliveryCost").value = product.delivery_cost ?? 0;
   $("packagingCost").value = product.packaging_cost ?? 0;
@@ -626,10 +720,10 @@ function editProduct(id){
 
   $("modalTitle").textContent = "Edit Product";
   $("saveButton").textContent = "Update Product";
-
   $("productModal").classList.add("show");
 }
 
+/* MONEY VALIDATION */
 function validateMoneyField(id,label){
   const input = $(id);
   const value = input.value.trim();
@@ -648,6 +742,7 @@ function validateMoneyField(id,label){
   return Number(value).toFixed(2);
 }
 
+/* CREATE / UPDATE PRODUCT */
 $("productForm").addEventListener("submit",async event=>{
   event.preventDefault();
 
@@ -659,6 +754,7 @@ $("productForm").addEventListener("submit",async event=>{
   try{
     payload = {
       name:$("name").value.trim(),
+      category:$("category").value,
       sku:$("sku").value.trim(),
       price:validateMoneyField("price","Selling Price"),
       stock:Number($("stock").value),
@@ -679,6 +775,15 @@ $("productForm").addEventListener("submit",async event=>{
       throw new Error("Product name cannot exceed 180 characters.");
     }
 
+    if(!payload.category){
+      throw new Error("Please select a product category.");
+    }
+
+    if(!PRODUCT_CATEGORIES.includes(payload.category) &&
+       !products.some(p=>p.category===payload.category && String(p.id)===String(id))){
+      throw new Error("Please select a valid product category.");
+    }
+
     if(payload.sku.length > 80){
       throw new Error("SKU cannot exceed 80 characters.");
     }
@@ -692,6 +797,10 @@ $("productForm").addEventListener("submit",async event=>{
 
     if(!["active","draft","archived"].includes(payload.status)){
       throw new Error("Invalid product status.");
+    }
+
+    if(payload.description.length>5000){
+      throw new Error("Description cannot exceed 5000 characters.");
     }
 
   }catch(error){
@@ -743,6 +852,7 @@ $("productForm").addEventListener("submit",async event=>{
   }
 });
 
+/* ARCHIVE PRODUCT */
 async function archiveProduct(id){
   const product = products.find(p=>String(p.id)===String(id));
   if(!product) return;
@@ -774,6 +884,7 @@ async function archiveProduct(id){
   }
 }
 
+/* EVENTS */
 COST_INPUTS.forEach(id=>{
   $(id).addEventListener("input",updateCostSummary);
 });
@@ -783,6 +894,7 @@ $("refreshButton").addEventListener("click",loadProducts);
 $("addProductButton").addEventListener("click",openAddModal);
 $("closeModalButton").addEventListener("click",closeModal);
 $("cancelButton").addEventListener("click",closeModal);
+
 $("loginButton").addEventListener("click",()=>{
   location.href = "../login.html";
 });
@@ -795,8 +907,9 @@ document.addEventListener("keydown",event=>{
   if(event.key === "Escape") closeModal();
 });
 
+/* INITIALIZE */
 verifyAdmin();
 </script>
 
 </body>
-          </html>
+</html>
