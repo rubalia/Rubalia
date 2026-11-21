@@ -1,21 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#17112d">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#24112f">
 <title>My Orders | RUBALIA NETWORK</title>
 
 <style>
 :root{
   --bg:#f5f3fb;
-  --card:#ffffff;
+  --card:#fff;
   --dark:#211638;
   --muted:#817991;
   --purple:#7139d8;
   --pink:#e43e91;
-  --blue:#3478ed;
   --gold:#e6ad39;
   --green:#159b68;
   --red:#dc4660;
@@ -28,54 +26,178 @@ body{
   color:var(--dark);
   min-height:100vh;
 }
+body.menu-open{overflow:hidden}
 button,input{font:inherit}
 button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
 .topbar{
-  background:linear-gradient(120deg,#24123f,#5630a4,#8136c9);
-  color:#fff;
-  padding:20px 18px 25px;
-  border-radius:0 0 25px 25px;
-  box-shadow:0 8px 25px #43208025;
-}
-.top-row{
+  height:76px;
+  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  padding:0 25px;
+  color:white;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+.menu-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+  border-radius:9px;
+  font-size:23px;
+  cursor:pointer;
 }
 .brand{
-  font-size:19px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:17px;
+}
+.brand-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#f0d48b,#c28a36);
+  color:#32152e;
+  border-radius:10px;
+  font-size:21px;
+}
+.brand small{
+  display:block;
+  font-size:9px;
+  letter-spacing:4px;
+  color:#f0d48b;
+  margin-top:3px;
+}
+.page-label{
+  font-size:12px;
+  color:#f5dca4;
+  font-weight:bold;
+}
+
+/* NAVIGATION DRAWER */
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(12,5,24,.58);
+  z-index:200;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
+}
+.drawer-overlay.show{
+  opacity:1;
+  visibility:visible;
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:285px;
+  max-width:85vw;
+  height:100vh;
+  height:100dvh;
+  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  color:white;
+  z-index:201;
+  transform:translateX(-105%);
+  transition:.28s;
+  overflow-y:auto;
+  padding:22px 15px;
+}
+.sidebar.open{transform:translateX(0)}
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 8px 25px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.drawer-brand{
+  font-size:20px;
   font-weight:900;
   letter-spacing:1px;
 }
-.brand span{color:#ffd56c}
-.top-subtitle{
-  color:#e6dafa;
-  font-size:12px;
-  margin-top:5px;
+.drawer-brand small{
+  display:block;
+  color:#f0d48b;
+  font-size:9px;
+  letter-spacing:4px;
+  margin-top:4px;
 }
-.back-btn{
-  border:1px solid #ffffff55;
-  color:#fff;
-  background:#ffffff18;
-  padding:9px 13px;
-  border-radius:10px;
-  font-size:12px;
+.close-menu{
+  border:0;
+  background:rgba(255,255,255,.1);
+  color:white;
+  width:35px;
+  height:35px;
+  border-radius:8px;
+  font-size:23px;
+}
+.menu-title{
+  color:#c0afd7;
+  font-size:10px;
+  font-weight:bold;
+  padding:22px 12px 9px;
+  letter-spacing:1.5px;
+}
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin:4px 0;
+  border-radius:9px;
+  color:#eee7f7;
+  font-size:13px;
+  transition:.2s;
+}
+.menu a:hover,.menu a.active{
+  background:linear-gradient(100deg,#e64c9a,#a14de0);
+  color:white;
+}
+.menu a span{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+/* PAGE */
+.container{
+  width:min(100% - 28px,1050px);
+  margin:28px auto 50px;
 }
 .page-heading{
-  margin-top:25px;
+  margin-bottom:22px;
 }
 .page-heading h1{
   font-size:25px;
   margin-bottom:7px;
+  color:#211638;
 }
 .page-heading p{
   font-size:13px;
-  color:#e7dcf7;
+  color:var(--muted);
 }
-.container{
-  width:min(100% - 28px,1050px);
-  margin:20px auto 90px;
+.member-info{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:8px;
 }
 .notice{
   background:#fff8e9;
@@ -87,6 +209,27 @@ button{cursor:pointer}
   line-height:1.6;
   margin-bottom:17px;
 }
+.message{
+  display:none;
+  padding:13px 15px;
+  border-radius:12px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:17px;
+}
+.message.show{display:block}
+.message.error{
+  background:#fff0f1;
+  border:1px solid #ffd1d7;
+  color:#b52e43;
+}
+.message.success{
+  background:#eaf8f1;
+  border:1px solid #b8e6cf;
+  color:#176a49;
+}
+
+/* SUMMARY */
 .summary-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -113,6 +256,8 @@ button{cursor:pointer}
   color:var(--muted);
   margin-top:5px;
 }
+
+/* SEARCH AND FILTER */
 .toolbar{
   background:#fff;
   padding:14px;
@@ -129,14 +274,13 @@ button{cursor:pointer}
   background:#faf9fc;
   color:var(--dark);
 }
-.search-box:focus{
-  border-color:var(--purple);
-}
+.search-box:focus{border-color:var(--purple)}
 .filters{
   display:flex;
   gap:8px;
   overflow-x:auto;
   padding-top:12px;
+  scrollbar-width:thin;
 }
 .filter-btn{
   flex-shrink:0;
@@ -157,6 +301,8 @@ button{cursor:pointer}
   font-weight:800;
   margin:20px 0 13px;
 }
+
+/* ORDER CARDS */
 .orders-list{
   display:grid;
   gap:13px;
@@ -194,6 +340,7 @@ button{cursor:pointer}
   white-space:nowrap;
 }
 .status.pending{background:#fff2d6;color:#a16a00}
+.status.confirmed{background:#e5f0ff;color:#2866c4}
 .status.processing{background:#eee6ff;color:#7035c9}
 .status.shipped{background:#e5f0ff;color:#2866c4}
 .status.delivered{background:#ddf7e9;color:#12804f}
@@ -249,8 +396,15 @@ button{cursor:pointer}
   color:var(--muted);
 }
 .empty-icon{font-size:38px;margin-bottom:12px}
-.empty h3{color:var(--dark);font-size:16px;margin-bottom:7px}
-.empty p{font-size:12px;line-height:1.6}
+.empty h3{
+  color:var(--dark);
+  font-size:16px;
+  margin-bottom:7px;
+}
+.empty p{
+  font-size:12px;
+  line-height:1.6;
+}
 .loading{
   background:#fff;
   padding:30px;
@@ -275,35 +429,12 @@ button{cursor:pointer}
   padding:9px 15px;
   border-radius:9px;
 }
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#fff;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:space-around;
-  padding:10px 5px calc(10px + env(safe-area-inset-bottom));
-  z-index:10;
-}
-.nav-link{
-  text-decoration:none;
-  color:#8a8096;
-  font-size:10px;
-  text-align:center;
-  min-width:55px;
-}
-.nav-link span{
-  display:block;
-  font-size:19px;
-  margin-bottom:4px;
-}
-.nav-link.active{color:var(--purple);font-weight:900}
+
+/* MODAL */
 .modal{
   position:fixed;
   inset:0;
-  z-index:30;
+  z-index:300;
   display:none;
   align-items:center;
   justify-content:center;
@@ -343,7 +474,10 @@ button{cursor:pointer}
   font-size:12px;
 }
 .detail-row span:first-child{color:var(--muted)}
-.detail-row strong{text-align:right;word-break:break-word}
+.detail-row strong{
+  text-align:right;
+  word-break:break-word;
+}
 .item-list{margin-top:15px}
 .item-row{
   background:#f8f6fb;
@@ -353,15 +487,30 @@ button{cursor:pointer}
   font-size:12px;
   line-height:1.6;
 }
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:20px;
+}
+
 @media(min-width:700px){
-  .summary-grid{grid-template-columns:repeat(3,1fr)}
   .orders-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  .topbar{height:65px;padding:0 13px}
+  .brand{font-size:14px}
+  .brand-icon{width:34px;height:34px}
+  .page-label{font-size:10px}
+  .container{margin:20px auto 35px}
+  .page-heading h1{font-size:22px}
 }
 @media(max-width:380px){
   .summary-grid{gap:7px}
   .summary-card{padding:12px 9px}
   .summary-value{font-size:20px}
   .order-info{gap:10px}
+  .order-card{padding:13px}
 }
 </style>
 </head>
@@ -369,26 +518,70 @@ button{cursor:pointer}
 <body>
 
 <header class="topbar">
-  <div class="top-row">
-    <div>
-      <div class="brand">RUBALIA <span>NETWORK</span></div>
-      <div class="top-subtitle">Member Shopping Portal</div>
+  <div class="top-left">
+    <button class="menu-btn" id="menuBtn"
+      aria-label="Open navigation" aria-expanded="false">☰</button>
+
+    <div class="brand">
+      <div class="brand-icon">R</div>
+      <div>
+        RUBALIA
+        <small>NETWORK</small>
+      </div>
     </div>
-    <button class="back-btn" onclick="goDashboard()">← Dashboard</button>
   </div>
+
+  <span class="page-label">MY ORDERS</span>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="drawer-head">
+    <div class="drawer-brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+    <button class="close-menu" id="closeMenu"
+      aria-label="Close navigation">×</button>
+  </div>
+
+  <div class="menu-title">MAIN MENU</div>
+
+  <nav class="menu">
+    <a href="dashboard.html"><span>⌂</span> Dashboard</a>
+    <a href="profile.html"><span>♙</span> My Profile</a>
+    <a href="dashboard.html"><span>▣</span> Packages</a>
+    <a href="orders.html" class="active"><span>▤</span> My Orders</a>
+    <a href="team.html"><span>♧</span> My Team</a>
+    <a href="income.html"><span>৳</span> Income Details</a>
+    <a href="wallet.html"><span>◈</span> My Wallet</a>
+    <a href="withdraw.html"><span>⇧</span> Withdraw</a>
+  </nav>
+
+  <div class="menu-title">ACCOUNT</div>
+
+  <nav class="menu">
+    <a href="settings.html"><span>⚙</span> Settings</a>
+    <a href="contact.html"><span>✉</span> Contact Support</a>
+    <a href="#" id="logoutBtn"><span>↪</span> Logout</a>
+  </nav>
+</aside>
+
+<main class="container">
 
   <div class="page-heading">
     <h1>My Orders</h1>
     <p>View and track your order history</p>
+    <div class="member-info" id="memberInfo">Loading account...</div>
   </div>
-</header>
-
-<main class="container">
 
   <div class="notice">
     🔒 Your order information is securely loaded from the Rubalia server.
-    This page does not display sample or demo orders.
+    This page displays your actual server orders, not sample records.
   </div>
+
+  <div class="message" id="message"></div>
 
   <section class="summary-grid">
     <div class="summary-card">
@@ -396,11 +589,13 @@ button{cursor:pointer}
       <div class="summary-value" id="totalOrders">—</div>
       <div class="summary-label">Total Orders</div>
     </div>
+
     <div class="summary-card">
       <div class="summary-icon">⏳</div>
       <div class="summary-value" id="pendingOrders">—</div>
-      <div class="summary-label">Pending Orders</div>
+      <div class="summary-label">Active Orders</div>
     </div>
+
     <div class="summary-card">
       <div class="summary-icon">✅</div>
       <div class="summary-value" id="deliveredOrders">—</div>
@@ -420,6 +615,7 @@ button{cursor:pointer}
     <div class="filters">
       <button class="filter-btn active" data-filter="all">All Orders</button>
       <button class="filter-btn" data-filter="pending">Pending</button>
+      <button class="filter-btn" data-filter="confirmed">Confirmed</button>
       <button class="filter-btn" data-filter="processing">Processing</button>
       <button class="filter-btn" data-filter="shipped">Shipped</button>
       <button class="filter-btn" data-filter="delivered">Delivered</button>
@@ -435,51 +631,39 @@ button{cursor:pointer}
 
 </main>
 
-<nav class="bottom-nav">
-  <a class="nav-link" href="dashboard.html"><span>🏠</span>Home</a>
-  <a class="nav-link" href="products.html"><span>🛍️</span>Products</a>
-  <a class="nav-link active" href="orders.html"><span>📦</span>Orders</a>
-  <a class="nav-link" href="wallet.html"><span>👛</span>Wallet</a>
-  <a class="nav-link" href="profile.html"><span>👤</span>Profile</a>
-</nav>
+<footer class="footer">
+  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  <br><br>
+  Your orders are retrieved from the Rubalia server.
+</footer>
 
-<div class="modal" id="orderModal" onclick="closeModalOutside(event)">
+<div class="modal" id="orderModal">
   <div class="modal-card">
     <div class="modal-header">
       <h2>Order Details</h2>
-      <button class="close-btn" onclick="closeModal()">×</button>
+      <button class="close-btn" id="closeModalBtn"
+        aria-label="Close">×</button>
     </div>
     <div id="modalContent"></div>
   </div>
 </div>
 
 <script>
+"use strict";
+
 const API = "https://rubalia.onrender.com/api";
+const token = sessionStorage.getItem("rubalia_token");
 
 let allOrders = [];
 let activeFilter = "all";
 
-const token = sessionStorage.getItem("rubalia_token");
-
-function authHeaders(){
-  return {
-    "Authorization": "Bearer " + token,
-    "Content-Type": "application/json"
-  };
-}
-
-function goDashboard(){
-  window.location.href = "dashboard.html";
-}
-
-function logout(){
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
-  window.location.href = "login.html";
-}
+const container = document.getElementById("ordersContainer");
+const modal = document.getElementById("orderModal");
+const modalContent = document.getElementById("modalContent");
+const messageBox = document.getElementById("message");
 
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
+  return String(value ?? "").replace(/[&<>"']/g,char=>({
     "&":"&amp;",
     "<":"&lt;",
     ">":"&gt;",
@@ -490,47 +674,123 @@ function escapeHTML(value){
 
 function money(value){
   const amount = Number(value);
+
   if(!Number.isFinite(amount)) return "Not available";
+
   return "৳ " + amount.toLocaleString("en-BD",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
 }
 
+function showMessage(text,type="success"){
+  messageBox.className = "message show " + type;
+  messageBox.textContent = text;
+}
+
+function hideMessage(){
+  messageBox.className = "message";
+  messageBox.textContent = "";
+}
+
+function authHeaders(){
+  return {
+    "Authorization":"Bearer " + token,
+    "Content-Type":"application/json"
+  };
+}
+
+async function apiRequest(path){
+  const response = await fetch(API + path,{
+    method:"GET",
+    headers:authHeaders()
+  });
+
+  let data = {};
+
+  try{
+    data = await response.json();
+  }catch(e){}
+
+  if(response.status === 401 || response.status === 403){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    window.location.replace("login.html");
+    throw new Error("Your session has expired.");
+  }
+
+  if(!response.ok || data.success === false){
+    throw new Error(data.message || "Unable to load information.");
+  }
+
+  return data;
+}
+
+/* AUTHENTICATION */
+
+async function verifySession(){
+  if(!token){
+    window.location.replace("login.html");
+    return false;
+  }
+
+  const data = await apiRequest("/auth/me");
+  const user = data.user || data.profile || {};
+
+  if(user.status && String(user.status).toLowerCase() !== "active"){
+    throw new Error("Your account is not active.");
+  }
+
+  if(String(user.role || "").toLowerCase() === "admin"){
+    window.location.replace("admin-dashboard.html");
+    return false;
+  }
+
+  sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+
+  document.getElementById("memberInfo").textContent =
+    user.memberId
+      ? "Member ID: " + user.memberId
+      : (user.full_name || "Member Account");
+
+  return true;
+}
+
+/* ORDER DATA */
+
 function getStatus(order){
-  return String(
-    order.status ||
-    order.order_status ||
-    "unknown"
-  ).toLowerCase().trim();
+  return String(order.status || "unknown").toLowerCase().trim();
 }
 
 function statusClass(status){
   const allowed = [
-    "pending","processing","shipped","delivered","cancelled"
+    "pending",
+    "confirmed",
+    "processing",
+    "shipped",
+    "delivered",
+    "cancelled"
   ];
+
   return allowed.includes(status) ? status : "unknown";
 }
 
 function statusLabel(status){
-  return status === "unknown"
-    ? "Status unavailable"
-    : status.replace(/_/g," ");
+  if(status === "unknown") return "Status unavailable";
+  return status.replace(/_/g," ");
 }
 
 function getOrderId(order){
-  return order.order_number ||
-         order.order_code ||
-         order.order_id ||
-         order.id ||
-         "Unavailable";
+  return order.order_number || ("#" + order.id);
 }
 
 function getDate(order){
-  const raw = order.created_at || order.createdAt || order.order_date;
+  const raw = order.created_at;
+
   if(!raw) return "Date unavailable";
 
   const date = new Date(raw);
+
   if(Number.isNaN(date.getTime())) return "Date unavailable";
 
   return date.toLocaleString("en-BD",{
@@ -543,56 +803,54 @@ function getDate(order){
 }
 
 function getTotal(order){
-  return order.total_amount ??
-         order.total ??
-         order.grand_total ??
-         order.amount ??
-         null;
+  return order.total_amount ?? null;
 }
 
 function getPaymentMethod(order){
-  const method = order.payment_method ||
-                 order.paymentMethod ||
-                 "Not available";
+  const method = String(order.payment_method || "Not available");
 
-  const value = String(method).toLowerCase();
-
-  if(value.includes("wallet")) return "Wallet Balance";
-  if(value.includes("ssl")) return "SSLCommerz";
-  if(value.includes("bkash")) return "bKash";
-  if(value.includes("nagad")) return "Nagad";
-  if(value.includes("prepaid")) return "Live Prepaid";
+  if(method.toLowerCase() === "wallet"){
+    return "Wallet Balance";
+  }
 
   return method;
 }
 
 function getPaymentStatus(order){
-  return order.payment_status ||
-         order.paymentStatus ||
-         "Not available";
+  return order.payment_status || "Not available";
 }
 
 function getItems(order){
-  if(Array.isArray(order.items)) return order.items;
-  if(Array.isArray(order.order_items)) return order.order_items;
-  return [];
+  return Array.isArray(order.items) ? order.items : [];
 }
 
-function renderOrders(){
-  const container = document.getElementById("ordersContainer");
+/* SUMMARY */
 
+function updateSummary(){
+  document.getElementById("totalOrders").textContent =
+    allOrders.length;
+
+  document.getElementById("pendingOrders").textContent =
+    allOrders.filter(order =>
+      ["pending","confirmed","processing","shipped"].includes(getStatus(order))
+    ).length;
+
+  document.getElementById("deliveredOrders").textContent =
+    allOrders.filter(order => getStatus(order) === "delivered").length;
+}
+
+/* ORDER LIST */
+
+function renderOrders(){
   const search = document.getElementById("searchInput")
     .value.trim().toLowerCase();
 
-  const filtered = allOrders.filter(order => {
+  const filtered = allOrders.filter(order=>{
     const id = String(getOrderId(order)).toLowerCase();
     const status = getStatus(order);
 
-    const matchesSearch = id.includes(search);
-    const matchesStatus =
-      activeFilter === "all" || status === activeFilter;
-
-    return matchesSearch && matchesStatus;
+    return id.includes(search) &&
+      (activeFilter === "all" || status === activeFilter);
   });
 
   if(!filtered.length){
@@ -612,7 +870,7 @@ function renderOrders(){
 
   container.innerHTML = `
     <div class="orders-list">
-      ${filtered.map(order => {
+      ${filtered.map(order=>{
         const status = getStatus(order);
         const total = getTotal(order);
 
@@ -627,6 +885,7 @@ function renderOrders(){
                   ${escapeHTML(getDate(order))}
                 </div>
               </div>
+
               <span class="status ${statusClass(status)}">
                 ${escapeHTML(statusLabel(status))}
               </span>
@@ -641,6 +900,7 @@ function renderOrders(){
                   ${escapeHTML(getPaymentMethod(order))}
                 </div>
               </div>
+
               <div>
                 <div class="info-label">Payment Status</div>
                 <div class="info-value">
@@ -656,8 +916,10 @@ function renderOrders(){
                   ${total === null ? "Not available" : money(total)}
                 </div>
               </div>
+
               <button class="details-btn"
-                onclick="showDetails('${escapeHTML(String(order.id ?? ""))}')">
+                type="button"
+                data-order-id="${escapeHTML(order.id)}">
                 View Details
               </button>
             </div>
@@ -668,130 +930,123 @@ function renderOrders(){
   `;
 }
 
-function updateSummary(){
-  document.getElementById("totalOrders").textContent =
-    allOrders.length;
+/* ORDER DETAILS */
 
-  document.getElementById("pendingOrders").textContent =
-    allOrders.filter(o => getStatus(o) === "pending").length;
-
-  document.getElementById("deliveredOrders").textContent =
-    allOrders.filter(o => getStatus(o) === "delivered").length;
+function detailRow(label,value){
+  return `
+    <div class="detail-row">
+      <span>${escapeHTML(label)}</span>
+      <strong>${escapeHTML(value)}</strong>
+    </div>
+  `;
 }
 
 function showDetails(id){
-  const order = allOrders.find(o => String(o.id ?? "") === String(id));
+  const order = allOrders.find(
+    item => String(item.id) === String(id)
+  );
+
   if(!order) return;
 
   const items = getItems(order);
+  const total = getTotal(order);
 
-  let html = `
-    <div class="detail-row">
-      <span>Order ID</span>
-      <strong>${escapeHTML(getOrderId(order))}</strong>
-    </div>
-    <div class="detail-row">
-      <span>Order Date</span>
-      <strong>${escapeHTML(getDate(order))}</strong>
-    </div>
-    <div class="detail-row">
-      <span>Order Status</span>
-      <strong>${escapeHTML(statusLabel(getStatus(order)))}</strong>
-    </div>
-    <div class="detail-row">
-      <span>Payment Method</span>
-      <strong>${escapeHTML(getPaymentMethod(order))}</strong>
-    </div>
-    <div class="detail-row">
-      <span>Payment Status</span>
-      <strong>${escapeHTML(getPaymentStatus(order))}</strong>
-    </div>
-    <div class="detail-row">
-      <span>Total Amount</span>
-      <strong>${getTotal(order) === null
-        ? "Not available"
-        : money(getTotal(order))}</strong>
+  let html = "";
+
+  html += detailRow("Order ID",getOrderId(order));
+  html += detailRow("Order Date",getDate(order));
+  html += detailRow("Order Status",statusLabel(getStatus(order)));
+  html += detailRow("Payment Method",getPaymentMethod(order));
+  html += detailRow("Payment Status",getPaymentStatus(order));
+
+  html += detailRow(
+    "Commission Status",
+    order.commission_status || "Not available"
+  );
+
+  html += detailRow(
+    "Refund Status",
+    order.refund_status || "Not available"
+  );
+
+  html += detailRow(
+    "Total Amount",
+    total === null ? "Not available" : money(total)
+  );
+
+  html += `
+    <div class="item-list">
+      <strong>Shipping Information</strong>
+      <div class="item-row">
+        <strong>${escapeHTML(order.shipping_name || "Not available")}</strong><br>
+        Phone: ${escapeHTML(order.shipping_phone || "Not available")}<br>
+        Address: ${escapeHTML(order.shipping_address || "Not available")}
+      </div>
     </div>
   `;
 
+  html += `<div class="item-list"><strong>Order Items</strong>`;
+
   if(items.length){
-    html += `<div class="item-list"><strong>Order Items</strong>`;
-
-    html += items.map(item => {
-      const name = item.product_name ||
-                   item.package_name ||
-                   item.name ||
-                   "Order Item";
-
-      const quantity = item.quantity ?? item.qty ?? "—";
-      const price = item.price ?? item.unit_price;
+    html += items.map(item=>{
+      const name = item.productName || "Order Item";
+      const quantity = item.quantity ?? "—";
+      const price = item.unitPrice;
+      const subtotal = item.subtotal;
+      const type = item.type || "product";
 
       return `
         <div class="item-row">
           <strong>${escapeHTML(name)}</strong><br>
+          Type: ${escapeHTML(type)}<br>
           Quantity: ${escapeHTML(quantity)}<br>
-          Price: ${price === undefined ? "Not available" : money(price)}
+          Unit Price: ${price === undefined ? "Not available" : money(price)}<br>
+          Subtotal: ${subtotal === undefined ? "Not available" : money(subtotal)}
         </div>
       `;
     }).join("");
-
-    html += `</div>`;
+  }else{
+    html += `
+      <div class="item-row">
+        Order item details are not available.
+      </div>
+    `;
   }
 
-  document.getElementById("modalContent").innerHTML = html;
-  document.getElementById("orderModal").classList.add("show");
+  html += `</div>`;
+
+  if(order.refund_admin_note){
+    html += `
+      <div class="item-list">
+        <strong>Refund Information</strong>
+        <div class="item-row">
+          ${escapeHTML(order.refund_admin_note)}
+        </div>
+      </div>
+    `;
+  }
+
+  modalContent.innerHTML = html;
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal(){
-  document.getElementById("orderModal").classList.remove("show");
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
 }
 
-function closeModalOutside(event){
-  if(event.target.id === "orderModal") closeModal();
-}
+/* LOAD ORDERS */
 
 async function loadOrders(){
-  const container = document.getElementById("ordersContainer");
-
-  if(!token){
-    window.location.replace("login.html");
-    return;
-  }
-
-  container.innerHTML = `<div class="loading">Loading your orders...</div>`;
+  container.innerHTML =
+    '<div class="loading">Loading your orders...</div>';
 
   try{
-    const response = await fetch(API + "/orders",{
-      method:"GET",
-      headers:authHeaders()
-    });
+    const data = await apiRequest("/orders");
 
-    if(response.status === 401 || response.status === 403){
-      sessionStorage.removeItem("rubalia_token");
-      sessionStorage.removeItem("rubalia_user");
-      window.location.replace("login.html");
-      return;
-    }
+    allOrders = Array.isArray(data.orders) ? data.orders : [];
 
-    const data = await response.json();
-
-    if(!response.ok){
-      throw new Error(data.message || data.error || "Could not load orders.");
-    }
-
-    let orders = [];
-
-    if(Array.isArray(data)){
-      orders = data;
-    }else if(Array.isArray(data.orders)){
-      orders = data.orders;
-    }else if(Array.isArray(data.data)){
-      orders = data.data;
-    }else if(data.data && Array.isArray(data.data.orders)){
-      orders = data.data.orders;
-    }
-
-    allOrders = orders;
     updateSummary();
     renderOrders();
 
@@ -803,19 +1058,23 @@ async function loadOrders(){
         <strong>Unable to load orders.</strong><br>
         ${escapeHTML(error.message || "Please try again.")}
         <br>
-        <button class="retry-btn" onclick="loadOrders()">Try Again</button>
+        <button class="retry-btn" id="retryBtn" type="button">
+          Try Again
+        </button>
       </div>
     `;
   }
 }
 
+/* FILTERS */
+
 document.getElementById("searchInput")
   .addEventListener("input",renderOrders);
 
-document.querySelectorAll(".filter-btn").forEach(button => {
-  button.addEventListener("click",() => {
+document.querySelectorAll(".filter-btn").forEach(button=>{
+  button.addEventListener("click",()=>{
     document.querySelectorAll(".filter-btn")
-      .forEach(btn => btn.classList.remove("active"));
+      .forEach(btn=>btn.classList.remove("active"));
 
     button.classList.add("active");
     activeFilter = button.dataset.filter;
@@ -823,43 +1082,113 @@ document.querySelectorAll(".filter-btn").forEach(button => {
   });
 });
 
-async function verifySession(){
-  if(!token){
-    window.location.replace("login.html");
-    return;
+/* EVENT DELEGATION */
+
+container.addEventListener("click",event=>{
+  const detailsButton = event.target.closest("[data-order-id]");
+
+  if(detailsButton){
+    showDetails(detailsButton.dataset.orderId);
   }
 
+  if(event.target.id === "retryBtn"){
+    loadOrders();
+  }
+});
+
+document.getElementById("closeModalBtn")
+  .addEventListener("click",closeModal);
+
+modal.addEventListener("click",event=>{
+  if(event.target === modal) closeModal();
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape") closeModal();
+});
+
+/* DRAWER */
+
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("drawerOverlay");
+const menuBtn = document.getElementById("menuBtn");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  document.body.classList.add("menu-open");
+  menuBtn.setAttribute("aria-expanded","true");
+}
+
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  document.body.classList.remove("menu-open");
+  menuBtn.setAttribute("aria-expanded","false");
+}
+
+menuBtn.addEventListener("click",()=>{
+  if(sidebar.classList.contains("open")){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+});
+
+document.getElementById("closeMenu")
+  .addEventListener("click",closeMenu);
+
+overlay.addEventListener("click",closeMenu);
+
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape") closeMenu();
+});
+
+document.querySelectorAll(".menu a").forEach(link=>{
+  if(link.id !== "logoutBtn"){
+    link.addEventListener("click",closeMenu);
+  }
+});
+
+/* LOGOUT */
+
+document.getElementById("logoutBtn").addEventListener("click",event=>{
+  event.preventDefault();
+
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+
+  window.location.href = "login.html";
+});
+
+/* INITIALIZE */
+
+async function initialize(){
+  hideMessage();
+
   try{
-    const response = await fetch(API + "/auth/me",{
-      headers:authHeaders()
-    });
+    const authenticated = await verifySession();
 
-    if(!response.ok){
-      throw new Error("Session expired");
-    }
-
-    const data = await response.json();
-    const user = data.user || data.data?.user || data;
-
-    if(user.status && user.status !== "active"){
-      throw new Error("Account is not active");
-    }
-
-    if(user.role === "admin"){
-      window.location.replace("admin-dashboard.html");
-      return;
-    }
+    if(!authenticated) return;
 
     await loadOrders();
 
   }catch(error){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    window.location.replace("login.html");
+    showMessage(error.message || "Unable to verify your account.","error");
+
+    container.innerHTML = `
+      <div class="error-box">
+        Unable to verify your account.
+        <br>
+        <button class="retry-btn" onclick="location.reload()">
+          Reload Page
+        </button>
+      </div>
+    `;
   }
 }
 
-verifySession();
+initialize();
 </script>
 
 </body>
