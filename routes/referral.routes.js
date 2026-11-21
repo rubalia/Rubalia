@@ -1,3 +1,4 @@
+
 "use strict";
 
 const express = require("express");
@@ -11,10 +12,12 @@ const FRONTEND_URL = (
   "https://rubalia.github.io/Rubalia"
 ).split(",")[0].trim().replace(/\/+$/, "");
 
+// Generate Rubalia Member ID
 function makeMemberId(id) {
   return `RUB${String(id).padStart(6, "0")}`;
 }
 
+// Parse referral code
 function parseReferralCode(code) {
   const match = String(code || "")
     .trim()
@@ -25,21 +28,39 @@ function parseReferralCode(code) {
 
   try {
     const id = BigInt(match[1]);
+
     if (id <= 0n) return null;
+
     return id.toString();
   } catch {
     return null;
   }
 }
 
+// Create referral link
+function makeReferralLink(memberId) {
+  return `${FRONTEND_URL}/register.html?ref=${encodeURIComponent(memberId)}`;
+}
+
 // GET /api/referral/me
-// Logged-in member's referral details.
+// Logged-in member's referral and partner details.
 router.get("/me", authenticateToken, async (req, res, next) => {
   try {
     const result = await pool.query(
-      `SELECT id, full_name, email, sponsor_id, status
-       FROM users
-       WHERE id = $1`,
+      `SELECT
+        u.id,
+        u.full_name,
+        u.email,
+        u.role,
+        u.status,
+        u.sponsor_id,
+        u.partner_activated_at,
+        s.full_name AS sponsor_name,
+        s.email AS sponsor_email
+       FROM users u
+       LEFT JOIN users s
+         ON s.id = u.sponsor_id
+       WHERE u.id = $1`,
       [req.auth.id]
     );
 
@@ -52,27 +73,169 @@ router.get("/me", authenticateToken, async (req, res, next) => {
 
     const member = result.rows[0];
     const memberId = makeMemberId(member.id);
-    const referralUrl =
-      `${FRONTEND_URL}/register.html?ref=${encodeURIComponent(memberId)}`;
+
+    const sponsor = member.sponsor_id
+      ? {
+          memberId: makeMemberId(member.sponsor_id),
+          fullName: member.sponsor_name,
+          email: member.sponsor_email
+        }
+      : null;
+
+    const isPartner =
+      member.role === "partner" &&
+      Boolean(member.partner_activated_at);
 
     return res.json({
       success: true,
+
       member: {
         memberId,
         fullName: member.full_name,
         email: member.email,
+        role: member.role,
         status: member.status,
+
         sponsorId: member.sponsor_id
           ? makeMemberId(member.sponsor_id)
-          : null
+          : null,
+
+        sponsor,
+
+        isPartner,
+        partnerActivatedAt: member.partner_activated_at
       },
+
       referralCode: memberId,
-      referralLink: referralUrl
+      referralLink: makeReferralLink(memberId)
     });
+
   } catch (error) {
     next(error);
   }
 });
+
+// POST /api/referral/activate-partner
+// Activate a regular active member as a free Partner.
+router.post(
+  "/activate-partner",
+  authenticateToken,
+  async (req, res, next) => {
+    let client;
+
+    try {
+      client = await pool.connect();
+
+      await client.query("BEGIN");
+
+      const userResult = await client.query(
+        `SELECT
+          id,
+          full_name,
+          email,
+          role,
+          status,
+          partner_activated_at
+         FROM users
+         WHERE id = $1
+         FOR UPDATE`,
+        [req.auth.id]
+      );
+
+      if (!userResult.rows.length) {
+        await client.query("ROLLBACK");
+
+        return res.status(404).json({
+          success: false,
+          message: "Member not found."
+        });
+      }
+
+      const user = userResult.rows[0];
+
+      if (user.status !== "active") {
+        await client.query("ROLLBACK");
+
+        return res.status(403).json({
+          success: false,
+          message: "Your account is not active."
+        });
+      }
+
+      // Admin accounts must never be converted into Partner accounts.
+      if (user.role === "admin") {
+        await client.query("ROLLBACK");
+
+        return res.status(403).json({
+          success: false,
+          message: "Admin accounts cannot use Partner activation."
+        });
+      }
+
+      // Activate partner without changing an existing activation date.
+      const updateResult = await client.query(
+        `UPDATE users
+         SET
+           role = 'partner',
+           partner_activated_at = COALESCE(
+             partner_activated_at,
+             NOW()
+           )
+         WHERE id = $1
+         RETURNING
+           id,
+           full_name,
+           email,
+           role,
+           status,
+           partner_activated_at`,
+        [req.auth.id]
+      );
+
+      await client.query("COMMIT");
+
+      const partner = updateResult.rows[0];
+      const memberId = makeMemberId(partner.id);
+
+      return res.json({
+        success: true,
+        message: "Your free Partner account is now active.",
+
+        member: {
+          memberId,
+          fullName: partner.full_name,
+          email: partner.email,
+          role: partner.role,
+          status: partner.status,
+          isPartner: true,
+          partnerActivatedAt: partner.partner_activated_at
+        },
+
+        referralCode: memberId,
+        referralLink: makeReferralLink(memberId)
+      });
+
+    } catch (error) {
+      if (client) {
+        try {
+          await client.query("ROLLBACK");
+        } catch (rollbackError) {
+          console.error(
+            "Partner activation rollback failed:",
+            rollbackError.message
+          );
+        }
+      }
+
+      next(error);
+
+    } finally {
+      if (client) {
+        client.release();
+      }
+    }
+  }
+);
 
 // GET /api/referral/verify/:code
 // Public endpoint for checking a referral code during registration.
@@ -109,11 +272,13 @@ router.get("/verify/:code", async (req, res, next) => {
     return res.json({
       success: true,
       valid: true,
+
       sponsor: {
         memberId: makeMemberId(sponsor.id),
         name: sponsor.full_name
       }
     });
+
   } catch (error) {
     next(error);
   }
@@ -157,6 +322,7 @@ router.get("/stats", authenticateToken, async (req, res, next) => {
 
     const levels = Array.from({ length: 10 }, (_, index) => {
       const level = index + 1;
+
       const found = result.rows.find(
         row => Number(row.level) === level
       );
@@ -178,6 +344,7 @@ router.get("/stats", authenticateToken, async (req, res, next) => {
       totalMembers,
       levels
     });
+
   } catch (error) {
     next(error);
   }
@@ -213,6 +380,7 @@ router.get("/direct", authenticateToken, async (req, res, next) => {
       totalMembers: members.length,
       members
     });
+
   } catch (error) {
     next(error);
   }
