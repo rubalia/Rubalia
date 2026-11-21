@@ -24,15 +24,15 @@ const walletRoutes = require("./routes/wallet.routes");
 const adminRoutes = require("./routes/admin.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const uploadRoutes = require("./routes/upload.routes");
-
-// Payment Routes
 const paymentRoutes = require("./routes/payment.routes");
-
-// Referral Routes
 const referralRoutes = require("./routes/referral.routes");
-
-// Commission Routes
 const commissionRoutes = require("./routes/commission.routes");
+const refundRoutes = require("./routes/refund.routes");
+
+const {
+  startCommissionWorker,
+  stopCommissionWorker
+} = require("./workers/commission.worker");
 
 const {
   notFoundHandler,
@@ -149,6 +149,9 @@ app.use("/api/referral", referralRoutes);
 // Commission Routes
 app.use("/api/commission", commissionRoutes);
 
+// Refund Routes
+app.use("/api/refunds", refundRoutes);
+
 // Payment Routes
 app.use("/api/payment", paymentRoutes);
 
@@ -185,19 +188,56 @@ async function startServer() {
     await runPartnerMigration();
 
     // Run additive Commission Safety migration
-    // Existing orders, wallet balances and financial records
-    // will be preserved.
+    // Existing orders and financial records will be preserved.
     await runCommissionSafetyMigration();
 
-    app.listen(PORT, "0.0.0.0", () => {
+    // Start automatic commission release worker
+    startCommissionWorker(pool);
+
+    // Start HTTP server
+    const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
       console.log("Payment route registered.");
       console.log("Referral route registered.");
       console.log("Commission route registered.");
+      console.log("Refund route registered.");
+      console.log("Commission worker started.");
       console.log("Partner migration completed.");
       console.log("Commission safety migration completed.");
     });
+
+    // Graceful shutdown
+    let shuttingDown = false;
+
+    async function shutdown(signal) {
+      if (shuttingDown) return;
+      shuttingDown = true;
+
+      console.log(`${signal} received. Shutting down...`);
+
+      try {
+        await stopCommissionWorker();
+
+        server.close(async () => {
+          try {
+            await pool.end();
+            console.log("Rubalia API shutdown completed.");
+            process.exit(0);
+          } catch (error) {
+            console.error("Database shutdown failed:", error.message);
+            process.exit(1);
+          }
+        });
+
+      } catch (error) {
+        console.error("Shutdown failed:", error.message);
+        process.exit(1);
+      }
+    }
+
+    process.once("SIGTERM", () => shutdown("SIGTERM"));
+    process.once("SIGINT", () => shutdown("SIGINT"));
 
   } catch (error) {
     console.error("Startup failed:", error.message);
