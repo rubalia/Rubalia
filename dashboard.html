@@ -3,438 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#310d35">
-<meta name="description" content="RUBALIA NETWORK Product Categories and Packages">
+<meta name="theme-color" content="#10294b">
+<meta name="description" content="RUBALIA NETWORK member dashboard">
 <title>Dashboard | RUBALIA NETWORK</title>
-
 <style>
-:root{
-  --red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#e5bd68;
-  --bg:#eee6f1;--white:#fff;--text:#29243a;--muted:#858196;
-  --border:#eae6ee;--green:#16804b;--shadow:0 5px 18px rgba(31,20,49,.07);
-}
+:root{--navy:#071b36;--blue:#174b78;--purple:#6b28a0;--gold:#ffd978;--text:#29243a;--muted:#858196;--border:#eae6ee;--green:#16804b}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:linear-gradient(145deg,#f2eaf4 0%,#e7dce9 48%,#f4e8ef 100%);
-  color:var(--text)
-}
-a{text-decoration:none;color:inherit}
-button,input{font-family:inherit}
-body.menu-open{overflow:hidden}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(145deg,#f2eaf4,#e7dce9 48%,#f4e8ef);color:var(--text)}
+a{text-decoration:none;color:inherit}button,input{font-family:inherit}body.menu-open{overflow:hidden}
 
-
-/* SLIM BRAND HEADER — stays above the slider */
-.app-header{
-  position:relative;
-  z-index:10;
-  width:100%;
-  min-height:54px;
-  padding:6px 10px 6px 62px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  color:#fff;
-  background:linear-gradient(105deg,#071b36,#102f55 58%,#0a2443);
-  border-bottom:1px solid rgba(255,255,255,.12);
-  box-shadow:0 3px 12px rgba(3,15,34,.18);
-}
-.app-brand{
-  min-width:0;
-  display:flex;
-  align-items:center;
-}
-.app-brand-name{
-  margin:0;
-  color:#f5f8ff;
-  font-size:clamp(13px,2.2vw,19px);
-  font-weight:900;
-  letter-spacing:.65px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.app-brand-name span{color:#25c878}
-.header-account{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:8px;
-  flex-shrink:0;
-}
-.profile-link{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:39px;
-  height:39px;
-  overflow:hidden;
-  border-radius:50%;
-  border:2px solid #f4d35e;
-  background:linear-gradient(135deg,#f7d96b,#e69a34);
-  box-shadow:0 0 0 2px rgba(255,255,255,.13);
-  color:#17233a;
-  font-size:14px;
-  font-weight:900;
-}
+/* 3D compact header */
+.app-header{position:relative;z-index:10;width:100%;min-height:54px;padding:6px 10px 6px 62px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff;background:linear-gradient(115deg,#06152b 0%,#123b67 48%,#071b36 100%);border-bottom:1px solid #8bd8ff55;box-shadow:0 4px 0 #041126,0 7px 16px #06152b55,inset 0 1px 0 #ffffff35}
+.app-header:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#ffffff13,transparent 48%,#00000018)}
+.app-brand{min-width:0;display:flex;align-items:center;position:relative;z-index:1}
+.app-brand-name{margin:0;color:#f5f8ff;font-size:clamp(13px,2.2vw,19px);font-weight:900;letter-spacing:.65px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 2px 2px #0008}
+.app-brand-name span{color:#35e39a;text-shadow:0 1px 5px #1c9c71}
+.header-account{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-shrink:0;position:relative;z-index:1}
+.profile-link{display:flex;align-items:center;justify-content:center;width:39px;height:39px;overflow:hidden;border-radius:50%;border:2px solid #ffe58a;background:linear-gradient(145deg,#fff0a5,#f4b83d 55%,#a96a13);box-shadow:0 3px 0 #805018,0 5px 9px #0005,inset 0 2px 4px #fff9;color:#17233a;font-size:14px;font-weight:900}
 .profile-link img{width:100%;height:100%;object-fit:cover}
-.header-balance{
-  min-width:82px;
-  min-height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  padding:0 9px;
-  border:1px solid rgba(67,220,207,.35);
-  border-radius:9px;
-  color:#32e0d2;
-  background:linear-gradient(145deg,#061a2c,#09283c);
-  box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 2px 7px rgba(0,0,0,.15);
-  font-size:14px;
-  font-weight:900;
-  white-space:nowrap;
-}
-.header-balance small{font-size:9px;color:#8ac9d2}
-.top-menu-bar{
-  position:absolute;
-  top:9px;
-  left:9px;
-  width:auto;
-  height:auto;
-  z-index:250;
-  pointer-events:none;
-}
+.header-balance{min-width:82px;min-height:36px;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 9px;border:1px solid #50e5d2;border-radius:9px;color:#8ffff0;background:linear-gradient(145deg,#061a2c,#0b3d50);box-shadow:0 3px 0 #031522,0 5px 9px #0005,inset 0 1px 4px #ffffff25;font-size:14px;font-weight:900;white-space:nowrap}
+.header-balance small{font-size:10px;color:#ffe58a}
+.top-menu-bar{position:absolute;top:9px;left:9px;z-index:250;pointer-events:none}
 .top-menu-bar .menu-toggle{pointer-events:auto}
-.menu-toggle{
-  width:36px;height:36px;
-  border:1px solid rgba(255,255,255,.2);
-  background:linear-gradient(135deg,#102f55,#1a4773);
-  color:#fff;border-radius:9px;
-  font-size:20px;cursor:pointer;
-  box-shadow:0 2px 8px rgba(0,0,0,.22)
-}
-.announcement-ticker{
-  height:29px;
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:3px 9px;
-  overflow:hidden;
-  color:#f4c66e;
-  background:linear-gradient(100deg,#07182d,#102a49);
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-.announcement-bell{flex:0 0 auto;font-size:14px}
-.announcement-ticker iframe{
-  display:block;
-  flex:1;
-  min-width:0;
-  width:100%;
-  height:25px;
-  border:0;
-  overflow:hidden;
-  background:transparent;
-}
+.menu-toggle{width:38px;height:38px;border:1px solid #91d8ff;border-radius:10px;color:#fff;background:linear-gradient(145deg,#3b8ac0 0%,#15517e 48%,#082b4b 100%);font-size:21px;cursor:pointer;box-shadow:0 4px 0 #041b31,0 6px 10px #0006,inset 0 2px 4px #ffffff55;text-shadow:0 2px 2px #0008}
+.menu-toggle:active{transform:translateY(2px);box-shadow:0 2px 0 #041b31,inset 0 2px 4px #0004}
 
-/* DRAWER */
-.drawer-overlay{position:fixed;inset:0;background:rgba(12,5,24,.58);z-index:200;opacity:0;visibility:hidden;transition:.25s}
+/* announcement ticker */
+.announcement-ticker{height:29px;width:100%;display:flex;align-items:center;gap:7px;padding:3px 9px;overflow:hidden;color:#f4c66e;background:linear-gradient(100deg,#07182d,#102a49);border-bottom:1px solid #ffffff1a}
+.announcement-bell{flex:0 0 auto;font-size:15px}
+.announcement-window{position:relative;flex:1;min-width:0;height:23px;overflow:hidden;background:linear-gradient(180deg,#fff,#f2f4fa);border-radius:3px;border:1px solid #d7e0ed}
+.announcement-track{position:absolute;inset:0;display:flex;align-items:center;width:max-content;min-width:100%;animation:announcementRun 22s linear infinite}
+.announcement-message{display:inline-block;padding-left:100vw;padding-right:40px;color:#172b49;font-size:11px;font-weight:700;white-space:nowrap}
+.announcement-window:hover .announcement-track{animation-play-state:paused}
+@keyframes announcementRun{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+/* drawer */
+.drawer-overlay{position:fixed;inset:0;background:#0c051e94;z-index:200;opacity:0;visibility:hidden;transition:.25s}
 .drawer-overlay.show{opacity:1;visibility:visible}
-.sidebar{
-  position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;
-  color:white;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;
-  transform:translateX(-105%);transition:transform .28s ease;box-shadow:10px 0 35px rgba(0,0,0,.2)
-}
+.sidebar{position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;color:#fff;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s;box-shadow:10px 0 35px #0003}
 .sidebar.open{transform:translateX(0)}
 .drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
 .drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
-.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:white;margin-top:4px}
-.drawer-close{width:36px;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:9px;color:white;background:rgba(255,255,255,.1);font-size:22px;cursor:pointer}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:#fff;margin-top:4px}
+.drawer-close{width:36px;height:36px;border:1px solid #ffffff40;border-radius:9px;color:#fff;background:#ffffff1a;font-size:22px;cursor:pointer}
 .menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
-.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid rgba(255,255,255,.08);transition:.2s}
-.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:white}
+.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid #ffffff14}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:#fff}
 .menu-icon{width:23px;text-align:center;font-size:17px}
 
-/* PAGE */
+/* main banners */
 main{max-width:1450px;margin:auto;padding:8px 10px 14px}
- .page-intro{
-  margin:0 0 15px;padding:18px 18px;border-radius:13px;color:#fff;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 5px 16px rgba(31,20,49,.10);
-  text-align:center
-}
-.page-intro h1{margin:0 0 7px;font-size:22px;text-align:center}
-.page-intro p{margin:0;color:#f4e5ee;font-size:12px;line-height:1.5;text-align:center}
-
-/* SINGLE TOP SLIDER — slide/slider.html, responsive 3:1 banner ratio */
-.slider-frame{
-  display:block;
-  width:100%;
-  height:auto;
-  aspect-ratio:3 / 1;
-  margin:0 0 17px;
-  overflow:hidden;
-  border-radius:15px;
-  background:linear-gradient(120deg,#24112f,#65164d,#a51e43);
-  box-shadow:0 7px 20px rgba(31,20,49,.13);
-}
-.slider-frame iframe{
-  display:block;
-  width:100%;
-  height:100%;
-  border:0;
-  background:transparent;
-}
-/* The navigation button remains absolutely overlaid above the slider. */
-.slide-slider-frame{position:relative;z-index:0}
-
-/* CATEGORY BANNERS — original images fill the complete card area */
-.category-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
-  align-items:stretch;
-}
-.category-card{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  min-width:0;
-  min-height:135px;
-  padding:4px;
-  border:1px solid rgba(117,79,145,.22);
-  border-radius:13px;
-  overflow:hidden;
-  background:linear-gradient(135deg,#24112f,#65164d);
-  cursor:pointer;
-  box-shadow:0 7px 18px rgba(39,20,58,.15);
-  transition:transform .2s,box-shadow .2s;
-}
-.category-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 11px 23px rgba(39,20,58,.2);
-}
-.category-card img{
-  display:block;
-  width:100%;
-  height:100%;
-  min-height:135px;
-  object-fit:fill;
-  border-radius:0;
-}
-.category-card:focus-visible{outline:3px solid #e72c76;outline-offset:3px}
-
-/* PRODUCT CATEGORY IFRAME — content is maintained in product-category.html */
-.product-category-frame{
-  display:block;width:100%;min-height:900px;margin:0 auto 18px;padding:0;
-  overflow:hidden;border:0;border-radius:16px;background:transparent;
-}
-.product-category-frame iframe{
-  display:block;width:100%;height:1000px;min-height:900px;border:0;
-  border-radius:16px;background:transparent;
-}
-@media(max-width:600px){
-  .product-category-frame{min-height:1050px;margin-bottom:12px;border-radius:12px}
-  .product-category-frame iframe{height:1150px;min-height:1050px;border-radius:12px}
-}
-
-/* PACKAGE VIEW */
-.packages-view{display:none}
-.packages-view.active{display:block}
-.category-view.hidden{display:none}
-.section-heading{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 13px
-}
-.section-heading h2{margin:0;color:#30243e;font-size:19px}
-.section-heading p{margin:4px 0 0;color:var(--muted);font-size:11px}
-.section-count{color:#9a6c38;font-size:10px;font-weight:bold;white-space:nowrap}
-.back-button{
-  border:1px solid #e3d7e9;background:#fff;color:#6c2863;padding:10px 13px;
-  border-radius:9px;font-size:11px;font-weight:bold;cursor:pointer;margin-bottom:13px
-}
-.search-section{margin:0 0 16px;display:flex;align-items:center;gap:9px}
-.search-box{flex:1;position:relative}
-.search-box input{
-  width:100%;height:42px;padding:0 13px 0 38px;border:1px solid var(--border);
-  border-radius:9px;background:white;outline:none;color:var(--text);font-size:12px
-}
-.search-box input:focus{border-color:#c64d81}
-.search-icon{position:absolute;left:13px;top:12px;color:#9c91a4;font-size:16px}
-.refresh-btn{
-  border:1px solid var(--border);background:white;color:#6d5269;padding:12px;
-  border-radius:9px;font-size:10px;font-weight:bold;cursor:pointer
-}
-.refresh-btn:disabled{opacity:.5;cursor:wait}
-
-/* PACKAGE CARDS */
-.package-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;align-items:start}
-.item-card{
-  min-width:0;overflow:hidden;position:relative;border-radius:14px;
-  background:linear-gradient(145deg,#ffffff,#f2edff,#e6f4ff);
-  border:1px solid rgba(151,119,198,.3);
-  box-shadow:0 8px 18px rgba(66,43,110,.12),0 3px 6px rgba(66,43,110,.06),inset 0 1px 0 #fff;
-  transition:transform .25s,box-shadow .25s
-}
-.item-card:hover{transform:translateY(-3px);box-shadow:0 13px 23px rgba(66,43,110,.17)}
-.item-image{height:135px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);border-bottom:1px solid rgba(255,255,255,.8)}
-.item-image img{width:100%;height:100%;object-fit:cover}
-.image-placeholder{display:grid;place-items:center;width:100%;height:100%;color:#9974c1;font-size:36px}
-.item-body{padding:8px;background:linear-gradient(145deg,#f8f4ff,#eaf0ff,#edf9f8);display:flex;flex-direction:column;gap:7px}
-.item-type{
-  display:inline-flex;align-items:center;align-self:flex-start;padding:5px 11px;border-radius:20px;
-  color:#fff;font-size:8px;font-weight:900;letter-spacing:.8px;
-  background:linear-gradient(145deg,#ffb5dc 0%,#e85ba8 48%,#a72b78 100%);
-  border:1px solid rgba(255,255,255,.65);box-shadow:0 3px 0 #8b286c,0 5px 8px rgba(139,40,108,.2),inset 0 1px 3px rgba(255,255,255,.65);
-  text-shadow:0 1px 2px rgba(80,20,60,.3)
-}
-.item-title{
-  margin:0;padding:7px 9px;border-radius:8px;color:#fff;font-size:12px;line-height:1.3;overflow-wrap:anywhere;
-  background:radial-gradient(circle at 90% 0%,rgba(255,255,255,.3),transparent 45%),linear-gradient(145deg,#7651bd,#6840a9 55%,#45266f);
-  border:1px solid rgba(255,255,255,.4);box-shadow:0 3px 0 #38205d,0 5px 8px rgba(62,35,100,.17),inset 0 1px 2px rgba(255,255,255,.35);
-  text-shadow:0 1px 2px rgba(0,0,0,.2)
-}
-.item-description{
-  min-height:32px;max-height:32px;overflow:hidden;margin:0;padding:6px 8px;border-radius:7px;color:#28536b;
-  font-size:9px;line-height:1.5;background:radial-gradient(circle at 100% 0%,rgba(255,255,255,.75),transparent 50%),linear-gradient(145deg,#d8f4ff,#b9e5f2 55%,#a5d5e9);
-  border:1px solid rgba(255,255,255,.8);box-shadow:0 3px 0 #78b4cc,0 4px 7px rgba(40,115,145,.12),inset 0 1px 2px rgba(255,255,255,.8)
-}
-.item-separator{height:1px;width:100%;margin:1px 0 0;background:linear-gradient(90deg,transparent,#9c91b4,#d5c9e8,transparent)}
-.item-bottom{
-  display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px;border-radius:10px;
-  background:radial-gradient(circle at 90% 0%,rgba(255,255,255,.22),transparent 45%),linear-gradient(145deg,#164b79,#087e91 52%,#20a99c);
-  border:1px solid rgba(255,255,255,.6);box-shadow:0 4px 0 #103d60,0 7px 10px rgba(12,74,105,.17),inset 0 1px 3px rgba(255,255,255,.4)
-}
-.price-stock{min-width:0;flex:1}
-.item-price{color:#fff;font-size:13px;font-weight:900;overflow-wrap:anywhere;text-shadow:0 1px 3px rgba(0,0,0,.2)}
-.item-price small{display:block;margin-bottom:3px;color:#d9fff6;font-size:7px;font-weight:900;letter-spacing:.8px;text-shadow:none}
-.item-stock{margin-top:5px;color:#e1fff0;font-size:8px;font-weight:bold}
-.item-stock.out{color:#ffe0e0}
-.buy-btn{
-  display:inline-block;flex-shrink:0;border:1px solid rgba(255,255,255,.5);padding:9px;border-radius:8px;
-  background:linear-gradient(145deg,#ff5597,#e51e70 55%,#a80f50);color:white;font-size:8px;font-weight:900;
-  cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #78103d,0 6px 9px rgba(100,10,50,.22),inset 0 1px 3px rgba(255,255,255,.45);transition:.2s
-}
-.buy-btn:hover{transform:translateY(-2px)}
-.buy-btn:disabled{opacity:.45;cursor:not-allowed}
-.state-box{grid-column:1/-1;padding:35px 15px;border:1px dashed #dcd3e0;border-radius:12px;background:white;text-align:center}
-.state-icon{font-size:30px;margin-bottom:9px}
-.state-box h3{margin:0 0 7px;color:#3b2d46;font-size:15px}
-.state-box p{margin:0;color:var(--muted);font-size:10px;line-height:1.7}
-.state-box button{margin-top:12px;border:0;padding:9px 14px;border-radius:8px;color:white;background:#a51d54;font-size:10px;font-weight:bold;cursor:pointer}
+.slider-frame{display:block;width:100%;aspect-ratio:3/1;margin:0 0 9px;overflow:hidden;border-radius:13px;background:linear-gradient(120deg,#24112f,#65164d,#a51e43);box-shadow:0 7px 20px #1f14311f}
+.slider-frame iframe{display:block;width:100%;height:100%;border:0;background:transparent}
+.welcome-banner{display:block;width:100%;aspect-ratio:9.6/1;margin:0 0 13px;overflow:hidden;border-radius:9px;box-shadow:0 5px 13px #27123d35;animation:bannerFloat 4s ease-in-out infinite;transform-origin:center}
+.welcome-svg{display:block;width:100%;height:100%}
+@keyframes bannerFloat{0%,100%{filter:drop-shadow(0 3px 3px #3b145a55);transform:perspective(700px) translateY(0) scale(1)}50%{filter:drop-shadow(0 7px 7px #8a35c877);transform:perspective(700px) translateY(-2px) scale(1.002)}}
 .notice{display:none;margin:12px 0;padding:12px;border-radius:9px;font-size:11px;line-height:1.6}
 .notice.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
 .notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
-/* Compact admin announcement strip and thin copyright footer */
-.admin-announcement{
-  min-height:30px;
-  max-width:1450px;
-  margin:0 auto;
-  padding:6px 12px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  overflow:hidden;
-  background:linear-gradient(100deg,#fffaf0,#f7e8f1);
-  border-top:1px solid rgba(167,25,82,.12);
-  border-bottom:1px solid rgba(167,25,82,.12);
-  color:#6d3156;
-  font-size:10px;
-}
-.announcement-label{flex-shrink:0;font-size:9px;font-weight:900;letter-spacing:.7px;color:#a71952}
-.announcement-message{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-footer{
-  min-height:34px;
-  padding:9px 12px;
-  background:linear-gradient(110deg,#17152f,#74133e);
-  color:#d9cbd9;
-  text-align:center;
-  font-size:10px;
-  line-height:16px;
-}
-footer strong{color:#f4d58c}
 
+/* categories are displayed in the separate product-category.html iframe */
+.product-category-frame{display:block;width:100%;min-height:900px;margin:0 auto 18px;padding:0;overflow:hidden;border:0;border-radius:16px;background:transparent}
+.product-category-frame iframe{display:block;width:100%;height:1000px;min-height:900px;border:0;border-radius:16px;background:transparent}
+
+/* package view */
+.packages-view{display:none}.packages-view.active{display:block}
+.category-view.hidden{display:none}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 13px}
+.section-heading h2{margin:0;color:#30243e;font-size:19px}
+.section-heading p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.section-count{color:#9a6c38;font-size:10px;font-weight:bold;white-space:nowrap}
+.back-button{border:1px solid #e3d7e9;background:#fff;color:#6c2863;padding:10px 13px;border-radius:9px;font-size:11px;font-weight:bold;cursor:pointer;margin-bottom:13px}
+.search-section{margin:0 0 16px;display:flex;align-items:center;gap:9px}
+.search-box{flex:1;position:relative}
+.search-box input{width:100%;height:42px;padding:0 13px 0 38px;border:1px solid var(--border);border-radius:9px;background:#fff;outline:none;color:var(--text);font-size:12px}
+.search-box input:focus{border-color:#c64d81}
+.search-icon{position:absolute;left:13px;top:12px;color:#9c91a4;font-size:16px}
+.refresh-btn{border:1px solid var(--border);background:#fff;color:#6d5269;padding:12px;border-radius:9px;font-size:10px;font-weight:bold;cursor:pointer}
+.refresh-btn:disabled{opacity:.5;cursor:wait}
+.package-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;align-items:start}
+.item-card{min-width:0;overflow:hidden;position:relative;border-radius:14px;background:linear-gradient(145deg,#fff,#f2edff,#e6f4ff);border:1px solid #9777c64d;box-shadow:0 8px 18px #422b1e1f;transition:transform .25s}
+.item-card:hover{transform:translateY(-3px)}
+.item-image{height:135px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);border-bottom:1px solid #ffffffcc}
+.item-image img{width:100%;height:100%;object-fit:cover}
+.image-placeholder{display:grid;place-items:center;width:100%;height:100%;color:#9974c1;font-size:36px}
+.item-body{padding:8px;background:linear-gradient(145deg,#f8f4ff,#eaf0ff,#edf9f8);display:flex;flex-direction:column;gap:7px}
+.item-type{display:inline-flex;align-self:flex-start;padding:5px 11px;border-radius:20px;color:#fff;font-size:8px;font-weight:900;letter-spacing:.8px;background:linear-gradient(145deg,#ffb5dc,#e85ba8 48%,#a72b78);border:1px solid #ffffffa6;box-shadow:0 3px 0 #8b286c}
+.item-title{margin:0;padding:7px 9px;border-radius:8px;color:#fff;font-size:12px;line-height:1.3;overflow-wrap:anywhere;background:linear-gradient(145deg,#7651bd,#6840a9 55%,#45266f);box-shadow:0 3px 0 #38205d}
+.item-description{min-height:32px;max-height:32px;overflow:hidden;margin:0;padding:6px 8px;border-radius:7px;color:#28536b;font-size:9px;line-height:1.5;background:linear-gradient(145deg,#d8f4ff,#b9e5f2 55%,#a5d5e9)}
+.item-separator{height:1px;width:100%;background:linear-gradient(90deg,transparent,#9c91b4,#d5c9e8,transparent)}
+.item-bottom{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px;border-radius:10px;background:linear-gradient(145deg,#164b79,#087e91 52%,#20a99c);box-shadow:0 4px 0 #103d60}
+.price-stock{min-width:0;flex:1}
+.item-price{color:#fff;font-size:13px;font-weight:900;overflow-wrap:anywhere}
+.item-price small{display:block;margin-bottom:3px;color:#d9fff6;font-size:7px;font-weight:900;letter-spacing:.8px}
+.item-stock{margin-top:5px;color:#e1fff0;font-size:8px;font-weight:bold}.item-stock.out{color:#ffe0e0}
+.buy-btn{display:inline-block;flex-shrink:0;border:1px solid #ffffff80;padding:9px;border-radius:8px;background:linear-gradient(145deg,#ff5597,#e51e70 55%,#a80f50);color:#fff;font-size:8px;font-weight:900;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #78103d}
+.buy-btn:disabled{opacity:.45;cursor:not-allowed}
+.state-box{grid-column:1/-1;padding:35px 15px;border:1px dashed #dcd3e0;border-radius:12px;background:#fff;text-align:center}
+.state-icon{font-size:30px;margin-bottom:9px}.state-box h3{margin:0 0 7px;color:#3b2d46;font-size:15px}
+.state-box p{margin:0;color:var(--muted);font-size:10px;line-height:1.7}
+.state-box button{margin-top:12px;border:0;padding:9px 14px;border-radius:8px;color:#fff;background:#a51d54;font-size:10px;font-weight:bold;cursor:pointer}
+footer{min-height:34px;padding:9px 12px;background:linear-gradient(110deg,#17152f,#74133e);color:#d9cbd9;text-align:center;font-size:10px;line-height:16px}
+footer strong{color:#f4d58c}
 @media(max-width:700px){
-  .app-header{min-height:49px;padding:5px 7px 5px 54px;gap:5px}
-  .app-brand-name{font-size:13px;letter-spacing:.25px}
-  .profile-link{width:34px;height:34px}
-  .header-balance{min-width:72px;min-height:32px;padding:0 7px;font-size:12px}
-  .top-menu-bar{top:7px;left:8px}
-  .menu-toggle{width:34px;height:34px;font-size:19px}
-  .announcement-ticker{height:27px;padding:2px 7px}
-  .announcement-ticker iframe{height:23px}
-  main{padding:8px 5px 12px}
-  .page-intro{margin:0 5px 12px;padding:13px 14px}
-  .page-intro h1{font-size:18px}
-  .page-intro p{font-size:10px}
-  .slider-frame{margin-bottom:11px}
-  .admin-announcement{min-height:28px;padding:5px 9px;font-size:9px}
-  .announcement-label{font-size:8px}
-  footer{min-height:32px;padding:8px 10px;font-size:9px}
-  .category-grid{gap:9px}
-  .category-card{min-height:105px;padding:0;border-radius:10px}
-  .category-card img{width:100%;height:100%;min-height:105px;object-fit:fill;border-radius:0}
-  .section-heading{padding:0 5px}
-  .section-heading h2{font-size:16px}
-  .search-section{padding:0 5px}
-  .package-grid{gap:8px;padding:0 3px}
-  .item-image{height:112px}
-  .item-body{padding:6px;gap:5px}
-  .item-type{padding:4px 9px;font-size:7px}
-  .item-title{padding:6px 7px;font-size:11px}
-  .item-description{min-height:28px;max-height:28px;padding:5px 7px;font-size:8px}
-  .item-bottom{padding:7px;gap:5px;border-radius:8px}
-  .item-price{font-size:11px}
-  .item-price small{font-size:6px}
-  .item-stock{font-size:7px;margin-top:4px}
-  .buy-btn{padding:8px 7px;font-size:8px;border-radius:7px}
+.app-header{min-height:49px;padding:5px 7px 5px 54px;gap:5px}.app-brand-name{font-size:13px;letter-spacing:.25px}
+.profile-link{width:34px;height:34px}.header-balance{min-width:72px;min-height:32px;padding:0 7px;font-size:12px}
+.top-menu-bar{top:7px;left:8px}.menu-toggle{width:35px;height:35px;font-size:19px}
+.announcement-ticker{height:27px;padding:2px 7px}.announcement-window{height:23px}.announcement-window iframe{height:23px}
+main{padding:8px 5px 12px}.slider-frame{margin-bottom:7px;border-radius:9px}
+.welcome-banner{margin-bottom:10px;border-radius:7px;aspect-ratio:9.6/1}
+.product-category-frame{min-height:1050px;margin-bottom:12px;border-radius:12px}
+.product-category-frame iframe{height:1150px;min-height:1050px;border-radius:12px}
+.section-heading{padding:0 5px}.section-heading h2{font-size:16px}
+.search-section{padding:0 5px}.package-grid{gap:8px;padding:0 3px}
+.item-image{height:112px}.item-body{padding:6px;gap:5px}.item-type{padding:4px 9px;font-size:7px}
+.item-title{padding:6px 7px;font-size:11px}.item-description{min-height:28px;max-height:28px;padding:5px 7px;font-size:8px}
+.item-bottom{padding:7px;gap:5px;border-radius:8px}.item-price{font-size:11px}.item-price small{font-size:6px}
+.item-stock{font-size:7px;margin-top:4px}.buy-btn{padding:8px 7px;font-size:8px;border-radius:7px}
 }
 @media(max-width:360px){
-  .app-header{padding-left:50px}
-  .app-brand-name{font-size:11px}
-  .profile-link{width:31px;height:31px}
-  .header-balance{min-width:65px;font-size:11px}
-  .category-grid{gap:7px}
-  .category-card{min-height:92px;padding:0;border-radius:8px}
-  .category-card img{width:100%;height:100%;min-height:92px;object-fit:fill}
-  .item-image{height:88px}.item-body{padding:5px;gap:5px}
-  .item-title{font-size:10px}.item-description{font-size:7px}
-  .item-price{font-size:10px}.buy-btn{padding:7px 5px;font-size:7px}
+.app-header{padding-left:50px}.app-brand-name{font-size:11px}.profile-link{width:31px;height:31px}
+.header-balance{min-width:65px;font-size:11px}.product-category-frame{min-height:1050px}
+.item-image{height:88px}.item-body{padding:5px;gap:5px}.item-title{font-size:10px}
+.item-description{font-size:7px}.item-price{font-size:10px}.buy-btn{padding:7px 5px;font-size:7px}
 }
 </style>
 </head>
-
 <body>
 <header class="app-header">
-  <div class="app-brand">
-    <h1 class="app-brand-name">RUBALIA <span>NETWORK</span></h1>
-  </div>
+  <div class="app-brand"><h1 class="app-brand-name">RUBALIA <span>NETWORK</span></h1></div>
   <div class="header-account">
     <a class="profile-link" id="headerProfile" href="profile.html" aria-label="My Profile" title="My Profile">R</a>
-    <a class="header-balance" id="headerBalance" href="wallet.html" aria-label="Wallet balance">
+    <a class="header-balance" id="headerBalance" href="wallet.html" aria-label="Available wallet balance">
       <small>৳</small><span id="headerBalanceValue">--</span>
     </a>
   </div>
 </header>
-
-<div class="top-menu-bar">
-  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
-</div>
+<div class="top-menu-bar"><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button></div>
 
 <section class="announcement-ticker" aria-label="Latest announcement">
   <span class="announcement-bell" aria-hidden="true">🔔</span>
-  <iframe src="admin/admin-announce.html" title="RUBALIA NETWORK announcement" loading="eager" scrolling="no"></iframe>
+  <div class="announcement-window" aria-live="polite">
+    <div class="announcement-track" id="announcementTrack">
+      <span class="announcement-message" id="announcementMessage">Loading latest announcement...</span>
+    </div>
+  </div>
 </section>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <aside class="sidebar" id="sidebar">
-  <div class="drawer-top">
-    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
-    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
-  </div>
+  <div class="drawer-top"><div class="drawer-brand">RUBALIA<small>NETWORK</small></div><button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button></div>
   <div class="menu-title">MAIN MENU</div>
   <nav class="menu">
     <a href="dashboard.html" class="active"><span class="menu-icon">⌂</span>Dashboard</a>
@@ -455,427 +173,175 @@ footer strong{color:#f4d58c}
 </aside>
 
 <main>
-  <!-- MAIN BANNER: slide/slider.html is now the first and only top slider. -->
-  <section class="slider-frame slide-slider-frame" aria-label="Rubalia promotional slide slider">
-    <iframe
-      src="slide/slider.html"
-      title="RUBALIA promotional slider"
-      loading="lazy"
-      allow="autoplay"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  <section class="slider-frame" aria-label="Rubalia promotional slide slider">
+    <iframe src="slide/slider.html" title="RUBALIA promotional slider" loading="lazy" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </section>
+
+  <!-- Embedded SVG welcome banner: no separate image file is required. -->
+  <div class="welcome-banner" role="img" aria-label="Welcome Back RUBALIA NETWORK">
+    <svg class="welcome-svg" viewBox="0 0 1536 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="welcomeBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#10002b"/><stop offset=".48" stop-color="#31005a"/><stop offset="1" stop-color="#080d2d"/>
+        </linearGradient>
+        <linearGradient id="welcomeGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fff3ad"/><stop offset=".48" stop-color="#e7ad39"/><stop offset="1" stop-color="#fff0a1"/>
+        </linearGradient>
+        <linearGradient id="welcomePurple" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#8c18ef"/><stop offset=".5" stop-color="#f05aff"/><stop offset="1" stop-color="#6414c8"/>
+        </linearGradient>
+        <filter id="welcomeGlow" x="-30%" y="-50%" width="160%" height="200%">
+          <feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="welcomeShadow" x="-20%" y="-30%" width="140%" height="160%">
+          <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity=".65"/>
+        </filter>
+      </defs>
+      <rect width="1536" height="160" rx="12" fill="url(#welcomeBg)"/>
+      <path d="M0 0H430L275 160H0Z" fill="#7410b8" opacity=".24"/>
+      <path d="M1536 0H1190L1355 160H1536Z" fill="#7113ad" opacity=".22"/>
+      <path d="M0 130C210 90 230 30 400 0M1536 25C1380 80 1390 125 1190 160" fill="none" stroke="url(#welcomePurple)" stroke-width="9" filter="url(#welcomeGlow)"/>
+      <path d="M0 145C250 100 260 50 430 0M1536 10C1330 80 1370 120 1110 160" fill="none" stroke="url(#welcomeGold)" stroke-width="2" opacity=".9"/>
+      <g fill="none" stroke="#b68cff" opacity=".25">
+        <path d="M40 35h180M40 45h120M1310 38h180M1370 48h120"/>
+        <circle cx="90" cy="82" r="34"/><circle cx="1445" cy="82" r="34"/>
+      </g>
+      <g transform="translate(205 80)" filter="url(#welcomeShadow)">
+        <circle r="53" fill="#210044" stroke="url(#welcomeGold)" stroke-width="4"/>
+        <path d="M-30 22L-12-31H13L-3-3H25L-23 34L-8 5H-34Z" fill="url(#welcomePurple)" stroke="#fff" stroke-width="2"/>
+      </g>
+      <path d="M310 32V128" stroke="#fff" stroke-width="2" opacity=".55"/>
+      <text x="355" y="103" fill="#fff" font-size="76" font-family="cursive" font-style="italic" filter="url(#welcomeShadow)">Welcome Back</text>
+      <g transform="translate(1010 0)" filter="url(#welcomeShadow)">
+        <path d="M20 108L52 30H106L138 108Z" fill="url(#welcomePurple)" stroke="url(#welcomeGold)" stroke-width="3"/>
+        <path d="M54 76L77 27L101 76H82L104 105H49L70 76Z" fill="#fff"/>
+        <path d="M72 18L82 2L92 18L108 16L99 32H65L56 16Z" fill="url(#welcomeGold)"/>
+      </g>
+      <text x="1160" y="91" fill="#fff" font-size="69" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="2" filter="url(#welcomeShadow)">RUBALIA</text>
+      <text x="1170" y="125" fill="#f4d9ff" font-size="25" font-family="Arial,Helvetica,sans-serif" font-weight="700" letter-spacing="13">NETWORK</text>
+      <path d="M1145 137H1495" stroke="url(#welcomeGold)" stroke-width="2"/>
+      <circle cx="1500" cy="20" r="4" fill="#fff4b0"><animate attributeName="opacity" values=".2;1;.2" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="330" cy="20" r="4" fill="#fff4b0"><animate attributeName="opacity" values="1;.2;1" dur="2.8s" repeatCount="indefinite"/></circle>
+      <path d="M20 150H1516" stroke="url(#welcomePurple)" stroke-width="3" filter="url(#welcomeGlow)"/>
+    </svg>
+  </div>
 
   <div class="notice" id="notice" role="status"></div>
 
-  <!-- PRODUCT CATEGORY CONTENT IS LOADED FROM ITS OWN HTML FILE -->
   <section class="product-category-frame" id="categoryView" aria-label="Product categories">
-    <iframe
-      src="product-category.html"
-      title="RUBALIA NETWORK Product Categories"
-      loading="lazy"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <iframe id="categoryFrame" src="product-category.html" title="RUBALIA NETWORK Product Categories" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </section>
 
-  <!-- PACKAGES ARE SHOWN ONLY AFTER A CATEGORY IS SELECTED -->
   <section class="packages-view" id="packagesView">
     <button class="back-button" id="backToCategories" type="button">← All Categories</button>
-    <div class="section-heading">
-      <div>
-        <h2 id="selectedCategoryTitle">Category Packages</h2>
-        <p>Packages loaded from RUBALIA NETWORK server.</p>
-      </div>
-      <span class="section-count" id="packageCount">Not loaded</span>
-    </div>
+    <div class="section-heading"><div><h2 id="selectedCategoryTitle">Category Packages</h2><p>Packages loaded from RUBALIA NETWORK server.</p></div><span class="section-count" id="packageCount">Not loaded</span></div>
     <section class="search-section">
-      <div class="search-box">
-        <span class="search-icon">⌕</span>
-        <input type="search" id="searchInput" placeholder="Search packages in this category..." autocomplete="off">
-      </div>
+      <div class="search-box"><span class="search-icon">⌕</span><input type="search" id="searchInput" placeholder="Search packages in this category..." autocomplete="off"></div>
       <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
     </section>
-    <div class="package-grid" id="packageGrid">
-      <div class="state-box"><div class="state-icon">📦</div><h3>Select a Category</h3><p>Choose a category to load its packages.</p></div>
-    </div>
+    <div class="package-grid" id="packageGrid"><div class="state-box"><div class="state-icon">📦</div><h3>Select a Category</h3><p>Choose a category to load its packages.</p></div></div>
   </section>
 </main>
-
 <footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
 <script>
 "use strict";
+const API_BASE="https://rubalia.onrender.com/api";
+let allPackages=[],selectedCategory="",loading=false;
+const $=id=>document.getElementById(id);
 
-const API_BASE = "https://rubalia.onrender.com/api";
+/* Drawer controls */
+const sidebar=$("sidebar"),overlay=$("drawerOverlay"),menuToggle=$("menuToggle");
+function openMenu(){sidebar.classList.add("open");overlay.classList.add("show");document.body.classList.add("menu-open");menuToggle.setAttribute("aria-expanded","true")}
+function closeMenu(){sidebar.classList.remove("open");overlay.classList.remove("show");document.body.classList.remove("menu-open");menuToggle.setAttribute("aria-expanded","false")}
+menuToggle.addEventListener("click",()=>sidebar.classList.contains("open")?closeMenu():openMenu());
+$("drawerClose").addEventListener("click",closeMenu);overlay.addEventListener("click",closeMenu);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu()});
+sidebar.querySelectorAll("a").forEach(a=>{if(a.id!=="logoutLink")a.addEventListener("click",closeMenu)});
+$("logoutLink").addEventListener("click",e=>{e.preventDefault();if(confirm("Are you sure you want to log out?")){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html")}});
 
-const CATEGORIES = [
-  "Beauty & Cosmetics",
-  "Health & Wellness",
-  "Personal Care",
-  "Home & Kitchen",
-  "Food & Grocery",
-  "Fashion & Clothing",
-  "Electronics & Gadgets",
-  "Baby & Kids",
-  "Household Products",
-  "Lifestyle & Accessories"
-];
+/* Helpers */
+function safeImageURL(value){if(!value)return"";try{const u=new URL(value,location.href);return u.protocol==="https:"||u.protocol==="http:"?u.href:""}catch(e){return""}}
+function formatMoney(value){const n=Number(value);return Number.isFinite(n)?"৳ "+n.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2}):"--"}
+function showNotice(type,message){const n=$("notice");n.className="notice "+type;n.textContent=message}
+function clearNotice(){$("notice").className="notice";$("notice").textContent=""}
+function showState(container,icon,title,description,buttonText){container.replaceChildren();const box=document.createElement("div");box.className="state-box";const i=document.createElement("div");i.className="state-icon";i.textContent=icon;const h=document.createElement("h3");h.textContent=title;const p=document.createElement("p");p.textContent=description;box.append(i,h,p);if(buttonText){const b=document.createElement("button");b.type="button";b.textContent=buttonText;b.addEventListener("click",loadPackages);box.appendChild(b)}container.appendChild(box)}
 
-let allPackages = [];
-let selectedCategory = "";
-let loading = false;
+/* Authenticated API requests */
+async function fetchJSON(path,token){const r=await fetch(API_BASE+path,{headers:{"Accept":"application/json","Authorization":"Bearer "+token},cache:"no-store"});const d=await r.json().catch(()=>({}));if(r.status===401||r.status===403){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");throw new Error("Your login session has expired.")}if(!r.ok||d.success===false)throw new Error(d.message||"Unable to load information.");return d}
 
-const $ = id => document.getElementById(id);
+/* Load profile and the actual wallet ledger balance from GET /api/wallet.
+   The wallet API returns {success:true,wallet:{balance:...}}. */
+function updateProfile(user){const profile=$("headerProfile");const avatar=safeImageURL(user.avatar_url||user.profile_image||user.photo_url||user.profile_picture);if(avatar){const img=document.createElement("img");img.src=avatar;img.alt=user.full_name||"Profile";profile.replaceChildren(img)}else{profile.textContent=String(user.full_name||"R").trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"R"}}
+async function loadWalletBalance(token){const balanceEl=$("headerBalanceValue");try{const data=await fetchJSON("/wallet",token);const amount=data.wallet&&data.wallet.balance;if(amount!==undefined&&amount!==null){balanceEl.textContent=Number(amount).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})}else{balanceEl.textContent="--"}}catch(error){balanceEl.textContent="--";console.warn("Wallet balance could not be loaded:",error.message)}}
+async function verifySession(){const token=sessionStorage.getItem("rubalia_token");if(!token){location.replace("login.html");throw new Error("Login required.")}const data=await fetchJSON("/auth/me",token);const user=data.user||data.profile;if(!user)throw new Error("Unable to verify your account.");if(String(user.role||"").toLowerCase()==="admin"){location.replace("admin-dashboard.html");throw new Error("Opening Admin Dashboard.")}if(user.status&&String(user.status).toLowerCase()!=="active"){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");throw new Error("Your account is not active.")}updateProfile(user);sessionStorage.setItem("rubalia_user",JSON.stringify({id:user.id,full_name:user.full_name,email:user.email,role:user.role,status:user.status,avatar_url:user.avatar_url||user.profile_image||user.photo_url||user.profile_picture||""}));await loadWalletBalance(token);return token}
 
-/* Restore cached header details while the session is being verified. */
-try{
-  const cachedUser = JSON.parse(sessionStorage.getItem("rubalia_user") || "null");
-  if(cachedUser) updateHeaderAccount(cachedUser);
-}catch(error){}
-
-/* DRAWER */
-const sidebar = $("sidebar");
-const overlay = $("drawerOverlay");
-const menuToggle = $("menuToggle");
-
-function openMenu(){
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
-  document.body.classList.add("menu-open");
-  menuToggle.setAttribute("aria-expanded","true");
-}
-function closeMenu(){
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-  document.body.classList.remove("menu-open");
-  menuToggle.setAttribute("aria-expanded","false");
-}
-menuToggle.addEventListener("click",function(){
-  sidebar.classList.contains("open") ? closeMenu() : openMenu();
-});
-$("drawerClose").addEventListener("click",closeMenu);
-overlay.addEventListener("click",closeMenu);
-document.addEventListener("keydown",function(event){
-  if(event.key==="Escape") closeMenu();
-});
-sidebar.querySelectorAll("a").forEach(function(link){
-  if(link.id!=="logoutLink") link.addEventListener("click",closeMenu);
-});
-
-/* LOGOUT */
-$("logoutLink").addEventListener("click",function(event){
-  event.preventDefault();
-  if(confirm("Are you sure you want to log out?")){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    location.replace("login.html");
-  }
-});
-
-/* HELPERS */
-function safeImageURL(value){
-  if(!value) return "";
+/* Load the active Admin announcement from the public backend endpoint.
+   This is the same live message managed by Admin; no iframe parsing is needed. */
+async function loadAdminAnnouncement(){
+  const messageEl=$("announcementMessage");
+  const track=$("announcementTrack");
   try{
-    const url = new URL(value,location.href);
-    if(url.protocol==="https:" || url.protocol==="http:") return url.href;
-  }catch(error){}
-  return "";
-}
-function formatPrice(value){
-  const number = Number(value);
-  if(!Number.isFinite(number)) return "Price unavailable";
-  return "৳ " + number.toLocaleString("en-BD",{maximumFractionDigits:2});
-}
-function showNotice(type,text){
-  const notice = $("notice");
-  notice.className = "notice " + type;
-  notice.textContent = text;
-}
-function clearNotice(){
-  $("notice").className = "notice";
-  $("notice").textContent = "";
-}
-function showState(container,icon,title,description,buttonText){
-  container.replaceChildren();
-  const box = document.createElement("div");
-  box.className = "state-box";
-  const iconElement = document.createElement("div");
-  iconElement.className = "state-icon";
-  iconElement.textContent = icon;
-  const heading = document.createElement("h3");
-  heading.textContent = title;
-  const paragraph = document.createElement("p");
-  paragraph.textContent = description;
-  box.append(iconElement,heading,paragraph);
-  if(buttonText){
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = buttonText;
-    button.addEventListener("click",loadPackages);
-    box.appendChild(button);
-  }
-  container.appendChild(box);
-}
-
-/* API */
-async function fetchJSON(path,token){
-  const response = await fetch(API_BASE+path,{
-    method:"GET",
-    headers:{"Accept":"application/json","Authorization":"Bearer "+token},
-    cache:"no-store"
-  });
-  const data = await response.json().catch(function(){return {};});
-  if(response.status===401 || response.status===403){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    location.replace("login.html");
-    throw new Error("Your login session has expired.");
-  }
-  if(!response.ok || data.success===false){
-    throw new Error(data.message || "Unable to load store information.");
-  }
-  return data;
-}
-
-/* HEADER PROFILE + WALLET BALANCE */
-function updateHeaderAccount(user){
-  const profile = $("headerProfile");
-  const balance = $("headerBalanceValue");
-  if(!user) return;
-
-  const avatarURL = safeImageURL(
-    user.avatar_url || user.profile_image || user.photo_url || user.profile_picture
-  );
-  if(avatarURL){
-    const image = document.createElement("img");
-    image.src = avatarURL;
-    image.alt = user.full_name || "Profile";
-    profile.replaceChildren(image);
-  }else{
-    const initials = String(user.full_name || "R")
-      .trim().split(/\\s+/).slice(0,2).map(part=>part.charAt(0)).join("").toUpperCase();
-    profile.textContent = initials || "R";
-  }
-
-  const amount = user.balance ?? user.wallet_balance ?? user.available_balance;
-  if(amount !== null && amount !== undefined && amount !== ""){
-    const numeric = Number(amount);
-    balance.textContent = Number.isFinite(numeric)
-      ? numeric.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})
-      : String(amount);
-  }else{
-    balance.textContent = "--";
-  }
-}
-
-/* AUTHENTICATION */
-async function verifySession(){
-  const token = sessionStorage.getItem("rubalia_token");
-  if(!token){
-    location.replace("login.html");
-    throw new Error("Login required.");
-  }
-  const data = await fetchJSON("/auth/me",token);
-  const user = data.user || data.profile;
-  if(!user) throw new Error("Unable to verify your account.");
-  if(String(user.role || "").toLowerCase()==="admin"){
-    location.replace("admin-dashboard.html");
-    throw new Error("Opening Admin Dashboard.");
-  }
-  if(user.status && String(user.status).toLowerCase()!=="active"){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    location.replace("login.html");
-    throw new Error("Your account is not active.");
-  }
-  sessionStorage.setItem("rubalia_user",JSON.stringify({
-    id:user.id,
-    full_name:user.full_name,
-    email:user.email,
-    role:user.role,
-    status:user.status,
-    avatar_url:user.avatar_url || user.profile_image || user.photo_url || user.profile_picture || "",
-    balance:user.balance ?? user.wallet_balance ?? user.available_balance ?? null
-  }));
-  updateHeaderAccount(user);
-  return token;
-}
-
-/* CATEGORY NAVIGATION */
-function openCategory(category){
-  if(!CATEGORIES.includes(category)) return;
-
-  // Open the separate packages page and pass the selected category safely.
-  // Example: packages.html?category=Beauty%20%26%20Cosmetics
-  const target = "packages.html?category=" + encodeURIComponent(category);
-  window.location.href = target;
-}
-function showCategories(){
-  selectedCategory = "";
-  $("packagesView").classList.remove("active");
-  $("categoryView").classList.remove("hidden");
-  $("pageTitle").textContent = "Explore Categories";
-  $("pageSubtitle").textContent = "Choose a product category to explore its available packages.";
-  $("searchInput").value = "";
-  clearNotice();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-$("backToCategories").addEventListener("click",showCategories);
-
-/* PACKAGE RENDER */
-function renderPackages(packages){
-  const grid = $("packageGrid");
-  $("packageCount").textContent = packages.length + " Available";
-  grid.replaceChildren();
-
-  if(!packages.length){
-    showState(grid,"📦","No Packages In This Category","There are currently no active packages listed in this category.");
-    return;
-  }
-
-  packages.forEach(function(item){
-    const id = Number(item.id);
-    const validPackageId = Number.isSafeInteger(id) && id>0;
-    const name = item.name || "Unnamed Package";
-    const description = item.description || "Explore this RUBALIA product package.";
-    const card = document.createElement("article");
-    card.className = "item-card";
-
-    const imageBox = document.createElement("div");
-    imageBox.className = "item-image";
-    const imageURL = safeImageURL(item.image_url);
-    if(imageURL){
-      const image = document.createElement("img");
-      image.src = imageURL;
-      image.alt = name;
-      image.loading = "lazy";
-      image.addEventListener("error",function(){
-        imageBox.replaceChildren();
-        const placeholder = document.createElement("div");
-        placeholder.className = "image-placeholder";
-        placeholder.textContent = "📦";
-        imageBox.appendChild(placeholder);
-      });
-      imageBox.appendChild(image);
-    }else{
-      const placeholder = document.createElement("div");
-      placeholder.className = "image-placeholder";
-      placeholder.textContent = "📦";
-      imageBox.appendChild(placeholder);
-    }
-
-    const body = document.createElement("div");
-    body.className = "item-body";
-    const type = document.createElement("span");
-    type.className = "item-type";
-    type.textContent = "PACKAGE";
-    const title = document.createElement("h3");
-    title.className = "item-title";
-    title.textContent = name;
-    const desc = document.createElement("p");
-    desc.className = "item-description";
-    desc.textContent = description;
-    const separator = document.createElement("div");
-    separator.className = "item-separator";
-    const bottom = document.createElement("div");
-    bottom.className = "item-bottom";
-    const priceStock = document.createElement("div");
-    priceStock.className = "price-stock";
-    const price = document.createElement("div");
-    price.className = "item-price";
-    const priceLabel = document.createElement("small");
-    priceLabel.textContent = "PACKAGE PRICE";
-    price.append(priceLabel,document.createTextNode(formatPrice(item.price)));
-
-    const stockKnown = item.stock!==null && item.stock!==undefined && item.stock!=="";
-    const stock = Number(item.stock);
-    const outOfStock = stockKnown && stock<=0;
-    const stockText = document.createElement("div");
-    stockText.className = "item-stock"+(outOfStock?" out":"");
-    stockText.textContent = stockKnown ? (outOfStock?"Out of Stock":"Stock: "+stock) : "Stock unavailable";
-    priceStock.append(price,stockText);
-
-    const buy = document.createElement("button");
-    buy.className = "buy-btn";
-    buy.type = "button";
-    buy.textContent = outOfStock ? "UNAVAILABLE" : "BUY NOW";
-    buy.disabled = outOfStock || !validPackageId;
-    buy.addEventListener("click",function(){buyPackage(id);});
-
-    bottom.append(priceStock,buy);
-    body.append(type,title,desc,separator,bottom);
-    card.append(imageBox,body);
-    grid.appendChild(card);
-  });
-}
-
-/* SEARCH */
-function filterPackages(){
-  const query = $("searchInput").value.trim().toLowerCase();
-  const filtered = allPackages.filter(function(item){
-    return [item.name,item.description,item.category].some(function(value){
-      return String(value || "").toLowerCase().includes(query);
-    });
-  });
-  renderPackages(filtered);
-}
-$("searchInput").addEventListener("input",filterPackages);
-
-/* BUY PACKAGE */
-function buyPackage(id){
-  if(!Number.isSafeInteger(id) || id<=0) return;
-  location.href = "checkout.html?type=package&id="+encodeURIComponent(id);
-}
-
-/* LOAD SELECTED CATEGORY PACKAGES */
-async function loadPackages(){
-  if(loading || !selectedCategory) return;
-  loading = true;
-  clearNotice();
-  const refreshButton = $("refreshBtn");
-  refreshButton.disabled = true;
-  refreshButton.textContent = "Loading...";
-  showState($("packageGrid"),"⏳","Loading Packages","Connecting to RUBALIA NETWORK...");
-  $("packageCount").textContent = "Loading...";
-
-  try{
-    const token = await verifySession();
-    const packageData = await fetchJSON("/packages",token);
-    const packages = Array.isArray(packageData.packages) ? packageData.packages : [];
-
-    /* Filter by the category stored on each package in PostgreSQL/API response.
-       No sample or hard-coded package records are used. */
-    allPackages = packages.filter(function(item){
-      return String(item.category || "").trim().toLowerCase() === selectedCategory.toLowerCase();
-    });
-    filterPackages();
+    const response=await fetch(API_BASE+"/public/admin-message",{method:"GET",headers:{"Accept":"application/json"},cache:"no-store"});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||data.success!==true)throw new Error("Could not load announcement");
+    const text=data.message&&typeof data.message.text==="string"?data.message.text.trim():"";
+    messageEl.textContent=text||"No active announcement";
+    track.style.animationDuration=Math.max(16,Math.min(60,(text.length/8)+18))+"s";
   }catch(error){
-    const ignored = [
-      "Login required.","Opening Admin Dashboard.",
-      "Your account is not active.","Your login session has expired."
-    ];
-    if(!ignored.includes(error.message)){
-      showNotice("error",error.message || "Unable to load packages. Please try again.");
-      showState($("packageGrid"),"⚠️","Packages Could Not Load","Please check your connection and try again.","Retry");
-      $("packageCount").textContent = "Unavailable";
-    }
-  }finally{
-    loading = false;
-    refreshButton.disabled = false;
-    refreshButton.textContent = "↻ Refresh";
+    messageEl.textContent="Announcement is temporarily unavailable";
+    console.warn("Admin announcement could not be loaded:",error.message);
   }
 }
+loadAdminAnnouncement();
+setInterval(loadAdminAnnouncement,60000);
+
+/* Category banner click handling:
+   The iframe is same-origin (product-category.html). Capture clicks inside it,
+   read the category name from the clicked banner/card, and navigate the parent
+   page directly to packages.html?category=... . No iframe navigation lock. */
+function goToCategory(category){const value=String(category||"").trim();if(!value)return;location.href="packages.html?category="+encodeURIComponent(value)}
+const categoryFrame=$("categoryFrame");
+categoryFrame.addEventListener("load",function(){
+  try{
+    const doc=categoryFrame.contentDocument;
+    if(!doc)return;
+    doc.addEventListener("click",function(event){
+      const target=event.target;
+      const clickable=target.closest("a,button,[data-category],.category-card,.category-item,.category-banner,[role='button']");
+      if(!clickable)return;
+      let category=clickable.getAttribute("data-category")||clickable.getAttribute("data-name")||clickable.getAttribute("aria-label")||clickable.textContent;
+      if(clickable.tagName==="A"){
+        const href=clickable.getAttribute("href")||"";
+        const match=href.match(/[?&]category=([^&]+)/i);
+        if(match){try{category=decodeURIComponent(match[1].replace(/\+/g," "))}catch(e){}}
+      }
+      category=String(category||"").replace(/\s+/g," ").trim();
+      if(category&&category.length<100){
+        event.preventDefault();event.stopPropagation();goToCategory(category);
+      }
+    },true);
+  }catch(error){console.warn("Category iframe click handler could not attach. Ensure product-category.html is on the same domain.",error)}
+});
+
+/* Package view and category routing */
+function showCategories(){selectedCategory="";$("packagesView").classList.remove("active");$("categoryView").classList.remove("hidden");clearNotice();window.scrollTo({top:0,behavior:"smooth"})}
+$("backToCategories").addEventListener("click",showCategories);
+function readCategoryFromURL(){const params=new URLSearchParams(location.search);const category=params.get("category");if(category){selectedCategory=category;$("categoryView").classList.add("hidden");$("packagesView").classList.add("active");$("selectedCategoryTitle").textContent=category+" Packages";loadPackages()}}
+
+/* Package card renderer */
+function renderPackages(packages){const grid=$("packageGrid");$("packageCount").textContent=packages.length+" Available";grid.replaceChildren();if(!packages.length){showState(grid,"📦","No Packages In This Category","There are currently no active packages listed in this category.");return}
+packages.forEach(item=>{const id=Number(item.id),valid=Number.isSafeInteger(id)&&id>0,name=item.name||"Unnamed Package",card=document.createElement("article");card.className="item-card";
+const imageBox=document.createElement("div");imageBox.className="item-image";const imageURL=safeImageURL(item.image_url);if(imageURL){const img=document.createElement("img");img.src=imageURL;img.alt=name;img.loading="lazy";img.onerror=()=>{imageBox.replaceChildren();const p=document.createElement("div");p.className="image-placeholder";p.textContent="📦";imageBox.appendChild(p)};imageBox.appendChild(img)}else{const p=document.createElement("div");p.className="image-placeholder";p.textContent="📦";imageBox.appendChild(p)}
+const body=document.createElement("div");body.className="item-body";const type=document.createElement("span");type.className="item-type";type.textContent="PACKAGE";const title=document.createElement("h3");title.className="item-title";title.textContent=name;const desc=document.createElement("p");desc.className="item-description";desc.textContent=item.description||"Explore this RUBALIA product package.";const sep=document.createElement("div");sep.className="item-separator";const bottom=document.createElement("div");bottom.className="item-bottom";const ps=document.createElement("div");ps.className="price-stock";const price=document.createElement("div");price.className="item-price";const small=document.createElement("small");small.textContent="PACKAGE PRICE";price.append(small,document.createTextNode(formatMoney(item.price)));const known=item.stock!==null&&item.stock!==undefined&&item.stock!=="";const stock=Number(item.stock),out=known&&stock<=0;const stockText=document.createElement("div");stockText.className="item-stock"+(out?" out":"");stockText.textContent=known?(out?"Out of Stock":"Stock: "+stock):"Stock unavailable";ps.append(price,stockText);const buy=document.createElement("button");buy.className="buy-btn";buy.type="button";buy.textContent=out?"UNAVAILABLE":"BUY NOW";buy.disabled=out||!valid;buy.addEventListener("click",()=>location.href="checkout.html?type=package&id="+encodeURIComponent(id));bottom.append(ps,buy);body.append(type,title,desc,sep,bottom);card.append(imageBox,body);grid.appendChild(card)})}
+function filterPackages(){const q=$("searchInput").value.trim().toLowerCase();renderPackages(allPackages.filter(item=>[item.name,item.description,item.category].some(v=>String(v||"").toLowerCase().includes(q))))}
+$("searchInput").addEventListener("input",filterPackages);
+async function loadPackages(){if(loading||!selectedCategory)return;loading=true;clearNotice();$("refreshBtn").disabled=true;$("refreshBtn").textContent="Loading...";showState($("packageGrid"),"⏳","Loading Packages","Connecting to RUBALIA NETWORK...");$("packageCount").textContent="Loading...";
+try{const token=await verifySession();const data=await fetchJSON("/packages",token);const list=Array.isArray(data.packages)?data.packages:[];allPackages=list.filter(item=>String(item.category||"").trim().toLowerCase()===selectedCategory.toLowerCase());filterPackages()}catch(error){if(!["Login required.","Opening Admin Dashboard.","Your account is not active.","Your login session has expired."].includes(error.message)){showNotice("error",error.message||"Unable to load packages.");showState($("packageGrid"),"⚠️","Packages Could Not Load","Please check your connection and try again.","Retry");$("packageCount").textContent="Unavailable"}}finally{loading=false;$("refreshBtn").disabled=false;$("refreshBtn").textContent="↻ Refresh"}}
 $("refreshBtn").addEventListener("click",loadPackages);
 
-/* START: verify account only; do not load packages until a category is clicked */
-(async function(){
-  try{
-    await verifySession();
-  }catch(error){
-    const ignored = ["Login required.","Opening Admin Dashboard.","Your account is not active.","Your login session has expired."];
-    if(!ignored.includes(error.message)){
-      showNotice("error",error.message || "Unable to verify your session.");
-    }
-  }
-})();
+/* Start dashboard */
+(async()=>{try{const token=await verifySession();readCategoryFromURL();}catch(error){if(!["Login required.","Opening Admin Dashboard.","Your account is not active.","Your login session has expired."].includes(error.message))showNotice("error",error.message||"Unable to verify your session.")}})();
 </script>
 </body>
 </html>
