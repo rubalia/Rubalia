@@ -9,10 +9,8 @@
 
 <style>
 :root{
-  --navy:#071638;
-  --navy2:#173765;
-  --gold:#e9c879;
-  --gold2:#b88b39;
+  --gold:#f4d17a;
+  --gold2:#c99b3c;
 }
 
 *{
@@ -28,41 +26,45 @@ html,body{
   margin:0;
   padding:0;
   overflow:hidden;
-  background:transparent;
 }
 
 body{
+  background:transparent;
   font-family:Arial,Helvetica,sans-serif;
 }
 
-/* BANNER AREA */
+/* BANNER */
 
 .card-only{
-  width:100%;
-  aspect-ratio:3/1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.slider-wrap{
+  position:relative;
   width:100%;
   height:100%;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* FIXED CENTER */
+
+.slider-wrap{
+  position:absolute;
+  inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
   perspective:1200px;
 }
 
-/* CARD SIZE */
+/* SMALL CARD SIZE */
 
 .card-slider{
-  height:86%;
-  width:auto;
-  aspect-ratio:1.586/1;
-  max-width:94%;
   position:relative;
+  height:65%;
+  width:auto;
+  aspect-ratio:1.586 / 1;
+  max-width:94%;
+  flex-shrink:0;
   container-type:inline-size;
 }
 
@@ -82,6 +84,8 @@ body{
   transform:rotateY(180deg);
 }
 
+/* CARD FACE */
+
 .card-face{
   position:absolute;
   inset:0;
@@ -89,7 +93,7 @@ body{
   height:100%;
   overflow:hidden;
   border-radius:5%;
-  border:1px solid rgba(230,205,145,.55);
+  border:1px solid rgba(255,220,140,.65);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
   box-shadow:
@@ -101,31 +105,37 @@ body{
 
 .card-front{
   background:
-    radial-gradient(circle at 85% 5%,rgba(70,125,190,.5),transparent 45%),
     repeating-linear-gradient(
-      130deg,
+      125deg,
       transparent 0,
       transparent 2cqw,
-      rgba(120,170,220,.045) 2.2cqw,
-      rgba(120,170,220,.045) 2.7cqw
+      rgba(93,145,220,.06) 2.2cqw,
+      rgba(93,145,220,.06) 2.7cqw
     ),
-    linear-gradient(145deg,#142e58,#07152f 75%);
+    radial-gradient(
+      circle at 90% 5%,
+      #234d8a,
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      #101d4a,
+      #071332 75%
+    );
 }
-
-/* LIGHT REFLECTION */
 
 .card-front::before{
   content:"";
   position:absolute;
-  width:70%;
+  width:80%;
   height:45%;
-  top:-20%;
-  right:-20%;
-  transform:rotate(-25deg);
+  right:-25%;
+  top:-15%;
+  transform:rotate(-22deg);
   background:linear-gradient(
     90deg,
     transparent,
-    rgba(255,255,255,.09),
+    rgba(90,155,240,.16),
     transparent
   );
 }
@@ -145,17 +155,17 @@ body{
 .balance{
   font-size:6cqw;
   font-weight:500;
-  color:#fff0c3;
+  color:#ffe4a0;
   letter-spacing:.1cqw;
-  text-shadow:0 2px 4px #000;
   white-space:nowrap;
+  text-shadow:0 2px 4px #000;
 }
 
 /* CHIP */
 
 .chip-area{
   position:absolute;
-  top:32%;
+  top:30%;
   left:6%;
   display:flex;
   align-items:center;
@@ -168,16 +178,28 @@ body{
   height:11cqw;
   border-radius:2cqw;
   background:
-    linear-gradient(90deg,transparent 47%,#a77b25 48%,#a77b25 53%,transparent 54%),
-    linear-gradient(0deg,transparent 45%,#a77b25 46%,#a77b25 53%,transparent 54%),
-    linear-gradient(135deg,#fff0ad,#c69a45);
-  border:1px solid #e8cb82;
-  box-shadow:inset 0 1px 3px rgba(255,255,255,.6);
+    linear-gradient(
+      90deg,
+      transparent 47%,
+      #a77b25 48%,
+      #a77b25 53%,
+      transparent 54%
+    ),
+    linear-gradient(
+      0deg,
+      transparent 45%,
+      #a77b25 46%,
+      #a77b25 53%,
+      transparent 54%
+    ),
+    linear-gradient(135deg,#ffe49a,#c48e2d);
+  border:1px solid #f9dc8a;
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.7);
 }
 
 .contactless{
+  color:#f5e8c5;
   font-size:10cqw;
-  color:#e9e4d3;
   transform:rotate(90deg);
   line-height:1;
 }
@@ -186,37 +208,37 @@ body{
 
 .user-id{
   position:absolute;
-  top:55%;
   left:6%;
   right:5%;
+  top:54%;
   z-index:2;
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:5.3cqw;
-  font-weight:400;
-  letter-spacing:.55cqw;
-  color:#f5d88d;
+  color:#f5d27b;
+  font-family:Georgia,serif;
+  font-size:5.5cqw;
+  font-weight:500;
+  letter-spacing:.4cqw;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  text-shadow:0 2px 3px #000;
+  text-shadow:0 2px 4px #000;
 }
 
-/* NAME AND DATE */
+/* MEMBER NAME */
 
 .front-bottom{
   position:absolute;
-  bottom:8%;
   left:6%;
+  bottom:8%;
   z-index:2;
   max-width:65%;
 }
 
 .user-name{
+  font-family:Arial,Helvetica,sans-serif;
   font-size:3.7cqw;
   font-weight:500;
-  font-family:Arial,Helvetica,sans-serif;
-  letter-spacing:.35cqw;
-  color:#f5e6bf;
+  color:#ffe2a0;
+  letter-spacing:.3cqw;
   text-transform:uppercase;
   white-space:nowrap;
   overflow:hidden;
@@ -227,24 +249,24 @@ body{
   margin-top:1.5cqw;
   font-size:2.6cqw;
   font-weight:400;
-  color:#c4cfe0;
-  letter-spacing:.12cqw;
+  color:#e5d6b4;
+  letter-spacing:.1cqw;
   white-space:nowrap;
 }
 
-/* CARD BRAND */
+/* BRAND */
 
 .card-brand{
   position:absolute;
   right:6%;
   bottom:8%;
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:6cqw;
-  font-weight:600;
-  font-style:italic;
-  color:#f0d58e;
-  letter-spacing:-.2cqw;
   z-index:2;
+  font-family:Georgia,serif;
+  font-size:6cqw;
+  font-weight:bold;
+  font-style:italic;
+  color:#f8d47f;
+  text-shadow:0 2px 4px #000;
 }
 
 /* BACK */
@@ -253,13 +275,17 @@ body{
   transform:rotateY(180deg);
   background:
     repeating-linear-gradient(
-      130deg,
+      125deg,
       transparent 0,
       transparent 2cqw,
-      rgba(120,170,220,.04) 2.2cqw,
-      rgba(120,170,220,.04) 2.7cqw
+      rgba(93,145,220,.06) 2.2cqw,
+      rgba(93,145,220,.06) 2.7cqw
     ),
-    linear-gradient(145deg,#142e58,#07152f);
+    linear-gradient(
+      145deg,
+      #102650,
+      #07132e
+    );
 }
 
 /* MAGNETIC STRIP */
@@ -271,7 +297,10 @@ body{
   width:100%;
   height:19%;
   background:linear-gradient(
-    90deg,#080b13,#30333d,#080b13
+    90deg,
+    #080b13,
+    #252936,
+    #080b13
   );
 }
 
@@ -279,21 +308,24 @@ body{
 
 .signature-area{
   position:absolute;
-  top:43%;
+  top:44%;
   left:6%;
   width:48%;
   height:15%;
-  border-radius:1cqw;
   background:repeating-linear-gradient(
-    0deg,#eee9db 0,#eee9db 3px,#d4d0c6 4px
+    0deg,
+    #eee9db 0,
+    #eee9db 3px,
+    #d4d0c6 4px
   );
-  color:#28304b;
+  border-radius:1cqw;
   display:flex;
   align-items:center;
   padding:0 2cqw;
+  color:#28304b;
   font-family:Georgia,serif;
-  font-style:italic;
   font-size:3.5cqw;
+  font-style:italic;
   overflow:hidden;
   white-space:nowrap;
 }
@@ -302,60 +334,34 @@ body{
 
 .back-brand{
   position:absolute;
-  top:44%;
   right:6%;
-  color:#e9d59e;
-  font-size:5.5cqw;
+  top:44%;
+  color:#f2d18a;
+  font-family:Georgia,serif;
+  font-size:6cqw;
+  font-weight:bold;
   font-style:italic;
-  font-weight:600;
 }
 
 /* BACK ID */
 
 .back-id{
   position:absolute;
-  top:66%;
+  top:68%;
   left:6%;
   right:6%;
-  color:#d9c58f;
   font-size:2.8cqw;
+  color:#e8cf91;
   letter-spacing:.15cqw;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* ACTION BUTTONS */
-
-.card-actions{
-  position:absolute;
-  bottom:7%;
-  left:6%;
-  right:6%;
-  display:flex;
-  gap:2cqw;
-}
-
-.action-btn{
-  flex:1;
-  height:13%;
-  min-height:20px;
-  border:1px solid rgba(255,220,150,.55);
-  border-radius:1cqw;
-  background:linear-gradient(135deg,#e9d18c,#b88b39);
-  color:#18243b;
-  font-size:3cqw;
-  font-weight:600;
-  letter-spacing:.2cqw;
-  cursor:pointer;
-}
-
-.action-btn:active{
-  transform:scale(.97);
-}
+/* ACCESSIBILITY */
 
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
+  .card{
     transition:none!important;
   }
 }
@@ -372,7 +378,7 @@ body{
 
       <div class="card" id="memberCard">
 
-        <!-- FRONT -->
+        <!-- FRONT SIDE -->
 
         <div class="card-face card-front">
 
@@ -409,7 +415,7 @@ body{
 
         </div>
 
-        <!-- BACK -->
+        <!-- BACK SIDE -->
 
         <div class="card-face card-back">
 
@@ -425,24 +431,6 @@ body{
 
           <div class="back-id" id="backMemberId">
             MEMBER ID: 20240101 000000
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="action-btn"
-              type="button"
-              id="depositBtn">
-              DEPOSIT
-            </button>
-
-            <button
-              class="action-btn"
-              type="button"
-              id="withdrawBtn">
-              WITHDRAW
-            </button>
-
           </div>
 
         </div>
@@ -472,7 +460,7 @@ const backMemberId = document.getElementById("backMemberId");
 
 let isFlipped = false;
 
-/* DATE FORMAT */
+/* FORMAT DATE */
 
 function formatDate(value){
 
@@ -492,7 +480,7 @@ function formatDate(value){
 
 }
 
-/* BALANCE FORMAT */
+/* FORMAT BALANCE */
 
 function formatBalance(value){
 
@@ -527,7 +515,7 @@ function getCurrentUser(){
 
   }catch(error){
 
-    console.error("User data error:",error);
+    console.error("User data loading error:",error);
 
     return null;
 
@@ -544,6 +532,7 @@ function loadMemberCard(){
   if(!user){
 
     cardName.textContent = "MEMBER NAME";
+
     cardUserId.textContent = "20240101 000000";
 
     backSignature.textContent = "RUBALIA MEMBER";
@@ -612,7 +601,7 @@ function loadMemberCard(){
 
 }
 
-/* FLIP */
+/* FLIP CARD */
 
 function toggleCard(){
 
@@ -622,41 +611,17 @@ function toggleCard(){
 
 }
 
-card.addEventListener("click",function(event){
-
-  if(event.target.closest("button")) return;
+card.addEventListener("click",function(){
 
   toggleCard();
 
 });
 
-/* DEPOSIT */
-
-document.getElementById("depositBtn")
-.addEventListener("click",function(event){
-
-  event.stopPropagation();
-
-  window.location.href = "../deposit.html";
-
-});
-
-/* WITHDRAW */
-
-document.getElementById("withdrawBtn")
-.addEventListener("click",function(event){
-
-  event.stopPropagation();
-
-  window.location.href = "../withdraw.html";
-
-});
-
-/* LOAD */
+/* INITIAL LOAD */
 
 loadMemberCard();
 
-/* PAGE REFRESH */
+/* PAGE RESTORE */
 
 window.addEventListener("pageshow",function(){
 
@@ -664,7 +629,7 @@ window.addEventListener("pageshow",function(){
 
 });
 
-/* STORAGE UPDATE */
+/* STORAGE CHANGE */
 
 window.addEventListener("storage",function(event){
 
@@ -678,5 +643,3 @@ window.addEventListener("storage",function(event){
 
 </body>
 </html>
-```
-
