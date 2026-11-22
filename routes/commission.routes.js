@@ -9,7 +9,6 @@
 // =====================================================
 
 const express = require("express");
-
 const pool = require("../config/database");
 
 const { authenticateToken } = require("../middleware/auth");
@@ -18,12 +17,14 @@ const { requireAdmin } = require("../middleware/admin");
 const {
   DEFAULT_RATES,
   validateRates,
+  prepareOrderCommission,
   releaseOrderCommission
 } = require("../services/commission.service");
 
 const router = express.Router();
 
 router.use(authenticateToken);
+
 
 // =====================================================
 // HELPERS
@@ -91,7 +92,6 @@ router.get("/me", async (req, res, next) => {
         ) AS pending_transactions
 
       FROM commission_ledger
-
       WHERE beneficiary_id = $1
       `,
       [memberId]
@@ -524,19 +524,19 @@ router.post(
   "/admin/orders/:id/release",
   requireAdmin,
   async (req, res, next) => {
+    const orderId = Number(req.params.id);
+
+    if (!validId(orderId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid order ID."
+      });
+    }
+
     const client = await pool.connect();
     let transactionStarted = false;
 
     try {
-      const orderId = Number(req.params.id);
-
-      if (!validId(orderId)) {
-        return res.status(400).json({
-          success: false,
-          message: "Invalid order ID."
-        });
-      }
-
       await client.query("BEGIN");
       transactionStarted = true;
 
@@ -568,8 +568,6 @@ router.post(
         "Required legal approval has not been confirmed.",
         "Only paid and delivered orders can release commission.",
         "Order does not have pending commission.",
-        "Refund/return period has not ended. Commission cannot be released yet.",
-        "Refund period end time is missing.",
         "Commission ledger is incomplete. Expected exactly 10 levels.",
         "Commission ledger contains a non-pending entry.",
         "Company profit ledger not found."
@@ -599,7 +597,189 @@ router.post(
 
 
 // =====================================================
-// 8. ADMIN PENDING COMMISSION ORDERS
+// 8. ADMIN RETRY / PROCESS DELIVERED ORDER COMMISSION
+// POST /api/commission/admin/orders/:id/retry
+//
+// Processes old delivered and paid orders whose commission
+// status is not_eligible, or releases existing pending rows.
+//
+// Reversed and already released orders cannot be credited again.
+// =====================================================
+
+router.post(
+  "/admin/orders/:id/retry",
+  requireAdmin,
+  async (req, res, next) => {
+    const orderId = Number(req.params.id);
+
+    if (!validId(orderId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid order ID."
+      });
+    }
+
+    const client = await pool.connect();
+    let transactionStarted = false;
+
+    try {
+      await client.query("BEGIN");
+      transactionStarted = true;
+
+      const orderResult = await client.query(
+        `
+        SELECT
+          id,
+          order_number,
+          status,
+          payment_status,
+          commission_status
+        FROM orders
+        WHERE id = $1
+        FOR UPDATE
+        `,
+        [orderId]
+      );
+
+      if (!orderResult.rows.length) {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
+        return res.status(404).json({
+          success: false,
+          message: "Order not found."
+        });
+      }
+
+      const order = orderResult.rows[0];
+
+      if (
+        order.status !== "delivered" ||
+        order.payment_status !== "paid"
+      ) {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
+        return res.status(409).json({
+          success: false,
+          message: "Only paid and delivered orders can be processed."
+        });
+      }
+
+      if (order.commission_status === "released") {
+        await client.query("COMMIT");
+        transactionStarted = false;
+
+        return res.json({
+          success: true,
+          duplicate: true,
+          message: "Commission has already been released."
+        });
+      }
+
+      if (order.commission_status === "reversed") {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
+        return res.status(409).json({
+          success: false,
+          message: "A reversed order cannot be processed again."
+        });
+      }
+
+      let preparation = null;
+
+      if (order.commission_status === "not_eligible") {
+        preparation = await prepareOrderCommission(
+          client,
+          orderId
+        );
+
+        if (!preparation.success) {
+          await client.query("ROLLBACK");
+          transactionStarted = false;
+
+          return res.status(409).json({
+            success: false,
+            message: preparation.message ||
+              "Commission could not be prepared.",
+            preparation
+          });
+        }
+
+      } else if (order.commission_status !== "pending") {
+        await client.query("ROLLBACK");
+        transactionStarted = false;
+
+        return res.status(409).json({
+          success: false,
+          message: "Order is not eligible for commission retry."
+        });
+      }
+
+      const commission = await releaseOrderCommission(
+        client,
+        orderId
+      );
+
+      await client.query("COMMIT");
+      transactionStarted = false;
+
+      return res.json({
+        success: true,
+
+        message: commission.duplicate
+          ? "Commission was already released."
+          : "Delivered order commission processed successfully.",
+
+        preparation,
+        commission
+      });
+
+    } catch (error) {
+      if (transactionStarted) {
+        await client.query("ROLLBACK").catch(() => {});
+      }
+
+      if (error.message === "Order not found.") {
+        return res.status(404).json({
+          success: false,
+          message: error.message
+        });
+      }
+
+      const conflictMessages = [
+        "Commission system is disabled.",
+        "Commission engine is disabled.",
+        "Required legal approval has not been confirmed.",
+        "Only paid and delivered orders can enter the commission workflow.",
+        "Only paid and delivered orders can release commission.",
+        "Order does not have pending commission.",
+        "A reversed order cannot be prepared for commission again.",
+        "Commission ledger is incomplete. Expected exactly 10 levels.",
+        "Commission ledger contains a non-pending entry.",
+        "Company profit ledger not found.",
+        "The order has no positive net profit. Commission cannot be calculated."
+      ];
+
+      if (conflictMessages.includes(error.message)) {
+        return res.status(409).json({
+          success: false,
+          message: error.message
+        });
+      }
+
+      next(error);
+
+    } finally {
+      client.release();
+    }
+  }
+);
+
+
+// =====================================================
+// 9. ADMIN PENDING COMMISSION ORDERS
 // GET /api/commission/admin/pending
 // =====================================================
 
@@ -664,11 +844,8 @@ router.get(
 
 
 // =====================================================
-// 9. ADMIN COMPANY PROFIT REPORT
+// 10. ADMIN COMPANY PROFIT REPORT
 // GET /api/commission/admin/report
-//
-// Dynamic company share:
-// Base company share + ineligible commission amounts.
 //
 // Total retained:
 // company_share + unallocated_commission
