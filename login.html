@@ -13,7 +13,7 @@
   --red:#d60025;
   --dark:#710018;
   --gold:#ffd36a;
-  --white:#ffffff;
+  --white:#fff;
   --muted:#77717c;
 }
 
@@ -32,14 +32,16 @@ body{
   justify-content:center;
   padding:22px;
   overflow-x:hidden;
+  overflow-y:auto;
+  perspective:1200px;
   background:
     radial-gradient(circle at 10% 15%,#ffb33d 0%,transparent 30%),
     radial-gradient(circle at 90% 15%,#ff3c76 0%,transparent 32%),
     radial-gradient(circle at 15% 90%,#7939e9 0%,transparent 35%),
     radial-gradient(circle at 90% 90%,#00b8bd 0%,transparent 35%),
-    linear-gradient(135deg,#4c0039,#a50030,#4a087b);
+    linear-gradient(135deg,#260020,#a50030,#280047);
   background-size:200% 200%;
-  animation:backgroundMove 12s ease infinite;
+  animation:backgroundMove 16s ease infinite;
 }
 
 @keyframes backgroundMove{
@@ -48,12 +50,15 @@ body{
   100%{background-position:0% 0%;}
 }
 
+/* ANIMATED BACKGROUND */
+
 .background-shape{
   position:fixed;
   border-radius:50%;
-  filter:blur(2px);
   pointer-events:none;
-  opacity:.3;
+  opacity:.34;
+  filter:blur(3px);
+  z-index:0;
 }
 
 .shape-one{
@@ -62,6 +67,7 @@ body{
   background:#ffcf45;
   top:-90px;
   left:-80px;
+  animation:floatOne 8s ease-in-out infinite;
 }
 
 .shape-two{
@@ -70,6 +76,7 @@ body{
   background:#00e0c7;
   bottom:-120px;
   right:-100px;
+  animation:floatTwo 10s ease-in-out infinite;
 }
 
 .shape-three{
@@ -78,6 +85,42 @@ body{
   background:#ff4b8c;
   top:48%;
   right:-70px;
+  animation:floatOne 7s ease-in-out infinite reverse;
+}
+
+.shape-four{
+  width:90px;
+  height:90px;
+  background:#ffd36a;
+  bottom:22%;
+  left:-45px;
+  animation:floatTwo 9s ease-in-out infinite;
+}
+
+@keyframes floatOne{
+  0%,100%{transform:translate3d(0,0,0);}
+  50%{transform:translate3d(25px,-30px,30px);}
+}
+
+@keyframes floatTwo{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg);}
+  50%{transform:translate3d(-25px,25px,35px) rotate(25deg);}
+}
+
+/* AMBIENT LIGHT */
+
+.ambient-light{
+  position:fixed;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  background:rgba(255,70,120,.18);
+  filter:blur(90px);
+  top:25%;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:0;
 }
 
 /* LOGIN CARD */
@@ -89,30 +132,56 @@ body{
   max-width:410px;
   padding:38px 30px 30px;
   border-radius:25px;
-  background:rgba(255,255,255,.96);
-  border:1px solid rgba(255,255,255,.7);
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(255,255,255,.75);
   box-shadow:
-    0 25px 80px rgba(35,0,35,.35),
-    inset 0 1px 0 white;
-  animation:cardEnter .8s ease both;
+    0 35px 90px rgba(20,0,25,.42),
+    0 12px 25px rgba(0,0,0,.15),
+    inset 0 2px 0 white,
+    inset 0 -3px 10px rgba(100,0,30,.05);
+  transform-style:preserve-3d;
+  animation:cardEnter 1s cubic-bezier(.2,.8,.2,1) both;
+  transition:transform .18s ease,box-shadow .3s ease;
+}
+
+.login-container::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:25px;
+  padding:1px;
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.95),
+    rgba(255,211,106,.65),
+    rgba(214,0,37,.25),
+    rgba(255,255,255,.7)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
 }
 
 @keyframes cardEnter{
   from{
     opacity:0;
-    transform:translateY(25px) scale(.96);
+    transform:translateY(45px) rotateX(12deg) scale(.93);
   }
   to{
     opacity:1;
-    transform:translateY(0) scale(1);
+    transform:translateY(0) rotateX(0) scale(1);
   }
 }
 
-/* UNIQUE LOGO */
+/* LOGO */
 
 .logo-area{
   text-align:center;
   margin-bottom:29px;
+  transform:translateZ(35px);
 }
 
 .logo-symbol{
@@ -123,13 +192,21 @@ body{
   display:grid;
   place-items:center;
   border-radius:25px;
-  background:linear-gradient(145deg,#ff526b,#c50031 55%,#710018);
+  background:linear-gradient(
+    145deg,
+    #ff7584 0%,
+    #e00039 35%,
+    #a00029 65%,
+    #540018 100%
+  );
   border:2px solid #ffd982;
   box-shadow:
-    0 8px 0 #76001b,
-    0 14px 24px rgba(120,0,30,.24),
-    inset 0 3px 8px rgba(255,255,255,.4);
-  transform:rotate(-5deg);
+    0 9px 0 #69001c,
+    0 16px 25px rgba(120,0,30,.3),
+    inset 0 3px 8px rgba(255,255,255,.5),
+    inset 0 -8px 15px rgba(50,0,15,.25);
+  transform-style:preserve-3d;
+  animation:logoFloat 4s ease-in-out infinite;
 }
 
 .logo-symbol::before{
@@ -139,7 +216,8 @@ body{
   height:48px;
   border:3px solid #ffe5a1;
   border-radius:14px 14px 14px 4px;
-  transform:rotate(45deg);
+  transform:rotate(45deg) translateZ(12px);
+  box-shadow:0 0 12px rgba(255,215,100,.45);
 }
 
 .logo-symbol::after{
@@ -150,7 +228,41 @@ body{
   font-size:43px;
   font-weight:1000;
   font-family:Arial,sans-serif;
-  text-shadow:0 3px 5px rgba(70,0,0,.4);
+  text-shadow:
+    0 3px 0 #8a0021,
+    0 5px 7px rgba(30,0,0,.55);
+  transform:translateZ(24px);
+}
+
+.logo-shine{
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:55%;
+  height:100%;
+  background:linear-gradient(
+    100deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+  );
+  transform:skewX(-20deg);
+  animation:logoShine 5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0) rotateY(-8deg) rotateX(5deg);
+  }
+  50%{
+    transform:translateY(-10px) rotateY(8deg) rotateX(-5deg);
+  }
+}
+
+@keyframes logoShine{
+  0%,65%{left:-100%;}
+  100%{left:150%;}
 }
 
 .logo-name{
@@ -158,6 +270,7 @@ body{
   font-size:29px;
   font-weight:1000;
   letter-spacing:4px;
+  text-shadow:0 2px 0 rgba(165,0,36,.1);
 }
 
 .logo-network{
@@ -182,6 +295,7 @@ body{
 .form-heading{
   text-align:center;
   margin-bottom:26px;
+  transform:translateZ(22px);
 }
 
 .form-heading h1{
@@ -198,6 +312,7 @@ body{
 
 .form-group{
   margin-bottom:19px;
+  transform:translateZ(15px);
 }
 
 .form-group label{
@@ -224,13 +339,100 @@ body{
   color:#30232a;
   outline:none;
   transition:.25s;
+  box-shadow:
+    0 3px 7px rgba(60,0,30,.04),
+    inset 0 1px 2px rgba(0,0,0,.025);
 }
 
 .form-group input:focus{
   border-color:#d00032;
   background:white;
-  box-shadow:0 0 0 4px rgba(214,0,37,.08);
+  box-shadow:
+    0 0 0 4px rgba(214,0,37,.08),
+    0 5px 14px rgba(214,0,37,.09);
 }
+
+.email-suggestions{
+  display:none;
+  position:absolute;
+  top:calc(100% + 7px);
+  left:0;
+  right:0;
+  z-index:20;
+  background:#fff;
+  border:1px solid #eadce1;
+  border-radius:12px;
+  box-shadow:0 12px 30px rgba(60,0,30,.15);
+  overflow:hidden;
+}
+
+.email-suggestions.show{
+  display:block;
+}
+
+.suggestion-heading{
+  padding:11px 13px 8px;
+  color:#92838a;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.suggestion-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 13px;
+  border-top:1px solid #f4edf0;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.suggestion-item:hover{
+  background:#fff3f6;
+}
+
+.suggestion-icon{
+  width:34px;
+  height:34px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#fff0f3;
+  color:#b50030;
+  font-weight:900;
+}
+
+.suggestion-email{
+  flex:1;
+  min-width:0;
+  font-size:12px;
+  font-weight:700;
+  color:#442432;
+  overflow-wrap:anywhere;
+}
+
+.remove-suggestion{
+  width:30px;
+  height:30px;
+  flex-shrink:0;
+  border:0;
+  border-radius:8px;
+  background:#fff0f2;
+  color:#b90031;
+  font-size:17px;
+  cursor:pointer;
+}
+
+.suggestion-empty{
+  padding:13px;
+  color:#93848c;
+  font-size:12px;
+}
+
+/* PASSWORD */
 
 .password-wrap input{
   padding-right:70px;
@@ -250,10 +452,32 @@ body{
   padding:8px;
 }
 
+/* REMEMBER ME */
+
 .form-options{
   display:flex;
-  justify-content:flex-end;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
   margin:0 0 22px;
+  transform:translateZ(12px);
+}
+
+.remember-option{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#604653;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.remember-option input{
+  width:16px;
+  height:16px;
+  accent-color:#bd0030;
+  cursor:pointer;
 }
 
 .forgot{
@@ -261,38 +485,72 @@ body{
   color:#b0002b;
   font-weight:bold;
   text-decoration:none;
+  white-space:nowrap;
 }
 
-.forgot:hover{text-decoration:underline;}
+.forgot:hover{
+  text-decoration:underline;
+}
 
-/* BUTTON */
+/* 3D BUTTON */
 
 .login-btn{
   width:100%;
   height:53px;
-  border:0;
+  border:1px solid rgba(255,255,255,.2);
   border-radius:11px;
-  background:linear-gradient(110deg,#f52c55,#c90032,#81001c);
+  background:linear-gradient(
+    110deg,
+    #ff4568,
+    #d00038,
+    #81001c
+  );
   color:white;
   font-size:14px;
   font-weight:900;
   letter-spacing:1.2px;
   cursor:pointer;
   box-shadow:
-    0 6px 0 #78001b,
-    0 10px 18px rgba(190,0,45,.2),
-    inset 0 2px 5px rgba(255,255,255,.25);
+    0 7px 0 #70001b,
+    0 12px 20px rgba(190,0,45,.23),
+    inset 0 2px 5px rgba(255,255,255,.3);
   transition:.2s;
+  position:relative;
+  overflow:hidden;
+  transform:translateZ(18px);
+}
+
+.login-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:65%;
+  height:100%;
+  background:linear-gradient(
+    100deg,
+    transparent,
+    rgba(255,255,255,.35),
+    transparent
+  );
+  transform:skewX(-20deg);
+  transition:left .7s ease;
+}
+
+.login-btn:hover::before{
+  left:150%;
 }
 
 .login-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 0 #78001b,0 13px 22px rgba(190,0,45,.25);
+  transform:translateY(-3px) translateZ(18px);
+  box-shadow:
+    0 10px 0 #70001b,
+    0 16px 25px rgba(190,0,45,.3);
 }
 
 .login-btn:active{
-  transform:translateY(3px);
-  box-shadow:0 2px 0 #78001b;
+  transform:translateY(4px) translateZ(10px);
+  box-shadow:0 2px 0 #70001b;
 }
 
 .login-btn:disabled{
@@ -334,6 +592,7 @@ body{
   margin-top:25px;
   color:#817983;
   font-size:13px;
+  transform:translateZ(12px);
 }
 
 .register-text a{
@@ -342,7 +601,9 @@ body{
   text-decoration:none;
 }
 
-.register-text a:hover{text-decoration:underline;}
+.register-text a:hover{
+  text-decoration:underline;
+}
 
 .security{
   text-align:center;
@@ -362,6 +623,7 @@ body{
 /* MOBILE */
 
 @media(max-width:420px){
+
   body{padding:14px;}
 
   .login-container{
@@ -379,20 +641,29 @@ body{
     height:43px;
   }
 
-  .logo-symbol::after{font-size:38px;}
+  .logo-symbol::after{
+    font-size:38px;
+  }
 
-  .logo-name{font-size:26px;}
+  .logo-name{
+    font-size:26px;
+  }
 
-  .form-heading h1{font-size:23px;}
+  .form-heading h1{
+    font-size:23px;
+  }
 }
 
 @media(max-height:700px){
+
   .login-container{
     padding-top:23px;
     padding-bottom:20px;
   }
 
-  .logo-area{margin-bottom:19px;}
+  .logo-area{
+    margin-bottom:19px;
+  }
 
   .logo-symbol{
     width:68px;
@@ -405,19 +676,36 @@ body{
     height:38px;
   }
 
-  .logo-symbol::after{font-size:34px;}
+  .logo-symbol::after{
+    font-size:34px;
+  }
 
-  .form-heading{margin-bottom:19px;}
+  .form-heading{
+    margin-bottom:19px;
+  }
 
-  .security{margin-top:17px;padding-top:12px;}
+  .security{
+    margin-top:17px;
+    padding-top:12px;
+  }
 }
 
+/* ACCESSIBILITY */
+
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
+
+  *,
+  *::before,
+  *::after{
     animation-duration:.01ms!important;
     animation-iteration-count:1!important;
     transition-duration:.01ms!important;
   }
+
+  .login-container{
+    transform:none!important;
+  }
+
 }
 </style>
 </head>
@@ -427,12 +715,16 @@ body{
 <div class="background-shape shape-one"></div>
 <div class="background-shape shape-two"></div>
 <div class="background-shape shape-three"></div>
+<div class="background-shape shape-four"></div>
+<div class="ambient-light"></div>
 
-<main class="login-container">
+<main class="login-container" id="loginCard">
 
   <div class="logo-area">
 
-    <div class="logo-symbol"></div>
+    <div class="logo-symbol">
+      <div class="logo-shine"></div>
+    </div>
 
     <div class="logo-name">RUBALIA</div>
 
@@ -455,6 +747,7 @@ body{
       <label for="email">Email Address</label>
 
       <div class="input-wrap">
+
         <input
           type="email"
           id="email"
@@ -462,6 +755,12 @@ body{
           autocomplete="username"
           maxlength="255"
           required>
+
+        <div
+          class="email-suggestions"
+          id="emailSuggestions">
+        </div>
+
       </div>
     </div>
 
@@ -469,6 +768,7 @@ body{
       <label for="password">Password</label>
 
       <div class="input-wrap password-wrap">
+
         <input
           type="password"
           id="password"
@@ -482,13 +782,21 @@ body{
           id="showPassword">
           SHOW
         </button>
+
       </div>
     </div>
 
     <div class="form-options">
+
+      <label class="remember-option">
+        <input type="checkbox" id="rememberMe">
+        <span>Remember Me</span>
+      </label>
+
       <a href="forgot-password.html" class="forgot">
         Forgot Password?
       </a>
+
     </div>
 
     <button
@@ -515,6 +823,7 @@ body{
   <div class="security">
     <span>🔒 SECURE LOGIN</span>
     <br>
+    Only your email can be remembered.
     Your password is never saved in browser storage.
   </div>
 
@@ -525,12 +834,53 @@ body{
 
 const API_BASE = "https://rubalia.onrender.com/api";
 
+const SAVED_EMAILS_KEY = "rubalia_saved_emails";
+
 const loginForm = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
+const rememberMe = document.getElementById("rememberMe");
 const loginBtn = document.getElementById("loginBtn");
 const formMessage = document.getElementById("formMessage");
 const showPasswordBtn = document.getElementById("showPassword");
+const emailSuggestions = document.getElementById("emailSuggestions");
+
+/* OPTIONAL 3D TILT */
+
+const loginCard = document.getElementById("loginCard");
+
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+const isTouchDevice = window.matchMedia(
+  "(pointer: coarse)"
+).matches;
+
+if(!reducedMotion && !isTouchDevice){
+
+  loginCard.addEventListener("mousemove",function(event){
+
+    const rect = loginCard.getBoundingClientRect();
+
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    const rotateY = (x - .5) * 5;
+    const rotateX = (.5 - y) * 5;
+
+    loginCard.style.transform =
+      "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
+
+  });
+
+  loginCard.addEventListener("mouseleave",function(){
+
+    loginCard.style.transform = "rotateX(0) rotateY(0)";
+
+  });
+
+}
 
 /* PASSWORD VISIBILITY */
 
@@ -541,6 +891,232 @@ showPasswordBtn.addEventListener("click",function(){
   passwordInput.type = isPassword ? "text" : "password";
 
   showPasswordBtn.textContent = isPassword ? "HIDE" : "SHOW";
+
+});
+
+/* SAVED EMAIL STORAGE */
+
+function getSavedEmails(){
+
+  try{
+
+    const saved = localStorage.getItem(SAVED_EMAILS_KEY);
+
+    const emails = saved ? JSON.parse(saved) : [];
+
+    if(!Array.isArray(emails)){
+      return [];
+    }
+
+    return emails.filter(function(email){
+
+      return typeof email === "string" &&
+        email.length <= 255 &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    });
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+function saveEmail(email){
+
+  try{
+
+    let emails = getSavedEmails();
+
+    emails = emails.filter(function(item){
+
+      return item.toLowerCase() !== email.toLowerCase();
+
+    });
+
+    emails.unshift(email);
+
+    emails = emails.slice(0,5);
+
+    localStorage.setItem(
+      SAVED_EMAILS_KEY,
+      JSON.stringify(emails)
+    );
+
+    return true;
+
+  }catch(error){
+
+    return false;
+
+  }
+
+}
+
+function removeSavedEmail(email){
+
+  try{
+
+    const emails = getSavedEmails().filter(function(item){
+
+      return item.toLowerCase() !== email.toLowerCase();
+
+    });
+
+    localStorage.setItem(
+      SAVED_EMAILS_KEY,
+      JSON.stringify(emails)
+    );
+
+    renderEmailSuggestions();
+
+  }catch(error){
+
+    showMessage(
+      "error",
+      "Unable to remove the saved account from this browser."
+    );
+
+  }
+
+}
+
+/* EMAIL SUGGESTIONS */
+
+function renderEmailSuggestions(){
+
+  const emails = getSavedEmails();
+
+  const search = emailInput.value.trim().toLowerCase();
+
+  const filtered = emails.filter(function(email){
+
+    return !search ||
+      email.toLowerCase().includes(search);
+
+  });
+
+  emailSuggestions.innerHTML = "";
+
+  if(filtered.length === 0){
+
+    if(emails.length === 0){
+
+      emailSuggestions.classList.remove("show");
+      return;
+
+    }
+
+    const empty = document.createElement("div");
+
+    empty.className = "suggestion-empty";
+    empty.textContent = "No matching saved account.";
+
+    emailSuggestions.appendChild(empty);
+    emailSuggestions.classList.add("show");
+
+    return;
+
+  }
+
+  const heading = document.createElement("div");
+
+  heading.className = "suggestion-heading";
+  heading.textContent = "Saved Accounts";
+
+  emailSuggestions.appendChild(heading);
+
+  filtered.forEach(function(email){
+
+    const item = document.createElement("div");
+
+    item.className = "suggestion-item";
+
+    const icon = document.createElement("div");
+
+    icon.className = "suggestion-icon";
+    icon.textContent = "R";
+
+    const address = document.createElement("div");
+
+    address.className = "suggestion-email";
+    address.textContent = email;
+
+    const remove = document.createElement("button");
+
+    remove.type = "button";
+    remove.className = "remove-suggestion";
+    remove.textContent = "×";
+    remove.title = "Remove saved account";
+    remove.setAttribute("aria-label","Remove " + email);
+
+    item.appendChild(icon);
+    item.appendChild(address);
+    item.appendChild(remove);
+
+    item.addEventListener("click",function(event){
+
+      if(event.target === remove){
+        return;
+      }
+
+      emailInput.value = email;
+
+      emailSuggestions.classList.remove("show");
+
+      passwordInput.focus();
+
+    });
+
+    remove.addEventListener("click",function(event){
+
+      event.stopPropagation();
+
+      removeSavedEmail(email);
+
+    });
+
+    emailSuggestions.appendChild(item);
+
+  });
+
+  emailSuggestions.classList.add("show");
+
+}
+
+/* EMAIL INPUT EVENTS */
+
+emailInput.addEventListener("focus",function(){
+
+  renderEmailSuggestions();
+
+});
+
+emailInput.addEventListener("input",function(){
+
+  renderEmailSuggestions();
+
+});
+
+emailInput.addEventListener("keydown",function(event){
+
+  if(event.key === "Escape"){
+
+    emailSuggestions.classList.remove("show");
+
+  }
+
+});
+
+document.addEventListener("click",function(event){
+
+  if(!event.target.closest(".input-wrap")){
+
+    emailSuggestions.classList.remove("show");
+
+  }
 
 });
 
@@ -561,10 +1137,17 @@ loginForm.addEventListener("submit",async function(event){
 
   const email = emailInput.value.trim().toLowerCase();
   const password = passwordInput.value;
+  const shouldRemember = rememberMe.checked;
 
   if(!email || !password){
-    showMessage("error","Please enter your email and password.");
+
+    showMessage(
+      "error",
+      "Please enter your email and password."
+    );
+
     return;
+
   }
 
   loginBtn.disabled = true;
@@ -572,6 +1155,8 @@ loginForm.addEventListener("submit",async function(event){
 
   formMessage.className = "form-message";
   formMessage.textContent = "";
+
+  emailSuggestions.classList.remove("show");
 
   try{
 
@@ -593,7 +1178,9 @@ loginForm.addEventListener("submit",async function(event){
     });
 
     const data = await response.json().catch(function(){
+
       return {};
+
     });
 
     if(!response.ok || !data.success){
@@ -644,7 +1231,9 @@ loginForm.addEventListener("submit",async function(event){
     });
 
     const verifyData = await verifyResponse.json().catch(function(){
+
       return {};
+
     });
 
     if(
@@ -687,7 +1276,15 @@ loginForm.addEventListener("submit",async function(event){
       JSON.stringify(user)
     );
 
-    /* STEP 5: REDIRECT BY ROLE */
+    /* STEP 5: REMEMBER EMAIL ONLY */
+
+    if(shouldRemember){
+
+      saveEmail(email);
+
+    }
+
+    /* STEP 6: REDIRECT BY ROLE */
 
     let destination = "dashboard.html";
     let message = "Welcome! Opening your dashboard...";
@@ -695,6 +1292,7 @@ loginForm.addEventListener("submit",async function(event){
     if(role === "admin"){
 
       destination = "admin-dashboard.html";
+
       message = "Admin verified! Opening Admin Dashboard...";
 
     }
@@ -703,7 +1301,7 @@ loginForm.addEventListener("submit",async function(event){
 
     loginBtn.textContent = "SUCCESSFUL";
 
-    loginForm.reset();
+    passwordInput.value = "";
 
     window.setTimeout(function(){
 
