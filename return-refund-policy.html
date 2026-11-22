@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#071a35">
-<title>Return & Refund Policy - RUBALIA NETWORK</title>
+<meta name="description" content="RUBALIA NETWORK return, replacement and refund policy. Learn how to submit a product return or refund request.">
+<title>Return &amp; Refund Policy | RUBALIA NETWORK</title>
 <style>
 :root{
   --navy:#071a35;
@@ -16,14 +17,33 @@
   --text:#253247;
   --muted:#718096;
   --border:#e3e8ef;
+  --focus:#2876d1;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
+a{color:inherit}
+a:focus-visible,button:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:3px;
+}
+.skip-link{
+  position:absolute;
+  left:12px;
+  top:-50px;
+  z-index:1000;
+  padding:10px 14px;
+  background:#fff;
+  color:var(--navy);
+  border:2px solid var(--focus);
+  border-radius:6px;
+}
+.skip-link:focus{top:10px}
 header{
   background:linear-gradient(120deg,var(--navy),var(--navy2));
   color:white;
@@ -49,13 +69,15 @@ header{
   text-decoration:none;
   font-size:13px;
 }
+.home-link:hover{text-decoration:underline}
 .container{
   max-width:1100px;
   margin:25px auto;
   padding:0 14px;
   display:grid;
-  grid-template-columns:245px 1fr;
+  grid-template-columns:245px minmax(0,1fr);
   gap:20px;
+  align-items:start;
 }
 .sidebar,.content{
   background:white;
@@ -63,8 +85,8 @@ header{
   border-radius:13px;
   box-shadow:0 5px 20px rgba(7,26,53,.05);
 }
-.sidebar{padding:16px;height:max-content}
-.sidebar h3{
+.sidebar{padding:16px}
+.sidebar h2{
   color:var(--navy);
   font-size:14px;
   margin:4px 0 13px;
@@ -83,7 +105,7 @@ header{
   color:var(--navy);
   font-weight:700;
 }
-.content{padding:27px}
+.content{padding:27px;min-width:0}
 .page-title{
   margin:0;
   color:var(--navy);
@@ -121,26 +143,34 @@ header{
   line-height:1.85;
 }
 .section ul{padding-left:20px}
-.section a{color:#946c20}
+.section a{color:#765515;text-decoration:underline}
 .footer{
   text-align:center;
   color:#8a95a5;
   font-size:12px;
   padding:25px 12px;
+  line-height:1.8;
 }
+.footer a{color:inherit}
+.footer a:hover{color:var(--navy)}
 @media(max-width:760px){
   .container{grid-template-columns:1fr;margin:15px auto}
   .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:2px}
-  .sidebar h3{grid-column:1/-1}
+  .sidebar h2{grid-column:1/-1}
   .content{padding:20px 16px}
   .page-title{font-size:23px}
 }
 @media(max-width:390px){
   .sidebar{grid-template-columns:1fr}
+  .header-inner{align-items:flex-start;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
 }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <header>
   <div class="header-inner">
@@ -150,9 +180,8 @@ header{
 </header>
 
 <div class="container">
-
-  <aside class="sidebar">
-    <h3>MEMBER MENU</h3>
+  <nav class="sidebar" aria-label="Member navigation">
+    <h2>MEMBER MENU</h2>
     <a href="dashboard.html">Dashboard</a>
     <a href="profile.html">My Profile</a>
     <a href="products.html">Products</a>
@@ -166,26 +195,25 @@ header{
     <a href="settings.html">Settings</a>
     <a href="support.html">Support Center</a>
     <a href="faq.html">FAQ</a>
-    <a href="terms.html">Terms & Conditions</a>
+    <a href="terms.html">Terms &amp; Conditions</a>
     <a href="privacy.html">Privacy Policy</a>
     <a href="delivery-policy.html">Delivery Policy</a>
-    <a class="active" href="return-refund-policy.html">Return & Refund</a>
-  </aside>
+    <a class="active" href="return-refund-policy.html" aria-current="page">Return &amp; Refund</a>
+  </nav>
 
-  <main class="content">
-
-    <h1 class="page-title">Return & Refund Policy</h1>
+  <main class="content" id="main-content">
+    <h1 class="page-title">Return &amp; Refund Policy</h1>
     <p class="subtitle">
-      Our preliminary guidelines for product returns, replacements,
-      refunds and customer complaints.
+      Our guidelines for product returns, replacements, refunds and customer complaints.
     </p>
 
-    <div class="notice">
+    <div class="notice" role="note">
       <strong>Draft / Demo Notice:</strong>
       This page is a preliminary policy for website development.
       Actual return conditions, time limits and refund procedures must be
       finalized before real customer orders are accepted.
-      This policy must comply with applicable Bangladesh consumer protection laws.
+      The final policy must be reviewed for compliance with applicable
+      Bangladesh consumer protection laws.
     </div>
 
     <section class="section">
@@ -254,7 +282,7 @@ header{
       </ul>
       <p>
         Customers should not send products to an unverified address.
-        The approved return instructions should be provided by the support team.
+        Approved return instructions should be provided by the support team.
       </p>
     </section>
 
@@ -274,13 +302,12 @@ header{
     <section class="section">
       <h2>7. Refund Eligibility</h2>
       <p>
-        A refund may be considered when a refund is the appropriate
-        resolution under the order terms and applicable law.
-        Examples may include:
+        A refund may be considered when it is the appropriate resolution
+        under the order terms and applicable law. Examples may include:
       </p>
       <ul>
         <li>A confirmed order cancellation eligible for a refund.</li>
-        <li>A verified damaged or incorrect product where refund is appropriate.</li>
+        <li>A verified damaged or incorrect product where a refund is appropriate.</li>
         <li>A product that cannot be supplied after payment has been received.</li>
         <li>Another situation where a refund is legally required or agreed.</li>
       </ul>
@@ -294,8 +321,8 @@ header{
       </p>
       <p>
         Refund timing depends on the original payment method, payment provider
-        and financial institution. The actual expected processing time must
-        be communicated when the refund is approved.
+        and financial institution. The expected processing time should be
+        communicated when the refund is approved.
       </p>
       <p>
         No refund should be described as completed until the relevant
@@ -321,7 +348,7 @@ header{
       <p>
         Customers wishing to cancel an order should contact support as
         early as possible. Cancellation may depend on whether the order
-        has already been processed or dispatched.
+        has already been processed or dispatched, subject to applicable law.
       </p>
       <p>
         If payment has already been collected, any eligible refund will
@@ -364,26 +391,27 @@ header{
       </p>
     </section>
 
-    <div class="notice">
+    <div class="notice" role="note">
       <strong>Before Launch:</strong>
       RUBALIA NETWORK must define actual return eligibility, product-specific
       exceptions, complaint deadlines, return addresses, refund methods and
       processing procedures. These details should be reviewed against
       Bangladesh's applicable consumer protection requirements.
     </div>
-
   </main>
 </div>
 
 <footer class="footer">
-  © 2026 RUBALIA NETWORK. All Rights Reserved.
-  <br><br>
+  © <span id="copyrightYear">2026</span> RUBALIA NETWORK. All Rights Reserved.
+  <br>
   <a href="terms.html">Terms</a> ·
   <a href="privacy.html">Privacy</a> ·
   <a href="delivery-policy.html">Delivery</a> ·
   <a href="faq.html">FAQ</a> ·
   <a href="support.html">Support</a>
 </footer>
-
+<script>
+document.getElementById("copyrightYear").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
