@@ -15,6 +15,7 @@ const COMPANY_SHARE_PERCENT = 25;
 const TOTAL_COMMISSION_PERCENT = 75;
 const LEVEL_COUNT = 10;
 
+
 // =====================================================
 // MONEY HELPERS
 // =====================================================
@@ -73,6 +74,7 @@ function validateRates(rates) {
 
   return normalized;
 }
+
 
 // =====================================================
 // DYNAMIC COMMISSION ALLOCATION
@@ -178,6 +180,7 @@ function calculateCommissionAllocation(
   };
 }
 
+
 // =====================================================
 // COST SNAPSHOT VALIDATION
 // =====================================================
@@ -254,6 +257,7 @@ function calculateSnapshotItemCost(snapshot, itemType) {
 
   throw new Error("Unsupported order item type.");
 }
+
 
 // =====================================================
 // CALCULATE ORDER NET PROFIT
@@ -352,6 +356,7 @@ async function calculateOrderProfit(
   };
 }
 
+
 // =====================================================
 // GET 10 LEVEL SPONSOR CHAIN
 // =====================================================
@@ -393,6 +398,7 @@ async function getSponsorChain(client, buyerId) {
   return sponsors;
 }
 
+
 // =====================================================
 // CHECK SPONSOR COMMISSION ELIGIBILITY
 //
@@ -431,6 +437,7 @@ async function getEligibleSponsor(client, sponsorId) {
   return sponsor;
 }
 
+
 // =====================================================
 // CREATE WALLET IF NOT EXISTS
 // =====================================================
@@ -449,6 +456,7 @@ async function getOrCreateWallet(client, memberId) {
 
   return result.rows[0].id;
 }
+
 
 // =====================================================
 // APPLY EXISTING COMMISSION REVERSAL DEBTS
@@ -522,6 +530,7 @@ async function recoverCommissionDebts(
     recoveredCents
   };
 }
+
 
 // =====================================================
 // CREDIT MEMBER WALLET
@@ -611,6 +620,7 @@ async function creditMemberWallet(
 
   return recovery;
 }
+
 
 // =====================================================
 // PREPARE COMMISSION AFTER ORDER DELIVERY
@@ -843,6 +853,7 @@ async function prepareOrderCommission(client, orderId) {
   };
 }
 
+
 // =====================================================
 // RELEASE COMMISSION IMMEDIATELY AFTER DELIVERY
 // Must be called inside the same PostgreSQL transaction.
@@ -967,6 +978,11 @@ async function releaseOrderCommission(client, orderId) {
         [entry.id]
       );
 
+      // Correctly retain the full amount of an empty level.
+      if (!entry.beneficiary_id && amountCents > 0) {
+        unallocatedCents += amountCents;
+      }
+
       levels.push({
         level: Number(entry.level),
         amount: fromCents(amountCents),
@@ -1089,6 +1105,7 @@ async function releaseOrderCommission(client, orderId) {
     levels
   };
 }
+
 
 // =====================================================
 // REVERSE COMMISSION ON REFUND
@@ -1306,6 +1323,7 @@ async function reverseOrderCommission(client, orderId) {
     outstandingDebtCreated: fromCents(debtCreatedCents)
   };
 }
+
 
 // =====================================================
 // EXPORT
