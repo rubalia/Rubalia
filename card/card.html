@@ -37,42 +37,37 @@ body{
   color:white;
 }
 
-/* CARD ONLY */
+/* CARD BANNER */
 
 .card-only{
   width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:0;
   margin:0;
+  padding:0;
+  display:block;
 }
-
-/* CARD WRAPPER */
 
 .slider-wrap{
   width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  perspective:1000px;
+  margin:0;
+  padding:0;
+  perspective:1200px;
   touch-action:pan-y;
 }
 
 .card-slider{
-  width:190px;
-  height:120px;
+  width:100%;
+  aspect-ratio:3 / 1;
   position:relative;
-  flex-shrink:0;
+  container-type:inline-size;
 }
 
-/* CARD */
+/* MAIN CARD */
 
 .card{
   position:absolute;
   inset:0;
-  width:190px;
-  height:120px;
+  width:100%;
+  height:100%;
   transform-style:preserve-3d;
   transition:transform .75s cubic-bezier(.2,.75,.25,1);
   cursor:pointer;
@@ -82,18 +77,20 @@ body{
   transform:rotateY(180deg);
 }
 
+/* CARD FACES */
+
 .card-face{
   position:absolute;
   inset:0;
-  width:190px;
-  height:120px;
+  width:100%;
+  height:100%;
   overflow:hidden;
-  border-radius:12px;
-  border:1px solid rgba(255,220,140,.65);
+  border-radius:2cqw;
+  border:1px solid rgba(255,220,140,.75);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
   box-shadow:
-    0 12px 25px rgba(0,0,0,.45),
+    0 1.5cqw 3cqw rgba(0,0,0,.45),
     inset 0 1px 2px rgba(255,255,255,.2);
 }
 
@@ -104,21 +101,29 @@ body{
     repeating-linear-gradient(
       125deg,
       transparent 0px,
-      transparent 5px,
-      rgba(93,145,220,.10) 6px,
-      rgba(93,145,220,.10) 8px
+      transparent 1.2cqw,
+      rgba(93,145,220,.10) 1.4cqw,
+      rgba(93,145,220,.10) 1.8cqw
     ),
-    radial-gradient(circle at 90% 5%,#234d8a,transparent 48%),
-    linear-gradient(145deg,#101d4a,#071332 75%);
+    radial-gradient(
+      circle at 90% 5%,
+      #234d8a,
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      #101d4a,
+      #071332 75%
+    );
 }
 
 .card-front::before{
   content:"";
   position:absolute;
-  width:180px;
-  height:75px;
-  right:-65px;
-  top:-28px;
+  width:55%;
+  height:55%;
+  right:-15%;
+  top:-20%;
   transform:rotate(-22deg);
   background:linear-gradient(
     90deg,
@@ -131,21 +136,21 @@ body{
 .card-front::after{
   content:"";
   position:absolute;
-  width:140px;
-  height:70px;
-  left:-55px;
-  bottom:-45px;
+  width:40%;
+  height:60%;
+  left:-15%;
+  bottom:-40%;
   border:1px solid rgba(244,209,122,.2);
   border-radius:50%;
 }
 
-/* FRONT TOP AREA */
+/* BALANCE */
 
 .front-top{
   position:absolute;
-  top:9px;
-  left:10px;
-  right:9px;
+  top:7%;
+  left:5%;
+  right:5%;
   display:flex;
   justify-content:flex-end;
   align-items:center;
@@ -153,10 +158,10 @@ body{
 }
 
 .balance{
-  font-size:13px;
+  font-size:clamp(13px,2.5cqw,36px);
   font-weight:900;
   color:#ffe4a0;
-  text-shadow:0 2px 4px #000;
+  text-shadow:0 2px 5px #000;
   white-space:nowrap;
 }
 
@@ -164,21 +169,34 @@ body{
 
 .chip-area{
   position:absolute;
-  top:34px;
-  left:13px;
+  top:29%;
+  left:5%;
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:2cqw;
   z-index:2;
 }
 
 .chip{
-  width:29px;
-  height:22px;
-  border-radius:5px;
+  width:8cqw;
+  height:10cqw;
+  max-height:12%;
+  border-radius:1cqw;
   background:
-    linear-gradient(90deg,transparent 47%,#a77b25 48%,#a77b25 53%,transparent 54%),
-    linear-gradient(0deg,transparent 45%,#a77b25 46%,#a77b25 53%,transparent 54%),
+    linear-gradient(
+      90deg,
+      transparent 47%,
+      #a77b25 48%,
+      #a77b25 53%,
+      transparent 54%
+    ),
+    linear-gradient(
+      0deg,
+      transparent 45%,
+      #a77b25 46%,
+      #a77b25 53%,
+      transparent 54%
+    ),
     linear-gradient(135deg,#ffe49a,#c48e2d);
   border:1px solid #f9dc8a;
   box-shadow:inset 0 1px 3px rgba(255,255,255,.7);
@@ -186,72 +204,75 @@ body{
 
 .contactless{
   color:#f5e8c5;
-  font-size:20px;
+  font-size:4cqw;
   transform:rotate(90deg);
   line-height:1;
 }
 
-/* USER ID */
+/* MEMBER ID */
 
 .user-id{
   position:absolute;
-  left:12px;
-  right:8px;
-  top:65px;
+  left:5%;
+  right:5%;
+  top:51%;
   z-index:2;
   color:#f5d27b;
   font-family:Georgia,serif;
-  font-size:13px;
+  font-size:clamp(13px,2.6cqw,38px);
   font-weight:bold;
-  letter-spacing:1px;
+  letter-spacing:.35cqw;
   white-space:nowrap;
   text-shadow:
     0 1px 0 #6f4a13,
-    0 2px 4px #000;
+    0 2px 5px #000;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-/* NAME AND DATE */
+/* MEMBER NAME AND DATE */
 
 .front-bottom{
   position:absolute;
-  left:12px;
-  right:9px;
-  bottom:9px;
+  left:5%;
+  bottom:7%;
   z-index:2;
+  max-width:55%;
 }
 
 .user-name{
   font-family:Georgia,serif;
-  font-size:9px;
+  font-size:clamp(10px,1.9cqw,28px);
   font-weight:bold;
   color:#ffe2a0;
-  letter-spacing:1px;
+  letter-spacing:.2cqw;
   text-transform:uppercase;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  text-shadow:0 2px 3px #000;
-  max-width:125px;
+  text-shadow:0 2px 4px #000;
 }
 
 .created-date{
-  margin-top:4px;
-  font-size:6px;
+  margin-top:.8cqw;
+  font-size:clamp(7px,1.15cqw,17px);
   color:#e5d6b4;
-  letter-spacing:.4px;
+  letter-spacing:.1cqw;
 }
+
+/* CARD BRAND */
 
 .card-brand{
   position:absolute;
-  right:10px;
-  bottom:9px;
+  right:5%;
+  bottom:8%;
   z-index:2;
   text-align:right;
   font-family:Georgia,serif;
-  font-size:11px;
+  font-size:clamp(12px,2.3cqw,34px);
   font-weight:bold;
   color:#f8d47f;
-  text-shadow:0 2px 4px #000;
+  text-shadow:0 2px 5px #000;
 }
 
 /* BACK */
@@ -262,90 +283,121 @@ body{
     repeating-linear-gradient(
       125deg,
       transparent 0px,
-      transparent 5px,
-      rgba(93,145,220,.08) 6px,
-      rgba(93,145,220,.08) 8px
+      transparent 1.2cqw,
+      rgba(93,145,220,.08) 1.4cqw,
+      rgba(93,145,220,.08) 1.8cqw
     ),
-    linear-gradient(145deg,#102650,#07132e);
+    linear-gradient(
+      145deg,
+      #102650,
+      #07132e
+    );
 }
+
+/* MAGNETIC STRIP */
 
 .magnetic-strip{
   position:absolute;
-  top:17px;
+  top:15%;
   left:0;
   width:100%;
-  height:20px;
-  background:linear-gradient(90deg,#080b13,#252936,#080b13);
+  height:17%;
+  background:linear-gradient(
+    90deg,
+    #080b13,
+    #252936,
+    #080b13
+  );
 }
+
+/* SIGNATURE */
 
 .signature-area{
   position:absolute;
-  top:48px;
-  left:11px;
-  width:105px;
-  height:17px;
+  top:43%;
+  left:5%;
+  width:42%;
+  height:15%;
   background:repeating-linear-gradient(
-    0deg,#eee9db 0px,#eee9db 3px,#d4d0c6 4px
+    0deg,
+    #eee9db 0px,
+    #eee9db 3px,
+    #d4d0c6 4px
   );
-  border-radius:2px;
+  border-radius:.7cqw;
   display:flex;
   align-items:center;
-  padding:0 5px;
+  padding:0 1.5cqw;
   color:#28304b;
   font-family:Georgia,serif;
-  font-size:8px;
+  font-size:clamp(8px,1.5cqw,22px);
   font-style:italic;
   overflow:hidden;
-}
-
-.back-id{
-  position:absolute;
-  top:71px;
-  left:12px;
-  font-size:7px;
-  color:#e8cf91;
-  letter-spacing:.5px;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 .back-brand{
   position:absolute;
-  right:10px;
-  top:45px;
+  right:5%;
+  top:43%;
   color:#f2d18a;
   font-family:Georgia,serif;
-  font-size:10px;
+  font-size:clamp(12px,2.3cqw,34px);
   font-weight:bold;
+}
+
+/* BACK MEMBER ID */
+
+.back-id{
+  position:absolute;
+  top:65%;
+  left:5%;
+  right:5%;
+  font-size:clamp(8px,1.4cqw,20px);
+  color:#e8cf91;
+  letter-spacing:.2cqw;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* ACTION BUTTONS */
 
 .card-actions{
   position:absolute;
-  bottom:9px;
-  left:10px;
-  right:10px;
+  bottom:7%;
+  left:5%;
+  right:5%;
   display:flex;
-  gap:7px;
+  gap:1.5cqw;
   z-index:3;
 }
 
 .action-btn{
   flex:1;
-  height:23px;
+  height:12%;
+  min-height:23px;
   border:1px solid rgba(255,220,150,.65);
-  border-radius:5px;
-  background:linear-gradient(135deg,#eac66d,#a87925);
+  border-radius:1cqw;
+  background:linear-gradient(
+    135deg,
+    #eac66d,
+    #a87925
+  );
   color:#18203a;
-  font-size:8px;
+  font-size:clamp(9px,1.5cqw,22px);
   font-weight:900;
-  letter-spacing:.4px;
+  letter-spacing:.2cqw;
   cursor:pointer;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
 }
 
 .action-btn:active{
-  transform:scale(.96);
+  transform:scale(.97);
 }
+
+/* ACCESSIBILITY */
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -371,7 +423,9 @@ body{
         <div class="card-face card-front">
 
           <div class="front-top">
-            <div class="balance" id="cardBalance">৳ 0.00</div>
+            <div class="balance" id="cardBalance">
+              ৳ 0.00
+            </div>
           </div>
 
           <div class="chip-area">
@@ -453,7 +507,7 @@ body{
 /*
   RUBALIA MEMBER CARD
 
-  User information is read from:
+  User information:
   sessionStorage key: rubalia_user
 
   Supported fields:
@@ -548,6 +602,7 @@ function loadMemberCard(){
   if(!user){
 
     cardName.textContent = "MEMBER NAME";
+
     cardUserId.textContent = "20240101 000000";
 
     backSignature.textContent = "RUBALIA MEMBER";
@@ -596,7 +651,8 @@ function loadMemberCard(){
 
   const displayId = "20240101 " + formattedId;
 
-  cardName.textContent = String(fullName).toUpperCase();
+  cardName.textContent =
+    String(fullName).toUpperCase();
 
   backSignature.textContent =
     String(fullName).toUpperCase();
@@ -609,7 +665,8 @@ function loadMemberCard(){
   cardDate.textContent =
     "ACCOUNT CREATED: " + formatDate(createdAt);
 
-  cardBalance.textContent = formatBalance(balance);
+  cardBalance.textContent =
+    formatBalance(balance);
 
 }
 
