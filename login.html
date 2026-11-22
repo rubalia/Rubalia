@@ -14,7 +14,6 @@
   --dark:#710018;
   --gold:#ffd36a;
   --white:#fff;
-  --muted:#77717c;
 }
 
 *{
@@ -32,7 +31,6 @@ body{
   justify-content:center;
   padding:22px;
   overflow-x:hidden;
-  overflow-y:auto;
   perspective:1200px;
   background:
     radial-gradient(circle at 10% 15%,#ffb33d 0%,transparent 30%),
@@ -45,18 +43,18 @@ body{
 }
 
 @keyframes backgroundMove{
-  0%{background-position:0% 0%;}
-  50%{background-position:100% 100%;}
-  100%{background-position:0% 0%;}
+  0%{background-position:0% 0%}
+  50%{background-position:100% 100%}
+  100%{background-position:0% 0%}
 }
 
-/* ANIMATED BACKGROUND */
+/* BACKGROUND ANIMATION */
 
 .background-shape{
   position:fixed;
   border-radius:50%;
   pointer-events:none;
-  opacity:.34;
+  opacity:.38;
   filter:blur(3px);
   z-index:0;
 }
@@ -98,23 +96,21 @@ body{
 }
 
 @keyframes floatOne{
-  0%,100%{transform:translate3d(0,0,0);}
-  50%{transform:translate3d(25px,-30px,30px);}
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(25px,-30px,30px)}
 }
 
 @keyframes floatTwo{
-  0%,100%{transform:translate3d(0,0,0) rotate(0deg);}
-  50%{transform:translate3d(-25px,25px,35px) rotate(25deg);}
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  50%{transform:translate3d(-25px,25px,35px) rotate(25deg)}
 }
-
-/* AMBIENT LIGHT */
 
 .ambient-light{
   position:fixed;
   width:350px;
   height:350px;
   border-radius:50%;
-  background:rgba(255,70,120,.18);
+  background:rgba(255,70,120,.22);
   filter:blur(90px);
   top:25%;
   left:50%;
@@ -123,7 +119,7 @@ body{
   z-index:0;
 }
 
-/* LOGIN CARD */
+/* GLASS LOGIN CARD */
 
 .login-container{
   position:relative;
@@ -131,31 +127,37 @@ body{
   width:100%;
   max-width:410px;
   padding:38px 30px 30px;
-  border-radius:25px;
-  background:rgba(255,255,255,.94);
-  border:1px solid rgba(255,255,255,.75);
+  border-radius:27px;
+
+  background:rgba(255,255,255,.17);
+  -webkit-backdrop-filter:blur(24px) saturate(170%);
+  backdrop-filter:blur(24px) saturate(170%);
+
+  border:1px solid rgba(255,255,255,.58);
+
   box-shadow:
     0 35px 90px rgba(20,0,25,.42),
-    0 12px 25px rgba(0,0,0,.15),
-    inset 0 2px 0 white,
-    inset 0 -3px 10px rgba(100,0,30,.05);
+    0 12px 25px rgba(0,0,0,.18),
+    inset 0 2px 0 rgba(255,255,255,.65),
+    inset 0 -2px 12px rgba(255,255,255,.12);
+
   transform-style:preserve-3d;
   animation:cardEnter 1s cubic-bezier(.2,.8,.2,1) both;
-  transition:transform .18s ease,box-shadow .3s ease;
+  transition:transform .2s ease;
 }
 
 .login-container::before{
   content:"";
   position:absolute;
   inset:0;
-  border-radius:25px;
+  border-radius:27px;
   padding:1px;
   background:linear-gradient(
     135deg,
     rgba(255,255,255,.95),
-    rgba(255,211,106,.65),
-    rgba(214,0,37,.25),
-    rgba(255,255,255,.7)
+    rgba(255,211,106,.7),
+    rgba(214,0,37,.35),
+    rgba(255,255,255,.75)
   );
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -176,13 +178,23 @@ body{
   }
 }
 
-/* LOGO */
+/* 3D TEXT SYSTEM */
+
+.text-3d{
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.4),
+    0 2px 0 rgba(100,0,25,.12),
+    0 4px 0 rgba(100,0,25,.10),
+    0 7px 10px rgba(40,0,20,.22);
+}
 
 .logo-area{
   text-align:center;
   margin-bottom:29px;
   transform:translateZ(35px);
 }
+
+/* 3D LOGO */
 
 .logo-symbol{
   width:88px;
@@ -192,21 +204,26 @@ body{
   display:grid;
   place-items:center;
   border-radius:25px;
+
   background:linear-gradient(
     145deg,
-    #ff7584 0%,
+    #ff7584,
     #e00039 35%,
     #a00029 65%,
-    #540018 100%
+    #540018
   );
+
   border:2px solid #ffd982;
+
   box-shadow:
     0 9px 0 #69001c,
-    0 16px 25px rgba(120,0,30,.3),
+    0 16px 25px rgba(120,0,30,.4),
     inset 0 3px 8px rgba(255,255,255,.5),
     inset 0 -8px 15px rgba(50,0,15,.25);
+
   transform-style:preserve-3d;
   animation:logoFloat 4s ease-in-out infinite;
+  overflow:hidden;
 }
 
 .logo-symbol::before{
@@ -227,10 +244,10 @@ body{
   color:#fff;
   font-size:43px;
   font-weight:1000;
-  font-family:Arial,sans-serif;
   text-shadow:
     0 3px 0 #8a0021,
-    0 5px 7px rgba(30,0,0,.55);
+    0 5px 0 #62001b,
+    0 8px 10px rgba(30,0,0,.6);
   transform:translateZ(24px);
 }
 
@@ -243,12 +260,13 @@ body{
   background:linear-gradient(
     100deg,
     transparent,
-    rgba(255,255,255,.45),
+    rgba(255,255,255,.55),
     transparent
   );
   transform:skewX(-20deg);
   animation:logoShine 5s ease-in-out infinite;
   pointer-events:none;
+  z-index:3;
 }
 
 @keyframes logoFloat{
@@ -261,36 +279,51 @@ body{
 }
 
 @keyframes logoShine{
-  0%,65%{left:-100%;}
-  100%{left:150%;}
+  0%,65%{left:-100%}
+  100%{left:150%}
 }
 
+/* BRAND TEXT 3D */
+
 .logo-name{
-  color:#a50024;
+  color:#fff;
   font-size:29px;
   font-weight:1000;
   letter-spacing:4px;
-  text-shadow:0 2px 0 rgba(165,0,36,.1);
+  text-shadow:
+    0 1px 0 #ffd0d9,
+    0 2px 0 #d90035,
+    0 4px 0 #a0002a,
+    0 6px 0 #69001d,
+    0 9px 12px rgba(35,0,15,.55);
+  transform:translateZ(30px);
 }
 
 .logo-network{
-  color:#c18b24;
-  font-size:10px;
-  font-weight:900;
+  color:#ffe09a;
+  font-size:11px;
+  font-weight:1000;
   letter-spacing:8px;
   padding-left:8px;
-  margin-top:5px;
+  margin-top:7px;
+  text-shadow:
+    0 1px 0 #b37a1a,
+    0 3px 0 #80550f,
+    0 5px 8px rgba(30,0,0,.4);
 }
 
 .logo-slogan{
-  margin-top:12px;
-  color:#8b8188;
+  margin-top:13px;
+  color:#fff;
   font-size:11px;
-  font-weight:bold;
+  font-weight:900;
   letter-spacing:1.2px;
+  text-shadow:
+    0 1px 0 rgba(100,0,30,.4),
+    0 3px 6px rgba(30,0,20,.4);
 }
 
-/* FORM */
+/* FORM HEADING */
 
 .form-heading{
   text-align:center;
@@ -299,16 +332,26 @@ body{
 }
 
 .form-heading h1{
-  font-size:25px;
-  color:#3c1725;
-  margin-bottom:8px;
+  font-size:27px;
+  font-weight:1000;
+  color:#fff;
+  margin-bottom:9px;
+  text-shadow:
+    0 1px 0 #ffe1e8,
+    0 3px 0 #a90030,
+    0 5px 0 #71001e,
+    0 8px 12px rgba(35,0,20,.55);
 }
 
 .form-heading p{
-  color:#88818a;
+  color:#fff;
   font-size:13px;
   line-height:1.6;
+  font-weight:700;
+  text-shadow:0 2px 6px rgba(35,0,20,.45);
 }
+
+/* FORM */
 
 .form-group{
   margin-bottom:19px;
@@ -318,9 +361,12 @@ body{
 .form-group label{
   display:block;
   font-size:13px;
-  font-weight:800;
-  color:#4b2835;
+  font-weight:900;
+  color:#fff;
   margin-bottom:9px;
+  text-shadow:
+    0 1px 0 #a0002b,
+    0 3px 5px rgba(30,0,20,.5);
 }
 
 .input-wrap{
@@ -331,26 +377,28 @@ body{
   width:100%;
   height:52px;
   padding:0 15px;
-  border:1px solid #eadce1;
-  border-radius:11px;
-  background:#fffafb;
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:12px;
+  background:rgba(255,255,255,.76);
   font-size:14px;
   font-family:inherit;
   color:#30232a;
   outline:none;
   transition:.25s;
   box-shadow:
-    0 3px 7px rgba(60,0,30,.04),
-    inset 0 1px 2px rgba(0,0,0,.025);
+    0 5px 12px rgba(30,0,20,.12),
+    inset 0 2px 4px rgba(255,255,255,.8);
 }
 
 .form-group input:focus{
-  border-color:#d00032;
-  background:white;
+  border-color:#ffd36a;
+  background:rgba(255,255,255,.94);
   box-shadow:
-    0 0 0 4px rgba(214,0,37,.08),
-    0 5px 14px rgba(214,0,37,.09);
+    0 0 0 4px rgba(255,211,106,.22),
+    0 7px 16px rgba(30,0,20,.16);
 }
+
+/* SAVED EMAIL SUGGESTIONS */
 
 .email-suggestions{
   display:none;
@@ -362,7 +410,7 @@ body{
   background:#fff;
   border:1px solid #eadce1;
   border-radius:12px;
-  box-shadow:0 12px 30px rgba(60,0,30,.15);
+  box-shadow:0 12px 30px rgba(60,0,30,.2);
   overflow:hidden;
 }
 
@@ -447,12 +495,13 @@ body{
   background:none;
   color:#bd0030;
   font-size:11px;
-  font-weight:900;
+  font-weight:1000;
   cursor:pointer;
   padding:8px;
+  text-shadow:0 1px 0 #fff,0 2px 4px rgba(100,0,30,.2);
 }
 
-/* REMEMBER ME */
+/* OPTIONS */
 
 .form-options{
   display:flex;
@@ -467,10 +516,11 @@ body{
   display:flex;
   align-items:center;
   gap:7px;
-  color:#604653;
+  color:#fff;
   font-size:12px;
-  font-weight:700;
+  font-weight:900;
   cursor:pointer;
+  text-shadow:0 2px 5px rgba(30,0,20,.5);
 }
 
 .remember-option input{
@@ -482,23 +532,27 @@ body{
 
 .forgot{
   font-size:12px;
-  color:#b0002b;
-  font-weight:bold;
+  color:#fff;
+  font-weight:1000;
   text-decoration:none;
   white-space:nowrap;
+  text-shadow:
+    0 1px 0 #a0002b,
+    0 3px 5px rgba(30,0,20,.5);
 }
 
 .forgot:hover{
+  color:#ffe19a;
   text-decoration:underline;
 }
 
-/* 3D BUTTON */
+/* 3D SIGN IN BUTTON */
 
 .login-btn{
   width:100%;
-  height:53px;
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:11px;
+  height:54px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:12px;
   background:linear-gradient(
     110deg,
     #ff4568,
@@ -506,18 +560,22 @@ body{
     #81001c
   );
   color:white;
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:1.2px;
+  font-size:15px;
+  font-weight:1000;
+  letter-spacing:1.5px;
   cursor:pointer;
   box-shadow:
     0 7px 0 #70001b,
-    0 12px 20px rgba(190,0,45,.23),
-    inset 0 2px 5px rgba(255,255,255,.3);
+    0 12px 20px rgba(190,0,45,.3),
+    inset 0 2px 5px rgba(255,255,255,.4);
   transition:.2s;
   position:relative;
   overflow:hidden;
   transform:translateZ(18px);
+  text-shadow:
+    0 1px 0 #ffb6c5,
+    0 3px 0 #79001c,
+    0 5px 7px rgba(40,0,10,.5);
 }
 
 .login-btn::before{
@@ -530,7 +588,7 @@ body{
   background:linear-gradient(
     100deg,
     transparent,
-    rgba(255,255,255,.35),
+    rgba(255,255,255,.45),
     transparent
   );
   transform:skewX(-20deg);
@@ -545,7 +603,7 @@ body{
   transform:translateY(-3px) translateZ(18px);
   box-shadow:
     0 10px 0 #70001b,
-    0 16px 25px rgba(190,0,45,.3);
+    0 16px 25px rgba(190,0,45,.4);
 }
 
 .login-btn:active{
@@ -569,19 +627,18 @@ body{
   font-size:12px;
   line-height:1.6;
   overflow-wrap:anywhere;
+  background:rgba(255,255,255,.9);
 }
 
 .form-message.error{
   display:block;
   color:#a00025;
-  background:#fff0f2;
   border:1px solid #f4c6d0;
 }
 
 .form-message.success{
   display:block;
   color:#17633b;
-  background:#effaf3;
   border:1px solid #c6ead2;
 }
 
@@ -590,15 +647,20 @@ body{
 .register-text{
   text-align:center;
   margin-top:25px;
-  color:#817983;
+  color:#fff;
   font-size:13px;
+  font-weight:800;
   transform:translateZ(12px);
+  text-shadow:0 2px 6px rgba(30,0,20,.5);
 }
 
 .register-text a{
-  color:#bd0030;
-  font-weight:900;
+  color:#ffe09a;
+  font-weight:1000;
   text-decoration:none;
+  text-shadow:
+    0 1px 0 #b47b20,
+    0 3px 5px rgba(30,0,20,.5);
 }
 
 .register-text a:hover{
@@ -609,26 +671,30 @@ body{
   text-align:center;
   margin-top:25px;
   padding-top:17px;
-  border-top:1px solid #f0e5e8;
-  color:#9a9299;
+  border-top:1px solid rgba(255,255,255,.3);
+  color:rgba(255,255,255,.9);
   font-size:10px;
   line-height:1.7;
+  font-weight:700;
+  text-shadow:0 2px 5px rgba(30,0,20,.4);
 }
 
 .security span{
-  color:#b0002b;
-  font-weight:bold;
+  color:#ffe09a;
+  font-weight:1000;
+  text-shadow:
+    0 1px 0 #a46b13,
+    0 3px 5px rgba(30,0,20,.4);
 }
 
 /* MOBILE */
 
 @media(max-width:420px){
-
-  body{padding:14px;}
+  body{padding:14px}
 
   .login-container{
     padding:31px 22px 25px;
-    border-radius:21px;
+    border-radius:22px;
   }
 
   .logo-symbol{
@@ -650,12 +716,11 @@ body{
   }
 
   .form-heading h1{
-    font-size:23px;
+    font-size:24px;
   }
 }
 
 @media(max-height:700px){
-
   .login-container{
     padding-top:23px;
     padding-bottom:20px;
@@ -693,7 +758,6 @@ body{
 /* ACCESSIBILITY */
 
 @media(prefers-reduced-motion:reduce){
-
   *,
   *::before,
   *::after{
@@ -705,7 +769,6 @@ body{
   .login-container{
     transform:none!important;
   }
-
 }
 </style>
 </head>
@@ -727,7 +790,6 @@ body{
     </div>
 
     <div class="logo-name">RUBALIA</div>
-
     <div class="logo-network">NETWORK</div>
 
     <div class="logo-slogan">
@@ -833,7 +895,6 @@ body{
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
-
 const SAVED_EMAILS_KEY = "rubalia_saved_emails";
 
 const loginForm = document.getElementById("loginForm");
@@ -844,10 +905,9 @@ const loginBtn = document.getElementById("loginBtn");
 const formMessage = document.getElementById("formMessage");
 const showPasswordBtn = document.getElementById("showPassword");
 const emailSuggestions = document.getElementById("emailSuggestions");
-
-/* OPTIONAL 3D TILT */
-
 const loginCard = document.getElementById("loginCard");
+
+/* OPTIONAL DESKTOP 3D TILT */
 
 const reducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
@@ -866,8 +926,8 @@ if(!reducedMotion && !isTouchDevice){
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
 
-    const rotateY = (x - .5) * 5;
-    const rotateX = (.5 - y) * 5;
+    const rotateY = (x - .5) * 4;
+    const rotateX = (.5 - y) * 4;
 
     loginCard.style.transform =
       "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
@@ -889,7 +949,6 @@ showPasswordBtn.addEventListener("click",function(){
   const isPassword = passwordInput.type === "password";
 
   passwordInput.type = isPassword ? "text" : "password";
-
   showPasswordBtn.textContent = isPassword ? "HIDE" : "SHOW";
 
 });
@@ -901,12 +960,9 @@ function getSavedEmails(){
   try{
 
     const saved = localStorage.getItem(SAVED_EMAILS_KEY);
-
     const emails = saved ? JSON.parse(saved) : [];
 
-    if(!Array.isArray(emails)){
-      return [];
-    }
+    if(!Array.isArray(emails)) return [];
 
     return emails.filter(function(email){
 
@@ -937,7 +993,6 @@ function saveEmail(email){
     });
 
     emails.unshift(email);
-
     emails = emails.slice(0,5);
 
     localStorage.setItem(
@@ -988,13 +1043,11 @@ function removeSavedEmail(email){
 function renderEmailSuggestions(){
 
   const emails = getSavedEmails();
-
   const search = emailInput.value.trim().toLowerCase();
 
   const filtered = emails.filter(function(email){
 
-    return !search ||
-      email.toLowerCase().includes(search);
+    return !search || email.toLowerCase().includes(search);
 
   });
 
@@ -1031,21 +1084,17 @@ function renderEmailSuggestions(){
   filtered.forEach(function(email){
 
     const item = document.createElement("div");
-
     item.className = "suggestion-item";
 
     const icon = document.createElement("div");
-
     icon.className = "suggestion-icon";
     icon.textContent = "R";
 
     const address = document.createElement("div");
-
     address.className = "suggestion-email";
     address.textContent = email;
 
     const remove = document.createElement("button");
-
     remove.type = "button";
     remove.className = "remove-suggestion";
     remove.textContent = "×";
@@ -1058,14 +1107,10 @@ function renderEmailSuggestions(){
 
     item.addEventListener("click",function(event){
 
-      if(event.target === remove){
-        return;
-      }
+      if(event.target === remove) return;
 
       emailInput.value = email;
-
       emailSuggestions.classList.remove("show");
-
       passwordInput.focus();
 
     });
@@ -1073,7 +1118,6 @@ function renderEmailSuggestions(){
     remove.addEventListener("click",function(event){
 
       event.stopPropagation();
-
       removeSavedEmail(email);
 
     });
@@ -1088,24 +1132,13 @@ function renderEmailSuggestions(){
 
 /* EMAIL INPUT EVENTS */
 
-emailInput.addEventListener("focus",function(){
-
-  renderEmailSuggestions();
-
-});
-
-emailInput.addEventListener("input",function(){
-
-  renderEmailSuggestions();
-
-});
+emailInput.addEventListener("focus",renderEmailSuggestions);
+emailInput.addEventListener("input",renderEmailSuggestions);
 
 emailInput.addEventListener("keydown",function(event){
 
   if(event.key === "Escape"){
-
     emailSuggestions.classList.remove("show");
-
   }
 
 });
@@ -1113,9 +1146,7 @@ emailInput.addEventListener("keydown",function(event){
 document.addEventListener("click",function(event){
 
   if(!event.target.closest(".input-wrap")){
-
     emailSuggestions.classList.remove("show");
-
   }
 
 });
@@ -1160,7 +1191,7 @@ loginForm.addEventListener("submit",async function(event){
 
   try{
 
-    /* STEP 1: AUTHENTICATE */
+    /* STEP 1: LOGIN API */
 
     const response = await fetch(API_BASE + "/auth/login",{
 
@@ -1178,9 +1209,7 @@ loginForm.addEventListener("submit",async function(event){
     });
 
     const data = await response.json().catch(function(){
-
       return {};
-
     });
 
     if(!response.ok || !data.success){
@@ -1200,14 +1229,11 @@ loginForm.addEventListener("submit",async function(event){
 
     }
 
-    /* STEP 2: SAVE TEMPORARY SESSION */
+    /* STEP 2: TEMPORARY SESSION */
 
     try{
 
-      sessionStorage.setItem(
-        "rubalia_token",
-        data.token
-      );
+      sessionStorage.setItem("rubalia_token",data.token);
 
     }catch(storageError){
 
@@ -1217,7 +1243,7 @@ loginForm.addEventListener("submit",async function(event){
 
     }
 
-    /* STEP 3: VERIFY ROLE FROM BACKEND */
+    /* STEP 3: VERIFY USER */
 
     const verifyResponse = await fetch(API_BASE + "/auth/me",{
 
@@ -1231,9 +1257,7 @@ loginForm.addEventListener("submit",async function(event){
     });
 
     const verifyData = await verifyResponse.json().catch(function(){
-
       return {};
-
     });
 
     if(
@@ -1279,12 +1303,10 @@ loginForm.addEventListener("submit",async function(event){
     /* STEP 5: REMEMBER EMAIL ONLY */
 
     if(shouldRemember){
-
       saveEmail(email);
-
     }
 
-    /* STEP 6: REDIRECT BY ROLE */
+    /* STEP 6: REDIRECT */
 
     let destination = "dashboard.html";
     let message = "Welcome! Opening your dashboard...";
@@ -1292,7 +1314,6 @@ loginForm.addEventListener("submit",async function(event){
     if(role === "admin"){
 
       destination = "admin-dashboard.html";
-
       message = "Admin verified! Opening Admin Dashboard...";
 
     }
@@ -1300,7 +1321,6 @@ loginForm.addEventListener("submit",async function(event){
     showMessage("success",message);
 
     loginBtn.textContent = "SUCCESSFUL";
-
     passwordInput.value = "";
 
     window.setTimeout(function(){
