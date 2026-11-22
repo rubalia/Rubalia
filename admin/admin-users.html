@@ -3,243 +3,411 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
+<meta name="description" content="Rubalia Network Admin User Management">
 <title>User Management | Rubalia Network</title>
 
 <style>
 :root{
- --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
- --gold-light:#f3dfa9;--bg:#f3f6fb;--white:#fff;
- --text:#18263c;--muted:#78869a;--border:#e5eaf1;
- --green:#16845b;--red:#c34b4b;--blue:#2875c7;
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --gold-light:#f3dfa9;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --blue:#2875c7;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+html{scroll-behavior:auto}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
 [hidden]{display:none!important}
 
-.topbar{
- min-height:65px;background:var(--navy);color:white;
- display:flex;align-items:center;justify-content:space-between;
- padding:10px 22px;position:sticky;top:0;z-index:20
+/* LOADING */
+.loading-screen,.error-screen{
+ position:fixed;inset:0;z-index:1000;
+ background:var(--bg);
+ display:flex;align-items:center;justify-content:center;
+ padding:18px
 }
-.brand{font-size:20px;font-weight:800;letter-spacing:.5px}
+.loading-box,.error-card{
+ width:100%;max-width:390px;
+ background:white;border:1px solid var(--border);
+ border-radius:12px;padding:25px;text-align:center
+}
+.loading-box strong,.error-card h2{color:var(--navy)}
+.loading-box p,.error-card p{
+ color:var(--muted);font-size:12px;line-height:1.7
+}
+.spinner{
+ width:30px;height:30px;margin:0 auto 15px;
+ border:3px solid #e3e8ef;
+ border-top-color:var(--gold);
+ border-radius:50%
+}
+.error-screen{display:none}
+.error-card a,.error-card button{
+ display:inline-block;margin:6px 3px 0;
+ padding:10px 15px;border:0;border-radius:7px;
+ background:var(--gold);color:var(--navy);
+ font-size:11px;font-weight:bold
+}
+
+/* TOPBAR */
+.topbar{
+ min-height:58px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:9px 16px;position:sticky;top:0;z-index:50
+}
+.top-left{display:flex;align-items:center;gap:11px}
+.brand{font-size:17px;font-weight:900;letter-spacing:.3px}
 .brand span{color:var(--gold)}
-.top-right{display:flex;align-items:center;gap:13px}
+.top-right{display:flex;align-items:center;gap:10px}
 .admin-label{
- background:rgba(214,173,85,.17);
- border:1px solid rgba(214,173,85,.4);
- color:var(--gold-light);padding:7px 11px;
- border-radius:20px;font-size:10px;font-weight:bold
+ background:#d6ad5520;border:1px solid #d6ad5555;
+ color:var(--gold-light);padding:7px 10px;
+ border-radius:20px;font-size:9px;font-weight:bold
 }
 .avatar{
- width:35px;height:35px;border-radius:50%;
+ width:30px;height:30px;border-radius:50%;
  display:grid;place-items:center;background:var(--gold);
- color:var(--navy);font-weight:bold
+ color:var(--navy);font-weight:bold;font-size:12px
 }
 .mobile-menu{
- display:none;border:1px solid rgba(255,255,255,.25);
- background:transparent;color:white;border-radius:7px;padding:7px 10px
+ display:none;border:1px solid #ffffff40;
+ background:transparent;color:white;
+ border-radius:7px;padding:7px 10px;font-size:17px
 }
-.layout{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:calc(100vh - 65px)}
-.sidebar{background:var(--navy2);color:white;padding:20px 13px}
-.admin-profile{padding:8px 10px 20px;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,.13)}
-.admin-profile strong{display:block;font-size:14px;margin-bottom:6px}
-.admin-profile small{color:#b8c7d9;font-size:11px;overflow-wrap:anywhere}
+
+/* LAYOUT */
+.layout{
+ display:grid;grid-template-columns:235px minmax(0,1fr);
+ min-height:calc(100vh - 58px)
+}
+.sidebar{
+ background:var(--navy2);color:white;
+ padding:16px 11px;min-height:calc(100vh - 58px)
+}
+.admin-profile{
+ padding:8px 10px 15px;
+ margin-bottom:12px;border-bottom:1px solid #ffffff20
+}
+.admin-profile strong{
+ display:block;font-size:12px;margin-bottom:5px
+}
+.admin-profile small{
+ display:block;color:#b8c7d9;font-size:10px;
+ overflow-wrap:anywhere
+}
 .side-heading{
- color:#9eafc5;font-size:10px;font-weight:bold;
- text-transform:uppercase;letter-spacing:1.3px;margin:19px 11px 9px
+ color:#9eafc5;font-size:9px;font-weight:bold;
+ text-transform:uppercase;letter-spacing:1px;
+ margin:17px 10px 8px
 }
 .nav-link,.logout-btn{
- display:flex;align-items:center;gap:11px;padding:11px 12px;
- border-radius:8px;margin:3px 0;font-size:12px;
- color:#dce6f2;width:100%
+ display:flex;align-items:center;gap:9px;
+ padding:10px;border-radius:7px;margin:2px 0;
+ color:#dce6f2;font-size:11px;width:100%
 }
 .nav-link:hover,.nav-link.active,.logout-btn:hover{
- background:rgba(214,173,85,.17);color:var(--gold-light)
+ background:#ffffff16;color:var(--gold-light)
 }
-.nav-icon{width:19px;text-align:center;font-size:15px}
-.logout-btn{background:transparent;border:0;text-align:left}
-.main{padding:25px;max-width:1450px;width:100%;margin:auto}
+.nav-icon{width:18px;text-align:center;flex-shrink:0}
+.logout-btn{
+ background:transparent;border:0;text-align:left
+}
+
+/* MAIN */
+.main{min-width:0;width:100%}
+.content{
+ padding:20px;width:100%;
+ max-width:1450px;margin:auto
+}
 .heading{
- display:flex;justify-content:space-between;align-items:center;
- flex-wrap:wrap;gap:14px;margin-bottom:22px
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;
+ gap:12px;margin-bottom:17px
 }
-.heading h1{color:var(--navy);font-size:25px;margin:0 0 7px}
-.heading p{color:var(--muted);font-size:12px;margin:0}
+.heading h1{
+ color:var(--navy);font-size:22px;margin:0 0 6px
+}
+.heading p{
+ color:var(--muted);font-size:11px;
+ line-height:1.6;margin:0
+}
 .server-badge{
  background:#e7f7ef;color:var(--green);
- border-radius:20px;padding:8px 12px;font-size:10px;font-weight:bold
+ border-radius:20px;padding:7px 10px;
+ font-size:9px;font-weight:bold
 }
-.server-badge.offline{background:#fceaea;color:var(--red)}
+.server-badge.offline{
+ background:#fceaea;color:var(--red)
+}
+
+/* ALERT */
+.alert{
+ display:none;padding:11px 13px;
+ border-radius:8px;margin-bottom:14px;
+ font-size:11px;line-height:1.6
+}
+.alert.error{
+ display:block;background:#fff0ed;
+ color:#b94b3e;border:1px solid #f0d0ca
+}
+.alert.success{
+ display:block;background:#e7f7ef;
+ color:#16845b;border:1px solid #c8ead8
+}
+
+/* STATISTICS */
 .stats{
  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:13px;margin-bottom:20px
+ gap:10px;margin-bottom:16px
 }
-.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px}
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.stat small{color:var(--muted);font-size:11px}
+.stat{
+ background:white;border:1px solid var(--border);
+ border-radius:10px;padding:13px;min-width:0
+}
+.stat-top{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:8px
+}
+.stat small{color:var(--muted);font-size:10px}
 .stat-icon{
- width:34px;height:34px;display:grid;place-items:center;
- background:#f0f3f8;border-radius:10px;font-size:17px
+ width:30px;height:30px;
+ display:grid;place-items:center;
+ background:#f0f3f8;border-radius:8px;font-size:15px
 }
-.stat strong{display:block;font-size:24px;color:var(--navy);margin:11px 0 4px}
-.stat .note{color:var(--muted);font-size:10px}
-.panel{background:white;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:19px}
+.stat strong{
+ display:block;font-size:22px;
+ color:var(--navy);margin:9px 0 4px;
+ overflow-wrap:anywhere
+}
+.stat .note{color:var(--muted);font-size:9px}
+
+/* PANEL */
+.panel{
+ background:white;border:1px solid var(--border);
+ border-radius:10px;padding:14px;margin-bottom:15px;
+ overflow:hidden
+}
 .panel-head{
- display:flex;justify-content:space-between;align-items:center;
- flex-wrap:wrap;gap:12px;margin-bottom:16px
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;
+ gap:10px;margin-bottom:13px
 }
-.panel-head h3{margin:0;color:var(--navy);font-size:15px}
+.panel-head h3{
+ margin:0;color:var(--navy);font-size:13px
+}
 .tools{
- display:grid;grid-template-columns:minmax(180px,1fr) 180px 160px auto;
- gap:10px;margin-bottom:15px
+ display:grid;
+ grid-template-columns:minmax(160px,1fr) 160px 145px auto;
+ gap:8px;margin-bottom:13px
 }
 .field{
- width:100%;padding:11px 12px;border:1px solid var(--border);
- background:white;border-radius:8px;color:var(--text);
- outline:none;font-size:12px;min-width:0
+ width:100%;height:39px;padding:0 10px;
+ border:1px solid var(--border);
+ background:white;border-radius:7px;
+ color:var(--text);outline:none;
+ font-size:11px;min-width:0
 }
-.field:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(214,173,85,.12)}
-.table-wrap{overflow-x:auto}
-table{width:100%;min-width:760px;border-collapse:collapse}
+.field:focus{border-color:var(--gold)}
+.field:disabled{background:#f3f5f8}
+
+/* BUTTONS */
+.refresh-btn,.page-btn{
+ border:1px solid var(--border);
+ background:white;color:var(--navy);
+ padding:9px 11px;border-radius:7px;
+ font-size:10px;font-weight:bold
+}
+.refresh-btn:disabled,.page-btn:disabled{
+ opacity:.4;cursor:not-allowed
+}
+
+/* TABLE */
+.table-wrap{
+ overflow-x:auto;
+ -webkit-overflow-scrolling:touch
+}
+table{
+ width:100%;min-width:700px;
+ border-collapse:collapse
+}
 th{
- text-align:left;background:#f6f8fb;color:var(--muted);
- font-size:10px;padding:13px 10px;white-space:nowrap
+ text-align:left;background:#f6f8fb;
+ color:var(--muted);font-size:9px;
+ padding:12px 9px;white-space:nowrap
 }
-td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:nowrap}
-.user-cell{display:flex;align-items:center;gap:9px}
+td{
+ padding:11px 9px;
+ border-bottom:1px solid #edf0f5;
+ font-size:10px;white-space:nowrap
+}
+.user-cell{
+ display:flex;align-items:center;gap:8px
+}
 .user-avatar{
- width:33px;height:33px;border-radius:50%;
+ width:30px;height:30px;border-radius:50%;
  background:#eaf0f8;color:var(--navy);
- display:grid;place-items:center;font-weight:bold;flex-shrink:0
+ display:grid;place-items:center;
+ font-weight:bold;flex-shrink:0;font-size:10px
 }
 .user-name{color:var(--navy);font-weight:bold}
-.user-email{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.user-email{
+ display:block;color:var(--muted);
+ font-size:9px;margin-top:3px
+}
 .role{
- background:#edf3fc;color:#2866a5;padding:5px 8px;
- border-radius:20px;font-size:9px;font-weight:bold
+ background:#edf3fc;color:#2866a5;
+ padding:5px 8px;border-radius:20px;
+ font-size:9px;font-weight:bold
 }
 .role.partner{background:#fff4df;color:#926619}
 .role.customer{background:#eaf7ef;color:#16845b}
+.role.admin{background:#f0eafa;color:#7046a0}
 .status{
- display:inline-block;padding:5px 8px;border-radius:20px;
- font-size:9px;font-weight:bold
+ display:inline-block;padding:5px 8px;
+ border-radius:20px;font-size:9px;font-weight:bold
 }
 .status.active{background:#e7f7ef;color:#16845b}
 .status.inactive{background:#f0f1f4;color:#687487}
 .status.suspended{background:#fff0ed;color:#b94b3e}
 .status.pending{background:#fff2dc;color:#a16b14}
+.status.unknown{background:#eef2f7;color:#526176}
 .action-btn{
  background:white;border:1px solid var(--border);
- color:var(--navy);border-radius:6px;padding:7px 10px;font-size:10px
+ color:var(--navy);border-radius:6px;
+ padding:7px 9px;font-size:9px;font-weight:bold
 }
-.action-btn:hover{border-color:var(--gold);color:#9a7429}
+.action-btn:active{background:#f4f6f9}
 .empty{
- display:none;text-align:center;padding:28px;color:var(--muted);font-size:12px
+ display:none;text-align:center;
+ padding:25px 12px;color:var(--muted);
+ font-size:11px;line-height:1.7
 }
-.loading-row{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.loading-row{
+ text-align:center;padding:24px;
+ color:var(--muted);font-size:11px
+}
+
+/* PAGINATION */
 .pagination{
- display:flex;justify-content:space-between;align-items:center;
- flex-wrap:wrap;gap:10px;margin-top:15px
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;
+ gap:9px;margin-top:13px
 }
-.pagination small{color:var(--muted);font-size:10px}
-.page-btn,.refresh-btn{
- border:1px solid var(--border);background:white;color:var(--navy);
- padding:8px 11px;border-radius:6px;font-size:10px
-}
-.page-btn:disabled,.refresh-btn:disabled{opacity:.4;cursor:not-allowed}
+.pagination small{color:var(--muted);font-size:9px}
+.page-controls{display:flex;gap:6px}
+
+/* NOTICE */
 .notice{
- background:#fff9eb;border:1px solid #f0dfb8;color:#76591e;
- padding:14px;border-radius:10px;font-size:11px;line-height:1.7
+ padding:12px 13px;border-radius:9px;
+ background:#fff9eb;border:1px solid #f0dfb8;
+ color:#76591e;font-size:10px;line-height:1.7
 }
-.alert{
- display:none;padding:12px;border-radius:8px;
- font-size:11px;line-height:1.6;margin-bottom:14px
-}
-.alert.error{display:block;background:#fff0ed;color:#b94b3e;border:1px solid #f0d0ca}
-.alert.success{display:block;background:#e7f7ef;color:#16845b;border:1px solid #c8ead8}
+
+/* MODAL */
 .modal{
- display:none;position:fixed;inset:0;background:rgba(3,13,29,.68);
- z-index:30;align-items:center;justify-content:center;padding:17px
+ display:none;position:fixed;inset:0;
+ background:#030d29b0;z-index:100;
+ align-items:flex-start;justify-content:center;
+ padding:12px;overflow-y:auto
 }
 .modal.show{display:flex}
 .modal-box{
- background:white;width:100%;max-width:480px;max-height:85vh;
- overflow:auto;border-radius:14px;padding:22px;position:relative
+ background:white;width:100%;max-width:480px;
+ max-height:90vh;overflow-y:auto;
+ border-radius:11px;padding:17px;
+ margin:10px auto;position:relative
 }
-.modal-box h2{color:var(--navy);font-size:19px;margin:0 35px 18px 0}
+.modal-box h2{
+ color:var(--navy);font-size:17px;
+ margin:0 35px 14px 0
+}
 .close{
- position:absolute;right:14px;top:13px;width:31px;height:31px;
- border:0;border-radius:50%;background:#f0f2f6;font-size:18px
+ position:absolute;right:12px;top:11px;
+ width:29px;height:29px;border:0;
+ border-radius:50%;background:#f0f2f6;
+ font-size:17px;color:var(--navy)
 }
 .detail-row{
- padding:11px 0;border-bottom:1px solid var(--border);
- display:flex;justify-content:space-between;gap:15px;font-size:12px
+ padding:10px 0;border-bottom:1px solid var(--border);
+ display:flex;justify-content:space-between;
+ gap:12px;font-size:10px
 }
 .detail-row span:first-child{color:var(--muted)}
-.detail-row strong{color:var(--navy);text-align:right;overflow-wrap:anywhere}
-.modal-loading{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-.footer{text-align:center;color:#9aa5b5;font-size:10px;padding:20px}
-
-.loading-screen{
- position:fixed;inset:0;z-index:1000;background:var(--bg);
- display:flex;align-items:center;justify-content:center;padding:20px
+.detail-row strong{
+ color:var(--navy);text-align:right;
+ overflow-wrap:anywhere;max-width:65%
 }
-.loading-box{
- width:100%;max-width:400px;background:white;padding:28px;
- border:1px solid var(--border);border-radius:14px;text-align:center
+.modal-loading{
+ text-align:center;padding:22px;
+ color:var(--muted);font-size:11px
 }
-.loading-box strong{color:var(--navy)}
-.loading-box p{color:var(--muted);font-size:12px}
-.spinner{
- width:36px;height:36px;border:4px solid #e3e8ef;
- border-top-color:var(--gold);border-radius:50%;
- margin:0 auto 15px;animation:spin .8s linear infinite
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-screen{
- display:none;position:fixed;inset:0;z-index:1001;
- background:var(--bg);align-items:center;justify-content:center;padding:20px
-}
-.error-card{
- width:100%;max-width:420px;padding:28px;background:white;
- border:1px solid var(--border);border-radius:14px;text-align:center
-}
-.error-card h2{color:var(--navy)}
-.error-card p{color:var(--muted);font-size:12px;line-height:1.7}
-.error-card a,.error-card button{
- display:inline-block;margin:7px 4px 0;padding:11px 17px;
- border:0;border-radius:7px;background:var(--gold);color:var(--navy);font-weight:bold
+.footer{
+ text-align:center;color:#9aa5b5;
+ font-size:9px;padding:17px
 }
 
-@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:950px){.tools{grid-template-columns:1fr 1fr}}
-@media(max-width:800px){
+/* MOBILE */
+@media(max-width:1000px){
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:850px){
  .layout{grid-template-columns:1fr}
- .sidebar{display:none;padding:12px}
+ .sidebar{
+  display:none;position:fixed;
+  top:58px;left:0;bottom:0;
+  width:260px;min-height:0;
+  overflow-y:auto;z-index:45
+ }
  .sidebar.open{display:block}
- .side-heading{margin-top:12px}
  .mobile-menu{display:block}
- .main{padding:17px}
+ .content{padding:15px}
 }
 @media(max-width:580px){
- .tools{grid-template-columns:1fr}
- .stats{gap:9px}
- .stat{padding:13px}
- .stat strong{font-size:21px}
- .main{padding:13px}
- .topbar{padding:10px 13px}
- .brand{font-size:17px}
+ .topbar{min-height:54px;padding:8px 11px}
+ .sidebar{top:54px}
+ .brand{font-size:15px}
+ .admin-label{font-size:8px;padding:6px 8px}
+ .content{padding:12px}
+ .heading h1{font-size:20px}
+ .stats{gap:8px}
+ .stat{padding:11px}
+ .stat strong{font-size:20px}
+ .tools{grid-template-columns:1fr 1fr;gap:7px}
+ .tools input{grid-column:1/-1}
+ .tools button{min-height:38px}
+ .panel{padding:11px}
+ .pagination small{width:100%}
+ .modal{padding:6px}
+ .modal-box{margin:7px auto;padding:14px}
+}
+@media(max-width:350px){
+ .stat strong{font-size:18px}
+ .detail-row{font-size:9px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen">
  <div class="loading-box">
   <div class="spinner"></div>
@@ -248,22 +416,24 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
  </div>
 </div>
 
+<!-- ERROR SCREEN -->
 <div class="error-screen" id="errorScreen">
  <div class="error-card">
   <h2 id="errorTitle">Access Error</h2>
   <p id="errorMessage">Unable to verify administrator access.</p>
   <a href="../login.html">Login</a>
-  <button type="button" onclick="location.reload()">Try Again</button>
+  <button type="button" id="retryBtn">Try Again</button>
  </div>
 </div>
 
 <div id="adminApp" hidden>
 
 <header class="topbar">
- <div style="display:flex;align-items:center;gap:12px">
-  <button class="mobile-menu" id="menuBtn" type="button">☰</button>
+ <div class="top-left">
+  <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
   <div class="brand">RUBALIA <span>NETWORK</span></div>
  </div>
+
  <div class="top-right">
   <span class="admin-label">ADMIN PANEL</span>
   <div class="avatar" id="adminAvatar">A</div>
@@ -272,6 +442,7 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
 
 <div class="layout">
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
  <div class="admin-profile">
@@ -285,36 +456,49 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
  </a>
 
  <div class="side-heading">Management</div>
- <a href="admin-users.html" class="nav-link active"><span class="nav-icon">👥</span> Users Management</a>
- <a href="admin-partners.html" class="nav-link"><span class="nav-icon">🤝</span> Partners Management</a>
- <a href="admin-applications.html" class="nav-link"><span class="nav-icon">📋</span> Partner Applications</a>
- <a href="admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
- <a href="admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Packages Management</a>
- <a href="admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
+ <a href="admin-users.html" class="nav-link active">
+  <span class="nav-icon">👥</span> Users Management
+ </a>
+ <a href="admin-partners.html" class="nav-link">
+  <span class="nav-icon">🤝</span> Partners Management
+ </a>
+ <a href="admin-applications.html" class="nav-link">
+  <span class="nav-icon">📋</span> Partner Applications
+ </a>
+ <a href="admin-products.html" class="nav-link">
+  <span class="nav-icon">📦</span> Products Management
+ </a>
+ <a href="admin-packages.html" class="nav-link">
+  <span class="nav-icon">🎁</span> Packages Management
+ </a>
+ <a href="admin-orders.html" class="nav-link">
+  <span class="nav-icon">🛒</span> Orders Management
+ </a>
 
  <div class="side-heading">Finance</div>
- <a href="admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
- <a href="admin-withdrawals.html" class="nav-link"><span class="nav-icon">💸</span> Withdraw Requests</a>
- <a href="admin-commissions.html" class="nav-link"><span class="nav-icon">📊</span> Commission Management</a>
- <a href="admin-reports.html" class="nav-link"><span class="nav-icon">📈</span> Financial Reports</a>
+ <a href="admin-payments.html" class="nav-link">💳 Payment Records</a>
+ <a href="admin-withdrawals.html" class="nav-link">💸 Withdraw Requests</a>
+ <a href="admin-commissions.html" class="nav-link">📊 Commission Management</a>
+ <a href="admin-reports.html" class="nav-link">📈 Financial Reports</a>
 
  <div class="side-heading">Communication</div>
- <a href="admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
- <a href="admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Tickets</a>
- <a href="admin-email-management.html" class="nav-link"><span class="nav-icon">✉️</span> Email Management</a>
- <a href="admin-sms-management.html" class="nav-link"><span class="nav-icon">📱</span> SMS Management</a>
+ <a href="admin-announcements.html" class="nav-link">📢 Announcements</a>
+ <a href="admin-support.html" class="nav-link">🎧 Support Tickets</a>
+ <a href="admin-email-management.html" class="nav-link">✉️ Email Management</a>
+ <a href="admin-sms-management.html" class="nav-link">📱 SMS Management</a>
 
  <div class="side-heading">System</div>
- <a href="admin-settings.html" class="nav-link"><span class="nav-icon">⚙️</span> Admin Settings</a>
- <a href="admin-audit-logs.html" class="nav-link"><span class="nav-icon">📜</span> Audit Logs</a>
- <a href="admin-system-health.html" class="nav-link"><span class="nav-icon">❤️</span> System Health</a>
- <a href="admin-api-management.html" class="nav-link"><span class="nav-icon">🔌</span> API Management</a>
- <a href="admin-error-logs.html" class="nav-link"><span class="nav-icon">⚠️</span> Error Logs</a>
- <a href="admin-backup.html" class="nav-link"><span class="nav-icon">💾</span> Database Backup</a>
- <a href="admin-database.html" class="nav-link"><span class="nav-icon">🗄️</span> Database Management</a>
+ <a href="admin-settings.html" class="nav-link">⚙️ Admin Settings</a>
+ <a href="admin-audit-logs.html" class="nav-link">📜 Audit Logs</a>
+ <a href="admin-system-health.html" class="nav-link">❤️ System Health</a>
+ <a href="admin-api-management.html" class="nav-link">🔌 API Management</a>
+ <a href="admin-error-logs.html" class="nav-link">⚠️ Error Logs</a>
+ <a href="admin-backup.html" class="nav-link">💾 Database Backup</a>
+ <a href="admin-database.html" class="nav-link">🗄️ Database Management</a>
 
  <div class="side-heading">Website</div>
- <a href="../index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
+ <a href="../index.html" class="nav-link">🌐 Visit Website</a>
+
  <button class="logout-btn" id="logoutBtn" type="button">
   <span class="nav-icon">↪</span> Logout
  </button>
@@ -322,6 +506,7 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
 </aside>
 
 <main class="main">
+<section class="content">
 
  <div class="heading">
   <div>
@@ -333,34 +518,48 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
 
  <div class="alert" id="pageAlert" role="alert"></div>
 
+ <!-- STATISTICS -->
  <section class="stats">
 
   <div class="stat">
-   <div class="stat-top"><small>Total Users</small><span class="stat-icon">👥</span></div>
+   <div class="stat-top">
+    <small>Total Users</small>
+    <span class="stat-icon">👥</span>
+   </div>
    <strong id="totalUsers">—</strong>
    <span class="note">Registered accounts</span>
   </div>
 
   <div class="stat">
-   <div class="stat-top"><small>Active Users</small><span class="stat-icon">✅</span></div>
+   <div class="stat-top">
+    <small>Active Users</small>
+    <span class="stat-icon">✓</span>
+   </div>
    <strong id="activeUsers">—</strong>
    <span class="note">Active accounts</span>
   </div>
 
   <div class="stat">
-   <div class="stat-top"><small>Inactive Users</small><span class="stat-icon">⏸️</span></div>
+   <div class="stat-top">
+    <small>Inactive Users</small>
+    <span class="stat-icon">Ⅱ</span>
+   </div>
    <strong id="inactiveUsers">—</strong>
    <span class="note">Inactive accounts</span>
   </div>
 
   <div class="stat">
-   <div class="stat-top"><small>Partners</small><span class="stat-icon">🤝</span></div>
+   <div class="stat-top">
+    <small>Partners</small>
+    <span class="stat-icon">🤝</span>
+   </div>
    <strong id="partnerUsers">—</strong>
    <span class="note">Registered partners</span>
   </div>
 
  </section>
 
+ <!-- USERS PANEL -->
  <section class="panel">
 
   <div class="panel-head">
@@ -371,7 +570,8 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
   <div class="tools">
 
    <input type="search" class="field" id="searchInput"
-    placeholder="Search name, email or user ID...">
+    placeholder="Search name, email or user ID..."
+    autocomplete="off">
 
    <select class="field" id="roleFilter">
     <option value="all">All User Roles</option>
@@ -403,8 +603,11 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
       <th>ACTION</th>
      </tr>
     </thead>
+
     <tbody id="userTable">
-     <tr><td colspan="6" class="loading-row">Loading users from server...</td></tr>
+     <tr>
+      <td colspan="6" class="loading-row">Loading users from server...</td>
+     </tr>
     </tbody>
    </table>
   </div>
@@ -413,9 +616,9 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
 
   <div class="pagination">
    <small id="resultCount">Loading...</small>
-   <div>
-    <button class="page-btn" id="prevBtn" disabled>Previous</button>
-    <button class="page-btn" id="nextBtn" disabled>Next</button>
+   <div class="page-controls">
+    <button class="page-btn" id="prevBtn" type="button" disabled>Previous</button>
+    <button class="page-btn" id="nextBtn" type="button" disabled>Next</button>
    </div>
   </div>
 
@@ -428,6 +631,7 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
   All sensitive account changes must be authorized and recorded by the backend.
  </div>
 
+</section>
 </main>
 </div>
 
@@ -436,9 +640,10 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
  <br>User Management
 </footer>
 
+<!-- USER DETAILS MODAL -->
 <div class="modal" id="userModal">
  <div class="modal-box">
-  <button class="close" id="closeModal" type="button">×</button>
+  <button class="close" id="closeModal" type="button" aria-label="Close">×</button>
   <h2>User Details</h2>
   <div id="userDetails">
    <div class="modal-loading">Loading user information...</div>
@@ -457,81 +662,162 @@ td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;white-space:
 
 const API_BASE="https://rubalia.onrender.com/api";
 const PAGE_SIZE=20;
+const TOKEN_KEY="rubalia_token";
+const USER_KEY="rubalia_user";
+const REQUEST_TIMEOUT=20000;
 
 let adminToken="";
 let currentPage=1;
 let totalPages=1;
 let totalRecords=0;
 let searchTimer=null;
+let usersRequestId=0;
+let statisticsRequestId=0;
+let detailsRequestId=0;
+let loadingUsers=false;
 
 const $=id=>document.getElementById(id);
 
 // ==========================================
-// ALERTS AND UTILITIES
+// UTILITIES
+// ==========================================
+
+function formatNumber(value){
+ if(value===null||value===undefined||value==="")return "—";
+
+ const number=Number(value);
+
+ return Number.isFinite(number)
+  ?number.toLocaleString("en-US")
+  :"—";
+}
+
+function formatDate(value){
+ if(!value)return "—";
+
+ const date=new Date(value);
+
+ if(Number.isNaN(date.getTime()))return "—";
+
+ return date.toLocaleDateString("en-GB",{
+  day:"2-digit",
+  month:"short",
+  year:"numeric"
+ });
+}
+
+function getInitials(name){
+ const parts=String(name||"U").trim().split(/\s+/);
+
+ return parts
+  .filter(Boolean)
+  .map(part=>part.charAt(0))
+  .join("")
+  .slice(0,2)
+  .toUpperCase()||"U";
+}
+
+function normalize(value){
+ return String(value||"").trim().toLowerCase();
+}
+
+function userName(user){
+ return user.full_name||
+  user.fullName||
+  user.name||
+  "Unknown User";
+}
+
+function userId(user){
+ return user.user_id||
+  user.member_id||
+  user.id||
+  "";
+}
+
+function userStatus(user){
+ return user.status||user.account_status||"unknown";
+}
+
+function normalizeStatus(value){
+ const status=normalize(value);
+
+ if(["active","approved"].includes(status))return "Active";
+ if(status==="inactive")return "Inactive";
+ if(["suspended","blocked"].includes(status))return "Suspended";
+ if(status==="pending")return "Pending";
+
+ return value?String(value):"Unknown";
+}
+
+function roleClass(role){
+ const value=normalize(role);
+
+ if(value==="partner")return "role partner";
+ if(value==="customer"||value==="user")return "role customer";
+ if(value==="admin")return "role admin";
+
+ return "role";
+}
+
+function statusClass(value){
+ const status=normalizeStatus(value).toLowerCase();
+
+ if(["active","inactive","suspended","pending"].includes(status)){
+  return "status "+status;
+ }
+
+ return "status unknown";
+}
+
+// ==========================================
+// ALERTS
 // ==========================================
 
 function showAlert(message,type="error"){
  const alert=$("pageAlert");
+
  alert.className="alert "+type;
  alert.textContent=message;
  alert.style.display="block";
 }
 
 function hideAlert(){
- $("pageAlert").style.display="none";
+ const alert=$("pageAlert");
+
+ alert.className="alert";
+ alert.textContent="";
+ alert.style.display="none";
 }
 
 function showFatalError(title,message){
  $("loadingScreen").style.display="none";
  $("adminApp").hidden=true;
+
  $("errorTitle").textContent=title;
  $("errorMessage").textContent=message;
  $("errorScreen").style.display="flex";
 }
 
-function formatNumber(value){
- if(value===null||value===undefined||value==="")return "—";
- const number=Number(value);
- return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
-}
+// ==========================================
+// FETCH TIMEOUT
+// ==========================================
 
-function formatDate(value){
- if(!value)return "—";
- const date=new Date(value);
- if(Number.isNaN(date.getTime()))return "—";
+async function fetchWithTimeout(url,options={},timeout=REQUEST_TIMEOUT){
+ const controller=new AbortController();
 
- return date.toLocaleDateString("en-GB",{
-  day:"2-digit",month:"short",year:"numeric"
- });
-}
+ const timer=setTimeout(()=>{
+  controller.abort();
+ },timeout);
 
-function getInitials(name){
- const parts=String(name||"U").trim().split(/\s+/);
- return parts.map(x=>x.charAt(0)).join("").slice(0,2).toUpperCase();
-}
-
-function normalizeStatus(value){
- const status=String(value||"").toLowerCase();
-
- if(status==="active"||status==="approved")return "Active";
- if(status==="inactive")return "Inactive";
- if(status==="suspended"||status==="blocked")return "Suspended";
- if(status==="pending")return "Pending";
-
- return value?String(value):"Unknown";
-}
-
-function normalizeRole(value){
- return String(value||"Customer").toLowerCase();
-}
-
-function roleClass(role){
- const value=normalizeRole(role);
-
- if(value==="partner")return "role partner";
- if(value==="customer"||value==="user")return "role customer";
-
- return "role";
+ try{
+  return await fetch(url,{
+   ...options,
+   signal:controller.signal
+  });
+ }finally{
+  clearTimeout(timer);
+ }
 }
 
 // ==========================================
@@ -545,38 +831,46 @@ async function apiRequest(path,options={}){
   ...(options.headers||{})
  };
 
- const response=await fetch(API_BASE+path,{
-  ...options,
-  headers,
-  cache:"no-store"
- });
+ const response=await fetchWithTimeout(
+  API_BASE+path,
+  {
+   method:options.method||"GET",
+   headers,
+   body:options.body,
+   cache:"no-store"
+  }
+ );
 
  const data=await response.json().catch(()=>({}));
 
  if(response.status===401){
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
+  sessionStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(USER_KEY);
+
   window.location.replace("../login.html");
+
   throw new Error("Your session has expired.");
  }
 
  if(response.status===403){
-  throw new Error("You do not have administrator permission.");
+  throw new Error("Administrator permission required.");
  }
 
  if(!response.ok||data.success===false){
-  throw new Error(data.message||"Server request failed.");
+  throw new Error(
+   data.message||("Server request failed. HTTP "+response.status)
+  );
  }
 
  return data;
 }
 
 // ==========================================
-// ADMIN AUTHENTICATION
+// AUTHENTICATION
 // ==========================================
 
 async function initializeAdmin(){
- adminToken=sessionStorage.getItem("rubalia_token")||"";
+ adminToken=sessionStorage.getItem(TOKEN_KEY)||"";
 
  if(!adminToken){
   window.location.replace("../login.html");
@@ -585,18 +879,19 @@ async function initializeAdmin(){
 
  try{
   const data=await apiRequest("/auth/me");
+
   const user=data.user||data.profile;
 
   if(!user){
-   throw new Error("Unable to retrieve administrator information.");
+   throw new Error("Administrator information was not returned.");
   }
 
-  if(String(user.role||"").toLowerCase()!=="admin"){
+  if(normalize(user.role)!=="admin"){
    window.location.replace("../dashboard.html");
    return;
   }
 
-  const name=user.full_name||user.fullName||"Administrator";
+  const name=userName(user);
 
   $("adminName").textContent=name;
   $("adminEmail").textContent=user.email||"";
@@ -607,37 +902,59 @@ async function initializeAdmin(){
   $("loadingScreen").style.display="none";
   $("adminApp").hidden=false;
 
-  await loadStatistics();
-  await loadUsers();
+  // Load statistics and users independently.
+  await Promise.all([
+   loadStatistics(),
+   loadUsers()
+  ]);
 
  }catch(error){
   if(error.message.includes("session has expired"))return;
 
+  if(error.message.includes("Administrator permission")){
+   showFatalError("Access Denied",error.message);
+   return;
+  }
+
   showFatalError(
    "Unable to Verify Administrator",
-   error.message
+   error.name==="AbortError"
+    ?"Server verification timed out. Please try again."
+    :error.message
   );
  }
 }
 
 // ==========================================
 // STATISTICS
+// Existing endpoint:
+// GET /api/admin/users/stats
 // ==========================================
 
 async function loadStatistics(){
+ const requestId=++statisticsRequestId;
+
  try{
   const data=await apiRequest("/admin/users/stats");
 
+  if(requestId!==statisticsRequestId)return;
+
   const stats=data.stats||data;
 
-  $("totalUsers").textContent=formatNumber(stats.total_users);
-  $("activeUsers").textContent=formatNumber(stats.active_users);
-  $("inactiveUsers").textContent=formatNumber(stats.inactive_users);
-  $("partnerUsers").textContent=formatNumber(stats.total_partners);
+  const total=stats.total_users??stats.totalUsers;
+  const active=stats.active_users??stats.activeUsers;
+  const inactive=stats.inactive_users??stats.inactiveUsers;
+  const partners=stats.total_partners??stats.totalPartners;
+
+  $("totalUsers").textContent=formatNumber(total);
+  $("activeUsers").textContent=formatNumber(active);
+  $("inactiveUsers").textContent=formatNumber(inactive);
+  $("partnerUsers").textContent=formatNumber(partners);
 
  }catch(error){
   if(error.message.includes("session has expired"))return;
-  if(error.message.includes("administrator permission")){
+
+  if(error.message.includes("Administrator permission")){
    showFatalError("Access Denied",error.message);
    return;
   }
@@ -647,12 +964,15 @@ async function loadStatistics(){
   $("inactiveUsers").textContent="—";
   $("partnerUsers").textContent="—";
 
-  showAlert("User statistics could not be loaded: "+error.message);
+  showAlert(
+   "User statistics could not be loaded: "+
+   (error.name==="AbortError"?"Request timed out.":error.message)
+  );
  }
 }
 
 // ==========================================
-// LOAD USERS
+// BUILD QUERY
 // ==========================================
 
 function buildUsersQuery(){
@@ -672,21 +992,44 @@ function buildUsersQuery(){
  return params.toString();
 }
 
+// ==========================================
+// LOAD USERS
+// Existing endpoint:
+// GET /api/admin/users
+// ==========================================
+
 async function loadUsers(){
+ if(loadingUsers)return;
+
+ loadingUsers=true;
+
+ const requestId=++usersRequestId;
  const button=$("refreshBtn");
+
  button.disabled=true;
  button.textContent="Loading...";
 
- hideAlert();
+ $("userTable").replaceChildren();
 
- $("userTable").innerHTML=
-  '<tr><td colspan="6" class="loading-row">Loading users from PostgreSQL...</td></tr>';
+ const loadingRow=document.createElement("tr");
+ const loadingCell=document.createElement("td");
+
+ loadingCell.colSpan=6;
+ loadingCell.className="loading-row";
+ loadingCell.textContent="Loading users from server...";
+
+ loadingRow.appendChild(loadingCell);
+ $("userTable").appendChild(loadingRow);
 
  $("emptyState").style.display="none";
+ $("prevBtn").disabled=true;
+ $("nextBtn").disabled=true;
 
  try{
   const query=buildUsersQuery();
   const data=await apiRequest("/admin/users?"+query);
+
+  if(requestId!==usersRequestId)return;
 
   const users=data.users||data.data||[];
 
@@ -708,12 +1051,24 @@ async function loadUsers(){
 
   currentPage=Number(pagination.page||currentPage);
 
+  if(!Number.isFinite(totalRecords)||totalRecords<0){
+   totalRecords=users.length;
+  }
+
+  if(!Number.isFinite(totalPages)||totalPages<1){
+   totalPages=Math.max(1,Math.ceil(totalRecords/PAGE_SIZE));
+  }
+
   renderUsers(users);
 
+  const start=totalRecords===0
+   ?0
+   :(currentPage-1)*PAGE_SIZE+1;
+
+  const end=Math.min(currentPage*PAGE_SIZE,totalRecords);
+
   $("resultCount").textContent=
-   "Showing "+(
-    totalRecords===0?0:(currentPage-1)*PAGE_SIZE+1
-   )+"–"+Math.min(currentPage*PAGE_SIZE,totalRecords)+
+   "Showing "+start+"–"+end+
    " of "+formatNumber(totalRecords)+" users";
 
   $("prevBtn").disabled=currentPage<=1;
@@ -723,10 +1078,11 @@ async function loadUsers(){
   $("serverBadge").classList.remove("offline");
 
  }catch(error){
+  if(requestId!==usersRequestId)return;
 
   if(error.message.includes("session has expired"))return;
 
-  if(error.message.includes("administrator permission")){
+  if(error.message.includes("Administrator permission")){
    showFatalError("Access Denied",error.message);
    return;
   }
@@ -734,19 +1090,34 @@ async function loadUsers(){
   $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
   $("serverBadge").classList.add("offline");
 
-  $("userTable").innerHTML=
-   '<tr><td colspan="6" class="loading-row">Unable to load users.</td></tr>';
+  $("userTable").replaceChildren();
+
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+
+  cell.colSpan=6;
+  cell.className="loading-row";
+  cell.textContent="Unable to load users. Please refresh and try again.";
+
+  row.appendChild(cell);
+  $("userTable").appendChild(row);
 
   $("resultCount").textContent="User data unavailable";
 
   showAlert(
-   error.message+
-   " Check the /admin/users API and PostgreSQL database."
+   error.name==="AbortError"
+    ?"The server took too long to respond. Please refresh and try again."
+    :error.message
   );
 
+  console.error("Users API error:",error);
+
  }finally{
-  button.disabled=false;
-  button.textContent="↻ Refresh";
+  if(requestId===usersRequestId){
+   loadingUsers=false;
+   button.disabled=false;
+   button.textContent="↻ Refresh";
+  }
  }
 }
 
@@ -768,14 +1139,15 @@ function renderUsers(users){
  users.forEach(user=>{
   const row=document.createElement("tr");
 
-  const fullName=user.full_name||user.fullName||user.name||"Unknown User";
+  const fullName=userName(user);
   const email=user.email||"—";
-  const id=user.user_id||user.member_id||user.id||"—";
+  const id=userId(user);
   const role=user.role||"Customer";
-  const status=normalizeStatus(user.status||user.account_status);
+  const status=userStatus(user);
 
-  // USER
+  // USER CELL
   const userCell=document.createElement("td");
+
   const wrap=document.createElement("div");
   wrap.className="user-cell";
 
@@ -795,72 +1167,96 @@ function renderUsers(users){
 
   nameWrap.append(name,emailElement);
   wrap.append(avatar,nameWrap);
-  userCell.append(wrap);
+  userCell.appendChild(wrap);
 
-  // ID
+  // USER ID
   const idCell=document.createElement("td");
-  idCell.textContent=id;
+  idCell.textContent=String(id||"—");
 
   // ROLE
   const roleCell=document.createElement("td");
   const roleBadge=document.createElement("span");
+
   roleBadge.className=roleClass(role);
   roleBadge.textContent=String(role);
-  roleCell.append(roleBadge);
 
-  // REGISTRATION
+  roleCell.appendChild(roleBadge);
+
+  // REGISTRATION DATE
   const dateCell=document.createElement("td");
   dateCell.textContent=formatDate(
-   user.created_at||user.registered_at
+   user.created_at||user.registered_at||user.createdAt
   );
 
   // STATUS
   const statusCell=document.createElement("td");
   const statusBadge=document.createElement("span");
-  statusBadge.className="status "+status.toLowerCase();
-  statusBadge.textContent=status;
-  statusCell.append(statusBadge);
+
+  statusBadge.className=statusClass(status);
+  statusBadge.textContent=normalizeStatus(status);
+
+  statusCell.appendChild(statusBadge);
 
   // ACTION
   const actionCell=document.createElement("td");
   const viewButton=document.createElement("button");
+
   viewButton.type="button";
   viewButton.className="action-btn";
   viewButton.textContent="View Details";
+  viewButton.disabled=!id;
 
   viewButton.addEventListener("click",()=>{
    showDetails(id);
   });
 
-  actionCell.append(viewButton);
+  actionCell.appendChild(viewButton);
 
   row.append(
-   userCell,idCell,roleCell,dateCell,statusCell,actionCell
+   userCell,
+   idCell,
+   roleCell,
+   dateCell,
+   statusCell,
+   actionCell
   );
 
-  table.append(row);
+  table.appendChild(row);
  });
 }
 
 // ==========================================
 // USER DETAILS
+// Existing endpoint:
+// GET /api/admin/users/:id
 // ==========================================
 
-async function showDetails(userId){
+async function showDetails(id){
+ if(!id)return;
+
+ const requestId=++detailsRequestId;
+
  const modal=$("userModal");
  const details=$("userDetails");
 
  modal.classList.add("show");
 
- details.innerHTML=
-  '<div class="modal-loading">Loading user information...</div>';
+ details.replaceChildren();
+
+ const loading=document.createElement("div");
+ loading.className="modal-loading";
+ loading.textContent="Loading user information...";
+
+ details.appendChild(loading);
 
  try{
   const data=await apiRequest(
-   "/admin/users/"+encodeURIComponent(userId)
+   "/admin/users/"+encodeURIComponent(id)
   );
 
-  const user=data.user||data;
+  if(requestId!==detailsRequestId)return;
+
+  const user=data.user||data.profile||data;
 
   if(!user||typeof user!=="object"){
    throw new Error("User information not found.");
@@ -896,17 +1292,28 @@ async function showDetails(userId){
    valueElement.textContent=String(value);
 
    row.append(labelElement,valueElement);
-   details.append(row);
+   details.appendChild(row);
   });
 
+  if(!details.children.length){
+   const empty=document.createElement("div");
+   empty.className="modal-loading";
+   empty.textContent="No additional user details available.";
+   details.appendChild(empty);
+  }
+
  }catch(error){
+  if(requestId!==detailsRequestId)return;
+
   details.replaceChildren();
 
   const message=document.createElement("div");
   message.className="modal-loading";
-  message.textContent=error.message;
+  message.textContent=error.name==="AbortError"
+   ?"User details request timed out."
+   :error.message;
 
-  details.append(message);
+  details.appendChild(message);
  }
 }
 
@@ -919,17 +1326,25 @@ function applyFilters(){
  loadUsers();
 }
 
-$("searchBtn").addEventListener("click",applyFilters);
+$("searchBtn").addEventListener("click",()=>{
+ clearTimeout(searchTimer);
+ applyFilters();
+});
 
 $("searchInput").addEventListener("keydown",event=>{
  if(event.key==="Enter"){
+  clearTimeout(searchTimer);
   applyFilters();
  }
 });
 
 $("searchInput").addEventListener("input",()=>{
  clearTimeout(searchTimer);
- searchTimer=setTimeout(applyFilters,450);
+
+ searchTimer=setTimeout(()=>{
+  currentPage=1;
+  loadUsers();
+ },500);
 });
 
 $("roleFilter").addEventListener("change",applyFilters);
@@ -958,6 +1373,8 @@ $("nextBtn").addEventListener("click",()=>{
 // ==========================================
 
 $("refreshBtn").addEventListener("click",async()=>{
+ hideAlert();
+
  await Promise.all([
   loadStatistics(),
   loadUsers()
@@ -970,16 +1387,21 @@ $("refreshBtn").addEventListener("click",async()=>{
 
 function closeModal(){
  $("userModal").classList.remove("show");
+ detailsRequestId++;
 }
 
 $("closeModal").addEventListener("click",closeModal);
 
 $("userModal").addEventListener("click",event=>{
- if(event.target.id==="userModal")closeModal();
+ if(event.target===$("userModal")){
+  closeModal();
+ }
 });
 
 document.addEventListener("keydown",event=>{
- if(event.key==="Escape")closeModal();
+ if(event.key==="Escape"){
+  closeModal();
+ }
 });
 
 // ==========================================
@@ -996,23 +1418,41 @@ document.querySelectorAll(".sidebar a").forEach(link=>{
  });
 });
 
+document.addEventListener("click",event=>{
+ if(
+  window.innerWidth<=850 &&
+  $("sidebar").classList.contains("open") &&
+  !$("sidebar").contains(event.target) &&
+  !$("menuBtn").contains(event.target)
+ ){
+  $("sidebar").classList.remove("open");
+ }
+});
+
 // ==========================================
 // LOGOUT
 // ==========================================
 
 $("logoutBtn").addEventListener("click",()=>{
- sessionStorage.removeItem("rubalia_token");
- sessionStorage.removeItem("rubalia_user");
+ sessionStorage.removeItem(TOKEN_KEY);
+ sessionStorage.removeItem(USER_KEY);
  window.location.replace("../login.html");
 });
 
 // ==========================================
-// START
+// RETRY
+// ==========================================
+
+$("retryBtn").addEventListener("click",()=>{
+ location.reload();
+});
+
+// ==========================================
+// INITIALIZE
 // ==========================================
 
 initializeAdmin();
 
 </script>
-
 </body>
 </html>
