@@ -178,6 +178,43 @@ app.get("/api/health", async (req, res) => {
 });
 
 // =====================================================
+// PUBLIC ADMIN ANNOUNCEMENT API
+// Members can read the currently active announcement.
+// =====================================================
+
+app.get("/api/public/admin-message", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        id,
+        text,
+        created_at,
+        updated_at
+      FROM admin_messages
+      WHERE active = TRUE
+      ORDER BY updated_at DESC, id DESC
+      LIMIT 1
+    `);
+
+    return res.json({
+      success: true,
+      message: result.rows[0] || null
+    });
+
+  } catch (error) {
+    console.error(
+      "Public admin message error:",
+      error.message
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: null
+    });
+  }
+});
+
+// =====================================================
 // AUTHENTICATION ROUTES
 // =====================================================
 
@@ -291,6 +328,7 @@ async function startServer() {
       console.log("Support ticket system enabled.");
       console.log("Member settings API enabled.");
       console.log("Password reset system enabled.");
+      console.log("Public admin announcement API enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
     });
 
