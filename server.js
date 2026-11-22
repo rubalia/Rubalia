@@ -1,4 +1,6 @@
 
+"use strict";
+
 require("dotenv").config();
 
 const express = require("express");
@@ -16,6 +18,11 @@ const { runProductCategoryMigration } = require("./database/product-category-mig
 const { runWalletMigration } = require("./database/wallet-migration");
 const { runSupportMigration } = require("./database/support-migration");
 const { runSettingsMigration } = require("./database/settings-migration");
+
+// Password Reset Migration
+const {
+  runPasswordResetMigration
+} = require("./database/password-reset-migration");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -52,13 +59,15 @@ const PORT = process.env.PORT || 10000;
 
 app.set("trust proxy", 1);
 
-// Existing website origins
+// =====================================================
+// CORS CONFIGURATION
+// =====================================================
+
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map(origin => origin.trim())
   .filter(Boolean);
 
-// Capacitor Android/iOS WebView origins
 const capacitorOrigins = [
   "https://localhost",
   "capacitor://localhost"
@@ -85,11 +94,17 @@ app.use(cors({
 
     console.warn("CORS blocked origin:", origin);
 
-    return callback(new Error("Origin not allowed by CORS"));
+    return callback(
+      new Error("Origin not allowed by CORS")
+    );
   }
 }));
 
 app.use(express.json({ limit: "1mb" }));
+
+// =====================================================
+// RATE LIMITERS
+// =====================================================
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -113,7 +128,32 @@ const registerLimiter = rateLimit({
   }
 });
 
-// Health Check
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many password reset requests. Please try again later."
+  }
+});
+
+const resetPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many password reset attempts. Please try again later."
+  }
+});
+
+// =====================================================
+// HEALTH CHECK
+// =====================================================
+
 app.get("/api/health", async (req, res) => {
   try {
     await pool.query("SELECT 1");
@@ -124,6 +164,7 @@ app.get("/api/health", async (req, res) => {
       database: "connected",
       status: "operational"
     });
+
   } catch (error) {
     console.error("Health check failed:", error.message);
 
@@ -136,12 +177,29 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-// Authentication
+// =====================================================
+// AUTHENTICATION ROUTES
+// =====================================================
+
 app.use("/api/auth/login", loginLimiter);
 app.use("/api/auth/register", registerLimiter);
+
+app.use(
+  "/api/auth/forgot-password",
+  forgotPasswordLimiter
+);
+
+app.use(
+  "/api/auth/reset-password",
+  resetPasswordLimiter
+);
+
 app.use("/api/auth", authRoutes);
 
-// Existing API Routes
+// =====================================================
+// EXISTING API ROUTES
+// =====================================================
+
 app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/packages", packageRoutes);
@@ -160,7 +218,10 @@ app.use("/api/support", supportRoutes);
 // Member Settings API
 app.use("/api/settings", settingsRoutes);
 
-// Error Handling
+// =====================================================
+// ERROR HANDLING
+// =====================================================
+
 app.use(notFoundHandler);
 
 app.use((error, req, res, next) => {
@@ -178,7 +239,10 @@ app.use((error, req, res, next) => {
   return errorHandler(error, req, res, next);
 });
 
-// Start Server
+// =====================================================
+// START SERVER
+// =====================================================
+
 async function startServer() {
   try {
     await initializeDatabase();
@@ -205,6 +269,11 @@ async function startServer() {
     await runSettingsMigration();
     console.log("Settings migration completed.");
 
+    // Password Reset Database Migration
+    await runPasswordResetMigration();
+    console.log("Password reset migration completed.");
+
+    // Start Commission Worker
     startCommissionWorker(pool);
     console.log("Commission worker started.");
 
@@ -221,8 +290,13 @@ async function startServer() {
       console.log("Wallet deposit and withdrawal management enabled.");
       console.log("Support ticket system enabled.");
       console.log("Member settings API enabled.");
+      console.log("Password reset system enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
     });
+
+    // =================================================
+    // GRACEFUL SHUTDOWN
+    // =================================================
 
     let shuttingDown = false;
 
@@ -232,6 +306,7 @@ async function startServer() {
       }
 
       shuttingDown = true;
+
       console.log(`${signal} received. Shutting down...`);
 
       try {
@@ -240,13 +315,21 @@ async function startServer() {
         server.close(async () => {
           try {
             await pool.end();
+
             console.log("Rubalia API shutdown completed.");
+
             process.exit(0);
+
           } catch (error) {
-            console.error("Database shutdown failed:", error.message);
+            console.error(
+              "Database shutdown failed:",
+              error.message
+            );
+
             process.exit(1);
           }
         });
+
       } catch (error) {
         console.error("Shutdown failed:", error.message);
         process.exit(1);
@@ -255,6 +338,7 @@ async function startServer() {
 
     process.once("SIGTERM", () => shutdown("SIGTERM"));
     process.once("SIGINT", () => shutdown("SIGINT"));
+
   } catch (error) {
     console.error("Startup failed:", error.message);
     process.exit(1);
