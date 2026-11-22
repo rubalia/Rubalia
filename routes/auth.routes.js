@@ -236,9 +236,11 @@ router.post("/register", async (req, res, next) => {
     }
   }
 
-  const client = await pool.connect();
+  let client;
 
   try {
+    client = await pool.connect();
+
     const passwordHash = await bcrypt.hash(password, 12);
 
     await client.query("BEGIN");
@@ -263,6 +265,9 @@ router.post("/register", async (req, res, next) => {
       }
     }
 
+    // FIX: Explicitly cast parameter $4 to VARCHAR
+    // to prevent PostgreSQL inconsistent parameter type error.
+
     const result = await client.query(
       `INSERT INTO users (
          full_name,
@@ -278,7 +283,11 @@ router.post("/register", async (req, res, next) => {
          $3,
          $4,
          $5,
-         CASE WHEN $4 = 'partner' THEN NOW() ELSE NULL END
+         CASE
+           WHEN $4::varchar = 'partner'::varchar
+           THEN NOW()
+           ELSE NULL
+         END
        )
        RETURNING
          id,
@@ -330,10 +339,15 @@ router.post("/register", async (req, res, next) => {
     });
 
   } catch (error) {
-    try {
-      await client.query("ROLLBACK");
-    } catch (rollbackError) {
-      console.error("Registration rollback failed:", rollbackError.message);
+    if (client) {
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error(
+          "Registration rollback failed:",
+          rollbackError.message
+        );
+      }
     }
 
     if (error.code === "23505") {
@@ -346,7 +360,9 @@ router.post("/register", async (req, res, next) => {
     return next(error);
 
   } finally {
-    client.release();
+    if (client) {
+      client.release();
+    }
   }
 });
 
@@ -464,7 +480,6 @@ router.post("/forgot-password", async (req, res, next) => {
       [email]
     );
 
-    // Always use the same response to prevent account enumeration.
     if (!userResult.rows.length) {
       return res.json({
         success: true,
@@ -484,7 +499,6 @@ router.post("/forgot-password", async (req, res, next) => {
 
     resetLink.searchParams.set("token", rawToken);
 
-    // Remove previous unused reset links for this account.
     await pool.query(
       `DELETE FROM password_reset_tokens
        WHERE user_id = $1
@@ -517,7 +531,6 @@ router.post("/forgot-password", async (req, res, next) => {
         resetLink.toString()
       );
     } catch (emailError) {
-      // Remove the unused token if email delivery fails.
       await pool.query(
         `DELETE FROM password_reset_tokens
          WHERE token_hash = $1`,
@@ -528,8 +541,6 @@ router.post("/forgot-password", async (req, res, next) => {
         "Password reset email failed:",
         emailError.message
       );
-
-      // Do not reveal whether the account exists.
     }
 
     return res.json({
@@ -578,9 +589,11 @@ router.post("/reset-password", async (req, res, next) => {
     });
   }
 
-  const client = await pool.connect();
+  let client;
 
   try {
+    client = await pool.connect();
+
     const tokenHash = hashResetToken(token);
     const passwordHash = await bcrypt.hash(password, 12);
 
@@ -626,7 +639,6 @@ router.post("/reset-password", async (req, res, next) => {
       });
     }
 
-    // Mark this token as used.
     await client.query(
       `UPDATE password_reset_tokens
        SET used_at = NOW()
@@ -634,7 +646,6 @@ router.post("/reset-password", async (req, res, next) => {
       [resetRecord.id]
     );
 
-    // Invalidate every other outstanding reset token for this user.
     await client.query(
       `DELETE FROM password_reset_tokens
        WHERE user_id = $1
@@ -650,16 +661,23 @@ router.post("/reset-password", async (req, res, next) => {
     });
 
   } catch (error) {
-    try {
-      await client.query("ROLLBACK");
-    } catch (rollbackError) {
-      console.error("Password reset rollback failed:", rollbackError.message);
+    if (client) {
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error(
+          "Password reset rollback failed:",
+          rollbackError.message
+        );
+      }
     }
 
     return next(error);
 
   } finally {
-    client.release();
+    if (client) {
+      client.release();
+    }
   }
 });
 
