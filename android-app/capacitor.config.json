@@ -4,6 +4,13 @@
   "appName": "RUBALIA NETWORK",
   "webDir": "www",
   "loggingBehavior": "debug",
+  "server": {
+    "url": "https://rubalia.github.io/Rubalia/",
+    "cleartext": false,
+    "allowNavigation": [
+      "rubalia.github.io"
+    ]
+  },
   "android": {
     "allowMixedContent": false,
     "backgroundColor": "#210d2d"
