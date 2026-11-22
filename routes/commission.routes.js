@@ -821,7 +821,7 @@ router.get(
 
         WHERE o.status = 'delivered'
           AND o.payment_status = 'paid'
-          AND o.commission_status = 'pending'
+          AND o.commission_status IN ('pending', 'not_eligible')
 
         GROUP BY o.id, u.full_name
 
