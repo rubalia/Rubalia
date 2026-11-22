@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,75 +22,290 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
-.header{background:var(--navy);color:white;padding:16px}
-.header-inner{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+
+.header{
+  background:var(--navy);
+  color:white;
+  padding:16px;
+}
+.header-inner{
+  max-width:1150px;
+  margin:auto;
+}
 .brand{font-size:19px;font-weight:800}
 .brand span{color:var(--gold)}
-.header p{font-size:12px;color:#dce5f3;margin-top:5px}
-.container{max-width:1150px;margin:20px auto;padding:0 14px 40px}
-.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:18px;margin-bottom:18px}
+.header p{font-size:11px;color:#dce5f3;margin:5px 0 0}
+
+.container{
+  max-width:1150px;
+  margin:20px auto;
+  padding:0 14px 40px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+  margin-bottom:18px;
+}
 .panel h2{font-size:19px;margin:0 0 17px}
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
 .field{display:flex;flex-direction:column;gap:7px}
 .field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:700}
 input,select,textarea{
-  width:100%;padding:12px;border:1px solid var(--border);
-  border-radius:8px;font-size:14px;background:white;color:var(--text);outline:none
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:14px;
+  background:white;
+  color:var(--text);
+  outline:none;
 }
 input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 textarea{min-height:85px;resize:vertical}
 .help{font-size:11px;color:var(--muted);line-height:1.5}
 button{cursor:pointer}
-button:disabled{opacity:.6;cursor:not-allowed}
-.btn{border:0;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700}
+
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:12px;
+  font-weight:700;
+}
 .primary{background:var(--gold);color:#17243a}
 .secondary{background:var(--navy);color:white}
 .success{background:#dcfce7;color:#166534}
 .danger{background:#fee2e2;color:#b91c1c}
 .light{background:#eef0ff;color:#5145e5}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-.section-title{font-size:15px;font-weight:800;margin:22px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
-.image-area{border:2px dashed #c7c9e9;background:#fafaff;border-radius:10px;padding:14px}
-.image-preview{width:100%;max-height:220px;object-fit:contain;display:none;margin-top:12px;border-radius:8px;background:#eee}
+
+.section-title{
+  font-size:15px;
+  font-weight:800;
+  margin:22px 0 12px;
+  padding-bottom:9px;
+  border-bottom:1px solid var(--border);
+}
+.image-area{
+  border:2px dashed #c7c9e9;
+  background:#fafaff;
+  border-radius:10px;
+  padding:14px;
+}
+.image-preview{
+  width:100%;
+  max-height:220px;
+  object-fit:contain;
+  display:none;
+  margin-top:12px;
+  border-radius:8px;
+  background:#eee;
+}
 .upload-status{font-size:11px;color:var(--muted);margin-top:8px}
-.product-cost-card{background:white;border:1px solid var(--border);border-radius:9px;padding:12px;margin-top:10px}
+
+.product-cost-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+  margin-top:10px;
+}
 .product-cost-card strong{font-size:13px}
 .product-cost-card p{margin:6px 0 0;font-size:12px;color:var(--muted)}
-.cost-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.cost-summary{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:15px}
-.summary-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin:8px 0}
-.summary-total{border-top:1px solid var(--border);padding-top:11px;margin-top:12px;font-weight:800;font-size:15px}
+
+.cost-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.cost-summary{
+  background:#f8f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-top:15px;
+}
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:13px;
+  margin:8px 0;
+}
+.summary-total{
+  border-top:1px solid var(--border);
+  padding-top:11px;
+  margin-top:12px;
+  font-weight:800;
+  font-size:15px;
+}
 .profit{color:var(--green);font-weight:800}
 .loss{color:var(--red);font-weight:800}
-.message{display:none;padding:12px;border-radius:8px;margin-bottom:15px;font-size:13px;line-height:1.5}
+
+.message{
+  display:none;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-size:13px;
+  line-height:1.5;
+}
 .message.error{background:#fee2e2;color:#991b1b}
 .message.success{background:#dcfce7;color:#166534}
-.package-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.package-card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.package-card img{width:100%;height:160px;object-fit:cover;background:#eee}
-.package-info{padding:14px}
-.package-info h3{font-size:16px;margin:0 0 7px}
-.package-info p{font-size:12px;color:var(--muted);margin:6px 0;line-height:1.5;overflow-wrap:anywhere}
-.package-price{font-size:16px!important;font-weight:800;color:#9a6a0a!important}
-.package-cost{background:#f8f9fc;border-radius:8px;padding:10px;margin-top:10px}
-.package-cost p{display:flex;justify-content:space-between;gap:8px}
-.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:800;text-transform:uppercase;background:#eee}
+
+/* CATEGORY GROUP */
+.category-group{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:16px;
+}
+.category-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:3px 2px 12px;
+  margin-bottom:13px;
+  border-bottom:1px solid var(--border);
+}
+.category-heading h3{
+  margin:0;
+  font-size:16px;
+  color:var(--navy);
+}
+.category-count{
+  background:#f2f4f8;
+  color:#667085;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* PACKAGE GRID */
+.package-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+.package-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:11px;
+  overflow:hidden;
+  min-width:0;
+}
+.package-card img{
+  width:100%;
+  height:165px;
+  object-fit:cover;
+  display:block;
+  background:#eee;
+}
+.package-info{padding:13px}
+.package-info h3{
+  font-size:16px;
+  margin:0 0 7px;
+  overflow-wrap:anywhere;
+}
+.package-info p{
+  font-size:12px;
+  color:var(--muted);
+  margin:6px 0;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.package-price{
+  font-size:17px!important;
+  font-weight:800;
+  color:#9a6a0a!important;
+}
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  background:#eee;
+}
 .status.active{background:#dcfce7;color:#166534}
 .status.draft{background:#fef3c7;color:#92400e}
 .status.inactive,.status.archived{background:#fee2e2;color:#991b1b}
-.card-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.card-actions button{padding:8px 10px}
-.loading,.empty{text-align:center;color:var(--muted);padding:25px;font-size:13px}
 
-/* CATEGORY SELECT */
+/* COMPACT PACKAGE COST */
+.package-cost{
+  background:#f7f8fc;
+  border-radius:7px;
+  padding:8px 10px;
+  margin-top:10px;
+}
+.package-cost-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:4px 0;
+  font-size:11px;
+  line-height:1.3;
+}
+.package-cost-row span{
+  color:#7b8798;
+  min-width:0;
+}
+.package-cost-row strong{
+  color:#667085;
+  font-size:11px;
+  white-space:nowrap;
+}
+.package-cost-row.total{
+  border-top:1px solid #e4e8ef;
+  margin-top:4px;
+  padding-top:7px;
+}
+.package-cost-row.total strong{color:var(--navy)}
+.package-cost-row.profit-row strong{color:var(--green)}
+.package-cost-row.profit-row.negative strong{color:var(--red)}
+
+.card-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+.card-actions button{
+  padding:8px 11px;
+  font-size:11px;
+}
+
+.loading,.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  font-size:13px;
+}
+
+/* CATEGORY DROPDOWN */
 .category-select-wrap{position:relative}
 .category-select-wrap select{
   appearance:none;
   -webkit-appearance:none;
   padding-right:40px;
   cursor:pointer;
-  background-color:#fff;
 }
 .category-select-wrap:after{
   content:"⌄";
@@ -102,16 +318,29 @@ button:disabled{opacity:.6;cursor:not-allowed}
   font-size:20px;
   font-weight:bold;
 }
-.category-hint{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:2px;
+.category-hint{font-size:11px;color:var(--muted);margin-top:2px}
+
+.footer{
+  text-align:center;
+  padding:16px;
+  color:#9aa5b5;
+  font-size:10px;
 }
 
 @media(max-width:650px){
-  .form-grid,.package-list,.cost-grid{grid-template-columns:1fr}
-  .panel{padding:14px}
-  .brand{font-size:16px}
+  .container{margin:13px auto;padding:0 10px 25px}
+  .panel{padding:13px}
+  .form-grid,.cost-grid{grid-template-columns:1fr}
+  .package-list{grid-template-columns:1fr}
+  .brand{font-size:17px}
+  .category-group{padding:11px}
+  .category-heading h3{font-size:15px}
+  .package-card img{height:auto;aspect-ratio:1.8/1}
+  .package-info{padding:12px}
+  .package-cost{padding:7px 9px}
+  .package-cost-row{font-size:10px;padding:3px 0}
+  .package-cost-row strong{font-size:10px}
+  .card-actions button{padding:8px 10px}
 }
 </style>
 </head>
@@ -120,11 +349,8 @@ button:disabled{opacity:.6;cursor:not-allowed}
 
 <header class="header">
   <div class="header-inner">
-    <div>
-      <div class="brand">RUBALIA <span>NETWORK</span></div>
-      <p>Admin Package & Cost Management</p>
-    </div>
-    <button class="btn primary" type="button" onclick="goDashboard()">Dashboard</button>
+    <div class="brand">RUBALIA <span>NETWORK</span></div>
+    <p>Admin Package & Cost Management</p>
   </div>
 </header>
 
@@ -144,7 +370,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
           <input id="name" maxlength="180" required placeholder="Enter package name">
         </div>
 
-        <!-- CATEGORY DROPDOWN -->
         <div class="field">
           <label for="category">Package Category *</label>
           <div class="category-select-wrap">
@@ -200,7 +425,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
       <div class="section-title">Select Three Products</div>
 
       <div class="form-grid">
-
         <div class="field full">
           <label for="product1">First Product *</label>
           <select id="product1" required>
@@ -224,7 +448,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
           </select>
           <div id="productCost3"></div>
         </div>
-
       </div>
 
       <div class="section-title">Package Additional Costs</div>
@@ -262,8 +485,6 @@ button:disabled{opacity:.6;cursor:not-allowed}
       <p class="help" style="margin-top:10px">
         Package Cost = Three Products' Cost Price + Package Delivery
         + Package Packaging + Package Other Cost.
-        Product-level delivery, packaging and other costs are shown separately
-        and are not added again to the package calculation.
       </p>
 
       <div class="actions">
@@ -276,30 +497,34 @@ button:disabled{opacity:.6;cursor:not-allowed}
 
   <section class="panel">
     <h2>All Packages</h2>
-    <div id="packageList" class="package-list">
+    <div id="packageList">
       <div class="loading">Loading packages...</div>
     </div>
   </section>
 
 </main>
 
+<footer class="footer">
+  © <span id="year"></span> RUBALIA NETWORK
+</footer>
+
 <script>
 "use strict";
 
-const API = "https://rubalia.onrender.com/api";
-const token = sessionStorage.getItem("rubalia_token");
+const API="https://rubalia.onrender.com/api";
+const token=sessionStorage.getItem("rubalia_token");
 
-let packages = [];
-let products = [];
-let editingId = null;
-let uploading = false;
-let saving = false;
-let changingStatus = false;
+let packages=[];
+let products=[];
+let editingId=null;
+let uploading=false;
+let saving=false;
+let changingStatus=false;
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
 function money(value){
-  const amount=Number(value ?? 0);
+  const amount=Number(value??0);
   return "৳"+(Number.isFinite(amount)?amount:0).toLocaleString("en-BD",{
     minimumFractionDigits:2,
     maximumFractionDigits:2
@@ -307,17 +532,17 @@ function money(value){
 }
 
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,char=>({
+  return String(value??"").replace(/[&<>"']/g,char=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   })[char]);
 }
 
 function safeImageUrl(value){
-  const url=String(value || "").trim();
+  const url=String(value||"").trim();
   if(!url)return "";
   try{
     const parsed=new URL(url);
-    if(parsed.protocol!=="https:" && parsed.protocol!=="http:")return "";
+    if(parsed.protocol!=="https:"&&parsed.protocol!=="http:")return "";
     return url;
   }catch(error){return ""}
 }
@@ -327,15 +552,11 @@ function showMessage(text,type="success"){
   box.textContent=text;
   box.className="message "+(type==="error"?"error":"success");
   box.style.display="block";
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"auto"});
 }
 
 function hideMessage(){
   $("message").style.display="none";
-}
-
-function goDashboard(){
-  location.href="../admin-dashboard.html";
 }
 
 function authHeaders(extra={}){
@@ -359,8 +580,8 @@ async function apiRequest(path,options={}){
     throw new Error("Session expired.");
   }
 
-  if(!response.ok || data.success===false){
-    throw new Error(data.message || "Request failed.");
+  if(!response.ok||data.success===false){
+    throw new Error(data.message||"Request failed.");
   }
 
   return data;
@@ -374,10 +595,9 @@ async function verifyAdmin(){
 
   try{
     const data=await apiRequest("/auth/me");
-    const user=data.user || data.profile || data;
+    const user=data.user||data.profile||data;
 
-    if(String(user.role || "").toLowerCase()!=="admin"){
-      alert("Admin access required.");
+    if(String(user.role||"").toLowerCase()!=="admin"){
       location.href="../dashboard.html";
       return false;
     }
@@ -390,14 +610,14 @@ async function verifyAdmin(){
 
 /* PRODUCT COST */
 function productCostPrice(product){
-  return Number(product?.cost_price || 0);
+  return Number(product?.cost_price||0);
 }
 
 function productActualCost(product){
   return productCostPrice(product)+
-    Number(product?.delivery_cost || 0)+
-    Number(product?.packaging_cost || 0)+
-    Number(product?.other_cost || 0);
+    Number(product?.delivery_cost||0)+
+    Number(product?.packaging_cost||0)+
+    Number(product?.other_cost||0);
 }
 
 /* LOAD PRODUCTS */
@@ -425,7 +645,7 @@ async function loadProducts(){
 
 function getSelectedProduct(selectId){
   const id=Number($(selectId).value);
-  return products.find(p=>Number(p.id)===id) || null;
+  return products.find(p=>Number(p.id)===id)||null;
 }
 
 function renderSelectedProduct(selectId,boxId){
@@ -445,7 +665,6 @@ function renderSelectedProduct(selectId,boxId){
       <p>Product Packaging Cost: ${money(product.packaging_cost)}</p>
       <p>Product Other Cost: ${money(product.other_cost)}</p>
       <p><strong>Product Total Cost (informational): ${money(productActualCost(product))}</strong></p>
-      <p class="help">Package calculation uses Cost Price only. Product-level extra costs are not added again.</p>
     </div>
   `;
 }
@@ -459,10 +678,10 @@ function getPackageCalculation(){
   const c2=p2?productCostPrice(p2):0;
   const c3=p3?productCostPrice(p3):0;
 
-  const delivery=Number($("deliveryCost").value || 0);
-  const packaging=Number($("packagingCost").value || 0);
-  const other=Number($("otherCost").value || 0);
-  const selling=Number($("price").value || 0);
+  const delivery=Number($("deliveryCost").value||0);
+  const packaging=Number($("packagingCost").value||0);
+  const other=Number($("otherCost").value||0);
+  const selling=Number($("price").value||0);
 
   const productTotal=c1+c2+c3;
   const total=productTotal+delivery+packaging+other;
@@ -503,79 +722,128 @@ async function loadPackages(){
   renderPackages();
 }
 
-function getStatusClass(status){
-  const allowed=["active","draft","inactive","archived"];
-  return allowed.includes(status)?status:"";
-}
-
+/* CATEGORY GROUPING */
 function renderPackages(){
+  const container=$("packageList");
+
   if(!packages.length){
-    $("packageList").innerHTML='<div class="empty">No packages found.</div>';
+    container.innerHTML='<div class="empty">No packages found.</div>';
     return;
   }
 
-  $("packageList").innerHTML=packages.map(item=>{
-    const imageUrl=safeImageUrl(item.image_url);
-    const image=imageUrl
-      ? `<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(item.name)}" loading="lazy" onerror="this.style.display='none'">`
-      : `<div style="height:100px;background:#eee;display:grid;place-items:center;color:#777">No Banner</div>`;
+  const groups={};
 
-    const costs=item.costs || {};
-    const productCost=Number(costs.componentProductCost || 0);
-    const totalCost=Number(costs.totalCost || 0);
-    const profit=Number(costs.estimatedProfit || 0);
+  packages.forEach(item=>{
+    const category=String(item.category||"Uncategorized").trim()||"Uncategorized";
 
-    const names=(Array.isArray(item.products)?item.products:[])
-      .map(p=>p.name).filter(Boolean).join(", ");
+    if(!groups[category])groups[category]=[];
+    groups[category].push(item);
+  });
 
-    const status=String(item.status || "unknown");
-    const statusClass=getStatusClass(status);
-    const id=Number(item.id);
+  const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+
+  container.innerHTML=categories.map(category=>{
+    const items=groups[category];
 
     return `
-      <article class="package-card">
-        ${image}
-        <div class="package-info">
-          <h3>${escapeHTML(item.name)}</h3>
-          <p>Category: ${escapeHTML(item.category || "No category")}</p>
-          <p class="package-price">${money(item.price)}</p>
-          <p>Stock: ${Number(item.stock || 0)}</p>
-          <p>Products: ${escapeHTML(names || "Not available")}</p>
-          <p>${escapeHTML(item.description || "")}</p>
-          <span class="status ${statusClass}">${escapeHTML(status)}</span>
-
-          <div class="package-cost">
-            <p><span>Three Product Cost</span><strong>${money(productCost)}</strong></p>
-            <p><span>Package Delivery</span><strong>${money(costs.deliveryCost)}</strong></p>
-            <p><span>Package Packaging</span><strong>${money(costs.packagingCost)}</strong></p>
-            <p><span>Package Other</span><strong>${money(costs.otherCost)}</strong></p>
-            <p><span>Total Package Cost</span><strong>${money(totalCost)}</strong></p>
-            <p><span>Estimated Profit</span><strong class="${profit>=0?"profit":"loss"}">${money(profit)}</strong></p>
-          </div>
-
-          <div class="card-actions">
-            <button class="btn light" type="button" onclick="editPackage(${id})">Edit</button>
-
-            ${status!=="active" && status!=="archived"?`
-              <button class="btn success" type="button" onclick="changeStatus(${id},'active')">Activate</button>
-            `:""}
-
-            ${status==="active"?`
-              <button class="btn danger" type="button" onclick="changeStatus(${id},'inactive')">Deactivate</button>
-            `:""}
-
-            ${status==="inactive"?`
-              <button class="btn success" type="button" onclick="changeStatus(${id},'draft')">Set Draft</button>
-            `:""}
-
-            ${status!=="archived"?`
-              <button class="btn danger" type="button" onclick="archivePackage(${id})">Archive</button>
-            `:""}
-          </div>
+      <section class="category-group">
+        <div class="category-heading">
+          <h3>${escapeHTML(category)}</h3>
+          <span class="category-count">${items.length} PACKAGE${items.length===1?"":"S"}</span>
         </div>
-      </article>
+
+        <div class="package-list">
+          ${items.map(renderPackageCard).join("")}
+        </div>
+      </section>
     `;
   }).join("");
+}
+
+/* PACKAGE CARD */
+function renderPackageCard(item){
+  const imageUrl=safeImageUrl(item.image_url);
+
+  const image=imageUrl
+    ? `<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(item.name)}" loading="lazy">`
+    : `<div style="height:120px;background:#eee;display:grid;place-items:center;color:#777;font-size:12px">No Banner Image</div>`;
+
+  const costs=item.costs||{};
+  const productCost=Number(costs.componentProductCost||0);
+  const totalCost=Number(costs.totalCost||0);
+  const profit=Number(costs.estimatedProfit||0);
+
+  const names=(Array.isArray(item.products)?item.products:[])
+    .map(p=>p.name).filter(Boolean).join(", ");
+
+  const status=String(item.status||"unknown");
+  const id=Number(item.id);
+
+  return `
+    <article class="package-card">
+      ${image}
+
+      <div class="package-info">
+        <h3>${escapeHTML(item.name)}</h3>
+        <p class="package-price">${money(item.price)}</p>
+        <p>Stock: ${Number(item.stock||0)}</p>
+        <p>Products: ${escapeHTML(names||"Not available")}</p>
+        <span class="status ${["active","draft","inactive","archived"].includes(status)?status:""}">${escapeHTML(status)}</span>
+
+        <div class="package-cost">
+          <div class="package-cost-row">
+            <span>Three Product Cost</span>
+            <strong>${money(productCost)}</strong>
+          </div>
+
+          <div class="package-cost-row">
+            <span>Package Delivery</span>
+            <strong>${money(costs.deliveryCost)}</strong>
+          </div>
+
+          <div class="package-cost-row">
+            <span>Package Packaging</span>
+            <strong>${money(costs.packagingCost)}</strong>
+          </div>
+
+          <div class="package-cost-row">
+            <span>Package Other</span>
+            <strong>${money(costs.otherCost)}</strong>
+          </div>
+
+          <div class="package-cost-row total">
+            <span>Total Package Cost</span>
+            <strong>${money(totalCost)}</strong>
+          </div>
+
+          <div class="package-cost-row profit-row ${profit<0?"negative":""}">
+            <span>Estimated Profit</span>
+            <strong>${money(profit)}</strong>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn light" type="button" onclick="editPackage(${id})">Edit</button>
+
+          ${status!=="active"&&status!=="archived"?`
+            <button class="btn success" type="button" onclick="changeStatus(${id},'active')">Activate</button>
+          `:""}
+
+          ${status==="active"?`
+            <button class="btn danger" type="button" onclick="changeStatus(${id},'inactive')">Deactivate</button>
+          `:""}
+
+          ${status==="inactive"?`
+            <button class="btn success" type="button" onclick="changeStatus(${id},'draft')">Set Draft</button>
+          `:""}
+
+          ${status!=="archived"?`
+            <button class="btn danger" type="button" onclick="archivePackage(${id})">Archive</button>
+          `:""}
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 /* IMAGE PREVIEW */
@@ -652,11 +920,11 @@ $("uploadButton").addEventListener("click",async()=>{
       throw new Error("Session expired.");
     }
 
-    if(!response.ok || data.success!==true){
-      throw new Error(data.message || "Image upload failed.");
+    if(!response.ok||data.success!==true){
+      throw new Error(data.message||"Image upload failed.");
     }
 
-    const url=data.image && data.image.url;
+    const url=data.image&&data.image.url;
 
     if(!safeImageUrl(url)){
       throw new Error("A valid image URL was not returned by the server.");
@@ -716,16 +984,15 @@ function editPackage(id){
 
   editingId=Number(id);
 
-  $("name").value=item.name || "";
+  $("name").value=item.name||"";
 
-  // Existing package category is selected in the dropdown.
-  const existingCategory=String(item.category || "");
+  const existingCategory=String(item.category||"");
   const categorySelect=$("category");
 
   const categoryExists=Array.from(categorySelect.options)
     .some(option=>option.value===existingCategory);
 
-  if(existingCategory && !categoryExists){
+  if(existingCategory&&!categoryExists){
     const oldOption=document.createElement("option");
     oldOption.value=existingCategory;
     oldOption.textContent=existingCategory+" (Existing)";
@@ -734,24 +1001,24 @@ function editPackage(id){
 
   categorySelect.value=existingCategory;
 
-  $("description").value=item.description || "";
-  $("price").value=item.price ?? 0;
-  $("stock").value=item.stock ?? 0;
+  $("description").value=item.description||"";
+  $("price").value=item.price??0;
+  $("stock").value=item.stock??0;
 
-  $("product1").value=item.products?.[0]?.id || "";
-  $("product2").value=item.products?.[1]?.id || "";
-  $("product3").value=item.products?.[2]?.id || "";
+  $("product1").value=item.products?.[0]?.id||"";
+  $("product2").value=item.products?.[1]?.id||"";
+  $("product3").value=item.products?.[2]?.id||"";
 
   $("imageUrl").value=safeImageUrl(item.image_url);
 
-  const costs=item.costs || {};
-  $("deliveryCost").value=costs.deliveryCost ?? 0;
-  $("packagingCost").value=costs.packagingCost ?? 0;
-  $("otherCost").value=costs.otherCost ?? 0;
+  const costs=item.costs||{};
+  $("deliveryCost").value=costs.deliveryCost??0;
+  $("packagingCost").value=costs.packagingCost??0;
+  $("otherCost").value=costs.otherCost??0;
 
   $("imageFile").value="";
 
-  if(item.image_url && safeImageUrl(item.image_url)){
+  if(item.image_url&&safeImageUrl(item.image_url)){
     $("imagePreview").src=item.image_url;
     $("imagePreview").style.display="block";
     $("uploadStatus").textContent="Existing banner image.";
@@ -766,7 +1033,7 @@ function editPackage(id){
   $("cancelButton").style.display="inline-block";
 
   updateCostSummary();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"auto"});
 }
 
 /* VALIDATION */
@@ -774,9 +1041,9 @@ function validateMoney(id,label){
   const value=$(id).value.trim();
 
   if(
-    value==="" ||
-    !/^\d{1,12}(\.\d{1,2})?$/.test(value) ||
-    !Number.isFinite(Number(value)) ||
+    value===""||
+    !/^\d{1,12}(\.\d{1,2})?$/.test(value)||
+    !Number.isFinite(Number(value))||
     Number(value)<0
   ){
     throw new Error(label+" must be a valid non-negative amount with up to 2 decimal places.");
@@ -802,9 +1069,7 @@ $("packageForm").addEventListener("submit",async event=>{
   const product3Id=Number($("product3").value);
 
   if(
-    !product1Id ||
-    !product2Id ||
-    !product3Id ||
+    !product1Id||!product2Id||!product3Id||
     new Set([product1Id,product2Id,product3Id]).size!==3
   ){
     showMessage("Select three different products.","error");
@@ -813,7 +1078,7 @@ $("packageForm").addEventListener("submit",async event=>{
 
   const stock=Number($("stock").value);
 
-  if(!Number.isSafeInteger(stock) || stock<0 || stock>2147483647){
+  if(!Number.isSafeInteger(stock)||stock<0||stock>2147483647){
     showMessage("Stock must be a valid non-negative whole number.","error");
     return;
   }
@@ -826,34 +1091,20 @@ $("packageForm").addEventListener("submit",async event=>{
       category:$("category").value,
       description:$("description").value.trim(),
       imageUrl:$("imageUrl").value.trim(),
-
       product1Id,
       product2Id,
       product3Id,
-
       price:validateMoney("price","Package Selling Price"),
       stock,
-
       deliveryCost:validateMoney("deliveryCost","Package Delivery Cost"),
       packagingCost:validateMoney("packagingCost","Package Packaging Cost"),
       otherCost:validateMoney("otherCost","Package Other Cost")
     };
 
-    if(!payload.category){
-      throw new Error("Please select a package category.");
-    }
-
-    if(payload.name.length<2 || payload.name.length>180){
-      throw new Error("Package name must be between 2 and 180 characters.");
-    }
-
-    if(payload.description.length>5000){
-      throw new Error("Description must not exceed 5000 characters.");
-    }
-
-    if(payload.imageUrl && !safeImageUrl(payload.imageUrl)){
-      throw new Error("Please upload a valid HTTP or HTTPS banner image.");
-    }
+    if(!payload.category)throw new Error("Please select a package category.");
+    if(payload.name.length<2||payload.name.length>180)throw new Error("Package name must be between 2 and 180 characters.");
+    if(payload.description.length>5000)throw new Error("Description must not exceed 5000 characters.");
+    if(payload.imageUrl&&!safeImageUrl(payload.imageUrl))throw new Error("Please upload a valid banner image.");
 
   }catch(error){
     showMessage(error.message,"error");
@@ -877,7 +1128,7 @@ $("packageForm").addEventListener("submit",async event=>{
     showMessage(
       isEditing
         ?"Package and cost information updated successfully."
-        :"Package created successfully as draft."
+        :"Package created successfully."
     );
 
     resetForm();
@@ -943,7 +1194,7 @@ async function archivePackage(id){
   }
 }
 
-/* COST SUMMARY EVENTS */
+/* EVENTS */
 [
   "product1","product2","product3",
   "deliveryCost","packagingCost","otherCost","price"
@@ -956,6 +1207,8 @@ $("cancelButton").addEventListener("click",resetForm);
 
 /* INITIALIZE */
 async function initializePage(){
+  $("year").textContent=new Date().getFullYear();
+
   const allowed=await verifyAdmin();
   if(!allowed)return;
 
