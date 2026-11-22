@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,6 +105,7 @@ td{padding:14px 15px;border-top:1px solid var(--border);font-size:12px;vertical-
 .toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:13px 18px;border-radius:8px;font-size:12px;display:none;z-index:100;box-shadow:0 5px 20px #0002;max-width:90%}
 .toast.show{display:block}
 .loading{text-align:center;padding:35px;color:var(--muted);font-size:12px}
+.section-tag{display:inline-block;background:#edf3ff;color:#31558c;padding:6px 10px;border-radius:20px;font-size:10px;font-weight:bold;margin-top:7px}
 @media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){
  .sidebar{transform:translateX(-100%)}
@@ -185,36 +187,41 @@ td{padding:14px 15px;border-top:1px solid var(--border);font-size:12px;vertical-
 
   <div id="pageMessage" class="message"></div>
 
+  <!-- LIVE PAYMENT STATISTICS -->
   <div class="stats">
     <div class="stat">
       <div class="stat-icon">৳</div>
-      <div class="label">Loaded Payment Requests</div>
+      <div class="label">Loaded Live Payment Requests</div>
       <h2 id="totalCount">—</h2>
       <small>Maximum 300 records from API</small>
     </div>
     <div class="stat">
       <div class="stat-icon">◷</div>
-      <div class="label">Pending Payments</div>
+      <div class="label">Pending Live Payments</div>
       <h2 id="pendingCount">—</h2>
       <small>Awaiting Admin review</small>
     </div>
     <div class="stat">
       <div class="stat-icon">✓</div>
-      <div class="label">Approved Payments</div>
+      <div class="label">Approved Live Payments</div>
       <h2 id="approvedCount">—</h2>
       <small>Verified by Admin</small>
     </div>
     <div class="stat">
       <div class="stat-icon">×</div>
-      <div class="label">Rejected Payments</div>
+      <div class="label">Rejected Live Payments</div>
       <h2 id="rejectedCount">—</h2>
       <small>Rejected requests</small>
     </div>
   </div>
 
+  <!-- LIVE PAYMENT SECTION: ORIGINAL SYSTEM -->
   <div class="panel">
     <div class="panel-head">
-      <h3>Customer Payment Requests</h3>
+      <div>
+        <h3>Live Payment Requests</h3>
+        <span class="section-tag">PRODUCT / PACKAGE PAYMENTS</span>
+      </div>
       <button class="btn btn-light" id="refreshBtn">↻ Refresh</button>
     </div>
 
@@ -263,10 +270,71 @@ td{padding:14px 15px;border-top:1px solid var(--border);font-size:12px;vertical-
 
     <div class="pagination">
       <span id="recordCount">Loading...</span>
-      <span>RUBALIA NETWORK</span>
+      <span>LIVE PAYMENT</span>
     </div>
   </div>
 
+  <!-- NEW: PROFILE WALLET DEPOSIT SECTION -->
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Profile Wallet Deposit Requests</h3>
+        <span class="section-tag">MEMBER PROFILE → DEPOSIT</span>
+      </div>
+      <button class="btn btn-light" id="walletDepositRefreshBtn">↻ Refresh Deposits</button>
+    </div>
+
+    <div class="filters">
+      <input id="walletDepositSearch" type="search"
+        placeholder="Search customer, email, request reference or transaction ID...">
+
+      <select id="walletDepositMethodFilter">
+        <option value="">All Payment Methods</option>
+        <option value="bkash">bKash</option>
+        <option value="nagad">Nagad</option>
+        <option value="rocket">Rocket</option>
+        <option value="upay">Upay</option>
+        <option value="muktopay">MuktoPay</option>
+        <option value="usdt_bep20">USDT BEP20</option>
+      </select>
+
+      <select id="walletDepositStatusFilter">
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+
+      <button class="btn btn-dark" id="walletDepositSearchBtn">Search</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Customer</th>
+            <th>Gateway</th>
+            <th>Transaction Reference</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="walletDepositRows">
+          <tr><td colspan="8" class="loading">Loading Profile Deposit Requests...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <span id="walletDepositRecordCount">Loading...</span>
+      <span>WALLET DEPOSITS</span>
+    </div>
+  </div>
+
+  <!-- GATEWAY SETTINGS: ORIGINAL SYSTEM -->
   <div class="panel">
     <div class="panel-head">
       <div>
@@ -286,7 +354,8 @@ td{padding:14px 15px;border-top:1px solid var(--border);font-size:12px;vertical-
     USDT-এর জন্য শুধু BEP20 Network গ্রহণযোগ্য। এই পেজ নিজে Blockchain বা
     Mobile Financial Service-এর লেনদেন যাচাই করে না। ভুল Transaction Approve করবেন না।
     কোনো গ্রাহকের PIN, OTP, Password বা CVV চাইবেন না।
-    Approval করলে Backend order তৈরি করবে এবং stock deduct করবে।
+    Live Payment Approval করলে Backend order তৈরি করবে এবং stock deduct করবে।
+    Profile Deposit Approval করলে শুধু Member Wallet-এ টাকা যোগ হবে।
   </div>
 
 </section>
@@ -296,7 +365,7 @@ td{padding:14px 15px;border-top:1px solid var(--border);font-size:12px;vertical-
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <div class="modal-head">
-      <h3>Payment Details</h3>
+      <h3 id="modalTitle">Payment Details</h3>
       <button class="close" id="closeModalBtn">×</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
@@ -321,10 +390,13 @@ const GATEWAYS = {
 
 let token = "";
 let payments = [];
+let walletDeposits = [];
 let settings = [];
 let selectedPayment = null;
+let selectedWalletDeposit = null;
 let toastTimer = null;
 let paymentRequestRunning = false;
+let walletDepositRequestRunning = false;
 let settingsRequestRunning = false;
 
 const $ = id => document.getElementById(id);
@@ -461,7 +533,10 @@ async function checkAdmin(){
 }
 
 
-/* LOAD PAYMENTS */
+/* =====================================================
+   LIVE PAYMENT REQUESTS
+   ORIGINAL PAYMENT SYSTEM
+===================================================== */
 
 async function loadPayments(){
   if(paymentRequestRunning) return;
@@ -471,7 +546,6 @@ async function loadPayments(){
     '<tr><td colspan="8" class="loading">Loading payment requests...</td></tr>';
 
   try{
-    // No status parameter: retrieve all statuses for correct statistics.
     const data = await apiRequest("/payment/admin/requests");
 
     payments = Array.isArray(data.payments) ? data.payments : [];
@@ -494,7 +568,7 @@ async function loadPayments(){
 }
 
 
-/* STATISTICS */
+/* LIVE PAYMENT STATISTICS */
 
 function updateStats(){
   $("totalCount").textContent = payments.length;
@@ -504,7 +578,7 @@ function updateStats(){
 }
 
 
-/* PAYMENT TABLE */
+/* LIVE PAYMENT TABLE */
 
 function renderPayments(){
   const search = $("search").value.toLowerCase().trim();
@@ -569,7 +643,7 @@ function renderPayments(){
 }
 
 
-/* DETAILS */
+/* LIVE PAYMENT DETAILS */
 
 async function showDetails(id){
   try{
@@ -583,6 +657,7 @@ async function showDetails(id){
       throw new Error("Payment information not found.");
     }
 
+    $("modalTitle").textContent = "Live Payment Details";
     renderPaymentDetails(selectedPayment);
     $("modalBg").classList.add("show");
 
@@ -685,7 +760,7 @@ function renderPaymentDetails(payment){
 }
 
 
-/* APPROVE */
+/* LIVE PAYMENT APPROVE */
 
 async function approvePayment(){
   if(!selectedPayment || selectedPayment.status!=="pending") return;
@@ -737,7 +812,7 @@ async function approvePayment(){
 }
 
 
-/* REJECT */
+/* LIVE PAYMENT REJECT */
 
 async function rejectPayment(){
   if(!selectedPayment || selectedPayment.status!=="pending") return;
@@ -777,7 +852,374 @@ async function rejectPayment(){
 }
 
 
-/* GATEWAY SETTINGS */
+/* =====================================================
+   PROFILE WALLET DEPOSIT REQUESTS
+   SEPARATE FROM LIVE PAYMENT
+===================================================== */
+
+async function loadWalletDeposits(){
+  if(walletDepositRequestRunning) return;
+  walletDepositRequestRunning = true;
+
+  $("walletDepositRows").innerHTML =
+    '<tr><td colspan="8" class="loading">Loading Profile Deposit Requests...</td></tr>';
+
+  try{
+    // Admin API: wallet_deposit_requests table
+    const data = await apiRequest("/wallet/admin/deposits");
+
+    walletDeposits = Array.isArray(data.deposits) ? data.deposits : [];
+
+    renderWalletDeposits();
+
+  }catch(error){
+    walletDeposits = [];
+
+    $("walletDepositRows").innerHTML =
+      '<tr><td colspan="8" class="empty">'+escapeHTML(error.message)+'</td></tr>';
+
+    $("walletDepositRecordCount").textContent = "Unable to load records";
+    showMessage("error","Profile Deposit: "+error.message);
+
+  }finally{
+    walletDepositRequestRunning = false;
+  }
+}
+
+
+/* PROFILE DEPOSIT TABLE */
+
+function renderWalletDeposits(){
+  const search = $("walletDepositSearch").value.toLowerCase().trim();
+  const method = $("walletDepositMethodFilter").value;
+  const status = $("walletDepositStatusFilter").value;
+
+  const filtered = walletDeposits.filter(deposit=>{
+    const searchText = [
+      deposit.id,
+      deposit.user_id,
+      deposit.full_name,
+      deposit.email,
+      deposit.request_reference,
+      deposit.transaction_reference,
+      deposit.gateway
+    ].join(" ").toLowerCase();
+
+    return searchText.includes(search) &&
+      (!method || deposit.gateway===method) &&
+      (!status || deposit.status===status);
+  });
+
+  const tbody = $("walletDepositRows");
+
+  if(!filtered.length){
+    tbody.innerHTML =
+      '<tr><td colspan="8" class="empty">No Profile Deposit Requests found.</td></tr>';
+  }else{
+    tbody.replaceChildren();
+
+    filtered.forEach(deposit=>{
+      const tr = document.createElement("tr");
+      const currentStatus = String(deposit.status || "pending");
+
+      const cells = [
+        `<strong>${escapeHTML(deposit.request_reference || ("DEP-"+deposit.id))}</strong>
+         <span class="sub">ID: ${escapeHTML(deposit.id)}</span>`,
+        `<span class="customer">${escapeHTML(deposit.full_name || "Customer")}</span>
+         <span class="sub">${escapeHTML(deposit.email || "")}</span>
+         <span class="sub">User ID: ${escapeHTML(deposit.user_id)}</span>`,
+        `<span class="method">${escapeHTML(gatewayName(deposit.gateway))}</span>`,
+        `<span>${escapeHTML(deposit.transaction_reference || "—")}</span>`,
+        `<span class="amount">${escapeHTML(money(deposit.amount,"BDT"))}</span>`,
+        `<span>${escapeHTML(formatDate(deposit.created_at))}</span>`,
+        `<span class="status ${escapeHTML(currentStatus)}">${escapeHTML(statusLabel(currentStatus))}</span>`,
+        `<button class="btn btn-light wallet-view-btn" type="button">View</button>`
+      ];
+
+      cells.forEach(html=>{
+        const td = document.createElement("td");
+        td.innerHTML = html;
+        tr.appendChild(td);
+      });
+
+      tr.querySelector(".wallet-view-btn").addEventListener(
+        "click",()=>showWalletDepositDetails(deposit.id)
+      );
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  $("walletDepositRecordCount").textContent =
+    `Showing ${filtered.length} of ${walletDeposits.length} loaded requests`;
+}
+
+
+/* PROFILE DEPOSIT DETAILS */
+
+function showWalletDepositDetails(id){
+  const deposit = walletDeposits.find(
+    item=>String(item.id)===String(id)
+  );
+
+  if(!deposit){
+    showToast("Deposit request not found.");
+    return;
+  }
+
+  selectedWalletDeposit = deposit;
+  selectedPayment = null;
+
+  const canProcess = deposit.status === "pending";
+
+  $("modalTitle").textContent = "Profile Wallet Deposit Details";
+
+  $("modalBody").innerHTML = `
+    <div class="note" style="margin-top:0">
+      <strong>Profile Wallet Deposit</strong><br>
+      This request was submitted from the member's Profile Deposit page.
+      Approving it credits the member's wallet. It does not create a product order.
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail">
+        <small>Request ID</small>
+        <strong>${escapeHTML(deposit.id)}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Request Reference</small>
+        <strong>${escapeHTML(deposit.request_reference || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Customer Name</small>
+        <strong>${escapeHTML(deposit.full_name || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Customer Email</small>
+        <strong>${escapeHTML(deposit.email || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Customer ID</small>
+        <strong>${escapeHTML(deposit.user_id || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Wallet ID</small>
+        <strong>${escapeHTML(deposit.wallet_id || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Payment Gateway</small>
+        <strong>${escapeHTML(gatewayName(deposit.gateway))}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Deposit Amount</small>
+        <strong>${escapeHTML(money(deposit.amount,"BDT"))}</strong>
+      </div>
+
+      <div class="detail" style="grid-column:1/-1">
+        <small>Transaction Reference / Hash</small>
+        <strong>${escapeHTML(deposit.transaction_reference || "—")}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Request Date</small>
+        <strong>${escapeHTML(formatDate(deposit.created_at))}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Last Updated</small>
+        <strong>${escapeHTML(formatDate(deposit.updated_at))}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Status</small>
+        <strong>${escapeHTML(statusLabel(deposit.status))}</strong>
+      </div>
+
+      <div class="detail">
+        <small>Processed By Admin</small>
+        <strong>${escapeHTML(deposit.processed_by || "—")}</strong>
+      </div>
+    </div>
+
+    ${deposit.admin_note ? `
+      <div class="note">
+        <strong>Admin Note:</strong><br>
+        ${escapeHTML(deposit.admin_note)}
+      </div>
+    ` : ""}
+
+    ${canProcess ? `
+      <label class="field-label" for="walletDepositAdminNote">
+        Admin Note / Rejection Reason
+      </label>
+
+      <textarea
+        id="walletDepositAdminNote"
+        maxlength="1000"
+        placeholder="Rejection করলে কারণ লিখুন। Approval-এর জন্য ঐচ্ছিক।"
+      ></textarea>
+
+      <div class="modal-actions">
+        <button class="btn btn-green" id="walletDepositApproveBtn">
+          ✓ Approve & Credit Wallet
+        </button>
+
+        <button class="btn btn-red" id="walletDepositRejectBtn">
+          ✕ Reject Deposit
+        </button>
+      </div>
+    ` : `
+      <div class="note">
+        This deposit request has already been processed.
+        No further action is available.
+      </div>
+    `}
+
+    <div class="modal-actions">
+      <button class="btn btn-dark" id="modalCloseAction">Close</button>
+    </div>
+  `;
+
+  if(canProcess){
+    $("walletDepositApproveBtn").addEventListener(
+      "click",approveWalletDeposit
+    );
+
+    $("walletDepositRejectBtn").addEventListener(
+      "click",rejectWalletDeposit
+    );
+  }
+
+  $("modalCloseAction").addEventListener("click",closeModal);
+
+  $("modalBg").classList.add("show");
+}
+
+
+/* PROFILE DEPOSIT APPROVE */
+
+async function approveWalletDeposit(){
+  if(!selectedWalletDeposit) return;
+
+  if(selectedWalletDeposit.status!=="pending"){
+    showToast("This request has already been processed.");
+    return;
+  }
+
+  const deposit = selectedWalletDeposit;
+
+  const confirmed = confirm(
+    "Have you independently verified this transaction?\n\n"+
+    "Gateway: "+gatewayName(deposit.gateway)+"\n"+
+    "Amount: "+money(deposit.amount,"BDT")+"\n"+
+    "Transaction Reference: "+(deposit.transaction_reference || "—")+"\n\n"+
+    "Approving will add this amount to the member's Wallet Balance.\n\n"+
+    "Continue?"
+  );
+
+  if(!confirmed) return;
+
+  const button = $("walletDepositApproveBtn");
+  button.disabled = true;
+  button.textContent = "Approving...";
+
+  try{
+    // Existing backend API.
+    // No request body is required for approval.
+    const result = await apiRequest(
+      "/wallet/admin/deposits/"+encodeURIComponent(deposit.id)+"/approve",
+      {
+        method:"POST"
+      }
+    );
+
+    closeModal();
+
+    showMessage(
+      "success",
+      result.message || "Profile Deposit approved and wallet credited successfully."
+    );
+
+    await loadWalletDeposits();
+
+    showToast("Deposit approved. Member wallet credited.");
+
+  }catch(error){
+    button.disabled = false;
+    button.textContent = "✓ Approve & Credit Wallet";
+    showToast(error.message);
+  }
+}
+
+
+/* PROFILE DEPOSIT REJECT */
+
+async function rejectWalletDeposit(){
+  if(!selectedWalletDeposit) return;
+
+  if(selectedWalletDeposit.status!=="pending"){
+    showToast("This request has already been processed.");
+    return;
+  }
+
+  const deposit = selectedWalletDeposit;
+
+  const noteInput = $("walletDepositAdminNote");
+  const reason = noteInput ? noteInput.value.trim() : "";
+
+  if(reason.length<3){
+    showToast("Please enter a rejection reason of at least 3 characters.");
+    return;
+  }
+
+  if(!confirm("Are you sure you want to reject this Profile Deposit Request?")){
+    return;
+  }
+
+  const button = $("walletDepositRejectBtn");
+  button.disabled = true;
+  button.textContent = "Rejecting...";
+
+  try{
+    // Existing backend API.
+    // Backend expects admin_note.
+    await apiRequest(
+      "/wallet/admin/deposits/"+encodeURIComponent(deposit.id)+"/reject",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          admin_note:reason
+        })
+      }
+    );
+
+    closeModal();
+
+    showMessage("success","Profile Deposit Request rejected successfully.");
+
+    await loadWalletDeposits();
+
+    showToast("Profile Deposit rejected.");
+
+  }catch(error){
+    button.disabled = false;
+    button.textContent = "✕ Reject Deposit";
+    showToast(error.message);
+  }
+}
+
+
+/* =====================================================
+   PAYMENT GATEWAY SETTINGS
+   ORIGINAL SYSTEM
+===================================================== */
 
 async function loadSettings(){
   if(settingsRequestRunning) return;
@@ -936,6 +1378,7 @@ async function saveGatewaySettings(card,gateway){
 function closeModal(){
   $("modalBg").classList.remove("show");
   selectedPayment = null;
+  selectedWalletDeposit = null;
 }
 
 $("closeModalBtn").addEventListener("click",closeModal);
@@ -953,17 +1396,45 @@ $("menuBtn").addEventListener("click",()=>{
 });
 
 
-/* FILTERS AND BUTTONS */
+/* LIVE PAYMENT FILTERS */
 
 $("searchBtn").addEventListener("click",renderPayments);
 $("search").addEventListener("input",renderPayments);
 $("methodFilter").addEventListener("change",renderPayments);
 $("statusFilter").addEventListener("change",renderPayments);
 
+
+/* PROFILE DEPOSIT FILTERS */
+
+$("walletDepositSearchBtn").addEventListener(
+  "click",renderWalletDeposits
+);
+
+$("walletDepositSearch").addEventListener(
+  "input",renderWalletDeposits
+);
+
+$("walletDepositMethodFilter").addEventListener(
+  "change",renderWalletDeposits
+);
+
+$("walletDepositStatusFilter").addEventListener(
+  "change",renderWalletDeposits
+);
+
+
+/* REFRESH BUTTONS */
+
 $("refreshBtn").addEventListener("click",async()=>{
   hideMessage();
   await loadPayments();
-  showToast("Payment records refreshed.");
+  showToast("Live Payment records refreshed.");
+});
+
+$("walletDepositRefreshBtn").addEventListener("click",async()=>{
+  hideMessage();
+  await loadWalletDeposits();
+  showToast("Profile Deposit records refreshed.");
 });
 
 $("settingsRefreshBtn").addEventListener("click",async()=>{
@@ -981,6 +1452,7 @@ async function initializePage(){
 
     await Promise.all([
       loadPayments(),
+      loadWalletDeposits(),
       loadSettings()
     ]);
 
