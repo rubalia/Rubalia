@@ -45,12 +45,22 @@ jobs:
         working-directory: android-app
         run: npm run build
 
-      - name: Check Android Splash Screen
-        run: test -f android-app/www/index.html
+      - name: Verify App Icon
+        run: test -s android-app/assets/icon.png
 
       - name: Add Android Platform
         working-directory: android-app
         run: npx cap add android
+
+      - name: Generate RUBALIA App Icon
+        working-directory: android-app
+        run: |
+          npx @capacitor/assets generate \
+            --android \
+            --assetPath assets \
+            --iconBackgroundColor '#210d45' \
+            --iconBackgroundColorDark '#210d45' \
+            --splashBackgroundColor '#210d45'
 
       - name: Sync Capacitor
         working-directory: android-app
