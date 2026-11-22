@@ -9,7 +9,8 @@ const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
 
 const {
-  prepareOrderCommission
+  prepareOrderCommission,
+  releaseOrderCommission
 } = require("../services/commission.service");
 
 const router = express.Router();
@@ -673,14 +674,17 @@ router.get(
 
 // =====================================================
 // PATCH /api/orders/:id/status
-// Admin: অর্ডারের অবস্থা পরিবর্তন করবে।
+// Admin: অর্ডারের অবস্থা পরিবর্তন করবে.
 //
-// গুরুত্বপূর্ণ নিয়ম:
-// - Delivered হলে Commission pending হবে।
-// - Cancelled হলে কোনো স্বয়ংক্রিয় Refund হবে না।
-// - Cancelled হলেই Commission reverse হবে না।
-// - Refund নিশ্চিত করার সময় refund.routes.js
-//   Commission reversal এবং Wallet refund করবে।
+// Delivered:
+// 1. Mark order as delivered.
+// 2. Prepare 10-level commission.
+// 3. Immediately release eligible commissions.
+// 4. Commit delivery + wallet credits together.
+//
+// Cancelled:
+// No automatic refund.
+// Refund confirmation is handled by refund.routes.js.
 // =====================================================
 
 router.patch(
@@ -781,6 +785,7 @@ router.patch(
       }
 
       let result;
+      let commissionResult = null;
 
       if (status === "delivered") {
         if (current.status === "cancelled") {
@@ -812,8 +817,60 @@ router.patch(
         );
 
         if (current.payment_status === "paid") {
-          await prepareOrderCommission(client, orderId);
+          const prepared = await prepareOrderCommission(
+            client,
+            orderId
+          );
+
+          if (
+            prepared.success &&
+            prepared.status === "pending"
+          ) {
+            commissionResult = await releaseOrderCommission(
+              client,
+              orderId
+            );
+          } else if (
+            prepared.success &&
+            prepared.status === "released"
+          ) {
+            commissionResult = {
+              success: true,
+              duplicate: true,
+              message: "Commission has already been released."
+            };
+          } else {
+            // Do not silently claim that commission was paid.
+            // Delivery can still be recorded if the engine is
+            // disabled or legal approval has not been confirmed.
+            commissionResult = {
+              success: false,
+              status: "not_eligible",
+              message: prepared.message ||
+                "Commission was not prepared."
+            };
+          }
         }
+
+        // Reload final order status after commission processing.
+        const finalOrder = await client.query(
+          `SELECT
+             id,
+             order_number,
+             status,
+             payment_method,
+             payment_status,
+             delivered_at,
+             commission_status,
+             refund_period_ends_at,
+             refund_status,
+             updated_at
+           FROM orders
+           WHERE id = $1`,
+          [orderId]
+        );
+
+        result = finalOrder;
 
       } else if (status === "cancelled") {
         // Cancellation does not automatically refund money.
@@ -868,14 +925,27 @@ router.patch(
       await client.query("COMMIT");
       transactionStarted = false;
 
+      let message;
+
+      if (status === "delivered") {
+        if (commissionResult && commissionResult.success) {
+          message =
+            "Order delivered. Eligible commissions have been credited to member wallets.";
+        } else {
+          message =
+            "Order delivered. Commission was not credited. Please check commission settings and legal approval.";
+        }
+      } else if (status === "cancelled") {
+        message =
+          "Order cancelled. No money has been refunded. Admin must contact the customer and confirm a refund separately.";
+      } else {
+        message = "Order status updated successfully.";
+      }
+
       return res.json({
         success: true,
-        message:
-          status === "delivered"
-            ? "Order delivered. Commission is pending until the return/refund period ends."
-            : status === "cancelled"
-              ? "Order cancelled. No money has been refunded. Admin must contact the customer and confirm a refund separately."
-              : "Order status updated successfully.",
+        message,
+        commission: commissionResult,
         order: result.rows[0]
       });
 
