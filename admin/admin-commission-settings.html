@@ -1,0 +1,942 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35">
+<meta name="description" content="Rubalia Network Commission Settings">
+<title>Commission Settings | Rubalia Network</title>
+
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --shadow:0 2px 9px rgba(16,43,80,.045);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);color:var(--text)
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
+
+.topbar{
+ min-height:60px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 20px;position:sticky;top:0;z-index:50
+}
+.brand{font-size:18px;font-weight:900}
+.brand span{color:var(--gold)}
+.top-right{display:flex;align-items:center;gap:9px}
+.admin-label{
+ font-size:9px;background:#ffffff15;color:#f3dfa9;
+ border:1px solid #d6ad5545;padding:7px 10px;
+ border-radius:20px;font-weight:bold
+}
+.admin-avatar{
+ width:34px;height:34px;border-radius:50%;
+ background:var(--gold);color:var(--navy);
+ display:grid;place-items:center;font-weight:bold
+}
+.menu-btn{
+ display:none;border:1px solid #ffffff35;
+ background:transparent;color:white;
+ padding:7px 10px;border-radius:7px;font-size:18px
+}
+.layout{
+ display:grid;grid-template-columns:225px minmax(0,1fr);
+ min-height:calc(100vh - 60px)
+}
+.sidebar{
+ background:var(--navy2);color:white;padding:17px 11px;
+ min-height:calc(100vh - 60px)
+}
+.admin-profile{
+ padding:8px 10px 16px;margin-bottom:12px;
+ border-bottom:1px solid #ffffff20
+}
+.admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
+.admin-profile small{
+ color:#b8c7d9;font-size:10px;overflow-wrap:anywhere
+}
+.side-heading{
+ color:#9eafc5;font-size:9px;font-weight:bold;
+ letter-spacing:1px;margin:17px 10px 7px
+}
+.nav-link,.logout-btn{
+ display:flex;align-items:center;gap:9px;
+ padding:10px;border-radius:7px;margin:2px 0;
+ font-size:11px;color:#dce6f2;width:100%
+}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{
+ background:#ffffff16;color:var(--gold)
+}
+.nav-icon{width:18px;text-align:center}
+.logout-btn{
+ background:transparent;border:0;text-align:left
+}
+.main{min-width:0;width:100%}
+.content{
+ padding:22px;width:100%;max-width:1100px;margin:auto
+}
+.heading{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:17px
+}
+.heading h1{font-size:23px;color:var(--navy);margin:0 0 5px}
+.heading p{font-size:11px;color:var(--muted);margin:0;line-height:1.6}
+.connection{
+ display:inline-flex;align-items:center;gap:7px;
+ background:#fff0f0;color:var(--red);
+ border:1px solid #f2cccc;padding:8px 11px;
+ border-radius:20px;font-size:9px;font-weight:bold
+}
+.connection.online{
+ background:#e7f7ef;color:var(--green);border-color:#c7ead8
+}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.panel{
+ background:white;border:1px solid var(--border);
+ border-radius:11px;margin-bottom:16px;
+ box-shadow:var(--shadow);overflow:hidden
+}
+.panel-head{
+ padding:15px;border-bottom:1px solid var(--border)
+}
+.panel-head h2{margin:0 0 5px;color:var(--navy);font-size:15px}
+.panel-head p{margin:0;color:var(--muted);font-size:10px;line-height:1.6}
+.panel-body{padding:16px}
+.notice{
+ padding:13px 14px;border-radius:9px;
+ background:#fff8e8;border:1px solid #f1dfb4;
+ color:#85651e;font-size:11px;line-height:1.7;margin-bottom:16px
+}
+.notice.error{
+ background:#fff0f0;border-color:#f2cccc;color:#a34237
+}
+.notice.success{
+ background:#e7f7ef;border-color:#c7ead8;color:#17633b
+}
+.notice strong{display:block;margin-bottom:3px}
+.field{margin-bottom:17px}
+.field label{
+ display:block;color:var(--navy);
+ font-size:11px;font-weight:bold;margin-bottom:7px
+}
+.field small{
+ display:block;color:var(--muted);
+ font-size:10px;line-height:1.6;margin-top:6px
+}
+.field input{
+ width:100%;padding:12px;
+ border:1px solid var(--border);border-radius:8px;
+ outline:none;background:white;color:var(--text);font-size:13px
+}
+.field input:focus{border-color:#3978bd;box-shadow:0 0 0 3px #3978bd15}
+.switch-row{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;padding:14px 0;border-bottom:1px solid var(--border)
+}
+.switch-row:last-child{border-bottom:0}
+.switch-info{min-width:0}
+.switch-info strong{display:block;color:var(--navy);font-size:12px}
+.switch-info small{
+ display:block;color:var(--muted);font-size:10px;
+ line-height:1.6;margin-top:4px
+}
+.switch{
+ position:relative;width:48px;height:26px;flex-shrink:0
+}
+.switch input{opacity:0;width:0;height:0}
+.slider{
+ position:absolute;inset:0;background:#cbd3df;
+ border-radius:20px;transition:.2s
+}
+.slider:before{
+ content:"";position:absolute;width:18px;height:18px;
+ left:4px;top:4px;background:white;border-radius:50%;
+ transition:.2s
+}
+.switch input:checked+.slider{background:var(--green)}
+.switch input:checked+.slider:before{transform:translateX(22px)}
+.rate-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+}
+.rate-item{
+ background:#f8f9fc;border:1px solid var(--border);
+ padding:11px;border-radius:9px;min-width:0
+}
+.rate-item label{
+ display:block;color:var(--navy);
+ font-size:10px;font-weight:bold;margin-bottom:8px
+}
+.rate-input-wrap{position:relative}
+.rate-input-wrap input{
+ width:100%;padding:11px 35px 11px 10px;
+ border:1px solid var(--border);border-radius:7px;
+ font-size:14px;font-weight:bold;color:var(--navy);
+ background:white;outline:none
+}
+.rate-input-wrap input:focus{border-color:#3978bd}
+.rate-input-wrap span{
+ position:absolute;right:12px;top:50%;
+ transform:translateY(-50%);font-size:12px;color:var(--muted)
+}
+.summary-grid{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;margin-bottom:14px
+}
+.summary-card{
+ border:1px solid var(--border);border-radius:9px;
+ padding:13px;background:#f8f9fc;min-width:0
+}
+.summary-card small{font-size:9px;color:var(--muted)}
+.summary-card strong{
+ display:block;font-size:20px;color:var(--navy);
+ margin-top:7px;overflow-wrap:anywhere
+}
+.summary-card.gold{border-top:3px solid var(--gold)}
+.summary-card.green{border-top:3px solid var(--green)}
+.summary-card.blue{border-top:3px solid #3978bd}
+.total-indicator{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:10px;flex-wrap:wrap;padding:12px;
+ background:#f8f9fc;border:1px solid var(--border);
+ border-radius:8px;margin-top:13px
+}
+.total-indicator strong{font-size:12px;color:var(--navy)}
+.total-indicator span{font-size:12px;font-weight:bold}
+.total-indicator .valid{color:var(--green)}
+.total-indicator .invalid{color:var(--red)}
+.button-row{
+ display:flex;gap:9px;flex-wrap:wrap;margin-top:15px
+}
+.btn{
+ border:0;border-radius:8px;padding:12px 16px;
+ font-size:11px;font-weight:bold
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#eef2f7;color:var(--navy)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.footer{
+ text-align:center;padding:18px;color:#9aa5b5;font-size:9px
+}
+.loading-screen,.error-screen{
+ position:fixed;inset:0;z-index:1000;
+ display:flex;align-items:center;justify-content:center;
+ background:var(--bg);padding:18px
+}
+.loading-box,.error-card{
+ width:100%;max-width:400px;padding:25px;
+ background:white;border:1px solid var(--border);
+ border-radius:13px;text-align:center
+}
+.loading-box strong{color:var(--navy)}
+.loading-box p,.error-card p{
+ color:var(--muted);font-size:12px;line-height:1.6
+}
+.spinner{
+ width:30px;height:30px;border:3px solid #e3e8ef;
+ border-top-color:var(--gold);border-radius:50%;
+ margin:0 auto 14px;animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-screen{display:none}
+.error-card h2{color:var(--navy)}
+.error-card button,.error-card a{
+ display:inline-block;margin:5px;padding:10px 14px;
+ border:0;border-radius:7px;background:var(--gold);
+ color:var(--navy);font-size:11px;font-weight:bold
+}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{
+  display:none;position:fixed;top:60px;left:0;bottom:0;
+  width:260px;min-height:0;overflow-y:auto;z-index:45
+ }
+ .sidebar.open{display:block}
+ .menu-btn{display:block}
+ .content{padding:16px}
+}
+@media(max-width:600px){
+ .topbar{min-height:55px;padding:0 11px}
+ .sidebar{top:55px}
+ .brand{font-size:15px}
+ .admin-label{font-size:8px;padding:6px 7px}
+ .admin-avatar{width:29px;height:29px}
+ .content{padding:12px}
+ .heading h1{font-size:20px}
+ .panel-body{padding:12px}
+ .rate-grid{gap:7px}
+ .rate-item{padding:9px}
+ .rate-input-wrap input{font-size:13px}
+ .summary-grid{gap:7px}
+ .summary-card{padding:10px}
+ .summary-card strong{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying administrator access...</p>
+ </div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+ <div class="error-card">
+  <h2 id="errorTitle">Access Error</h2>
+  <p id="errorMessage"></p>
+  <a href="../login.html">Login</a>
+  <button type="button" onclick="location.reload()">Try Again</button>
+ </div>
+</div>
+
+<div id="adminApp" hidden>
+
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:10px">
+  <button class="menu-btn" id="menuBtn" type="button">☰</button>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+ </div>
+ <div class="top-right">
+  <span class="admin-label">ADMIN PANEL</span>
+  <div class="admin-avatar" id="adminAvatar">A</div>
+ </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+ <div class="admin-profile">
+  <strong id="adminName">Administrator</strong>
+  <small id="adminEmail">Loading...</small>
+ </div>
+
+ <div class="side-heading">Main Menu</div>
+ <a href="../admin-dashboard.html" class="nav-link">
+  <span class="nav-icon">▦</span> Dashboard
+ </a>
+
+ <div class="side-heading">Finance</div>
+ <a href="admin-commissions.html" class="nav-link">
+  <span class="nav-icon">📊</span> Commission Management
+ </a>
+ <a href="admin-commission-settings.html" class="nav-link active">
+  <span class="nav-icon">⚙️</span> Commission Settings
+ </a>
+ <a href="admin-orders.html" class="nav-link">
+  <span class="nav-icon">🛒</span> Orders
+ </a>
+ <a href="admin-payments.html" class="nav-link">
+  <span class="nav-icon">💳</span> Payments
+ </a>
+ <a href="admin-withdrawals.html" class="nav-link">
+  <span class="nav-icon">💸</span> Withdrawals
+ </a>
+ <a href="admin-refunds.html" class="nav-link">
+  <span class="nav-icon">↩️</span> Refunds
+ </a>
+
+ <div class="side-heading">Website</div>
+ <a href="../index.html" class="nav-link">🌐 Visit Website</a>
+
+ <button class="logout-btn" id="logoutBtn" type="button">↪ Logout</button>
+</aside>
+
+<main class="main">
+<section class="content">
+
+ <div class="heading">
+  <div>
+   <h1>Commission Settings</h1>
+   <p>Configure the 10-Level Unilevel commission engine.</p>
+  </div>
+  <span class="connection" id="connection">
+   <span class="dot"></span>
+   <span id="connectionText">CONNECTING</span>
+  </span>
+ </div>
+
+ <div class="notice">
+  <strong>Important Commission Rules</strong>
+  The 10 commission levels must total exactly 75%.
+  The remaining 25% is the company's share.
+  Commission processing requires the engine to be enabled and legal approval confirmed.
+ </div>
+
+ <div class="notice error" id="messageBox" hidden></div>
+
+ <!-- ENGINE SETTINGS -->
+ <section class="panel">
+  <div class="panel-head">
+   <h2>Commission Engine</h2>
+   <p>Control whether the server can prepare and release commissions.</p>
+  </div>
+  <div class="panel-body">
+
+   <div class="switch-row">
+    <div class="switch-info">
+     <strong>Commission Engine Enabled</strong>
+     <small>When enabled, eligible paid and delivered orders can be processed.</small>
+    </div>
+    <label class="switch">
+     <input type="checkbox" id="enabled">
+     <span class="slider"></span>
+    </label>
+   </div>
+
+   <div class="switch-row">
+    <div class="switch-info">
+     <strong>Legal Approval Confirmed</strong>
+     <small>Confirm that the commission structure has received the required legal and compliance review.</small>
+    </div>
+    <label class="switch">
+     <input type="checkbox" id="legalApprovalConfirmed">
+     <span class="slider"></span>
+    </label>
+   </div>
+
+  </div>
+ </section>
+
+ <!-- LEVEL RATES -->
+ <section class="panel">
+  <div class="panel-head">
+   <h2>10-Level Commission Rates</h2>
+   <p>Enter the percentage allocated to each eligible sponsor level.</p>
+  </div>
+  <div class="panel-body">
+
+   <div class="summary-grid">
+    <div class="summary-card blue">
+     <small>Total Level Commission</small>
+     <strong id="totalRate">75%</strong>
+    </div>
+    <div class="summary-card gold">
+     <small>Company Share</small>
+     <strong id="companyRate">25%</strong>
+    </div>
+    <div class="summary-card green">
+     <small>Level Count</small>
+     <strong>10</strong>
+    </div>
+   </div>
+
+   <div class="rate-grid" id="rateGrid">
+    <div class="rate-item">
+     <label for="rate1">Level 1</label>
+     <div class="rate-input-wrap">
+      <input id="rate1" type="number" min="0" max="75" step="0.01" value="20">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate2">Level 2</label>
+     <div class="rate-input-wrap">
+      <input id="rate2" type="number" min="0" max="75" step="0.01" value="15">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate3">Level 3</label>
+     <div class="rate-input-wrap">
+      <input id="rate3" type="number" min="0" max="75" step="0.01" value="10">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate4">Level 4</label>
+     <div class="rate-input-wrap">
+      <input id="rate4" type="number" min="0" max="75" step="0.01" value="8">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate5">Level 5</label>
+     <div class="rate-input-wrap">
+      <input id="rate5" type="number" min="0" max="75" step="0.01" value="6">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate6">Level 6</label>
+     <div class="rate-input-wrap">
+      <input id="rate6" type="number" min="0" max="75" step="0.01" value="5">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate7">Level 7</label>
+     <div class="rate-input-wrap">
+      <input id="rate7" type="number" min="0" max="75" step="0.01" value="4">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate8">Level 8</label>
+     <div class="rate-input-wrap">
+      <input id="rate8" type="number" min="0" max="75" step="0.01" value="3">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate9">Level 9</label>
+     <div class="rate-input-wrap">
+      <input id="rate9" type="number" min="0" max="75" step="0.01" value="2">
+      <span>%</span>
+     </div>
+    </div>
+    <div class="rate-item">
+     <label for="rate10">Level 10</label>
+     <div class="rate-input-wrap">
+      <input id="rate10" type="number" min="0" max="75" step="0.01" value="2">
+      <span>%</span>
+     </div>
+    </div>
+   </div>
+
+   <div class="total-indicator">
+    <strong>Commission Rate Validation</strong>
+    <span id="rateValidation" class="valid">✓ Total is 75%</span>
+   </div>
+
+  </div>
+ </section>
+
+ <!-- OTHER SETTINGS -->
+ <section class="panel">
+  <div class="panel-head">
+   <h2>Payment & Refund Settings</h2>
+   <p>Configure gateway fee and refund period used by the commission engine.</p>
+  </div>
+  <div class="panel-body">
+
+   <div class="field">
+    <label for="gatewayFeePercent">Live Gateway Fee (%)</label>
+    <input id="gatewayFeePercent" type="number" min="0" max="100" step="0.01" value="0">
+    <small>Wallet payments use a 0% gateway fee. This percentage is applied to configured live gateway payments.</small>
+   </div>
+
+   <div class="field">
+    <label for="refundPeriodDays">Refund Period (Days)</label>
+    <input id="refundPeriodDays" type="number" min="0" max="365" step="1" value="7">
+    <small>Allowed value: 0 to 365 days. This setting is stored for refund reporting and processing.</small>
+   </div>
+
+  </div>
+ </section>
+
+ <!-- SAVE -->
+ <section class="panel">
+  <div class="panel-body">
+   <div class="notice">
+    <strong>Before saving</strong>
+    Check all 10 commission rates. Their total must equal exactly 75%.
+    The server will reject invalid rates and will not allow the engine to be enabled without legal approval.
+   </div>
+
+   <div class="button-row">
+    <button class="btn btn-primary" id="saveBtn" type="button">Save Commission Settings</button>
+    <button class="btn btn-light" id="reloadBtn" type="button">↻ Reload Settings</button>
+   </div>
+  </div>
+ </section>
+
+ <div style="text-align:center;margin:18px 0">
+  <button class="btn btn-light" id="bottomLogoutBtn" type="button">↪ Logout</button>
+ </div>
+
+</section>
+</main>
+</div>
+
+<footer class="footer">
+ © <span id="year"></span> Rubalia Network. All Rights Reserved.
+ <br>Commission Settings
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const API_BASE="https://rubalia.onrender.com/api";
+const TOKEN_KEY="rubalia_token";
+const USER_KEY="rubalia_user";
+const DEFAULT_RATES=[20,15,10,8,6,5,4,3,2,2];
+
+let adminToken="";
+let loadedSettings=null;
+
+const $=id=>document.getElementById(id);
+
+function setConnection(online,message){
+ $("connection").classList.toggle("online",online);
+ $("connectionText").textContent=message;
+}
+
+function showMessage(message,type="error"){
+ const box=$("messageBox");
+ box.hidden=false;
+ box.className="notice "+type;
+ box.textContent=message;
+ box.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function clearMessage(){
+ $("messageBox").hidden=true;
+ $("messageBox").textContent="";
+}
+
+function showPageError(title,message){
+ $("loadingScreen").style.display="none";
+ $("adminApp").hidden=true;
+ $("errorTitle").textContent=title;
+ $("errorMessage").textContent=message;
+ $("errorScreen").style.display="flex";
+}
+
+function logout(){
+ sessionStorage.removeItem(TOKEN_KEY);
+ sessionStorage.removeItem(USER_KEY);
+ window.location.replace("../login.html");
+}
+
+async function apiRequest(path,options={}){
+ const response=await fetch(API_BASE+path,{
+  ...options,
+  headers:{
+   "Authorization":"Bearer "+adminToken,
+   "Accept":"application/json",
+   ...(options.body?{"Content-Type":"application/json"}:{}),
+   ...(options.headers||{})
+  },
+  cache:"no-store"
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401){
+  sessionStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(USER_KEY);
+  window.location.replace("../login.html");
+  throw new Error("Your session has expired. Please login again.");
+ }
+
+ if(response.status===403){
+  throw new Error("Your account does not have administrator permission.");
+ }
+
+ if(!response.ok||data.success===false){
+  throw new Error(data.message||"The server request failed.");
+ }
+
+ return data;
+}
+
+function getRates(){
+ const rates=[];
+
+ for(let i=1;i<=10;i++){
+  const value=Number($("rate"+i).value);
+
+  if(!Number.isFinite(value)||value<0||value>75){
+   throw new Error("Level "+i+" must be between 0 and 75.");
+  }
+
+  rates.push(value);
+ }
+
+ return rates;
+}
+
+function updateRateSummary(){
+ let rates;
+
+ try{
+  rates=getRates();
+ }catch(error){
+  $("rateValidation").textContent="✕ "+error.message;
+  $("rateValidation").className="invalid";
+  $("totalRate").textContent="Invalid";
+  $("companyRate").textContent="—";
+  return false;
+ }
+
+ const total=rates.reduce((sum,value)=>sum+value,0);
+ const valid=Math.abs(total-75)<0.0001;
+
+ $("totalRate").textContent=total.toFixed(2)+"%";
+ $("companyRate").textContent=valid?"25%":"—";
+
+ $("rateValidation").textContent=valid
+  ?"✓ Total is exactly 75%"
+  :"✕ Total must equal exactly 75%";
+
+ $("rateValidation").className=valid?"valid":"invalid";
+
+ return valid;
+}
+
+function normalizeRates(value){
+ let rates=value;
+
+ if(typeof rates==="string"){
+  try{rates=JSON.parse(rates)}catch{rates=null}
+ }
+
+ if(!Array.isArray(rates)||rates.length!==10){
+  return DEFAULT_RATES.slice();
+ }
+
+ return rates.map(Number);
+}
+
+function fillSettings(settings){
+ loadedSettings=settings;
+
+ $("enabled").checked=settings.enabled===true;
+ $("legalApprovalConfirmed").checked=
+  settings.legal_approval_confirmed===true;
+
+ const rates=normalizeRates(settings.level_rates);
+
+ rates.forEach((rate,index)=>{
+  $("rate"+(index+1)).value=rate;
+ });
+
+ $("gatewayFeePercent").value=
+  settings.gateway_fee_percent??0;
+
+ $("refundPeriodDays").value=
+  settings.refund_period_days??7;
+
+ updateRateSummary();
+}
+
+async function loadSettings(){
+ const button=$("reloadBtn");
+ button.disabled=true;
+ button.textContent="Loading...";
+
+ clearMessage();
+
+ try{
+  const data=await apiRequest("/commission/admin/settings");
+
+  if(!data.settings){
+   throw new Error("The server did not return commission settings.");
+  }
+
+  fillSettings(data.settings);
+  setConnection(true,"SETTINGS LOADED");
+
+ }catch(error){
+  if(error.message.includes("session has expired"))return;
+
+  setConnection(false,"LOAD FAILED");
+  showMessage(
+   error.message+" Check that the commission settings table exists and the backend is deployed.",
+   "error"
+  );
+
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ Reload Settings";
+ }
+}
+
+async function saveSettings(){
+ clearMessage();
+
+ let rates;
+
+ try{
+  rates=getRates();
+ }catch(error){
+  showMessage(error.message,"error");
+  return;
+ }
+
+ if(!updateRateSummary()){
+  showMessage(
+   "The total of all 10 commission levels must be exactly 75%.",
+   "error"
+  );
+  return;
+ }
+
+ const gatewayFeePercent=Number($("gatewayFeePercent").value);
+ const refundPeriodDays=Number($("refundPeriodDays").value);
+
+ if(
+  !Number.isFinite(gatewayFeePercent)||
+  gatewayFeePercent<0||
+  gatewayFeePercent>100
+ ){
+  showMessage("Gateway fee must be between 0 and 100%.","error");
+  return;
+ }
+
+ if(
+  !Number.isInteger(refundPeriodDays)||
+  refundPeriodDays<0||
+  refundPeriodDays>365
+ ){
+  showMessage("Refund period must be a whole number between 0 and 365 days.","error");
+  return;
+ }
+
+ const enabled=$("enabled").checked;
+ const legalApprovalConfirmed=$("legalApprovalConfirmed").checked;
+
+ if(enabled&&!legalApprovalConfirmed){
+  showMessage(
+   "You must confirm Legal Approval before enabling the commission engine.",
+   "error"
+  );
+  return;
+ }
+
+ const payload={
+  enabled,
+  legalApprovalConfirmed,
+  gatewayFeePercent,
+  refundPeriodDays,
+  levelRates:rates
+ };
+
+ const button=$("saveBtn");
+ button.disabled=true;
+ button.textContent="Saving...";
+
+ try{
+  const data=await apiRequest("/commission/admin/settings",{
+   method:"PUT",
+   body:JSON.stringify(payload)
+  });
+
+  if(data.settings){
+   fillSettings(data.settings);
+  }
+
+  setConnection(true,"SAVED SUCCESSFULLY");
+
+  showMessage(
+   data.message||"Commission settings saved successfully.",
+   "success"
+  );
+
+ }catch(error){
+  if(error.message.includes("session has expired"))return;
+
+  setConnection(false,"SAVE FAILED");
+  showMessage(error.message,"error");
+
+ }finally{
+  button.disabled=false;
+  button.textContent="Save Commission Settings";
+ }
+}
+
+async function initializeAdmin(){
+ adminToken=sessionStorage.getItem(TOKEN_KEY)||"";
+
+ if(!adminToken){
+  window.location.replace("../login.html");
+  return;
+ }
+
+ try{
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("The server did not return account information.");
+  }
+
+  if(String(user.role||"").toLowerCase()!=="admin"){
+   window.location.replace("../dashboard.html");
+   return;
+  }
+
+  const name=user.full_name||user.fullName||"Administrator";
+
+  $("adminName").textContent=name;
+  $("adminEmail").textContent=user.email||"";
+  $("adminAvatar").textContent=name.trim().charAt(0).toUpperCase()||"A";
+  $("year").textContent=new Date().getFullYear();
+
+  $("loadingScreen").style.display="none";
+  $("adminApp").hidden=false;
+
+  await loadSettings();
+
+ }catch(error){
+  if(error.message.includes("session has expired"))return;
+
+  showPageError(
+   error.message.includes("administrator permission")
+    ?"Access Denied"
+    :"Unable to Verify Account",
+   error.message
+  );
+ }
+}
+
+// EVENTS
+$("menuBtn").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
+
+$("logoutBtn").addEventListener("click",logout);
+$("bottomLogoutBtn").addEventListener("click",logout);
+$("saveBtn").addEventListener("click",saveSettings);
+$("reloadBtn").addEventListener("click",loadSettings);
+
+for(let i=1;i<=10;i++){
+ $("rate"+i).addEventListener("input",updateRateSummary);
+}
+
+document.querySelectorAll(".sidebar a").forEach(link=>{
+ link.addEventListener("click",()=>{
+  $("sidebar").classList.remove("open");
+ });
+});
+
+document.addEventListener("click",event=>{
+ const sidebar=$("sidebar");
+ const menu=$("menuBtn");
+
+ if(
+  window.innerWidth<=800&&
+  sidebar.classList.contains("open")&&
+  !sidebar.contains(event.target)&&
+  !menu.contains(event.target)
+ ){
+  sidebar.classList.remove("open");
+ }
+});
+
+initializeAdmin();
+</script>
+</body>
+</html>
