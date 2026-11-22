@@ -3,85 +3,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071a35">
-<title>Rubalia - Package Management</title>
+<title>Package Management | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d9ad55;
-  --bg:#f3f5f9;
-  --white:#fff;
-  --text:#17243a;
-  --muted:#778397;
-  --border:#e2e7ef;
-  --green:#168653;
-  --red:#d64545;
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d9ad55;
+ --bg:#f3f5f9;
+ --white:#fff;
+ --text:#17243a;
+ --muted:#778397;
+ --border:#e2e7ef;
+ --green:#168653;
+ --red:#d64545;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.6;cursor:not-allowed}
+button:disabled{opacity:.55;cursor:not-allowed}
+a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
 
-.header{
-  background:var(--navy);
-  color:white;
-  padding:16px;
+/* HEADER */
+.topbar{
+ min-height:65px;
+ background:var(--navy);
+ color:white;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:10px 20px;
+ position:sticky;
+ top:0;
+ z-index:30;
 }
-.header-inner{
-  max-width:1150px;
-  margin:auto;
-}
-.brand{font-size:19px;font-weight:800}
+.top-left{display:flex;align-items:center;gap:12px}
+.brand{font-size:19px;font-weight:900;letter-spacing:.4px}
 .brand span{color:var(--gold)}
-.header p{font-size:11px;color:#dce5f3;margin:5px 0 0}
+.admin-label{
+ color:#f3dfa9;
+ background:#d6ad5525;
+ border:1px solid #d6ad5550;
+ border-radius:20px;
+ padding:7px 11px;
+ font-size:10px;
+ font-weight:bold;
+}
+.menu-btn{
+ display:none;
+ background:transparent;
+ border:1px solid #ffffff55;
+ color:white;
+ border-radius:7px;
+ padding:8px 11px;
+ font-size:18px;
+}
 
-.container{
-  max-width:1150px;
-  margin:20px auto;
-  padding:0 14px 40px;
+/* LAYOUT */
+.layout{
+ display:grid;
+ grid-template-columns:235px minmax(0,1fr);
+ min-height:calc(100vh - 65px);
+}
+.sidebar{
+ background:var(--navy2);
+ color:white;
+ padding:18px 13px;
+}
+.side-heading{
+ color:#9eafc5;
+ font-size:10px;
+ font-weight:bold;
+ letter-spacing:1.2px;
+ margin:19px 10px 9px;
+}
+.nav-link,.logout-btn{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:11px 12px;
+ margin:3px 0;
+ border-radius:8px;
+ color:#dce6f2;
+ font-size:12px;
+ width:100%;
+}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{
+ background:#d6ad5528;
+ color:#f3dfa9;
+}
+.logout-btn{
+ background:transparent;
+ border:0;
+ text-align:left;
+}
+
+/* MAIN */
+.main{
+ width:100%;
+ max-width:1500px;
+ margin:auto;
+ padding:22px;
+ min-width:0;
 }
 .panel{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:18px;
-  margin-bottom:18px;
+ background:white;
+ border:1px solid var(--border);
+ border-radius:13px;
+ padding:18px;
+ margin-bottom:18px;
 }
-.panel h2{font-size:19px;margin:0 0 17px}
+.panel h2{
+ font-size:20px;
+ margin:0 0 17px;
+ color:var(--navy);
+}
+.heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:12px;
+ margin-bottom:18px;
+}
+.heading h1{
+ margin:0 0 6px;
+ font-size:24px;
+ color:var(--navy);
+}
+.heading p{
+ margin:0;
+ color:var(--muted);
+ font-size:12px;
+}
 
+/* FORM */
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
 }
-.field{display:flex;flex-direction:column;gap:7px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
 .field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:700}
 input,select,textarea{
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  font-size:14px;
-  background:white;
-  color:var(--text);
-  outline:none;
+ width:100%;
+ padding:12px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ font-size:13px;
+ background:white;
+ color:var(--text);
+ outline:none;
+ min-width:0;
 }
 input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 textarea{min-height:85px;resize:vertical}
 .help{font-size:11px;color:var(--muted);line-height:1.5}
-button{cursor:pointer}
-
 .btn{
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  font-size:12px;
-  font-weight:700;
+ border:0;
+ border-radius:8px;
+ padding:10px 14px;
+ font-size:12px;
+ font-weight:700;
 }
 .primary{background:var(--gold);color:#17243a}
 .secondary{background:var(--navy);color:white}
@@ -89,159 +182,263 @@ button{cursor:pointer}
 .danger{background:#fee2e2;color:#b91c1c}
 .light{background:#eef0ff;color:#5145e5}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-
 .section-title{
-  font-size:15px;
-  font-weight:800;
-  margin:22px 0 12px;
-  padding-bottom:9px;
-  border-bottom:1px solid var(--border);
+ font-size:14px;
+ font-weight:800;
+ margin:22px 0 12px;
+ padding-bottom:9px;
+ border-bottom:1px solid var(--border);
 }
 .image-area{
-  border:2px dashed #c7c9e9;
-  background:#fafaff;
-  border-radius:10px;
-  padding:14px;
+ border:1px dashed #b9c1d5;
+ background:#fafaff;
+ border-radius:10px;
+ padding:13px;
 }
 .image-preview{
-  width:100%;
-  max-height:220px;
-  object-fit:contain;
-  display:none;
-  margin-top:12px;
-  border-radius:8px;
-  background:#eee;
+ width:100%;
+ max-height:220px;
+ object-fit:contain;
+ display:none;
+ margin-top:12px;
+ border-radius:8px;
+ background:#eee;
 }
 .upload-status{font-size:11px;color:var(--muted);margin-top:8px}
 
+/* PRODUCT COST */
 .product-cost-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:12px;
-  margin-top:10px;
+ background:#f8f9fc;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:10px;
+ margin-top:8px;
 }
-.product-cost-card strong{font-size:13px}
-.product-cost-card p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.product-cost-card strong{font-size:12px}
+.product-cost-card p{
+ margin:5px 0 0;
+ font-size:11px;
+ color:var(--muted);
+}
 
+/* COST SUMMARY */
 .cost-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
 }
 .cost-summary{
-  background:#f8f9fc;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  margin-top:15px;
+ background:#f8f9fc;
+ border:1px solid var(--border);
+ border-radius:9px;
+ padding:12px;
+ margin-top:14px;
 }
 .summary-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:13px;
-  margin:8px 0;
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ font-size:12px;
+ margin:7px 0;
 }
 .summary-total{
-  border-top:1px solid var(--border);
-  padding-top:11px;
-  margin-top:12px;
-  font-weight:800;
-  font-size:15px;
+ border-top:1px solid var(--border);
+ padding-top:10px;
+ margin-top:10px;
+ font-weight:800;
 }
 .profit{color:var(--green);font-weight:800}
 .loss{color:var(--red);font-weight:800}
 
+/* MESSAGE */
 .message{
-  display:none;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:15px;
-  font-size:13px;
-  line-height:1.5;
+ display:none;
+ padding:12px;
+ border-radius:8px;
+ margin-bottom:15px;
+ font-size:12px;
+ line-height:1.5;
 }
-.message.error{background:#fee2e2;color:#991b1b}
-.message.success{background:#dcfce7;color:#166534}
+.message.error{display:block;background:#fee2e2;color:#991b1b}
+.message.success{display:block;background:#dcfce7;color:#166534}
 
-/* CATEGORY GROUP */
+/* CATEGORY SELECT */
+.category-select-wrap{position:relative}
+.category-select-wrap select{
+ appearance:none;
+ -webkit-appearance:none;
+ padding-right:35px;
+}
+.category-select-wrap:after{
+ content:"⌄";
+ position:absolute;
+ right:13px;
+ top:50%;
+ transform:translateY(-55%);
+ pointer-events:none;
+ color:#9a6a0a;
+ font-size:20px;
+ font-weight:bold;
+}
+.category-hint{font-size:11px;color:var(--muted)}
+
+/* CATEGORY FILTER CARDS */
+.category-filter-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-bottom:13px;
+}
+.category-filter-title h2{
+ margin:0;
+ font-size:20px;
+ color:var(--navy);
+}
+.category-filter-title small{
+ color:var(--muted);
+ font-size:11px;
+}
+.category-filter-grid{
+ display:grid;
+ grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:9px;
+}
+.category-filter{
+ min-width:0;
+ min-height:66px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:flex-start;
+ gap:5px;
+ padding:10px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ background:#fff;
+ color:var(--text);
+ text-align:left;
+}
+.category-filter:active{background:#f8f5ec}
+.category-filter.active{
+ border-color:var(--gold);
+ background:#fff8e8;
+}
+.category-filter-name{
+ font-size:11px;
+ line-height:1.35;
+ font-weight:700;
+ overflow-wrap:anywhere;
+}
+.category-filter-count{
+ font-size:10px;
+ color:var(--muted);
+}
+.category-filter.active .category-filter-count{color:#946c1b}
+.filter-result{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:13px;
+ padding-top:11px;
+ border-top:1px solid var(--border);
+}
+.filter-result span{
+ color:var(--muted);
+ font-size:11px;
+}
+.reset-filter{
+ border:1px solid var(--border);
+ background:#f7f8fb;
+ color:var(--navy);
+ border-radius:7px;
+ padding:7px 11px;
+ font-size:11px;
+ font-weight:bold;
+}
+
+/* PACKAGE CATEGORY GROUP */
 .category-group{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:16px;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:13px;
+ margin-bottom:14px;
 }
 .category-heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  padding:3px 2px 12px;
-  margin-bottom:13px;
-  border-bottom:1px solid var(--border);
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ padding:3px 2px 11px;
+ margin-bottom:12px;
+ border-bottom:1px solid var(--border);
 }
 .category-heading h3{
-  margin:0;
-  font-size:16px;
-  color:var(--navy);
+ margin:0;
+ font-size:15px;
+ color:var(--navy);
 }
 .category-count{
-  background:#f2f4f8;
-  color:#667085;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:700;
-  white-space:nowrap;
+ background:#f2f4f8;
+ color:#667085;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:10px;
+ font-weight:700;
+ white-space:nowrap;
 }
 
-/* PACKAGE GRID */
+/* PACKAGE CARDS */
 .package-list{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:13px;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
 }
 .package-card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:11px;
-  overflow:hidden;
-  min-width:0;
+ background:white;
+ border:1px solid var(--border);
+ border-radius:10px;
+ overflow:hidden;
+ min-width:0;
 }
 .package-card img{
-  width:100%;
-  height:165px;
-  object-fit:cover;
-  display:block;
-  background:#eee;
+ width:100%;
+ height:155px;
+ object-fit:cover;
+ display:block;
+ background:#eee;
 }
-.package-info{padding:13px}
+.package-info{padding:12px}
 .package-info h3{
-  font-size:16px;
-  margin:0 0 7px;
-  overflow-wrap:anywhere;
+ font-size:15px;
+ margin:0 0 7px;
+ overflow-wrap:anywhere;
+ color:var(--navy);
 }
 .package-info p{
-  font-size:12px;
-  color:var(--muted);
-  margin:6px 0;
-  line-height:1.5;
-  overflow-wrap:anywhere;
+ font-size:11px;
+ color:var(--muted);
+ margin:6px 0;
+ line-height:1.5;
+ overflow-wrap:anywhere;
 }
 .package-price{
-  font-size:17px!important;
-  font-weight:800;
-  color:#9a6a0a!important;
+ font-size:17px!important;
+ font-weight:800;
+ color:#9a6a0a!important;
 }
 .status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  background:#eee;
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:9px;
+ font-weight:800;
+ text-transform:uppercase;
+ background:#eee;
 }
 .status.active{background:#dcfce7;color:#166534}
 .status.draft{background:#fef3c7;color:#92400e}
@@ -249,979 +446,1191 @@ button{cursor:pointer}
 
 /* COMPACT PACKAGE COST */
 .package-cost{
-  background:#f7f8fc;
-  border-radius:7px;
-  padding:8px 10px;
-  margin-top:10px;
+ background:#f7f8fc;
+ border-radius:7px;
+ padding:7px 9px;
+ margin-top:9px;
 }
 .package-cost-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  padding:4px 0;
-  font-size:11px;
-  line-height:1.3;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ padding:3px 0;
+ font-size:10px;
+ line-height:1.3;
 }
 .package-cost-row span{
-  color:#7b8798;
-  min-width:0;
+ color:#7b8798;
+ min-width:0;
 }
 .package-cost-row strong{
-  color:#667085;
-  font-size:11px;
-  white-space:nowrap;
+ color:#667085;
+ font-size:10px;
+ white-space:nowrap;
 }
 .package-cost-row.total{
-  border-top:1px solid #e4e8ef;
-  margin-top:4px;
-  padding-top:7px;
+ border-top:1px solid #e4e8ef;
+ margin-top:4px;
+ padding-top:6px;
 }
 .package-cost-row.total strong{color:var(--navy)}
 .package-cost-row.profit-row strong{color:var(--green)}
 .package-cost-row.profit-row.negative strong{color:var(--red)}
 
 .card-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:12px;
+ display:flex;
+ flex-wrap:wrap;
+ gap:6px;
+ margin-top:11px;
 }
 .card-actions button{
-  padding:8px 11px;
-  font-size:11px;
+ padding:8px 10px;
+ font-size:10px;
 }
-
 .loading,.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-  font-size:13px;
+ text-align:center;
+ color:var(--muted);
+ padding:24px;
+ font-size:12px;
 }
-
-/* CATEGORY DROPDOWN */
-.category-select-wrap{position:relative}
-.category-select-wrap select{
-  appearance:none;
-  -webkit-appearance:none;
-  padding-right:40px;
-  cursor:pointer;
-}
-.category-select-wrap:after{
-  content:"⌄";
-  position:absolute;
-  right:14px;
-  top:50%;
-  transform:translateY(-55%);
-  pointer-events:none;
-  color:#9a6a0a;
-  font-size:20px;
-  font-weight:bold;
-}
-.category-hint{font-size:11px;color:var(--muted);margin-top:2px}
-
 .footer{
-  text-align:center;
-  padding:16px;
-  color:#9aa5b5;
-  font-size:10px;
+ text-align:center;
+ padding:16px;
+ color:#9aa5b5;
+ font-size:10px;
 }
 
-@media(max-width:650px){
-  .container{margin:13px auto;padding:0 10px 25px}
-  .panel{padding:13px}
-  .form-grid,.cost-grid{grid-template-columns:1fr}
-  .package-list{grid-template-columns:1fr}
-  .brand{font-size:17px}
-  .category-group{padding:11px}
-  .category-heading h3{font-size:15px}
-  .package-card img{height:auto;aspect-ratio:1.8/1}
-  .package-info{padding:12px}
-  .package-cost{padding:7px 9px}
-  .package-cost-row{font-size:10px;padding:3px 0}
-  .package-cost-row strong{font-size:10px}
-  .card-actions button{padding:8px 10px}
+/* MOBILE */
+@media(max-width:1050px){
+ .category-filter-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{
+  display:none;
+  position:fixed;
+  top:65px;
+  bottom:0;
+  left:0;
+  width:260px;
+  overflow-y:auto;
+  z-index:25;
+  box-shadow:5px 0 18px #0002;
+ }
+ .sidebar.open{display:block}
+ .menu-btn{display:block}
+ .main{padding:16px}
+ .category-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:580px){
+ .topbar{padding:10px 12px}
+ .brand{font-size:16px}
+ .admin-label{font-size:9px;padding:6px 8px}
+ .main{padding:12px}
+ .panel{padding:13px}
+ .form-grid,.cost-grid{grid-template-columns:1fr}
+ .package-list{grid-template-columns:1fr}
+ .category-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .category-filter{min-height:57px;padding:9px}
+ .category-filter-name{font-size:11px}
+ .category-group{padding:10px}
+ .package-card img{height:auto;aspect-ratio:1.8/1}
+ .package-info{padding:11px}
+ .package-cost{padding:6px 8px}
+ .package-cost-row{font-size:10px;padding:3px 0}
+ .package-cost-row strong{font-size:10px}
+ .heading h1{font-size:21px}
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <div class="brand">RUBALIA <span>NETWORK</span></div>
-    <p>Admin Package & Cost Management</p>
-  </div>
+<header class="topbar">
+ <div class="top-left">
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation">☰</button>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+ </div>
+ <span class="admin-label">ADMIN PANEL</span>
 </header>
 
-<main class="container">
+<div class="layout">
 
-  <div id="message" class="message"></div>
+<aside class="sidebar" id="sidebar">
+ <div class="side-heading">Main Menu</div>
+ <a class="nav-link" href="../admin-dashboard.html">▦ Dashboard</a>
 
-  <section class="panel">
-    <h2 id="formTitle">Create New Package</h2>
+ <div class="side-heading">Management</div>
+ <a class="nav-link" href="admin-users.html">👥 Users</a>
+ <a class="nav-link" href="admin-partners.html">🤝 Partners</a>
+ <a class="nav-link" href="admin-applications.html">📋 Applications</a>
+ <a class="nav-link" href="admin-products.html">📦 Products</a>
+ <a class="nav-link active" href="admin-packages.html">🎁 Packages</a>
+ <a class="nav-link" href="admin-orders.html">🛒 Orders</a>
 
-    <form id="packageForm">
+ <div class="side-heading">Finance</div>
+ <a class="nav-link" href="admin-payments.html">💳 Payments</a>
+ <a class="nav-link" href="admin-withdrawals.html">💸 Withdrawals</a>
+ <a class="nav-link" href="admin-commissions.html">💰 Commissions</a>
+ <a class="nav-link" href="admin-reports.html">📊 Reports</a>
 
-      <div class="form-grid">
+ <div class="side-heading">Communication</div>
+ <a class="nav-link" href="admin-announcements.html">📢 Announcements</a>
+ <a class="nav-link" href="admin-support.html">🎧 Support</a>
 
-        <div class="field full">
-          <label for="name">Package Name *</label>
-          <input id="name" maxlength="180" required placeholder="Enter package name">
-        </div>
+ <div class="side-heading">System</div>
+ <a class="nav-link" href="admin-settings.html">⚙️ Settings</a>
+ <a class="nav-link" href="../index.html">🌐 Visit Website</a>
+ <button class="logout-btn" id="logoutBtn" type="button">↪ Logout</button>
+</aside>
 
-        <div class="field">
-          <label for="category">Package Category *</label>
-          <div class="category-select-wrap">
-            <select id="category" required>
-              <option value="">Select Package Category</option>
-              <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
-              <option value="Health & Wellness">Health & Wellness</option>
-              <option value="Personal Care">Personal Care</option>
-              <option value="Home & Kitchen">Home & Kitchen</option>
-              <option value="Food & Grocery">Food & Grocery</option>
-              <option value="Fashion & Clothing">Fashion & Clothing</option>
-              <option value="Electronics & Gadgets">Electronics & Gadgets</option>
-              <option value="Baby & Kids">Baby & Kids</option>
-              <option value="Household Products">Household Products</option>
-              <option value="Lifestyle & Accessories">Lifestyle & Accessories</option>
-            </select>
-          </div>
-          <span class="category-hint">Choose the category that best matches this package.</span>
-        </div>
+<main class="main">
 
-        <div class="field">
-          <label for="price">Package Selling Price (৳) *</label>
-          <input id="price" type="number" min="0" step="0.01" required placeholder="0.00">
-        </div>
+ <div class="heading">
+  <div>
+   <h1>Package Management</h1>
+   <p>Create, edit and manage product packages.</p>
+  </div>
+ </div>
 
-        <div class="field">
-          <label for="stock">Available Stock *</label>
-          <input id="stock" type="number" min="0" step="1" required placeholder="0">
-        </div>
+ <div id="message" class="message" role="alert"></div>
 
-        <div class="field full">
-          <label for="description">Description</label>
-          <textarea id="description" maxlength="5000" placeholder="Package description"></textarea>
-        </div>
+ <!-- CREATE / EDIT FORM -->
+ <section class="panel">
+  <h2 id="formTitle">Create New Package</h2>
 
-        <div class="field full">
-          <label>Package Banner Image</label>
-          <div class="image-area">
-            <input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp">
-            <p class="help">JPG, PNG or WEBP. Maximum 5 MB.</p>
-            <img id="imagePreview" class="image-preview" alt="Package preview">
-            <div class="actions">
-              <button type="button" class="btn primary" id="uploadButton">Upload Image</button>
-              <button type="button" class="btn light" id="removeImageButton">Remove Image</button>
-            </div>
-            <div id="uploadStatus" class="upload-status">No image uploaded.</div>
-          </div>
-          <input type="hidden" id="imageUrl">
-        </div>
+  <form id="packageForm">
 
-      </div>
+   <div class="form-grid">
 
-      <div class="section-title">Select Three Products</div>
-
-      <div class="form-grid">
-        <div class="field full">
-          <label for="product1">First Product *</label>
-          <select id="product1" required>
-            <option value="">Loading products...</option>
-          </select>
-          <div id="productCost1"></div>
-        </div>
-
-        <div class="field full">
-          <label for="product2">Second Product *</label>
-          <select id="product2" required>
-            <option value="">Loading products...</option>
-          </select>
-          <div id="productCost2"></div>
-        </div>
-
-        <div class="field full">
-          <label for="product3">Third Product *</label>
-          <select id="product3" required>
-            <option value="">Loading products...</option>
-          </select>
-          <div id="productCost3"></div>
-        </div>
-      </div>
-
-      <div class="section-title">Package Additional Costs</div>
-
-      <div class="cost-grid">
-        <div class="field">
-          <label for="deliveryCost">Package Delivery Cost (৳)</label>
-          <input id="deliveryCost" type="number" min="0" step="0.01" value="0" required>
-        </div>
-
-        <div class="field">
-          <label for="packagingCost">Package Packaging Cost (৳)</label>
-          <input id="packagingCost" type="number" min="0" step="0.01" value="0" required>
-        </div>
-
-        <div class="field">
-          <label for="otherCost">Package Other Cost (৳)</label>
-          <input id="otherCost" type="number" min="0" step="0.01" value="0" required>
-        </div>
-      </div>
-
-      <div class="cost-summary">
-        <div class="summary-row"><span>Product 1 Cost Price</span><strong id="sumProduct1">৳0.00</strong></div>
-        <div class="summary-row"><span>Product 2 Cost Price</span><strong id="sumProduct2">৳0.00</strong></div>
-        <div class="summary-row"><span>Product 3 Cost Price</span><strong id="sumProduct3">৳0.00</strong></div>
-        <div class="summary-row"><span>Total Product Cost</span><strong id="sumProducts">৳0.00</strong></div>
-        <div class="summary-row"><span>Package Delivery</span><strong id="sumDelivery">৳0.00</strong></div>
-        <div class="summary-row"><span>Package Packaging</span><strong id="sumPackaging">৳0.00</strong></div>
-        <div class="summary-row"><span>Package Other Cost</span><strong id="sumOther">৳0.00</strong></div>
-        <div class="summary-row summary-total"><span>Total Package Cost</span><strong id="sumTotal">৳0.00</strong></div>
-        <div class="summary-row"><span>Package Selling Price</span><strong id="sumSelling">৳0.00</strong></div>
-        <div class="summary-row"><span>Estimated Gross Profit</span><strong id="sumProfit">৳0.00</strong></div>
-      </div>
-
-      <p class="help" style="margin-top:10px">
-        Package Cost = Three Products' Cost Price + Package Delivery
-        + Package Packaging + Package Other Cost.
-      </p>
-
-      <div class="actions">
-        <button type="submit" class="btn primary" id="saveButton">Create Package</button>
-        <button type="button" class="btn light" id="cancelButton" style="display:none">Cancel Edit</button>
-      </div>
-
-    </form>
-  </section>
-
-  <section class="panel">
-    <h2>All Packages</h2>
-    <div id="packageList">
-      <div class="loading">Loading packages...</div>
+    <div class="field full">
+     <label for="name">Package Name *</label>
+     <input id="name" maxlength="180" required placeholder="Enter package name">
     </div>
-  </section>
+
+    <div class="field">
+     <label for="category">Package Category *</label>
+     <div class="category-select-wrap">
+      <select id="category" required>
+       <option value="">Select Package Category</option>
+       <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+       <option value="Health & Wellness">Health & Wellness</option>
+       <option value="Personal Care">Personal Care</option>
+       <option value="Home & Kitchen">Home & Kitchen</option>
+       <option value="Food & Grocery">Food & Grocery</option>
+       <option value="Fashion & Clothing">Fashion & Clothing</option>
+       <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+       <option value="Baby & Kids">Baby & Kids</option>
+       <option value="Household Products">Household Products</option>
+       <option value="Lifestyle & Accessories">Lifestyle & Accessories</option>
+      </select>
+     </div>
+     <span class="category-hint">Choose the category that best matches this package.</span>
+    </div>
+
+    <div class="field">
+     <label for="price">Package Selling Price (৳) *</label>
+     <input id="price" type="number" min="0" step="0.01" required placeholder="0.00">
+    </div>
+
+    <div class="field">
+     <label for="stock">Available Stock *</label>
+     <input id="stock" type="number" min="0" step="1" required placeholder="0">
+    </div>
+
+    <div class="field full">
+     <label for="description">Description</label>
+     <textarea id="description" maxlength="5000" placeholder="Package description"></textarea>
+    </div>
+
+    <div class="field full">
+     <label>Package Banner Image</label>
+     <div class="image-area">
+      <input type="file" id="imageFile" accept="image/jpeg,image/png,image/webp">
+      <p class="help">JPG, PNG or WEBP. Maximum 5 MB.</p>
+      <img id="imagePreview" class="image-preview" alt="Package preview">
+      <div class="actions">
+       <button type="button" class="btn primary" id="uploadButton">Upload Image</button>
+       <button type="button" class="btn light" id="removeImageButton">Remove Image</button>
+      </div>
+      <div id="uploadStatus" class="upload-status">No image uploaded.</div>
+     </div>
+     <input type="hidden" id="imageUrl">
+    </div>
+
+   </div>
+
+   <div class="section-title">Select Three Products</div>
+
+   <div class="form-grid">
+    <div class="field full">
+     <label for="product1">First Product *</label>
+     <select id="product1" required><option value="">Loading products...</option></select>
+     <div id="productCost1"></div>
+    </div>
+
+    <div class="field full">
+     <label for="product2">Second Product *</label>
+     <select id="product2" required><option value="">Loading products...</option></select>
+     <div id="productCost2"></div>
+    </div>
+
+    <div class="field full">
+     <label for="product3">Third Product *</label>
+     <select id="product3" required><option value="">Loading products...</option></select>
+     <div id="productCost3"></div>
+    </div>
+   </div>
+
+   <div class="section-title">Package Additional Costs</div>
+
+   <div class="cost-grid">
+    <div class="field">
+     <label for="deliveryCost">Package Delivery Cost (৳)</label>
+     <input id="deliveryCost" type="number" min="0" step="0.01" value="0" required>
+    </div>
+
+    <div class="field">
+     <label for="packagingCost">Package Packaging Cost (৳)</label>
+     <input id="packagingCost" type="number" min="0" step="0.01" value="0" required>
+    </div>
+
+    <div class="field">
+     <label for="otherCost">Package Other Cost (৳)</label>
+     <input id="otherCost" type="number" min="0" step="0.01" value="0" required>
+    </div>
+   </div>
+
+   <div class="cost-summary">
+    <div class="summary-row"><span>Product 1 Cost Price</span><strong id="sumProduct1">৳0.00</strong></div>
+    <div class="summary-row"><span>Product 2 Cost Price</span><strong id="sumProduct2">৳0.00</strong></div>
+    <div class="summary-row"><span>Product 3 Cost Price</span><strong id="sumProduct3">৳0.00</strong></div>
+    <div class="summary-row"><span>Total Product Cost</span><strong id="sumProducts">৳0.00</strong></div>
+    <div class="summary-row"><span>Package Delivery</span><strong id="sumDelivery">৳0.00</strong></div>
+    <div class="summary-row"><span>Package Packaging</span><strong id="sumPackaging">৳0.00</strong></div>
+    <div class="summary-row"><span>Package Other Cost</span><strong id="sumOther">৳0.00</strong></div>
+    <div class="summary-row summary-total"><span>Total Package Cost</span><strong id="sumTotal">৳0.00</strong></div>
+    <div class="summary-row"><span>Package Selling Price</span><strong id="sumSelling">৳0.00</strong></div>
+    <div class="summary-row"><span>Estimated Gross Profit</span><strong id="sumProfit">৳0.00</strong></div>
+   </div>
+
+   <p class="help" style="margin-top:10px">
+    Package Cost = Three Products' Cost Price + Package Delivery
+    + Package Packaging + Package Other Cost.
+   </p>
+
+   <div class="actions">
+    <button type="submit" class="btn primary" id="saveButton">Create Package</button>
+    <button type="button" class="btn light" id="cancelButton" hidden>Cancel Edit</button>
+   </div>
+
+  </form>
+ </section>
+
+ <!-- PACKAGE CATEGORY FILTERS -->
+ <section class="panel">
+  <div class="category-filter-title">
+   <h2>All Packages</h2>
+   <small id="packageTotal">Loading packages...</small>
+  </div>
+
+  <div class="category-filter-grid" id="categoryFilters">
+   <div class="loading">Loading categories...</div>
+  </div>
+
+  <div class="filter-result">
+   <span id="filterLabel">Showing all packages</span>
+   <button type="button" class="reset-filter" id="resetFilter">Show All</button>
+  </div>
+ </section>
+
+ <!-- FILTERED PACKAGES -->
+ <section class="panel">
+  <div id="packageList">
+   <div class="loading">Loading packages...</div>
+  </div>
+ </section>
 
 </main>
+</div>
 
 <footer class="footer">
-  © <span id="year"></span> RUBALIA NETWORK
+ © <span id="year"></span> RUBALIA NETWORK — Package Management
 </footer>
 
 <script>
 "use strict";
 
 const API="https://rubalia.onrender.com/api";
-const token=sessionStorage.getItem("rubalia_token");
+const TOKEN_KEY="rubalia_token";
+const USER_KEY="rubalia_user";
 
+const CATEGORIES=[
+ "Beauty & Cosmetics",
+ "Health & Wellness",
+ "Personal Care",
+ "Home & Kitchen",
+ "Food & Grocery",
+ "Fashion & Clothing",
+ "Electronics & Gadgets",
+ "Baby & Kids",
+ "Household Products",
+ "Lifestyle & Accessories"
+];
+
+let token=sessionStorage.getItem(TOKEN_KEY)||"";
 let packages=[];
 let products=[];
 let editingId=null;
+let selectedCategory="all";
 let uploading=false;
 let saving=false;
 let changingStatus=false;
+let requestController=null;
 
 const $=id=>document.getElementById(id);
 
+/* UTILITIES */
 function money(value){
-  const amount=Number(value??0);
-  return "৳"+(Number.isFinite(amount)?amount:0).toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
+ const amount=Number(value??0);
+ return "৳"+(Number.isFinite(amount)?amount:0).toLocaleString("en-BD",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
 }
 
 function escapeHTML(value){
-  return String(value??"").replace(/[&<>"']/g,char=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  })[char]);
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ })[char]);
 }
 
 function safeImageUrl(value){
-  const url=String(value||"").trim();
-  if(!url)return "";
-  try{
-    const parsed=new URL(url);
-    if(parsed.protocol!=="https:"&&parsed.protocol!=="http:")return "";
-    return url;
-  }catch(error){return ""}
+ const url=String(value||"").trim();
+ if(!url)return "";
+ try{
+  const parsed=new URL(url);
+  return parsed.protocol==="https:"||parsed.protocol==="http:"?url:"";
+ }catch(error){return ""}
 }
 
 function showMessage(text,type="success"){
-  const box=$("message");
-  box.textContent=text;
-  box.className="message "+(type==="error"?"error":"success");
-  box.style.display="block";
-  window.scrollTo({top:0,behavior:"auto"});
+ const box=$("message");
+ box.textContent=text;
+ box.className="message "+(type==="error"?"error":"success");
+ box.style.display="block";
+ window.scrollTo({top:0,behavior:"auto"});
 }
 
 function hideMessage(){
-  $("message").style.display="none";
+ $("message").style.display="none";
+}
+
+function logout(){
+ sessionStorage.removeItem(TOKEN_KEY);
+ sessionStorage.removeItem(USER_KEY);
+ location.replace("../login.html");
 }
 
 function authHeaders(extra={}){
-  return {Authorization:"Bearer "+token,...extra};
+ return {
+  "Authorization":"Bearer "+token,
+  "Accept":"application/json",
+  ...extra
+ };
 }
 
+/* API */
 async function apiRequest(path,options={}){
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),20000);
+
+ try{
   const response=await fetch(API+path,{
-    ...options,
-    headers:{...authHeaders(),...(options.headers||{})}
+   ...options,
+   headers:{
+    ...authHeaders(),
+    ...(options.headers||{})
+   },
+   cache:"no-store",
+   signal:controller.signal
   });
 
-  let data={};
-  try{data=await response.json()}
-  catch(error){throw new Error("Invalid server response.")}
+  const data=await response.json().catch(()=>({}));
 
   if(response.status===401){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    location.href="../login.html";
-    throw new Error("Session expired.");
+   logout();
+   throw new Error("Session expired. Please login again.");
+  }
+
+  if(response.status===403){
+   throw new Error("Administrator permission required.");
   }
 
   if(!response.ok||data.success===false){
-    throw new Error(data.message||"Request failed.");
+   throw new Error(data.message||"Server request failed.");
   }
 
   return data;
+
+ }catch(error){
+  if(error.name==="AbortError"){
+   throw new Error("Server response timed out. Please try again.");
+  }
+  throw error;
+ }finally{
+  clearTimeout(timeout);
+ }
 }
 
+/* AUTHENTICATION */
 async function verifyAdmin(){
-  if(!token){
-    location.href="../login.html";
-    return false;
+ if(!token){
+  logout();
+  return false;
+ }
+
+ try{
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile||data;
+
+  if(!user||String(user.role||"").toLowerCase()!=="admin"){
+   location.replace("../dashboard.html");
+   return false;
   }
 
-  try{
-    const data=await apiRequest("/auth/me");
-    const user=data.user||data.profile||data;
+  return true;
 
-    if(String(user.role||"").toLowerCase()!=="admin"){
-      location.href="../dashboard.html";
-      return false;
-    }
-    return true;
-  }catch(error){
-    showMessage(error.message,"error");
-    return false;
+ }catch(error){
+  if(!error.message.includes("Session expired")){
+   showMessage(error.message,"error");
   }
+  return false;
+ }
 }
 
 /* PRODUCT COST */
 function productCostPrice(product){
-  return Number(product?.cost_price||0);
+ return Number(product?.cost_price||0);
 }
 
 function productActualCost(product){
-  return productCostPrice(product)+
-    Number(product?.delivery_cost||0)+
-    Number(product?.packaging_cost||0)+
-    Number(product?.other_cost||0);
+ return productCostPrice(product)+
+  Number(product?.delivery_cost||0)+
+  Number(product?.packaging_cost||0)+
+  Number(product?.other_cost||0);
 }
 
 /* LOAD PRODUCTS */
 async function loadProducts(){
-  const data=await apiRequest("/products/admin/all");
-  products=Array.isArray(data.products)?data.products:[];
+ const data=await apiRequest("/products/admin/all");
+ products=Array.isArray(data.products)?data.products:[];
 
-  const activeProducts=products.filter(p=>p.status==="active");
+ const activeProducts=products.filter(p=>
+  String(p.status||"").toLowerCase()==="active"
+ );
 
-  const options=[
-    '<option value="">Select a product</option>',
-    ...activeProducts.map(p=>`
-      <option value="${Number(p.id)}">
-        ${escapeHTML(p.name)}${p.sku?" - "+escapeHTML(p.sku):""}
-      </option>
-    `)
-  ].join("");
+ const options=[
+  '<option value="">Select a product</option>',
+  ...activeProducts.map(p=>`
+   <option value="${Number(p.id)}">
+    ${escapeHTML(p.name)}${p.sku?" - "+escapeHTML(p.sku):""}
+   </option>
+  `)
+ ].join("");
 
-  ["product1","product2","product3"].forEach(id=>{
-    $(id).innerHTML=options;
-  });
+ ["product1","product2","product3"].forEach(id=>{
+  $(id).innerHTML=options;
+ });
 
-  updateCostSummary();
+ updateCostSummary();
 }
 
 function getSelectedProduct(selectId){
-  const id=Number($(selectId).value);
-  return products.find(p=>Number(p.id)===id)||null;
+ const id=Number($(selectId).value);
+ return products.find(p=>Number(p.id)===id)||null;
 }
 
 function renderSelectedProduct(selectId,boxId){
-  const product=getSelectedProduct(selectId);
-  const box=$(boxId);
+ const product=getSelectedProduct(selectId);
+ const box=$(boxId);
 
-  if(!product){
-    box.innerHTML="";
-    return;
-  }
+ if(!product){
+  box.replaceChildren();
+  return;
+ }
 
-  box.innerHTML=`
-    <div class="product-cost-card">
-      <strong>${escapeHTML(product.name)}</strong>
-      <p>Product Cost Price: ${money(product.cost_price)}</p>
-      <p>Product Delivery Cost: ${money(product.delivery_cost)}</p>
-      <p>Product Packaging Cost: ${money(product.packaging_cost)}</p>
-      <p>Product Other Cost: ${money(product.other_cost)}</p>
-      <p><strong>Product Total Cost (informational): ${money(productActualCost(product))}</strong></p>
-    </div>
-  `;
+ box.innerHTML=`
+  <div class="product-cost-card">
+   <strong>${escapeHTML(product.name)}</strong>
+   <p>Product Cost Price: ${money(product.cost_price)}</p>
+   <p>Product Delivery Cost: ${money(product.delivery_cost)}</p>
+   <p>Product Packaging Cost: ${money(product.packaging_cost)}</p>
+   <p>Product Other Cost: ${money(product.other_cost)}</p>
+   <p><strong>Product Total Cost: ${money(productActualCost(product))}</strong></p>
+  </div>
+ `;
 }
 
 function getPackageCalculation(){
-  const p1=getSelectedProduct("product1");
-  const p2=getSelectedProduct("product2");
-  const p3=getSelectedProduct("product3");
+ const p1=getSelectedProduct("product1");
+ const p2=getSelectedProduct("product2");
+ const p3=getSelectedProduct("product3");
 
-  const c1=p1?productCostPrice(p1):0;
-  const c2=p2?productCostPrice(p2):0;
-  const c3=p3?productCostPrice(p3):0;
+ const c1=p1?productCostPrice(p1):0;
+ const c2=p2?productCostPrice(p2):0;
+ const c3=p3?productCostPrice(p3):0;
 
-  const delivery=Number($("deliveryCost").value||0);
-  const packaging=Number($("packagingCost").value||0);
-  const other=Number($("otherCost").value||0);
-  const selling=Number($("price").value||0);
+ const delivery=Number($("deliveryCost").value||0);
+ const packaging=Number($("packagingCost").value||0);
+ const other=Number($("otherCost").value||0);
+ const selling=Number($("price").value||0);
 
-  const productTotal=c1+c2+c3;
-  const total=productTotal+delivery+packaging+other;
+ const productTotal=c1+c2+c3;
+ const total=productTotal+delivery+packaging+other;
 
-  return {
-    c1,c2,c3,productTotal,delivery,packaging,other,
-    total,selling,profit:selling-total
-  };
+ return {
+  c1,c2,c3,productTotal,delivery,packaging,other,
+  total,selling,profit:selling-total
+ };
 }
 
 function updateCostSummary(){
-  renderSelectedProduct("product1","productCost1");
-  renderSelectedProduct("product2","productCost2");
-  renderSelectedProduct("product3","productCost3");
+ renderSelectedProduct("product1","productCost1");
+ renderSelectedProduct("product2","productCost2");
+ renderSelectedProduct("product3","productCost3");
 
-  const c=getPackageCalculation();
+ const c=getPackageCalculation();
 
-  $("sumProduct1").textContent=money(c.c1);
-  $("sumProduct2").textContent=money(c.c2);
-  $("sumProduct3").textContent=money(c.c3);
-  $("sumProducts").textContent=money(c.productTotal);
-  $("sumDelivery").textContent=money(c.delivery);
-  $("sumPackaging").textContent=money(c.packaging);
-  $("sumOther").textContent=money(c.other);
-  $("sumTotal").textContent=money(c.total);
-  $("sumSelling").textContent=money(c.selling);
+ $("sumProduct1").textContent=money(c.c1);
+ $("sumProduct2").textContent=money(c.c2);
+ $("sumProduct3").textContent=money(c.c3);
+ $("sumProducts").textContent=money(c.productTotal);
+ $("sumDelivery").textContent=money(c.delivery);
+ $("sumPackaging").textContent=money(c.packaging);
+ $("sumOther").textContent=money(c.other);
+ $("sumTotal").textContent=money(c.total);
+ $("sumSelling").textContent=money(c.selling);
 
-  const profit=$("sumProfit");
-  profit.textContent=money(c.profit);
-  profit.className=c.profit>=0?"profit":"loss";
+ const profit=$("sumProfit");
+ profit.textContent=money(c.profit);
+ profit.className=c.profit>=0?"profit":"loss";
 }
 
 /* LOAD PACKAGES */
 async function loadPackages(){
-  $("packageList").innerHTML='<div class="loading">Loading packages...</div>';
-  const data=await apiRequest("/packages/admin/all");
-  packages=Array.isArray(data.packages)?data.packages:[];
-  renderPackages();
+ $("packageList").innerHTML='<div class="loading">Loading packages...</div>';
+
+ const data=await apiRequest("/packages/admin/all");
+ packages=Array.isArray(data.packages)?data.packages:[];
+
+ renderCategoryFilters();
+ renderPackages();
 }
 
-/* CATEGORY GROUPING */
-function renderPackages(){
-  const container=$("packageList");
+/* CATEGORY COUNTS */
+function getCategoryCounts(){
+ const counts={};
 
-  if(!packages.length){
-    container.innerHTML='<div class="empty">No packages found.</div>';
-    return;
-  }
+ CATEGORIES.forEach(category=>counts[category]=0);
 
-  const groups={};
+ packages.forEach(item=>{
+  const category=String(item.category||"").trim()||"Uncategorized";
+  counts[category]=(counts[category]||0)+1;
+ });
 
-  packages.forEach(item=>{
-    const category=String(item.category||"Uncategorized").trim()||"Uncategorized";
+ return counts;
+}
 
-    if(!groups[category])groups[category]=[];
-    groups[category].push(item);
+/* CATEGORY FILTER CARDS */
+function renderCategoryFilters(){
+ const container=$("categoryFilters");
+ const counts=getCategoryCounts();
+
+ const allCount=packages.length;
+
+ const categories=[
+  ...CATEGORIES,
+  ...Object.keys(counts).filter(category=>
+   !CATEGORIES.includes(category)
+  ).sort((a,b)=>a.localeCompare(b))
+ ];
+
+ const cards=[`
+  <button type="button"
+   class="category-filter ${selectedCategory==="all"?"active":""}"
+   data-category="all">
+   <span class="category-filter-name">All Categories</span>
+   <span class="category-filter-count">${allCount} Packages</span>
+  </button>
+ `];
+
+ categories.forEach(category=>{
+  cards.push(`
+   <button type="button"
+    class="category-filter ${selectedCategory===category?"active":""}"
+    data-category="${escapeHTML(category)}">
+    <span class="category-filter-name">${escapeHTML(category)}</span>
+    <span class="category-filter-count">${counts[category]||0} Packages</span>
+   </button>
+  `);
+ });
+
+ container.innerHTML=cards.join("");
+
+ $("packageTotal").textContent=allCount+" Total Packages";
+
+ container.querySelectorAll("[data-category]").forEach(button=>{
+  button.addEventListener("click",()=>{
+   selectedCategory=button.dataset.category;
+   renderCategoryFilters();
+   renderPackages();
   });
+ });
 
-  const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+ $("filterLabel").textContent=
+  selectedCategory==="all"
+   ?"Showing all packages"
+   :"Showing: "+selectedCategory;
+}
 
-  container.innerHTML=categories.map(category=>{
-    const items=groups[category];
+/* PACKAGE LIST FILTER */
+function renderPackages(){
+ const container=$("packageList");
 
-    return `
-      <section class="category-group">
-        <div class="category-heading">
-          <h3>${escapeHTML(category)}</h3>
-          <span class="category-count">${items.length} PACKAGE${items.length===1?"":"S"}</span>
-        </div>
+ const filtered=selectedCategory==="all"
+  ?packages
+  :packages.filter(item=>
+    (String(item.category||"").trim()||"Uncategorized")===selectedCategory
+   );
 
-        <div class="package-list">
-          ${items.map(renderPackageCard).join("")}
-        </div>
-      </section>
-    `;
-  }).join("");
+ $("filterLabel").textContent=
+  selectedCategory==="all"
+   ?"Showing all "+filtered.length+" packages"
+   :"Showing "+filtered.length+" packages in "+selectedCategory;
+
+ if(!filtered.length){
+  container.innerHTML=`
+   <div class="empty">
+    No packages found in this category.
+   </div>
+  `;
+  return;
+ }
+
+ const groups={};
+
+ filtered.forEach(item=>{
+  const category=String(item.category||"Uncategorized").trim()||"Uncategorized";
+  if(!groups[category])groups[category]=[];
+  groups[category].push(item);
+ });
+
+ const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+
+ container.innerHTML=categories.map(category=>{
+  const items=groups[category];
+
+  return `
+   <section class="category-group">
+    <div class="category-heading">
+     <h3>${escapeHTML(category)}</h3>
+     <span class="category-count">${items.length} PACKAGE${items.length===1?"":"S"}</span>
+    </div>
+    <div class="package-list">
+     ${items.map(renderPackageCard).join("")}
+    </div>
+   </section>
+  `;
+ }).join("");
 }
 
 /* PACKAGE CARD */
 function renderPackageCard(item){
-  const imageUrl=safeImageUrl(item.image_url);
+ const imageUrl=safeImageUrl(item.image_url);
 
-  const image=imageUrl
-    ? `<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(item.name)}" loading="lazy">`
-    : `<div style="height:120px;background:#eee;display:grid;place-items:center;color:#777;font-size:12px">No Banner Image</div>`;
+ const image=imageUrl
+  ?`<img src="${escapeHTML(imageUrl)}" alt="${escapeHTML(item.name)}" loading="lazy">`
+  :`<div style="height:120px;background:#eee;display:grid;place-items:center;color:#777;font-size:12px">No Banner Image</div>`;
 
-  const costs=item.costs||{};
-  const productCost=Number(costs.componentProductCost||0);
-  const totalCost=Number(costs.totalCost||0);
-  const profit=Number(costs.estimatedProfit||0);
+ const costs=item.costs||{};
+ const productCost=Number(costs.componentProductCost||0);
+ const totalCost=Number(costs.totalCost||0);
+ const profit=Number(costs.estimatedProfit||0);
 
-  const names=(Array.isArray(item.products)?item.products:[])
-    .map(p=>p.name).filter(Boolean).join(", ");
+ const names=(Array.isArray(item.products)?item.products:[])
+  .map(p=>p.name).filter(Boolean).join(", ");
 
-  const status=String(item.status||"unknown");
-  const id=Number(item.id);
+ const status=String(item.status||"unknown").toLowerCase();
+ const id=Number(item.id);
 
-  return `
-    <article class="package-card">
-      ${image}
+ return `
+  <article class="package-card">
+   ${image}
+   <div class="package-info">
+    <h3>${escapeHTML(item.name)}</h3>
+    <p class="package-price">${money(item.price)}</p>
+    <p>Stock: ${Number(item.stock||0)}</p>
+    <p>Products: ${escapeHTML(names||"Not available")}</p>
+    <span class="status ${["active","draft","inactive","archived"].includes(status)?status:""}">${escapeHTML(status)}</span>
 
-      <div class="package-info">
-        <h3>${escapeHTML(item.name)}</h3>
-        <p class="package-price">${money(item.price)}</p>
-        <p>Stock: ${Number(item.stock||0)}</p>
-        <p>Products: ${escapeHTML(names||"Not available")}</p>
-        <span class="status ${["active","draft","inactive","archived"].includes(status)?status:""}">${escapeHTML(status)}</span>
+    <div class="package-cost">
+     <div class="package-cost-row">
+      <span>Three Product Cost</span>
+      <strong>${money(productCost)}</strong>
+     </div>
+     <div class="package-cost-row">
+      <span>Package Delivery</span>
+      <strong>${money(costs.deliveryCost)}</strong>
+     </div>
+     <div class="package-cost-row">
+      <span>Package Packaging</span>
+      <strong>${money(costs.packagingCost)}</strong>
+     </div>
+     <div class="package-cost-row">
+      <span>Package Other</span>
+      <strong>${money(costs.otherCost)}</strong>
+     </div>
+     <div class="package-cost-row total">
+      <span>Total Package Cost</span>
+      <strong>${money(totalCost)}</strong>
+     </div>
+     <div class="package-cost-row profit-row ${profit<0?"negative":""}">
+      <span>Estimated Profit</span>
+      <strong>${money(profit)}</strong>
+     </div>
+    </div>
 
-        <div class="package-cost">
-          <div class="package-cost-row">
-            <span>Three Product Cost</span>
-            <strong>${money(productCost)}</strong>
-          </div>
+    <div class="card-actions">
+     <button class="btn light" type="button" onclick="editPackage(${id})">Edit</button>
 
-          <div class="package-cost-row">
-            <span>Package Delivery</span>
-            <strong>${money(costs.deliveryCost)}</strong>
-          </div>
+     ${status!=="active"&&status!=="archived"?`
+      <button class="btn success" type="button" onclick="changeStatus(${id},'active')">Activate</button>
+     `:""}
 
-          <div class="package-cost-row">
-            <span>Package Packaging</span>
-            <strong>${money(costs.packagingCost)}</strong>
-          </div>
+     ${status==="active"?`
+      <button class="btn danger" type="button" onclick="changeStatus(${id},'inactive')">Deactivate</button>
+     `:""}
 
-          <div class="package-cost-row">
-            <span>Package Other</span>
-            <strong>${money(costs.otherCost)}</strong>
-          </div>
+     ${status==="inactive"?`
+      <button class="btn success" type="button" onclick="changeStatus(${id},'draft')">Set Draft</button>
+     `:""}
 
-          <div class="package-cost-row total">
-            <span>Total Package Cost</span>
-            <strong>${money(totalCost)}</strong>
-          </div>
-
-          <div class="package-cost-row profit-row ${profit<0?"negative":""}">
-            <span>Estimated Profit</span>
-            <strong>${money(profit)}</strong>
-          </div>
-        </div>
-
-        <div class="card-actions">
-          <button class="btn light" type="button" onclick="editPackage(${id})">Edit</button>
-
-          ${status!=="active"&&status!=="archived"?`
-            <button class="btn success" type="button" onclick="changeStatus(${id},'active')">Activate</button>
-          `:""}
-
-          ${status==="active"?`
-            <button class="btn danger" type="button" onclick="changeStatus(${id},'inactive')">Deactivate</button>
-          `:""}
-
-          ${status==="inactive"?`
-            <button class="btn success" type="button" onclick="changeStatus(${id},'draft')">Set Draft</button>
-          `:""}
-
-          ${status!=="archived"?`
-            <button class="btn danger" type="button" onclick="archivePackage(${id})">Archive</button>
-          `:""}
-        </div>
-      </div>
-    </article>
-  `;
+     ${status!=="archived"?`
+      <button class="btn danger" type="button" onclick="archivePackage(${id})">Archive</button>
+     `:""}
+    </div>
+   </div>
+  </article>
+ `;
 }
 
 /* IMAGE PREVIEW */
 $("imageFile").addEventListener("change",()=>{
-  const file=$("imageFile").files[0];
-  if(!file)return;
+ const file=$("imageFile").files[0];
+ if(!file)return;
 
-  const allowed=["image/jpeg","image/png","image/webp"];
+ const allowed=["image/jpeg","image/png","image/webp"];
 
-  if(!allowed.includes(file.type)){
-    $("imageFile").value="";
-    showMessage("Only JPG, PNG and WEBP images are allowed.","error");
-    return;
-  }
+ if(!allowed.includes(file.type)){
+  $("imageFile").value="";
+  showMessage("Only JPG, PNG and WEBP images are allowed.","error");
+  return;
+ }
 
-  if(file.size>5*1024*1024){
-    $("imageFile").value="";
-    showMessage("Image must not exceed 5 MB.","error");
-    return;
-  }
+ if(file.size>5*1024*1024){
+  $("imageFile").value="";
+  showMessage("Image must not exceed 5 MB.","error");
+  return;
+ }
 
-  const reader=new FileReader();
+ const reader=new FileReader();
 
-  reader.onload=e=>{
-    $("imagePreview").src=e.target.result;
-    $("imagePreview").style.display="block";
-    $("uploadStatus").textContent="Image selected. Click Upload Image.";
-  };
+ reader.onload=e=>{
+  $("imagePreview").src=e.target.result;
+  $("imagePreview").style.display="block";
+  $("uploadStatus").textContent="Image selected. Click Upload Image.";
+ };
 
-  reader.onerror=()=>showMessage("Unable to preview the selected image.","error");
-  reader.readAsDataURL(file);
+ reader.onerror=()=>showMessage("Unable to preview the selected image.","error");
+ reader.readAsDataURL(file);
 });
 
 /* IMAGE UPLOAD */
 $("uploadButton").addEventListener("click",async()=>{
-  hideMessage();
+ hideMessage();
 
-  if(uploading)return;
+ if(uploading)return;
 
-  const file=$("imageFile").files[0];
+ const file=$("imageFile").files[0];
 
-  if(!file){
-    showMessage("Please select an image first.","error");
-    return;
+ if(!file){
+  showMessage("Please select an image first.","error");
+  return;
+ }
+
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+  showMessage("Only JPG, PNG and WEBP images are allowed.","error");
+  return;
+ }
+
+ if(file.size>5*1024*1024){
+  showMessage("Image must not exceed 5 MB.","error");
+  return;
+ }
+
+ const formData=new FormData();
+ formData.append("image",file);
+
+ uploading=true;
+ $("uploadButton").disabled=true;
+ $("uploadButton").textContent="Uploading...";
+
+ try{
+  const response=await fetch(API+"/upload/image",{
+   method:"POST",
+   headers:authHeaders(),
+   body:formData
+  });
+
+  const data=await response.json().catch(()=>({}));
+
+  if(response.status===401){
+   logout();
+   throw new Error("Session expired.");
   }
 
-  if(file.size>5*1024*1024){
-    showMessage("Image must not exceed 5 MB.","error");
-    return;
+  if(response.status===403){
+   throw new Error("Administrator permission required.");
   }
 
-  const formData=new FormData();
-  formData.append("image",file);
-
-  uploading=true;
-  $("uploadButton").disabled=true;
-  $("uploadButton").textContent="Uploading...";
-
-  try{
-    const response=await fetch(API+"/upload/image",{
-      method:"POST",
-      headers:authHeaders(),
-      body:formData
-    });
-
-    let data={};
-    try{data=await response.json()}
-    catch(error){throw new Error("Invalid server response during image upload.")}
-
-    if(response.status===401){
-      sessionStorage.removeItem("rubalia_token");
-      sessionStorage.removeItem("rubalia_user");
-      location.href="../login.html";
-      throw new Error("Session expired.");
-    }
-
-    if(!response.ok||data.success!==true){
-      throw new Error(data.message||"Image upload failed.");
-    }
-
-    const url=data.image&&data.image.url;
-
-    if(!safeImageUrl(url)){
-      throw new Error("A valid image URL was not returned by the server.");
-    }
-
-    $("imageUrl").value=url;
-    $("imagePreview").src=url;
-    $("imagePreview").style.display="block";
-    $("uploadStatus").textContent="Image uploaded successfully.";
-
-    showMessage("Banner uploaded successfully.");
-
-  }catch(error){
-    showMessage(error.message,"error");
-    $("uploadStatus").textContent=error.message;
-  }finally{
-    uploading=false;
-    $("uploadButton").disabled=false;
-    $("uploadButton").textContent="Upload Image";
+  if(!response.ok||data.success!==true){
+   throw new Error(data.message||"Image upload failed.");
   }
+
+  const url=data.image&&data.image.url;
+
+  if(!safeImageUrl(url)){
+   throw new Error("A valid image URL was not returned by the server.");
+  }
+
+  $("imageUrl").value=url;
+  $("imagePreview").src=url;
+  $("imagePreview").style.display="block";
+  $("uploadStatus").textContent="Image uploaded successfully.";
+
+  showMessage("Banner uploaded successfully.");
+
+ }catch(error){
+  showMessage(error.message,"error");
+  $("uploadStatus").textContent=error.message;
+ }finally{
+  uploading=false;
+  $("uploadButton").disabled=false;
+  $("uploadButton").textContent="Upload Image";
+ }
 });
 
 $("removeImageButton").addEventListener("click",()=>{
-  $("imageFile").value="";
-  $("imageUrl").value="";
-  $("imagePreview").removeAttribute("src");
-  $("imagePreview").style.display="none";
-  $("uploadStatus").textContent="No image uploaded.";
+ $("imageFile").value="";
+ $("imageUrl").value="";
+ $("imagePreview").removeAttribute("src");
+ $("imagePreview").style.display="none";
+ $("uploadStatus").textContent="No image uploaded.";
 });
 
 /* RESET FORM */
 function resetForm(){
-  editingId=null;
-  $("packageForm").reset();
+ editingId=null;
+ $("packageForm").reset();
 
-  $("imageUrl").value="";
-  $("imageFile").value="";
-  $("imagePreview").removeAttribute("src");
-  $("imagePreview").style.display="none";
-  $("uploadStatus").textContent="No image uploaded.";
+ $("imageUrl").value="";
+ $("imageFile").value="";
+ $("imagePreview").removeAttribute("src");
+ $("imagePreview").style.display="none";
+ $("uploadStatus").textContent="No image uploaded.";
 
-  $("deliveryCost").value="0";
-  $("packagingCost").value="0";
-  $("otherCost").value="0";
+ $("deliveryCost").value="0";
+ $("packagingCost").value="0";
+ $("otherCost").value="0";
 
-  $("formTitle").textContent="Create New Package";
-  $("saveButton").textContent="Create Package";
-  $("cancelButton").style.display="none";
+ $("formTitle").textContent="Create New Package";
+ $("saveButton").textContent="Create Package";
+ $("cancelButton").hidden=true;
 
-  updateCostSummary();
+ updateCostSummary();
 }
 
 /* EDIT PACKAGE */
 function editPackage(id){
-  const item=packages.find(p=>Number(p.id)===Number(id));
-  if(!item)return;
+ const item=packages.find(p=>Number(p.id)===Number(id));
+ if(!item)return;
 
-  editingId=Number(id);
+ editingId=Number(id);
 
-  $("name").value=item.name||"";
+ $("name").value=item.name||"";
 
-  const existingCategory=String(item.category||"");
-  const categorySelect=$("category");
+ const existingCategory=String(item.category||"");
+ const categorySelect=$("category");
 
-  const categoryExists=Array.from(categorySelect.options)
-    .some(option=>option.value===existingCategory);
+ const categoryExists=Array.from(categorySelect.options)
+  .some(option=>option.value===existingCategory);
 
-  if(existingCategory&&!categoryExists){
-    const oldOption=document.createElement("option");
-    oldOption.value=existingCategory;
-    oldOption.textContent=existingCategory+" (Existing)";
-    categorySelect.appendChild(oldOption);
-  }
+ if(existingCategory&&!categoryExists){
+  const oldOption=document.createElement("option");
+  oldOption.value=existingCategory;
+  oldOption.textContent=existingCategory+" (Existing)";
+  categorySelect.appendChild(oldOption);
+ }
 
-  categorySelect.value=existingCategory;
+ categorySelect.value=existingCategory;
+ $("description").value=item.description||"";
+ $("price").value=item.price??0;
+ $("stock").value=item.stock??0;
 
-  $("description").value=item.description||"";
-  $("price").value=item.price??0;
-  $("stock").value=item.stock??0;
+ $("product1").value=item.products?.[0]?.id||"";
+ $("product2").value=item.products?.[1]?.id||"";
+ $("product3").value=item.products?.[2]?.id||"";
 
-  $("product1").value=item.products?.[0]?.id||"";
-  $("product2").value=item.products?.[1]?.id||"";
-  $("product3").value=item.products?.[2]?.id||"";
+ $("imageUrl").value=safeImageUrl(item.image_url);
 
-  $("imageUrl").value=safeImageUrl(item.image_url);
+ const costs=item.costs||{};
+ $("deliveryCost").value=costs.deliveryCost??0;
+ $("packagingCost").value=costs.packagingCost??0;
+ $("otherCost").value=costs.otherCost??0;
 
-  const costs=item.costs||{};
-  $("deliveryCost").value=costs.deliveryCost??0;
-  $("packagingCost").value=costs.packagingCost??0;
-  $("otherCost").value=costs.otherCost??0;
+ $("imageFile").value="";
 
-  $("imageFile").value="";
+ if(safeImageUrl(item.image_url)){
+  $("imagePreview").src=item.image_url;
+  $("imagePreview").style.display="block";
+  $("uploadStatus").textContent="Existing banner image.";
+ }else{
+  $("imagePreview").removeAttribute("src");
+  $("imagePreview").style.display="none";
+  $("uploadStatus").textContent="No image uploaded.";
+ }
 
-  if(item.image_url&&safeImageUrl(item.image_url)){
-    $("imagePreview").src=item.image_url;
-    $("imagePreview").style.display="block";
-    $("uploadStatus").textContent="Existing banner image.";
-  }else{
-    $("imagePreview").removeAttribute("src");
-    $("imagePreview").style.display="none";
-    $("uploadStatus").textContent="No image uploaded.";
-  }
+ $("formTitle").textContent="Edit Package #"+id;
+ $("saveButton").textContent="Update Package";
+ $("cancelButton").hidden=false;
 
-  $("formTitle").textContent="Edit Package #"+id;
-  $("saveButton").textContent="Update Package";
-  $("cancelButton").style.display="inline-block";
-
-  updateCostSummary();
-  window.scrollTo({top:0,behavior:"auto"});
+ updateCostSummary();
+ window.scrollTo({top:0,behavior:"auto"});
 }
 
-/* VALIDATION */
+/* MONEY VALIDATION */
 function validateMoney(id,label){
-  const value=$(id).value.trim();
+ const value=$(id).value.trim();
 
-  if(
-    value===""||
-    !/^\d{1,12}(\.\d{1,2})?$/.test(value)||
-    !Number.isFinite(Number(value))||
-    Number(value)<0
-  ){
-    throw new Error(label+" must be a valid non-negative amount with up to 2 decimal places.");
-  }
+ if(
+  value===""||
+  !/^\d{1,12}(\.\d{1,2})?$/.test(value)||
+  !Number.isFinite(Number(value))||
+  Number(value)<0
+ ){
+  throw new Error(label+" must be a valid non-negative amount with up to 2 decimal places.");
+ }
 
-  return Number(value);
+ return Number(value);
 }
 
-/* CREATE / UPDATE PACKAGE */
+/* CREATE / UPDATE */
 $("packageForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  hideMessage();
+ event.preventDefault();
+ hideMessage();
 
-  if(saving)return;
+ if(saving)return;
 
-  if(uploading){
-    showMessage("Please wait for image upload to finish.","error");
-    return;
-  }
+ if(uploading){
+  showMessage("Please wait for image upload to finish.","error");
+  return;
+ }
 
-  const product1Id=Number($("product1").value);
-  const product2Id=Number($("product2").value);
-  const product3Id=Number($("product3").value);
+ const product1Id=Number($("product1").value);
+ const product2Id=Number($("product2").value);
+ const product3Id=Number($("product3").value);
 
-  if(
-    !product1Id||!product2Id||!product3Id||
-    new Set([product1Id,product2Id,product3Id]).size!==3
-  ){
-    showMessage("Select three different products.","error");
-    return;
-  }
+ if(
+  !product1Id||!product2Id||!product3Id||
+  new Set([product1Id,product2Id,product3Id]).size!==3
+ ){
+  showMessage("Select three different products.","error");
+  return;
+ }
 
-  const stock=Number($("stock").value);
+ const stock=Number($("stock").value);
 
-  if(!Number.isSafeInteger(stock)||stock<0||stock>2147483647){
-    showMessage("Stock must be a valid non-negative whole number.","error");
-    return;
-  }
+ if(!Number.isSafeInteger(stock)||stock<0||stock>2147483647){
+  showMessage("Stock must be a valid non-negative whole number.","error");
+  return;
+ }
 
-  let payload;
+ let payload;
 
-  try{
-    payload={
-      name:$("name").value.trim(),
-      category:$("category").value,
-      description:$("description").value.trim(),
-      imageUrl:$("imageUrl").value.trim(),
-      product1Id,
-      product2Id,
-      product3Id,
-      price:validateMoney("price","Package Selling Price"),
-      stock,
-      deliveryCost:validateMoney("deliveryCost","Package Delivery Cost"),
-      packagingCost:validateMoney("packagingCost","Package Packaging Cost"),
-      otherCost:validateMoney("otherCost","Package Other Cost")
-    };
+ try{
+  payload={
+   name:$("name").value.trim(),
+   category:$("category").value,
+   description:$("description").value.trim(),
+   imageUrl:$("imageUrl").value.trim(),
+   product1Id,
+   product2Id,
+   product3Id,
+   price:validateMoney("price","Package Selling Price"),
+   stock,
+   deliveryCost:validateMoney("deliveryCost","Package Delivery Cost"),
+   packagingCost:validateMoney("packagingCost","Package Packaging Cost"),
+   otherCost:validateMoney("otherCost","Package Other Cost")
+  };
 
-    if(!payload.category)throw new Error("Please select a package category.");
-    if(payload.name.length<2||payload.name.length>180)throw new Error("Package name must be between 2 and 180 characters.");
-    if(payload.description.length>5000)throw new Error("Description must not exceed 5000 characters.");
-    if(payload.imageUrl&&!safeImageUrl(payload.imageUrl))throw new Error("Please upload a valid banner image.");
+  if(!payload.category)throw new Error("Please select a package category.");
+  if(payload.name.length<2||payload.name.length>180)throw new Error("Package name must be between 2 and 180 characters.");
+  if(payload.description.length>5000)throw new Error("Description must not exceed 5000 characters.");
+  if(payload.imageUrl&&!safeImageUrl(payload.imageUrl))throw new Error("Please upload a valid banner image.");
 
-  }catch(error){
-    showMessage(error.message,"error");
-    return;
-  }
+ }catch(error){
+  showMessage(error.message,"error");
+  return;
+ }
 
-  saving=true;
-  $("saveButton").disabled=true;
-  $("saveButton").textContent="Saving...";
+ saving=true;
+ $("saveButton").disabled=true;
+ $("saveButton").textContent="Saving...";
 
-  try{
-    const isEditing=editingId!==null;
-    const endpoint=isEditing?"/packages/"+editingId:"/packages";
+ try{
+  const isEditing=editingId!==null;
+  const endpoint=isEditing?"/packages/"+encodeURIComponent(editingId):"/packages";
 
-    await apiRequest(endpoint,{
-      method:isEditing?"PUT":"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(payload)
-    });
+  await apiRequest(endpoint,{
+   method:isEditing?"PUT":"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify(payload)
+  });
 
-    showMessage(
-      isEditing
-        ?"Package and cost information updated successfully."
-        :"Package created successfully."
-    );
+  showMessage(
+   isEditing
+    ?"Package and cost information updated successfully."
+    :"Package created successfully."
+  );
 
-    resetForm();
-    await loadPackages();
+  resetForm();
+  await loadPackages();
 
-  }catch(error){
-    showMessage(error.message,"error");
-  }finally{
-    saving=false;
-    $("saveButton").disabled=false;
-    $("saveButton").textContent=editingId!==null?"Update Package":"Create Package";
-  }
+ }catch(error){
+  showMessage(error.message,"error");
+ }finally{
+  saving=false;
+  $("saveButton").disabled=false;
+  $("saveButton").textContent=editingId!==null?"Update Package":"Create Package";
+ }
 });
 
 /* CHANGE STATUS */
 async function changeStatus(id,status){
-  if(changingStatus)return;
+ if(changingStatus)return;
 
-  const allowed=["draft","active","inactive","archived"];
+ const allowed=["draft","active","inactive","archived"];
 
-  if(!allowed.includes(status)){
-    showMessage("Invalid package status.","error");
-    return;
-  }
+ if(!allowed.includes(status)){
+  showMessage("Invalid package status.","error");
+  return;
+ }
 
-  if(!confirm("Change package status to "+status+"?"))return;
+ if(!confirm("Change package status to "+status+"?"))return;
 
-  changingStatus=true;
+ changingStatus=true;
 
-  try{
-    await apiRequest("/packages/"+id+"/status",{
-      method:"PATCH",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({status})
-    });
+ try{
+  await apiRequest("/packages/"+encodeURIComponent(id)+"/status",{
+   method:"PATCH",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({status})
+  });
 
-    showMessage("Package status updated.");
-    await loadPackages();
+  showMessage("Package status updated.");
+  await loadPackages();
 
-  }catch(error){
-    showMessage(error.message,"error");
-  }finally{
-    changingStatus=false;
-  }
+ }catch(error){
+  showMessage(error.message,"error");
+ }finally{
+  changingStatus=false;
+ }
 }
 
 /* ARCHIVE PACKAGE */
 async function archivePackage(id){
-  if(!confirm("Are you sure you want to archive this package?"))return;
-  if(changingStatus)return;
+ if(changingStatus)return;
+ if(!confirm("Are you sure you want to archive this package?"))return;
 
-  changingStatus=true;
+ changingStatus=true;
 
-  try{
-    await apiRequest("/packages/"+id,{method:"DELETE"});
-    showMessage("Package archived successfully.");
-    await loadPackages();
+ try{
+  await apiRequest("/packages/"+encodeURIComponent(id),{
+   method:"DELETE"
+  });
 
-  }catch(error){
-    showMessage(error.message,"error");
-  }finally{
-    changingStatus=false;
-  }
+  showMessage("Package archived successfully.");
+  await loadPackages();
+
+ }catch(error){
+  showMessage(error.message,"error");
+ }finally{
+  changingStatus=false;
+ }
 }
 
-/* EVENTS */
+/* CATEGORY RESET */
+$("resetFilter").addEventListener("click",()=>{
+ selectedCategory="all";
+ renderCategoryFilters();
+ renderPackages();
+});
+
+/* FORM EVENTS */
 [
-  "product1","product2","product3",
-  "deliveryCost","packagingCost","otherCost","price"
+ "product1","product2","product3",
+ "deliveryCost","packagingCost","otherCost","price"
 ].forEach(id=>{
-  $(id).addEventListener("change",updateCostSummary);
-  $(id).addEventListener("input",updateCostSummary);
+ $(id).addEventListener("input",updateCostSummary);
+ $(id).addEventListener("change",updateCostSummary);
 });
 
 $("cancelButton").addEventListener("click",resetForm);
 
+/* NAVIGATION */
+$("menuBtn").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
+
+document.querySelectorAll(".sidebar a").forEach(link=>{
+ link.addEventListener("click",()=>{
+  $("sidebar").classList.remove("open");
+ });
+});
+
+$("logoutBtn").addEventListener("click",logout);
+
 /* INITIALIZE */
 async function initializePage(){
-  $("year").textContent=new Date().getFullYear();
+ $("year").textContent=new Date().getFullYear();
 
-  const allowed=await verifyAdmin();
-  if(!allowed)return;
+ const allowed=await verifyAdmin();
+ if(!allowed)return;
 
-  try{
-    await loadProducts();
-    await loadPackages();
-  }catch(error){
-    showMessage(error.message,"error");
-  }
+ try{
+  await loadProducts();
+  await loadPackages();
+ }catch(error){
+  showMessage(error.message,"error");
+  $("packageList").innerHTML=
+   '<div class="empty">Unable to load packages. Please refresh the page.</div>';
+ }
 }
 
 initializePage();
-
 </script>
+
 </body>
 </html>
