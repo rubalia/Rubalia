@@ -11,12 +11,6 @@ const router = express.Router();
 /* =====================================================
    ONE-TIME ADMIN SETUP
    POST /api/admin/setup
-
-   Required Header:
-   x-admin-setup-key: ADMIN_SETUP_KEY
-
-   Required Body:
-   { "email": "registered@email.com" }
 ===================================================== */
 
 router.post("/setup", async (req, res, next) => {
@@ -58,7 +52,6 @@ router.post("/setup", async (req, res, next) => {
     await client.query("BEGIN");
     transactionStarted = true;
 
-    // Prevent simultaneous Admin setup requests.
     await client.query(
       "SELECT pg_advisory_xact_lock($1)",
       [72819463]
@@ -87,12 +80,7 @@ router.post("/setup", async (req, res, next) => {
            updated_at = NOW()
        WHERE LOWER(email) = $1
          AND status = 'active'
-       RETURNING
-         id,
-         full_name,
-         email,
-         role,
-         status`,
+       RETURNING id, full_name, email, role, status`,
       [email]
     );
 
@@ -127,16 +115,13 @@ router.post("/setup", async (req, res, next) => {
     return next(error);
 
   } finally {
-    if (client) {
-      client.release();
-    }
+    if (client) client.release();
   }
 });
 
 
 /* =====================================================
    ADMIN AUTHENTICATION
-   All routes below require Admin access.
 ===================================================== */
 
 router.use(authenticateToken, requireAdmin);
@@ -157,15 +142,13 @@ router.get("/dashboard", async (req, res, next) => {
          FROM users
          WHERE status = 'active')::BIGINT AS active_users,
 
-        (SELECT COUNT(*)
-         FROM products)::BIGINT AS total_products,
+        (SELECT COUNT(*) FROM products)::BIGINT AS total_products,
 
         (SELECT COUNT(*)
          FROM products
          WHERE status = 'active')::BIGINT AS active_products,
 
-        (SELECT COUNT(*)
-         FROM orders)::BIGINT AS total_orders,
+        (SELECT COUNT(*) FROM orders)::BIGINT AS total_orders,
 
         (SELECT COUNT(*)
          FROM orders
@@ -234,13 +217,6 @@ router.get("/users/stats", async (req, res, next) => {
 /* =====================================================
    GET ALL USERS
    GET /api/admin/users
-
-   Query:
-   page
-   limit
-   search
-   role
-   status
 ===================================================== */
 
 router.get("/users", async (req, res, next) => {
@@ -278,10 +254,8 @@ router.get("/users", async (req, res, next) => {
     const conditions = [];
     const values = [];
 
-    // Search by name, email or user ID.
     if (search) {
       values.push(`%${search}%`);
-
       const searchIndex = values.length;
 
       conditions.push(`
@@ -293,7 +267,6 @@ router.get("/users", async (req, res, next) => {
       `);
     }
 
-    // Status filter.
     if (status) {
       const allowedStatuses = [
         "active",
@@ -312,7 +285,6 @@ router.get("/users", async (req, res, next) => {
       conditions.push(`status = $${values.length}`);
     }
 
-    // Role filter.
     if (role) {
       const allowedRoles = [
         "user",
@@ -335,7 +307,6 @@ router.get("/users", async (req, res, next) => {
       ? `WHERE ${conditions.join(" AND ")}`
       : "";
 
-    // Total matching users.
     const countResult = await pool.query(
       `SELECT COUNT(*)::BIGINT AS total
        FROM users
@@ -345,7 +316,6 @@ router.get("/users", async (req, res, next) => {
 
     const total = Number(countResult.rows[0].total);
 
-    // User list.
     const listValues = [
       ...values,
       limit,
@@ -465,6 +435,150 @@ router.get("/orders", async (req, res, next) => {
     return res.json({
       success: true,
       orders: result.rows
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+});
+
+
+/* =====================================================
+   ADMIN ANNOUNCEMENTS
+===================================================== */
+
+/*
+   GET /api/admin/messages
+   Announcement History
+*/
+
+router.get("/messages", async (req, res, next) => {
+  try {
+    const result = await pool.query(
+      `SELECT
+        id,
+        text,
+        active,
+        updated_by,
+        created_at,
+        updated_at
+       FROM admin_messages
+       ORDER BY updated_at DESC, id DESC
+       LIMIT 50`
+    );
+
+    return res.json({
+      success: true,
+      messages: result.rows
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+});
+
+
+/*
+   POST /api/admin/messages
+   Publish Announcement
+*/
+
+router.post("/messages", async (req, res, next) => {
+  const text = typeof req.body?.text === "string"
+    ? req.body.text.trim()
+    : "";
+
+  if (!text || text.length > 300) {
+    return res.status(400).json({
+      success: false,
+      message: "Announcement must contain 1 to 300 characters."
+    });
+  }
+
+  let client;
+  let transactionStarted = false;
+
+  try {
+    client = await pool.connect();
+
+    await client.query("BEGIN");
+    transactionStarted = true;
+
+    // Disable previous running announcement.
+    await client.query(
+      `UPDATE admin_messages
+       SET active = FALSE,
+           updated_at = NOW()
+       WHERE active = TRUE`
+    );
+
+    // Publish new announcement.
+    const result = await client.query(
+      `INSERT INTO admin_messages (
+        text,
+        active,
+        updated_by
+      )
+      VALUES ($1, TRUE, $2)
+      RETURNING
+        id,
+        text,
+        active,
+        updated_by,
+        created_at,
+        updated_at`,
+      [text, req.auth.id]
+    );
+
+    await client.query("COMMIT");
+    transactionStarted = false;
+
+    return res.status(201).json({
+      success: true,
+      message: "Announcement published successfully.",
+      data: result.rows[0]
+    });
+
+  } catch (error) {
+    if (client && transactionStarted) {
+      try {
+        await client.query("ROLLBACK");
+      } catch (rollbackError) {
+        console.error(
+          "Announcement rollback failed:",
+          rollbackError.message
+        );
+      }
+    }
+
+    return next(error);
+
+  } finally {
+    if (client) client.release();
+  }
+});
+
+
+/*
+   POST /api/admin/messages/disable
+   Disable Running Announcement
+*/
+
+router.post("/messages/disable", async (req, res, next) => {
+  try {
+    const result = await pool.query(
+      `UPDATE admin_messages
+       SET active = FALSE,
+           updated_at = NOW()
+       WHERE active = TRUE
+       RETURNING id`
+    );
+
+    return res.json({
+      success: true,
+      message: result.rowCount
+        ? "Running announcement disabled."
+        : "There is no active announcement."
     });
 
   } catch (error) {
