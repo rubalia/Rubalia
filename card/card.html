@@ -5,15 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#07152f">
-<title>RUBALIA GOLD CARD</title>
+<title>RUBALIA CARD</title>
 
 <style>
 :root{
   --navy:#071638;
-  --navy2:#102b59;
-  --gold:#f4d17a;
-  --gold2:#c99b3c;
-  --white:#fff;
+  --navy2:#173765;
+  --gold:#e9c879;
+  --gold2:#b88b39;
 }
 
 *{
@@ -25,43 +24,49 @@
 
 html,body{
   width:100%;
-  min-height:0;
+  height:100%;
   margin:0;
   padding:0;
   overflow:hidden;
+  background:transparent;
 }
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:transparent;
-  color:white;
 }
 
-/* CARD BANNER */
+/* BANNER AREA */
 
 .card-only{
   width:100%;
-  margin:0;
-  padding:0;
-  display:block;
+  aspect-ratio:3/1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
 .slider-wrap{
   width:100%;
-  margin:0;
-  padding:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   perspective:1200px;
-  touch-action:pan-y;
 }
 
+/* CARD SIZE */
+
 .card-slider{
-  width:100%;
-  aspect-ratio:3 / 1;
+  height:86%;
+  width:auto;
+  aspect-ratio:1.586/1;
+  max-width:94%;
   position:relative;
   container-type:inline-size;
 }
 
-/* MAIN CARD */
+/* CARD */
 
 .card{
   position:absolute;
@@ -69,7 +74,7 @@ body{
   width:100%;
   height:100%;
   transform-style:preserve-3d;
-  transition:transform .75s cubic-bezier(.2,.75,.25,1);
+  transition:transform .7s cubic-bezier(.2,.75,.25,1);
   cursor:pointer;
 }
 
@@ -77,71 +82,52 @@ body{
   transform:rotateY(180deg);
 }
 
-/* CARD FACES */
-
 .card-face{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   overflow:hidden;
-  border-radius:2cqw;
-  border:1px solid rgba(255,220,140,.75);
+  border-radius:5%;
+  border:1px solid rgba(230,205,145,.55);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
   box-shadow:
-    0 1.5cqw 3cqw rgba(0,0,0,.45),
-    inset 0 1px 2px rgba(255,255,255,.2);
+    0 3cqw 6cqw rgba(0,0,0,.4),
+    inset 0 1px 2px rgba(255,255,255,.15);
 }
 
 /* FRONT */
 
 .card-front{
   background:
+    radial-gradient(circle at 85% 5%,rgba(70,125,190,.5),transparent 45%),
     repeating-linear-gradient(
-      125deg,
-      transparent 0px,
-      transparent 1.2cqw,
-      rgba(93,145,220,.10) 1.4cqw,
-      rgba(93,145,220,.10) 1.8cqw
+      130deg,
+      transparent 0,
+      transparent 2cqw,
+      rgba(120,170,220,.045) 2.2cqw,
+      rgba(120,170,220,.045) 2.7cqw
     ),
-    radial-gradient(
-      circle at 90% 5%,
-      #234d8a,
-      transparent 48%
-    ),
-    linear-gradient(
-      145deg,
-      #101d4a,
-      #071332 75%
-    );
+    linear-gradient(145deg,#142e58,#07152f 75%);
 }
+
+/* LIGHT REFLECTION */
 
 .card-front::before{
   content:"";
   position:absolute;
-  width:55%;
-  height:55%;
-  right:-15%;
+  width:70%;
+  height:45%;
   top:-20%;
-  transform:rotate(-22deg);
+  right:-20%;
+  transform:rotate(-25deg);
   background:linear-gradient(
     90deg,
     transparent,
-    rgba(90,155,240,.18),
+    rgba(255,255,255,.09),
     transparent
   );
-}
-
-.card-front::after{
-  content:"";
-  position:absolute;
-  width:40%;
-  height:60%;
-  left:-15%;
-  bottom:-40%;
-  border:1px solid rgba(244,209,122,.2);
-  border-radius:50%;
 }
 
 /* BALANCE */
@@ -149,19 +135,19 @@ body{
 .front-top{
   position:absolute;
   top:7%;
-  left:5%;
-  right:5%;
+  left:6%;
+  right:6%;
   display:flex;
   justify-content:flex-end;
-  align-items:center;
   z-index:2;
 }
 
 .balance{
-  font-size:clamp(13px,2.5cqw,36px);
-  font-weight:900;
-  color:#ffe4a0;
-  text-shadow:0 2px 5px #000;
+  font-size:6cqw;
+  font-weight:500;
+  color:#fff0c3;
+  letter-spacing:.1cqw;
+  text-shadow:0 2px 4px #000;
   white-space:nowrap;
 }
 
@@ -169,42 +155,29 @@ body{
 
 .chip-area{
   position:absolute;
-  top:29%;
-  left:5%;
+  top:32%;
+  left:6%;
   display:flex;
   align-items:center;
-  gap:2cqw;
+  gap:3cqw;
   z-index:2;
 }
 
 .chip{
-  width:8cqw;
-  height:10cqw;
-  max-height:12%;
-  border-radius:1cqw;
+  width:15cqw;
+  height:11cqw;
+  border-radius:2cqw;
   background:
-    linear-gradient(
-      90deg,
-      transparent 47%,
-      #a77b25 48%,
-      #a77b25 53%,
-      transparent 54%
-    ),
-    linear-gradient(
-      0deg,
-      transparent 45%,
-      #a77b25 46%,
-      #a77b25 53%,
-      transparent 54%
-    ),
-    linear-gradient(135deg,#ffe49a,#c48e2d);
-  border:1px solid #f9dc8a;
-  box-shadow:inset 0 1px 3px rgba(255,255,255,.7);
+    linear-gradient(90deg,transparent 47%,#a77b25 48%,#a77b25 53%,transparent 54%),
+    linear-gradient(0deg,transparent 45%,#a77b25 46%,#a77b25 53%,transparent 54%),
+    linear-gradient(135deg,#fff0ad,#c69a45);
+  border:1px solid #e8cb82;
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.6);
 }
 
 .contactless{
-  color:#f5e8c5;
-  font-size:4cqw;
+  font-size:10cqw;
+  color:#e9e4d3;
   transform:rotate(90deg);
   line-height:1;
 }
@@ -213,66 +186,65 @@ body{
 
 .user-id{
   position:absolute;
-  left:5%;
+  top:55%;
+  left:6%;
   right:5%;
-  top:51%;
   z-index:2;
-  color:#f5d27b;
-  font-family:Georgia,serif;
-  font-size:clamp(13px,2.6cqw,38px);
-  font-weight:bold;
-  letter-spacing:.35cqw;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:5.3cqw;
+  font-weight:400;
+  letter-spacing:.55cqw;
+  color:#f5d88d;
   white-space:nowrap;
-  text-shadow:
-    0 1px 0 #6f4a13,
-    0 2px 5px #000;
   overflow:hidden;
   text-overflow:ellipsis;
+  text-shadow:0 2px 3px #000;
 }
 
-/* MEMBER NAME AND DATE */
+/* NAME AND DATE */
 
 .front-bottom{
   position:absolute;
-  left:5%;
-  bottom:7%;
+  bottom:8%;
+  left:6%;
   z-index:2;
-  max-width:55%;
+  max-width:65%;
 }
 
 .user-name{
-  font-family:Georgia,serif;
-  font-size:clamp(10px,1.9cqw,28px);
-  font-weight:bold;
-  color:#ffe2a0;
-  letter-spacing:.2cqw;
+  font-size:3.7cqw;
+  font-weight:500;
+  font-family:Arial,Helvetica,sans-serif;
+  letter-spacing:.35cqw;
+  color:#f5e6bf;
   text-transform:uppercase;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  text-shadow:0 2px 4px #000;
 }
 
 .created-date{
-  margin-top:.8cqw;
-  font-size:clamp(7px,1.15cqw,17px);
-  color:#e5d6b4;
-  letter-spacing:.1cqw;
+  margin-top:1.5cqw;
+  font-size:2.6cqw;
+  font-weight:400;
+  color:#c4cfe0;
+  letter-spacing:.12cqw;
+  white-space:nowrap;
 }
 
 /* CARD BRAND */
 
 .card-brand{
   position:absolute;
-  right:5%;
+  right:6%;
   bottom:8%;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:6cqw;
+  font-weight:600;
+  font-style:italic;
+  color:#f0d58e;
+  letter-spacing:-.2cqw;
   z-index:2;
-  text-align:right;
-  font-family:Georgia,serif;
-  font-size:clamp(12px,2.3cqw,34px);
-  font-weight:bold;
-  color:#f8d47f;
-  text-shadow:0 2px 5px #000;
 }
 
 /* BACK */
@@ -281,32 +253,25 @@ body{
   transform:rotateY(180deg);
   background:
     repeating-linear-gradient(
-      125deg,
-      transparent 0px,
-      transparent 1.2cqw,
-      rgba(93,145,220,.08) 1.4cqw,
-      rgba(93,145,220,.08) 1.8cqw
+      130deg,
+      transparent 0,
+      transparent 2cqw,
+      rgba(120,170,220,.04) 2.2cqw,
+      rgba(120,170,220,.04) 2.7cqw
     ),
-    linear-gradient(
-      145deg,
-      #102650,
-      #07132e
-    );
+    linear-gradient(145deg,#142e58,#07152f);
 }
 
 /* MAGNETIC STRIP */
 
 .magnetic-strip{
   position:absolute;
-  top:15%;
+  top:14%;
   left:0;
   width:100%;
-  height:17%;
+  height:19%;
   background:linear-gradient(
-    90deg,
-    #080b13,
-    #252936,
-    #080b13
+    90deg,#080b13,#30333d,#080b13
   );
 }
 
@@ -315,48 +280,46 @@ body{
 .signature-area{
   position:absolute;
   top:43%;
-  left:5%;
-  width:42%;
+  left:6%;
+  width:48%;
   height:15%;
+  border-radius:1cqw;
   background:repeating-linear-gradient(
-    0deg,
-    #eee9db 0px,
-    #eee9db 3px,
-    #d4d0c6 4px
+    0deg,#eee9db 0,#eee9db 3px,#d4d0c6 4px
   );
-  border-radius:.7cqw;
+  color:#28304b;
   display:flex;
   align-items:center;
-  padding:0 1.5cqw;
-  color:#28304b;
+  padding:0 2cqw;
   font-family:Georgia,serif;
-  font-size:clamp(8px,1.5cqw,22px);
   font-style:italic;
+  font-size:3.5cqw;
   overflow:hidden;
   white-space:nowrap;
-  text-overflow:ellipsis;
 }
+
+/* BACK BRAND */
 
 .back-brand{
   position:absolute;
-  right:5%;
-  top:43%;
-  color:#f2d18a;
-  font-family:Georgia,serif;
-  font-size:clamp(12px,2.3cqw,34px);
-  font-weight:bold;
+  top:44%;
+  right:6%;
+  color:#e9d59e;
+  font-size:5.5cqw;
+  font-style:italic;
+  font-weight:600;
 }
 
-/* BACK MEMBER ID */
+/* BACK ID */
 
 .back-id{
   position:absolute;
-  top:65%;
-  left:5%;
-  right:5%;
-  font-size:clamp(8px,1.4cqw,20px);
-  color:#e8cf91;
-  letter-spacing:.2cqw;
+  top:66%;
+  left:6%;
+  right:6%;
+  color:#d9c58f;
+  font-size:2.8cqw;
+  letter-spacing:.15cqw;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -367,42 +330,33 @@ body{
 .card-actions{
   position:absolute;
   bottom:7%;
-  left:5%;
-  right:5%;
+  left:6%;
+  right:6%;
   display:flex;
-  gap:1.5cqw;
-  z-index:3;
+  gap:2cqw;
 }
 
 .action-btn{
   flex:1;
-  height:12%;
-  min-height:23px;
-  border:1px solid rgba(255,220,150,.65);
+  height:13%;
+  min-height:20px;
+  border:1px solid rgba(255,220,150,.55);
   border-radius:1cqw;
-  background:linear-gradient(
-    135deg,
-    #eac66d,
-    #a87925
-  );
-  color:#18203a;
-  font-size:clamp(9px,1.5cqw,22px);
-  font-weight:900;
+  background:linear-gradient(135deg,#e9d18c,#b88b39);
+  color:#18243b;
+  font-size:3cqw;
+  font-weight:600;
   letter-spacing:.2cqw;
   cursor:pointer;
-  box-shadow:0 2px 5px rgba(0,0,0,.3);
 }
 
 .action-btn:active{
   transform:scale(.97);
 }
 
-/* ACCESSIBILITY */
-
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
     transition:none!important;
-    animation:none!important;
   }
 }
 </style>
@@ -418,7 +372,7 @@ body{
 
       <div class="card" id="memberCard">
 
-        <!-- FRONT SIDE -->
+        <!-- FRONT -->
 
         <div class="card-face card-front">
 
@@ -450,12 +404,12 @@ body{
           </div>
 
           <div class="card-brand">
-            Rubalia Gold
+            RUBALIA
           </div>
 
         </div>
 
-        <!-- BACK SIDE -->
+        <!-- BACK -->
 
         <div class="card-face card-back">
 
@@ -466,7 +420,7 @@ body{
           </div>
 
           <div class="back-brand">
-            Rubalia Gold
+            RUBALIA
           </div>
 
           <div class="back-id" id="backMemberId">
@@ -504,19 +458,7 @@ body{
 <script>
 "use strict";
 
-/*
-  RUBALIA MEMBER CARD
-
-  User information:
-  sessionStorage key: rubalia_user
-
-  Supported fields:
-  fullName / full_name / name
-  memberId / member_id / username / id
-  createdAt / created_at
-  balance / walletBalance / wallet_balance
-  availableBalance / available_balance
-*/
+/* ELEMENTS */
 
 const card = document.getElementById("memberCard");
 
@@ -530,7 +472,7 @@ const backMemberId = document.getElementById("backMemberId");
 
 let isFlipped = false;
 
-/* FORMAT DATE */
+/* DATE FORMAT */
 
 function formatDate(value){
 
@@ -550,7 +492,7 @@ function formatDate(value){
 
 }
 
-/* FORMAT BALANCE */
+/* BALANCE FORMAT */
 
 function formatBalance(value){
 
@@ -585,7 +527,7 @@ function getCurrentUser(){
 
   }catch(error){
 
-    console.error("User data loading error:",error);
+    console.error("User data error:",error);
 
     return null;
 
@@ -593,7 +535,7 @@ function getCurrentUser(){
 
 }
 
-/* LOAD CARD INFORMATION */
+/* LOAD MEMBER INFORMATION */
 
 function loadMemberCard(){
 
@@ -602,7 +544,6 @@ function loadMemberCard(){
   if(!user){
 
     cardName.textContent = "MEMBER NAME";
-
     cardUserId.textContent = "20240101 000000";
 
     backSignature.textContent = "RUBALIA MEMBER";
@@ -610,7 +551,8 @@ function loadMemberCard(){
     backMemberId.textContent =
       "MEMBER ID: 20240101 000000";
 
-    cardDate.textContent = "ACCOUNT CREATED: --";
+    cardDate.textContent =
+      "ACCOUNT CREATED: --";
 
     cardBalance.textContent = "৳ 0.00";
 
@@ -670,7 +612,7 @@ function loadMemberCard(){
 
 }
 
-/* FLIP CARD */
+/* FLIP */
 
 function toggleCard(){
 
@@ -688,39 +630,7 @@ card.addEventListener("click",function(event){
 
 });
 
-/* TOUCH SWIPE */
-
-let startX = 0;
-let startY = 0;
-
-card.addEventListener("touchstart",function(event){
-
-  const touch = event.changedTouches[0];
-
-  startX = touch.clientX;
-  startY = touch.clientY;
-
-},{passive:true});
-
-card.addEventListener("touchend",function(event){
-
-  const touch = event.changedTouches[0];
-
-  const diffX = touch.clientX - startX;
-  const diffY = touch.clientY - startY;
-
-  if(
-    Math.abs(diffX) > 45 &&
-    Math.abs(diffX) > Math.abs(diffY)
-  ){
-
-    // Reserved for multiple-card slider navigation.
-
-  }
-
-},{passive:true});
-
-/* DEPOSIT BUTTON */
+/* DEPOSIT */
 
 document.getElementById("depositBtn")
 .addEventListener("click",function(event){
@@ -731,7 +641,7 @@ document.getElementById("depositBtn")
 
 });
 
-/* WITHDRAW BUTTON */
+/* WITHDRAW */
 
 document.getElementById("withdrawBtn")
 .addEventListener("click",function(event){
@@ -742,17 +652,19 @@ document.getElementById("withdrawBtn")
 
 });
 
-/* START */
+/* LOAD */
 
 loadMemberCard();
 
-/* REFRESH USER DATA */
+/* PAGE REFRESH */
 
 window.addEventListener("pageshow",function(){
 
   loadMemberCard();
 
 });
+
+/* STORAGE UPDATE */
 
 window.addEventListener("storage",function(event){
 
@@ -766,3 +678,5 @@ window.addEventListener("storage",function(event){
 
 </body>
 </html>
+```
+
