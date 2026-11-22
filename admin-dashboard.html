@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
 <meta name="description" content="Rubalia Network Administrator Dashboard">
 <title>Admin Dashboard | Rubalia Network</title>
@@ -14,7 +14,6 @@
  --navy2:#102b50;
  --navy3:#193d68;
  --gold:#d6ad55;
- --gold-light:#f5e8c5;
  --bg:#f3f6fb;
  --white:#fff;
  --text:#18263c;
@@ -22,11 +21,10 @@
  --border:#e5eaf1;
  --green:#16845b;
  --red:#c34b4b;
- --blue:#3978bd;
- --purple:#8064bd;
- --shadow:0 5px 22px rgba(16,43,80,.055);
+ --shadow:0 2px 9px rgba(16,43,80,.045);
 }
 *{box-sizing:border-box}
+html{scroll-behavior:auto}
 body{
  margin:0;
  font-family:Arial,Helvetica,sans-serif;
@@ -40,362 +38,406 @@ button{font:inherit;cursor:pointer}
 .loading-screen,.error-screen{
  position:fixed;inset:0;z-index:1000;
  display:flex;align-items:center;justify-content:center;
- background:var(--bg);padding:20px
+ background:var(--bg);padding:18px
 }
 .loading-box,.error-card{
- width:100%;max-width:420px;padding:30px;
- background:white;border:1px solid var(--border);
- border-radius:16px;text-align:center;
- box-shadow:var(--shadow)
+ width:100%;max-width:400px;padding:25px;
+ background:#fff;border:1px solid var(--border);
+ border-radius:13px;text-align:center;
 }
-.loading-box strong{color:var(--navy);letter-spacing:.5px}
+.loading-box strong{color:var(--navy)}
 .loading-box p,.error-card p{
- color:var(--muted);font-size:13px;line-height:1.7
+ color:var(--muted);font-size:13px;line-height:1.6
 }
 .spinner{
- width:38px;height:38px;border:4px solid #e3e8ef;
- border-top-color:var(--gold);border-radius:50%;
- margin:0 auto 17px;animation:spin .8s linear infinite
+ width:32px;height:32px;
+ border:3px solid #e3e8ef;
+ border-top-color:var(--gold);
+ border-radius:50%;margin:0 auto 15px;
+ animation:spin .8s linear infinite
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-screen{display:none}
 .error-card h2{color:var(--navy)}
 .error-card a,.error-card button{
- display:inline-block;margin:7px 4px 0;padding:11px 17px;
- border:0;border-radius:8px;background:var(--gold);
- color:var(--navy);font-weight:bold
+ display:inline-block;margin:6px 3px 0;
+ padding:11px 16px;border:0;border-radius:8px;
+ background:var(--gold);color:var(--navy);
+ font-weight:bold;font-size:12px
 }
 
+/* TOP BAR */
 .topbar{
- min-height:66px;background:var(--navy);color:white;
+ min-height:60px;background:var(--navy);color:white;
  display:flex;align-items:center;justify-content:space-between;
- padding:0 24px;position:sticky;top:0;z-index:30;
- box-shadow:0 3px 14px rgba(0,0,0,.12)
+ padding:0 20px;position:sticky;top:0;z-index:50
 }
-.brand{font-size:20px;font-weight:900;letter-spacing:.5px}
+.brand{font-size:19px;font-weight:900;letter-spacing:.4px}
 .brand span{color:var(--gold)}
-.top-right{display:flex;align-items:center;gap:12px}
+.top-right{display:flex;align-items:center;gap:10px}
 .admin-label{
- font-size:10px;background:rgba(214,173,85,.17);
- color:#f3dfa9;border:1px solid rgba(214,173,85,.4);
- padding:8px 12px;border-radius:20px;font-weight:bold;
- letter-spacing:.7px
+ font-size:9px;background:rgba(214,173,85,.16);
+ color:#f3dfa9;border:1px solid rgba(214,173,85,.35);
+ padding:7px 10px;border-radius:20px;font-weight:bold
 }
 .admin-avatar{
- width:37px;height:37px;border-radius:50%;
+ width:34px;height:34px;border-radius:50%;
  background:var(--gold);color:var(--navy);
  display:grid;place-items:center;font-weight:bold
 }
 .mobile-menu{
  display:none;border:1px solid rgba(255,255,255,.25);
- background:transparent;color:white;border-radius:8px;
- padding:8px 11px
+ background:transparent;color:white;border-radius:7px;
+ padding:7px 10px;font-size:18px
 }
 
+/* LAYOUT */
 .layout{
- display:grid;grid-template-columns:245px minmax(0,1fr);
- min-height:calc(100vh - 66px)
+ display:grid;grid-template-columns:225px minmax(0,1fr);
+ min-height:calc(100vh - 60px)
 }
 .sidebar{
- background:var(--navy2);color:white;padding:20px 13px;
- min-height:calc(100vh - 66px)
+ background:var(--navy2);color:white;
+ padding:17px 11px;min-height:calc(100vh - 60px)
 }
 .admin-profile{
- padding:8px 10px 20px;margin-bottom:14px;
+ padding:8px 10px 17px;margin-bottom:12px;
  border-bottom:1px solid rgba(255,255,255,.13)
 }
-.admin-profile strong{display:block;font-size:14px;margin-bottom:6px}
+.admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
 .admin-profile small{
- color:#b8c7d9;font-size:11px;overflow-wrap:anywhere
+ color:#b8c7d9;font-size:10px;overflow-wrap:anywhere
 }
 .side-heading{
- color:#9eafc5;font-size:10px;font-weight:bold;
- text-transform:uppercase;letter-spacing:1.3px;
- margin:20px 11px 9px
+ color:#9eafc5;font-size:9px;font-weight:bold;
+ text-transform:uppercase;letter-spacing:1px;
+ margin:17px 10px 7px
 }
 .nav-link,.logout-btn{
- display:flex;align-items:center;gap:11px;
- padding:11px 12px;border-radius:8px;margin:3px 0;
- font-size:12px;color:#dce6f2;transition:.2s;width:100%
+ display:flex;align-items:center;gap:9px;
+ padding:10px;border-radius:7px;margin:2px 0;
+ font-size:11px;color:#dce6f2;width:100%
 }
 .nav-link:hover,.nav-link.active,.logout-btn:hover{
- background:rgba(214,173,85,.17);color:#f3dfa9
+ background:rgba(214,173,85,.15);color:#f3dfa9
 }
-.nav-icon{width:19px;text-align:center;font-size:15px}
-.logout-btn{background:transparent;border:0;text-align:left}
+.nav-icon{width:18px;text-align:center;font-size:14px}
+.logout-btn{
+ background:transparent;border:0;text-align:left
+}
 
+/* MAIN */
 .main{
- padding:26px;width:100%;max-width:1500px;margin:auto
+ padding:22px;width:100%;max-width:1550px;margin:auto;
+ min-width:0
 }
 .heading{
- display:flex;justify-content:space-between;align-items:center;
- gap:15px;flex-wrap:wrap;margin-bottom:22px
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap;
+ margin-bottom:17px
 }
-.heading h1{color:var(--navy);font-size:26px;margin:0 0 7px}
-.heading p{margin:0;color:var(--muted);font-size:12px}
+.heading h1{color:var(--navy);font-size:23px;margin:0 0 5px}
+.heading p{margin:0;color:var(--muted);font-size:11px}
 .live-badge{
- display:inline-flex;align-items:center;gap:6px;
+ display:inline-flex;align-items:center;gap:5px;
  background:#e7f7ef;color:var(--green);
- border-radius:20px;padding:8px 12px;font-size:10px;
- font-weight:bold;white-space:nowrap
+ border-radius:20px;padding:7px 10px;
+ font-size:9px;font-weight:bold;white-space:nowrap
 }
 .live-badge.offline{background:#fceaea;color:var(--red)}
 
+/* WELCOME */
 .welcome{
- background:linear-gradient(115deg,#071a35,#193d68);
- color:white;border-radius:16px;padding:25px;
- margin-bottom:21px;display:flex;
- justify-content:space-between;align-items:center;gap:20px;
- box-shadow:0 8px 24px rgba(7,26,53,.13)
+ background:var(--navy);
+ color:white;border-radius:12px;padding:18px 20px;
+ margin-bottom:17px;display:flex;
+ justify-content:space-between;align-items:center;gap:12px
 }
-.welcome h2{margin:0 0 8px;font-size:21px}
-.welcome p{margin:0;color:#c8d5e5;font-size:12px;line-height:1.8}
-.welcome-icon{font-size:46px}
+.welcome h2{margin:0 0 6px;font-size:18px}
+.welcome p{margin:0;color:#c8d5e5;font-size:11px;line-height:1.7}
+.welcome-icon{font-size:35px}
 
-.section-title{
- font-size:17px;color:var(--navy);margin:0 0 5px
+/* ANNOUNCEMENT */
+.announcement-card{
+ background:#fffaf0;border:1px solid #ead8ad;
+ border-radius:11px;padding:14px;margin-bottom:18px
 }
-.section-subtitle{font-size:11px;color:var(--muted);margin:0}
+.announcement-top{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:8px;flex-wrap:wrap;margin-bottom:10px
+}
+.announcement-title{
+ display:flex;align-items:center;gap:8px;
+ color:var(--navy);font-size:12px;font-weight:bold
+}
+.announcement-indicator{
+ font-size:9px;font-weight:bold;color:var(--green);
+ background:#e3f6eb;padding:5px 8px;border-radius:20px
+}
+.announcement-text{
+ color:#59451e;font-size:12px;line-height:1.7;
+ overflow-wrap:anywhere;white-space:pre-wrap
+}
+.announcement-bottom{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:8px;flex-wrap:wrap;
+ margin-top:11px;border-top:1px solid #eadfc5;
+ padding-top:10px
+}
+.announcement-date{font-size:9px;color:#9a8459}
+.announcement-link{color:#8a6724;font-size:10px;font-weight:bold}
 
+/* SECTION HEAD */
+.section-head{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap;
+ margin:19px 0 11px
+}
+.section-title{font-size:16px;color:var(--navy);margin:0 0 4px}
+.section-subtitle{font-size:10px;color:var(--muted);margin:0}
+
+/* SMALL BUSINESS OVERVIEW CARDS */
 .stats{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:14px;margin-bottom:23px
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:9px;margin-bottom:20px
 }
 .stat-card{
- background:white;border:1px solid var(--border);
- border-radius:13px;padding:17px;min-width:0;
- box-shadow:var(--shadow);transition:.2s
+ background:#fff;border:1px solid var(--border);
+ border-radius:9px;padding:11px 12px;
+ min-width:0;box-shadow:var(--shadow)
 }
-.stat-card:hover{transform:translateY(-2px)}
 .stat-top{
  display:flex;justify-content:space-between;
- align-items:center;gap:8px
+ align-items:center;gap:5px
 }
-.stat-name{color:var(--muted);font-size:11px}
+.stat-name{color:var(--muted);font-size:10px}
 .stat-icon{
- width:37px;height:37px;display:grid;place-items:center;
- border-radius:11px;background:#f1f4f9;font-size:17px
+ width:27px;height:27px;display:grid;
+ place-items:center;border-radius:7px;
+ background:#f1f4f9;font-size:13px;flex-shrink:0
 }
 .stat-value{
- display:block;font-size:25px;color:var(--navy);
- font-weight:800;margin:12px 0 5px
+ display:block;font-size:21px;color:var(--navy);
+ font-weight:800;margin:7px 0 3px;
+ overflow-wrap:anywhere
 }
-.stat-note{font-size:10px;color:var(--muted)}
+.stat-note{font-size:9px;color:var(--muted)}
 
+/* GENERAL PANELS */
 .panel{
- background:white;border:1px solid var(--border);
- border-radius:13px;padding:19px;min-width:0;
- box-shadow:var(--shadow);margin-bottom:19px
+ background:#fff;border:1px solid var(--border);
+ border-radius:11px;padding:15px;min-width:0;
+ box-shadow:var(--shadow);margin-bottom:16px
 }
 .panel-head{
  display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:17px
+ align-items:center;gap:9px;flex-wrap:wrap;
+ margin-bottom:13px
 }
-.panel-head h3{margin:0;color:var(--navy);font-size:14px}
-.view-link{color:#a17a2d;font-size:11px;font-weight:bold}
-
-.grid-two{
- display:grid;grid-template-columns:1fr 1fr;
- gap:17px;margin-bottom:20px
-}
-.quick-grid{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:10px
-}
-.quick-card{
- border:1px solid var(--border);border-radius:11px;
- padding:14px;display:block;transition:.2s;min-width:0
-}
-.quick-card:hover{
- border-color:var(--gold);background:#fffcf5;
- transform:translateY(-2px)
-}
-.quick-card span{font-size:20px}
-.quick-card strong{
- display:block;color:var(--navy);font-size:12px;margin:9px 0 4px
-}
-.quick-card small{color:var(--muted);font-size:10px}
-.quick-card.payment-card{
- border-color:#d9c28e;background:linear-gradient(135deg,#fffdf7,#fff8e9)
-}
-.quick-card.refund-card{
- border-color:#e8c9c9;background:linear-gradient(135deg,#fffafa,#fff1f1)
-}
-.payment-icon,.refund-icon{
- width:37px;height:37px;border-radius:10px;
- display:grid;place-items:center;font-size:20px
-}
-.payment-icon{background:#f4e8c9;color:var(--navy)}
-.refund-icon{background:#f8e1e1;color:#a53636}
-
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:520px}
-th{
- text-align:left;font-size:10px;color:var(--muted);
- background:#f7f9fc;padding:12px 10px;white-space:nowrap
-}
-td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px}
-td strong{color:var(--navy)}
-.status{
- display:inline-block;padding:5px 8px;border-radius:20px;
- font-size:9px;font-weight:bold;background:#eef2f7;color:#526176
-}
-.status.pending{background:#fff2dc;color:#a16b14}
-.status.complete{background:#e7f7ef;color:#16845b}
-.status.cancelled{background:#fceaea;color:#c34b4b}
-.empty-state{padding:22px;text-align:center;color:var(--muted);font-size:12px}
-
+.panel-head h3{margin:0;color:var(--navy);font-size:13px}
 .refresh-btn{
- border:1px solid var(--border);background:white;color:var(--navy);
- padding:9px 13px;border-radius:8px;font-size:11px;font-weight:bold
+ border:1px solid var(--border);background:white;
+ color:var(--navy);padding:8px 11px;
+ border-radius:7px;font-size:10px;font-weight:bold
 }
-.refresh-btn:hover{background:#f7f9fc;border-color:var(--gold)}
 .refresh-btn:disabled{opacity:.5;cursor:wait}
 
-.notice{
- background:#fff9eb;border:1px solid #f0dfb8;
- border-radius:10px;padding:14px;color:#76591e;
- font-size:11px;line-height:1.8;margin-top:18px
+/* MANAGEMENT CARDS */
+.management-grid{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:10px;margin-bottom:19px
 }
-.footer{
- text-align:center;padding:20px;color:#9aa5b5;font-size:10px
+.option-card{
+ display:flex;align-items:center;gap:11px;
+ min-width:0;min-height:70px;padding:12px;
+ background:#fff;border:1px solid var(--border);
+ border-radius:10px;box-shadow:var(--shadow)
 }
+.option-card:active{background:#f7f9fc}
+.option-icon{
+ width:37px;height:37px;flex-shrink:0;
+ display:grid;place-items:center;
+ background:#f1f4f9;border-radius:9px;font-size:18px
+}
+.option-info{min-width:0}
+.option-info strong{
+ display:block;color:var(--navy);
+ font-size:11px;line-height:1.4
+}
+.option-info small{
+ display:block;color:var(--muted);
+ font-size:9px;line-height:1.4;margin-top:3px
+}
+.option-arrow{
+ margin-left:auto;color:#9ba7b6;font-size:15px;
+ flex-shrink:0
+}
+.option-card.gold{border-left:3px solid var(--gold)}
+.option-card.blue{border-left:3px solid #3978bd}
+.option-card.green{border-left:3px solid var(--green)}
+.option-card.red{border-left:3px solid #c34b4b}
+.option-card.purple{border-left:3px solid #8064bd}
 
 /* COMMISSION */
-
-.commission-section{margin-bottom:22px}
+.commission-section{margin-bottom:19px}
 .commission-heading{
  display:flex;align-items:center;justify-content:space-between;
- gap:12px;flex-wrap:wrap;margin-bottom:14px
+ gap:10px;flex-wrap:wrap;margin-bottom:12px
 }
 .commission-heading h2{
- font-size:18px;color:var(--navy);margin:0 0 5px
+ font-size:16px;color:var(--navy);margin:0 0 4px
 }
-.commission-heading p{font-size:11px;color:var(--muted);margin:0}
-.commission-actions{display:flex;gap:8px;flex-wrap:wrap}
+.commission-heading p{font-size:10px;color:var(--muted);margin:0}
+.commission-actions{display:flex;gap:7px;flex-wrap:wrap}
 .commission-btn{
- display:inline-block;padding:10px 13px;border-radius:8px;
- background:var(--navy);color:white;font-size:10px;font-weight:bold
+ display:inline-block;padding:9px 11px;
+ border-radius:7px;background:var(--navy);
+ color:white;font-size:10px;font-weight:bold
 }
 .commission-btn.gold{background:var(--gold);color:var(--navy)}
 .commission-stats{
  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:12px;margin-bottom:14px
+ gap:9px;margin-bottom:12px
 }
 .commission-card{
- background:white;border:1px solid var(--border);
- border-radius:12px;padding:16px;min-width:0;
+ background:#fff;border:1px solid var(--border);
+ border-radius:9px;padding:12px;min-width:0;
  box-shadow:var(--shadow)
 }
-.commission-card .label{font-size:10px;color:var(--muted)}
+.commission-card .label{font-size:9px;color:var(--muted)}
 .commission-card .value{
- display:block;font-size:22px;font-weight:800;
- color:var(--navy);margin:11px 0 5px;overflow-wrap:anywhere
+ display:block;font-size:19px;font-weight:800;
+ color:var(--navy);margin:8px 0 4px;overflow-wrap:anywhere
 }
-.commission-card .note{font-size:10px;color:var(--muted)}
+.commission-card .note{font-size:9px;color:var(--muted)}
 .commission-card.company{border-top:3px solid var(--gold)}
 .commission-card.profit{border-top:3px solid #315e91}
 .commission-card.distributed{border-top:3px solid var(--green)}
 .commission-card.unallocated{border-top:3px solid #c58b32}
 .commission-card.orders{border-top:3px solid #7c70b8}
-.commission-table table{min-width:420px}
-.commission-table th,.commission-table td{padding:11px 10px}
-.level-pill{
- display:inline-block;background:#edf2f8;color:var(--navy);
- padding:5px 9px;border-radius:20px;font-weight:bold;font-size:10px
-}
 .commission-error{
  display:none;background:#fff4f2;border:1px solid #f1d0cb;
- color:#a34237;border-radius:9px;padding:12px;
- font-size:11px;line-height:1.6;margin-bottom:13px
+ color:#a34237;border-radius:8px;padding:11px;
+ font-size:10px;line-height:1.6;margin-bottom:12px
 }
 .commission-loading{
- color:var(--muted);font-size:11px;padding:15px;text-align:center
+ color:var(--muted);font-size:10px;padding:14px;text-align:center
+}
+.level-pill{
+ display:inline-block;background:#edf2f8;color:var(--navy);
+ padding:5px 8px;border-radius:20px;font-weight:bold;font-size:9px
 }
 
-/* ANNOUNCEMENT PREVIEW */
+/* TABLES */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:510px}
+th{
+ text-align:left;font-size:9px;color:var(--muted);
+ background:#f7f9fc;padding:11px 9px;white-space:nowrap
+}
+td{
+ padding:11px 9px;border-bottom:1px solid #edf0f5;
+ font-size:10px
+}
+td strong{color:var(--navy)}
+.status{
+ display:inline-block;padding:5px 7px;border-radius:20px;
+ font-size:9px;font-weight:bold;background:#eef2f7;color:#526176
+}
+.status.pending{background:#fff2dc;color:#a16b14}
+.status.complete{background:#e7f7ef;color:#16845b}
+.status.cancelled{background:#fceaea;color:#c34b4b}
+.empty-state{padding:20px;text-align:center;color:var(--muted);font-size:11px}
 
-.announcement-card{
- background:linear-gradient(120deg,#fffdf7,#fff7e8);
- border:1px solid #ead8ad;border-radius:13px;
- padding:17px;margin-bottom:20px;box-shadow:var(--shadow)
-}
-.announcement-top{
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;flex-wrap:wrap;margin-bottom:12px
-}
-.announcement-title{
- display:flex;align-items:center;gap:9px;
- color:var(--navy);font-size:14px;font-weight:800
-}
-.announcement-indicator{
- font-size:9px;font-weight:bold;color:var(--green);
- background:#e3f6eb;padding:6px 9px;border-radius:20px
-}
-.announcement-text{
- color:#59451e;font-size:13px;line-height:1.8;
- overflow-wrap:anywhere;white-space:pre-wrap
-}
-.announcement-empty{
- color:var(--muted);font-size:12px;line-height:1.7
-}
-.announcement-bottom{
- display:flex;justify-content:space-between;align-items:center;
- gap:10px;flex-wrap:wrap;margin-top:13px;
- border-top:1px solid #eadfc5;padding-top:12px
-}
-.announcement-date{font-size:10px;color:#9a8459}
-.announcement-link{
- color:#8a6724;font-size:11px;font-weight:bold
-}
-
+/* ACCOUNT */
 .account-box{
  background:#f7f9fc;border:1px solid var(--border);
- border-radius:10px;padding:15px
+ border-radius:9px;padding:14px
 }
 .account-box strong{
- color:var(--navy);font-size:14px;display:block;margin-bottom:6px
+ color:var(--navy);font-size:13px;
+ display:block;margin-bottom:5px
 }
 .account-box p{
- font-size:12px;color:var(--muted);
- overflow-wrap:anywhere;margin:0 0 12px
+ font-size:11px;color:var(--muted);
+ overflow-wrap:anywhere;margin:0 0 10px
 }
 
+/* FOOTER AND NOTICE */
+.notice{
+ background:#fff9eb;border:1px solid #f0dfb8;
+ border-radius:9px;padding:12px;color:#76591e;
+ font-size:10px;line-height:1.7;margin-top:15px
+}
+.footer{
+ text-align:center;padding:18px;
+ color:#9aa5b5;font-size:9px
+}
+
+/* RESPONSIVE */
 @media(max-width:1100px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .grid-two{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
  .sidebar{
   display:none;padding:12px;
-  min-height:auto;position:relative;z-index:25
+  min-height:auto;position:fixed;
+  top:60px;left:0;right:0;bottom:0;
+  overflow-y:auto;z-index:45
  }
  .sidebar.open{display:block}
  .mobile-menu{display:block}
- .main{padding:18px}
-}
-@media(max-width:600px){
- .commission-stats{grid-template-columns:1fr 1fr}
- .commission-card .value{font-size:19px}
- .main{padding:14px}
+ .main{padding:16px}
+ .management-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:480px){
- .stats{grid-template-columns:1fr 1fr;gap:9px}
- .stat-card{padding:13px}
- .stat-value{font-size:21px}
- .welcome{padding:18px}
- .welcome h2{font-size:17px}
- .welcome-icon{font-size:35px}
- .topbar{padding:0 13px}
- .brand{font-size:17px}
- .admin-label{font-size:9px;padding:6px 8px}
- .main{padding:12px}
- .commission-stats{gap:8px}
- .commission-card{padding:12px}
- .panel{padding:14px}
- .quick-grid{gap:8px}
- .quick-card{padding:11px}
+ .topbar{padding:0 11px;min-height:55px}
+ .sidebar{top:55px}
+ .brand{font-size:16px}
+ .admin-label{font-size:8px;padding:6px 7px}
+ .admin-avatar{width:30px;height:30px}
+ .main{padding:11px}
+ .heading h1{font-size:20px}
+ .heading p{font-size:10px}
+ .welcome{padding:14px;border-radius:9px}
+ .welcome h2{font-size:15px}
+ .welcome p{font-size:10px}
+ .welcome-icon{font-size:29px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .stat-card{padding:9px 10px}
+ .stat-name{font-size:9px}
+ .stat-icon{width:24px;height:24px;font-size:12px}
+ .stat-value{font-size:19px;margin:6px 0 2px}
+ .stat-note{font-size:8px}
+ .section-title{font-size:14px}
+ .section-subtitle{font-size:9px}
+ .management-grid{gap:7px}
+ .option-card{padding:9px;min-height:62px;gap:8px}
+ .option-icon{width:31px;height:31px;font-size:15px}
+ .option-info strong{font-size:10px}
+ .option-info small{font-size:8px}
+ .option-arrow{font-size:12px}
+ .panel{padding:11px}
+ .commission-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .commission-card{padding:10px}
+ .commission-card .value{font-size:17px}
+ .commission-card .label,.commission-card .note{font-size:8px}
+ .commission-heading h2{font-size:14px}
+ .commission-heading p{font-size:9px}
+ .commission-btn,.refresh-btn{font-size:9px;padding:8px 9px}
+ .announcement-card{padding:11px}
+ .announcement-text{font-size:11px}
+}
+@media(max-width:350px){
+ .option-card{gap:6px;padding:8px}
+ .option-icon{width:27px;height:27px;font-size:13px}
+ .option-info strong{font-size:9px}
+ .option-info small{font-size:7px}
+ .stat-value{font-size:17px}
 }
 </style>
 </head>
@@ -422,7 +464,7 @@ td strong{color:var(--navy)}
 <div id="adminApp" hidden>
 
 <header class="topbar">
- <div style="display:flex;align-items:center;gap:12px">
+ <div style="display:flex;align-items:center;gap:10px">
   <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
   <div class="brand">RUBALIA <span>NETWORK</span></div>
  </div>
@@ -442,9 +484,7 @@ td strong{color:var(--navy)}
  </div>
 
  <div class="side-heading">Main Menu</div>
- <a href="admin-dashboard.html" class="nav-link active">
-  <span class="nav-icon">▦</span> Dashboard
- </a>
+ <a href="admin-dashboard.html" class="nav-link active"><span class="nav-icon">▦</span> Dashboard</a>
 
  <div class="side-heading">Management</div>
  <a href="admin/admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
@@ -482,7 +522,6 @@ td strong{color:var(--navy)}
  <button class="logout-btn" id="logoutBtn" type="button">
   <span class="nav-icon">↪</span> Logout
  </button>
-
 </aside>
 
 <main class="main">
@@ -498,39 +537,26 @@ td strong{color:var(--navy)}
  <section class="welcome">
   <div>
    <h2 id="welcomeTitle">Welcome, Administrator!</h2>
-   <p>
-    Manage Rubalia Network from one place.<br>
-    Dashboard figures are loaded from your PostgreSQL database.
-   </p>
+   <p>Manage Rubalia Network from one place.<br>Dashboard figures are loaded from PostgreSQL.</p>
   </div>
   <div class="welcome-icon">👑</div>
  </section>
 
- <!-- ANNOUNCEMENT LIVE PREVIEW -->
-
+ <!-- ANNOUNCEMENT -->
  <section class="announcement-card">
   <div class="announcement-top">
-   <div class="announcement-title">
-    <span>📢</span> Active Admin Announcement
-   </div>
+   <div class="announcement-title"><span>📢</span> Active Admin Announcement</div>
    <span class="announcement-indicator" id="announcementStatus">CHECKING...</span>
   </div>
-
-  <div class="announcement-text" id="announcementText">
-   Loading announcement...
-  </div>
-
+  <div class="announcement-text" id="announcementText">Loading announcement...</div>
   <div class="announcement-bottom">
    <span class="announcement-date" id="announcementDate"></span>
-   <a href="admin/admin-announcements.html" class="announcement-link">
-    Manage Announcements →
-   </a>
+   <a href="admin/admin-announcements.html" class="announcement-link">Manage Announcements →</a>
   </div>
  </section>
 
- <!-- DASHBOARD STATISTICS -->
-
- <div class="panel-head" style="margin-bottom:13px">
+ <!-- BUSINESS OVERVIEW -->
+ <div class="section-head">
   <div>
    <h2 class="section-title">Business Overview</h2>
    <p class="section-subtitle">Live account and order statistics</p>
@@ -538,53 +564,194 @@ td strong{color:var(--navy)}
  </div>
 
  <section class="stats">
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Users</span><span class="stat-icon">👥</span></div>
    <strong class="stat-value" id="totalUsers">—</strong>
    <span class="stat-note">All registered accounts</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Active Users</span><span class="stat-icon">🟢</span></div>
    <strong class="stat-value" id="activeUsers">—</strong>
    <span class="stat-note">Active accounts</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Products</span><span class="stat-icon">📦</span></div>
    <strong class="stat-value" id="totalProducts">—</strong>
-   <span class="stat-note">All products in database</span>
+   <span class="stat-note">All products</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Active Products</span><span class="stat-icon">🛍️</span></div>
    <strong class="stat-value" id="activeProducts">—</strong>
-   <span class="stat-note">Products available</span>
+   <span class="stat-note">Available products</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Orders</span><span class="stat-icon">🛒</span></div>
    <strong class="stat-value" id="totalOrders">—</strong>
    <span class="stat-note">All recorded orders</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Pending Orders</span><span class="stat-icon">⏳</span></div>
    <strong class="stat-value" id="pendingOrders">—</strong>
    <span class="stat-note">Awaiting processing</span>
   </div>
-
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Delivered Orders</span><span class="stat-icon">✅</span></div>
    <strong class="stat-value" id="deliveredOrders">—</strong>
    <span class="stat-note">Successfully delivered</span>
   </div>
+ </section>
+
+ <!-- ALL MANAGEMENT OPTIONS -->
+ <div class="section-head">
+  <div>
+   <h2 class="section-title">Management Center</h2>
+   <p class="section-subtitle">Select an option to open its management page</p>
+  </div>
+ </div>
+
+ <section class="management-grid">
+
+  <a href="admin/admin-users.html" class="option-card blue">
+   <span class="option-icon">👥</span>
+   <span class="option-info"><strong>Users Management</strong><small>Manage user accounts</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-partners.html" class="option-card blue">
+   <span class="option-icon">🤝</span>
+   <span class="option-info"><strong>Manage Partners</strong><small>Partner accounts</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-applications.html" class="option-card purple">
+   <span class="option-icon">📋</span>
+   <span class="option-info"><strong>Partner Applications</strong><small>Review applications</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-products.html" class="option-card green">
+   <span class="option-icon">📦</span>
+   <span class="option-info"><strong>Products Management</strong><small>Manage products</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-packages.html" class="option-card gold">
+   <span class="option-icon">🎁</span>
+   <span class="option-info"><strong>Packages Management</strong><small>Manage packages</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-orders.html" class="option-card blue">
+   <span class="option-icon">🛒</span>
+   <span class="option-info"><strong>Orders Management</strong><small>View and process orders</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-payments.html" class="option-card gold">
+   <span class="option-icon">💳</span>
+   <span class="option-info"><strong>Payment Records</strong><small>Verify payments</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-withdrawals.html" class="option-card green">
+   <span class="option-icon">💸</span>
+   <span class="option-info"><strong>Withdraw Requests</strong><small>Review withdrawals</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-commissions.html" class="option-card purple">
+   <span class="option-icon">📊</span>
+   <span class="option-info"><strong>Commission Management</strong><small>10-level commission</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-refunds.html" class="option-card red">
+   <span class="option-icon">↩️</span>
+   <span class="option-info"><strong>Refund Management</strong><small>Review customer refunds</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-reports.html" class="option-card blue">
+   <span class="option-icon">📈</span>
+   <span class="option-info"><strong>Financial Reports</strong><small>Business reports</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-announcements.html" class="option-card gold">
+   <span class="option-icon">📢</span>
+   <span class="option-info"><strong>Announcements</strong><small>Publish messages</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-support.html" class="option-card blue">
+   <span class="option-icon">🎧</span>
+   <span class="option-info"><strong>Support Tickets</strong><small>Customer support</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-email-management.html" class="option-card purple">
+   <span class="option-icon">✉️</span>
+   <span class="option-info"><strong>Email Management</strong><small>Manage email service</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-sms-management.html" class="option-card green">
+   <span class="option-icon">📱</span>
+   <span class="option-info"><strong>SMS Management</strong><small>Manage SMS service</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-settings.html" class="option-card gold">
+   <span class="option-icon">⚙️</span>
+   <span class="option-info"><strong>Admin Settings</strong><small>System configuration</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-audit-logs.html" class="option-card blue">
+   <span class="option-icon">📜</span>
+   <span class="option-info"><strong>Audit Logs</strong><small>Admin activity records</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-system-health.html" class="option-card green">
+   <span class="option-icon">❤️</span>
+   <span class="option-info"><strong>System Health</strong><small>Server health status</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-api-management.html" class="option-card purple">
+   <span class="option-icon">🔌</span>
+   <span class="option-info"><strong>API Management</strong><small>API configuration</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-error-logs.html" class="option-card red">
+   <span class="option-icon">⚠️</span>
+   <span class="option-info"><strong>Error Logs</strong><small>System error records</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-backup.html" class="option-card gold">
+   <span class="option-icon">💾</span>
+   <span class="option-info"><strong>Database Backup</strong><small>Backup management</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="admin/admin-database.html" class="option-card blue">
+   <span class="option-icon">🗄️</span>
+   <span class="option-info"><strong>Database Management</strong><small>Database tools</small></span>
+   <span class="option-arrow">›</span>
+  </a>
+
+  <a href="index.html" class="option-card green">
+   <span class="option-icon">🌐</span>
+   <span class="option-info"><strong>Visit Website</strong><small>Open public website</small></span>
+   <span class="option-arrow">›</span>
+  </a>
 
  </section>
 
  <!-- COMMISSION OVERVIEW -->
-
  <section class="commission-section">
 
   <div class="commission-heading">
@@ -592,10 +759,9 @@ td strong{color:var(--navy)}
     <h2>Commission Overview</h2>
     <p>10-Level Unilevel financial summary from the server.</p>
    </div>
-
    <div class="commission-actions">
     <button class="refresh-btn" id="refreshCommissionBtn" type="button">↻ Refresh</button>
-    <a href="admin/admin-commissions.html" class="commission-btn gold">Commission Management →</a>
+    <a href="admin/admin-commissions.html" class="commission-btn gold">Manage Commissions →</a>
    </div>
   </div>
 
@@ -641,7 +807,7 @@ td strong{color:var(--navy)}
 
   </div>
 
-  <section class="panel commission-table">
+  <section class="panel">
    <div class="panel-head">
     <h3>Level-Wise Commission Report</h3>
     <span class="live-badge" id="commissionBadge">SERVER REPORT</span>
@@ -663,101 +829,25 @@ td strong{color:var(--navy)}
     </table>
    </div>
   </section>
-
  </section>
 
- <!-- QUICK ACTIONS AND ACCOUNT -->
-
- <div class="grid-two">
-
-  <section class="panel">
-   <div class="panel-head"><h3>Quick Actions</h3></div>
-
-   <div class="quick-grid">
-
-    <a href="admin/admin-users.html" class="quick-card">
-     <span>👥</span>
-     <strong>Manage Users</strong>
-     <small>View user records</small>
-    </a>
-
-    <a href="admin/admin-products.html" class="quick-card">
-     <span>📦</span>
-     <strong>Manage Products</strong>
-     <small>Product management</small>
-    </a>
-
-    <a href="admin/admin-packages.html" class="quick-card">
-     <span>🎁</span>
-     <strong>Manage Packages</strong>
-     <small>Edit and manage packages</small>
-    </a>
-
-    <a href="admin/admin-partners.html" class="quick-card">
-     <span>🤝</span>
-     <strong>Manage Partners</strong>
-     <small>View partner records</small>
-    </a>
-
-    <a href="admin/admin-orders.html" class="quick-card">
-     <span>🛒</span>
-     <strong>Manage Orders</strong>
-     <small>Order management</small>
-    </a>
-
-    <a href="admin/admin-payments.html" class="quick-card payment-card">
-     <span class="payment-icon">💳</span>
-     <strong>Payment Management</strong>
-     <small>Payment records and verification</small>
-    </a>
-
-    <a href="admin/admin-refunds.html" class="quick-card refund-card">
-     <span class="refund-icon">↩️</span>
-     <strong>Refund Management</strong>
-     <small>Review customer refunds</small>
-    </a>
-
-    <a href="admin/admin-withdrawals.html" class="quick-card">
-     <span>💸</span>
-     <strong>Withdraw Requests</strong>
-     <small>Review withdrawal requests</small>
-    </a>
-
-    <a href="admin/admin-commissions.html" class="quick-card">
-     <span>📊</span>
-     <strong>Commission Management</strong>
-     <small>Commission settings and records</small>
-    </a>
-
-    <a href="admin/admin-announcements.html" class="quick-card">
-     <span>📢</span>
-     <strong>Announcements</strong>
-     <small>Publish and manage announcements</small>
-    </a>
-
-   </div>
-  </section>
-
-  <section class="panel">
-   <div class="panel-head"><h3>Administrator Account</h3></div>
-
-   <div class="account-box">
-    <strong id="accountName">—</strong>
-    <p id="accountEmail">—</p>
-    <span class="live-badge">✓ Verified Admin</span>
-   </div>
-  </section>
-
- </div>
+ <!-- ADMIN ACCOUNT -->
+ <section class="panel">
+  <div class="panel-head"><h3>Administrator Account</h3></div>
+  <div class="account-box">
+   <strong id="accountName">—</strong>
+   <p id="accountEmail">—</p>
+   <span class="live-badge">✓ Verified Admin</span>
+  </div>
+ </section>
 
  <!-- RECENT ORDERS -->
-
  <section class="panel">
   <div class="panel-head">
    <h3>Recent Orders</h3>
-   <div style="display:flex;gap:8px;align-items:center">
+   <div style="display:flex;gap:7px;align-items:center">
     <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
-    <a href="admin/admin-orders.html" class="view-link">View All →</a>
+    <a href="admin/admin-orders.html" class="commission-btn">View All →</a>
    </div>
   </div>
 
@@ -789,6 +879,10 @@ td strong{color:var(--navy)}
   Cancelling an order does not automatically return money to the customer.
  </div>
 
+ <div style="text-align:center;margin:18px 0">
+  <button class="refresh-btn" id="mainLogoutBtn" type="button">↪ Logout from Admin Panel</button>
+ </div>
+
 </main>
 </div>
 
@@ -807,7 +901,6 @@ td strong{color:var(--navy)}
 // ==========================================
 
 const API_BASE="https://rubalia.onrender.com/api";
-
 let adminToken="";
 
 const $=id=>document.getElementById(id);
@@ -830,7 +923,6 @@ function formatMoney(value){
  if(value===null||value===undefined||value==="")return "৳—";
  const number=Number(value);
  if(!Number.isFinite(number))return "৳—";
-
  return "৳"+number.toLocaleString("en-BD",{
   minimumFractionDigits:2,
   maximumFractionDigits:2
@@ -841,7 +933,6 @@ function formatDate(value){
  if(!value)return "—";
  const date=new Date(value);
  if(Number.isNaN(date.getTime()))return "—";
-
  return date.toLocaleDateString("en-GB",{
   day:"2-digit",month:"short",year:"numeric"
  });
@@ -888,7 +979,6 @@ async function apiRequest(path){
 
 // ==========================================
 // PUBLIC ANNOUNCEMENT API
-// Does not require Admin token.
 // ==========================================
 
 async function loadAnnouncement(){
@@ -1224,7 +1314,6 @@ async function initializeAdmin(){
   $("loadingScreen").style.display="none";
   $("adminApp").hidden=false;
 
-  // Public announcement is independent of admin dashboard APIs.
   loadAnnouncement();
 
   await loadDashboardData();
@@ -1244,7 +1333,7 @@ async function initializeAdmin(){
 }
 
 // ==========================================
-// LOGOUT AND BUTTON EVENTS
+// LOGOUT
 // ==========================================
 
 function logout(){
@@ -1253,21 +1342,38 @@ function logout(){
  window.location.replace("login.html");
 }
 
+// ==========================================
+// EVENTS
+// ==========================================
+
 $("menuBtn").addEventListener("click",()=>{
  $("sidebar").classList.toggle("open");
 });
 
 $("logoutBtn").addEventListener("click",logout);
+$("mainLogoutBtn").addEventListener("click",logout);
 
 $("refreshBtn").addEventListener("click",loadDashboardData);
-
 $("refreshCommissionBtn").addEventListener("click",loadCommissionReport);
 
-// Close mobile sidebar after navigation
 document.querySelectorAll(".sidebar a").forEach(link=>{
  link.addEventListener("click",()=>{
   $("sidebar").classList.remove("open");
  });
+});
+
+document.addEventListener("click",event=>{
+ const sidebar=$("sidebar");
+ const menu=$("menuBtn");
+
+ if(
+  window.innerWidth<=800 &&
+  sidebar.classList.contains("open") &&
+  !sidebar.contains(event.target) &&
+  !menu.contains(event.target)
+ ){
+  sidebar.classList.remove("open");
+ }
 });
 
 // ==========================================
@@ -1277,6 +1383,5 @@ document.querySelectorAll(".sidebar a").forEach(link=>{
 initializeAdmin();
 
 </script>
-
 </body>
 </html>
