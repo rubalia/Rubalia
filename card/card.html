@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#07152f">
+<title>RUBALIA GOLD CARD</title>
+
+<style>
+:root{
+  --navy:#071638;
+  --navy2:#102b59;
+  --gold:#f4d17a;
+  --gold2:#c99b3c;
+  --white:#fff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 15% 15%,#243e72,transparent 35%),
+    radial-gradient(circle at 90% 85%,#4a174a,transparent 35%),
+    linear-gradient(145deg,#050b1b,#101a38);
+  color:white;
+  overflow-x:hidden;
+}
+
+/* PAGE */
+
+.page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:25px 12px;
+}
+
+.page-heading{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.page-heading h1{
+  font-size:21px;
+  letter-spacing:3px;
+  color:var(--gold);
+  text-shadow:0 3px 8px #000;
+}
+
+.page-heading p{
+  margin-top:8px;
+  color:#aebbd4;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+/* SLIDER */
+
+.slider-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:1000px;
+  touch-action:pan-y;
+}
+
+.card-slider{
+  width:190px;
+  height:120px;
+  position:relative;
+  flex-shrink:0;
+}
+
+/* CARD */
+
+.card{
+  position:absolute;
+  inset:0;
+  width:190px;
+  height:120px;
+  transform-style:preserve-3d;
+  transition:transform .75s cubic-bezier(.2,.75,.25,1);
+  cursor:pointer;
+}
+
+.card.flipped{
+  transform:rotateY(180deg);
+}
+
+.card-face{
+  position:absolute;
+  inset:0;
+  width:190px;
+  height:120px;
+  overflow:hidden;
+  border-radius:12px;
+  border:1px solid rgba(255,220,140,.65);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  box-shadow:
+    0 12px 25px rgba(0,0,0,.45),
+    inset 0 1px 2px rgba(255,255,255,.2);
+}
+
+/* FRONT */
+
+.card-front{
+  background:
+    repeating-linear-gradient(
+      125deg,
+      transparent 0px,
+      transparent 5px,
+      rgba(93,145,220,.10) 6px,
+      rgba(93,145,220,.10) 8px
+    ),
+    radial-gradient(circle at 90% 5%,#234d8a,transparent 48%),
+    linear-gradient(145deg,#101d4a,#071332 75%);
+}
+
+/* DECORATION */
+
+.card-front::before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:75px;
+  right:-65px;
+  top:-28px;
+  transform:rotate(-22deg);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(90,155,240,.18),
+    transparent
+  );
+}
+
+.card-front::after{
+  content:"";
+  position:absolute;
+  width:140px;
+  height:70px;
+  left:-55px;
+  bottom:-45px;
+  border:1px solid rgba(244,209,122,.2);
+  border-radius:50%;
+}
+
+/* FRONT TOP AREA */
+
+.front-top{
+  position:absolute;
+  top:9px;
+  left:10px;
+  right:9px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  z-index:2;
+}
+
+.balance{
+  font-size:13px;
+  font-weight:900;
+  color:#ffe4a0;
+  text-shadow:0 2px 4px #000;
+  white-space:nowrap;
+}
+
+/* CHIP */
+
+.chip-area{
+  position:absolute;
+  top:34px;
+  left:13px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  z-index:2;
+}
+
+.chip{
+  width:29px;
+  height:22px;
+  border-radius:5px;
+  background:
+    linear-gradient(90deg,transparent 47%,#a77b25 48%,#a77b25 53%,transparent 54%),
+    linear-gradient(0deg,transparent 45%,#a77b25 46%,#a77b25 53%,transparent 54%),
+    linear-gradient(135deg,#ffe49a,#c48e2d);
+  border:1px solid #f9dc8a;
+  box-shadow:inset 0 1px 3px rgba(255,255,255,.7);
+}
+
+.contactless{
+  color:#f5e8c5;
+  font-size:20px;
+  transform:rotate(90deg);
+  line-height:1;
+}
+
+/* USER ID */
+
+.user-id{
+  position:absolute;
+  left:12px;
+  right:8px;
+  top:65px;
+  z-index:2;
+  color:#f5d27b;
+  font-family:Georgia,serif;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:1px;
+  white-space:nowrap;
+  text-shadow:
+    0 1px 0 #6f4a13,
+    0 2px 4px #000;
+}
+
+/* NAME AND DATE */
+
+.front-bottom{
+  position:absolute;
+  left:12px;
+  right:9px;
+  bottom:9px;
+  z-index:2;
+}
+
+.user-name{
+  font-family:Georgia,serif;
+  font-size:9px;
+  font-weight:bold;
+  color:#ffe2a0;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-shadow:0 2px 3px #000;
+  max-width:125px;
+}
+
+.created-date{
+  margin-top:4px;
+  font-size:6px;
+  color:#e5d6b4;
+  letter-spacing:.4px;
+}
+
+.card-brand{
+  position:absolute;
+  right:10px;
+  bottom:9px;
+  z-index:2;
+  text-align:right;
+  font-family:Georgia,serif;
+  font-size:11px;
+  font-weight:bold;
+  color:#f8d47f;
+  text-shadow:0 2px 4px #000;
+}
+
+/* BACK */
+
+.card-back{
+  transform:rotateY(180deg);
+  background:
+    repeating-linear-gradient(
+      125deg,
+      transparent 0px,
+      transparent 5px,
+      rgba(93,145,220,.08) 6px,
+      rgba(93,145,220,.08) 8px
+    ),
+    linear-gradient(145deg,#102650,#07132e);
+}
+
+.magnetic-strip{
+  position:absolute;
+  top:17px;
+  left:0;
+  width:100%;
+  height:20px;
+  background:linear-gradient(90deg,#080b13,#252936,#080b13);
+}
+
+.signature-area{
+  position:absolute;
+  top:48px;
+  left:11px;
+  width:105px;
+  height:17px;
+  background:repeating-linear-gradient(
+    0deg,#eee9db 0px,#eee9db 3px,#d4d0c6 4px
+  );
+  border-radius:2px;
+  display:flex;
+  align-items:center;
+  padding:0 5px;
+  color:#28304b;
+  font-family:Georgia,serif;
+  font-size:8px;
+  font-style:italic;
+  overflow:hidden;
+}
+
+.back-id{
+  position:absolute;
+  top:71px;
+  left:12px;
+  font-size:7px;
+  color:#e8cf91;
+  letter-spacing:.5px;
+}
+
+.back-brand{
+  position:absolute;
+  right:10px;
+  top:45px;
+  color:#f2d18a;
+  font-family:Georgia,serif;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.card-actions{
+  position:absolute;
+  bottom:9px;
+  left:10px;
+  right:10px;
+  display:flex;
+  gap:7px;
+  z-index:3;
+}
+
+.action-btn{
+  flex:1;
+  height:23px;
+  border:1px solid rgba(255,220,150,.65);
+  border-radius:5px;
+  background:linear-gradient(135deg,#eac66d,#a87925);
+  color:#18203a;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.4px;
+  cursor:pointer;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+}
+
+.action-btn:active{
+  transform:scale(.96);
+}
+
+/* CARD INSTRUCTION */
+
+.card-hint{
+  margin-top:24px;
+  color:#aebbd4;
+  font-size:10px;
+  letter-spacing:1px;
+  text-align:center;
+}
+
+.flip-indicator{
+  width:35px;
+  height:35px;
+  margin:12px auto 0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:1px solid rgba(244,209,122,.4);
+  color:var(--gold);
+  font-size:16px;
+  box-shadow:0 0 15px rgba(244,209,122,.1);
+}
+
+/* DOTS */
+
+.slider-dots{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  margin-top:22px;
+}
+
+.dot{
+  width:6px;
+  height:6px;
+  border-radius:20px;
+  background:#65718b;
+}
+
+.dot.active{
+  width:19px;
+  background:var(--gold);
+}
+
+/* MESSAGE */
+
+.notice{
+  margin-top:20px;
+  max-width:300px;
+  text-align:center;
+  color:#aebbd4;
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* MOBILE */
+
+@media(max-width:360px){
+  .card-slider,
+  .card,
+  .card-face{
+    width:190px;
+    height:120px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition:none!important;
+    animation:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+
+  <header class="page-heading">
+    <h1>MEMBER CARD</h1>
+    <p>YOUR RUBALIA GOLD CARD</p>
+  </header>
+
+  <section class="slider-wrap">
+
+    <div class="card-slider">
+
+      <div class="card" id="memberCard">
+
+        <!-- FRONT SIDE -->
+
+        <div class="card-face card-front">
+
+          <div class="front-top">
+            <div class="balance" id="cardBalance">৳ 0.00</div>
+          </div>
+
+          <div class="chip-area">
+            <div class="chip"></div>
+            <div class="contactless">)))</div>
+          </div>
+
+          <div class="user-id" id="cardUserId">
+            20240101 000000
+          </div>
+
+          <div class="front-bottom">
+            <div class="user-name" id="cardName">
+              MEMBER NAME
+            </div>
+
+            <div class="created-date" id="cardDate">
+              ACCOUNT CREATED: --
+            </div>
+          </div>
+
+          <div class="card-brand">
+            Rubalia Gold
+          </div>
+
+        </div>
+
+        <!-- BACK SIDE -->
+
+        <div class="card-face card-back">
+
+          <div class="magnetic-strip"></div>
+
+          <div class="signature-area" id="backSignature">
+            RUBALIA MEMBER
+          </div>
+
+          <div class="back-brand">
+            Rubalia Gold
+          </div>
+
+          <div class="back-id" id="backMemberId">
+            MEMBER ID: 20240101 000000
+          </div>
+
+          <div class="card-actions">
+
+            <button
+              class="action-btn"
+              type="button"
+              id="depositBtn">
+              DEPOSIT
+            </button>
+
+            <button
+              class="action-btn"
+              type="button"
+              id="withdrawBtn">
+              WITHDRAW
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="card-hint">
+    TAP CARD TO VIEW BACK SIDE
+  </div>
+
+  <div class="flip-indicator" id="flipIndicator">
+    ↻
+  </div>
+
+  <div class="slider-dots">
+    <span class="dot active"></span>
+  </div>
+
+  <p class="notice">
+    RUBALIA GOLD is a member identity and balance display card.
+    Deposit and withdrawal transactions require account verification.
+  </p>
+
+</main>
+
+<script>
+"use strict";
+
+/*
+  RUBALIA MEMBER CARD
+
+  User information is read from the existing
+  sessionStorage key: rubalia_user.
+
+  Balance and member fields may need mapping to
+  the exact backend response schema.
+*/
+
+const card = document.getElementById("memberCard");
+
+const cardName = document.getElementById("cardName");
+const cardUserId = document.getElementById("cardUserId");
+const cardDate = document.getElementById("cardDate");
+const cardBalance = document.getElementById("cardBalance");
+
+const backSignature = document.getElementById("backSignature");
+const backMemberId = document.getElementById("backMemberId");
+
+const flipIndicator = document.getElementById("flipIndicator");
+
+let isFlipped = false;
+
+/* FORMAT DATE */
+
+function formatDate(value){
+
+  if(!value) return "--";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return String(value);
+  }
+
+  return date.toLocaleDateString("en-GB",{
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric"
+  });
+
+}
+
+/* FORMAT BALANCE */
+
+function formatBalance(value){
+
+  const amount = Number(value);
+
+  if(!Number.isFinite(amount)){
+    return "৳ 0.00";
+  }
+
+  return "৳ " + amount.toLocaleString("en-BD",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+
+}
+
+/* GET USER */
+
+function getCurrentUser(){
+
+  try{
+
+    const raw = sessionStorage.getItem("rubalia_user");
+
+    if(!raw) return null;
+
+    const user = JSON.parse(raw);
+
+    return user && typeof user === "object"
+      ? user
+      : null;
+
+  }catch(error){
+
+    return null;
+
+  }
+
+}
+
+/* LOAD CARD INFORMATION */
+
+function loadMemberCard(){
+
+  const user = getCurrentUser();
+
+  if(!user){
+
+    cardName.textContent = "MEMBER NAME";
+    cardUserId.textContent = "20240101 000000";
+    backMemberId.textContent = "MEMBER ID: 20240101 000000";
+    cardDate.textContent = "ACCOUNT CREATED: --";
+    cardBalance.textContent = "৳ 0.00";
+
+    return;
+
+  }
+
+  const fullName =
+    user.fullName ||
+    user.full_name ||
+    user.name ||
+    "RUBALIA MEMBER";
+
+  const memberId =
+    user.memberId ||
+    user.member_id ||
+    user.username ||
+    user.id ||
+    "000000";
+
+  const createdAt =
+    user.createdAt ||
+    user.created_at ||
+    user.created_at_date ||
+    user.createdAtDate ||
+    null;
+
+  const balance =
+    user.balance ??
+    user.walletBalance ??
+    user.wallet_balance ??
+    user.availableBalance ??
+    user.available_balance ??
+    0;
+
+  const formattedId = String(memberId)
+    .replace(/^20240101[\s-]*/i,"");
+
+  const displayId = "20240101 " + formattedId;
+
+  cardName.textContent = String(fullName).toUpperCase();
+  backSignature.textContent = String(fullName).toUpperCase();
+
+  cardUserId.textContent = displayId;
+  backMemberId.textContent = "MEMBER ID: " + displayId;
+
+  cardDate.textContent =
+    "ACCOUNT CREATED: " + formatDate(createdAt);
+
+  cardBalance.textContent = formatBalance(balance);
+
+}
+
+/* FLIP CARD */
+
+function toggleCard(){
+
+  isFlipped = !isFlipped;
+
+  card.classList.toggle("flipped",isFlipped);
+
+  flipIndicator.textContent = isFlipped ? "↻" : "↻";
+
+}
+
+card.addEventListener("click",function(event){
+
+  if(event.target.closest("button")) return;
+
+  toggleCard();
+
+});
+
+/* TOUCH SWIPE */
+
+let startX = 0;
+let startY = 0;
+
+card.addEventListener("touchstart",function(event){
+
+  const touch = event.changedTouches[0];
+
+  startX = touch.clientX;
+  startY = touch.clientY;
+
+},{passive:true});
+
+card.addEventListener("touchend",function(event){
+
+  const touch = event.changedTouches[0];
+
+  const diffX = touch.clientX - startX;
+  const diffY = touch.clientY - startY;
+
+  if(Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)){
+    // Reserved for multiple-card slider navigation.
+    // Only one card is currently configured.
+  }
+
+},{passive:true});
+
+/* ACTION BUTTONS */
+
+document.getElementById("depositBtn").addEventListener("click",function(event){
+
+  event.stopPropagation();
+
+  window.location.href = "../deposit.html";
+
+});
+
+document.getElementById("withdrawBtn").addEventListener("click",function(event){
+
+  event.stopPropagation();
+
+  window.location.href = "../withdraw.html";
+
+});
+
+/* START */
+
+loadMemberCard();
+
+</script>
+
+</body>
+</html>
