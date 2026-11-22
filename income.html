@@ -11,43 +11,117 @@
 :root{--purple:#7138d8;--pink:#e94c9b;--bg:#f4f3fa;--text:#26334c;--muted:#8490a5;--border:#e9eaf3;--green:#16804b;--red:#a12b36;--gold:#8a651c}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-a{text-decoration:none;color:inherit}button,input,select{font:inherit}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
 .header{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#fff;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);box-shadow:0 4px 15px #230a2d26;position:relative;z-index:100}
-.header-left{display:flex;align-items:center;gap:12px}.menu-toggle{width:43px;height:43px;border:1px solid #ffffff40;background:#ffffff1a;color:#fff;border-radius:10px;font-size:23px;cursor:pointer}
-.brand{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900;letter-spacing:1px}.brand-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#ffe58a,#e6a928);color:#512a83;border-radius:12px;font-size:24px}.brand span{color:#ffe58a}.brand small{display:block;font-size:8px;letter-spacing:3px;margin-top:3px;color:#f5dca4}
+.header-left{display:flex;align-items:center;gap:12px}
+.menu-toggle{width:43px;height:43px;border:1px solid #ffffff40;background:#ffffff1a;color:#fff;border-radius:10px;font-size:23px;cursor:pointer}
+.brand{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:900;letter-spacing:1px}
+.brand-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#ffe58a,#e6a928);color:#512a83;border-radius:12px;font-size:24px}
+.brand span{color:#ffe58a}
+.brand small{display:block;font-size:8px;letter-spacing:3px;margin-top:3px;color:#f5dca4}
 .header-link{border:1px solid #ffffff4d;background:#ffffff14;color:#fff;padding:11px 13px;border-radius:9px;font-size:11px;font-weight:bold}
-.overlay{position:fixed;inset:0;background:#0c051e94;z-index:200;opacity:0;visibility:hidden;transition:.25s}.overlay.show{opacity:1;visibility:visible}
-.sidebar{position:fixed;top:0;bottom:0;left:0;width:280px;max-width:85vw;overflow-y:auto;padding:20px 14px;color:#fff;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s;box-shadow:10px 0 35px #0003}.sidebar.open{transform:translateX(0)}
-.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}.drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:#fff;margin-top:4px}.drawer-close{width:36px;height:36px;border:1px solid #ffffff40;border-radius:9px;color:#fff;background:#ffffff1a;font-size:22px;cursor:pointer}
-.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid #ffffff14}.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:#fff}.menu-icon{width:23px;text-align:center;font-size:17px}
+.overlay{position:fixed;inset:0;background:#0c051e94;z-index:200;opacity:0;visibility:hidden;transition:.25s}
+.overlay.show{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;bottom:0;left:0;width:280px;max-width:85vw;overflow-y:auto;padding:20px 14px;color:#fff;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s;box-shadow:10px 0 35px #0003}
+.sidebar.open{transform:translateX(0)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
+.drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:#fff;margin-top:4px}
+.drawer-close{width:36px;height:36px;border:1px solid #ffffff40;border-radius:9px;color:#fff;background:#ffffff1a;font-size:22px;cursor:pointer}
+.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
+.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid #ffffff14}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:#fff}
+.menu-icon{width:23px;text-align:center;font-size:17px}
 main{max-width:1150px;margin:auto;padding:25px 20px 40px}
-.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}.page-heading h1{color:#5728a5;font-size:24px;margin-bottom:6px}.page-heading p{color:var(--muted);font-size:12px}
-.refresh-btn{border:1px solid var(--border);background:#fff;color:#6534b1;padding:11px 14px;border-radius:9px;font-size:11px;font-weight:bold;cursor:pointer}.refresh-btn:disabled{opacity:.5;cursor:wait}
-.notice{padding:13px 15px;border-radius:10px;margin-bottom:17px;font-size:12px;line-height:1.7}.notice strong{display:block;margin-bottom:3px}.notice.info{background:#f1edff;border:1px solid #ddd2fb;color:#5c399e}.notice.error{background:#fff0f1;border:1px solid #f4cbd0;color:var(--red)}.notice.success{background:#effaf3;border:1px solid #c6ead2;color:#17633b}
-.status-pill{display:inline-block;padding:7px 11px;border-radius:20px;background:#fff4d8;color:var(--gold);font-size:10px;font-weight:bold;white-space:nowrap}.status-pill.active{background:#e8f8ee;color:#17633b}.status-pill.neutral{background:#f1edff;color:#5c399e}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:19px}.stat{background:#fff;padding:17px;border:1px solid var(--border);border-radius:12px;min-width:0}.stat-label{font-size:11px;color:var(--muted)}.stat-value{font-size:23px;font-weight:800;color:#5728a5;margin:12px 0 7px;overflow-wrap:anywhere}.stat small{font-size:10px;color:var(--muted)}
-.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:19px;margin-bottom:17px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}.card h2{font-size:15px;color:#5728a5}.card-head p{font-size:11px;color:var(--muted);margin-top:5px}
-.level-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.level{background:#faf9fd;border:1px solid var(--border);border-radius:9px;padding:14px 8px;text-align:center}.level b{display:block;color:#5728a5;font-size:13px}.level span{display:block;color:var(--muted);font-size:10px;margin-top:7px}.level em{display:inline-block;font-style:normal;color:#98752f;font-size:10px;margin-top:7px}
-.account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.account-item{background:#f8f5ff;border:1px solid #eee1fa;padding:13px;border-radius:9px;min-width:0}.account-item span{display:block;font-size:10px;color:var(--muted);margin-bottom:6px}.account-item strong{color:#5728a5;font-size:13px;overflow-wrap:anywhere}
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}.filters input,.filters select{border:1px solid var(--border);background:#fff;padding:11px;border-radius:8px;outline:none;color:var(--text);font-size:11px}.filters input{flex:1;min-width:160px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:680px}th{text-align:left;background:#f6f1ff;color:#7541b8;padding:12px;font-size:10px}td{padding:13px 12px;border-bottom:1px solid var(--border);font-size:11px}.empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold;text-transform:capitalize}.badge.credited{background:#e8f8ee;color:#17633b}.badge.pending{background:#fff4d8;color:#8a651c}.badge.reversed{background:#fff0f1;color:#a12b36}.badge.unallocated{background:#f1edff;color:#5c399e}
-.footer{text-align:center;color:var(--muted);font-size:10px;padding:20px}.policy-list{padding-left:19px;color:#68778c;font-size:11px;line-height:2}.loading{text-align:center;padding:22px;color:var(--muted);font-size:12px}
+.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.page-heading h1{color:#5728a5;font-size:24px;margin-bottom:6px}
+.page-heading p{color:var(--muted);font-size:12px}
+.refresh-btn{border:1px solid var(--border);background:#fff;color:#6534b1;padding:11px 14px;border-radius:9px;font-size:11px;font-weight:bold;cursor:pointer}
+.refresh-btn:disabled{opacity:.5;cursor:wait}
+.notice{padding:13px 15px;border-radius:10px;margin-bottom:17px;font-size:12px;line-height:1.7}
+.notice strong{display:block;margin-bottom:3px}
+.notice.info{background:#f1edff;border:1px solid #ddd2fb;color:#5c399e}
+.notice.error{background:#fff0f1;border:1px solid #f4cbd0;color:var(--red)}
+.notice.success{background:#effaf3;border:1px solid #c6ead2;color:#17633b}
+.status-pill{display:inline-block;padding:7px 11px;border-radius:20px;background:#fff4d8;color:var(--gold);font-size:10px;font-weight:bold;white-space:nowrap}
+.status-pill.active{background:#e8f8ee;color:#17633b}
+.status-pill.neutral{background:#f1edff;color:#5c399e}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:19px}
+.stat{background:#fff;padding:17px;border:1px solid var(--border);border-radius:12px;min-width:0}
+.stat-label{font-size:11px;color:var(--muted)}
+.stat-value{font-size:23px;font-weight:800;color:#5728a5;margin:12px 0 7px;overflow-wrap:anywhere}
+.stat small{font-size:10px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:19px;margin-bottom:17px}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.card h2{font-size:15px;color:#5728a5}
+.card-head p{font-size:11px;color:var(--muted);margin-top:5px}
+.level-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.level{background:#faf9fd;border:1px solid var(--border);border-radius:9px;padding:14px 8px;text-align:center}
+.level b{display:block;color:#5728a5;font-size:13px}
+.level span{display:block;color:var(--muted);font-size:10px;margin-top:7px}
+.level em{display:inline-block;font-style:normal;color:#98752f;font-size:10px;margin-top:7px}
+.account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.account-item{background:#f8f5ff;border:1px solid #eee1fa;padding:13px;border-radius:9px;min-width:0}
+.account-item span{display:block;font-size:10px;color:var(--muted);margin-bottom:6px}
+.account-item strong{color:#5728a5;font-size:13px;overflow-wrap:anywhere}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.filters input,.filters select{border:1px solid var(--border);background:#fff;padding:11px;border-radius:8px;outline:none;color:var(--text);font-size:11px}
+.filters input{flex:1;min-width:160px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th{text-align:left;background:#f6f1ff;color:#7541b8;padding:12px;font-size:10px}
+td{padding:13px 12px;border-bottom:1px solid var(--border);font-size:11px}
+.empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.badge{display:inline-block;padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold;text-transform:capitalize}
+.badge.credited{background:#e8f8ee;color:#17633b}
+.badge.pending{background:#fff4d8;color:#8a651c}
+.badge.reversed{background:#fff0f1;color:#a12b36}
+.badge.unallocated{background:#f1edff;color:#5c399e}
+.footer{text-align:center;color:var(--muted);font-size:10px;padding:20px}
+.policy-list{padding-left:19px;color:#68778c;font-size:11px;line-height:2}
+.loading{text-align:center;padding:22px;color:var(--muted);font-size:12px}
 @media(max-width:950px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){.header{height:64px;padding:0 11px}.menu-toggle{width:39px;height:39px}.brand{font-size:12px;gap:7px}.brand-icon{width:37px;height:37px;font-size:21px}.brand small{font-size:7px;letter-spacing:2px}.header-link{font-size:9px;padding:10px 8px}main{padding:18px 13px 30px}.page-heading h1{font-size:21px}.stats{gap:9px}.stat{padding:12px 10px}.stat-value{font-size:20px}.stat-label{font-size:10px}.stat small{font-size:9px}.card{padding:14px}.level-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+@media(max-width:650px){
+.header{height:64px;padding:0 11px}
+.menu-toggle{width:39px;height:39px}
+.brand{font-size:12px;gap:7px}
+.brand-icon{width:37px;height:37px;font-size:21px}
+.brand small{font-size:7px;letter-spacing:2px}
+.header-link{font-size:9px;padding:10px 8px}
+main{padding:18px 13px 30px}
+.page-heading h1{font-size:21px}
+.stats{gap:9px}
+.stat{padding:12px 10px}
+.stat-value{font-size:20px}
+.stat-label{font-size:10px}
+.stat small{font-size:9px}
+.card{padding:14px}
+.level-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+}
 @media(max-width:360px){.account-grid{grid-template-columns:1fr}.stat-value{font-size:18px}}
 </style>
 </head>
 <body>
+
 <header class="header">
   <div class="header-left">
     <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-    <a href="dashboard.html" class="brand"><div class="brand-icon">R</div><div>RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div></a>
+    <a href="dashboard.html" class="brand">
+      <div class="brand-icon">R</div>
+      <div>RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
+    </a>
   </div>
   <a href="wallet.html" class="header-link">◈ My Wallet</a>
 </header>
+
 <div class="overlay" id="overlay"></div>
+
 <aside class="sidebar" id="sidebar">
-  <div class="drawer-top"><div class="drawer-brand">RUBALIA<small>NETWORK</small></div><button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button></div>
+  <div class="drawer-top">
+    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
+  </div>
   <div class="menu-title">MAIN MENU</div>
   <nav class="menu">
     <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
@@ -69,24 +143,46 @@ main{max-width:1150px;margin:auto;padding:25px 20px 40px}
 
 <main>
   <div class="page-heading">
-    <div><h1>Income Details</h1><p>View your commission status and income information.</p></div>
+    <div>
+      <h1>Income Details</h1>
+      <p>View your commission status and income information.</p>
+    </div>
     <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
   </div>
 
   <div id="notice" class="notice info" role="status">
     <strong>Commission information</strong>
-    Your commission totals and transaction history are loaded securely from the server. The member API does not expose the administrator's global activation setting.
+    Your commission totals and transaction history are loaded securely from the server.
   </div>
 
   <section class="stats">
-    <div class="stat"><div class="stat-label">Total Commission</div><div class="stat-value" id="totalCommission">৳0.00</div><small>Credited plus pending commission</small></div>
-    <div class="stat"><div class="stat-label">Available Commission</div><div class="stat-value" id="availableCommission">৳0.00</div><small>Credited commission</small></div>
-    <div class="stat"><div class="stat-label">Pending Commission</div><div class="stat-value" id="pendingCommission">৳0.00</div><small>Awaiting release</small></div>
-    <div class="stat"><div class="stat-label">Commission Transactions</div><div class="stat-value" id="transactionCount">0</div><small id="transactionCaption">Server records</small></div>
+    <div class="stat">
+      <div class="stat-label">Total Commission</div>
+      <div class="stat-value" id="totalCommission">৳0.00</div>
+      <small>Credited plus pending commission</small>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Available Commission</div>
+      <div class="stat-value" id="availableCommission">৳0.00</div>
+      <small>Credited commission</small>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Pending Commission</div>
+      <div class="stat-value" id="pendingCommission">৳0.00</div>
+      <small>Awaiting release</small>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Credited Transactions</div>
+      <div class="stat-value" id="transactionCount">0</div>
+      <small id="transactionCaption">Server records</small>
+    </div>
   </section>
 
   <section class="card">
-    <div class="card-head"><div><h2>Account Information</h2><p>Verified account information from the server.</p></div><span class="status-pill neutral">SERVER DATA</span></div>
+    <div class="card-head">
+      <div><h2>Account Information</h2><p>Verified account information from the server.</p></div>
+      <span class="status-pill neutral">SERVER DATA</span>
+    </div>
     <div class="account-grid">
       <div class="account-item"><span>Member Name</span><strong id="memberName">Loading...</strong></div>
       <div class="account-item"><span>Member ID</span><strong id="memberId">Loading...</strong></div>
@@ -96,12 +192,18 @@ main{max-width:1150px;margin:auto;padding:25px 20px 40px}
   </section>
 
   <section class="card">
-    <div class="card-head"><div><h2>10-Level Commission Structure</h2><p>Commission rates are controlled by administrator settings.</p></div><span class="status-pill neutral">ADMIN CONFIGURED</span></div>
+    <div class="card-head">
+      <div><h2>10-Level Commission Structure</h2><p>Commission rates are controlled by administrator settings.</p></div>
+      <span class="status-pill neutral">ADMIN CONFIGURED</span>
+    </div>
     <div class="level-grid" id="levelGrid"></div>
   </section>
 
   <section class="card">
-    <div class="card-head"><div><h2>Commission History</h2><p>Commission records returned by the server for your account.</p></div><span class="status-pill neutral" id="historyStatus">LOADING</span></div>
+    <div class="card-head">
+      <div><h2>Commission History</h2><p>Commission records returned by the server for your account.</p></div>
+      <span class="status-pill neutral" id="historyStatus">LOADING</span>
+    </div>
     <div class="filters">
       <input type="search" id="searchInput" placeholder="Search transaction or order number..." autocomplete="off">
       <select id="statusFilter">
@@ -114,14 +216,23 @@ main{max-width:1150px;margin:auto;padding:25px 20px 40px}
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>TRANSACTION ID</th><th>ORDER</th><th>LEVEL</th><th>RATE</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th></tr></thead>
-        <tbody id="incomeTable"><tr><td colspan="7" class="loading">Loading commission records...</td></tr></tbody>
+        <thead>
+          <tr>
+            <th>TRANSACTION ID</th><th>ORDER</th><th>LEVEL</th>
+            <th>RATE</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th>
+          </tr>
+        </thead>
+        <tbody id="incomeTable">
+          <tr><td colspan="7" class="loading">Loading commission records...</td></tr>
+        </tbody>
       </table>
     </div>
   </section>
 
   <section class="card">
-    <div class="card-head"><div><h2>Income Policy</h2><p>Important information about compensation.</p></div></div>
+    <div class="card-head">
+      <div><h2>Income Policy</h2><p>Important information about compensation.</p></div>
+    </div>
     <ul class="policy-list">
       <li>Income must be connected to genuine product sales.</li>
       <li>Recruitment alone does not qualify for commission.</li>
@@ -131,147 +242,356 @@ main{max-width:1150px;margin:auto;padding:25px 20px 40px}
     </ul>
   </section>
 </main>
+
 <footer class="footer">© 2026 RUBALIA NETWORK. All Rights Reserved.</footer>
 
 <script>
 "use strict";
-const API_BASE="https://rubalia.onrender.com/api";
-const $=id=>document.getElementById(id);
-let token="";
-let transactions=[];
 
-const sidebar=$("sidebar"),overlay=$("overlay"),menuToggle=$("menuToggle");
-function openMenu(){sidebar.classList.add("open");overlay.classList.add("show");menuToggle.setAttribute("aria-expanded","true");}
-function closeMenu(){sidebar.classList.remove("open");overlay.classList.remove("show");menuToggle.setAttribute("aria-expanded","false");}
-menuToggle.addEventListener("click",()=>sidebar.classList.contains("open")?closeMenu():openMenu());
+const API_BASE = "https://rubalia.onrender.com/api";
+const $ = id => document.getElementById(id);
+
+let token = "";
+let transactions = [];
+
+const sidebar = $("sidebar");
+const overlay = $("overlay");
+const menuToggle = $("menuToggle");
+
+function openMenu(){
+  sidebar.classList.add("open");
+  overlay.classList.add("show");
+  menuToggle.setAttribute("aria-expanded","true");
+}
+
+function closeMenu(){
+  sidebar.classList.remove("open");
+  overlay.classList.remove("show");
+  menuToggle.setAttribute("aria-expanded","false");
+}
+
+menuToggle.addEventListener("click",()=>{
+  sidebar.classList.contains("open") ? closeMenu() : openMenu();
+});
+
 $("drawerClose").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu();});
-sidebar.querySelectorAll("a").forEach(a=>{if(a.id!=="logoutLink")a.addEventListener("click",closeMenu);});
-$("logoutLink").addEventListener("click",e=>{e.preventDefault();if(confirm("Are you sure you want to log out?")){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");}});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeMenu();
+});
+
+sidebar.querySelectorAll("a").forEach(a=>{
+  if(a.id!=="logoutLink") a.addEventListener("click",closeMenu);
+});
+
+$("logoutLink").addEventListener("click",e=>{
+  e.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
+  }
+});
 
 function money(value){
-  const n=Number(value);
-  return Number.isFinite(n)?"৳"+n.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2}):"৳0.00";
+  const n = Number(value);
+
+  return Number.isFinite(n)
+    ? "৳"+n.toLocaleString("en-BD",{
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      })
+    : "৳0.00";
 }
-function safeText(value,fallback="—"){return value===null||value===undefined||value===""?fallback:String(value);}
+
+function safeText(value,fallback="—"){
+  return value===null || value===undefined || value===""
+    ? fallback
+    : String(value);
+}
+
 function showNotice(type,title,message){
-  const el=$("notice");el.className="notice "+type;el.replaceChildren();
-  const strong=document.createElement("strong");strong.textContent=title;
-  const span=document.createElement("span");span.textContent=message;el.append(strong,span);
+  const el = $("notice");
+  el.className = "notice "+type;
+  el.replaceChildren();
+
+  const strong = document.createElement("strong");
+  strong.textContent = title;
+
+  const span = document.createElement("span");
+  span.textContent = message;
+
+  el.append(strong,span);
 }
+
 async function apiRequest(path){
-  const response=await fetch(API_BASE+path,{method:"GET",headers:{"Authorization":"Bearer "+token,"Accept":"application/json"},cache:"no-store"});
-  const data=await response.json().catch(()=>({}));
-  if(response.status===401||response.status===403){
-    sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");
+  const response = await fetch(API_BASE+path,{
+    method:"GET",
+    headers:{
+      "Authorization":"Bearer "+token,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  const data = await response.json().catch(()=>({}));
+
+  if(response.status===401 || response.status===403){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
     throw new Error("Your login session has expired. Please sign in again.");
   }
-  if(!response.ok||data.success===false)throw new Error(data.message||("Request failed ("+response.status+")."));
+
+  if(!response.ok || data.success===false){
+    throw new Error(data.message || ("Request failed ("+response.status+")."));
+  }
+
   return data;
 }
+
 async function loadAccount(){
-  const data=await apiRequest("/auth/me");
-  const user=data.user||data.profile;
-  if(!user)throw new Error("Account information is unavailable.");
-  if(String(user.role||"").toLowerCase()==="admin"){location.replace("admin-dashboard.html");return false;}
-  if(user.status&&String(user.status).toLowerCase()!=="active"){
-    sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");
+  const data = await apiRequest("/auth/me");
+  const user = data.user || data.profile;
+
+  if(!user){
+    throw new Error("Account information is unavailable.");
+  }
+
+  if(String(user.role||"").toLowerCase()==="admin"){
+    location.replace("admin-dashboard.html");
+    return false;
+  }
+
+  if(user.status && String(user.status).toLowerCase()!=="active"){
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");
     throw new Error("Your account is not active.");
   }
-  $("memberName").textContent=safeText(user.full_name);
-  $("memberId").textContent=safeText(user.id);
-  $("memberEmail").textContent=safeText(user.email);
-  $("memberStatus").textContent=safeText(user.status);
+
+  $("memberName").textContent = safeText(user.full_name);
+
+  // Server provides memberId in the format RUB000001.
+  $("memberId").textContent = safeText(
+    user.memberId,
+    user.id ? "RUB"+String(user.id).padStart(6,"0") : "—"
+  );
+
+  $("memberEmail").textContent = safeText(user.email);
+  $("memberStatus").textContent = safeText(user.status);
+
   return true;
 }
+
 function renderLevels(){
-  const grid=$("levelGrid");grid.replaceChildren();
+  const grid = $("levelGrid");
+  grid.replaceChildren();
+
   for(let i=1;i<=10;i++){
-    const item=document.createElement("div");item.className="level";
-    const title=document.createElement("b");title.textContent="Level "+String(i).padStart(2,"0");
-    const state=document.createElement("span");state.textContent="Rate managed by Admin";
-    const rate=document.createElement("em");rate.textContent="Rate not exposed";
-    item.append(title,state,rate);grid.append(item);
+    const item = document.createElement("div");
+    item.className = "level";
+
+    const title = document.createElement("b");
+    title.textContent = "Level "+String(i).padStart(2,"0");
+
+    const state = document.createElement("span");
+    state.textContent = "Rate managed by Admin";
+
+    const rate = document.createElement("em");
+    rate.textContent = "Rate not exposed";
+
+    item.append(title,state,rate);
+    grid.append(item);
   }
 }
+
 function renderStats(income){
-  const earned=Number(income.totalEarned)||0;
-  const pending=Number(income.totalPending)||0;
-  const count=Number(income.totalTransactions)||0;
-  $("availableCommission").textContent=money(earned);
-  $("pendingCommission").textContent=money(pending);
-  $("totalCommission").textContent=money(earned+pending);
-  $("transactionCount").textContent=count.toLocaleString("en-BD");
-  $("transactionCaption").textContent=(Number(income.pendingTransactions)||0)+" pending transactions";
+  const earned = Number(income.totalEarned)||0;
+  const pending = Number(income.totalPending)||0;
+  const count = Number(income.totalTransactions)||0;
+  const pendingCount = Number(income.pendingTransactions)||0;
+
+  $("availableCommission").textContent = money(earned);
+  $("pendingCommission").textContent = money(pending);
+  $("totalCommission").textContent = money(earned+pending);
+
+  $("transactionCount").textContent = count.toLocaleString("en-BD");
+  $("transactionCaption").textContent =
+    pendingCount.toLocaleString("en-BD")+" pending transactions";
 }
+
 function statusLabel(status){
-  const s=String(status||"unknown").toLowerCase();
-  if(s==="credited")return "Released";
-  if(s==="pending")return "Pending";
-  if(s==="reversed")return "Reversed";
-  if(s==="unallocated")return "Unallocated";
+  const s = String(status||"unknown").toLowerCase();
+
+  if(s==="credited") return "Released";
+  if(s==="pending") return "Pending";
+  if(s==="reversed") return "Reversed";
+  if(s==="unallocated") return "Unallocated";
+
   return s.replace(/_/g," ");
 }
+
 function renderHistory(){
-  const body=$("incomeTable");body.replaceChildren();
-  const query=$("searchInput").value.trim().toLowerCase();
-  const status=$("statusFilter").value;
-  const filtered=transactions.filter(t=>{
-    const matchesStatus=status==="all"||String(t.status||"").toLowerCase()===status;
-    const hay=[t.id,t.order_id,t.order_number,t.level,t.status].map(v=>String(v??"").toLowerCase()).join(" ");
-    return matchesStatus&&hay.includes(query);
+  const body = $("incomeTable");
+  body.replaceChildren();
+
+  const query = $("searchInput").value.trim().toLowerCase();
+  const status = $("statusFilter").value;
+
+  const filtered = transactions.filter(t=>{
+    const matchesStatus =
+      status==="all" ||
+      String(t.status||"").toLowerCase()===status;
+
+    const hay = [
+      t.id,
+      t.order_id,
+      t.order_number,
+      t.level,
+      t.status
+    ].map(v=>String(v??"").toLowerCase()).join(" ");
+
+    return matchesStatus && hay.includes(query);
   });
-  $("historyStatus").textContent=filtered.length+" RECORDS";
+
+  $("historyStatus").textContent = filtered.length+" RECORDS";
+
   if(!filtered.length){
-    const row=document.createElement("tr"),cell=document.createElement("td");
-    cell.colSpan=7;cell.className="empty";cell.textContent=transactions.length?"No transactions match your filters.":"No commission transactions have been recorded for your account yet.";
-    row.append(cell);body.append(row);return;
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+
+    cell.colSpan = 7;
+    cell.className = "empty";
+    cell.textContent = transactions.length
+      ? "No transactions match your filters."
+      : "No commission transactions have been recorded for your account yet.";
+
+    row.append(cell);
+    body.append(row);
+    return;
   }
+
   filtered.forEach(t=>{
-    const row=document.createElement("tr");
-    const values=[
-      safeText(t.id),safeText(t.order_number,t.order_id?"#"+t.order_id:"—"),
-      t.level?("Level "+t.level):"—",
-      t.rate_percent!==null&&t.rate_percent!==undefined?(Number(t.rate_percent)+"%"):"—",
-      money(t.amount),statusLabel(t.status),
-      t.created_at?new Date(t.created_at).toLocaleString():"—"
+    const row = document.createElement("tr");
+
+    const values = [
+      safeText(t.id),
+      safeText(t.order_number,t.order_id ? "#"+t.order_id : "—"),
+      t.level ? "Level "+t.level : "—",
+      t.rate_percent!==null && t.rate_percent!==undefined
+        ? Number(t.rate_percent)+"%"
+        : "—",
+      money(t.amount),
+      statusLabel(t.status),
+      t.created_at ? new Date(t.created_at).toLocaleString() : "—"
     ];
+
     values.forEach((value,index)=>{
-      const cell=document.createElement("td");
-      if(index===5){const badge=document.createElement("span");badge.className="badge "+String(t.status||"").toLowerCase();badge.textContent=value;cell.append(badge);}
-      else cell.textContent=value;
+      const cell = document.createElement("td");
+
+      if(index===5){
+        const badge = document.createElement("span");
+        badge.className = "badge "+String(t.status||"").toLowerCase();
+        badge.textContent = value;
+        cell.append(badge);
+      }else{
+        cell.textContent = value;
+      }
+
       row.append(cell);
     });
+
     body.append(row);
   });
 }
+
 async function loadPage(){
-  const button=$("refreshBtn");button.disabled=true;button.textContent="Loading...";
+  const button = $("refreshBtn");
+  button.disabled = true;
+  button.textContent = "Loading...";
+
   try{
-    token=sessionStorage.getItem("rubalia_token")||"";
-    if(!token){location.replace("login.html");return;}
-    const accountOk=await loadAccount();if(!accountOk)return;
-    const [meData,txData]=await Promise.all([apiRequest("/commission/me"),apiRequest("/commission/transactions")]);
-    const income=meData.income||{};
-    transactions=Array.isArray(txData.transactions)?txData.transactions:[];
-    renderStats(income);renderLevels();renderHistory();
-    const count=Number(income.totalTransactions)||transactions.length;
-    if(count>0){
-      showNotice("success","Commission records found","Your commission account has server records. Released and pending amounts below are taken from the authenticated commission API.");
-    }else{
-      showNotice("info","No commission records yet","Your account currently has no commission transactions. This alone does not confirm whether the global commission system is enabled; that setting is controlled by the administrator and is not exposed by the member API.");
+    token = sessionStorage.getItem("rubalia_token") || "";
+
+    if(!token){
+      location.replace("login.html");
+      return;
     }
+
+    const accountOk = await loadAccount();
+    if(!accountOk) return;
+
+    const [meData,txData] = await Promise.all([
+      apiRequest("/commission/me"),
+      apiRequest("/commission/transactions")
+    ]);
+
+    const income = meData.income || {};
+
+    transactions = Array.isArray(txData.transactions)
+      ? txData.transactions
+      : [];
+
+    renderStats(income);
+    renderLevels();
+    renderHistory();
+
+    const count = Number(income.totalTransactions)||0;
+
+    if(count>0 || Number(income.totalPending)>0){
+      showNotice(
+        "success",
+        "Commission records found",
+        "Your credited and pending commission amounts are taken from the authenticated server API."
+      );
+    }else{
+      showNotice(
+        "info",
+        "No commission records yet",
+        "Your account currently has no commission transactions. This does not confirm whether the global commission system is enabled. That setting is controlled by the administrator."
+      );
+    }
+
   }catch(error){
-    if(error.message.includes("sign in again")||error.message==="Your account is not active.")return;
-    showNotice("error","Unable to load commission information",error.message||"Please try again.");
-    $("historyStatus").textContent="UNAVAILABLE";
-    $("incomeTable").innerHTML='<tr><td colspan="7" class="empty">Commission data could not be loaded from the server.</td></tr>';
-  }finally{button.disabled=false;button.textContent="↻ Refresh";}
+    if(
+      error.message.includes("sign in again") ||
+      error.message==="Your account is not active."
+    ) return;
+
+    showNotice(
+      "error",
+      "Unable to load commission information",
+      error.message || "Please try again."
+    );
+
+    $("historyStatus").textContent = "UNAVAILABLE";
+
+    const body = $("incomeTable");
+    body.replaceChildren();
+
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+
+    cell.colSpan = 7;
+    cell.className = "empty";
+    cell.textContent = "Commission data could not be loaded from the server.";
+
+    row.append(cell);
+    body.append(row);
+
+  }finally{
+    button.disabled = false;
+    button.textContent = "↻ Refresh";
+  }
 }
+
 $("searchInput").addEventListener("input",renderHistory);
 $("statusFilter").addEventListener("change",renderHistory);
 $("refreshBtn").addEventListener("click",loadPage);
+
 renderLevels();
 loadPage();
 </script>
