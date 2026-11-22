@@ -6,7 +6,6 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const pool = require("./config/database");
-
 const { initializeDatabase } = require("./database/init");
 
 const { runPartnerMigration } = require("./database/partner-migration");
@@ -15,6 +14,7 @@ const { runProductCostMigration } = require("./database/product-cost-migration")
 const { runProductCategoryMigration } = require("./database/product-category-migration");
 const { runWalletMigration } = require("./database/wallet-migration");
 const { runSupportMigration } = require("./database/support-migration");
+const { runSettingsMigration } = require("./database/settings-migration");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -32,12 +32,19 @@ const referralRoutes = require("./routes/referral.routes");
 const commissionRoutes = require("./routes/commission.routes");
 const refundRoutes = require("./routes/refund.routes");
 const supportRoutes = require("./routes/support.routes");
+const settingsRoutes = require("./routes/settings.routes");
 
 // Commission Worker
-const { startCommissionWorker, stopCommissionWorker } = require("./workers/commission.worker");
+const {
+  startCommissionWorker,
+  stopCommissionWorker
+} = require("./workers/commission.worker");
 
 // Error Handlers
-const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
+const {
+  notFoundHandler,
+  errorHandler
+} = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -45,7 +52,9 @@ const PORT = process.env.PORT || 10000;
 app.set("trust proxy", 1);
 
 const allowedOrigins = (process.env.FRONTEND_URL || "")
-  .split(",").map(origin => origin.trim()).filter(Boolean);
+  .split(",")
+  .map(origin => origin.trim())
+  .filter(Boolean);
 
 const localOrigins = [
   "http://localhost:3000",
@@ -54,11 +63,17 @@ const localOrigins = [
 ];
 
 app.use(helmet());
+
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || localOrigins.includes(origin)) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      localOrigins.includes(origin)
+    ) {
       return callback(null, true);
     }
+
     return callback(new Error("Origin not allowed by CORS"));
   }
 }));
@@ -70,7 +85,10 @@ const loginLimiter = rateLimit({
   limit: 20,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  message: { success: false, message: "Too many login attempts. Please try again after 15 minutes." }
+  message: {
+    success: false,
+    message: "Too many login attempts. Please try again after 15 minutes."
+  }
 });
 
 const registerLimiter = rateLimit({
@@ -78,23 +96,41 @@ const registerLimiter = rateLimit({
   limit: 5,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-  message: { success: false, message: "Too many registration attempts. Please try again later." }
-});
-
-app.get("/api/health", async (req, res) => {
-  try {
-    await pool.query("SELECT 1");
-    return res.json({ success: true, service: "Rubalia Network API", database: "connected", status: "operational" });
-  } catch (error) {
-    console.error("Health check failed:", error.message);
-    return res.status(503).json({ success: false, service: "Rubalia Network API", database: "unavailable", status: "degraded" });
+  message: {
+    success: false,
+    message: "Too many registration attempts. Please try again later."
   }
 });
 
+// Health Check
+app.get("/api/health", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+
+    return res.json({
+      success: true,
+      service: "Rubalia Network API",
+      database: "connected",
+      status: "operational"
+    });
+  } catch (error) {
+    console.error("Health check failed:", error.message);
+
+    return res.status(503).json({
+      success: false,
+      service: "Rubalia Network API",
+      database: "unavailable",
+      status: "degraded"
+    });
+  }
+});
+
+// Authentication
 app.use("/api/auth/login", loginLimiter);
 app.use("/api/auth/register", registerLimiter);
 app.use("/api/auth", authRoutes);
 
+// Existing API Routes
 app.use("/api/profile", profileRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/packages", packageRoutes);
@@ -110,15 +146,28 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/support", supportRoutes);
 
+// Member Settings API
+app.use("/api/settings", settingsRoutes);
+
+// Error Handling
 app.use(notFoundHandler);
+
 app.use((error, req, res, next) => {
-  if (res.headersSent) return next(error);
-  if (error.message === "Origin not allowed by CORS") {
-    return res.status(403).json({ success: false, message: "Origin not allowed." });
+  if (res.headersSent) {
+    return next(error);
   }
+
+  if (error.message === "Origin not allowed by CORS") {
+    return res.status(403).json({
+      success: false,
+      message: "Origin not allowed."
+    });
+  }
+
   return errorHandler(error, req, res, next);
 });
 
+// Start Server
 async function startServer() {
   try {
     await initializeDatabase();
@@ -142,6 +191,9 @@ async function startServer() {
     await runSupportMigration();
     console.log("Support migration completed.");
 
+    await runSettingsMigration();
+    console.log("Settings migration completed.");
+
     startCommissionWorker(pool);
     console.log("Commission worker started.");
 
@@ -157,16 +209,22 @@ async function startServer() {
       console.log("Product category management enabled.");
       console.log("Wallet deposit and withdrawal management enabled.");
       console.log("Support ticket system enabled.");
+      console.log("Member settings API enabled.");
     });
 
     let shuttingDown = false;
 
     async function shutdown(signal) {
-      if (shuttingDown) return;
+      if (shuttingDown) {
+        return;
+      }
+
       shuttingDown = true;
       console.log(`${signal} received. Shutting down...`);
+
       try {
         await stopCommissionWorker();
+
         server.close(async () => {
           try {
             await pool.end();
