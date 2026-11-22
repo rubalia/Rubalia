@@ -1,265 +1,513 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#210d2d">
-  <meta name="description" content="RUBALIA NETWORK Android Application">
-  <title>RUBALIA NETWORK</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#85000e">
+<meta name="description" content="RUBALIA NETWORK Android Application">
+<title>RUBALIA NETWORK</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #fff;
-      background:
-        radial-gradient(circle at 20% 15%, #64245f 0, transparent 38%),
-        radial-gradient(circle at 85% 85%, #153e78 0, transparent 38%),
-        linear-gradient(145deg, #16091f, #210d2d 55%, #101a38);
-    }
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 15% 15%,#ffb33d 0%,transparent 30%),
+    radial-gradient(circle at 90% 15%,#ff3c76 0%,transparent 32%),
+    radial-gradient(circle at 15% 90%,#7939e9 0%,transparent 35%),
+    radial-gradient(circle at 90% 90%,#00b8bd 0%,transparent 35%),
+    linear-gradient(135deg,#390005,#85000e,#4a087b);
+  background-size:200% 200%;
+  animation:bgMove 12s ease infinite;
+}
 
-    .container {
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-    }
+@keyframes bgMove{
+  0%,100%{background-position:0% 0%;}
+  50%{background-position:100% 100%;}
+}
 
-    .logo {
-      width: 116px;
-      height: 116px;
-      margin: 0 auto 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(255, 215, 130, .65);
-      border-radius: 30px;
-      background: linear-gradient(145deg, #6b2670, #172d60);
-      box-shadow:
-        0 12px 40px rgba(0, 0, 0, .35),
-        inset 0 1px 15px rgba(255, 255, 255, .15);
-    }
+.container{
+  width:100%;
+  max-width:390px;
+  text-align:center;
+}
 
-    .logo span {
-      font-size: 66px;
-      font-weight: 900;
-      color: #f8d98b;
-      text-shadow: 0 4px 15px rgba(0, 0, 0, .4);
-    }
+.logo{
+  width:112px;
+  height:112px;
+  margin:0 auto 25px;
+  display:grid;
+  place-items:center;
+  border:2px solid #ffe5a1;
+  border-radius:29px;
+  background:linear-gradient(145deg,#ff5968,#c90018 60%,#76000b);
+  box-shadow:
+    0 9px 0 #520008,
+    0 18px 35px rgba(0,0,0,.4),
+    inset 0 3px 9px rgba(255,255,255,.4);
+  animation:float 3s ease-in-out infinite;
+}
 
-    h1 {
-      font-size: 25px;
-      letter-spacing: 2px;
-      font-weight: 800;
-    }
+.logo span{
+  font-size:57px;
+  font-weight:1000;
+  color:#fff;
+  text-shadow:0 4px 5px rgba(0,0,0,.4);
+}
 
-    .subtitle {
-      margin-top: 8px;
-      color: #e6c8e8;
-      font-size: 12px;
-      letter-spacing: 4px;
-    }
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
 
-    .status-card {
-      margin-top: 38px;
-      padding: 23px 18px;
-      border: 1px solid rgba(255, 255, 255, .13);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, .07);
-      backdrop-filter: blur(12px);
-    }
+h1{
+  font-size:clamp(29px,8vw,39px);
+  font-weight:1000;
+  letter-spacing:4px;
+  text-shadow:2px 4px 8px rgba(0,0,0,.4);
+}
 
-    .loader {
-      width: 38px;
-      height: 38px;
-      margin: 0 auto 17px;
-      border: 3px solid rgba(255, 255, 255, .18);
-      border-top-color: #f3c96f;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-    }
+.subtitle{
+  margin-top:8px;
+  color:#ffe5a1;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:9px;
+  padding-left:9px;
+}
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+.line{
+  width:100px;
+  height:3px;
+  margin:23px auto;
+  background:linear-gradient(90deg,transparent,#ffd36a,transparent);
+}
 
-    #status {
-      font-size: 15px;
-      font-weight: 700;
-    }
+.slogan{
+  color:#fff0e8;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+}
 
-    #message {
-      margin-top: 9px;
-      color: #d1c5d8;
-      font-size: 12px;
-      line-height: 1.6;
-    }
+.status-card{
+  margin-top:35px;
+  padding:22px 18px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:17px;
+  background:rgba(0,0,0,.2);
+  backdrop-filter:blur(12px);
+}
 
-    .retry {
-      display: none;
-      width: 100%;
-      margin-top: 19px;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      color: #24152c;
-      background: linear-gradient(100deg, #f7d78e, #e9a9d1);
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-    }
+.loader{
+  width:36px;
+  height:36px;
+  margin:0 auto 15px;
+  border:3px solid rgba(255,255,255,.2);
+  border-top-color:#ffd36a;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
 
-    .footer {
-      margin-top: 32px;
-      color: rgba(255, 255, 255, .48);
-      font-size: 10px;
-      letter-spacing: 1px;
-    }
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
 
-    .error .loader {
-      animation: none;
-      border: 3px solid #ff7373;
-      position: relative;
-    }
+#status{
+  font-size:14px;
+  font-weight:900;
+}
 
-    .error .loader::after {
-      content: "!";
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: #ffaaaa;
-      font-size: 22px;
-      font-weight: bold;
-    }
-  </style>
+#message{
+  margin-top:9px;
+  color:#ffe5df;
+  font-size:12px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+
+.progress{
+  height:4px;
+  margin-top:17px;
+  border-radius:10px;
+  overflow:hidden;
+  background:rgba(255,255,255,.2);
+}
+
+.progress-bar{
+  width:35%;
+  height:100%;
+  border-radius:10px;
+  background:#ffd36a;
+  animation:progressMove 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes progressMove{
+  from{transform:translateX(-100%);}
+  to{transform:translateX(285%);}
+}
+
+.retry{
+  display:none;
+  width:100%;
+  margin-top:18px;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:linear-gradient(110deg,#ffd36a,#ff9db7);
+  color:#590013;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.error .loader{
+  animation:none;
+  border:3px solid #ff7777;
+}
+
+.error .progress{
+  display:none;
+}
+
+.footer{
+  margin-top:28px;
+  color:rgba(255,255,255,.65);
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation:none!important;
+    transition:none!important;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="container">
-    <div class="logo">
-      <span>R</span>
+
+<main class="container">
+
+  <div class="logo">
+    <span>R</span>
+  </div>
+
+  <h1>RUBALIA</h1>
+  <div class="subtitle">NETWORK</div>
+
+  <div class="line"></div>
+
+  <div class="slogan">
+    SHOP SMART. EARN TOGETHER.
+  </div>
+
+  <section class="status-card" id="statusCard">
+
+    <div class="loader"></div>
+
+    <p id="status">WELCOME TO RUBALIA</p>
+
+    <p id="message">
+      Connecting to RUBALIA NETWORK...
+    </p>
+
+    <div class="progress">
+      <div class="progress-bar"></div>
     </div>
 
-    <h1>RUBALIA NETWORK</h1>
-    <p class="subtitle">GROW TOGETHER</p>
+    <button class="retry" id="retryButton" onclick="startApplication()">
+      TRY AGAIN
+    </button>
 
-    <section class="status-card" id="statusCard">
-      <div class="loader"></div>
+  </section>
 
-      <p id="status">Connecting...</p>
+  <div class="footer">
+    © <span id="year"></span> RUBALIA NETWORK
+  </div>
 
-      <p id="message">
-        Please wait while we connect to RUBALIA NETWORK.
-      </p>
+</main>
 
-      <button class="retry" id="retryButton" onclick="checkConnection()">
-        TRY AGAIN
-      </button>
-    </section>
+<script>
+"use strict";
 
-    <p class="footer">RUBALIA NETWORK &copy; 2026</p>
-  </main>
+const API_BASE = "https://rubalia.onrender.com/api";
 
-  <script>
-    const API_BASE = "https://rubalia.onrender.com/api";
+const statusCard = document.getElementById("statusCard");
+const statusText = document.getElementById("status");
+const messageText = document.getElementById("message");
+const retryButton = document.getElementById("retryButton");
 
-    const statusText = document.getElementById("status");
-    const messageText = document.getElementById("message");
-    const statusCard = document.getElementById("statusCard");
-    const retryButton = document.getElementById("retryButton");
+document.getElementById("year").textContent =
+  new Date().getFullYear();
 
-    let checking = false;
+let checking = false;
 
-    function showError(title, message) {
-      statusCard.classList.add("error");
-      statusText.textContent = title;
-      messageText.textContent = message;
-      retryButton.style.display = "block";
-    }
+function showError(title,message){
 
-    async function checkConnection() {
-      if (checking) return;
+  statusCard.classList.add("error");
 
-      checking = true;
+  statusText.textContent = title;
+  messageText.textContent = message;
 
-      statusCard.classList.remove("error");
-      retryButton.style.display = "none";
-      statusText.textContent = "Connecting...";
-      messageText.textContent = "Checking internet and server connection.";
+  retryButton.style.display = "block";
 
-      if (!navigator.onLine) {
-        showError(
-          "No Internet Connection",
-          "Please turn on your mobile data or Wi-Fi and try again."
-        );
-        checking = false;
-        return;
-      }
+}
 
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
+function showLoading(title,message){
 
-      try {
-        const response = await fetch(API_BASE + "/health", {
-          method: "GET",
-          cache: "no-store",
-          signal: controller.signal
-        });
+  statusCard.classList.remove("error");
 
-        clearTimeout(timeout);
+  statusText.textContent = title;
+  messageText.textContent = message;
 
-        if (!response.ok) {
-          throw new Error("Server is not responding.");
-        }
+  retryButton.style.display = "none";
 
-        statusText.textContent = "Connection Successful";
-        messageText.textContent = "Opening RUBALIA NETWORK...";
+}
 
-        setTimeout(() => {
-          window.location.replace("login.html");
-        }, 900);
+async function fetchWithTimeout(url,options={},duration=12000){
 
-      } catch (error) {
-        clearTimeout(timeout);
+  const controller = new AbortController();
 
-        if (!navigator.onLine) {
-          showError(
-            "Internet Disconnected",
-            "Your internet connection is unavailable. Reconnect and try again."
-          );
-        } else {
-          showError(
-            "Server Unavailable",
-            "We could not connect to the RUBALIA server. Please try again."
-          );
-        }
-      } finally {
-        checking = false;
-      }
-    }
+  const timer = setTimeout(
+    () => controller.abort(),
+    duration
+  );
 
-    window.addEventListener("online", checkConnection);
+  try{
 
-    window.addEventListener("offline", () => {
-      showError(
-        "No Internet Connection",
-        "Please reconnect to the internet to use RUBALIA NETWORK."
-      );
+    return await fetch(url,{
+      ...options,
+      cache:"no-store",
+      signal:controller.signal
     });
 
-    checkConnection();
-  </script>
+  }finally{
+
+    clearTimeout(timer);
+
+  }
+
+}
+
+/* CHECK INTERNET AND BACKEND */
+
+async function checkServer(){
+
+  if(!navigator.onLine){
+    throw new Error("NO_INTERNET");
+  }
+
+  const response = await fetchWithTimeout(
+    API_BASE + "/health",
+    {
+      method:"GET",
+      headers:{
+        "Accept":"application/json"
+      }
+    }
+  );
+
+  if(!response.ok){
+    throw new Error("SERVER_UNAVAILABLE");
+  }
+
+  return true;
+
+}
+
+/* VERIFY EXISTING LOGIN SESSION */
+
+async function verifySession(){
+
+  const token = sessionStorage.getItem("rubalia_token");
+
+  if(!token){
+    return null;
+  }
+
+  try{
+
+    const response = await fetchWithTimeout(
+      API_BASE + "/auth/me",
+      {
+        method:"GET",
+        headers:{
+          "Authorization":"Bearer " + token,
+          "Accept":"application/json"
+        }
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if(
+      !response.ok ||
+      !data.success ||
+      !data.user
+    ){
+
+      sessionStorage.removeItem("rubalia_token");
+      sessionStorage.removeItem("rubalia_user");
+
+      return null;
+
+    }
+
+    sessionStorage.setItem(
+      "rubalia_user",
+      JSON.stringify(data.user)
+    );
+
+    return data.user;
+
+  }catch(error){
+
+    if(error.message === "NO_INTERNET"){
+      throw error;
+    }
+
+    if(!navigator.onLine){
+      throw new Error("NO_INTERNET");
+    }
+
+    /*
+      If session verification fails,
+      do not trust the saved user role.
+    */
+
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+
+    return null;
+
+  }
+
+}
+
+/* REDIRECT BY VERIFIED USER ROLE */
+
+function redirectUser(user){
+
+  if(!user){
+
+    window.location.replace("login.html");
+    return;
+
+  }
+
+  const role = String(user.role || "")
+    .trim()
+    .toLowerCase();
+
+  if(role === "admin"){
+
+    window.location.replace("admin-dashboard.html");
+    return;
+
+  }
+
+  window.location.replace("dashboard.html");
+
+}
+
+/* START APPLICATION */
+
+async function startApplication(){
+
+  if(checking) return;
+
+  checking = true;
+
+  showLoading(
+    "CONNECTING...",
+    "Checking internet and server connection."
+  );
+
+  try{
+
+    await checkServer();
+
+    showLoading(
+      "VERIFYING ACCOUNT...",
+      "Checking your RUBALIA account."
+    );
+
+    const user = await verifySession();
+
+    showLoading(
+      "CONNECTION SUCCESSFUL",
+      "Opening RUBALIA NETWORK..."
+    );
+
+    setTimeout(function(){
+
+      redirectUser(user);
+
+    },700);
+
+  }catch(error){
+
+    if(!navigator.onLine || error.message === "NO_INTERNET"){
+
+      showError(
+        "NO INTERNET CONNECTION",
+        "Please turn on mobile data or Wi-Fi to use RUBALIA NETWORK."
+      );
+
+    }else{
+
+      showError(
+        "SERVER UNAVAILABLE",
+        "Unable to connect to RUBALIA server. Please try again."
+      );
+
+    }
+
+  }finally{
+
+    checking = false;
+
+  }
+
+}
+
+/* AUTOMATIC RECONNECT */
+
+window.addEventListener("online",function(){
+
+  startApplication();
+
+});
+
+window.addEventListener("offline",function(){
+
+  showError(
+    "NO INTERNET CONNECTION",
+    "Reconnect to the internet to continue using RUBALIA NETWORK."
+  );
+
+});
+
+/* START */
+
+startApplication();
+
+</script>
+
 </body>
 </html>
