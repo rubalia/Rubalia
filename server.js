@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -51,10 +52,17 @@ const PORT = process.env.PORT || 10000;
 
 app.set("trust proxy", 1);
 
+// Existing website origins
 const allowedOrigins = (process.env.FRONTEND_URL || "")
   .split(",")
   .map(origin => origin.trim())
   .filter(Boolean);
+
+// Capacitor Android/iOS WebView origins
+const capacitorOrigins = [
+  "https://localhost",
+  "capacitor://localhost"
+];
 
 const localOrigins = [
   "http://localhost:3000",
@@ -69,10 +77,13 @@ app.use(cors({
     if (
       !origin ||
       allowedOrigins.includes(origin) ||
+      capacitorOrigins.includes(origin) ||
       localOrigins.includes(origin)
     ) {
       return callback(null, true);
     }
+
+    console.warn("CORS blocked origin:", origin);
 
     return callback(new Error("Origin not allowed by CORS"));
   }
@@ -210,6 +221,7 @@ async function startServer() {
       console.log("Wallet deposit and withdrawal management enabled.");
       console.log("Support ticket system enabled.");
       console.log("Member settings API enabled.");
+      console.log("Capacitor WebView CORS origins enabled.");
     });
 
     let shuttingDown = false;
