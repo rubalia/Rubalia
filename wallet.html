@@ -3,588 +3,140 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#310d35">
 <title>My Wallet | RUBALIA NETWORK</title>
-
 <style>
-:root{
-  --purple:#7138d8;
-  --pink:#e94c9b;
-  --gold:#ffe58a;
-  --bg:#f4f3fa;
-  --text:#26334c;
-  --muted:#8490a5;
-  --border:#e9eaf3;
-  --green:#159b69;
-  --red:#dc4444;
-}
+:root{--purple:#7138d8;--pink:#e94c9b;--gold:#ffe58a;--bg:#f4f3fa;--text:#26334c;--muted:#8490a5;--border:#e9eaf3;--green:#159b69;--red:#dc4444}
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-a{text-decoration:none;color:inherit}
-button,input,select{font:inherit}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{text-decoration:none;color:inherit}button,input,select{font:inherit}
 body.menu-open{overflow:hidden}
-
-/* TOP NAVIGATION */
-.app-header{
-  height:76px;
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 22px;
-  color:white;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 4px 15px rgba(35,10,45,.18);
-  position:relative;
-  z-index:100;
-}
-.header-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
-}
-.menu-toggle{
-  width:48px;
-  height:48px;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:12px;
-  font-size:25px;
-  cursor:pointer;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
-.brand-icon{
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  background:linear-gradient(140deg,#ffe58a,#e6a928);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#512a83;
-  font-size:27px;
-  font-weight:900;
-  flex-shrink:0;
-  box-shadow:0 4px 12px rgba(0,0,0,.15);
-}
-.brand-text{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:1px;
-  white-space:nowrap;
-}
+.app-header{height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 22px;color:white;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);box-shadow:0 4px 15px #230a2d2e;position:relative;z-index:100}
+.header-left{display:flex;align-items:center;gap:13px;min-width:0}
+.menu-toggle{width:48px;height:48px;flex-shrink:0;border:1px solid #ffffff38;background:#ffffff14;color:white;border-radius:12px;font-size:25px;cursor:pointer}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(140deg,#ffe58a,#e6a928);display:flex;justify-content:center;align-items:center;color:#512a83;font-size:27px;font-weight:900;flex-shrink:0}
+.brand-text{font-size:17px;font-weight:900;letter-spacing:1px;white-space:nowrap}
 .brand-text span{color:#ffe58a}
-.brand-text small{
-  display:block;
-  font-size:9px;
-  letter-spacing:3px;
-  color:#f5dca4;
-  margin-top:4px;
-}
-.orders-button{
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:11px;
-  padding:12px 15px;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
-}
-
-/* DRAWER */
-.drawer-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(12,5,24,.58);
-  z-index:200;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
-}
-.drawer-overlay.show{
-  opacity:1;
-  visibility:visible;
-}
-.sidebar{
-  position:fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  width:285px;
-  max-width:85vw;
-  overflow-y:auto;
-  padding:20px 14px 25px;
-  color:white;
-  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
-  z-index:201;
-  transform:translateX(-105%);
-  transition:transform .28s ease;
-  box-shadow:10px 0 35px rgba(0,0,0,.2);
-}
+.brand-text small{display:block;font-size:9px;letter-spacing:3px;color:#f5dca4;margin-top:4px}
+.orders-button{border:1px solid #ffffff4d;background:#ffffff14;color:white;border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;white-space:nowrap}
+.drawer-overlay{position:fixed;inset:0;background:#0c051e94;z-index:200;opacity:0;visibility:hidden;transition:.25s}
+.drawer-overlay.show{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;color:white;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s;box-shadow:10px 0 35px #0003}
 .sidebar.open{transform:translateX(0)}
-.drawer-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:4px 7px 22px;
-}
-.drawer-brand{
-  font-size:22px;
-  font-weight:900;
-  color:#ffe58a;
-  letter-spacing:1px;
-}
-.drawer-brand small{
-  display:block;
-  font-size:10px;
-  letter-spacing:4px;
-  color:white;
-  margin-top:4px;
-}
-.drawer-close{
-  width:36px;
-  height:36px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;
-  color:white;
-  background:rgba(255,255,255,.1);
-  font-size:22px;
-  cursor:pointer;
-}
-.menu-title{
-  color:#c8b5e9;
-  font-size:10px;
-  font-weight:bold;
-  padding:15px 12px 8px;
-  letter-spacing:1.5px;
-}
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:13px 12px;
-  margin:3px 0;
-  border-radius:9px;
-  color:#eee8fa;
-  font-size:13px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  transition:.2s;
-}
-.menu a:hover,.menu a.active{
-  background:linear-gradient(100deg,#e64c9a,#a14de0);
-  color:white;
-}
-.menu-icon{
-  width:23px;
-  text-align:center;
-  font-size:17px;
-}
-
-/* MAIN CONTENT */
-.main{min-width:0}
-.content{
-  padding:24px;
-  max-width:1050px;
-  margin:auto;
-}
-
-/* VISA STYLE WALLET CARD */
-.wallet-card{
-  width:100%;
-  max-width:650px;
-  min-height:215px;
-  margin:0 auto 15px;
-  padding:20px 25px;
-  position:relative;
-  overflow:hidden;
-  border-radius:19px;
-  color:white;
-  background:
-    radial-gradient(circle at 85% 15%,rgba(236,72,180,.8),transparent 38%),
-    radial-gradient(circle at 10% 100%,rgba(67,56,202,.9),transparent 45%),
-    linear-gradient(125deg,#151047,#33208d 55%,#8a2b9f);
-  box-shadow:0 15px 30px rgba(43,24,110,.22);
-}
-.wallet-card:before{
-  content:"";
-  position:absolute;
-  width:280px;
-  height:280px;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:50%;
-  right:-100px;
-  top:-130px;
-}
-.wallet-card:after{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:50%;
-  right:25px;
-  bottom:-180px;
-}
-.card-top,.chip-row,.balance-area,.card-bottom{
-  position:relative;
-  z-index:2;
-}
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-}
-.card-brand{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:#ffe58a;
-}
-.card-brand small{
-  display:block;
-  color:#ddd5ff;
-  font-size:9px;
-  letter-spacing:4px;
-  margin-top:3px;
-}
-.card-type{
-  font-size:10px;
-  color:#e8e2ff;
-  letter-spacing:2px;
-  font-weight:bold;
-}
-.chip-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:13px;
-}
-.chip{
-  width:39px;
-  height:29px;
-  border-radius:6px;
-  background:linear-gradient(135deg,#f8e4a0,#bd934b);
-  border:1px solid rgba(255,255,255,.45);
-  position:relative;
-  overflow:hidden;
-}
-.chip:before,.chip:after{
-  content:"";
-  position:absolute;
-  background:rgba(100,65,25,.35);
-}
-.chip:before{width:100%;height:1px;top:50%}
-.chip:after{width:1px;height:100%;left:50%}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
+.drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:white;margin-top:4px}
+.drawer-close{width:36px;height:36px;border:1px solid #ffffff40;border-radius:9px;color:white;background:#ffffff1a;font-size:22px;cursor:pointer}
+.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
+.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid #ffffff14}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:white}
+.menu-icon{width:23px;text-align:center;font-size:17px}
+.content{padding:24px;max-width:1050px;margin:auto}
+.wallet-card{width:100%;max-width:650px;min-height:215px;margin:0 auto 15px;padding:20px 25px;position:relative;overflow:hidden;border-radius:19px;color:white;background:radial-gradient(circle at 85% 15%,#ec48bccc,transparent 38%),radial-gradient(circle at 10% 100%,#4338cadd,transparent 45%),linear-gradient(125deg,#151047,#33208d 55%,#8a2b9f);box-shadow:0 15px 30px #2b186e38}
+.wallet-card:before{content:"";position:absolute;width:280px;height:280px;border:1px solid #ffffff22;border-radius:50%;right:-100px;top:-130px}
+.wallet-card:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #ffffff1a;border-radius:50%;right:25px;bottom:-180px}
+.card-top,.chip-row,.balance-area,.card-bottom{position:relative;z-index:2}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.card-brand{font-size:17px;font-weight:900;letter-spacing:2px;color:#ffe58a}
+.card-brand small{display:block;color:#ddd5ff;font-size:9px;letter-spacing:4px;margin-top:3px}
+.card-type{font-size:10px;color:#e8e2ff;letter-spacing:2px;font-weight:bold}
+.chip-row{display:flex;align-items:center;gap:10px;margin-top:13px}
+.chip{width:39px;height:29px;border-radius:6px;background:linear-gradient(135deg,#f8e4a0,#bd934b);border:1px solid #ffffff73;position:relative;overflow:hidden}
+.chip:before,.chip:after{content:"";position:absolute;background:#64411959}
+.chip:before{width:100%;height:1px;top:50%}.chip:after{width:1px;height:100%;left:50%}
 .contactless{font-size:21px;color:#e7ddff}
 .balance-area{margin-top:13px}
-.balance-label{
-  font-size:9px;
-  color:#d7cfff;
-  letter-spacing:2px;
-}
-.balance-amount{
-  font-size:31px;
-  font-weight:900;
-  color:#ffe58a;
-  margin-top:5px;
-  overflow-wrap:anywhere;
-}
-.card-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-top:13px;
-  gap:12px;
-}
-.card-holder-label{
-  color:#c7bce9;
-  font-size:8px;
-  letter-spacing:1.5px;
-}
-.card-holder{
-  font-size:11px;
-  font-weight:bold;
-  margin-top:4px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
+.balance-label{font-size:9px;color:#d7cfff;letter-spacing:2px}
+.balance-amount{font-size:31px;font-weight:900;color:#ffe58a;margin-top:5px;overflow-wrap:anywhere}
+.card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:13px;gap:12px}
+.card-holder-label{color:#c7bce9;font-size:8px;letter-spacing:1.5px}
+.card-holder{font-size:11px;font-weight:bold;margin-top:4px;letter-spacing:1px;text-transform:uppercase}
 .wallet-number{font-size:9px;color:#ddd5ff;margin-top:4px}
-.visa-style{
-  font-size:24px;
-  font-weight:900;
-  font-style:italic;
-  letter-spacing:-2px;
-  color:white;
-}
-.card-id{
-  font-size:9px;
-  color:#c9bce9;
-  margin-top:2px;
-  text-align:right;
-}
-
-/* ACTION BUTTONS */
-.wallet-actions{
-  max-width:650px;
-  margin:0 auto 20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-}
-.action-btn{
-  min-height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  padding:8px 5px;
-  border-radius:9px;
-  font-size:11px;
-  font-weight:bold;
-  transition:.2s;
-  border:1px solid transparent;
-}
-.action-btn:hover{transform:translateY(-2px)}
-.deposit-btn{
-  background:linear-gradient(110deg,#ffe58a,#ffbf52);
-  color:#57328c;
-}
-.withdraw-btn{
-  background:white;
-  border-color:#d9c9f3;
-  color:#6534b1;
-}
-.income-btn{
-  background:linear-gradient(110deg,#7439d1,#d847a3);
-  color:white;
-}
-
-/* SUMMARY */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-bottom:20px;
-}
-.stat{
-  background:white;
-  padding:16px;
-  border:1px solid var(--border);
-  border-radius:13px;
-}
+.visa-style{font-size:24px;font-weight:900;font-style:italic;letter-spacing:-2px;color:white}
+.card-id{font-size:9px;color:#c9bce9;margin-top:2px;text-align:right}
+.wallet-actions{max-width:650px;margin:0 auto 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.action-btn{min-height:42px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 5px;border-radius:9px;font-size:11px;font-weight:bold;border:1px solid transparent}
+.deposit-btn{background:linear-gradient(110deg,#ffe58a,#ffbf52);color:#57328c}
+.withdraw-btn{background:white;border-color:#d9c9f3;color:#6534b1}
+.income-btn{background:linear-gradient(110deg,#7439d1,#d847a3);color:white}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{background:white;padding:16px;border:1px solid var(--border);border-radius:13px;min-width:0}
 .stat-label{font-size:11px;color:var(--muted)}
-.stat-value{
-  font-size:20px;
-  font-weight:900;
-  color:#6332b4;
-  margin:9px 0 5px;
-  overflow-wrap:anywhere;
-}
+.stat-value{font-size:20px;font-weight:900;color:#6332b4;margin:9px 0 5px;overflow-wrap:anywhere}
 .stat small{font-size:10px;color:var(--muted)}
-.notice{
-  display:none;
-  border-radius:10px;
-  padding:13px;
-  margin-bottom:15px;
-  font-size:12px;
-  line-height:1.6;
-}
-.notice.error{
-  display:block;
-  background:#fff0f1;
-  color:#a12b36;
-  border:1px solid #f4cbd0;
-}
-.card-section{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 5px 18px rgba(72,49,123,.04);
-}
+.notice{display:none;border-radius:10px;padding:13px;margin-bottom:15px;font-size:12px;line-height:1.6}
+.notice.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+.card-section{background:white;border:1px solid var(--border);border-radius:15px;padding:18px;margin-bottom:18px;box-shadow:0 5px 18px #48317b0a}
 .section-head{margin-bottom:16px}
 .section-head h2{font-size:16px;color:#5728a5}
 .section-head p{font-size:11px;color:var(--muted);margin-top:5px}
-.filters{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-.filters input,.filters select{
-  border:1px solid var(--border);
-  background:white;
-  padding:10px;
-  border-radius:8px;
-  outline:none;
-  color:var(--text);
-  font-size:11px;
-}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.filters input,.filters select{border:1px solid var(--border);background:white;padding:10px;border-radius:8px;outline:none;color:var(--text);font-size:11px}
 .filters input{flex:1;min-width:140px}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:620px}
-th{
-  text-align:left;
-  background:#f6f1ff;
-  color:#7541b8;
-  padding:13px;
-  font-size:10px;
-}
-td{
-  padding:13px;
-  border-bottom:1px solid var(--border);
-  font-size:11px;
-}
+th{text-align:left;background:#f6f1ff;color:#7541b8;padding:13px;font-size:10px}
+td{padding:13px;border-bottom:1px solid var(--border);font-size:11px}
 td strong{color:#5728a5}
-.credit{color:var(--green);font-weight:bold}
-.debit{color:var(--red);font-weight:bold}
-.tx-status{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:20px;
-  font-size:9px;
-  font-weight:bold;
-  text-transform:capitalize;
-}
-.tx-status.completed,.tx-status.approved{
-  background:#e5f8ef;color:#16845b;
-}
-.tx-status.pending{background:#fff3d9;color:#95651b}
-.tx-status.rejected{background:#fceaea;color:#c34b4b}
+.credit{color:var(--green);font-weight:bold}.debit{color:var(--red);font-weight:bold}
+.tx-status{display:inline-block;padding:5px 8px;border-radius:20px;font-size:9px;font-weight:bold;text-transform:capitalize}
+.tx-status.completed,.tx-status.approved,.tx-status.paid{background:#e5f8ef;color:#16845b}
+.tx-status.pending,.tx-status.processing{background:#fff3d9;color:#95651b}
+.tx-status.rejected,.tx-status.failed{background:#fceaea;color:#c34b4b}
 .empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.info-box{
-  padding:13px;
-  border:1px solid #eee1fa;
-  background:linear-gradient(130deg,#f7f2ff,#fff4fa);
-  border-radius:11px;
-}
+.info-box{padding:13px;border:1px solid #eee1fa;background:linear-gradient(130deg,#f7f2ff,#fff4fa);border-radius:11px}
 .info-box strong{font-size:12px;color:#5728a5}
-.info-box p{
-  font-size:10px;
-  color:var(--muted);
-  line-height:1.7;
-  margin-top:6px;
-}
+.info-box p{font-size:10px;color:var(--muted);line-height:1.7;margin-top:6px}
 .footer{text-align:center;color:var(--muted);font-size:10px;padding:18px}
 .footer span{color:#d94698;font-weight:bold}
-
-/* MOBILE */
 @media(max-width:700px){
-  .app-header{height:65px;padding:0 11px;gap:7px}
-  .header-left{gap:9px}
-  .menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
-  .brand{gap:7px}
-  .brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
-  .brand-text{font-size:13px;letter-spacing:.5px}
-  .brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
-  .orders-button{padding:10px 9px;font-size:10px;border-radius:9px}
-  .content{padding:15px 13px}
-  .wallet-card{
-    min-height:195px;
-    padding:17px 19px;
-    border-radius:17px;
-    margin-bottom:12px;
-  }
-  .card-brand{font-size:15px}
-  .card-type{font-size:9px}
-  .chip-row{margin-top:10px}
-  .chip{width:35px;height:26px}
-  .balance-area{margin-top:11px}
-  .balance-label{font-size:8px}
-  .balance-amount{font-size:27px}
-  .card-bottom{margin-top:10px}
-  .card-holder{font-size:10px}
-  .visa-style{font-size:21px}
-  .wallet-actions{gap:6px;margin-bottom:16px}
-  .action-btn{
-    min-height:39px;
-    font-size:10px;
-    padding:7px 3px;
-    border-radius:8px;
-  }
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-bottom:16px;
-  }
-  .stat{padding:12px 10px}
-  .stat-label{font-size:10px}
-  .stat-value{font-size:17px;margin:7px 0 4px}
-  .stat small{font-size:9px}
-  .card-section{padding:13px;margin-bottom:14px}
-  .section-head h2{font-size:14px}
-  .section-head p{font-size:10px}
-  .info-grid{grid-template-columns:1fr 1fr;gap:8px}
-  .info-box{padding:10px}
-  .info-box strong{font-size:10px}
-  .info-box p{font-size:9px}
+.app-header{height:65px;padding:0 11px;gap:7px}.header-left{gap:9px}
+.menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
+.brand{gap:7px}.brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
+.brand-text{font-size:13px;letter-spacing:.5px}.brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
+.orders-button{padding:10px 9px;font-size:10px;border-radius:9px}
+.content{padding:15px 13px}.wallet-card{min-height:195px;padding:17px 19px;border-radius:17px;margin-bottom:12px}
+.card-brand{font-size:15px}.card-type{font-size:9px}.chip-row{margin-top:10px}.chip{width:35px;height:26px}
+.balance-area{margin-top:11px}.balance-label{font-size:8px}.balance-amount{font-size:27px}
+.card-bottom{margin-top:10px}.card-holder{font-size:10px}.visa-style{font-size:21px}
+.wallet-actions{gap:6px;margin-bottom:16px}.action-btn{min-height:39px;font-size:10px;padding:7px 3px;border-radius:8px}
+.stats{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.stat{padding:12px 10px}.stat-label{font-size:10px}.stat-value{font-size:17px;margin:7px 0 4px}.stat small{font-size:9px}
+.card-section{padding:13px;margin-bottom:14px}.section-head h2{font-size:14px}.section-head p{font-size:10px}
+.info-grid{grid-template-columns:1fr 1fr;gap:8px}.info-box{padding:10px}.info-box strong{font-size:10px}.info-box p{font-size:9px}
 }
 @media(max-width:360px){
-  .brand-text{font-size:11px}
-  .brand-icon{width:36px;height:36px}
-  .orders-button{font-size:9px;padding:9px 7px}
-  .wallet-card{padding:15px;min-height:185px}
-  .balance-amount{font-size:24px}
-  .wallet-actions{gap:5px}
-  .action-btn{font-size:9px}
-  .info-grid{grid-template-columns:1fr}
+.brand-text{font-size:11px}.brand-icon{width:36px;height:36px}
+.orders-button{font-size:9px;padding:9px 7px}.wallet-card{padding:15px;min-height:185px}
+.balance-amount{font-size:24px}.wallet-actions{gap:5px}.action-btn{font-size:9px}
+.info-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
-
 <body>
 
-<!-- TOP HEADER -->
 <header class="app-header">
   <div class="header-left">
-    <button class="menu-toggle" id="menuToggle"
-      type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     <div class="brand">
       <div class="brand-icon">R</div>
-      <div class="brand-text">
-        RUBALIA <span>NETWORK</span>
-        <small>GROW WITH TRUST</small>
-      </div>
+      <div class="brand-text">RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
     </div>
   </div>
-
   <a href="orders.html" class="orders-button">📦 My Orders</a>
 </header>
 
-<!-- DRAWER OVERLAY -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
-
-<!-- SIDE MENU -->
 <aside class="sidebar" id="sidebar">
   <div class="drawer-top">
-    <div class="drawer-brand">
-      RUBALIA
-      <small>NETWORK</small>
-    </div>
-    <button class="drawer-close" id="drawerClose"
-      type="button" aria-label="Close menu">×</button>
+    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
   </div>
-
   <div class="menu-title">MAIN MENU</div>
-
   <nav class="menu">
     <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
     <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
@@ -595,9 +147,7 @@ td strong{color:#5728a5}
     <a href="wallet.html" class="active"><span class="menu-icon">◈</span>My Wallet</a>
     <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
   </nav>
-
   <div class="menu-title">ACCOUNT</div>
-
   <nav class="menu">
     <a href="settings.html"><span class="menu-icon">⚙</span>Settings</a>
     <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
@@ -605,41 +155,27 @@ td strong{color:#5728a5}
   </nav>
 </aside>
 
-<!-- WALLET PAGE -->
-<main class="main">
+<main>
 <div class="content">
-
-  <div class="notice" id="notice"></div>
+  <div class="notice" id="notice" role="alert"></div>
 
   <section class="wallet-card">
     <div class="card-top">
-      <div class="card-brand">
-        RUBALIA
-        <small>NETWORK</small>
-      </div>
+      <div class="card-brand">RUBALIA<small>NETWORK</small></div>
       <div class="card-type">MEMBER WALLET</div>
     </div>
-
-    <div class="chip-row">
-      <div class="chip"></div>
-      <div class="contactless">)))</div>
-    </div>
-
+    <div class="chip-row"><div class="chip"></div><div class="contactless">)))</div></div>
     <div class="balance-area">
       <div class="balance-label">TOTAL WALLET BALANCE</div>
       <div class="balance-amount" id="walletBalance">Loading...</div>
     </div>
-
     <div class="card-bottom">
       <div>
         <div class="card-holder-label">WALLET HOLDER</div>
         <div class="card-holder" id="cardHolder">RUBALIA MEMBER</div>
         <div class="wallet-number" id="walletId">Wallet ID: Loading...</div>
       </div>
-      <div>
-        <div class="visa-style">VISA</div>
-        <div class="card-id">WALLET CARD</div>
-      </div>
+      <div><div class="visa-style">VISA</div><div class="card-id">WALLET CARD</div></div>
     </div>
   </section>
 
@@ -655,17 +191,15 @@ td strong{color:#5728a5}
       <div class="stat-value" id="availableBalance">Loading...</div>
       <small>Current spendable balance</small>
     </div>
-
     <div class="stat">
-      <div class="stat-label">Pending Transactions</div>
+      <div class="stat-label">Pending Requests</div>
       <div class="stat-value" id="pendingBalance">Loading...</div>
-      <small>Awaiting review</small>
+      <small>Deposit and withdrawal requests</small>
     </div>
-
     <div class="stat">
       <div class="stat-label">Total Received</div>
       <div class="stat-value" id="totalReceived">Loading...</div>
-      <small>Approved wallet credits</small>
+      <small>Completed wallet credits</small>
     </div>
   </section>
 
@@ -674,17 +208,13 @@ td strong{color:#5728a5}
       <h2>📊 Wallet Transactions</h2>
       <p>Your server-recorded transaction history.</p>
     </div>
-
     <div class="filters">
-      <input type="search" id="searchInput"
-        placeholder="Search transaction...">
-
+      <input type="search" id="searchInput" placeholder="Search transaction..." autocomplete="off">
       <select id="typeFilter">
         <option value="all">All Types</option>
         <option value="credit">Credit</option>
         <option value="debit">Debit</option>
       </select>
-
       <select id="statusFilter">
         <option value="all">All Status</option>
         <option value="pending">Pending</option>
@@ -693,23 +223,11 @@ td strong{color:#5728a5}
         <option value="rejected">Rejected</option>
       </select>
     </div>
-
     <div class="table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>Transaction ID</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Transaction ID</th><th>Description</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
         <tbody id="transactionTable">
-          <tr>
-            <td colspan="6" class="empty">Loading transactions...</td>
-          </tr>
+          <tr><td colspan="6" class="empty">Loading transactions...</td></tr>
         </tbody>
       </table>
     </div>
@@ -720,51 +238,30 @@ td strong{color:#5728a5}
       <h2>💡 Wallet Information</h2>
       <p>Important information about your wallet.</p>
     </div>
-
     <div class="info-grid">
-      <div class="info-box">
-        <strong>💳 Deposits</strong>
-        <p>Deposits are credited only after authorized verification.</p>
-      </div>
-
-      <div class="info-box">
-        <strong>⇧ Withdrawals</strong>
-        <p>Withdrawal requests follow the applicable approval process.</p>
-      </div>
-
-      <div class="info-box">
-        <strong>🔐 Security</strong>
-        <p>Your balance and transaction history are loaded from the server.</p>
-      </div>
-
-      <div class="info-box">
-        <strong>☎ Support</strong>
-        <p>Contact support if you notice an incorrect transaction.</p>
-      </div>
+      <div class="info-box"><strong>💳 Deposits</strong><p>Deposits are credited only after authorized verification.</p></div>
+      <div class="info-box"><strong>⇧ Withdrawals</strong><p>Withdrawal requests follow the applicable approval process.</p></div>
+      <div class="info-box"><strong>🔐 Security</strong><p>Your balance and transaction history are loaded from the server.</p></div>
+      <div class="info-box"><strong>☎ Support</strong><p>Contact support if you notice an incorrect transaction.</p></div>
     </div>
   </section>
-
 </div>
-
-<footer class="footer">
-  © <span id="year"></span>
-  <span>RUBALIA NETWORK</span>. All Rights Reserved.
-</footer>
+<footer class="footer">© <span id="year"></span> <span>RUBALIA NETWORK</span>. All Rights Reserved.</footer>
 </main>
 
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
-let token = "";
-let transactions = [];
+const API_BASE="https://rubalia.onrender.com/api";
+const $=id=>document.getElementById(id);
+let token="";
+let transactions=[];
+let deposits=[];
+let withdrawals=[];
 
-const $ = id => document.getElementById(id);
-
-/* MENU CONTROLS */
-const sidebar = $("sidebar");
-const overlay = $("drawerOverlay");
-const menuToggle = $("menuToggle");
+const sidebar=$("sidebar");
+const overlay=$("drawerOverlay");
+const menuToggle=$("menuToggle");
 
 function openMenu(){
   sidebar.classList.add("open");
@@ -772,307 +269,205 @@ function openMenu(){
   document.body.classList.add("menu-open");
   menuToggle.setAttribute("aria-expanded","true");
 }
-
 function closeMenu(){
   sidebar.classList.remove("open");
   overlay.classList.remove("show");
   document.body.classList.remove("menu-open");
   menuToggle.setAttribute("aria-expanded","false");
 }
-
-menuToggle.addEventListener("click",()=>{
-  if(sidebar.classList.contains("open")){
-    closeMenu();
-  }else{
-    openMenu();
-  }
-});
-
+menuToggle.addEventListener("click",()=>sidebar.classList.contains("open")?closeMenu():openMenu());
 $("drawerClose").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMenu();});
+sidebar.querySelectorAll("a").forEach(a=>{if(a.id!=="logoutLink")a.addEventListener("click",closeMenu);});
 
-document.addEventListener("keydown",event=>{
-  if(event.key === "Escape") closeMenu();
-});
-
-sidebar.querySelectorAll("a").forEach(link=>{
-  if(link.id !== "logoutLink"){
-    link.addEventListener("click",closeMenu);
-  }
-});
-
-/* WALLET API */
-function formatMoney(value){
-  const number = Number(value);
-
-  if(!Number.isFinite(number)) return "৳0.00";
-
-  return "৳" + number.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
+function formatMoney(value,currency="BDT"){
+  const n=Number(value);
+  if(!Number.isFinite(n))return currency==="BDT"?"৳0.00":"0.00 "+currency;
+  if(currency==="BDT")return "৳"+n.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});
+  return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+currency;
 }
-
 function formatDate(value){
-  if(!value) return "—";
-
-  const date = new Date(value);
-
-  if(Number.isNaN(date.getTime())) return "—";
-
-  return date.toLocaleString("en-GB",{
-    day:"2-digit",
-    month:"short",
-    year:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
+  if(!value)return "—";
+  const d=new Date(value);
+  if(Number.isNaN(d.getTime()))return "—";
+  return d.toLocaleString("en-GB",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
 }
-
-function showNotice(message){
-  const notice = $("notice");
-  notice.className = "notice error";
-  notice.textContent = message;
+function showNotice(message,type="error"){
+  const el=$("notice");
+  el.className="notice "+type;
+  el.textContent=message;
 }
-
 async function apiRequest(path){
-  const response = await fetch(API_BASE + path,{
+  const response=await fetch(API_BASE+path,{
     method:"GET",
-    headers:{
-      "Authorization":"Bearer " + token,
-      "Accept":"application/json"
-    },
+    headers:{"Authorization":"Bearer "+token,"Accept":"application/json"},
     cache:"no-store"
   });
-
-  const data = await response.json().catch(()=>({}));
-
-  if(response.status === 401){
+  const data=await response.json().catch(()=>({}));
+  if(response.status===401||response.status===403){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     location.replace("login.html");
     throw new Error("Session expired. Please login again.");
   }
-
-  if(!response.ok || data.success === false){
-    throw new Error(data.message || "Unable to load wallet information.");
+  if(!response.ok||data.success===false){
+    throw new Error(data.message||"Unable to load wallet information.");
   }
-
   return data;
 }
-
 async function verifyUser(){
-  const data = await apiRequest("/auth/me");
-  const user = data.user || data.profile;
-
-  if(!user){
-    throw new Error("Unable to verify your account.");
-  }
-
-  if(String(user.role || "").toLowerCase() === "admin"){
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+  if(!user)throw new Error("Unable to verify your account.");
+  if(String(user.role||"").toLowerCase()==="admin"){
     location.replace("admin-dashboard.html");
-    throw new Error("Opening administrator dashboard.");
+    return false;
   }
-
-  if(user.status && String(user.status).toLowerCase() !== "active"){
+  if(user.status&&String(user.status).toLowerCase()!=="active"){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     location.replace("login.html");
     throw new Error("Your account is not active.");
   }
-
-  const name = user.full_name || user.username || "RUBALIA MEMBER";
-
-  $("cardHolder").textContent = name;
+  $("cardHolder").textContent=user.full_name||user.username||"RUBALIA MEMBER";
+  return true;
 }
-
 function renderWallet(data){
-  const wallet = data.wallet;
-
-  if(!wallet){
-    throw new Error("Wallet information was not returned.");
-  }
-
-  const balance = Number(wallet.balance || 0);
-  const currency = wallet.currency || "BDT";
-
-  const formatted = currency === "BDT"
-    ? formatMoney(balance)
-    : balance.toLocaleString("en-US",{
-        maximumFractionDigits:2
-      }) + " " + currency;
-
-  $("walletBalance").textContent = formatted;
-  $("availableBalance").textContent = formatted;
-  $("walletId").textContent = "Wallet ID: " + wallet.id;
+  const wallet=data.wallet;
+  if(!wallet)throw new Error("Wallet information was not returned.");
+  const currency=wallet.currency||"BDT";
+  const formatted=formatMoney(wallet.balance,currency);
+  $("walletBalance").textContent=formatted;
+  $("availableBalance").textContent=formatted;
+  $("walletId").textContent="Wallet ID: "+wallet.id;
 }
-
 function transactionDirection(item){
-  const type = String(item.transaction_type || "").toLowerCase();
-
-  if(["deposit","refund","adjustment"].includes(type)){
-    return "credit";
-  }
-
-  if(["purchase","withdrawal"].includes(type)){
-    return "debit";
-  }
-
+  const type=String(item.transaction_type||"").toLowerCase();
+  const effect=Number(item.balance_effect);
+  if(effect>0)return "credit";
+  if(effect<0)return "debit";
+  if(["deposit","refund","commission","adjustment"].includes(type))return "credit";
+  if(["purchase","withdrawal"].includes(type))return "debit";
   return "other";
 }
-
 function renderTransactions(){
-  const body = $("transactionTable");
+  const body=$("transactionTable");
   body.replaceChildren();
-
-  const query = $("searchInput").value.trim().toLowerCase();
-  const typeFilter = $("typeFilter").value;
-  const statusFilter = $("statusFilter").value;
-
-  const filtered = transactions.filter(item=>{
-    const direction = transactionDirection(item);
-    const status = String(item.status || "").toLowerCase();
-
-    const searchText = [
-      item.id,
-      item.reference,
-      item.description,
-      item.transaction_type
-    ].join(" ").toLowerCase();
-
-    return (!query || searchText.includes(query)) &&
-      (typeFilter === "all" || direction === typeFilter) &&
-      (statusFilter === "all" || status === statusFilter);
+  const query=$("searchInput").value.trim().toLowerCase();
+  const typeFilter=$("typeFilter").value;
+  const statusFilter=$("statusFilter").value;
+  const filtered=transactions.filter(item=>{
+    const direction=transactionDirection(item);
+    const status=String(item.status||"").toLowerCase();
+    const searchText=[item.id,item.reference,item.description,item.transaction_type].join(" ").toLowerCase();
+    return (!query||searchText.includes(query))&&
+      (typeFilter==="all"||direction===typeFilter)&&
+      (statusFilter==="all"||status===statusFilter);
   });
-
   if(!filtered.length){
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = 6;
-    cell.className = "empty";
-    cell.textContent = "No matching wallet transactions found.";
+    const row=document.createElement("tr");
+    const cell=document.createElement("td");
+    cell.colSpan=6;
+    cell.className="empty";
+    cell.textContent="No matching wallet transactions found.";
     row.appendChild(cell);
     body.appendChild(row);
     return;
   }
-
   filtered.forEach(item=>{
-    const row = document.createElement("tr");
-    const direction = transactionDirection(item);
-
-    const values = [
-      item.reference || ("TX-" + item.id),
-      item.description || item.transaction_type || "Wallet transaction",
-      item.transaction_type || "—",
+    const row=document.createElement("tr");
+    const direction=transactionDirection(item);
+    const values=[
+      item.reference||("TX-"+item.id),
+      item.description||item.transaction_type||"Wallet transaction",
+      item.transaction_type||"—",
       formatMoney(item.amount),
-      item.status || "—",
+      item.status||"—",
       formatDate(item.created_at)
     ];
-
     values.forEach((value,index)=>{
-      const cell = document.createElement("td");
-
-      if(index === 0){
-        const strong = document.createElement("strong");
-        strong.textContent = String(value);
+      const cell=document.createElement("td");
+      if(index===0){
+        const strong=document.createElement("strong");
+        strong.textContent=String(value);
         cell.appendChild(strong);
-      }else if(index === 3){
-        const amount = document.createElement("span");
-        amount.className = direction === "credit" ? "credit" : "debit";
-        amount.textContent =
-          (direction === "credit" ? "+" :
-          direction === "debit" ? "−" : "") + String(value);
+      }else if(index===3){
+        const amount=document.createElement("span");
+        amount.className=direction==="credit"?"credit":direction==="debit"?"debit":"";
+        amount.textContent=(direction==="credit"?"+":direction==="debit"?"−":"")+String(value);
         cell.appendChild(amount);
-      }else if(index === 4){
-        const badge = document.createElement("span");
-        badge.className = "tx-status " + String(value).toLowerCase();
-        badge.textContent = String(value);
+      }else if(index===4){
+        const badge=document.createElement("span");
+        badge.className="tx-status "+String(value).toLowerCase();
+        badge.textContent=String(value);
         cell.appendChild(badge);
       }else{
-        cell.textContent = String(value);
+        cell.textContent=String(value);
       }
-
       row.appendChild(cell);
     });
-
     body.appendChild(row);
   });
 }
-
 function calculateSummary(){
-  const pending = transactions
-    .filter(item=>
-      String(item.status).toLowerCase() === "pending"
-    )
-    .reduce((sum,item)=>sum+Number(item.amount || 0),0);
+  const pendingDeposit=deposits
+    .filter(x=>String(x.status).toLowerCase()==="pending")
+    .reduce((sum,x)=>sum+Number(x.amount||0),0);
+  const pendingWithdrawal=withdrawals
+    .filter(x=>["pending","approved","processing"].includes(String(x.status).toLowerCase()))
+    .reduce((sum,x)=>sum+Number(x.amount||0),0);
+  const pendingCount=deposits.filter(x=>String(x.status).toLowerCase()==="pending").length+
+    withdrawals.filter(x=>["pending","approved","processing"].includes(String(x.status).toLowerCase())).length;
 
-  const received = transactions
-    .filter(item=>
-      ["deposit","refund","adjustment"].includes(
-        String(item.transaction_type).toLowerCase()
-      ) &&
-      ["completed","approved"].includes(
-        String(item.status).toLowerCase()
-      )
-    )
-    .reduce((sum,item)=>sum+Number(item.amount || 0),0);
+  const received=transactions
+    .filter(item=>transactionDirection(item)==="credit"&&String(item.status).toLowerCase()==="completed")
+    .reduce((sum,item)=>sum+Number(item.amount||0),0);
 
-  $("pendingBalance").textContent = formatMoney(pending);
-  $("totalReceived").textContent = formatMoney(received);
+  $("pendingBalance").textContent=pendingCount+" requests";
+  $("pendingBalance").title="Pending deposit amount: "+formatMoney(pendingDeposit)+", reserved withdrawal amount: "+formatMoney(pendingWithdrawal);
+  $("totalReceived").textContent=formatMoney(received);
 }
-
 async function loadWallet(){
-  const results = await Promise.all([
+  const results=await Promise.all([
     apiRequest("/wallet"),
-    apiRequest("/wallet/transactions")
+    apiRequest("/wallet/transactions"),
+    apiRequest("/wallet/deposits"),
+    apiRequest("/wallet/withdrawals")
   ]);
-
   renderWallet(results[0]);
-
-  transactions = Array.isArray(results[1].transactions)
-    ? results[1].transactions
-    : [];
-
+  transactions=Array.isArray(results[1].transactions)?results[1].transactions:[];
+  deposits=Array.isArray(results[2].deposits)?results[2].deposits:[];
+  withdrawals=Array.isArray(results[3].withdrawals)?results[3].withdrawals:[];
   calculateSummary();
   renderTransactions();
 }
-
 async function initialize(){
-  token = sessionStorage.getItem("rubalia_token") || "";
-
-  if(!token){
-    location.replace("login.html");
-    return;
-  }
-
-  $("year").textContent = new Date().getFullYear();
-
+  token=sessionStorage.getItem("rubalia_token")||"";
+  if(!token){location.replace("login.html");return;}
+  $("year").textContent=new Date().getFullYear();
   try{
-    await verifyUser();
+    const valid=await verifyUser();
+    if(!valid)return;
     await loadWallet();
   }catch(error){
-    if(error.message !== "Opening administrator dashboard."){
-      showNotice(error.message);
-    }
+    if(error.message.includes("Session expired")||error.message==="Your account is not active.")return;
+    showNotice(error.message||"Unable to load wallet.");
+    $("transactionTable").innerHTML='<tr><td colspan="6" class="empty">Wallet data could not be loaded.</td></tr>';
   }
 }
-
 $("searchInput").addEventListener("input",renderTransactions);
 $("typeFilter").addEventListener("change",renderTransactions);
 $("statusFilter").addEventListener("change",renderTransactions);
-
-$("logoutLink").addEventListener("click",function(event){
-  event.preventDefault();
-
+$("logoutLink").addEventListener("click",e=>{
+  e.preventDefault();
   if(confirm("Are you sure you want to log out?")){
     sessionStorage.removeItem("rubalia_token");
     sessionStorage.removeItem("rubalia_user");
     location.replace("login.html");
   }
 });
-
 initialize();
 </script>
-
 </body>
 </html>
