@@ -5,9 +5,10 @@
 // RUBALIA NETWORK
 // AUTOMATIC COMMISSION RELEASE WORKER
 //
-// Checks every 30 seconds for delivered orders whose
-// refund period has ended.
+// Checks every 15 seconds for delivered and paid orders
+// whose commission status is pending.
 //
+// Commission release does NOT wait for refund period.
 // Safe for multiple server instances using
 // PostgreSQL FOR UPDATE SKIP LOCKED.
 // =====================================================
@@ -16,7 +17,7 @@ const {
   releaseOrderCommission
 } = require("../services/commission.service");
 
-const CHECK_INTERVAL_MS = 30 * 1000;
+const CHECK_INTERVAL_MS = 15 * 1000;
 const MAX_ORDERS_PER_CYCLE = 25;
 
 let workerTimer = null;
@@ -24,10 +25,10 @@ let workerRunning = false;
 let workerStopping = false;
 
 // =====================================================
-// PROCESS ONE MATURED ORDER
+// PROCESS ONE PENDING ORDER
 // =====================================================
 
-async function processOneMaturedOrder(pool) {
+async function processOnePendingOrder(pool) {
   const client = await pool.connect();
   let transactionStarted = false;
 
@@ -35,8 +36,8 @@ async function processOneMaturedOrder(pool) {
     await client.query("BEGIN");
     transactionStarted = true;
 
-    // Lock one matured order.
-    // Other worker instances will skip this locked row.
+    // Lock one delivered and paid pending order.
+    // Other worker instances skip this locked row.
     const result = await client.query(
       `
       SELECT
@@ -46,9 +47,7 @@ async function processOneMaturedOrder(pool) {
       WHERE status = 'delivered'
         AND payment_status = 'paid'
         AND commission_status = 'pending'
-        AND refund_period_ends_at IS NOT NULL
-        AND refund_period_ends_at <= NOW()
-      ORDER BY refund_period_ends_at ASC, id ASC
+      ORDER BY delivered_at ASC NULLS FIRST, id ASC
       LIMIT 1
       FOR UPDATE SKIP LOCKED
       `
@@ -60,14 +59,14 @@ async function processOneMaturedOrder(pool) {
 
       return {
         processed: false,
-        reason: "no_matured_order"
+        reason: "no_pending_order"
       };
     }
 
     const order = result.rows[0];
 
     // Release commission inside the same transaction.
-    // This function re-checks payment, status and maturity.
+    // The service re-checks payment, delivery and eligibility.
     const releaseResult = await releaseOrderCommission(
       client,
       order.id
@@ -77,7 +76,7 @@ async function processOneMaturedOrder(pool) {
     transactionStarted = false;
 
     console.log(
-      `[Commission Worker] Released order ${order.order_number || order.id}`
+      `[Commission Worker] Processed order ${order.order_number || order.id}`
     );
 
     return {
@@ -135,14 +134,14 @@ async function runCommissionWorkerCycle(pool) {
         break;
       }
 
-      const result = await processOneMaturedOrder(pool);
+      const result = await processOnePendingOrder(pool);
 
       if (!result.processed) {
         if (result.error) {
           failedCount++;
         }
 
-        if (result.reason === "no_matured_order") {
+        if (result.reason === "no_pending_order") {
           break;
         }
 
@@ -159,7 +158,7 @@ async function runCommissionWorkerCycle(pool) {
     if (processedCount > 0 || failedCount > 0) {
       console.log(
         `[Commission Worker] Cycle finished. ` +
-        `Released: ${processedCount}, Failed: ${failedCount}`
+        `Processed: ${processedCount}, Failed: ${failedCount}`
       );
     }
 
@@ -210,7 +209,7 @@ function startCommissionWorker(pool) {
   workerStopping = false;
 
   console.log(
-    "[Commission Worker] Started. Checking every 30 seconds."
+    "[Commission Worker] Started. Checking every 15 seconds."
   );
 
   // Run once immediately after startup.
@@ -265,5 +264,5 @@ module.exports = {
   startCommissionWorker,
   stopCommissionWorker,
   runCommissionWorkerCycle,
-  processOneMaturedOrder
+  processOnePendingOrder
 };
