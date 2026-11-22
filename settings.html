@@ -5,926 +5,224 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#310d35">
 <title>Settings | RUBALIA NETWORK</title>
-
 <style>
-:root{
-  --red:#a71952;
-  --pink:#e72c76;
-  --dark:#21172f;
-  --gold:#e5bd68;
-  --bg:#f7f5f9;
-  --white:#fff;
-  --text:#29243a;
-  --muted:#858196;
-  --border:#eae6ee;
-  --green:#16804b;
-}
+:root{--red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#e5bd68;--bg:#f7f5f9;--text:#29243a;--muted:#858196;--border:#eae6ee;--green:#16804b}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
-button,input,select{font-family:inherit}
+button,input,textarea{font-family:inherit}
 body.menu-open{overflow:hidden}
-
-/* HEADER - SAME AS DASHBOARD */
-
-.app-header{
-  height:76px;
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 22px;
-  color:white;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 4px 15px rgba(35,10,45,.18);
-  position:relative;
-  z-index:100;
-}
-.header-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
-}
-.menu-toggle{
-  width:48px;
-  height:48px;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:12px;
-  font-size:25px;
-  cursor:pointer;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
-.brand-icon{
-  width:48px;
-  height:48px;
-  border-radius:14px;
-  background:linear-gradient(140deg,#ffe58a,#e6a928);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:#512a83;
-  font-size:27px;
-  font-weight:900;
-  flex-shrink:0;
-}
-.brand-text{
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:1px;
-  white-space:nowrap;
-}
+.app-header{height:76px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 22px;color:#fff;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);box-shadow:0 4px 15px rgba(35,10,45,.18);position:relative;z-index:100}
+.header-left{display:flex;align-items:center;gap:13px;min-width:0}
+.menu-toggle{width:48px;height:48px;flex-shrink:0;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;font-size:25px;cursor:pointer}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(140deg,#ffe58a,#e6a928);display:flex;justify-content:center;align-items:center;color:#512a83;font-size:27px;font-weight:900;flex-shrink:0}
+.brand-text{font-size:17px;font-weight:900;letter-spacing:1px;white-space:nowrap}
 .brand-text span{color:#ffe58a}
-.brand-text small{
-  display:block;
-  font-size:9px;
-  letter-spacing:3px;
-  color:#f5dca4;
-  margin-top:4px;
-}
-.header-label{
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:11px;
-  padding:12px 15px;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
-}
-
-/* DRAWER - SAME AS DASHBOARD */
-
-.drawer-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(12,5,24,.58);
-  z-index:200;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
-}
-.drawer-overlay.show{
-  opacity:1;
-  visibility:visible;
-}
-.sidebar{
-  position:fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  width:285px;
-  max-width:85vw;
-  overflow-y:auto;
-  padding:20px 14px 25px;
-  color:white;
-  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
-  z-index:201;
-  transform:translateX(-105%);
-  transition:transform .28s ease;
-  box-shadow:10px 0 35px rgba(0,0,0,.2);
-}
+.brand-text small{display:block;font-size:9px;letter-spacing:3px;color:#f5dca4;margin-top:4px}
+.header-label{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;white-space:nowrap}
+.drawer-overlay{position:fixed;inset:0;background:rgba(12,5,24,.58);z-index:200;opacity:0;visibility:hidden;transition:.25s}
+.drawer-overlay.show{opacity:1;visibility:visible}
+.sidebar{position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;color:#fff;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s ease;box-shadow:10px 0 35px rgba(0,0,0,.2)}
 .sidebar.open{transform:translateX(0)}
-.drawer-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:4px 7px 22px;
-}
-.drawer-brand{
-  font-size:22px;
-  font-weight:900;
-  color:#ffe58a;
-  letter-spacing:1px;
-}
-.drawer-brand small{
-  display:block;
-  font-size:10px;
-  letter-spacing:4px;
-  color:white;
-  margin-top:4px;
-}
-.drawer-close{
-  width:36px;
-  height:36px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;
-  color:white;
-  background:rgba(255,255,255,.1);
-  font-size:22px;
-  cursor:pointer;
-}
-.menu-title{
-  color:#c8b5e9;
-  font-size:10px;
-  font-weight:bold;
-  padding:15px 12px 8px;
-  letter-spacing:1.5px;
-}
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:13px 12px;
-  margin:3px 0;
-  border-radius:9px;
-  color:#eee8fa;
-  font-size:13px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  transition:.2s;
-}
-.menu a:hover,.menu a.active{
-  background:linear-gradient(100deg,#e64c9a,#a14de0);
-  color:white;
-}
-.menu-icon{
-  width:23px;
-  text-align:center;
-  font-size:17px;
-}
-
-/* MAIN CONTENT */
-
-main{
-  max-width:1150px;
-  margin:auto;
-  padding:25px 20px 50px;
-}
-.heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-bottom:22px;
-}
-.heading h1{
-  font-size:25px;
-  color:var(--dark);
-}
-.heading p{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:7px;
-}
-.status-tag{
-  background:#e7f6ef;
-  color:#16865b;
-  padding:8px 13px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
-}
-
-/* NOTICE */
-
-.notice{
-  background:#fff8e8;
-  border:1px solid #f0dca9;
-  border-left:4px solid var(--gold);
-  border-radius:10px;
-  padding:15px;
-  margin-bottom:22px;
-  font-size:12px;
-  line-height:1.7;
-  color:#755719;
-}
-.notice.error{
-  background:#fff1f1;
-  border-color:#f0caca;
-  border-left-color:#c43e3e;
-  color:#9b3030;
-}
-.notice.success{
-  background:#eaf8f0;
-  border-color:#bce7ce;
-  border-left-color:var(--green);
-  color:#176b49;
-}
-
-/* CARDS */
-
-.card{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:22px;
-  margin-bottom:20px;
-  box-shadow:0 5px 18px rgba(31,20,49,.035);
-}
-.card h2{
-  font-size:16px;
-  color:var(--dark);
-}
-.sub{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:6px;
-  margin-bottom:20px;
-  line-height:1.6;
-}
-
-/* FORM */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
+.drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:#fff;margin-top:4px}
+.drawer-close{width:36px;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:9px;color:#fff;background:rgba(255,255,255,.1);font-size:22px;cursor:pointer}
+.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
+.menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid rgba(255,255,255,.08);transition:.2s}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:#fff}
+.menu-icon{width:23px;text-align:center;font-size:17px}
+main{max-width:1150px;margin:auto;padding:25px 20px 50px}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:22px}
+.heading h1{font-size:25px;color:var(--dark);margin:0}
+.heading p{font-size:13px;color:var(--muted);margin-top:7px}
+.status-tag{background:#e7f6ef;color:#16865b;padding:8px 13px;border-radius:20px;font-size:11px;font-weight:bold}
+.notice{background:#fff8e8;border:1px solid #f0dca9;border-left:4px solid var(--gold);border-radius:10px;padding:15px;margin-bottom:22px;font-size:12px;line-height:1.7;color:#755719}
+.notice.error{background:#fff1f1;border-color:#f0caca;border-left-color:#c43e3e;color:#9b3030}
+.notice.success{background:#eaf8f0;border-color:#bce7ce;border-left-color:var(--green);color:#176b49}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:20px;box-shadow:0 5px 18px rgba(31,20,49,.035)}
+.card h2{font-size:16px;color:var(--dark);margin:0}
+.sub{font-size:11px;color:var(--muted);margin-top:6px;margin-bottom:20px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-group{margin-bottom:15px}
-.form-group label{
-  display:block;
-  font-size:12px;
-  font-weight:bold;
-  color:#44546a;
-  margin-bottom:8px;
-}
-.form-group input,.form-group select{
-  width:100%;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:8px;
-  background:white;
-  outline:none;
-  font-size:13px;
-  color:var(--text);
-}
-.form-group input:focus,.form-group select:focus{
-  border-color:var(--pink);
-}
-.form-group input[readonly],
-.form-group input:disabled,
-.form-group select:disabled{
-  background:#f5f7fa;
-  color:#718096;
-  cursor:not-allowed;
-}
-.help{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:6px;
-  line-height:1.5;
-}
-.btn{
-  border:0;
-  background:linear-gradient(110deg,#e72c76,#9b164f);
-  color:white;
-  padding:12px 18px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.btn:disabled{
-  background:#aeb8c6;
-  cursor:not-allowed;
-}
-
-/* PREFERENCES */
-
-.preference{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  padding:15px 0;
-  border-bottom:1px solid var(--border);
-}
-.preference:last-child{border-bottom:0}
-.preference strong{
-  display:block;
-  font-size:13px;
-  color:var(--dark);
-}
-.preference p{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:5px;
-  line-height:1.5;
-}
-.switch{
-  width:43px;
-  height:24px;
-  position:relative;
-  flex-shrink:0;
-  opacity:.5;
-}
+.form-group label{display:block;font-size:12px;font-weight:bold;color:#44546a;margin-bottom:8px}
+.form-group input,.form-group textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:#fff;outline:none;font-size:13px;color:var(--text)}
+.form-group textarea{min-height:85px;resize:vertical}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--pink)}
+.form-group input[readonly]{background:#f5f7fa;color:#718096;cursor:not-allowed}
+.help{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+.btn{border:0;background:linear-gradient(110deg,#e72c76,#9b164f);color:#fff;padding:12px 18px;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer}
+.btn:disabled{background:#aeb8c6;cursor:not-allowed}
+.btn-secondary{background:#f3edf4;color:#54224f;border:1px solid #e6dce8}
+.preference{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid var(--border)}
+.preference:last-of-type{border-bottom:0}
+.preference strong{display:block;font-size:13px;color:var(--dark)}
+.preference p{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.switch{width:43px;height:24px;position:relative;flex-shrink:0}
 .switch input{opacity:0;width:0;height:0}
-.slider{
-  position:absolute;
-  inset:0;
-  background:#cbd5e1;
-  border-radius:30px;
-  cursor:not-allowed;
-}
-.slider:before{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  left:3px;
-  top:3px;
-  background:white;
-  border-radius:50%;
-}
-
-/* SECURITY */
-
-.security-box{
-  padding:15px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  margin-bottom:12px;
-}
-.security-box strong{
-  font-size:13px;
-  color:var(--dark);
-}
-.security-box p{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:6px;
-  line-height:1.6;
-}
-
-/* DANGER */
-
-.danger{
-  border:1px solid #f0caca;
-  background:#fffafa;
-  border-radius:10px;
-  padding:17px;
-}
-.danger h3{
-  font-size:14px;
-  color:#b83232;
-}
-.danger p{
-  font-size:11px;
-  color:#806060;
-  margin:8px 0 14px;
-  line-height:1.6;
-}
-.danger button{
-  background:#fff;
-  border:1px solid #d64b4b;
-  color:#c43e3e;
-  padding:10px 14px;
-  border-radius:7px;
-  font-size:11px;
-  font-weight:bold;
-  cursor:not-allowed;
-  opacity:.6;
-}
-
-/* ACCOUNT DETAILS */
-
-.info-line{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:11px 0;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
+.slider{position:absolute;inset:0;background:#cbd5e1;border-radius:30px;cursor:pointer;transition:.2s}
+.slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:#d93683}
+.switch input:checked+.slider:before{transform:translateX(19px)}
+.security-box{padding:15px;border:1px solid var(--border);border-radius:9px;margin-bottom:12px}
+.security-box strong{font-size:13px;color:var(--dark)}
+.security-box p{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6}
+.danger{border:1px solid #f0caca;background:#fffafa;border-radius:10px;padding:17px}
+.danger h3{font-size:14px;color:#b83232;margin:0}
+.danger p{font-size:11px;color:#806060;margin:8px 0 14px;line-height:1.6}
+.danger button{background:#fff;border:1px solid #d64b4b;color:#c43e3e;padding:10px 14px;border-radius:7px;font-size:11px;font-weight:bold;cursor:pointer}
+.info-line{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid var(--border);font-size:12px}
 .info-line:last-child{border-bottom:0}
 .info-line span:first-child{color:var(--muted)}
-.info-line strong{
-  color:var(--dark);
-  text-align:right;
-  overflow-wrap:anywhere;
-}
-
-/* FOOTER */
-
-footer{
-  padding:25px 15px;
-  background:linear-gradient(110deg,#17152f,#74133e);
-  color:#d9cbd9;
-  text-align:center;
-  font-size:10px;
-}
+.info-line strong{color:var(--dark);text-align:right;overflow-wrap:anywhere}
+.inline-message{font-size:11px;margin-top:12px;line-height:1.5}
+.inline-message.error{color:#b83232}
+.inline-message.success{color:#16804b}
+.language-fixed{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px;border:1px solid var(--border);border-radius:8px;background:#f8f6fa;font-size:13px}
+.language-fixed strong{color:var(--dark)}
+footer{padding:25px 15px;background:linear-gradient(110deg,#17152f,#74133e);color:#d9cbd9;text-align:center;font-size:10px}
 footer strong{color:#f4d58c}
-
-/* MOBILE */
-
 @media(max-width:700px){
-  .app-header{
-    height:65px;
-    padding:0 11px;
-    gap:7px;
-  }
-  .header-left{gap:9px}
-  .menu-toggle{
-    width:41px;
-    height:41px;
-    font-size:22px;
-    border-radius:10px;
-  }
-  .brand{gap:7px}
-  .brand-icon{
-    width:40px;
-    height:40px;
-    font-size:23px;
-    border-radius:12px;
-  }
-  .brand-text{
-    font-size:13px;
-    letter-spacing:.5px;
-  }
-  .brand-text small{
-    font-size:7px;
-    letter-spacing:2.5px;
-    margin-top:3px;
-  }
-  .header-label{
-    padding:10px 9px;
-    font-size:10px;
-    border-radius:9px;
-  }
-  main{padding:18px 13px 35px}
-  .heading h1{font-size:21px}
-  .card{padding:16px}
-  .form-grid{
-    grid-template-columns:1fr;
-    gap:0;
-  }
-  .info-line{font-size:11px}
+.app-header{height:65px;padding:0 11px;gap:7px}
+.header-left{gap:9px}
+.menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
+.brand{gap:7px}
+.brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
+.brand-text{font-size:13px;letter-spacing:.5px}
+.brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
+.header-label{padding:10px 9px;font-size:10px;border-radius:9px}
+main{padding:18px 13px 35px}
+.heading h1{font-size:21px}
+.card{padding:16px}
+.form-grid{grid-template-columns:1fr;gap:0}
+.info-line{font-size:11px}
 }
-@media(max-width:360px){
-  .brand-text{font-size:11px}
-  .brand-icon{
-    width:36px;
-    height:36px;
-  }
-  .header-label{
-    font-size:9px;
-    padding:9px 7px;
-  }
-}
+@media(max-width:360px){.brand-text{font-size:11px}.brand-icon{width:36px;height:36px}.header-label{font-size:9px;padding:9px 7px}}
 </style>
 </head>
-
 <body>
-
-<!-- HEADER -->
-
 <header class="app-header">
   <div class="header-left">
-
-    <button class="menu-toggle"
-      id="menuToggle"
-      type="button"
-      aria-label="Open menu"
-      aria-expanded="false">☰</button>
-
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     <a href="dashboard.html" class="brand">
       <div class="brand-icon">R</div>
-      <div class="brand-text">
-        RUBALIA <span>NETWORK</span>
-        <small>GROW WITH TRUST</small>
-      </div>
+      <div class="brand-text">RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
     </a>
-
   </div>
-
   <div class="header-label">⚙ Settings</div>
 </header>
 
-<!-- DRAWER OVERLAY -->
-
 <div class="drawer-overlay" id="drawerOverlay"></div>
-
-<!-- SIDEBAR -->
-
 <aside class="sidebar" id="sidebar">
-
   <div class="drawer-top">
-    <div class="drawer-brand">
-      RUBALIA
-      <small>NETWORK</small>
-    </div>
-
-    <button class="drawer-close"
-      id="drawerClose"
-      type="button"
-      aria-label="Close menu">×</button>
+    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
   </div>
-
   <div class="menu-title">MAIN MENU</div>
-
   <nav class="menu">
-
-    <a href="dashboard.html">
-      <span class="menu-icon">⌂</span>Dashboard
-    </a>
-
-    <a href="profile.html">
-      <span class="menu-icon">♙</span>My Profile
-    </a>
-
-    <a href="dashboard.html">
-      <span class="menu-icon">▣</span>Packages
-    </a>
-
-    <a href="orders.html">
-      <span class="menu-icon">▤</span>My Orders
-    </a>
-
-    <a href="team.html">
-      <span class="menu-icon">♧</span>My Team
-    </a>
-
-    <a href="income.html">
-      <span class="menu-icon">৳</span>Income Details
-    </a>
-
-    <a href="wallet.html">
-      <span class="menu-icon">◈</span>My Wallet
-    </a>
-
-    <a href="withdraw.html">
-      <span class="menu-icon">⇧</span>Withdraw
-    </a>
-
+    <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
+    <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
+    <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
+    <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
+    <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
+    <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
+    <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
+    <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
   </nav>
-
   <div class="menu-title">ACCOUNT</div>
-
   <nav class="menu">
-
-    <a href="settings.html" class="active">
-      <span class="menu-icon">⚙</span>Settings
-    </a>
-
-    <a href="contact.html">
-      <span class="menu-icon">✉</span>Contact Support
-    </a>
-
-    <a href="#" id="logoutLink">
-      <span class="menu-icon">↪</span>Logout
-    </a>
-
+    <a href="settings.html" class="active"><span class="menu-icon">⚙</span>Settings</a>
+    <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
+    <a href="#" id="logoutLink"><span class="menu-icon">↪</span>Logout</a>
   </nav>
-
 </aside>
 
-<!-- MAIN -->
-
 <main>
-
   <div class="heading">
-    <div>
-      <h1>Account Settings</h1>
-      <p>Manage your account preferences and security.</p>
-    </div>
-
-    <span class="status-tag" id="connectionTag">
-      CONNECTING...
-    </span>
+    <div><h1>Account Settings</h1><p>Manage your account preferences and security.</p></div>
+    <span class="status-tag" id="connectionTag">CONNECTING...</span>
   </div>
 
-  <div id="pageMessage" class="notice" role="status" aria-live="polite">
-    Loading your account information...
-  </div>
-
-  <!-- ACCOUNT INFORMATION -->
+  <div id="pageMessage" class="notice" role="status" aria-live="polite">Loading your account information...</div>
 
   <section class="card">
-
     <h2>Account Information</h2>
-
-    <p class="sub">
-      These details are retrieved from your Rubalia account.
-    </p>
-
+    <p class="sub">These details are retrieved from your Rubalia account.</p>
     <div class="form-grid">
-
-      <div class="form-group">
-        <label>Member ID</label>
-        <input type="text" id="memberId" value="Loading..." readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Account Role</label>
-        <input type="text" id="accountRole" value="Loading..." readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="fullName" value="Loading..." readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Registered Email</label>
-        <input type="email" id="registeredEmail" value="Loading..." readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Account Status</label>
-        <input type="text" id="accountStatus" value="Loading..." readonly>
-      </div>
-
-      <div class="form-group">
-        <label>Registered Mobile</label>
-        <input type="text" value="Not provided by current API" readonly>
-        <p class="help">
-          Mobile number is not currently returned by the account API.
-        </p>
-      </div>
-
+      <div class="form-group"><label>Member ID</label><input id="memberId" value="Loading..." readonly></div>
+      <div class="form-group"><label>Account Role</label><input id="accountRole" value="Loading..." readonly></div>
+      <div class="form-group"><label>Full Name</label><input id="fullName" value="Loading..." readonly></div>
+      <div class="form-group"><label>Registered Email</label><input id="registeredEmail" type="email" value="Loading..." readonly></div>
+      <div class="form-group"><label>Account Status</label><input id="accountStatus" value="Loading..." readonly></div>
+      <div class="form-group"><label>Registered Mobile</label><input value="Not provided by current API" readonly><p class="help">Mobile number is not currently returned by the account API.</p></div>
     </div>
-
-    <div class="info-line">
-      <span>Account Created</span>
-      <strong id="createdAt">Not available</strong>
-    </div>
-
+    <div class="info-line"><span>Account Created</span><strong id="createdAt">Not available</strong></div>
   </section>
 
-  <!-- PASSWORD -->
-
   <section class="card">
-
     <h2>Change Password</h2>
-
-    <p class="sub">
-      Password changes are not available through the current backend.
-    </p>
-
-    <div class="notice">
-      <strong>Not Connected</strong><br>
-      The current authentication API does not provide a password-change
-      endpoint. This feature is disabled until a secure backend endpoint
-      is implemented.
-    </div>
-
-    <div class="form-grid">
-
-      <div class="form-group">
-        <label>Current Password</label>
-        <input type="password" placeholder="Not available" disabled>
+    <p class="sub">Verify your current password before setting a new password.</p>
+    <form id="passwordForm">
+      <div class="form-grid">
+        <div class="form-group"><label for="currentPassword">Current Password</label><input id="currentPassword" type="password" autocomplete="current-password" required maxlength="72"></div>
+        <div class="form-group"><label for="newPassword">New Password</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required><p class="help">Use at least 8 characters.</p></div>
+        <div class="form-group"><label for="confirmPassword">Confirm New Password</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></div>
       </div>
-
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" placeholder="Not available" disabled>
-      </div>
-
-      <div class="form-group">
-        <label>Confirm New Password</label>
-        <input type="password" placeholder="Not available" disabled>
-      </div>
-
-    </div>
-
-    <button class="btn" type="button" disabled>
-      Update Password
-    </button>
-
+      <button class="btn" id="passwordButton" type="submit">Update Password</button>
+      <p id="passwordMessage" class="inline-message" aria-live="polite"></p>
+    </form>
   </section>
 
-  <!-- NOTIFICATION PREFERENCES -->
-
   <section class="card">
-
     <h2>Notification Preferences</h2>
-
-    <p class="sub">
-      Notification preferences cannot currently be saved separately
-      for each member.
-    </p>
-
-    <div class="preference">
-      <div>
-        <strong>Order Notifications</strong>
-        <p>Updates about product orders and delivery.</p>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" disabled>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="preference">
-      <div>
-        <strong>Team Notifications</strong>
-        <p>Updates about your team and member activity.</p>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" disabled>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="preference">
-      <div>
-        <strong>Promotional Notifications</strong>
-        <p>Product announcements and company offers.</p>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" disabled>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="preference">
-      <div>
-        <strong>Email Notifications</strong>
-        <p>Receive account updates through email.</p>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" disabled>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <p class="help">
-      These controls are disabled because no member notification-preference
-      API is currently available. Existing account notifications are not
-      changed by this page.
-    </p>
-
+    <p class="sub">Choose which types of account notifications you want to receive.</p>
+    <div class="preference"><div><strong>Order Notifications</strong><p>Updates about product orders and delivery.</p></div><label class="switch"><input type="checkbox" id="orderNotifications" checked><span class="slider"></span></label></div>
+    <div class="preference"><div><strong>Team Notifications</strong><p>Updates about your team and member activity.</p></div><label class="switch"><input type="checkbox" id="teamNotifications" checked><span class="slider"></span></label></div>
+    <div class="preference"><div><strong>Promotional Notifications</strong><p>Product announcements and company offers.</p></div><label class="switch"><input type="checkbox" id="promotionalNotifications" checked><span class="slider"></span></label></div>
+    <div class="preference"><div><strong>Email Notifications</strong><p>Email notification preference for account updates.</p></div><label class="switch"><input type="checkbox" id="emailNotifications" checked><span class="slider"></span></label></div>
+    <button class="btn" id="savePreferences" type="button" style="margin-top:18px">Save Preferences</button>
+    <p id="preferencesMessage" class="inline-message" aria-live="polite"></p>
+    <p class="help">These settings store your preferences. They do not independently send or suppress email until the relevant notification delivery services use these preferences.</p>
   </section>
 
-  <!-- LANGUAGE -->
-
   <section class="card">
-
-    <h2>Language & Preferences</h2>
-
-    <p class="sub">
-      Website language selection will be enabled after server-side
-      preference support is added.
-    </p>
-
-    <div class="form-group">
-      <label for="language">Website Language</label>
-
-      <select id="language" disabled>
-        <option value="en" selected>English</option>
-        <option value="bn">বাংলা (Bangla)</option>
-      </select>
-
-      <p class="help">
-        Current interface language: English.
-      </p>
-    </div>
-
+    <h2>Language</h2>
+    <p class="sub">RUBALIA NETWORK currently supports English only.</p>
+    <div class="language-fixed"><span>Website Language</span><strong>English</strong></div>
   </section>
 
-  <!-- PRIVACY AND SECURITY -->
-
   <section class="card">
-
     <h2>Privacy & Security</h2>
-
-    <p class="sub">
-      Important account security information.
-    </p>
-
-    <div class="security-box">
-      <strong>Password Security</strong>
-      <p>
-        Use a strong, unique password. Never share your password,
-        OTP or authentication token with anyone.
-      </p>
-    </div>
-
-    <div class="security-box">
-      <strong>Account Verification</strong>
-      <p>
-        Your account status is retrieved from the backend.
-        Additional identity verification controls are not available
-        on this page.
-      </p>
-    </div>
-
-    <div class="security-box">
-      <strong>Login Sessions</strong>
-      <p>
-        This application currently uses a client-held authentication
-        token. Device/session management and remote logout controls
-        are not available through the current API.
-      </p>
-    </div>
-
-    <div class="security-box">
-      <strong>Account Data</strong>
-      <p>
-        Account information displayed above is requested from the
-        Rubalia backend. This page does not modify your account data.
-      </p>
-    </div>
-
+    <p class="sub">Important account security information.</p>
+    <div class="security-box"><strong>Password Security</strong><p>Use a strong, unique password. Never share your password, OTP or authentication token with anyone.</p></div>
+    <div class="security-box"><strong>Account Verification</strong><p>Your account status is retrieved from the backend. Additional identity verification controls are not available on this page.</p></div>
+    <div class="security-box"><strong>Login Sessions</strong><p>This version uses stateless JWT authentication. A list of active devices and remote session revocation are not available yet. Changing your password does not automatically revoke previously issued JWTs.</p></div>
+    <div class="security-box"><strong>Account Data</strong><p>Account information and preferences are requested from the Rubalia backend.</p></div>
   </section>
-
-  <!-- ACCOUNT MANAGEMENT -->
 
   <section class="card">
-
     <h2>Account Management</h2>
-
-    <p class="sub">Account-related options.</p>
-
+    <p class="sub">Submit an account deactivation request for administrator review.</p>
     <div class="danger">
-
-      <h3>Account Deactivation</h3>
-
-      <p>
-        Account deactivation is not currently available through the
-        backend. A future account closure process must include identity
-        verification, outstanding order handling, financial settlement
-        and applicable legal requirements.
-      </p>
-
-      <button type="button" disabled>
-        Request Account Deactivation
-      </button>
-
-      <p class="help">
-        This option will be activated only after a secure account
-        deactivation workflow is implemented.
-      </p>
-
+      <h3>Account Deactivation Request</h3>
+      <p>Submitting a request does not immediately deactivate or delete your account. An administrator must review it. Outstanding orders, wallet balances, commissions and other obligations may need to be settled first.</p>
+      <div class="form-group"><label for="deactivationReason">Reason (optional)</label><textarea id="deactivationReason" maxlength="1000" placeholder="Tell us why you want to deactivate your account..."></textarea></div>
+      <button id="deactivationButton" type="button">Submit Deactivation Request</button>
+      <p id="deactivationMessage" class="inline-message" aria-live="polite"></p>
+      <p class="help" id="deactivationStatus"></p>
     </div>
-
   </section>
-
 </main>
 
-<footer>
-  © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
-</footer>
+<footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
 <script>
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
-
 const token = sessionStorage.getItem("rubalia_token");
-
 const $ = id => document.getElementById(id);
-
-/* DRAWER NAVIGATION - SAME AS DASHBOARD */
 
 const sidebar = $("sidebar");
 const overlay = $("drawerOverlay");
@@ -934,207 +232,202 @@ function openMenu(){
   sidebar.classList.add("open");
   overlay.classList.add("show");
   document.body.classList.add("menu-open");
-
   menuToggle.setAttribute("aria-expanded","true");
 }
-
 function closeMenu(){
   sidebar.classList.remove("open");
   overlay.classList.remove("show");
   document.body.classList.remove("menu-open");
-
   menuToggle.setAttribute("aria-expanded","false");
 }
-
-menuToggle.addEventListener("click",function(){
-  if(sidebar.classList.contains("open")){
-    closeMenu();
-  }else{
-    openMenu();
-  }
-});
-
+menuToggle.addEventListener("click",()=>sidebar.classList.contains("open")?closeMenu():openMenu());
 $("drawerClose").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
-
-document.addEventListener("keydown",function(event){
-  if(event.key==="Escape"){
-    closeMenu();
-  }
-});
-
-sidebar.querySelectorAll("a").forEach(function(link){
-  if(link.id!=="logoutLink"){
-    link.addEventListener("click",closeMenu);
-  }
-});
-
-/* MESSAGE */
+document.addEventListener("keydown",event=>{if(event.key==="Escape")closeMenu();});
+sidebar.querySelectorAll("a").forEach(link=>{if(link.id!=="logoutLink")link.addEventListener("click",closeMenu);});
 
 function showMessage(message,type="notice"){
-  const element = $("pageMessage");
-
-  element.className = "notice";
-
-  if(type==="error"){
-    element.classList.add("error");
-  }
-
-  if(type==="success"){
-    element.classList.add("success");
-  }
-
-  element.textContent = message;
+  const element=$("pageMessage");
+  element.className="notice";
+  if(type==="error")element.classList.add("error");
+  if(type==="success")element.classList.add("success");
+  element.textContent=message;
 }
-
-/* TEXT HELPER */
-
+function inlineMessage(id,message,type){
+  const element=$(id);
+  element.textContent=message||"";
+  element.className="inline-message"+(type?" "+type:"");
+}
 function setText(id,value,fallback="Not available"){
-  const element = $(id);
-
-  if(!element) return;
-
-  if(value===null || value===undefined || value===""){
-    element.value = fallback;
-    return;
-  }
-
-  element.value = String(value);
+  const element=$(id);
+  if(!element)return;
+  element.value=value===null||value===undefined||value===""?fallback:String(value);
 }
-
-/* DATE */
-
 function formatDate(value){
-  if(!value) return "Not available";
-
-  const date = new Date(value);
-
-  if(Number.isNaN(date.getTime())){
-    return "Not available";
-  }
-
-  return date.toLocaleString("en-BD",{
-    year:"numeric",
-    month:"long",
-    day:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
+  if(!value)return "Not available";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return "Not available";
+  return date.toLocaleString("en-BD",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});
 }
-
-/* LOGOUT */
-
 function clearSessionAndRedirect(){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
-
   window.location.replace("login.html");
 }
+async function apiRequest(path,options={}){
+  const response=await fetch(`${API_BASE}${path}`,{
+    ...options,
+    headers:{
+      "Authorization":`Bearer ${token}`,
+      "Accept":"application/json",
+      ...(options.body?{"Content-Type":"application/json"}:{}),
+      ...(options.headers||{})
+    },
+    cache:"no-store"
+  });
+  let data={};
+  try{data=await response.json();}catch(error){throw new Error("The server returned an invalid response.");}
+  if(response.status===401){clearSessionAndRedirect();throw new Error("Your session has expired. Please log in again.");}
+  if(!response.ok||data.success===false)throw new Error(data.message||"The request could not be completed.");
+  return data;
+}
 
-$("logoutLink").addEventListener("click",function(event){
+$("logoutLink").addEventListener("click",event=>{
   event.preventDefault();
-
-  if(confirm("Are you sure you want to log out?")){
-    clearSessionAndRedirect();
-  }
+  if(confirm("Are you sure you want to log out?"))clearSessionAndRedirect();
 });
 
-/* LOAD ACCOUNT */
-
 async function loadAccountInformation(){
-
-  if(!token){
-    window.location.replace("login.html");
-    return;
-  }
-
+  if(!token){window.location.replace("login.html");return;}
   try{
-
-    const response = await fetch(`${API_BASE}/auth/me`,{
-      method:"GET",
-      headers:{
-        "Authorization":`Bearer ${token}`,
-        "Accept":"application/json"
-      },
-      cache:"no-store"
-    });
-
-    let data = {};
-
-    try{
-      data = await response.json();
-    }catch(error){
-      throw new Error("The server returned an invalid response.");
-    }
-
-    if(response.status===401 || response.status===403){
-      clearSessionAndRedirect();
-      return;
-    }
-
-    if(!response.ok || !data.success || !data.user){
-      throw new Error(
-        data.message || "Unable to load account information."
-      );
-    }
-
-    const user = data.user;
-
+    const data=await apiRequest("/auth/me");
+    if(!data.user)throw new Error("Unable to load account information.");
+    const user=data.user;
     setText("memberId",user.memberId);
     setText("accountRole",user.role);
     setText("fullName",user.full_name);
     setText("registeredEmail",user.email);
     setText("accountStatus",user.status);
-
-    $("createdAt").textContent =
-      formatDate(user.created_at);
-
-    const tag = $("connectionTag");
-
-    tag.textContent = "ACCOUNT CONNECTED";
-    tag.style.background = "#e7f6ef";
-    tag.style.color = "#16865b";
-
-    showMessage(
-      "Your account information was successfully loaded from the Rubalia server.",
-      "success"
-    );
-
-    sessionStorage.setItem(
-      "rubalia_user",
-      JSON.stringify({
-        id:user.id,
-        memberId:user.memberId,
-        full_name:user.full_name,
-        email:user.email,
-        role:user.role,
-        status:user.status
-      })
-    );
-
+    $("createdAt").textContent=formatDate(user.created_at);
+    $("connectionTag").textContent="ACCOUNT CONNECTED";
+    $("connectionTag").style.background="#e7f6ef";
+    $("connectionTag").style.color="#16865b";
+    sessionStorage.setItem("rubalia_user",JSON.stringify({
+      id:user.id,memberId:user.memberId,full_name:user.full_name,
+      email:user.email,role:user.role,status:user.status
+    }));
+    showMessage("Your account information was successfully loaded from the Rubalia server.","success");
   }catch(error){
-
     console.error("Settings account loading error:",error);
-
-    const tag = $("connectionTag");
-
-    tag.textContent = "CONNECTION ERROR";
-    tag.style.background = "#fff1f1";
-    tag.style.color = "#b83232";
-
-    showMessage(
-      error.message ||
-      "Could not connect to the Rubalia server. Please try again.",
-      "error"
-    );
+    $("connectionTag").textContent="CONNECTION ERROR";
+    $("connectionTag").style.background="#fff1f1";
+    $("connectionTag").style.color="#b83232";
+    showMessage(error.message||"Could not connect to the Rubalia server.","error");
   }
 }
 
-/* START */
+async function loadPreferences(){
+  try{
+    const data=await apiRequest("/settings");
+    const s=data.settings||{};
+    $("orderNotifications").checked=s.order_notifications!==false;
+    $("teamNotifications").checked=s.team_notifications!==false;
+    $("promotionalNotifications").checked=s.promotional_notifications!==false;
+    $("emailNotifications").checked=s.email_notifications!==false;
+  }catch(error){
+    inlineMessage("preferencesMessage",error.message,"error");
+  }
+}
 
-loadAccountInformation();
+$("passwordForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+  const currentPassword=$("currentPassword").value;
+  const newPassword=$("newPassword").value;
+  const confirmPassword=$("confirmPassword").value;
+  if(newPassword.length<8){inlineMessage("passwordMessage","New password must be at least 8 characters.","error");return;}
+  if(newPassword!==confirmPassword){inlineMessage("passwordMessage","New password and confirmation do not match.","error");return;}
+  const button=$("passwordButton");
+  button.disabled=true;button.textContent="Updating...";
+  inlineMessage("passwordMessage","");
+  try{
+    const data=await apiRequest("/settings/change-password",{
+      method:"POST",
+      body:JSON.stringify({currentPassword,newPassword,confirmPassword})
+    });
+    inlineMessage("passwordMessage",data.message||"Password changed successfully.","success");
+    $("passwordForm").reset();
+  }catch(error){
+    inlineMessage("passwordMessage",error.message,"error");
+  }finally{
+    button.disabled=false;button.textContent="Update Password";
+  }
+});
 
+$("savePreferences").addEventListener("click",async()=>{
+  const button=$("savePreferences");
+  button.disabled=true;button.textContent="Saving...";
+  inlineMessage("preferencesMessage","");
+  const settings={
+    orderNotifications:$("orderNotifications").checked,
+    teamNotifications:$("teamNotifications").checked,
+    promotionalNotifications:$("promotionalNotifications").checked,
+    emailNotifications:$("emailNotifications").checked
+  };
+  try{
+    const data=await apiRequest("/settings",{
+      method:"PUT",
+      body:JSON.stringify(settings)
+    });
+    inlineMessage("preferencesMessage",data.message||"Preferences saved successfully.","success");
+  }catch(error){
+    inlineMessage("preferencesMessage",error.message,"error");
+  }finally{
+    button.disabled=false;button.textContent="Save Preferences";
+  }
+});
+
+async function loadDeactivationStatus(){
+  try{
+    const data=await apiRequest("/settings/deactivation-request");
+    if(data.request){
+      const r=data.request;
+      $("deactivationStatus").textContent=`Latest request: ${String(r.status).toUpperCase()} — ${formatDate(r.created_at)}`;
+      if(r.status==="pending"){
+        $("deactivationButton").disabled=true;
+        $("deactivationButton").textContent="Request Pending Review";
+      }
+    }
+  }catch(error){
+    inlineMessage("deactivationMessage",error.message,"error");
+  }
+}
+
+$("deactivationButton").addEventListener("click",async()=>{
+  const reason=$("deactivationReason").value.trim();
+  if(!confirm("Submit an account deactivation request for administrator review? Your account will not be deactivated immediately."))return;
+  const button=$("deactivationButton");
+  button.disabled=true;button.textContent="Submitting...";
+  inlineMessage("deactivationMessage","");
+  try{
+    const data=await apiRequest("/settings/deactivation-request",{
+      method:"POST",
+      body:JSON.stringify({reason})
+    });
+    inlineMessage("deactivationMessage",data.message||"Request submitted successfully.","success");
+    $("deactivationStatus").textContent="Latest request: PENDING";
+    button.textContent="Request Pending Review";
+  }catch(error){
+    inlineMessage("deactivationMessage",error.message,"error");
+    button.disabled=false;button.textContent="Submit Deactivation Request";
+  }
+});
+
+async function start(){
+  if(!token){window.location.replace("login.html");return;}
+  await loadAccountInformation();
+  await Promise.all([loadPreferences(),loadDeactivationStatus()]);
+}
+start();
 </script>
-
 </body>
 </html>
