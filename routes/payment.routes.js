@@ -534,10 +534,7 @@ router.post(
           network:
             gateway === "usdt_bep20" ? "BEP20" : null,
 
-          // BDT order amount
           order_amount_bdt: totalAmount,
-
-          // Actual amount to send in USDT
           expected_usdt: expectedUsdt,
 
           currency: "BDT",
@@ -845,11 +842,23 @@ router.patch(
 
         const itemResult = await client.query(
           isPackage
-            ? `SELECT id, name, price, stock
+            ? `SELECT
+                 id, name, price, stock,
+                 delivery_cost,
+                 packaging_cost,
+                 other_cost,
+                 product_1_id,
+                 product_2_id,
+                 product_3_id
                FROM packages
                WHERE id = $1 AND status = 'active'
                FOR UPDATE`
-            : `SELECT id, name, price, stock
+            : `SELECT
+                 id, name, price, stock,
+                 cost_price,
+                 delivery_cost,
+                 packaging_cost,
+                 other_cost
                FROM products
                WHERE id = $1 AND status = 'active'
                FOR UPDATE`,
@@ -883,6 +892,68 @@ router.patch(
           throw new Error("Invalid order total.");
         }
 
+        // =================================================
+        // IMMUTABLE COST SNAPSHOT
+        // =================================================
+
+        let costSnapshot;
+
+        if (isPackage) {
+          const componentResult = await client.query(
+            `SELECT id, cost_price
+             FROM products
+             WHERE id = ANY($1::int[])
+             ORDER BY array_position($1::int[], id)`,
+            [[
+              item.product_1_id,
+              item.product_2_id,
+              item.product_3_id
+            ]]
+          );
+
+          if (componentResult.rows.length !== 3) {
+            throw Object.assign(
+              new Error(
+                "Package component cost information is incomplete."
+              ),
+              { statusCode: 409 }
+            );
+          }
+
+          costSnapshot = {
+            componentCosts: componentResult.rows.map(product => ({
+              productCost: Number(
+                product.cost_price || 0
+              ).toFixed(2)
+            })),
+            deliveryCost: Number(
+              item.delivery_cost || 0
+            ).toFixed(2),
+            packagingCost: Number(
+              item.packaging_cost || 0
+            ).toFixed(2),
+            otherCost: Number(
+              item.other_cost || 0
+            ).toFixed(2)
+          };
+
+        } else {
+          costSnapshot = {
+            productCost: Number(
+              item.cost_price || 0
+            ).toFixed(2),
+            deliveryCost: Number(
+              item.delivery_cost || 0
+            ).toFixed(2),
+            packagingCost: Number(
+              item.packaging_cost || 0
+            ).toFixed(2),
+            otherCost: Number(
+              item.other_cost || 0
+            ).toFixed(2)
+          };
+        }
+
         orderItems.push({
           type,
           productId: isPackage ? null : item.id,
@@ -890,7 +961,8 @@ router.patch(
           productName: item.name,
           unitPrice: unitCents / 100,
           quantity,
-          subtotal: subtotalCents / 100
+          subtotal: subtotalCents / 100,
+          costSnapshot
         });
 
         // Stock deduction is inside the same transaction.
@@ -1037,9 +1109,10 @@ router.patch(
             product_name,
             unit_price,
             quantity,
-            subtotal
+            subtotal,
+            cost_snapshot
           )
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
           [
             order.id,
             item.productId,
@@ -1048,7 +1121,8 @@ router.patch(
             item.productName,
             item.unitPrice.toFixed(2),
             item.quantity,
-            item.subtotal.toFixed(2)
+            item.subtotal.toFixed(2),
+            JSON.stringify(item.costSnapshot)
           ]
         );
       }
