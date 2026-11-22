@@ -5,6 +5,7 @@
 // RUBALIA NETWORK
 // COMMISSION API ROUTES
 // 10 LEVEL UNILEVEL SYSTEM
+// DYNAMIC ELIGIBLE COMMISSION
 // =====================================================
 
 const express = require("express");
@@ -103,7 +104,9 @@ router.get("/me", async (req, res, next) => {
           SUM(original_amount - recovered_amount),
           0
         ) AS outstanding_debt
+
       FROM commission_reversal_debts
+
       WHERE user_id = $1
         AND status IN ('open', 'partially_recovered')
       `,
@@ -119,8 +122,15 @@ router.get("/me", async (req, res, next) => {
         totalEarned: Number(summary.total_earned),
         totalPending: Number(summary.total_pending),
         totalReversed: Number(summary.total_reversed),
-        totalTransactions: Number(summary.total_transactions),
-        pendingTransactions: Number(summary.pending_transactions),
+
+        totalTransactions: Number(
+          summary.total_transactions
+        ),
+
+        pendingTransactions: Number(
+          summary.pending_transactions
+        ),
+
         outstandingDebt: Number(
           debtResult.rows[0].outstanding_debt
         )
@@ -508,15 +518,6 @@ router.put(
 // =====================================================
 // 7. ADMIN RELEASE ORDER COMMISSION
 // POST /api/commission/admin/orders/:id/release
-//
-// The service checks:
-// - Commission enabled
-// - Legal approval
-// - Paid and delivered order
-// - Refund period completed
-// - All 10 pending ledger rows
-// - Sponsor eligibility
-// - Duplicate release prevention
 // =====================================================
 
 router.post(
@@ -549,9 +550,11 @@ router.post(
 
       return res.json({
         success: true,
+
         message: commission.duplicate
           ? "Commission was already released."
           : "Order commission released successfully.",
+
         commission
       });
 
@@ -567,7 +570,9 @@ router.post(
         "Order does not have pending commission.",
         "Refund/return period has not ended. Commission cannot be released yet.",
         "Refund period end time is missing.",
-        "A reversed order cannot be prepared for commission again."
+        "Commission ledger is incomplete. Expected exactly 10 levels.",
+        "Commission ledger contains a non-pending entry.",
+        "Company profit ledger not found."
       ];
 
       if (conflictMessages.includes(error.message)) {
@@ -662,12 +667,11 @@ router.get(
 // 9. ADMIN COMPANY PROFIT REPORT
 // GET /api/commission/admin/report
 //
-// Company share = 25%
-// Unallocated commission = separate part of the 75% pool
+// Dynamic company share:
+// Base company share + ineligible commission amounts.
 //
-// Total retained = company share + unallocated commission
-// Do not add unallocated commission into company_share
-// in the database.
+// Total retained:
+// company_share + unallocated_commission
 // =====================================================
 
 router.get(
@@ -687,7 +691,7 @@ router.get(
           COALESCE(
             SUM(company_share),
             0
-          ) AS company_share_25_percent,
+          ) AS company_share,
 
           COALESCE(
             SUM(unallocated_commission),
@@ -783,8 +787,11 @@ router.get(
         SELECT
           commission_status,
           COUNT(*) AS total_orders
+
         FROM orders
+
         GROUP BY commission_status
+
         ORDER BY commission_status
         `
       );
