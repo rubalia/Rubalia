@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#710018">
 <meta name="description" content="RUBALIA NETWORK Login">
 <title>Login | RUBALIA NETWORK</title>
@@ -12,841 +12,300 @@
 :root{
   --red:#d60025;
   --dark:#710018;
+  --dark2:#4e0014;
   --gold:#ffd36a;
+  --bg:#f5f6f9;
+  --text:#25212a;
+  --muted:#77717a;
+  --border:#e7e2e5;
+  --white:#fff;
+  --green:#18794e;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+*{box-sizing:border-box}
+html{
+  min-height:100%;
+  -webkit-text-size-adjust:100%;
 }
-
 body{
+  margin:0;
   min-height:100vh;
   min-height:100dvh;
-  font-family:Arial,Helvetica,sans-serif;
+  padding:20px 15px;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:22px;
-  overflow-x:hidden;
-  perspective:1200px;
-
-  background:
-    radial-gradient(circle at 10% 15%,#ffb33d 0%,transparent 30%),
-    radial-gradient(circle at 90% 15%,#ff3c76 0%,transparent 32%),
-    radial-gradient(circle at 15% 90%,#7939e9 0%,transparent 35%),
-    radial-gradient(circle at 90% 90%,#00b8bd 0%,transparent 35%),
-    linear-gradient(135deg,#260020,#a50030,#280047);
-
-  background-size:200% 200%;
-  animation:backgroundMove 16s ease infinite;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
+button,input{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+a{text-decoration:none}
+[hidden]{display:none!important}
 
-@keyframes backgroundMove{
-  0%{background-position:0% 0%}
-  50%{background-position:100% 100%}
-  100%{background-position:0% 0%}
-}
-
-/* ANIMATED BACKGROUND SHAPES */
-
-.background-shape{
-  position:fixed;
-  border-radius:50%;
-  pointer-events:none;
-  opacity:.48;
-  filter:blur(3px);
-  z-index:0;
-  will-change:transform;
-}
-
-.shape-one{
-  width:220px;
-  height:220px;
-  background:#ffcf45;
-  top:-90px;
-  left:-80px;
-  animation:floatOne 8s ease-in-out infinite;
-}
-
-.shape-two{
-  width:260px;
-  height:260px;
-  background:#00e0c7;
-  bottom:-120px;
-  right:-100px;
-  animation:floatTwo 10s ease-in-out infinite;
-}
-
-.shape-three{
-  width:150px;
-  height:150px;
-  background:#ff4b8c;
-  top:48%;
-  right:-70px;
-  animation:floatOne 7s ease-in-out infinite reverse;
-}
-
-.shape-four{
-  width:130px;
-  height:130px;
-  background:#ffd36a;
-  bottom:22%;
-  left:-65px;
-  animation:floatTwo 9s ease-in-out infinite;
-}
-
-@keyframes floatOne{
-  0%,100%{
-    transform:translate3d(0,0,0);
-  }
-  50%{
-    transform:translate3d(25px,-30px,30px);
-  }
-}
-
-@keyframes floatTwo{
-  0%,100%{
-    transform:translate3d(0,0,0) rotate(0deg);
-  }
-  50%{
-    transform:translate3d(-25px,25px,35px) rotate(25deg);
-  }
-}
-
-/* GLASS LIGHT */
-
-.ambient-light{
-  position:fixed;
-  width:350px;
-  height:350px;
-  border-radius:50%;
-  background:rgba(255,70,120,.24);
-  filter:blur(90px);
-  top:25%;
-  left:50%;
-  transform:translateX(-50%);
-  pointer-events:none;
-  z-index:0;
-}
-
-/* EXTRA GLASS LIGHT REFLECTION */
-
-.glass-orb{
-  position:fixed;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.15);
-  filter:blur(3px);
-  pointer-events:none;
-  z-index:0;
-  animation:orbFloat 12s ease-in-out infinite;
-}
-
-.orb-one{
-  top:18%;
-  right:8%;
-}
-
-.orb-two{
-  bottom:12%;
-  left:5%;
-  width:130px;
-  height:130px;
-  animation-delay:-5s;
-}
-
-@keyframes orbFloat{
-  0%,100%{
-    transform:translate3d(0,0,0) scale(1);
-  }
-  50%{
-    transform:translate3d(20px,-25px,0) scale(1.12);
-  }
-}
-
-/* PREMIUM GLASS LOGIN CARD */
-
-.login-container{
-  position:relative;
-  z-index:2;
+.page{
   width:100%;
   max-width:410px;
-  padding:38px 30px 30px;
-  border-radius:27px;
-
-  /* MORE TRANSPARENT GLASS */
-  background:rgba(255,255,255,.075);
-
-  -webkit-backdrop-filter:
-    blur(12px) saturate(180%) contrast(105%);
-
-  backdrop-filter:
-    blur(12px) saturate(180%) contrast(105%);
-
-  border:1px solid rgba(255,255,255,.48);
-
-  box-shadow:
-    0 35px 90px rgba(20,0,25,.32),
-    0 12px 25px rgba(0,0,0,.13),
-    inset 0 2px 0 rgba(255,255,255,.45),
-    inset 0 -2px 15px rgba(255,255,255,.09);
-
-  transform-style:preserve-3d;
-  animation:cardEnter 1s cubic-bezier(.2,.8,.2,1) both;
-  transition:transform .2s ease;
-  overflow:visible;
+  margin:auto;
 }
-
-/* GLASS BORDER */
-
-.login-container::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:27px;
-  padding:1px;
-
-  background:linear-gradient(
-    135deg,
-    rgba(255,255,255,.95),
-    rgba(255,211,106,.55),
-    rgba(255,255,255,.08),
-    rgba(214,0,37,.25),
-    rgba(255,255,255,.75)
-  );
-
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  pointer-events:none;
-  z-index:5;
+.login-card{
+  width:100%;
+  padding:30px 25px 25px;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 8px 28px rgba(48,0,18,.07);
 }
-
-/* GLASS REFLECTION */
-
-.login-container::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:8%;
-  width:84%;
-  height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.95),
-    transparent
-  );
-  box-shadow:0 0 15px rgba(255,255,255,.55);
-  pointer-events:none;
-}
-
-@keyframes cardEnter{
-  from{
-    opacity:0;
-    transform:translateY(45px) rotateX(12deg) scale(.93);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0) rotateX(0) scale(1);
-  }
-}
-
-/* 3D TEXT */
-
-.logo-area{
+.brand{
   text-align:center;
-  margin-bottom:29px;
-  transform:translateZ(35px);
+  margin-bottom:27px;
 }
-
-/* 3D LOGO */
-
-.logo-symbol{
-  width:88px;
-  height:88px;
-  margin:0 auto 17px;
-  position:relative;
+.logo{
+  width:68px;
+  height:68px;
+  margin:0 auto 13px;
   display:grid;
   place-items:center;
-  border-radius:25px;
-
-  background:linear-gradient(
-    145deg,
-    #ff7584,
-    #e00039 35%,
-    #a00029 65%,
-    #540018
-  );
-
-  border:2px solid #ffd982;
-
-  box-shadow:
-    0 9px 0 #69001c,
-    0 16px 25px rgba(120,0,30,.4),
-    inset 0 3px 8px rgba(255,255,255,.5),
-    inset 0 -8px 15px rgba(50,0,15,.25);
-
-  transform-style:preserve-3d;
-  animation:logoFloat 4s ease-in-out infinite;
-  overflow:hidden;
-}
-
-.logo-symbol::before{
-  content:"";
-  position:absolute;
-  width:48px;
-  height:48px;
-  border:3px solid #ffe5a1;
-  border-radius:14px 14px 14px 4px;
-  transform:rotate(45deg) translateZ(12px);
-  box-shadow:0 0 12px rgba(255,215,100,.45);
-}
-
-.logo-symbol::after{
-  content:"R";
-  position:relative;
-  z-index:2;
+  border-radius:17px;
   color:#fff;
-  font-size:43px;
-  font-weight:1000;
-  text-shadow:
-    0 3px 0 #8a0021,
-    0 5px 0 #62001b,
-    0 8px 10px rgba(30,0,0,.6);
-  transform:translateZ(24px);
-}
-
-.logo-shine{
-  position:absolute;
-  top:0;
-  left:-100%;
-  width:55%;
-  height:100%;
-
-  background:linear-gradient(
-    100deg,
-    transparent,
-    rgba(255,255,255,.55),
-    transparent
-  );
-
-  transform:skewX(-20deg);
-  animation:logoShine 5s ease-in-out infinite;
-  pointer-events:none;
-  z-index:3;
-}
-
-@keyframes logoFloat{
-  0%,100%{
-    transform:translateY(0) rotateY(-8deg) rotateX(5deg);
-  }
-  50%{
-    transform:translateY(-10px) rotateY(8deg) rotateX(-5deg);
-  }
-}
-
-@keyframes logoShine{
-  0%,65%{left:-100%}
-  100%{left:150%}
-}
-
-/* BRAND TEXT */
-
-.logo-name{
-  color:#fff;
-  font-size:29px;
-  font-weight:1000;
-  letter-spacing:4px;
-
-  text-shadow:
-    0 1px 0 #ffd0d9,
-    0 2px 0 #d90035,
-    0 4px 0 #a0002a,
-    0 6px 0 #69001d,
-    0 9px 12px rgba(35,0,15,.55);
-}
-
-.logo-network{
-  color:#ffe09a;
-  font-size:11px;
-  font-weight:1000;
-  letter-spacing:8px;
-  padding-left:8px;
-  margin-top:7px;
-
-  text-shadow:
-    0 1px 0 #b37a1a,
-    0 3px 0 #80550f,
-    0 5px 8px rgba(30,0,0,.4);
-}
-
-.logo-slogan{
-  margin-top:13px;
-  color:#fff;
-  font-size:11px;
+  background:var(--dark);
+  border:2px solid var(--gold);
+  font-size:40px;
   font-weight:900;
-  letter-spacing:1.2px;
-
-  text-shadow:
-    0 1px 0 rgba(100,0,30,.4),
-    0 3px 6px rgba(30,0,20,.4);
 }
-
-/* FORM HEADING */
-
-.form-heading{
-  text-align:center;
-  margin-bottom:26px;
-  transform:translateZ(22px);
+.brand-name{
+  color:var(--dark);
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:3px;
 }
-
-.form-heading h1{
-  font-size:27px;
-  font-weight:1000;
-  color:#fff;
-  margin-bottom:9px;
-
-  text-shadow:
-    0 1px 0 #ffe1e8,
-    0 3px 0 #a90030,
-    0 5px 0 #71001e,
-    0 8px 12px rgba(35,0,20,.55);
+.brand-network{
+  margin-top:5px;
+  color:#a47b31;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:7px;
+  padding-left:7px;
 }
-
-.form-heading p{
-  color:#fff;
-  font-size:13px;
-  line-height:1.6;
+.slogan{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:10px;
   font-weight:700;
-  text-shadow:0 2px 6px rgba(35,0,20,.45);
+  letter-spacing:.7px;
 }
-
-/* FORM */
-
+.heading{
+  text-align:center;
+  margin-bottom:24px;
+}
+.heading h1{
+  margin:0 0 7px;
+  color:var(--dark);
+  font-size:25px;
+}
+.heading p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
 .form-group{
-  margin-bottom:19px;
-  transform:translateZ(15px);
+  margin-bottom:17px;
 }
-
 .form-group label{
   display:block;
-  font-size:13px;
-  font-weight:900;
-  color:#fff;
-  margin-bottom:9px;
-
-  text-shadow:
-    0 1px 0 #a0002b,
-    0 3px 5px rgba(30,0,20,.5);
+  margin-bottom:8px;
+  color:#40363b;
+  font-size:12px;
+  font-weight:800;
 }
-
-.input-wrap{
-  position:relative;
-}
-
+.input-wrap{position:relative}
 .form-group input{
   width:100%;
-  height:52px;
-  padding:0 15px;
-
-  border:1px solid rgba(255,255,255,.85);
-  border-radius:12px;
-
-  background:rgba(255,255,255,.48);
-
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
-
-  font-size:14px;
-  font-family:inherit;
-  color:#30232a;
+  height:51px;
+  padding:0 13px;
+  border:1px solid #ded8dd;
+  border-radius:10px;
   outline:none;
-  transition:.25s;
-
-  box-shadow:
-    0 5px 12px rgba(30,0,20,.12),
-    inset 0 2px 4px rgba(255,255,255,.65);
+  background:#fff;
+  color:var(--text);
+  font-size:14px;
 }
-
-.form-group input::placeholder{
-  color:rgba(60,35,45,.7);
-}
-
 .form-group input:focus{
-  border-color:#ffe09a;
-  background:rgba(255,255,255,.7);
-
-  box-shadow:
-    0 0 0 4px rgba(255,211,106,.2),
-    0 7px 16px rgba(30,0,20,.16);
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(214,0,37,.08);
 }
-
-/* SAVED EMAIL SUGGESTIONS */
-
+.form-group input::placeholder{color:#aaa2a7}
+.password-wrap input{padding-right:70px}
+.show-password{
+  position:absolute;
+  top:50%;
+  right:9px;
+  transform:translateY(-50%);
+  min-width:48px;
+  min-height:38px;
+  border:0;
+  background:transparent;
+  color:var(--dark);
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
 .email-suggestions{
   display:none;
   position:absolute;
-  top:calc(100% + 7px);
+  top:calc(100% + 5px);
   left:0;
   right:0;
-  z-index:20;
+  z-index:10;
+  max-height:190px;
+  overflow-y:auto;
   background:#fff;
-  border:1px solid #eadce1;
-  border-radius:12px;
-  box-shadow:0 12px 30px rgba(60,0,30,.2);
-  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.09);
 }
-
-.email-suggestions.show{
-  display:block;
-}
-
+.email-suggestions.show{display:block}
 .suggestion-heading{
-  padding:11px 13px 8px;
-  color:#92838a;
+  padding:10px 12px;
+  color:var(--muted);
   font-size:10px;
-  font-weight:900;
-  letter-spacing:1px;
+  font-weight:800;
   text-transform:uppercase;
 }
-
 .suggestion-item{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:12px 13px;
-  border-top:1px solid #f4edf0;
+  gap:9px;
+  padding:11px 12px;
+  border-top:1px solid #f0ecef;
   cursor:pointer;
-  transition:.2s;
 }
-
-.suggestion-item:hover{
-  background:#fff3f6;
-}
-
+.suggestion-item:active{background:#fff4f6}
 .suggestion-icon{
-  width:34px;
-  height:34px;
+  width:30px;
+  height:30px;
   flex-shrink:0;
   display:grid;
   place-items:center;
   border-radius:50%;
   background:#fff0f3;
-  color:#b50030;
+  color:var(--dark);
   font-weight:900;
 }
-
 .suggestion-email{
   flex:1;
   min-width:0;
+  color:#44323a;
   font-size:12px;
-  font-weight:700;
-  color:#442432;
   overflow-wrap:anywhere;
 }
-
 .remove-suggestion{
-  width:30px;
-  height:30px;
-  flex-shrink:0;
+  width:32px;
+  height:32px;
   border:0;
-  border-radius:8px;
+  border-radius:7px;
   background:#fff0f2;
-  color:#b90031;
-  font-size:17px;
-  cursor:pointer;
+  color:var(--red);
+  font-size:18px;
 }
-
 .suggestion-empty{
-  padding:13px;
-  color:#93848c;
+  padding:12px;
+  color:var(--muted);
   font-size:12px;
 }
-
-/* PASSWORD */
-
-.password-wrap input{
-  padding-right:70px;
-}
-
-.show-password{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  border:0;
-  background:none;
-  color:#bd0030;
-  font-size:11px;
-  font-weight:1000;
-  cursor:pointer;
-  padding:8px;
-  text-shadow:0 1px 0 #fff,0 2px 4px rgba(100,0,30,.2);
-}
-
-/* OPTIONS */
-
 .form-options{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:10px;
-  margin:0 0 22px;
-  transform:translateZ(12px);
+  margin:2px 0 20px;
 }
-
 .remember-option{
   display:flex;
   align-items:center;
   gap:7px;
-  color:#fff;
+  color:#51474d;
   font-size:12px;
-  font-weight:900;
-  cursor:pointer;
-  text-shadow:0 2px 5px rgba(30,0,20,.5);
+  font-weight:700;
 }
-
 .remember-option input{
-  width:16px;
-  height:16px;
-  accent-color:#bd0030;
-  cursor:pointer;
+  width:17px;
+  height:17px;
+  accent-color:var(--red);
 }
-
 .forgot{
-  font-size:12px;
-  color:#fff;
-  font-weight:1000;
-  text-decoration:none;
-  white-space:nowrap;
-
-  text-shadow:
-    0 1px 0 #a0002b,
-    0 3px 5px rgba(30,0,20,.5);
+  color:var(--dark);
+  font-size:11px;
+  font-weight:800;
 }
-
-.forgot:hover{
-  color:#ffe19a;
-  text-decoration:underline;
-}
-
-/* 3D BUTTON */
-
 .login-btn{
   width:100%;
-  height:54px;
-
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:12px;
-
-  background:linear-gradient(
-    110deg,
-    #ff4568,
-    #d00038,
-    #81001c
-  );
-
-  color:white;
-  font-size:15px;
-  font-weight:1000;
-  letter-spacing:1.5px;
+  min-height:52px;
+  border:0;
+  border-radius:10px;
+  background:var(--dark);
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1px;
   cursor:pointer;
-
-  box-shadow:
-    0 7px 0 #70001b,
-    0 12px 20px rgba(190,0,45,.3),
-    inset 0 2px 5px rgba(255,255,255,.4);
-
-  transition:.2s;
-  position:relative;
-  overflow:hidden;
-  transform:translateZ(18px);
-
-  text-shadow:
-    0 1px 0 #ffb6c5,
-    0 3px 0 #79001c,
-    0 5px 7px rgba(40,0,10,.5);
 }
-
-.login-btn::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-120%;
-  width:65%;
-  height:100%;
-
-  background:linear-gradient(
-    100deg,
-    transparent,
-    rgba(255,255,255,.45),
-    transparent
-  );
-
-  transform:skewX(-20deg);
-  transition:left .7s ease;
-}
-
-.login-btn:hover::before{
-  left:150%;
-}
-
-.login-btn:hover{
-  transform:translateY(-3px) translateZ(18px);
-
-  box-shadow:
-    0 10px 0 #70001b,
-    0 16px 25px rgba(190,0,45,.4);
-}
-
-.login-btn:active{
-  transform:translateY(4px) translateZ(10px);
-  box-shadow:0 2px 0 #70001b;
-}
-
+.login-btn:active{background:var(--dark2)}
 .login-btn:disabled{
-  opacity:.65;
-  cursor:not-allowed;
-  transform:none;
+  opacity:.6;
+  cursor:wait;
 }
-
-/* MESSAGE */
-
 .form-message{
   display:none;
-  margin-top:17px;
-  padding:12px;
-  border-radius:9px;
+  margin-top:14px;
+  padding:11px 12px;
+  border-radius:8px;
   font-size:12px;
   line-height:1.6;
   overflow-wrap:anywhere;
-  background:rgba(255,255,255,.9);
 }
-
 .form-message.error{
   display:block;
   color:#a00025;
-  border:1px solid #f4c6d0;
+  background:#fff0f2;
+  border:1px solid #f0c8d0;
 }
-
 .form-message.success{
   display:block;
-  color:#17633b;
-  border:1px solid #c6ead2;
+  color:var(--green);
+  background:#edf9f2;
+  border:1px solid #c9ead6;
 }
-
-/* REGISTER */
-
 .register-text{
+  margin-top:22px;
   text-align:center;
-  margin-top:25px;
-  color:#fff;
-  font-size:13px;
-  font-weight:800;
-  transform:translateZ(12px);
-  text-shadow:0 2px 6px rgba(30,0,20,.5);
+  color:var(--muted);
+  font-size:12px;
 }
-
 .register-text a{
-  color:#ffe09a;
-  font-weight:1000;
-  text-decoration:none;
-
-  text-shadow:
-    0 1px 0 #b47b20,
-    0 3px 5px rgba(30,0,20,.5);
+  color:var(--dark);
+  font-weight:900;
 }
-
-.register-text a:hover{
-  text-decoration:underline;
+.footer{
+  margin-top:17px;
+  text-align:center;
+  color:#99929a;
+  font-size:10px;
 }
-
-/* MOBILE */
-
-@media(max-width:420px){
-  body{
-    padding:14px;
-  }
-
-  .login-container{
-    padding:31px 22px 25px;
-    border-radius:22px;
-  }
-
-  .logo-symbol{
-    width:78px;
-    height:78px;
-  }
-
-  .logo-symbol::before{
-    width:43px;
-    height:43px;
-  }
-
-  .logo-symbol::after{
-    font-size:38px;
-  }
-
-  .logo-name{
-    font-size:26px;
-  }
-
-  .form-heading h1{
-    font-size:24px;
-  }
+@media(max-width:360px){
+  body{padding:12px}
+  .login-card{padding:25px 17px 21px}
+  .brand-name{font-size:22px}
+  .heading h1{font-size:23px}
+  .form-options{gap:6px}
+  .remember-option,.forgot{font-size:10px}
 }
-
-@media(max-height:700px){
-  .login-container{
-    padding-top:23px;
-    padding-bottom:20px;
-  }
-
-  .logo-area{
-    margin-bottom:19px;
-  }
-
-  .logo-symbol{
-    width:68px;
-    height:68px;
-    margin-bottom:12px;
-  }
-
-  .logo-symbol::before{
-    width:38px;
-    height:38px;
-  }
-
-  .logo-symbol::after{
-    font-size:34px;
-  }
-
-  .form-heading{
-    margin-bottom:19px;
-  }
-}
-
-/* ACCESSIBILITY */
-
 @media(prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-  }
-
-  .login-container{
-    transform:none!important;
+  *,*::before,*::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
   }
 }
 </style>
@@ -854,112 +313,69 @@ body{
 
 <body>
 
-<div class="background-shape shape-one"></div>
-<div class="background-shape shape-two"></div>
-<div class="background-shape shape-three"></div>
-<div class="background-shape shape-four"></div>
+<main class="page">
+<section class="login-card">
 
-<div class="ambient-light"></div>
-<div class="glass-orb orb-one"></div>
-<div class="glass-orb orb-two"></div>
-
-<main class="login-container" id="loginCard">
-
-  <div class="logo-area">
-
-    <div class="logo-symbol">
-      <div class="logo-shine"></div>
-    </div>
-
-    <div class="logo-name">RUBALIA</div>
-    <div class="logo-network">NETWORK</div>
-
-    <div class="logo-slogan">
-      SHOP SMART. EARN TOGETHER.
-    </div>
-
+  <div class="brand">
+    <div class="logo" aria-label="Rubalia logo">R</div>
+    <div class="brand-name">RUBALIA</div>
+    <div class="brand-network">NETWORK</div>
+    <div class="slogan">SHOP SMART. EARN TOGETHER.</div>
   </div>
 
-  <div class="form-heading">
+  <div class="heading">
     <h1>Welcome Back</h1>
     <p>Sign in to your RUBALIA account</p>
   </div>
 
-  <form id="loginForm">
+  <form id="loginForm" novalidate>
 
     <div class="form-group">
-
       <label for="email">Email Address</label>
-
       <div class="input-wrap">
-
         <input
           type="email"
           id="email"
           placeholder="Enter your email"
           autocomplete="username"
           maxlength="255"
+          inputmode="email"
+          autocapitalize="none"
+          spellcheck="false"
           required>
-
-        <div
-          class="email-suggestions"
-          id="emailSuggestions">
-        </div>
-
+        <div class="email-suggestions" id="emailSuggestions"></div>
       </div>
-
     </div>
 
     <div class="form-group">
-
       <label for="password">Password</label>
-
       <div class="input-wrap password-wrap">
-
         <input
           type="password"
           id="password"
           placeholder="Enter your password"
           autocomplete="current-password"
           required>
-
-        <button
-          type="button"
-          class="show-password"
-          id="showPassword">
+        <button type="button" class="show-password" id="showPassword">
           SHOW
         </button>
-
       </div>
-
     </div>
 
     <div class="form-options">
-
       <label class="remember-option">
         <input type="checkbox" id="rememberMe">
-        <span>Remember Me</span>
+        <span>Remember Email</span>
       </label>
-
-      <a href="forgot-password.html" class="forgot">
-        Forgot Password?
-      </a>
-
+      <a href="forgot-password.html" class="forgot">Forgot Password?</a>
     </div>
 
-    <button
-      type="submit"
-      class="login-btn"
-      id="loginBtn">
+    <button type="submit" class="login-btn" id="loginBtn">
       SIGN IN
     </button>
 
-    <div
-      class="form-message"
-      id="formMessage"
-      role="status"
-      aria-live="polite">
-    </div>
+    <div class="form-message" id="formMessage"
+      role="status" aria-live="polite"></div>
 
   </form>
 
@@ -968,136 +384,157 @@ body{
     <a href="register.html">Create Account</a>
   </div>
 
+</section>
+
+<div class="footer">
+  © <span id="year"></span> RUBALIA NETWORK
+</div>
 </main>
 
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
-const SAVED_EMAILS_KEY = "rubalia_saved_emails";
+/* =================================
+   CONFIGURATION
+================================= */
 
-const loginForm = document.getElementById("loginForm");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const rememberMe = document.getElementById("rememberMe");
-const loginBtn = document.getElementById("loginBtn");
-const formMessage = document.getElementById("formMessage");
-const showPasswordBtn = document.getElementById("showPassword");
-const emailSuggestions = document.getElementById("emailSuggestions");
-const loginCard = document.getElementById("loginCard");
+const API_BASE="https://rubalia.onrender.com/api";
+const SAVED_EMAILS_KEY="rubalia_saved_emails";
+const REQUEST_TIMEOUT=15000;
 
-/* DESKTOP 3D TILT */
+const $=id=>document.getElementById(id);
 
-const reducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-).matches;
+const loginForm=$("loginForm");
+const emailInput=$("email");
+const passwordInput=$("password");
+const rememberMe=$("rememberMe");
+const loginBtn=$("loginBtn");
+const formMessage=$("formMessage");
+const showPasswordBtn=$("showPassword");
+const emailSuggestions=$("emailSuggestions");
 
-const isTouchDevice = window.matchMedia(
-  "(pointer: coarse)"
-).matches;
+$("year").textContent=new Date().getFullYear();
 
-if(!reducedMotion && !isTouchDevice){
+/* =================================
+   MESSAGE
+================================= */
 
-  loginCard.addEventListener("mousemove",function(event){
-
-    const rect = loginCard.getBoundingClientRect();
-
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-
-    const rotateY = (x - .5) * 4;
-    const rotateX = (.5 - y) * 4;
-
-    loginCard.style.transform =
-      "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
-
-  });
-
-  loginCard.addEventListener("mouseleave",function(){
-
-    loginCard.style.transform = "rotateX(0) rotateY(0)";
-
-  });
-
+function showMessage(type,message){
+  formMessage.className="form-message "+type;
+  formMessage.textContent=message;
 }
 
-/* PASSWORD VISIBILITY */
+function clearMessage(){
+  formMessage.className="form-message";
+  formMessage.textContent="";
+}
 
-showPasswordBtn.addEventListener("click",function(){
+/* =================================
+   API REQUEST WITH TIMEOUT
+================================= */
 
-  const isPassword = passwordInput.type === "password";
-
-  passwordInput.type = isPassword ? "text" : "password";
-  showPasswordBtn.textContent = isPassword ? "HIDE" : "SHOW";
-
-});
-
-/* SAVED EMAILS */
-
-function getSavedEmails(){
+async function requestAPI(path,options={}){
+  const controller=new AbortController();
+  const timeout=setTimeout(
+    ()=>controller.abort(),
+    REQUEST_TIMEOUT
+  );
 
   try{
-
-    const saved = localStorage.getItem(SAVED_EMAILS_KEY);
-    const emails = saved ? JSON.parse(saved) : [];
-
-    if(!Array.isArray(emails)) return [];
-
-    return emails.filter(function(email){
-
-      return typeof email === "string" &&
-        email.length <= 255 &&
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
+    const response=await fetch(API_BASE+path,{
+      ...options,
+      signal:controller.signal,
+      cache:"no-store"
     });
 
+    const data=await response.json().catch(()=>({}));
+
+    if(!response.ok||data.success===false){
+      throw new Error(
+        data.message||"Request failed. Please try again."
+      );
+    }
+
+    return data;
+
   }catch(error){
+    if(error.name==="AbortError"){
+      throw new Error(
+        "Server response is taking too long. Please try again."
+      );
+    }
 
-    return [];
+    if(error instanceof TypeError){
+      throw new Error(
+        "Unable to connect to the server. Check your internet connection."
+      );
+    }
 
+    throw error;
+
+  }finally{
+    clearTimeout(timeout);
   }
+}
 
+/* =================================
+   PASSWORD VISIBILITY
+================================= */
+
+showPasswordBtn.addEventListener("click",()=>{
+  const show=passwordInput.type==="password";
+  passwordInput.type=show?"text":"password";
+  showPasswordBtn.textContent=show?"HIDE":"SHOW";
+});
+
+/* =================================
+   SAVED EMAILS
+   Passwords are never stored.
+================================= */
+
+function getSavedEmails(){
+  try{
+    const value=localStorage.getItem(SAVED_EMAILS_KEY);
+    const list=value?JSON.parse(value):[];
+
+    if(!Array.isArray(list))return [];
+
+    return list.filter(email=>
+      typeof email==="string"&&
+      email.length<=255&&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ).slice(0,5);
+
+  }catch(error){
+    return [];
+  }
 }
 
 function saveEmail(email){
-
   try{
+    let emails=getSavedEmails();
 
-    let emails = getSavedEmails();
-
-    emails = emails.filter(function(item){
-
-      return item.toLowerCase() !== email.toLowerCase();
-
-    });
+    emails=emails.filter(
+      item=>item.toLowerCase()!==email.toLowerCase()
+    );
 
     emails.unshift(email);
-    emails = emails.slice(0,5);
 
     localStorage.setItem(
       SAVED_EMAILS_KEY,
-      JSON.stringify(emails)
+      JSON.stringify(emails.slice(0,5))
     );
 
-    return true;
-
   }catch(error){
-
-    return false;
-
+    // Login should continue if local storage is unavailable.
   }
-
 }
 
 function removeSavedEmail(email){
-
   try{
-
-    const emails = getSavedEmails().filter(function(item){
-
-      return item.toLowerCase() !== email.toLowerCase();
-
-    });
+    const emails=getSavedEmails().filter(
+      item=>item.toLowerCase()!==email.toLowerCase()
+    );
 
     localStorage.setItem(
       SAVED_EMAILS_KEY,
@@ -1107,320 +544,214 @@ function removeSavedEmail(email){
     renderEmailSuggestions();
 
   }catch(error){
-
-    showMessage(
-      "error",
-      "Unable to remove the saved account from this browser."
-    );
-
+    showMessage("error","Unable to remove saved email.");
   }
-
 }
 
-/* EMAIL SUGGESTIONS */
+/* =================================
+   EMAIL SUGGESTIONS
+================================= */
 
 function renderEmailSuggestions(){
+  const emails=getSavedEmails();
+  const search=emailInput.value.trim().toLowerCase();
 
-  const emails = getSavedEmails();
-  const search = emailInput.value.trim().toLowerCase();
+  const filtered=emails.filter(email=>
+    !search||email.toLowerCase().includes(search)
+  );
 
-  const filtered = emails.filter(function(email){
+  emailSuggestions.replaceChildren();
 
-    return !search || email.toLowerCase().includes(search);
-
-  });
-
-  emailSuggestions.innerHTML = "";
-
-  if(filtered.length === 0){
-
-    if(emails.length === 0){
-
+  if(!filtered.length){
+    if(emails.length){
+      const empty=document.createElement("div");
+      empty.className="suggestion-empty";
+      empty.textContent="No matching saved account.";
+      emailSuggestions.appendChild(empty);
+      emailSuggestions.classList.add("show");
+    }else{
       emailSuggestions.classList.remove("show");
-      return;
-
     }
-
-    const empty = document.createElement("div");
-
-    empty.className = "suggestion-empty";
-    empty.textContent = "No matching saved account.";
-
-    emailSuggestions.appendChild(empty);
-    emailSuggestions.classList.add("show");
-
     return;
-
   }
 
-  const heading = document.createElement("div");
-
-  heading.className = "suggestion-heading";
-  heading.textContent = "Saved Accounts";
-
+  const heading=document.createElement("div");
+  heading.className="suggestion-heading";
+  heading.textContent="Saved Accounts";
   emailSuggestions.appendChild(heading);
 
-  filtered.forEach(function(email){
+  filtered.forEach(email=>{
+    const item=document.createElement("div");
+    item.className="suggestion-item";
 
-    const item = document.createElement("div");
-    item.className = "suggestion-item";
+    const icon=document.createElement("div");
+    icon.className="suggestion-icon";
+    icon.textContent="R";
 
-    const icon = document.createElement("div");
-    icon.className = "suggestion-icon";
-    icon.textContent = "R";
+    const address=document.createElement("div");
+    address.className="suggestion-email";
+    address.textContent=email;
 
-    const address = document.createElement("div");
-    address.className = "suggestion-email";
-    address.textContent = email;
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.className="remove-suggestion";
+    remove.textContent="×";
+    remove.setAttribute("aria-label","Remove saved email");
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "remove-suggestion";
-    remove.textContent = "×";
-    remove.title = "Remove saved account";
-    remove.setAttribute("aria-label","Remove " + email);
+    item.append(icon,address,remove);
 
-    item.appendChild(icon);
-    item.appendChild(address);
-    item.appendChild(remove);
+    item.addEventListener("click",event=>{
+      if(event.target===remove)return;
 
-    item.addEventListener("click",function(event){
-
-      if(event.target === remove) return;
-
-      emailInput.value = email;
+      emailInput.value=email;
       emailSuggestions.classList.remove("show");
       passwordInput.focus();
-
     });
 
-    remove.addEventListener("click",function(event){
-
+    remove.addEventListener("click",event=>{
       event.stopPropagation();
       removeSavedEmail(email);
-
     });
 
     emailSuggestions.appendChild(item);
-
   });
 
   emailSuggestions.classList.add("show");
-
 }
-
-/* EMAIL INPUT EVENTS */
 
 emailInput.addEventListener("focus",renderEmailSuggestions);
 emailInput.addEventListener("input",renderEmailSuggestions);
 
-emailInput.addEventListener("keydown",function(event){
-
-  if(event.key === "Escape"){
+emailInput.addEventListener("keydown",event=>{
+  if(event.key==="Escape"){
     emailSuggestions.classList.remove("show");
   }
-
 });
 
-document.addEventListener("click",function(event){
-
+document.addEventListener("click",event=>{
   if(!event.target.closest(".input-wrap")){
     emailSuggestions.classList.remove("show");
   }
-
 });
 
-/* MESSAGE */
+/* =================================
+   LOGIN
+================================= */
 
-function showMessage(type,text){
+let loginInProgress=false;
 
-  formMessage.className = "form-message " + type;
-  formMessage.textContent = text;
-
-}
-
-/* LOGIN API */
-
-loginForm.addEventListener("submit",async function(event){
-
+loginForm.addEventListener("submit",async event=>{
   event.preventDefault();
 
-  const email = emailInput.value.trim().toLowerCase();
-  const password = passwordInput.value;
-  const shouldRemember = rememberMe.checked;
+  if(loginInProgress)return;
 
-  if(!email || !password){
+  clearMessage();
 
-    showMessage(
-      "error",
-      "Please enter your email and password."
-    );
+  const email=emailInput.value.trim().toLowerCase();
+  const password=passwordInput.value;
 
+  if(!email||!password){
+    showMessage("error","Please enter your email and password.");
     return;
-
   }
 
-  loginBtn.disabled = true;
-  loginBtn.textContent = "PLEASE WAIT...";
+  if(!emailInput.checkValidity()){
+    showMessage("error","Please enter a valid email address.");
+    emailInput.focus();
+    return;
+  }
 
-  formMessage.className = "form-message";
-  formMessage.textContent = "";
-
+  loginInProgress=true;
+  loginBtn.disabled=true;
+  loginBtn.textContent="SIGNING IN...";
   emailSuggestions.classList.remove("show");
 
   try{
 
     /* STEP 1: LOGIN */
 
-    const response = await fetch(API_BASE + "/auth/login",{
-
+    const loginData=await requestAPI("/auth/login",{
       method:"POST",
-
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        "Accept":"application/json"
       },
-
-      body:JSON.stringify({
-        email:email,
-        password:password
-      })
-
+      body:JSON.stringify({email,password})
     });
 
-    const data = await response.json().catch(function(){
-      return {};
-    });
-
-    if(!response.ok || !data.success){
-
-      throw new Error(
-        data.message ||
-        "Login failed. Please check your email and password."
-      );
-
-    }
-
-    if(!data.token){
-
+    if(!loginData.token){
       throw new Error(
         "The server did not return an authentication token."
       );
-
     }
 
-    /* STEP 2: SAVE TEMPORARY SESSION */
+    /* STEP 2: VERIFY USER */
 
-    try{
-
-      sessionStorage.setItem("rubalia_token",data.token);
-
-    }catch(storageError){
-
-      throw new Error(
-        "Your browser could not save the login session."
-      );
-
-    }
-
-    /* STEP 3: VERIFY USER */
-
-    const verifyResponse = await fetch(API_BASE + "/auth/me",{
-
+    const verifyData=await requestAPI("/auth/me",{
       method:"GET",
-
       headers:{
-        "Authorization":"Bearer " + data.token,
+        "Authorization":"Bearer "+loginData.token,
         "Accept":"application/json"
       }
-
     });
 
-    const verifyData = await verifyResponse.json().catch(function(){
-      return {};
-    });
+    const user=verifyData.user||verifyData.profile;
 
-    if(
-      !verifyResponse.ok ||
-      !verifyData.success ||
-      !verifyData.user
-    ){
-
-      sessionStorage.removeItem("rubalia_token");
-      sessionStorage.removeItem("rubalia_user");
-
+    if(!user){
       throw new Error(
-        verifyData.message ||
-        "Unable to verify your account. Please try again."
+        "Unable to verify your account information."
       );
-
     }
 
-    const user = verifyData.user;
-
-    const role = String(user.role || "")
+    const role=String(user.role||"")
       .trim()
       .toLowerCase();
 
     if(!role){
-
-      sessionStorage.removeItem("rubalia_token");
-      sessionStorage.removeItem("rubalia_user");
-
-      throw new Error(
-        "Your account role could not be verified."
-      );
-
+      throw new Error("Your account role could not be verified.");
     }
 
-    /* STEP 4: SAVE VERIFIED USER */
+    /* STEP 3: SAVE SESSION */
 
-    sessionStorage.setItem(
-      "rubalia_user",
-      JSON.stringify(user)
-    );
+    try{
+      sessionStorage.setItem("rubalia_token",loginData.token);
+      sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+    }catch(storageError){
+      throw new Error(
+        "Unable to save your login session. Please check browser storage."
+      );
+    }
 
-    /* STEP 5: REMEMBER EMAIL ONLY */
+    /* STEP 4: REMEMBER EMAIL */
 
-    if(shouldRemember){
+    if(rememberMe.checked){
       saveEmail(email);
     }
 
-    /* STEP 6: REDIRECT BY ROLE */
+    /* STEP 5: REDIRECT */
 
-    let destination = "dashboard.html";
-    let message = "Welcome! Opening your dashboard...";
+    const destination=role==="admin"
+      ?"admin-dashboard.html"
+      :"dashboard.html";
 
-    if(role === "admin"){
+    loginBtn.textContent="SUCCESS";
+    passwordInput.value="";
 
-      destination = "admin-dashboard.html";
-      message = "Admin verified! Opening Admin Dashboard...";
+    showMessage("success","Login successful. Opening your dashboard...");
 
-    }
-
-    showMessage("success",message);
-
-    loginBtn.textContent = "SUCCESSFUL";
-    passwordInput.value = "";
-
-    window.setTimeout(function(){
-
-      window.location.replace(destination);
-
-    },800);
+    window.location.replace(destination);
 
   }catch(error){
 
     showMessage(
       "error",
-      error.message ||
-      "Unable to connect to RUBALIA Server. Please try again."
+      error.message||"Unable to login. Please try again."
     );
 
-    loginBtn.disabled = false;
-    loginBtn.textContent = "SIGN IN";
-
+    loginInProgress=false;
+    loginBtn.disabled=false;
+    loginBtn.textContent="SIGN IN";
   }
-
 });
 </script>
 
