@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#210d2d">
+  <meta name="description" content="RUBALIA NETWORK Android Application">
+  <title>RUBALIA NETWORK</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 15%, #64245f 0, transparent 38%),
+        radial-gradient(circle at 85% 85%, #153e78 0, transparent 38%),
+        linear-gradient(145deg, #16091f, #210d2d 55%, #101a38);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 116px;
+      height: 116px;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255, 215, 130, .65);
+      border-radius: 30px;
+      background: linear-gradient(145deg, #6b2670, #172d60);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, .35),
+        inset 0 1px 15px rgba(255, 255, 255, .15);
+    }
+
+    .logo span {
+      font-size: 66px;
+      font-weight: 900;
+      color: #f8d98b;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, .4);
+    }
+
+    h1 {
+      font-size: 25px;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #e6c8e8;
+      font-size: 12px;
+      letter-spacing: 4px;
+    }
+
+    .status-card {
+      margin-top: 38px;
+      padding: 23px 18px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .07);
+      backdrop-filter: blur(12px);
+    }
+
+    .loader {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 17px;
+      border: 3px solid rgba(255, 255, 255, .18);
+      border-top-color: #f3c96f;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #status {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    #message {
+      margin-top: 9px;
+      color: #d1c5d8;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .retry {
+      display: none;
+      width: 100%;
+      margin-top: 19px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      color: #24152c;
+      background: linear-gradient(100deg, #f7d78e, #e9a9d1);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .footer {
+      margin-top: 32px;
+      color: rgba(255, 255, 255, .48);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .error .loader {
+      animation: none;
+      border: 3px solid #ff7373;
+      position: relative;
+    }
+
+    .error .loader::after {
+      content: "!";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #ffaaaa;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="logo">
+      <span>R</span>
+    </div>
+
+    <h1>RUBALIA NETWORK</h1>
+    <p class="subtitle">GROW TOGETHER</p>
+
+    <section class="status-card" id="statusCard">
+      <div class="loader"></div>
+
+      <p id="status">Connecting...</p>
+
+      <p id="message">
+        Please wait while we connect to RUBALIA NETWORK.
+      </p>
+
+      <button class="retry" id="retryButton" onclick="checkConnection()">
+        TRY AGAIN
+      </button>
+    </section>
+
+    <p class="footer">RUBALIA NETWORK &copy; 2026</p>
+  </main>
+
+  <script>
+    const API_BASE = "https://rubalia.onrender.com/api";
+
+    const statusText = document.getElementById("status");
+    const messageText = document.getElementById("message");
+    const statusCard = document.getElementById("statusCard");
+    const retryButton = document.getElementById("retryButton");
+
+    let checking = false;
+
+    function showError(title, message) {
+      statusCard.classList.add("error");
+      statusText.textContent = title;
+      messageText.textContent = message;
+      retryButton.style.display = "block";
+    }
+
+    async function checkConnection() {
+      if (checking) return;
+
+      checking = true;
+
+      statusCard.classList.remove("error");
+      retryButton.style.display = "none";
+      statusText.textContent = "Connecting...";
+      messageText.textContent = "Checking internet and server connection.";
+
+      if (!navigator.onLine) {
+        showError(
+          "No Internet Connection",
+          "Please turn on your mobile data or Wi-Fi and try again."
+        );
+        checking = false;
+        return;
+      }
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+
+      try {
+        const response = await fetch(API_BASE + "/health", {
+          method: "GET",
+          cache: "no-store",
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+          throw new Error("Server is not responding.");
+        }
+
+        statusText.textContent = "Connection Successful";
+        messageText.textContent = "Opening RUBALIA NETWORK...";
+
+        setTimeout(() => {
+          window.location.replace("login.html");
+        }, 900);
+
+      } catch (error) {
+        clearTimeout(timeout);
+
+        if (!navigator.onLine) {
+          showError(
+            "Internet Disconnected",
+            "Your internet connection is unavailable. Reconnect and try again."
+          );
+        } else {
+          showError(
+            "Server Unavailable",
+            "We could not connect to the RUBALIA server. Please try again."
+          );
+        }
+      } finally {
+        checking = false;
+      }
+    }
+
+    window.addEventListener("online", checkConnection);
+
+    window.addEventListener("offline", () => {
+      showError(
+        "No Internet Connection",
+        "Please reconnect to the internet to use RUBALIA NETWORK."
+      );
+    });
+
+    checkConnection();
+  </script>
+</body>
+</html>
