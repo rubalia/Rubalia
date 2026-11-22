@@ -13,7 +13,6 @@
   --red:#d60025;
   --dark:#710018;
   --gold:#ffd36a;
-  --white:#fff;
 }
 
 *{
@@ -32,12 +31,14 @@ body{
   padding:22px;
   overflow-x:hidden;
   perspective:1200px;
+
   background:
     radial-gradient(circle at 10% 15%,#ffb33d 0%,transparent 30%),
     radial-gradient(circle at 90% 15%,#ff3c76 0%,transparent 32%),
     radial-gradient(circle at 15% 90%,#7939e9 0%,transparent 35%),
     radial-gradient(circle at 90% 90%,#00b8bd 0%,transparent 35%),
     linear-gradient(135deg,#260020,#a50030,#280047);
+
   background-size:200% 200%;
   animation:backgroundMove 16s ease infinite;
 }
@@ -48,15 +49,16 @@ body{
   100%{background-position:0% 0%}
 }
 
-/* BACKGROUND ANIMATION */
+/* ANIMATED BACKGROUND SHAPES */
 
 .background-shape{
   position:fixed;
   border-radius:50%;
   pointer-events:none;
-  opacity:.38;
+  opacity:.48;
   filter:blur(3px);
   z-index:0;
+  will-change:transform;
 }
 
 .shape-one{
@@ -78,8 +80,8 @@ body{
 }
 
 .shape-three{
-  width:120px;
-  height:120px;
+  width:150px;
+  height:150px;
   background:#ff4b8c;
   top:48%;
   right:-70px;
@@ -87,30 +89,40 @@ body{
 }
 
 .shape-four{
-  width:90px;
-  height:90px;
+  width:130px;
+  height:130px;
   background:#ffd36a;
   bottom:22%;
-  left:-45px;
+  left:-65px;
   animation:floatTwo 9s ease-in-out infinite;
 }
 
 @keyframes floatOne{
-  0%,100%{transform:translate3d(0,0,0)}
-  50%{transform:translate3d(25px,-30px,30px)}
+  0%,100%{
+    transform:translate3d(0,0,0);
+  }
+  50%{
+    transform:translate3d(25px,-30px,30px);
+  }
 }
 
 @keyframes floatTwo{
-  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
-  50%{transform:translate3d(-25px,25px,35px) rotate(25deg)}
+  0%,100%{
+    transform:translate3d(0,0,0) rotate(0deg);
+  }
+  50%{
+    transform:translate3d(-25px,25px,35px) rotate(25deg);
+  }
 }
+
+/* GLASS LIGHT */
 
 .ambient-light{
   position:fixed;
   width:350px;
   height:350px;
   border-radius:50%;
-  background:rgba(255,70,120,.22);
+  background:rgba(255,70,120,.24);
   filter:blur(90px);
   top:25%;
   left:50%;
@@ -119,7 +131,44 @@ body{
   z-index:0;
 }
 
-/* GLASS LOGIN CARD */
+/* EXTRA GLASS LIGHT REFLECTION */
+
+.glass-orb{
+  position:fixed;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  filter:blur(3px);
+  pointer-events:none;
+  z-index:0;
+  animation:orbFloat 12s ease-in-out infinite;
+}
+
+.orb-one{
+  top:18%;
+  right:8%;
+}
+
+.orb-two{
+  bottom:12%;
+  left:5%;
+  width:130px;
+  height:130px;
+  animation-delay:-5s;
+}
+
+@keyframes orbFloat{
+  0%,100%{
+    transform:translate3d(0,0,0) scale(1);
+  }
+  50%{
+    transform:translate3d(20px,-25px,0) scale(1.12);
+  }
+}
+
+/* PREMIUM GLASS LOGIN CARD */
 
 .login-container{
   position:relative;
@@ -129,22 +178,30 @@ body{
   padding:38px 30px 30px;
   border-radius:27px;
 
-  background:rgba(255,255,255,.17);
-  -webkit-backdrop-filter:blur(24px) saturate(170%);
-  backdrop-filter:blur(24px) saturate(170%);
+  /* MORE TRANSPARENT GLASS */
+  background:rgba(255,255,255,.075);
 
-  border:1px solid rgba(255,255,255,.58);
+  -webkit-backdrop-filter:
+    blur(12px) saturate(180%) contrast(105%);
+
+  backdrop-filter:
+    blur(12px) saturate(180%) contrast(105%);
+
+  border:1px solid rgba(255,255,255,.48);
 
   box-shadow:
-    0 35px 90px rgba(20,0,25,.42),
-    0 12px 25px rgba(0,0,0,.18),
-    inset 0 2px 0 rgba(255,255,255,.65),
-    inset 0 -2px 12px rgba(255,255,255,.12);
+    0 35px 90px rgba(20,0,25,.32),
+    0 12px 25px rgba(0,0,0,.13),
+    inset 0 2px 0 rgba(255,255,255,.45),
+    inset 0 -2px 15px rgba(255,255,255,.09);
 
   transform-style:preserve-3d;
   animation:cardEnter 1s cubic-bezier(.2,.8,.2,1) both;
   transition:transform .2s ease;
+  overflow:visible;
 }
+
+/* GLASS BORDER */
 
 .login-container::before{
   content:"";
@@ -152,18 +209,42 @@ body{
   inset:0;
   border-radius:27px;
   padding:1px;
+
   background:linear-gradient(
     135deg,
     rgba(255,255,255,.95),
-    rgba(255,211,106,.7),
-    rgba(214,0,37,.35),
+    rgba(255,211,106,.55),
+    rgba(255,255,255,.08),
+    rgba(214,0,37,.25),
     rgba(255,255,255,.75)
   );
+
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
+
   -webkit-mask-composite:xor;
   mask-composite:exclude;
+  pointer-events:none;
+  z-index:5;
+}
+
+/* GLASS REFLECTION */
+
+.login-container::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:8%;
+  width:84%;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.95),
+    transparent
+  );
+  box-shadow:0 0 15px rgba(255,255,255,.55);
   pointer-events:none;
 }
 
@@ -178,15 +259,7 @@ body{
   }
 }
 
-/* 3D TEXT SYSTEM */
-
-.text-3d{
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.4),
-    0 2px 0 rgba(100,0,25,.12),
-    0 4px 0 rgba(100,0,25,.10),
-    0 7px 10px rgba(40,0,20,.22);
-}
+/* 3D TEXT */
 
 .logo-area{
   text-align:center;
@@ -257,12 +330,14 @@ body{
   left:-100%;
   width:55%;
   height:100%;
+
   background:linear-gradient(
     100deg,
     transparent,
     rgba(255,255,255,.55),
     transparent
   );
+
   transform:skewX(-20deg);
   animation:logoShine 5s ease-in-out infinite;
   pointer-events:none;
@@ -283,20 +358,20 @@ body{
   100%{left:150%}
 }
 
-/* BRAND TEXT 3D */
+/* BRAND TEXT */
 
 .logo-name{
   color:#fff;
   font-size:29px;
   font-weight:1000;
   letter-spacing:4px;
+
   text-shadow:
     0 1px 0 #ffd0d9,
     0 2px 0 #d90035,
     0 4px 0 #a0002a,
     0 6px 0 #69001d,
     0 9px 12px rgba(35,0,15,.55);
-  transform:translateZ(30px);
 }
 
 .logo-network{
@@ -306,6 +381,7 @@ body{
   letter-spacing:8px;
   padding-left:8px;
   margin-top:7px;
+
   text-shadow:
     0 1px 0 #b37a1a,
     0 3px 0 #80550f,
@@ -318,6 +394,7 @@ body{
   font-size:11px;
   font-weight:900;
   letter-spacing:1.2px;
+
   text-shadow:
     0 1px 0 rgba(100,0,30,.4),
     0 3px 6px rgba(30,0,20,.4);
@@ -336,6 +413,7 @@ body{
   font-weight:1000;
   color:#fff;
   margin-bottom:9px;
+
   text-shadow:
     0 1px 0 #ffe1e8,
     0 3px 0 #a90030,
@@ -364,6 +442,7 @@ body{
   font-weight:900;
   color:#fff;
   margin-bottom:9px;
+
   text-shadow:
     0 1px 0 #a0002b,
     0 3px 5px rgba(30,0,20,.5);
@@ -377,24 +456,36 @@ body{
   width:100%;
   height:52px;
   padding:0 15px;
-  border:1px solid rgba(255,255,255,.8);
+
+  border:1px solid rgba(255,255,255,.85);
   border-radius:12px;
-  background:rgba(255,255,255,.76);
+
+  background:rgba(255,255,255,.48);
+
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+
   font-size:14px;
   font-family:inherit;
   color:#30232a;
   outline:none;
   transition:.25s;
+
   box-shadow:
     0 5px 12px rgba(30,0,20,.12),
-    inset 0 2px 4px rgba(255,255,255,.8);
+    inset 0 2px 4px rgba(255,255,255,.65);
+}
+
+.form-group input::placeholder{
+  color:rgba(60,35,45,.7);
 }
 
 .form-group input:focus{
-  border-color:#ffd36a;
-  background:rgba(255,255,255,.94);
+  border-color:#ffe09a;
+  background:rgba(255,255,255,.7);
+
   box-shadow:
-    0 0 0 4px rgba(255,211,106,.22),
+    0 0 0 4px rgba(255,211,106,.2),
     0 7px 16px rgba(30,0,20,.16);
 }
 
@@ -536,6 +627,7 @@ body{
   font-weight:1000;
   text-decoration:none;
   white-space:nowrap;
+
   text-shadow:
     0 1px 0 #a0002b,
     0 3px 5px rgba(30,0,20,.5);
@@ -546,32 +638,38 @@ body{
   text-decoration:underline;
 }
 
-/* 3D SIGN IN BUTTON */
+/* 3D BUTTON */
 
 .login-btn{
   width:100%;
   height:54px;
+
   border:1px solid rgba(255,255,255,.35);
   border-radius:12px;
+
   background:linear-gradient(
     110deg,
     #ff4568,
     #d00038,
     #81001c
   );
+
   color:white;
   font-size:15px;
   font-weight:1000;
   letter-spacing:1.5px;
   cursor:pointer;
+
   box-shadow:
     0 7px 0 #70001b,
     0 12px 20px rgba(190,0,45,.3),
     inset 0 2px 5px rgba(255,255,255,.4);
+
   transition:.2s;
   position:relative;
   overflow:hidden;
   transform:translateZ(18px);
+
   text-shadow:
     0 1px 0 #ffb6c5,
     0 3px 0 #79001c,
@@ -585,12 +683,14 @@ body{
   left:-120%;
   width:65%;
   height:100%;
+
   background:linear-gradient(
     100deg,
     transparent,
     rgba(255,255,255,.45),
     transparent
   );
+
   transform:skewX(-20deg);
   transition:left .7s ease;
 }
@@ -601,6 +701,7 @@ body{
 
 .login-btn:hover{
   transform:translateY(-3px) translateZ(18px);
+
   box-shadow:
     0 10px 0 #70001b,
     0 16px 25px rgba(190,0,45,.4);
@@ -658,6 +759,7 @@ body{
   color:#ffe09a;
   font-weight:1000;
   text-decoration:none;
+
   text-shadow:
     0 1px 0 #b47b20,
     0 3px 5px rgba(30,0,20,.5);
@@ -667,30 +769,12 @@ body{
   text-decoration:underline;
 }
 
-.security{
-  text-align:center;
-  margin-top:25px;
-  padding-top:17px;
-  border-top:1px solid rgba(255,255,255,.3);
-  color:rgba(255,255,255,.9);
-  font-size:10px;
-  line-height:1.7;
-  font-weight:700;
-  text-shadow:0 2px 5px rgba(30,0,20,.4);
-}
-
-.security span{
-  color:#ffe09a;
-  font-weight:1000;
-  text-shadow:
-    0 1px 0 #a46b13,
-    0 3px 5px rgba(30,0,20,.4);
-}
-
 /* MOBILE */
 
 @media(max-width:420px){
-  body{padding:14px}
+  body{
+    padding:14px;
+  }
 
   .login-container{
     padding:31px 22px 25px;
@@ -748,11 +832,6 @@ body{
   .form-heading{
     margin-bottom:19px;
   }
-
-  .security{
-    margin-top:17px;
-    padding-top:12px;
-  }
 }
 
 /* ACCESSIBILITY */
@@ -779,7 +858,10 @@ body{
 <div class="background-shape shape-two"></div>
 <div class="background-shape shape-three"></div>
 <div class="background-shape shape-four"></div>
+
 <div class="ambient-light"></div>
+<div class="glass-orb orb-one"></div>
+<div class="glass-orb orb-two"></div>
 
 <main class="login-container" id="loginCard">
 
@@ -806,6 +888,7 @@ body{
   <form id="loginForm">
 
     <div class="form-group">
+
       <label for="email">Email Address</label>
 
       <div class="input-wrap">
@@ -824,9 +907,11 @@ body{
         </div>
 
       </div>
+
     </div>
 
     <div class="form-group">
+
       <label for="password">Password</label>
 
       <div class="input-wrap password-wrap">
@@ -846,6 +931,7 @@ body{
         </button>
 
       </div>
+
     </div>
 
     <div class="form-options">
@@ -882,13 +968,6 @@ body{
     <a href="register.html">Create Account</a>
   </div>
 
-  <div class="security">
-    <span>🔒 SECURE LOGIN</span>
-    <br>
-    Only your email can be remembered.
-    Your password is never saved in browser storage.
-  </div>
-
 </main>
 
 <script>
@@ -907,7 +986,7 @@ const showPasswordBtn = document.getElementById("showPassword");
 const emailSuggestions = document.getElementById("emailSuggestions");
 const loginCard = document.getElementById("loginCard");
 
-/* OPTIONAL DESKTOP 3D TILT */
+/* DESKTOP 3D TILT */
 
 const reducedMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)"
@@ -953,7 +1032,7 @@ showPasswordBtn.addEventListener("click",function(){
 
 });
 
-/* SAVED EMAIL STORAGE */
+/* SAVED EMAILS */
 
 function getSavedEmails(){
 
@@ -1160,7 +1239,7 @@ function showMessage(type,text){
 
 }
 
-/* LOGIN */
+/* LOGIN API */
 
 loginForm.addEventListener("submit",async function(event){
 
@@ -1191,7 +1270,7 @@ loginForm.addEventListener("submit",async function(event){
 
   try{
 
-    /* STEP 1: LOGIN API */
+    /* STEP 1: LOGIN */
 
     const response = await fetch(API_BASE + "/auth/login",{
 
@@ -1229,7 +1308,7 @@ loginForm.addEventListener("submit",async function(event){
 
     }
 
-    /* STEP 2: TEMPORARY SESSION */
+    /* STEP 2: SAVE TEMPORARY SESSION */
 
     try{
 
@@ -1306,7 +1385,7 @@ loginForm.addEventListener("submit",async function(event){
       saveEmail(email);
     }
 
-    /* STEP 6: REDIRECT */
+    /* STEP 6: REDIRECT BY ROLE */
 
     let destination = "dashboard.html";
     let message = "Welcome! Opening your dashboard...";
