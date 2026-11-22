@@ -4,6 +4,7 @@
 // =====================================================
 // RUBALIA NETWORK
 // 10 LEVEL UNILEVEL COMMISSION ENGINE
+// Dynamic eligible-level allocation
 // =====================================================
 
 const DEFAULT_RATES = [20, 15, 10, 8, 6, 5, 4, 3, 2, 2];
@@ -72,36 +73,61 @@ function validateRates(rates) {
 }
 
 // =====================================================
-// EXACT CENT-BASED COMMISSION ALLOCATION
+// DYNAMIC COMMISSION ALLOCATION
 //
-// Uses largest remainder method.
-// Sum of all 10 levels always equals commission pool.
+// Only eligible sponsors receive commission.
+// Ineligible level commission remains with company.
+//
+// eligibleLevels:
+// [true, false, ...]
+//
+// If omitted, all levels are treated as eligible.
 // =====================================================
 
-function calculateCommissionAllocation(profitCents, rates) {
+function calculateCommissionAllocation(
+  profitCents,
+  rates,
+  eligibleLevels = Array(LEVEL_COUNT).fill(true)
+) {
   if (!Number.isSafeInteger(profitCents) || profitCents <= 0) {
     throw new Error("Invalid profit amount.");
   }
 
   const normalizedRates = validateRates(rates);
 
-  const commissionPoolCents = Math.round(
-    profitCents * TOTAL_COMMISSION_PERCENT / 100
-  );
-
-  const companyShareCents = profitCents - commissionPoolCents;
+  if (
+    !Array.isArray(eligibleLevels) ||
+    eligibleLevels.length !== LEVEL_COUNT ||
+    eligibleLevels.some(value => typeof value !== "boolean")
+  ) {
+    throw new Error("Exactly 10 eligibility flags are required.");
+  }
 
   const rawShares = normalizedRates.map((rate, index) => {
-    const exact = profitCents * rate / 100;
+    const eligible = eligibleLevels[index];
+    const applicableRate = eligible ? rate : 0;
+
+    const exact = profitCents * applicableRate / 100;
     const base = Math.floor(exact);
 
     return {
       level: index + 1,
       rate,
+      eligible,
       cents: base,
       remainder: exact - base
     };
   });
+
+  const eligibleRateTotal = normalizedRates.reduce(
+    (sum, rate, index) =>
+      sum + (eligibleLevels[index] ? rate : 0),
+    0
+  );
+
+  const commissionPoolCents = Math.round(
+    profitCents * eligibleRateTotal / 100
+  );
 
   let allocated = rawShares.reduce(
     (sum, item) => sum + item.cents,
@@ -110,15 +136,21 @@ function calculateCommissionAllocation(profitCents, rates) {
 
   let remaining = commissionPoolCents - allocated;
 
-  const priority = [...rawShares].sort((a, b) => {
-    if (b.remainder !== a.remainder) {
-      return b.remainder - a.remainder;
-    }
+  const priority = rawShares
+    .filter(item => item.eligible && item.rate > 0)
+    .sort((a, b) => {
+      if (b.remainder !== a.remainder) {
+        return b.remainder - a.remainder;
+      }
 
-    return a.level - b.level;
-  });
+      return a.level - b.level;
+    });
 
   for (let i = 0; i < remaining; i++) {
+    if (!priority[i]) {
+      throw new Error("Commission rounding allocation failed.");
+    }
+
     priority[i].cents += 1;
   }
 
@@ -126,6 +158,8 @@ function calculateCommissionAllocation(profitCents, rates) {
     (sum, item) => sum + item.cents,
     0
   );
+
+  const companyShareCents = profitCents - allocated;
 
   if (allocated !== commissionPoolCents) {
     throw new Error("Commission allocation validation failed.");
@@ -138,12 +172,14 @@ function calculateCommissionAllocation(profitCents, rates) {
   return {
     companyShareCents,
     commissionPoolCents,
+    eligibleRateTotal,
     levels: rawShares
       .sort((a, b) => a.level - b.level)
       .map(item => ({
         level: item.level,
         rate: item.rate,
-        amountCents: item.cents
+        amountCents: item.cents,
+        eligible: item.eligible
       }))
   };
 }
@@ -173,7 +209,6 @@ function snapshotMoney(snapshot, key) {
 /**
  * PRODUCT COST
  *
- * Product:
  * Cost Price
  * + Delivery Cost
  * + Packaging Cost
@@ -186,9 +221,8 @@ function snapshotMoney(snapshot, key) {
  * + Package Packaging Cost
  * + Package Other Cost
  *
- * IMPORTANT:
- * Product-level delivery, packaging and other costs
- * are not added again inside a package.
+ * Product-level extra costs are not added again
+ * inside a package.
  */
 function calculateSnapshotItemCost(snapshot, itemType) {
   if (!snapshot || typeof snapshot !== "object") {
@@ -217,15 +251,12 @@ function calculateSnapshotItemCost(snapshot, itemType) {
     let componentTotal = 0;
 
     for (const component of snapshot.componentCosts) {
-      // Only the actual Cost Price of each component Product.
-      // Do not add component delivery/packaging/other costs.
       componentTotal += snapshotMoney(
         component,
         "productCost"
       );
     }
 
-    // Package-level additional costs.
     const packageExtra =
       snapshotMoney(snapshot, "deliveryCost") +
       snapshotMoney(snapshot, "packagingCost") +
@@ -239,9 +270,6 @@ function calculateSnapshotItemCost(snapshot, itemType) {
 
 // =====================================================
 // CALCULATE ORDER NET PROFIT
-//
-// Uses only immutable order-time snapshots.
-// Never reads current Product or Package costs.
 // =====================================================
 
 async function calculateOrderProfit(
@@ -705,11 +733,6 @@ async function prepareOrderCommission(client, orderId) {
 
   const profitCents = profit.actualProfitCents;
 
-  const allocation = calculateCommissionAllocation(
-    profitCents,
-    rates
-  );
-
   const deliveredAt = order.delivered_at
     ? new Date(order.delivered_at)
     : new Date();
@@ -729,18 +752,39 @@ async function prepareOrderCommission(client, orderId) {
     refundPeriodDays * 24 * 60 * 60 * 1000
   );
 
+  // Find sponsor chain.
   const sponsorChain = await getSponsorChain(
     client,
     order.user_id
   );
 
-  for (const levelEntry of allocation.levels) {
-    const sponsorId = sponsorChain[levelEntry.level - 1];
+  // Check eligibility before allocating commission.
+  const eligibleSponsors = [];
 
+  for (let i = 0; i < LEVEL_COUNT; i++) {
     const eligibleSponsor = await getEligibleSponsor(
       client,
-      sponsorId
+      sponsorChain[i]
     );
+
+    eligibleSponsors.push(eligibleSponsor);
+  }
+
+  const eligibleLevels = eligibleSponsors.map(
+    sponsor => Boolean(sponsor)
+  );
+
+  // Only eligible levels receive their configured percentage.
+  // Every other level's share goes directly to company.
+  const allocation = calculateCommissionAllocation(
+    profitCents,
+    rates,
+    eligibleLevels
+  );
+
+  for (const levelEntry of allocation.levels) {
+    const eligibleSponsor =
+      eligibleSponsors[levelEntry.level - 1];
 
     await client.query(
       `
@@ -811,6 +855,7 @@ async function prepareOrderCommission(client, orderId) {
     netProfit: profit.actualProfit,
     companyShare: fromCents(allocation.companyShareCents),
     commissionPool: fromCents(allocation.commissionPoolCents),
+    eligibleRateTotal: allocation.eligibleRateTotal,
     refundPeriodEndsAt
   };
 }
@@ -935,6 +980,30 @@ async function releaseOrderCommission(client, orderId) {
 
     const amountCents = toCents(entry.amount);
 
+    // A level without a beneficiary has already been assigned
+    // to company during preparation. It must not be paid later.
+    if (!entry.beneficiary_id || amountCents === 0) {
+      await client.query(
+        `
+        UPDATE commission_ledger
+        SET
+          beneficiary_id = NULL,
+          status = 'unallocated'
+        WHERE id = $1
+        `,
+        [entry.id]
+      );
+
+      levels.push({
+        level: Number(entry.level),
+        amount: fromCents(amountCents),
+        status: "company_retained"
+      });
+
+      continue;
+    }
+
+    // Recheck eligibility at release time.
     const eligibleSponsor = await getEligibleSponsor(
       client,
       entry.beneficiary_id
@@ -1051,10 +1120,6 @@ async function releaseOrderCommission(client, orderId) {
 
 // =====================================================
 // REVERSE COMMISSION ON REFUND
-//
-// Pending entries are voided.
-// Released entries are debited from available wallet
-// balances. Any amount already spent becomes debt.
 // =====================================================
 
 async function reverseOrderCommission(client, orderId) {
