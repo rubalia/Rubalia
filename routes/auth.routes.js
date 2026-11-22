@@ -3,12 +3,25 @@
 
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const pool = require("../config/database");
 const { generateToken } = require("../utils/token");
 const { authenticateToken } = require("../middleware/auth");
 
 const router = express.Router();
+
+const RESET_TOKEN_EXPIRY_MINUTES = 15;
+const FRONTEND_URL = process.env.FRONTEND_URL || "";
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
+
+const GENERIC_RESET_MESSAGE =
+  "If an account exists with this email, a password reset link will be sent.";
+
+// =====================================================
+// HELPERS
+// =====================================================
 
 function makeMemberId(id) {
   return `RUB${String(id).padStart(6, "0")}`;
@@ -30,10 +43,122 @@ function parseReferralCode(code) {
   }
 }
 
+function hashResetToken(token) {
+  return crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+}
+
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function getFrontendBaseUrl() {
+  const firstUrl = FRONTEND_URL
+    .split(",")
+    .map(value => value.trim())
+    .find(Boolean);
+
+  if (!firstUrl) {
+    throw new Error("FRONTEND_URL is not configured.");
+  }
+
+  const url = new URL(firstUrl);
+
+  if (url.protocol !== "https:" && url.hostname !== "localhost") {
+    throw new Error("FRONTEND_URL must use HTTPS.");
+  }
+
+  return url.origin;
+}
+
+// =====================================================
+// SEND PASSWORD RESET EMAIL USING RESEND
+// =====================================================
+
+async function sendPasswordResetEmail(email, fullName, resetLink) {
+  if (!RESEND_API_KEY || !RESEND_FROM_EMAIL) {
+    throw new Error("Resend email configuration is missing.");
+  }
+
+  const safeName = escapeHtml(fullName);
+  const safeLink = escapeHtml(resetLink);
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      from: RESEND_FROM_EMAIL,
+      to: [email],
+      subject: "Reset Your RUBALIA NETWORK Password",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <body style="margin:0;padding:25px;background:#f7f3f8;font-family:Arial,sans-serif;">
+          <div style="max-width:520px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;">
+            <div style="padding:25px;text-align:center;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);color:#ffffff;">
+              <h1 style="margin:0;font-size:25px;">RUBALIA NETWORK</h1>
+              <p style="margin:8px 0 0;color:#f5dca4;letter-spacing:3px;">GROW WITH TRUST</p>
+            </div>
+
+            <div style="padding:30px;color:#29243a;">
+              <h2 style="margin-top:0;">Reset Your Password</h2>
+
+              <p>Hello ${safeName},</p>
+
+              <p>
+                We received a request to reset your RUBALIA NETWORK
+                account password.
+              </p>
+
+              <p style="text-align:center;margin:30px 0;">
+                <a href="${safeLink}"
+                   style="display:inline-block;padding:15px 28px;background:#a51e54;color:#ffffff;text-decoration:none;border-radius:9px;font-weight:bold;">
+                  RESET PASSWORD
+                </a>
+              </p>
+
+              <p>This link expires in 15 minutes and can only be used once.</p>
+
+              <p>If you did not request this, you can safely ignore this email.</p>
+
+              <hr style="border:0;border-top:1px solid #eeeeee;margin:25px 0;">
+
+              <p style="font-size:12px;color:#858196;">
+                RUBALIA NETWORK — Grow With Trust
+              </p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+    })
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || "Password reset email could not be sent."
+    );
+  }
+
+  return data;
+}
+
 // =====================================================
 // POST /api/auth/register
 // Customer and Free Partner Registration
-// Referral validation + sponsor assignment
 // =====================================================
 
 router.post("/register", async (req, res, next) => {
@@ -48,7 +173,6 @@ router.post("/register", async (req, res, next) => {
     req.body?.accountType || "customer"
   ).trim().toLowerCase();
 
-  // Required fields
   if (!fullName || !email || !password) {
     return res.status(400).json({
       success: false,
@@ -56,7 +180,6 @@ router.post("/register", async (req, res, next) => {
     });
   }
 
-  // Account type validation
   if (!["customer", "partner"].includes(accountType)) {
     return res.status(400).json({
       success: false,
@@ -100,7 +223,6 @@ router.post("/register", async (req, res, next) => {
     });
   }
 
-  // Validate referral code format
   let sponsorId = null;
 
   if (cleanReferralCode) {
@@ -121,7 +243,6 @@ router.post("/register", async (req, res, next) => {
 
     await client.query("BEGIN");
 
-    // Check sponsor inside the same transaction
     if (sponsorId) {
       const sponsorResult = await client.query(
         `SELECT id, full_name, status
@@ -142,7 +263,6 @@ router.post("/register", async (req, res, next) => {
       }
     }
 
-    // Create account and save sponsor relationship
     const result = await client.query(
       `INSERT INTO users (
          full_name,
@@ -205,9 +325,7 @@ router.post("/register", async (req, res, next) => {
       token,
       user,
       sponsor: sponsorId
-        ? {
-            memberId: makeMemberId(sponsorId)
-          }
+        ? { memberId: makeMemberId(sponsorId) }
         : null
     });
 
@@ -231,7 +349,6 @@ router.post("/register", async (req, res, next) => {
     client.release();
   }
 });
-
 
 // =====================================================
 // POST /api/auth/login
@@ -318,6 +435,233 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+// =====================================================
+// POST /api/auth/forgot-password
+// Request password reset email
+// =====================================================
+
+router.post("/forgot-password", async (req, res, next) => {
+  try {
+    const email = String(req.body?.email || "")
+      .trim()
+      .toLowerCase();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || email.length > 255 || !emailPattern.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a valid email address."
+      });
+    }
+
+    const userResult = await pool.query(
+      `SELECT id, full_name, email
+       FROM users
+       WHERE email = $1
+         AND status = 'active'
+       LIMIT 1`,
+      [email]
+    );
+
+    // Always use the same response to prevent account enumeration.
+    if (!userResult.rows.length) {
+      return res.json({
+        success: true,
+        message: GENERIC_RESET_MESSAGE
+      });
+    }
+
+    const user = userResult.rows[0];
+
+    const rawToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = hashResetToken(rawToken);
+
+    const resetLink = new URL(
+      "/reset-password.html",
+      getFrontendBaseUrl()
+    );
+
+    resetLink.searchParams.set("token", rawToken);
+
+    // Remove previous unused reset links for this account.
+    await pool.query(
+      `DELETE FROM password_reset_tokens
+       WHERE user_id = $1
+         AND used_at IS NULL`,
+      [user.id]
+    );
+
+    await pool.query(
+      `INSERT INTO password_reset_tokens (
+         user_id,
+         token_hash,
+         expires_at
+       )
+       VALUES (
+         $1,
+         $2,
+         NOW() + ($3 * INTERVAL '1 minute')
+       )`,
+      [
+        user.id,
+        tokenHash,
+        RESET_TOKEN_EXPIRY_MINUTES
+      ]
+    );
+
+    try {
+      await sendPasswordResetEmail(
+        user.email,
+        user.full_name,
+        resetLink.toString()
+      );
+    } catch (emailError) {
+      // Remove the unused token if email delivery fails.
+      await pool.query(
+        `DELETE FROM password_reset_tokens
+         WHERE token_hash = $1`,
+        [tokenHash]
+      );
+
+      console.error(
+        "Password reset email failed:",
+        emailError.message
+      );
+
+      // Do not reveal whether the account exists.
+    }
+
+    return res.json({
+      success: true,
+      message: GENERIC_RESET_MESSAGE
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+// =====================================================
+// POST /api/auth/reset-password
+// Set a new password using a valid reset token
+// =====================================================
+
+router.post("/reset-password", async (req, res, next) => {
+  const { token, password, confirmPassword } = req.body || {};
+
+  if (
+    typeof token !== "string" ||
+    !/^[a-f0-9]{64}$/i.test(token)
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid or expired password reset link."
+    });
+  }
+
+  if (
+    typeof password !== "string" ||
+    password.length < 8 ||
+    password.length > 72
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "Password must be between 8 and 72 characters."
+    });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Passwords do not match."
+    });
+  }
+
+  const client = await pool.connect();
+
+  try {
+    const tokenHash = hashResetToken(token);
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    await client.query("BEGIN");
+
+    const tokenResult = await client.query(
+      `SELECT id, user_id
+       FROM password_reset_tokens
+       WHERE token_hash = $1
+         AND used_at IS NULL
+         AND expires_at > NOW()
+       FOR UPDATE`,
+      [tokenHash]
+    );
+
+    if (!tokenResult.rows.length) {
+      await client.query("ROLLBACK");
+
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired password reset link."
+      });
+    }
+
+    const resetRecord = tokenResult.rows[0];
+
+    const updateResult = await client.query(
+      `UPDATE users
+       SET password_hash = $1,
+           updated_at = NOW()
+       WHERE id = $2
+         AND status = 'active'
+       RETURNING id`,
+      [passwordHash, resetRecord.user_id]
+    );
+
+    if (!updateResult.rows.length) {
+      await client.query("ROLLBACK");
+
+      return res.status(400).json({
+        success: false,
+        message: "Unable to reset this account password."
+      });
+    }
+
+    // Mark this token as used.
+    await client.query(
+      `UPDATE password_reset_tokens
+       SET used_at = NOW()
+       WHERE id = $1`,
+      [resetRecord.id]
+    );
+
+    // Invalidate every other outstanding reset token for this user.
+    await client.query(
+      `DELETE FROM password_reset_tokens
+       WHERE user_id = $1
+         AND id <> $2`,
+      [resetRecord.user_id, resetRecord.id]
+    );
+
+    await client.query("COMMIT");
+
+    return res.json({
+      success: true,
+      message: "Password reset successful. Please log in with your new password."
+    });
+
+  } catch (error) {
+    try {
+      await client.query("ROLLBACK");
+    } catch (rollbackError) {
+      console.error("Password reset rollback failed:", rollbackError.message);
+    }
+
+    return next(error);
+
+  } finally {
+    client.release();
+  }
+});
 
 // =====================================================
 // GET /api/auth/me
