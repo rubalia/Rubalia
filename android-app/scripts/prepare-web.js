@@ -1,4 +1,3 @@
-
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -7,11 +6,11 @@ const currentFile = fileURLToPath(import.meta.url);
 const currentDir = path.dirname(currentFile);
 
 const rootDir = path.resolve(currentDir, "../..");
-const outputDir = path.resolve(rootDir, "android-app/www");
+const outputDir = path.join(rootDir, "android-app", "www");
 
-// Files that belong to the backend or development environment.
 const excludedDirectories = new Set([
   ".git",
+  ".github",
   "node_modules",
   "android-app",
   "config",
@@ -20,56 +19,93 @@ const excludedDirectories = new Set([
   "workers",
   "tests",
   "coverage",
-  "dist",
-  "build"
+  "uploads",
+  "logs"
 ]);
 
-// Only copy browser-side files.
 const allowedExtensions = new Set([
   ".html",
+  ".htm",
   ".css",
   ".js",
   ".mjs",
+  ".cjs",
+  ".json",
+  ".webmanifest",
   ".png",
   ".jpg",
   ".jpeg",
   ".webp",
+  ".avif",
   ".gif",
   ".svg",
   ".ico",
+  ".bmp",
   ".woff",
   ".woff2",
   ".ttf",
-  ".otf"
+  ".otf",
+  ".mp4",
+  ".webm",
+  ".mp3",
+  ".ogg"
+]);
+
+const excludedFiles = new Set([
+  "server.js",
+  "package.json",
+  "package-lock.json",
+  "capacitor.config.json",
+  "yarn.lock",
+  "pnpm-lock.yaml"
 ]);
 
 let copiedFiles = 0;
 let skippedFiles = 0;
 
-function shouldSkipFile(filePath, extension) {
+function isExcludedFile(filePath, extension) {
   const name = path.basename(filePath).toLowerCase();
+  const relativePath = path.relative(rootDir, filePath);
 
   if (name === ".env" || name.startsWith(".env.")) {
     return true;
   }
 
-  if (
-    name === "server.js" ||
-    name === "package.json" ||
-    name === "package-lock.json" ||
-    name === "capacitor.config.json"
-  ) {
+  if (excludedFiles.has(name)) {
     return true;
   }
 
-  // Keep the Android-specific Splash Screen.
-  const relativePath = path.relative(rootDir, filePath);
+  if (name.endsWith(".sql") || name.endsWith(".pem")) {
+    return true;
+  }
 
+  // Keep the Android-specific splash screen.
   if (relativePath === "index.html") {
     return true;
   }
 
   return !allowedExtensions.has(extension);
+}
+
+function cleanOutputDirectory() {
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+    return;
+  }
+
+  const entries = fs.readdirSync(outputDir);
+
+  for (const entry of entries) {
+    // Preserve Android's custom splash screen.
+    if (entry === "index.html") {
+      continue;
+    }
+
+    fs.rmSync(path.join(outputDir, entry), {
+      recursive: true,
+      force: true
+    });
+  }
 }
 
 function copyFrontend(sourceDir) {
@@ -95,7 +131,7 @@ function copyFrontend(sourceDir) {
 
     const extension = path.extname(entry.name).toLowerCase();
 
-    if (shouldSkipFile(sourcePath, extension)) {
+    if (isExcludedFile(sourcePath, extension)) {
       skippedFiles++;
       continue;
     }
@@ -120,13 +156,17 @@ try {
     throw new Error("Repository root directory was not found.");
   }
 
-  fs.mkdirSync(outputDir, {
-    recursive: true
-  });
+  const splashPath = path.join(outputDir, "index.html");
+
+  if (!fs.existsSync(splashPath)) {
+    throw new Error(
+      "Android splash screen is missing: android-app/www/index.html"
+    );
+  }
 
   console.log("Preparing RUBALIA Android frontend...");
-  console.log("Source:", rootDir);
-  console.log("Destination:", outputDir);
+
+  cleanOutputDirectory();
 
   copyFrontend(rootDir);
 
@@ -134,6 +174,7 @@ try {
   console.log("Frontend preparation completed.");
   console.log("Files copied:", copiedFiles);
   console.log("Files skipped:", skippedFiles);
+  console.log("Splash screen preserved.");
   console.log("--------------------------------");
 
   if (copiedFiles === 0) {
