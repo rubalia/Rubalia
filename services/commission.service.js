@@ -4,6 +4,7 @@
 // =====================================================
 // RUBALIA NETWORK
 // 10 LEVEL UNILEVEL COMMISSION ENGINE
+// Active-member eligibility
 // Dynamic eligible-level allocation
 // Immediate commission release after delivery
 // =====================================================
@@ -127,7 +128,7 @@ function calculateCommissionAllocation(
     0
   );
 
-  let remaining = commissionPoolCents - allocated;
+  const remaining = commissionPoolCents - allocated;
 
   const priority = rawShares
     .filter(item => item.eligible && item.rate > 0)
@@ -209,6 +210,7 @@ function snapshotMoney(snapshot, key) {
  * + Package Packaging Cost
  * + Package Other Cost
  */
+
 function calculateSnapshotItemCost(snapshot, itemType) {
   if (!snapshot || typeof snapshot !== "object") {
     throw new Error("Order cost snapshot is invalid.");
@@ -393,6 +395,10 @@ async function getSponsorChain(client, buyerId) {
 
 // =====================================================
 // CHECK SPONSOR COMMISSION ELIGIBILITY
+//
+// RULE A:
+// Any ACTIVE registered member is eligible.
+// No partner role or activation date required.
 // =====================================================
 
 async function getEligibleSponsor(client, sponsorId) {
@@ -404,9 +410,7 @@ async function getEligibleSponsor(client, sponsorId) {
     `
     SELECT
       id,
-      role,
-      status,
-      partner_activated_at
+      status
     FROM users
     WHERE id = $1
     FOR SHARE
@@ -416,17 +420,11 @@ async function getEligibleSponsor(client, sponsorId) {
 
   const sponsor = result.rows[0];
 
-  if (!sponsor) return null;
+  if (!sponsor) {
+    return null;
+  }
 
   if (String(sponsor.status).toLowerCase() !== "active") {
-    return null;
-  }
-
-  if (String(sponsor.role).toLowerCase() !== "partner") {
-    return null;
-  }
-
-  if (!sponsor.partner_activated_at) {
     return null;
   }
 
@@ -705,8 +703,10 @@ async function prepareOrderCommission(client, orderId) {
     );
   }
 
+  // Wallet payment: no gateway fee.
+  // Live gateway payment: use configured gateway fee.
   const feePercent =
-    order.payment_method === "wallet"
+    String(order.payment_method).toLowerCase() === "wallet"
       ? 0
       : Number(settings.gateway_fee_percent);
 
@@ -732,8 +732,8 @@ async function prepareOrderCommission(client, orderId) {
     throw new Error("Invalid refund period configuration.");
   }
 
-  // Keep the refund date for refund/reporting purposes.
-  // It no longer blocks immediate commission release.
+  // Keep refund date for reporting and refund processing.
+  // It does not delay immediate commission release.
   const refundPeriodEndsAt = new Date(
     deliveredAt.getTime() +
     refundPeriodDays * 24 * 60 * 60 * 1000
@@ -915,8 +915,7 @@ async function releaseOrderCommission(client, orderId) {
     throw new Error("Order does not have pending commission.");
   }
 
-  // Immediate release rule:
-  // Refund period is not checked here.
+  // Immediate release: refund period is not checked here.
   // Refund processing remains separate.
 
   const ledgerResult = await client.query(
