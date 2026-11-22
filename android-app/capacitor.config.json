@@ -1,0 +1,11 @@
+
+{
+  "appId": "com.rubalia.network",
+  "appName": "RUBALIA NETWORK",
+  "webDir": "www",
+  "loggingBehavior": "debug",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#210d2d"
+  }
+}
