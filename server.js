@@ -25,6 +25,10 @@ const {
   runProductCategoryMigration
 } = require("./database/product-category-migration");
 
+const {
+  runWalletMigration
+} = require("./database/wallet-migration");
+
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -275,12 +279,20 @@ async function startServer() {
 
     console.log("Product category migration completed.");
 
-    // 6. Start automatic commission release worker
+    // 6. Wallet migration
+    // Creates missing deposit/withdrawal tables and adds
+    // wallet transaction safety columns without deleting
+    // existing wallet balances or transaction records.
+    await runWalletMigration();
+
+    console.log("Wallet migration completed.");
+
+    // 7. Start automatic commission release worker
     startCommissionWorker(pool);
 
     console.log("Commission worker started.");
 
-    // 7. Start HTTP server
+    // 8. Start HTTP server
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
@@ -291,6 +303,7 @@ async function startServer() {
       console.log("Product cost management enabled.");
       console.log("Package cost management enabled.");
       console.log("Product category management enabled.");
+      console.log("Wallet deposit and withdrawal management enabled.");
     });
 
     // =================================================
