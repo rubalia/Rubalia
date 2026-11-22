@@ -20,14 +20,9 @@
   --text:#28222a;
   --muted:#77717a;
   --border:#e7e2e5;
-  --green:#16804b;
-  --danger:#b52e3e;
 }
 *{box-sizing:border-box}
-html{
-  min-height:100%;
-  -webkit-text-size-adjust:100%;
-}
+html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
   min-height:100vh;
@@ -45,11 +40,7 @@ button,a{-webkit-tap-highlight-color:transparent}
 a{text-decoration:none}
 [hidden]{display:none!important}
 
-.page{
-  width:100%;
-  max-width:440px;
-  margin:auto;
-}
+.page{width:100%;max-width:440px;margin:auto}
 .container{
   width:100%;
   padding:28px 25px 25px;
@@ -58,101 +49,52 @@ a{text-decoration:none}
   border-radius:18px;
   box-shadow:0 8px 28px rgba(48,0,18,.07);
 }
-.brand{
-  text-align:center;
-  margin-bottom:23px;
-}
+.brand{text-align:center;margin-bottom:23px}
 .logo{
-  width:65px;
-  height:65px;
-  margin:0 auto 12px;
-  display:grid;
-  place-items:center;
-  border-radius:16px;
-  color:#fff;
+  width:65px;height:65px;margin:0 auto 12px;
+  display:grid;place-items:center;
+  border-radius:16px;color:#fff;
   background:var(--dark);
   border:2px solid var(--gold);
-  font-size:37px;
-  font-weight:900;
+  font-size:37px;font-weight:900;
 }
 .brand h1{
-  margin:0;
-  color:var(--dark);
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:2px;
+  margin:0;color:var(--dark);
+  font-size:23px;font-weight:900;letter-spacing:2px;
 }
 .brand h1 span{color:#a47b31}
 .brand p{
-  margin:9px 0 0;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:2px;
+  margin:9px 0 0;color:var(--muted);
+  font-size:10px;font-weight:800;letter-spacing:2px;
 }
-.heading{
-  text-align:center;
-  margin-bottom:21px;
-}
+.heading{text-align:center;margin-bottom:21px}
 .heading small{
-  color:#a47b31;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:2px;
+  color:#a47b31;font-size:10px;
+  font-weight:900;letter-spacing:2px;
 }
-.heading h2{
-  margin:8px 0;
-  color:var(--dark);
-  font-size:25px;
-}
-.heading p{
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
+.heading h2{margin:8px 0;color:var(--dark);font-size:25px}
+.heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
 .account-notice{
-  display:none;
-  margin:0 0 19px;
-  padding:13px;
-  border:1px solid #ead8ad;
-  border-radius:10px;
-  background:#fff9eb;
-  color:#70551d;
-  text-align:center;
-  font-size:11px;
-  line-height:1.7;
+  display:none;margin:0 0 19px;padding:13px;
+  border:1px solid #ead8ad;border-radius:10px;
+  background:#fff9eb;color:#70551d;
+  text-align:center;font-size:11px;line-height:1.7;
 }
 .account-notice strong{
-  display:block;
-  margin-bottom:4px;
-  color:var(--dark);
-  font-size:13px;
+  display:block;margin-bottom:4px;color:var(--dark);font-size:13px;
 }
 .form-group{margin-bottom:15px}
 .form-group label{
-  display:block;
-  margin-bottom:7px;
-  color:#40363b;
-  font-size:12px;
-  font-weight:800;
+  display:block;margin-bottom:7px;
+  color:#40363b;font-size:12px;font-weight:800;
 }
 .required{color:var(--red)}
-.optional{
-  color:var(--muted);
-  font-weight:normal;
-}
+.optional{color:var(--muted);font-weight:normal}
 .input-wrap{position:relative}
 .input-wrap input{
-  width:100%;
-  height:49px;
-  padding:0 13px;
-  border:1px solid #ded8dd;
-  border-radius:9px;
-  outline:none;
-  background:#fff;
-  color:var(--text);
-  font-size:13px;
+  width:100%;height:49px;padding:0 13px;
+  border:1px solid #ded8dd;border-radius:9px;
+  outline:none;background:#fff;color:var(--text);font-size:13px;
 }
 .input-wrap input::placeholder{color:#aaa2a7}
 .input-wrap input:focus{
@@ -161,147 +103,62 @@ a{text-decoration:none}
 }
 .password-wrap input{padding-right:70px}
 .show-btn{
-  position:absolute;
-  top:50%;
-  right:9px;
-  transform:translateY(-50%);
-  min-width:48px;
-  min-height:36px;
-  padding:6px;
-  border:0;
-  background:transparent;
-  color:var(--dark);
-  font-size:10px;
-  font-weight:900;
-  cursor:pointer;
+  position:absolute;top:50%;right:9px;transform:translateY(-50%);
+  min-width:48px;min-height:36px;padding:6px;
+  border:0;background:transparent;color:var(--dark);
+  font-size:10px;font-weight:900;cursor:pointer;
 }
 .referral-status{
-  display:none;
-  margin-top:8px;
-  padding:9px 10px;
-  border-radius:8px;
-  font-size:11px;
-  line-height:1.5;
+  display:none;margin-top:8px;padding:9px 10px;
+  border-radius:8px;font-size:11px;line-height:1.5;
   overflow-wrap:anywhere;
 }
 .referral-status.success{
-  display:block;
-  color:#17633b;
-  background:#edf9f2;
-  border:1px solid #c6ead2;
+  display:block;color:#17633b;background:#edf9f2;border:1px solid #c6ead2;
 }
 .referral-status.error{
-  display:block;
-  color:#a12b36;
-  background:#fff0f2;
-  border:1px solid #f4cbd0;
+  display:block;color:#a12b36;background:#fff0f2;border:1px solid #f4cbd0;
 }
 .referral-status.info{
-  display:block;
-  color:#66501c;
-  background:#fff9eb;
-  border:1px solid #f0e1b6;
+  display:block;color:#66501c;background:#fff9eb;border:1px solid #f0e1b6;
 }
 .password-strength{
-  display:none;
-  margin-top:8px;
-  padding:9px 10px;
-  border-radius:8px;
-  background:#f7f5f6;
-  border:1px solid var(--border);
+  display:none;margin-top:8px;padding:9px 10px;
+  border-radius:8px;background:#f7f5f6;border:1px solid var(--border);
 }
-.strength-track{
-  height:5px;
-  overflow:hidden;
-  border-radius:10px;
-  background:#e5e1e4;
-}
-.strength-bar{
-  width:0;
-  height:100%;
-  border-radius:10px;
-}
-.strength-text{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:700;
-}
+.strength-track{height:5px;overflow:hidden;border-radius:10px;background:#e5e1e4}
+.strength-bar{width:0;height:100%;border-radius:10px}
+.strength-text{margin-top:6px;color:var(--muted);font-size:10px;font-weight:700}
 .terms{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  margin:19px 0;
-  color:#615960;
-  font-size:11px;
-  line-height:1.7;
+  display:flex;align-items:flex-start;gap:9px;
+  margin:19px 0;color:#615960;font-size:11px;line-height:1.7;
 }
 .terms input{
-  width:17px;
-  height:17px;
-  flex-shrink:0;
-  margin:2px 0 0;
-  accent-color:var(--red);
+  width:17px;height:17px;flex-shrink:0;
+  margin:2px 0 0;accent-color:var(--red);
 }
-.terms a{
-  color:var(--dark);
-  font-weight:800;
-  text-decoration:underline;
-}
+.terms a{color:var(--dark);font-weight:800;text-decoration:underline}
 .submit-btn{
-  width:100%;
-  min-height:51px;
-  border:0;
-  border-radius:9px;
-  background:var(--dark);
-  color:#fff;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:.7px;
-  cursor:pointer;
+  width:100%;min-height:51px;border:0;border-radius:9px;
+  background:var(--dark);color:#fff;
+  font-size:13px;font-weight:900;letter-spacing:.7px;cursor:pointer;
 }
 .submit-btn:active{background:var(--dark2)}
-.submit-btn:disabled{
-  opacity:.6;
-  cursor:wait;
-}
+.submit-btn:disabled{opacity:.6;cursor:wait}
 .message{
-  display:none;
-  margin-top:13px;
-  padding:11px 12px;
-  border-radius:8px;
-  font-size:12px;
-  line-height:1.6;
-  overflow-wrap:anywhere;
+  display:none;margin-top:13px;padding:11px 12px;
+  border-radius:8px;font-size:12px;line-height:1.6;overflow-wrap:anywhere;
 }
 .message.error{
-  display:block;
-  color:#a12b36;
-  background:#fff0f2;
-  border:1px solid #f4cbd0;
+  display:block;color:#a12b36;background:#fff0f2;border:1px solid #f4cbd0;
 }
 .message.success{
-  display:block;
-  color:#17633b;
-  background:#edf9f2;
-  border:1px solid #c6ead2;
+  display:block;color:#17633b;background:#edf9f2;border:1px solid #c6ead2;
 }
-.login-link{
-  margin-top:21px;
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-}
-.login-link a{
-  color:var(--dark);
-  font-weight:900;
-}
-.footer{
-  margin-top:15px;
-  text-align:center;
-  color:#99929a;
-  font-size:10px;
-}
+.login-link{margin-top:21px;text-align:center;color:var(--muted);font-size:12px}
+.login-link a{color:var(--dark);font-weight:900}
+.footer{margin-top:15px;text-align:center;color:#99929a;font-size:10px}
+
 @media(max-width:360px){
   body{padding:12px}
   .container{padding:23px 17px}
@@ -309,19 +166,13 @@ a{text-decoration:none}
   .heading h2{font-size:23px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation:none!important;
-    transition:none!important;
-    scroll-behavior:auto!important;
-  }
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 
 <body>
-
 <main class="page">
-
 <section class="container">
 
   <div class="brand">
@@ -333,9 +184,7 @@ a{text-decoration:none}
   <div class="heading">
     <small id="registrationLabel">MEMBER REGISTRATION</small>
     <h2 id="registrationTitle">Create Account</h2>
-    <p id="registrationDescription">
-      Enter your details to create your member account.
-    </p>
+    <p id="registrationDescription">Enter your details to create your member account.</p>
   </div>
 
   <div class="account-notice" id="partnerNotice">
@@ -347,36 +196,22 @@ a{text-decoration:none}
   <form id="registerForm" novalidate>
 
     <div class="form-group">
-      <label for="fullName">
-        Full Name <span class="required">*</span>
-      </label>
+      <label for="fullName">Full Name <span class="required">*</span></label>
       <div class="input-wrap">
-        <input
-          type="text"
-          id="fullName"
+        <input type="text" id="fullName"
           placeholder="Enter your full name"
-          autocomplete="name"
-          minlength="2"
-          maxlength="120"
-          required>
+          autocomplete="name" minlength="2" maxlength="120" required>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="email">
-        Email Address <span class="required">*</span>
-      </label>
+      <label for="email">Email Address <span class="required">*</span></label>
       <div class="input-wrap">
-        <input
-          type="email"
-          id="email"
+        <input type="email" id="email"
           placeholder="Enter your email address"
-          autocomplete="email"
-          inputmode="email"
-          autocapitalize="none"
-          spellcheck="false"
-          maxlength="255"
-          required>
+          autocomplete="email" inputmode="email"
+          autocapitalize="none" spellcheck="false"
+          maxlength="255" required>
       </div>
     </div>
 
@@ -385,35 +220,22 @@ a{text-decoration:none}
         Referral Code <span class="optional">(Optional)</span>
       </label>
       <div class="input-wrap">
-        <input
-          type="text"
-          id="referralCode"
+        <input type="text" id="referralCode"
           placeholder="Example: RUB000001"
-          autocomplete="off"
-          maxlength="30"
+          autocomplete="off" maxlength="30"
           autocapitalize="characters">
       </div>
       <div id="referralStatus" class="referral-status"></div>
     </div>
 
     <div class="form-group">
-      <label for="password">
-        Password <span class="required">*</span>
-      </label>
+      <label for="password">Password <span class="required">*</span></label>
       <div class="input-wrap password-wrap">
-        <input
-          type="password"
-          id="password"
+        <input type="password" id="password"
           placeholder="Create password (8–72 characters)"
-          autocomplete="new-password"
-          minlength="8"
-          maxlength="72"
-          required>
-        <button type="button" class="show-btn" data-target="password">
-          SHOW
-        </button>
+          autocomplete="new-password" minlength="8" maxlength="72" required>
+        <button type="button" class="show-btn" data-target="password">SHOW</button>
       </div>
-
       <div class="password-strength" id="passwordStrength">
         <div class="strength-track">
           <div class="strength-bar" id="strengthBar"></div>
@@ -427,17 +249,10 @@ a{text-decoration:none}
         Confirm Password <span class="required">*</span>
       </label>
       <div class="input-wrap password-wrap">
-        <input
-          type="password"
-          id="confirmPassword"
+        <input type="password" id="confirmPassword"
           placeholder="Enter password again"
-          autocomplete="new-password"
-          minlength="8"
-          maxlength="72"
-          required>
-        <button type="button" class="show-btn" data-target="confirmPassword">
-          SHOW
-        </button>
+          autocomplete="new-password" minlength="8" maxlength="72" required>
+        <button type="button" class="show-btn" data-target="confirmPassword">SHOW</button>
       </div>
     </div>
 
@@ -445,7 +260,7 @@ a{text-decoration:none}
       <input type="checkbox" id="terms" required>
       <span>
         I agree to the RUBALIA NETWORK
-        <a href="terms.html" target="_blank" rel="noopener">
+        <a href="/Rubalia/terms.html" target="_blank" rel="noopener">
           Terms &amp; Conditions
         </a>
         and understand that registration does not guarantee any income.
@@ -456,14 +271,12 @@ a{text-decoration:none}
       CREATE ACCOUNT
     </button>
 
-    <div id="formMessage" class="message"
-      role="status" aria-live="polite"></div>
-
+    <div id="formMessage" class="message" role="status" aria-live="polite"></div>
   </form>
 
   <div class="login-link">
     Already have an account?
-    <a href="login.html">Login Here</a>
+    <a href="/Rubalia/login.html">Login Here</a>
   </div>
 
 </section>
@@ -471,7 +284,6 @@ a{text-decoration:none}
 <div class="footer">
   © <span id="year"></span> RUBALIA NETWORK
 </div>
-
 </main>
 
 <script>
@@ -481,130 +293,115 @@ a{text-decoration:none}
    CONFIGURATION
 ===================================== */
 
-const API_BASE="https://rubalia.onrender.com/api";
-const REQUEST_TIMEOUT=15000;
+const API_BASE = "https://rubalia.onrender.com/api";
+const SITE_BASE = "/Rubalia/";
+const REQUEST_TIMEOUT = 20000;
 
-const params=new URLSearchParams(location.search);
-const isPartnerRegistration=params.get("partner")==="1";
+const params = new URLSearchParams(location.search);
+const isPartnerRegistration = params.get("partner") === "1";
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-const form=$("registerForm");
-const submitBtn=$("submitBtn");
-const message=$("formMessage");
+const form = $("registerForm");
+const submitBtn = $("submitBtn");
+const message = $("formMessage");
 
-const fullNameInput=$("fullName");
-const emailInput=$("email");
-const referralInput=$("referralCode");
-const referralStatus=$("referralStatus");
-const passwordInput=$("password");
-const confirmPasswordInput=$("confirmPassword");
-const termsInput=$("terms");
+const fullNameInput = $("fullName");
+const emailInput = $("email");
+const referralInput = $("referralCode");
+const referralStatus = $("referralStatus");
+const passwordInput = $("password");
+const confirmPasswordInput = $("confirmPassword");
+const termsInput = $("terms");
 
-const strengthBox=$("passwordStrength");
-const strengthBar=$("strengthBar");
-const strengthText=$("strengthText");
+const strengthBox = $("passwordStrength");
+const strengthBar = $("strengthBar");
+const strengthText = $("strengthText");
 
-let verifiedReferralCode="";
-let referralIsValid=false;
-let referralRequestNumber=0;
-let registrationInProgress=false;
+let verifiedReferralCode = "";
+let referralIsValid = false;
+let referralRequestNumber = 0;
+let registrationInProgress = false;
 
-$("year").textContent=new Date().getFullYear();
+$("year").textContent = new Date().getFullYear();
 
 /* =====================================
    REGISTRATION MODE
 ===================================== */
 
-if(isPartnerRegistration){
-
-  document.title="Free Partner Registration | RUBALIA NETWORK";
-
-  $("registrationLabel").textContent="PARTNER REGISTRATION";
-  $("registrationTitle").textContent="Become a Partner";
-  $("registrationDescription").textContent=
+if (isPartnerRegistration) {
+  document.title = "Free Partner Registration | RUBALIA NETWORK";
+  $("registrationLabel").textContent = "PARTNER REGISTRATION";
+  $("registrationTitle").textContent = "Become a Partner";
+  $("registrationDescription").textContent =
     "Create your free RUBALIA NETWORK Partner account.";
-
-  $("partnerNotice").style.display="block";
-  submitBtn.textContent="CREATE FREE PARTNER ACCOUNT";
+  $("partnerNotice").style.display = "block";
+  submitBtn.textContent = "CREATE FREE PARTNER ACCOUNT";
 }
 
 /* =====================================
-   MESSAGES
+   MESSAGE HELPERS
 ===================================== */
 
-function showMessage(type,text){
-  message.className="message "+type;
-  message.textContent=text;
+function showMessage(type, text) {
+  message.className = "message " + type;
+  message.textContent = text;
 }
 
-function clearMessage(){
-  message.className="message";
-  message.textContent="";
+function clearMessage() {
+  message.className = "message";
+  message.textContent = "";
 }
 
-function showReferralStatus(type,text){
-  referralStatus.className="referral-status "+type;
-  referralStatus.textContent=text;
+function showReferralStatus(type, text) {
+  referralStatus.className = "referral-status " + type;
+  referralStatus.textContent = text;
 }
 
-function clearReferralStatus(){
-  referralStatus.className="referral-status";
-  referralStatus.textContent="";
+function clearReferralStatus() {
+  referralStatus.className = "referral-status";
+  referralStatus.textContent = "";
 }
 
 /* =====================================
-   API REQUEST WITH TIMEOUT
+   API REQUEST
 ===================================== */
 
-async function requestAPI(path,options={}){
+async function requestAPI(path, options = {}) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
 
-  const controller=new AbortController();
-
-  const timeout=setTimeout(
-    ()=>controller.abort(),
-    REQUEST_TIMEOUT
-  );
-
-  try{
-
-    const response=await fetch(API_BASE+path,{
+  try {
+    const response = await fetch(API_BASE + path, {
       ...options,
-      signal:controller.signal,
-      cache:"no-store",
-      headers:{
-        "Accept":"application/json",
-        ...(options.headers||{})
+      signal: controller.signal,
+      cache: "no-store",
+      headers: {
+        "Accept": "application/json",
+        ...(options.headers || {})
       }
     });
 
-    const data=await response.json().catch(()=>({}));
+    const data = await response.json().catch(() => ({}));
 
-    if(!response.ok||data.success===false){
-      throw new Error(
-        data.message||"Request failed. Please try again."
-      );
+    if (!response.ok || data.success === false) {
+      throw new Error(data.message || "Request failed. Please try again.");
     }
 
     return data;
 
-  }catch(error){
-
-    if(error.name==="AbortError"){
-      throw new Error(
-        "Server response is taking too long. Please try again."
-      );
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Server response is taking too long. Please try again.");
     }
 
-    if(error instanceof TypeError){
-      throw new Error(
-        "Unable to connect to the server. Check your internet connection."
-      );
+    if (error instanceof TypeError) {
+      throw new Error("Unable to connect to the server. Check your internet connection.");
     }
 
     throw error;
 
-  }finally{
+  } finally {
     clearTimeout(timeout);
   }
 }
@@ -613,93 +410,74 @@ async function requestAPI(path,options={}){
    SHOW / HIDE PASSWORD
 ===================================== */
 
-document.querySelectorAll(".show-btn").forEach(button=>{
-
-  button.addEventListener("click",()=>{
-
-    const field=$(button.dataset.target);
-    const show=field.type==="password";
-
-    field.type=show?"text":"password";
-    button.textContent=show?"HIDE":"SHOW";
-
+document.querySelectorAll(".show-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const field = $(button.dataset.target);
+    const show = field.type === "password";
+    field.type = show ? "text" : "password";
+    button.textContent = show ? "HIDE" : "SHOW";
   });
-
 });
 
 /* =====================================
    REFERRAL VERIFICATION
 ===================================== */
 
-async function verifyReferralCode(){
+async function verifyReferralCode() {
+  const code = referralInput.value.trim().toUpperCase();
 
-  const code=referralInput.value.trim().toUpperCase();
+  referralInput.value = code;
+  verifiedReferralCode = "";
+  referralIsValid = false;
 
-  referralInput.value=code;
-  verifiedReferralCode="";
-  referralIsValid=false;
+  const requestNumber = ++referralRequestNumber;
 
-  const requestNumber=++referralRequestNumber;
-
-  if(!code){
+  if (!code) {
     clearReferralStatus();
     return true;
   }
 
-  if(!/^RUB\d{6,}$/.test(code)){
-
-    showReferralStatus(
-      "error",
-      "Invalid format. Example: RUB000001"
-    );
-
+  if (!/^RUB\d{6,}$/.test(code)) {
+    showReferralStatus("error", "Invalid format. Example: RUB000001");
     return false;
   }
 
-  showReferralStatus("info","Verifying referral code...");
+  showReferralStatus("info", "Verifying referral code...");
 
-  try{
-
-    const data=await requestAPI(
-      "/referral/verify/"+encodeURIComponent(code),
-      {method:"GET"}
+  try {
+    const data = await requestAPI(
+      "/referral/verify/" + encodeURIComponent(code),
+      { method: "GET" }
     );
 
-    if(requestNumber!==referralRequestNumber){
-      return false;
-    }
+    if (requestNumber !== referralRequestNumber) return false;
 
-    if(!data.valid){
-
+    if (!data.valid) {
       showReferralStatus(
         "error",
-        data.message||"Referral code is invalid or inactive."
+        data.message || "Referral code is invalid or inactive."
       );
-
       return false;
     }
 
-    verifiedReferralCode=code;
-    referralIsValid=true;
+    verifiedReferralCode = code;
+    referralIsValid = true;
 
-    const sponsorName=data.sponsor&&data.sponsor.name
-      ?data.sponsor.name
-      :"Verified member";
+    const sponsorName = data.sponsor && data.sponsor.name
+      ? data.sponsor.name
+      : "Verified member";
 
     showReferralStatus(
       "success",
-      "Verified Sponsor: "+sponsorName+
-      " | Member ID: "+code
+      "Verified Sponsor: " + sponsorName + " | Member ID: " + code
     );
 
     return true;
 
-  }catch(error){
-
-    if(requestNumber===referralRequestNumber){
-      showReferralStatus("error",error.message);
+  } catch (error) {
+    if (requestNumber === referralRequestNumber) {
+      showReferralStatus("error", error.message);
     }
-
     return false;
   }
 }
@@ -708,80 +486,69 @@ async function verifyReferralCode(){
    REFERRAL FROM URL
 ===================================== */
 
-(function loadReferralFromUrl(){
-
-  const urlReferral=params.get("ref");
-
-  if(urlReferral){
-    referralInput.value=urlReferral.trim().toUpperCase();
+(function loadReferralFromUrl() {
+  const urlReferral = params.get("ref");
+  if (urlReferral) {
+    referralInput.value = urlReferral.trim().toUpperCase();
     verifyReferralCode();
   }
-
 })();
 
-referralInput.addEventListener("blur",()=>{
-  verifyReferralCode();
-});
+referralInput.addEventListener("blur", verifyReferralCode);
 
-referralInput.addEventListener("input",()=>{
-
-  referralIsValid=false;
-  verifiedReferralCode="";
+referralInput.addEventListener("input", () => {
+  referralIsValid = false;
+  verifiedReferralCode = "";
   referralRequestNumber++;
 
   clearReferralStatus();
   clearMessage();
 
-  referralInput.value=referralInput.value
-    .replace(/\s/g,"")
+  referralInput.value = referralInput.value
+    .replace(/\s/g, "")
     .toUpperCase();
-
 });
 
 /* =====================================
    PASSWORD STRENGTH
 ===================================== */
 
-passwordInput.addEventListener("input",()=>{
+passwordInput.addEventListener("input", () => {
+  const password = passwordInput.value;
 
-  const password=passwordInput.value;
-
-  if(!password){
-
-    strengthBox.style.display="none";
-    strengthBar.style.width="0";
-    strengthText.textContent="";
+  if (!password) {
+    strengthBox.style.display = "none";
+    strengthBar.style.width = "0";
+    strengthText.textContent = "";
     return;
   }
 
-  strengthBox.style.display="block";
+  strengthBox.style.display = "block";
 
-  let score=0;
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (/[a-z]/.test(password)) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[^a-zA-Z0-9]/.test(password)) score++;
 
-  if(password.length>=8)score++;
-  if(/[a-z]/.test(password))score++;
-  if(/[A-Z]/.test(password))score++;
-  if(/[0-9]/.test(password))score++;
-  if(/[^a-zA-Z0-9]/.test(password))score++;
+  let label = "Weak";
+  let color = "#d64b4b";
 
-  let label="Weak";
-  let color="#d64b4b";
-
-  if(score>=4){
-    label="Strong";
-    color="#16804b";
-  }else if(score>=3){
-    label="Good";
-    color="#c58b28";
-  }else if(score>=2){
-    label="Fair";
-    color="#d18a35";
+  if (score >= 4) {
+    label = "Strong";
+    color = "#16804b";
+  } else if (score >= 3) {
+    label = "Good";
+    color = "#c58b28";
+  } else if (score >= 2) {
+    label = "Fair";
+    color = "#d18a35";
   }
 
-  strengthBar.style.width=(score*20)+"%";
-  strengthBar.style.background=color;
-  strengthText.textContent="Password strength: "+label;
-
+  strengthBar.style.width = (score * 20) + "%";
+  strengthBar.style.background = color;
+  strengthText.textContent = "Password strength: " + label;
 });
 
 /* =====================================
@@ -793,209 +560,165 @@ passwordInput.addEventListener("input",()=>{
   emailInput,
   passwordInput,
   confirmPasswordInput
-].forEach(field=>{
-  field.addEventListener("input",clearMessage);
+].forEach(field => {
+  field.addEventListener("input", clearMessage);
 });
 
 /* =====================================
    REGISTRATION SUBMIT
 ===================================== */
 
-form.addEventListener("submit",async event=>{
-
+form.addEventListener("submit", async event => {
   event.preventDefault();
 
-  if(registrationInProgress)return;
+  if (registrationInProgress) return;
 
   clearMessage();
 
-  const fullName=fullNameInput.value.trim();
-  const email=emailInput.value.trim().toLowerCase();
-  const password=passwordInput.value;
-  const confirmPassword=confirmPasswordInput.value;
-  const referralCode=referralInput.value.trim().toUpperCase();
+  const fullName = fullNameInput.value.trim();
+  const email = emailInput.value.trim().toLowerCase();
+  const password = passwordInput.value;
+  const confirmPassword = confirmPasswordInput.value;
+  const referralCode = referralInput.value.trim().toUpperCase();
 
-  /* NAME */
-
-  if(fullName.length<2||fullName.length>120){
-
-    showMessage("error","Please enter your full name (2–120 characters).");
+  if (fullName.length < 2 || fullName.length > 120) {
+    showMessage("error", "Please enter your full name (2–120 characters).");
     fullNameInput.focus();
     return;
   }
 
-  /* EMAIL */
-
-  if(!emailInput.checkValidity()){
-
-    showMessage("error","Please enter a valid email address.");
+  if (!emailInput.checkValidity()) {
+    showMessage("error", "Please enter a valid email address.");
     emailInput.focus();
     return;
   }
 
-  /* PASSWORD */
-
-  if(password.length<8||password.length>72){
-
-    showMessage("error","Password must contain 8 to 72 characters.");
+  if (password.length < 8 || password.length > 72) {
+    showMessage("error", "Password must contain 8 to 72 characters.");
     passwordInput.focus();
     return;
   }
 
-  if(password!==confirmPassword){
-
-    showMessage("error","Passwords do not match.");
+  if (password !== confirmPassword) {
+    showMessage("error", "Passwords do not match.");
     confirmPasswordInput.focus();
     return;
   }
 
-  /* TERMS */
-
-  if(!termsInput.checked){
-
-    showMessage("error","Please accept the Terms & Conditions.");
+  if (!termsInput.checked) {
+    showMessage("error", "Please accept the Terms & Conditions.");
     termsInput.focus();
     return;
   }
 
-  /* REFERRAL */
+  if (referralCode) {
+    const valid = await verifyReferralCode();
 
-  if(referralCode){
-
-    const valid=await verifyReferralCode();
-
-    if(
-      !valid||
-      !referralIsValid||
-      verifiedReferralCode!==referralCode
-    ){
-
+    if (
+      !valid ||
+      !referralIsValid ||
+      verifiedReferralCode !== referralCode
+    ) {
       showMessage(
         "error",
         "Please enter a valid Referral Code before registration."
       );
-
       referralInput.focus();
       return;
     }
   }
 
-  /* START REQUEST */
+  registrationInProgress = true;
+  submitBtn.disabled = true;
 
-  registrationInProgress=true;
-  submitBtn.disabled=true;
+  submitBtn.textContent = isPartnerRegistration
+    ? "CREATING PARTNER ACCOUNT..."
+    : "CREATING ACCOUNT...";
 
-  submitBtn.textContent=isPartnerRegistration
-    ?"CREATING PARTNER ACCOUNT..."
-    :"CREATING ACCOUNT...";
-
-  try{
-
-    const requestBody={
-      fullName:fullName,
-      email:email,
-      password:password,
-      accountType:isPartnerRegistration
-        ?"partner"
-        :"customer"
+  try {
+    const requestBody = {
+      fullName,
+      email,
+      password,
+      accountType: isPartnerRegistration ? "partner" : "customer"
     };
 
-    if(referralCode){
-      requestBody.referralCode=referralCode;
+    if (referralCode) {
+      requestBody.referralCode = referralCode;
     }
 
-    /* CREATE ACCOUNT */
-
-    const data=await requestAPI("/auth/register",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
+    const data = await requestAPI("/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
       },
-      body:JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody)
     });
 
-    /* ACCOUNT CREATED */
-
-    if(!data.token||!data.user){
-
+    if (!data.token || !data.user) {
       showMessage(
         "success",
         "Your account has been created. Please login to continue."
       );
 
-      submitBtn.textContent="ACCOUNT CREATED";
+      submitBtn.textContent = "ACCOUNT CREATED";
 
-      window.setTimeout(()=>{
-        location.replace("login.html");
-      },700);
+      setTimeout(() => {
+        location.replace(SITE_BASE + "login.html");
+      }, 1000);
 
       return;
     }
 
-    /* SAVE SESSION */
-
-    try{
-
-      sessionStorage.setItem("rubalia_token",data.token);
-
-      sessionStorage.setItem(
-        "rubalia_user",
-        JSON.stringify(data.user)
-      );
-
-    }catch(storageError){
-
+    try {
+      sessionStorage.setItem("rubalia_token", data.token);
+      sessionStorage.setItem("rubalia_user", JSON.stringify(data.user));
+    } catch (storageError) {
       showMessage(
         "success",
         "Your account has been created. Please login to continue."
       );
 
-      window.setTimeout(()=>{
-        location.replace("login.html");
-      },700);
+      setTimeout(() => {
+        location.replace(SITE_BASE + "login.html");
+      }, 1000);
 
       return;
     }
 
-    const memberId=data.user.memberId||"";
-
-    const accountType=String(data.user.role||"").toLowerCase()==="partner"
-      ?"Partner"
-      :"Customer";
+    const memberId = data.user.memberId || "";
+    const role = String(data.user.role || "").toLowerCase();
+    const accountType = role === "partner" ? "Partner" : "Customer";
 
     showMessage(
       "success",
-      accountType+" account created successfully!"+
-      (memberId?" Your Member ID: "+memberId:"")+
+      accountType + " account created successfully!" +
+      (memberId ? " Your Member ID: " + memberId : "") +
       " Redirecting..."
     );
 
-    submitBtn.textContent="ACCOUNT CREATED";
+    submitBtn.textContent = "ACCOUNT CREATED";
 
-    const destination=
-      String(data.user.role||"").toLowerCase()==="admin"
-        ?"admin-dashboard.html"
-        :"dashboard.html";
+    const destination = role === "admin"
+      ? "admin-dashboard.html"
+      : "dashboard.html";
 
-    location.replace(destination);
+    location.replace(SITE_BASE + destination);
 
-  }catch(error){
-
+  } catch (error) {
     showMessage(
       "error",
-      error.message||"Unable to complete registration. Please try again."
+      error.message || "Unable to complete registration. Please try again."
     );
 
-    registrationInProgress=false;
-    submitBtn.disabled=false;
+    registrationInProgress = false;
+    submitBtn.disabled = false;
 
-    submitBtn.textContent=isPartnerRegistration
-      ?"CREATE FREE PARTNER ACCOUNT"
-      :"CREATE ACCOUNT";
+    submitBtn.textContent = isPartnerRegistration
+      ? "CREATE FREE PARTNER ACCOUNT"
+      : "CREATE ACCOUNT";
   }
-
 });
 </script>
-
 </body>
 </html>
