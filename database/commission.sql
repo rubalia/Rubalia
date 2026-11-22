@@ -6,7 +6,6 @@
 -- =====================================================
 
 -- 1. PRODUCT COST FIELDS
--- Admin will enter actual product costs.
 
 ALTER TABLE products
 ADD COLUMN IF NOT EXISTS cost_price NUMERIC(12,2) NOT NULL DEFAULT 0;
@@ -33,7 +32,15 @@ ALTER TABLE packages
 ADD COLUMN IF NOT EXISTS other_cost NUMERIC(12,2) NOT NULL DEFAULT 0;
 
 
--- 3. COMMISSION SETTINGS
+-- 3. ORDER ITEM COST SNAPSHOT
+-- Product/package cost at the time of order creation.
+-- This must not change when Admin edits product costs later.
+
+ALTER TABLE order_items
+ADD COLUMN IF NOT EXISTS cost_snapshot JSONB;
+
+
+-- 4. COMMISSION SETTINGS
 
 CREATE TABLE IF NOT EXISTS commission_settings (
     id SMALLINT PRIMARY KEY CHECK (id = 1),
@@ -57,13 +64,12 @@ CREATE TABLE IF NOT EXISTS commission_settings (
     )
 );
 
-
 INSERT INTO commission_settings (id)
 VALUES (1)
 ON CONFLICT (id) DO NOTHING;
 
 
--- 4. MEMBER COMMISSION LEDGER
+-- 5. MEMBER COMMISSION LEDGER
 
 CREATE TABLE IF NOT EXISTS commission_ledger (
     id BIGSERIAL PRIMARY KEY,
@@ -83,7 +89,7 @@ CREATE TABLE IF NOT EXISTS commission_ledger (
 
     amount NUMERIC(14,2) NOT NULL,
 
-    status VARCHAR(20) NOT NULL DEFAULT 'credited',
+    status VARCHAR(20) NOT NULL DEFAULT 'pending',
 
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
@@ -95,6 +101,7 @@ CREATE TABLE IF NOT EXISTS commission_ledger (
 
     CHECK (
         status IN (
+            'pending',
             'credited',
             'unallocated',
             'reversed'
@@ -103,22 +110,37 @@ CREATE TABLE IF NOT EXISTS commission_ledger (
 );
 
 
+-- Update an existing commission ledger status constraint.
+-- The service requires pending before releasing wallet credits.
+
+ALTER TABLE commission_ledger
+DROP CONSTRAINT IF EXISTS commission_ledger_status_check;
+
+ALTER TABLE commission_ledger
+ADD CONSTRAINT commission_ledger_status_check
+CHECK (
+    status IN (
+        'pending',
+        'credited',
+        'unallocated',
+        'reversed'
+    )
+);
+
+
 CREATE INDEX IF NOT EXISTS
 idx_commission_ledger_beneficiary
-
 ON commission_ledger(
     beneficiary_id,
     created_at DESC
 );
 
-
 CREATE INDEX IF NOT EXISTS
 idx_commission_ledger_order
-
 ON commission_ledger(order_id);
 
 
--- 5. COMPANY PROFIT LEDGER
+-- 6. COMPANY PROFIT LEDGER
 
 CREATE TABLE IF NOT EXISTS company_profit_ledger (
     id BIGSERIAL PRIMARY KEY,
@@ -142,7 +164,7 @@ CREATE TABLE IF NOT EXISTS company_profit_ledger (
 );
 
 
--- 6. WALLET TRANSACTION TYPE
+-- 7. WALLET TRANSACTION TYPE
 -- Add commission as a supported transaction type.
 
 ALTER TABLE wallet_transactions
@@ -153,7 +175,6 @@ DROP CONSTRAINT IF EXISTS wallet_transactions_transaction_type_check;
 
 ALTER TABLE wallet_transactions
 ADD CONSTRAINT wallet_transaction_type_valid
-
 CHECK (
     transaction_type IN (
         'deposit',
