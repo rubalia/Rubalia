@@ -74,7 +74,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // PRODUCT COST MIGRATION
-  // Used for actual profit calculation.
   // =========================================================
 
   await pool.query(`
@@ -95,7 +94,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // PACKAGES
-  // Every package contains exactly three different products.
   // =========================================================
 
   await pool.query(`
@@ -213,7 +211,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // ORDER PAYMENT MIGRATION
-  // Existing order records are preserved.
   // =========================================================
 
   await pool.query(`
@@ -269,7 +266,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // ORDER ITEMS
-  // Supports products and packages.
   // =========================================================
 
   await pool.query(`
@@ -390,7 +386,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // WALLETS
-  // Existing balances are preserved.
   // =========================================================
 
   await pool.query(`
@@ -465,7 +460,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // WALLET COMMISSION MIGRATION
-  // Add commission as a valid transaction type.
   // =========================================================
 
   await pool.query(`
@@ -635,8 +629,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // PAYMENT GATEWAY SETTINGS
-  // Admin manages these payment methods.
-  // All disabled by default.
   // =========================================================
 
   await pool.query(`
@@ -686,7 +678,6 @@ async function initializeDatabase() {
 
   // =========================================================
   // PAYMENT REQUESTS
-  // Pending payments do not create orders or reduce stock.
   // =========================================================
 
   await pool.query(`
@@ -813,9 +804,42 @@ async function initializeDatabase() {
 
 
   // =========================================================
+  // ADMIN MESSAGES / ANNOUNCEMENTS
+  // Admin can publish one active announcement.
+  // Previous announcements remain stored.
+  // =========================================================
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS admin_messages (
+      id BIGSERIAL PRIMARY KEY,
+
+      text VARCHAR(300) NOT NULL,
+
+      active BOOLEAN NOT NULL DEFAULT FALSE,
+
+      updated_by BIGINT
+        REFERENCES users(id) ON DELETE SET NULL,
+
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+  `);
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_admin_messages_updated
+    ON admin_messages(updated_at DESC, id DESC);
+  `);
+
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_admin_messages_one_active
+    ON admin_messages(active)
+    WHERE active = TRUE;
+  `);
+
+
+  // =========================================================
   // INITIAL PAYMENT GATEWAY RECORDS
-  // All disabled until Admin configures them.
-  // Existing settings are not overwritten.
   // =========================================================
 
   const defaultGateways = [
@@ -850,6 +874,7 @@ async function initializeDatabase() {
   console.log("Wallet, orders and payment tables checked.");
   console.log("Commission settings and ledgers checked.");
   console.log("10-level Unilevel database structure checked.");
+  console.log("Admin announcements table checked.");
 }
 
 module.exports = { initializeDatabase };
