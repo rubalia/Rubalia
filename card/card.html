@@ -39,36 +39,35 @@ body{
   position:relative;
   width:100%;
   height:100%;
-  overflow:hidden;
+  aspect-ratio:3/1;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
 
-/* FIXED CENTER */
+/* CARD CENTER POSITION */
 
 .slider-wrap{
   position:absolute;
   inset:0;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   perspective:1200px;
 }
 
-/* SMALL CARD SIZE */
+/* CARD SIZE - SCREENSHOT MATCH */
 
 .card-slider{
   position:relative;
-  height:65%;
-  width:auto;
-  aspect-ratio:1.586 / 1;
-  max-width:94%;
+  width:57.5%;
+  height:100%;
   flex-shrink:0;
   container-type:inline-size;
 }
 
-/* CARD */
+/* MAIN CARD */
 
 .card{
   position:absolute;
@@ -84,7 +83,7 @@ body{
   transform:rotateY(180deg);
 }
 
-/* CARD FACE */
+/* CARD FACES */
 
 .card-face{
   position:absolute;
@@ -101,7 +100,7 @@ body{
     inset 0 1px 2px rgba(255,255,255,.15);
 }
 
-/* FRONT */
+/* FRONT DESIGN */
 
 .card-front{
   background:
@@ -109,8 +108,8 @@ body{
       125deg,
       transparent 0,
       transparent 2cqw,
-      rgba(93,145,220,.06) 2.2cqw,
-      rgba(93,145,220,.06) 2.7cqw
+      rgba(93,145,220,.08) 2.2cqw,
+      rgba(93,145,220,.08) 2.7cqw
     ),
     radial-gradient(
       circle at 90% 5%,
@@ -144,7 +143,7 @@ body{
 
 .front-top{
   position:absolute;
-  top:7%;
+  top:8%;
   left:6%;
   right:6%;
   display:flex;
@@ -154,7 +153,7 @@ body{
 
 .balance{
   font-size:6cqw;
-  font-weight:500;
+  font-weight:600;
   color:#ffe4a0;
   letter-spacing:.1cqw;
   white-space:nowrap;
@@ -165,7 +164,7 @@ body{
 
 .chip-area{
   position:absolute;
-  top:30%;
+  top:32%;
   left:6%;
   display:flex;
   align-items:center;
@@ -192,7 +191,11 @@ body{
       #a77b25 53%,
       transparent 54%
     ),
-    linear-gradient(135deg,#ffe49a,#c48e2d);
+    linear-gradient(
+      135deg,
+      #ffe49a,
+      #c48e2d
+    );
   border:1px solid #f9dc8a;
   box-shadow:inset 0 1px 3px rgba(255,255,255,.7);
 }
@@ -210,7 +213,7 @@ body{
   position:absolute;
   left:6%;
   right:5%;
-  top:54%;
+  top:58%;
   z-index:2;
   color:#f5d27b;
   font-family:Georgia,serif;
@@ -223,7 +226,7 @@ body{
   text-shadow:0 2px 4px #000;
 }
 
-/* MEMBER NAME */
+/* MEMBER NAME AND DATE */
 
 .front-bottom{
   position:absolute;
@@ -234,9 +237,9 @@ body{
 }
 
 .user-name{
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Georgia,serif;
   font-size:3.7cqw;
-  font-weight:500;
+  font-weight:600;
   color:#ffe2a0;
   letter-spacing:.3cqw;
   text-transform:uppercase;
@@ -254,7 +257,7 @@ body{
   white-space:nowrap;
 }
 
-/* BRAND */
+/* RUBALIA BRAND */
 
 .card-brand{
   position:absolute;
@@ -269,7 +272,7 @@ body{
   text-shadow:0 2px 4px #000;
 }
 
-/* BACK */
+/* BACK DESIGN */
 
 .card-back{
   transform:rotateY(180deg);
@@ -343,7 +346,7 @@ body{
   font-style:italic;
 }
 
-/* BACK ID */
+/* BACK MEMBER ID */
 
 .back-id{
   position:absolute;
@@ -358,7 +361,7 @@ body{
   text-overflow:ellipsis;
 }
 
-/* ACCESSIBILITY */
+/* REDUCED MOTION */
 
 @media(prefers-reduced-motion:reduce){
   .card{
@@ -497,7 +500,7 @@ function formatBalance(value){
 
 }
 
-/* GET USER */
+/* GET CURRENT USER */
 
 function getCurrentUser(){
 
@@ -523,7 +526,7 @@ function getCurrentUser(){
 
 }
 
-/* LOAD MEMBER INFORMATION */
+/* LOAD MEMBER CARD INFORMATION */
 
 function loadMemberCard(){
 
@@ -601,19 +604,13 @@ function loadMemberCard(){
 
 }
 
-/* FLIP CARD */
+/* FLIP ONLY */
 
-function toggleCard(){
+card.addEventListener("click",function(){
 
   isFlipped = !isFlipped;
 
   card.classList.toggle("flipped",isFlipped);
-
-}
-
-card.addEventListener("click",function(){
-
-  toggleCard();
 
 });
 
@@ -629,7 +626,7 @@ window.addEventListener("pageshow",function(){
 
 });
 
-/* STORAGE CHANGE */
+/* STORAGE UPDATE */
 
 window.addEventListener("storage",function(event){
 
