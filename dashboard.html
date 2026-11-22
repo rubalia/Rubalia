@@ -24,17 +24,120 @@ a{text-decoration:none;color:inherit}
 button,input{font-family:inherit}
 body.menu-open{overflow:hidden}
 
-/* NAVIGATION BUTTON — floats above the first slider */
+
+/* SLIM BRAND HEADER — stays above the slider */
+.app-header{
+  position:relative;
+  z-index:10;
+  width:100%;
+  min-height:54px;
+  padding:6px 10px 6px 62px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  color:#fff;
+  background:linear-gradient(105deg,#071b36,#102f55 58%,#0a2443);
+  border-bottom:1px solid rgba(255,255,255,.12);
+  box-shadow:0 3px 12px rgba(3,15,34,.18);
+}
+.app-brand{
+  min-width:0;
+  display:flex;
+  align-items:center;
+}
+.app-brand-name{
+  margin:0;
+  color:#f5f8ff;
+  font-size:clamp(13px,2.2vw,19px);
+  font-weight:900;
+  letter-spacing:.65px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.app-brand-name span{color:#25c878}
+.header-account{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  flex-shrink:0;
+}
+.profile-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:39px;
+  height:39px;
+  overflow:hidden;
+  border-radius:50%;
+  border:2px solid #f4d35e;
+  background:linear-gradient(135deg,#f7d96b,#e69a34);
+  box-shadow:0 0 0 2px rgba(255,255,255,.13);
+  color:#17233a;
+  font-size:14px;
+  font-weight:900;
+}
+.profile-link img{width:100%;height:100%;object-fit:cover}
+.header-balance{
+  min-width:82px;
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  padding:0 9px;
+  border:1px solid rgba(67,220,207,.35);
+  border-radius:9px;
+  color:#32e0d2;
+  background:linear-gradient(145deg,#061a2c,#09283c);
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.35),0 2px 7px rgba(0,0,0,.15);
+  font-size:14px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.header-balance small{font-size:9px;color:#8ac9d2}
 .top-menu-bar{
-  height:auto;width:100%;display:flex;align-items:center;justify-content:flex-start;
-  padding:0;background:transparent;position:absolute;top:15px;left:12px;
-  z-index:250;pointer-events:none;
+  position:absolute;
+  top:9px;
+  left:9px;
+  width:auto;
+  height:auto;
+  z-index:250;
+  pointer-events:none;
 }
 .top-menu-bar .menu-toggle{pointer-events:auto}
 .menu-toggle{
-  width:44px;height:44px;flex-shrink:0;border:1px solid rgba(91,35,104,.22);
-  background:linear-gradient(135deg,#32113f,#8f174e);color:white;border-radius:11px;
-  font-size:24px;cursor:pointer;box-shadow:0 3px 10px rgba(35,10,45,.13)
+  width:36px;height:36px;
+  border:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(135deg,#102f55,#1a4773);
+  color:#fff;border-radius:9px;
+  font-size:20px;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.22)
+}
+.announcement-ticker{
+  height:29px;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:3px 9px;
+  overflow:hidden;
+  color:#f4c66e;
+  background:linear-gradient(100deg,#07182d,#102a49);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.announcement-bell{flex:0 0 auto;font-size:14px}
+.announcement-ticker iframe{
+  display:block;
+  flex:1;
+  min-width:0;
+  width:100%;
+  height:25px;
+  border:0;
+  overflow:hidden;
+  background:transparent;
 }
 
 /* DRAWER */
@@ -255,14 +358,14 @@ footer{
 footer strong{color:#f4d58c}
 
 @media(max-width:700px){
-  .app-header{height:65px;padding:0 11px;gap:7px}
-  .header-left{gap:9px}
-  .menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
-  .brand{gap:7px}
-  .brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
-  .brand-text{font-size:13px;letter-spacing:.5px}
-  .brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
-  .header-action{padding:10px 9px;font-size:10px;border-radius:9px}
+  .app-header{min-height:49px;padding:5px 7px 5px 54px;gap:5px}
+  .app-brand-name{font-size:13px;letter-spacing:.25px}
+  .profile-link{width:34px;height:34px}
+  .header-balance{min-width:72px;min-height:32px;padding:0 7px;font-size:12px}
+  .top-menu-bar{top:7px;left:8px}
+  .menu-toggle{width:34px;height:34px;font-size:19px}
+  .announcement-ticker{height:27px;padding:2px 7px}
+  .announcement-ticker iframe{height:23px}
   main{padding:8px 5px 12px}
   .page-intro{margin:0 5px 12px;padding:13px 14px}
   .page-intro h1{font-size:18px}
@@ -290,8 +393,10 @@ footer strong{color:#f4d58c}
   .buy-btn{padding:8px 7px;font-size:8px;border-radius:7px}
 }
 @media(max-width:360px){
-  .brand-text{font-size:11px}.brand-icon{width:36px;height:36px}
-  .header-action{font-size:9px;padding:9px 7px}
+  .app-header{padding-left:50px}
+  .app-brand-name{font-size:11px}
+  .profile-link{width:31px;height:31px}
+  .header-balance{min-width:65px;font-size:11px}
   .category-grid{gap:7px}
   .category-card{min-height:92px;padding:0;border-radius:8px}
   .category-card img{width:100%;height:100%;min-height:92px;object-fit:fill}
@@ -303,9 +408,26 @@ footer strong{color:#f4d58c}
 </head>
 
 <body>
+<header class="app-header">
+  <div class="app-brand">
+    <h1 class="app-brand-name">RUBALIA <span>NETWORK</span></h1>
+  </div>
+  <div class="header-account">
+    <a class="profile-link" id="headerProfile" href="profile.html" aria-label="My Profile" title="My Profile">R</a>
+    <a class="header-balance" id="headerBalance" href="wallet.html" aria-label="Wallet balance">
+      <small>৳</small><span id="headerBalanceValue">--</span>
+    </a>
+  </div>
+</header>
+
 <div class="top-menu-bar">
   <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 </div>
+
+<section class="announcement-ticker" aria-label="Latest announcement">
+  <span class="announcement-bell" aria-hidden="true">🔔</span>
+  <iframe src="admin/admin-announce.html" title="RUBALIA NETWORK announcement" loading="eager" scrolling="no"></iframe>
+</section>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <aside class="sidebar" id="sidebar">
@@ -377,12 +499,6 @@ footer strong{color:#f4d58c}
   </section>
 </main>
 
-<!-- Admin announcement strip: reserved space immediately above the footer. -->
-<section class="admin-announcement" id="adminAnnouncement" aria-live="polite" aria-label="Admin announcement">
-  <span class="announcement-label">ANNOUNCEMENT</span>
-  <span class="announcement-message" id="announcementMessage"></span>
-</section>
-
 <footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
 <script>
@@ -408,6 +524,12 @@ let selectedCategory = "";
 let loading = false;
 
 const $ = id => document.getElementById(id);
+
+/* Restore cached header details while the session is being verified. */
+try{
+  const cachedUser = JSON.parse(sessionStorage.getItem("rubalia_user") || "null");
+  if(cachedUser) updateHeaderAccount(cachedUser);
+}catch(error){}
 
 /* DRAWER */
 const sidebar = $("sidebar");
@@ -513,6 +635,37 @@ async function fetchJSON(path,token){
   return data;
 }
 
+/* HEADER PROFILE + WALLET BALANCE */
+function updateHeaderAccount(user){
+  const profile = $("headerProfile");
+  const balance = $("headerBalanceValue");
+  if(!user) return;
+
+  const avatarURL = safeImageURL(
+    user.avatar_url || user.profile_image || user.photo_url || user.profile_picture
+  );
+  if(avatarURL){
+    const image = document.createElement("img");
+    image.src = avatarURL;
+    image.alt = user.full_name || "Profile";
+    profile.replaceChildren(image);
+  }else{
+    const initials = String(user.full_name || "R")
+      .trim().split(/\\s+/).slice(0,2).map(part=>part.charAt(0)).join("").toUpperCase();
+    profile.textContent = initials || "R";
+  }
+
+  const amount = user.balance ?? user.wallet_balance ?? user.available_balance;
+  if(amount !== null && amount !== undefined && amount !== ""){
+    const numeric = Number(amount);
+    balance.textContent = Number.isFinite(numeric)
+      ? numeric.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})
+      : String(amount);
+  }else{
+    balance.textContent = "--";
+  }
+}
+
 /* AUTHENTICATION */
 async function verifySession(){
   const token = sessionStorage.getItem("rubalia_token");
@@ -534,8 +687,15 @@ async function verifySession(){
     throw new Error("Your account is not active.");
   }
   sessionStorage.setItem("rubalia_user",JSON.stringify({
-    id:user.id,full_name:user.full_name,email:user.email,role:user.role,status:user.status
+    id:user.id,
+    full_name:user.full_name,
+    email:user.email,
+    role:user.role,
+    status:user.status,
+    avatar_url:user.avatar_url || user.profile_image || user.photo_url || user.profile_picture || "",
+    balance:user.balance ?? user.wallet_balance ?? user.available_balance ?? null
   }));
+  updateHeaderAccount(user);
   return token;
 }
 
