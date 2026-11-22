@@ -1,0 +1,20 @@
+
+{
+  "name": "rubalia-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RUBALIA NETWORK Android application",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/prepare-web.js",
+    "cap:sync": "cap sync android",
+    "cap:open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}
