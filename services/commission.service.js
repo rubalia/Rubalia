@@ -5,6 +5,7 @@
 // RUBALIA NETWORK
 // 10 LEVEL UNILEVEL COMMISSION ENGINE
 // Dynamic eligible-level allocation
+// Immediate commission release after delivery
 // =====================================================
 
 const DEFAULT_RATES = [20, 15, 10, 8, 6, 5, 4, 3, 2, 2];
@@ -74,14 +75,6 @@ function validateRates(rates) {
 
 // =====================================================
 // DYNAMIC COMMISSION ALLOCATION
-//
-// Only eligible sponsors receive commission.
-// Ineligible level commission remains with company.
-//
-// eligibleLevels:
-// [true, false, ...]
-//
-// If omitted, all levels are treated as eligible.
 // =====================================================
 
 function calculateCommissionAllocation(
@@ -208,21 +201,13 @@ function snapshotMoney(snapshot, key) {
 
 /**
  * PRODUCT COST
- *
- * Cost Price
- * + Delivery Cost
- * + Packaging Cost
- * + Other Cost
+ * Cost Price + Delivery Cost + Packaging Cost + Other Cost
  *
  * PACKAGE COST
- *
  * Three component Product Cost Prices only
  * + Package Delivery Cost
  * + Package Packaging Cost
  * + Package Other Cost
- *
- * Product-level extra costs are not added again
- * inside a package.
  */
 function calculateSnapshotItemCost(snapshot, itemType) {
   if (!snapshot || typeof snapshot !== "object") {
@@ -747,18 +732,18 @@ async function prepareOrderCommission(client, orderId) {
     throw new Error("Invalid refund period configuration.");
   }
 
+  // Keep the refund date for refund/reporting purposes.
+  // It no longer blocks immediate commission release.
   const refundPeriodEndsAt = new Date(
     deliveredAt.getTime() +
     refundPeriodDays * 24 * 60 * 60 * 1000
   );
 
-  // Find sponsor chain.
   const sponsorChain = await getSponsorChain(
     client,
     order.user_id
   );
 
-  // Check eligibility before allocating commission.
   const eligibleSponsors = [];
 
   for (let i = 0; i < LEVEL_COUNT; i++) {
@@ -774,8 +759,6 @@ async function prepareOrderCommission(client, orderId) {
     sponsor => Boolean(sponsor)
   );
 
-  // Only eligible levels receive their configured percentage.
-  // Every other level's share goes directly to company.
   const allocation = calculateCommissionAllocation(
     profitCents,
     rates,
@@ -861,7 +844,8 @@ async function prepareOrderCommission(client, orderId) {
 }
 
 // =====================================================
-// RELEASE MATURED COMMISSION
+// RELEASE COMMISSION IMMEDIATELY AFTER DELIVERY
+// Must be called inside the same PostgreSQL transaction.
 // =====================================================
 
 async function releaseOrderCommission(client, orderId) {
@@ -931,17 +915,9 @@ async function releaseOrderCommission(client, orderId) {
     throw new Error("Order does not have pending commission.");
   }
 
-  if (!order.refund_period_ends_at) {
-    throw new Error("Refund period end time is missing.");
-  }
-
-  const maturity = new Date(order.refund_period_ends_at);
-
-  if (Number.isNaN(maturity.getTime()) || maturity > new Date()) {
-    throw new Error(
-      "Refund/return period has not ended. Commission cannot be released yet."
-    );
-  }
+  // Immediate release rule:
+  // Refund period is not checked here.
+  // Refund processing remains separate.
 
   const ledgerResult = await client.query(
     `
@@ -980,8 +956,6 @@ async function releaseOrderCommission(client, orderId) {
 
     const amountCents = toCents(entry.amount);
 
-    // A level without a beneficiary has already been assigned
-    // to company during preparation. It must not be paid later.
     if (!entry.beneficiary_id || amountCents === 0) {
       await client.query(
         `
@@ -1003,7 +977,6 @@ async function releaseOrderCommission(client, orderId) {
       continue;
     }
 
-    // Recheck eligibility at release time.
     const eligibleSponsor = await getEligibleSponsor(
       client,
       entry.beneficiary_id
