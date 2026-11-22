@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,86 +21,265 @@
   --red:#d64545;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text)
+}
 header{
-  background:var(--navy);color:white;padding:15px 18px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:10
+  background:var(--navy);
+  color:white;
+  padding:15px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:20
 }
 .brand{font-size:18px;font-weight:800}
 .brand span{color:var(--gold)}
 .header-right{font-size:12px;color:#dce5f3}
+
+/* TOP ADMIN NAVIGATION */
+.admin-nav{
+  background:var(--navy2);
+  border-top:1px solid #ffffff16;
+  position:sticky;
+  top:52px;
+  z-index:19;
+}
+.nav-inner{
+  max-width:1250px;
+  margin:auto;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{display:none}
+.admin-nav a{
+  display:block;
+  flex-shrink:0;
+  padding:13px 12px;
+  color:#dce5f3;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+  border-bottom:3px solid transparent;
+}
+.admin-nav a:hover{
+  color:var(--gold);
+  background:#ffffff08;
+}
+.admin-nav a.active{
+  color:var(--gold);
+  border-bottom-color:var(--gold);
+  background:#ffffff08;
+}
+
 .container{max-width:1200px;margin:auto;padding:20px}
 .page-title{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;flex-wrap:wrap;margin-bottom:20px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px
 }
 h1{font-size:24px;margin:0 0 6px}
 .subtitle{font-size:13px;color:var(--muted)}
-button{border:0;border-radius:8px;padding:11px 15px;font-weight:700;cursor:pointer}
+button{
+  border:0;
+  border-radius:8px;
+  padding:11px 15px;
+  font-weight:700;
+  cursor:pointer
+}
 button:disabled{opacity:.6;cursor:not-allowed}
 .primary{background:var(--gold);color:#17243a}
 .secondary{background:var(--navy);color:white}
 .danger{background:#fff0f0;color:var(--red)}
 .small{padding:7px 10px;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:18px
+}
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px
+}
 .stat-label{font-size:12px;color:var(--muted)}
 .stat-value{font-size:25px;font-weight:800;margin-top:9px}
-.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:17px;margin-bottom:18px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:17px;
+  margin-bottom:18px
+}
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px
+}
 input,textarea,select{
-  width:100%;padding:12px;border:1px solid #dce2eb;
-  border-radius:8px;font-size:14px;background:white;color:var(--text);outline:none
+  width:100%;
+  padding:12px;
+  border:1px solid #dce2eb;
+  border-radius:8px;
+  font-size:14px;
+  background:white;
+  color:var(--text);
+  outline:none
 }
 input:focus,textarea:focus,select:focus{border-color:var(--gold)}
 .search{flex:1;min-width:180px}
+
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1150px}
-th,td{padding:13px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:13px}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1150px
+}
+th,td{
+  padding:13px 10px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:13px
+}
 th{background:#f8f9fc;color:#59677b}
 .product-name{font-weight:700}
 .muted{color:var(--muted);font-size:11px;margin-top:4px}
-.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700
+}
 .status-active{background:#e4f7ed;color:#168653}
 .status-draft{background:#fff4d9;color:#9a6a0a}
 .status-archived{background:#f1f1f1;color:#777}
 .actions{display:flex;gap:6px;flex-wrap:wrap}
-.message{padding:13px;border-radius:9px;font-size:13px;margin-bottom:15px;display:none;line-height:1.6}
+.message{
+  padding:13px;
+  border-radius:9px;
+  font-size:13px;
+  margin-bottom:15px;
+  display:none;
+  line-height:1.6
+}
 .error{background:#fff0f0;color:#b52c2c}
 .success{background:#e7f8ee;color:#137346}
 .empty{text-align:center;padding:35px;color:var(--muted)}
+
 .modal{
-  display:none;position:fixed;inset:0;background:#0009;z-index:30;
-  align-items:center;justify-content:center;padding:15px
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#0009;
+  z-index:30;
+  align-items:center;
+  justify-content:center;
+  padding:15px
 }
 .modal.show{display:flex}
 .modal-box{
-  background:white;width:100%;max-width:560px;max-height:92vh;
-  overflow:auto;border-radius:14px;padding:20px
+  background:white;
+  width:100%;
+  max-width:560px;
+  max-height:92vh;
+  overflow:auto;
+  border-radius:14px;
+  padding:20px
 }
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px
+}
 .modal-head h2{font-size:20px;margin:0}
 .close{background:#f0f2f6;color:#333;padding:7px 11px}
 .field{margin-bottom:14px}
-.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
-.field small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
-.cost-heading{font-size:15px;font-weight:800;margin:20px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
-.cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.cost-summary{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:15px}
-.cost-summary div{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin:7px 0}
-.cost-summary .total{border-top:1px solid var(--border);padding-top:10px;margin-top:12px;font-size:15px;font-weight:800}
-.cost-note{color:var(--muted);font-size:11px;line-height:1.5;margin-top:10px}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px
+}
+.field small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px
+}
+.cost-heading{
+  font-size:15px;
+  font-weight:800;
+  margin:20px 0 12px;
+  padding-bottom:9px;
+  border-bottom:1px solid var(--border)
+}
+.cost-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+.cost-summary{
+  background:#f8f9fc;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-top:15px
+}
+.cost-summary div{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:13px;
+  margin:7px 0
+}
+.cost-summary .total{
+  border-top:1px solid var(--border);
+  padding-top:10px;
+  margin-top:12px;
+  font-size:15px;
+  font-weight:800
+}
+.cost-note{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  margin-top:10px
+}
 .form-actions{display:flex;gap:10px;margin-top:18px}
 .form-actions button{flex:1}
 #loading{text-align:center;padding:25px;color:var(--muted)}
 #access{
-  display:none;max-width:500px;margin:70px auto;padding:25px;
-  background:white;border-radius:13px;text-align:center
+  display:none;
+  max-width:500px;
+  margin:70px auto;
+  padding:25px;
+  background:white;
+  border-radius:13px;
+  text-align:center
 }
 .cost-cell{font-weight:700;color:#9a6a0a}
 
-/* CATEGORY DROPDOWN */
+/* CATEGORY */
 .category-select-wrap{position:relative}
 .category-select-wrap select{
   appearance:none;
@@ -123,7 +303,7 @@ th{background:#f8f9fc;color:#59677b}
   display:block;
   color:var(--muted);
   font-size:11px;
-  margin-top:5px;
+  margin-top:5px
 }
 .category-badge{
   display:inline-block;
@@ -132,16 +312,108 @@ th{background:#f8f9fc;color:#59677b}
   background:#f3f0e7;
   color:#85621f;
   font-size:11px;
-  font-weight:700;
+  font-weight:700
 }
-@media(max-width:600px){
+
+/* MOBILE PRODUCT CARDS */
+.mobile-products{display:none}
+.product-card{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  background:#fff
+}
+.product-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:12px
+}
+.mobile-product-name{
+  font-size:15px;
+  font-weight:800;
+  line-height:1.4;
+  overflow-wrap:anywhere
+}
+.mobile-product-id{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px
+}
+.product-card-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:12px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border)
+}
+.info-item{min-width:0}
+.info-label{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:5px
+}
+.info-value{
+  font-size:13px;
+  font-weight:700;
+  overflow-wrap:anywhere
+}
+.product-card-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px
+}
+.mobile-actions{display:flex;gap:7px}
+.mobile-actions button{padding:9px 12px;font-size:12px}
+
+@media(max-width:760px){
+  header{padding:13px 14px}
+  .brand{font-size:16px}
+  .header-right{font-size:10px}
+  .admin-nav{top:47px}
+  .nav-inner{padding:0 9px}
+  .admin-nav a{padding:12px 11px;font-size:11px}
   .container{padding:13px}
-  .stats{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr;gap:9px}
+  .stat{padding:13px}
   .stat:last-child{grid-column:1/-1}
+  .stat-value{font-size:22px}
   h1{font-size:21px}
+  .page-title{gap:12px}
   .page-title button{width:100%}
+  .panel{padding:12px}
+  .toolbar{gap:8px}
+  .search{min-width:100%}
+  .toolbar button{flex:1}
+  .table-wrap{display:none!important}
+  .mobile-products{display:block}
   .cost-grid{grid-template-columns:1fr}
-  .modal-box{padding:15px}
+  .modal{padding:8px;align-items:center}
+  .modal-box{
+    padding:15px;
+    max-height:94vh;
+    border-radius:12px
+  }
+  .modal-head{
+    position:sticky;
+    top:-15px;
+    background:white;
+    padding:10px 0;
+    z-index:2
+  }
+}
+@media(min-width:761px){
+  .mobile-products{display:none!important}
+}
+@media(max-width:380px){
+  .product-card-bottom{align-items:flex-start;flex-direction:column}
+  .mobile-actions{width:100%}
+  .mobile-actions button{flex:1}
 }
 </style>
 </head>
@@ -152,6 +424,26 @@ th{background:#f8f9fc;color:#59677b}
   <div class="brand">RUBALIA <span>NETWORK</span></div>
   <div class="header-right">ADMIN PANEL</div>
 </header>
+
+<!-- TOP ADMIN NAVIGATION -->
+<nav class="admin-nav">
+  <div class="nav-inner">
+    <a href="../admin-dashboard.html">Dashboard</a>
+    <a href="admin-users.html">Users</a>
+    <a href="admin-partners.html">Partners</a>
+    <a href="admin-applications.html">Applications</a>
+    <a href="admin-products.html" class="active">Products</a>
+    <a href="admin-packages.html">Packages</a>
+    <a href="admin-orders.html">Orders</a>
+    <a href="admin-payments.html">Payments</a>
+    <a href="admin-withdrawals.html">Withdrawals</a>
+    <a href="admin-commissions.html">Commissions</a>
+    <a href="admin-announcements.html">Announcements</a>
+    <a href="admin-support.html">Support</a>
+    <a href="admin-settings.html">Settings</a>
+    <a href="../index.html">Visit Website</a>
+  </div>
+</nav>
 
 <div id="access">
   <h2>Admin Access Required</h2>
@@ -199,6 +491,7 @@ th{background:#f8f9fc;color:#59677b}
 
     <div id="loading">Loading products...</div>
 
+    <!-- DESKTOP TABLE -->
     <div class="table-wrap" id="tableWrap" style="display:none">
       <table>
         <thead>
@@ -217,12 +510,16 @@ th{background:#f8f9fc;color:#59677b}
       </table>
     </div>
 
+    <!-- MOBILE PRODUCT CARDS -->
+    <div class="mobile-products" id="mobileProductList" style="display:none"></div>
+
     <div class="empty" id="empty" style="display:none">
       No products found.
     </div>
   </section>
 </main>
 
+<!-- PRODUCT MODAL -->
 <div class="modal" id="productModal">
   <div class="modal-box">
 
@@ -239,7 +536,6 @@ th{background:#f8f9fc;color:#59677b}
         <input id="name" maxlength="180" required placeholder="Enter product name">
       </div>
 
-      <!-- CATEGORY DROPDOWN -->
       <div class="field">
         <label for="category">Product Category *</label>
         <div class="category-select-wrap">
@@ -476,6 +772,7 @@ async function loadProducts(){
   $("loading").style.display = "block";
   $("loading").textContent = "Loading products...";
   $("tableWrap").style.display = "none";
+  $("mobileProductList").style.display = "none";
   $("empty").style.display = "none";
   $("refreshButton").disabled = true;
 
@@ -543,6 +840,13 @@ function appendCell(row,value){
   return cell;
 }
 
+function getStatusClass(status){
+  return status === "active" ? "status-active" :
+         status === "draft" ? "status-draft" :
+         "status-archived";
+}
+
+/* DESKTOP TABLE + MOBILE CARDS */
 function renderProducts(){
   const query = $("searchInput").value.trim().toLowerCase();
 
@@ -553,12 +857,25 @@ function renderProducts(){
   );
 
   const rows = $("productRows");
-  rows.replaceChildren();
+  const mobileList = $("mobileProductList");
 
-  $("tableWrap").style.display = filtered.length ? "block" : "none";
-  $("empty").style.display = filtered.length ? "none" : "block";
+  rows.replaceChildren();
+  mobileList.replaceChildren();
+
+  $("tableWrap").style.display =
+    filtered.length ? "block" : "none";
+
+  $("mobileProductList").style.display =
+    filtered.length ? "block" : "none";
+
+  $("empty").style.display =
+    filtered.length ? "none" : "block";
 
   filtered.forEach(product=>{
+    const status = String(product.status || "draft").toLowerCase();
+    const costTotal = calculateProductCost(product);
+
+    /* DESKTOP ROW */
     const tr = document.createElement("tr");
 
     const nameCell = document.createElement("td");
@@ -586,7 +903,7 @@ function renderProducts(){
     const costCell = document.createElement("td");
     const cost = document.createElement("div");
     cost.className = "cost-cell";
-    cost.textContent = money(calculateProductCost(product));
+    cost.textContent = money(costTotal);
 
     const costDetail = document.createElement("div");
     costDetail.className = "muted";
@@ -599,12 +916,7 @@ function renderProducts(){
 
     const statusCell = document.createElement("td");
     const badge = document.createElement("span");
-    const status = String(product.status || "draft").toLowerCase();
-
-    badge.className = "status " +
-      (status === "active" ? "status-active" :
-       status === "draft" ? "status-draft" : "status-archived");
-
+    badge.className = "status " + getStatusClass(status);
     badge.textContent = status;
     statusCell.appendChild(badge);
     tr.appendChild(statusCell);
@@ -631,6 +943,92 @@ function renderProducts(){
     tr.appendChild(actionCell);
 
     rows.appendChild(tr);
+
+    /* MOBILE PRODUCT CARD */
+    const card = document.createElement("article");
+    card.className = "product-card";
+
+    const top = document.createElement("div");
+    top.className = "product-card-top";
+
+    const titleWrap = document.createElement("div");
+
+    const mobileName = document.createElement("div");
+    mobileName.className = "mobile-product-name";
+    mobileName.textContent = product.name || "Unnamed Product";
+
+    const mobileId = document.createElement("div");
+    mobileId.className = "mobile-product-id";
+    mobileId.textContent = "Product ID: " + product.id;
+
+    titleWrap.append(mobileName,mobileId);
+
+    const mobileStatus = document.createElement("span");
+    mobileStatus.className = "status " + getStatusClass(status);
+    mobileStatus.textContent = status;
+
+    top.append(titleWrap,mobileStatus);
+    card.appendChild(top);
+
+    const mobileCategory = document.createElement("div");
+    mobileCategory.className = "category-badge";
+    mobileCategory.textContent = product.category || "Not assigned";
+    card.appendChild(mobileCategory);
+
+    const info = document.createElement("div");
+    info.className = "product-card-info";
+
+    function addInfo(label,value){
+      const item = document.createElement("div");
+      item.className = "info-item";
+
+      const labelElement = document.createElement("div");
+      labelElement.className = "info-label";
+      labelElement.textContent = label;
+
+      const valueElement = document.createElement("div");
+      valueElement.className = "info-value";
+      valueElement.textContent = String(value);
+
+      item.append(labelElement,valueElement);
+      info.appendChild(item);
+    }
+
+    addInfo("Selling Price",money(product.price));
+    addInfo("Actual Cost",money(costTotal));
+    addInfo("Stock Quantity",Number(product.stock || 0));
+    addInfo("SKU",product.sku || "Not assigned");
+
+    card.appendChild(info);
+
+    const bottom = document.createElement("div");
+    bottom.className = "product-card-bottom";
+
+    const baseCost = document.createElement("div");
+    baseCost.className = "muted";
+    baseCost.textContent = "Base Cost: " + money(product.cost_price);
+
+    const mobileActions = document.createElement("div");
+    mobileActions.className = "mobile-actions";
+
+    const mobileEdit = document.createElement("button");
+    mobileEdit.type = "button";
+    mobileEdit.className = "secondary";
+    mobileEdit.textContent = "Edit";
+    mobileEdit.addEventListener("click",()=>editProduct(product.id));
+
+    const mobileArchive = document.createElement("button");
+    mobileArchive.type = "button";
+    mobileArchive.className = "danger";
+    mobileArchive.textContent = status === "archived" ? "Archived" : "Archive";
+    mobileArchive.disabled = status === "archived";
+    mobileArchive.addEventListener("click",()=>archiveProduct(product.id));
+
+    mobileActions.append(mobileEdit,mobileArchive);
+    bottom.append(baseCost,mobileActions);
+    card.appendChild(bottom);
+
+    mobileList.appendChild(card);
   });
 }
 
@@ -660,10 +1058,30 @@ function resetCostFields(){
   updateCostSummary();
 }
 
+/* RESET CATEGORY OPTIONS */
+function resetCategoryOptions(){
+  const select = $("category");
+  select.replaceChildren();
+
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Select Product Category";
+  select.appendChild(placeholder);
+
+  PRODUCT_CATEGORIES.forEach(category=>{
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    select.appendChild(option);
+  });
+}
+
 /* ADD PRODUCT */
 function openAddModal(){
   $("productForm").reset();
   $("productId").value = "";
+
+  resetCategoryOptions();
 
   $("modalTitle").textContent = "Add Product";
   $("saveButton").textContent = "Save Product";
@@ -685,6 +1103,9 @@ function editProduct(id){
   const product = products.find(p=>String(p.id)===String(id));
   if(!product) return;
 
+  $("productForm").reset();
+  resetCategoryOptions();
+
   $("productId").value = product.id;
   $("name").value = product.name || "";
   $("sku").value = product.sku || "";
@@ -693,7 +1114,6 @@ function editProduct(id){
   $("description").value = product.description || "";
   $("status").value = product.status || "draft";
 
-  // Load existing category into dropdown.
   const existingCategory = String(product.category || "");
   const categorySelect = $("category");
 
@@ -701,7 +1121,6 @@ function editProduct(id){
     option=>option.value === existingCategory
   );
 
-  // Preserve any old category not included in the current 10 categories.
   if(existingCategory && !exists){
     const oldOption = document.createElement("option");
     oldOption.value = existingCategory;
@@ -861,7 +1280,7 @@ async function archiveProduct(id){
 
   if(!confirm(
     'Archive "' + product.name +
-    '"? The product will be marked as archived, not permanently deleted.'
+    '"? Continue with this action?'
   )){
     return;
   }
@@ -873,7 +1292,7 @@ async function archiveProduct(id){
     );
 
     showMessage(
-      result.message || "Product archived successfully.",
+      result.message || "Product archive request completed.",
       "success"
     );
 
