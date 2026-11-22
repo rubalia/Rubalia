@@ -4,263 +4,1040 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#8b1748">
+<meta name="theme-color" content="#710018">
 <meta name="description" content="Create your RUBALIA NETWORK member account.">
 <meta name="robots" content="noindex,nofollow">
 <title>Create Account | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --red:#d60045;
-  --dark:#78113d;
-  --gold:#e8bd65;
-  --text:#25213a;
-  --muted:#888397;
-  --border:#e8e4ed;
+  --red:#d60025;
+  --dark:#710018;
+  --gold:#ffd36a;
   --green:#16804b;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 body{
-  min-height:100vh;padding:25px 15px;
-  display:flex;justify-content:center;align-items:center;
-  font-family:Arial,Helvetica,sans-serif;color:var(--text);
+  min-height:100vh;
+  min-height:100dvh;
+  padding:25px 15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+  perspective:1200px;
+
   background:
-    radial-gradient(circle at 10% 15%,rgba(255,190,80,.85),transparent 30%),
-    radial-gradient(circle at 90% 15%,rgba(255,70,150,.65),transparent 32%),
-    radial-gradient(circle at 15% 90%,rgba(95,75,220,.65),transparent 35%),
-    radial-gradient(circle at 90% 85%,rgba(0,190,190,.55),transparent 32%),
-    linear-gradient(135deg,#f7d6e5,#e7ddff,#d7f5f1);
+    radial-gradient(circle at 10% 15%,#ffb33d 0%,transparent 30%),
+    radial-gradient(circle at 90% 15%,#ff3c76 0%,transparent 32%),
+    radial-gradient(circle at 15% 90%,#7939e9 0%,transparent 35%),
+    radial-gradient(circle at 90% 90%,#00b8bd 0%,transparent 35%),
+    linear-gradient(135deg,#260020,#a50030,#280047);
+
   background-size:200% 200%;
-  animation:backgroundMove 12s ease infinite;
+  animation:backgroundMove 16s ease infinite;
 }
+
 @keyframes backgroundMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+  0%{background-position:0% 0%}
+  50%{background-position:100% 100%}
+  100%{background-position:0% 0%}
 }
+
+/* ANIMATED BACKGROUND */
+
+.background-shape{
+  position:fixed;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:.48;
+  filter:blur(3px);
+  z-index:0;
+  will-change:transform;
+}
+
+.shape-one{
+  width:220px;
+  height:220px;
+  background:#ffcf45;
+  top:-90px;
+  left:-80px;
+  animation:floatOne 8s ease-in-out infinite;
+}
+
+.shape-two{
+  width:260px;
+  height:260px;
+  background:#00e0c7;
+  bottom:-120px;
+  right:-100px;
+  animation:floatTwo 10s ease-in-out infinite;
+}
+
+.shape-three{
+  width:150px;
+  height:150px;
+  background:#ff4b8c;
+  top:48%;
+  right:-70px;
+  animation:floatOne 7s ease-in-out infinite reverse;
+}
+
+.shape-four{
+  width:130px;
+  height:130px;
+  background:#ffd36a;
+  bottom:22%;
+  left:-65px;
+  animation:floatTwo 9s ease-in-out infinite;
+}
+
+@keyframes floatOne{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(25px,-30px,30px)}
+}
+
+@keyframes floatTwo{
+  0%,100%{transform:translate3d(0,0,0) rotate(0deg)}
+  50%{transform:translate3d(-25px,25px,35px) rotate(25deg)}
+}
+
+/* AMBIENT LIGHT */
+
+.ambient-light{
+  position:fixed;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  background:rgba(255,70,120,.24);
+  filter:blur(90px);
+  top:25%;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.glass-orb{
+  position:fixed;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+  filter:blur(3px);
+  pointer-events:none;
+  z-index:0;
+  animation:orbFloat 12s ease-in-out infinite;
+}
+
+.orb-one{
+  top:18%;
+  right:8%;
+}
+
+.orb-two{
+  bottom:12%;
+  left:5%;
+  width:130px;
+  height:130px;
+  animation-delay:-5s;
+}
+
+@keyframes orbFloat{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(20px,-25px,0) scale(1.12)}
+}
+
+/* PREMIUM GLASS CARD */
+
 .container{
-  width:100%;max-width:430px;padding:35px 30px;
-  border-radius:25px;background:rgba(255,255,255,.94);
-  border:1px solid rgba(255,255,255,.8);
-  box-shadow:0 25px 70px rgba(45,20,65,.20);
-  backdrop-filter:blur(15px);
-  animation:cardAppear .6s ease;
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:430px;
+  padding:35px 30px;
+  border-radius:27px;
+
+  background:rgba(255,255,255,.075);
+
+  -webkit-backdrop-filter:blur(12px) saturate(180%) contrast(105%);
+  backdrop-filter:blur(12px) saturate(180%) contrast(105%);
+
+  border:1px solid rgba(255,255,255,.48);
+
+  box-shadow:
+    0 35px 90px rgba(20,0,25,.32),
+    0 12px 25px rgba(0,0,0,.13),
+    inset 0 2px 0 rgba(255,255,255,.45),
+    inset 0 -2px 15px rgba(255,255,255,.09);
+
+  transform-style:preserve-3d;
+  animation:cardAppear 1s cubic-bezier(.2,.8,.2,1) both;
+  transition:transform .2s ease;
 }
+
+/* GLASS BORDER */
+
+.container::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:27px;
+  padding:1px;
+
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.95),
+    rgba(255,211,106,.55),
+    rgba(255,255,255,.08),
+    rgba(214,0,37,.25),
+    rgba(255,255,255,.75)
+  );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  pointer-events:none;
+  z-index:5;
+}
+
+.container::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:8%;
+  width:84%;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.95),
+    transparent
+  );
+  box-shadow:0 0 15px rgba(255,255,255,.55);
+  pointer-events:none;
+}
+
 @keyframes cardAppear{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(45px) rotateX(12deg) scale(.93);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) rotateX(0) scale(1);
+  }
 }
-.brand{text-align:center;margin-bottom:27px}
+
+/* BRAND */
+
+.brand{
+  text-align:center;
+  margin-bottom:27px;
+  transform:translateZ(35px);
+}
+
 .logo{
-  width:72px;height:72px;margin:0 auto 14px;
-  position:relative;display:grid;place-items:center;
-  border-radius:22px;color:white;font-size:38px;font-weight:900;
-  background:linear-gradient(145deg,#ed286a,#76123e);
-  box-shadow:0 9px 20px rgba(170,25,85,.30);overflow:hidden;
+  width:78px;
+  height:78px;
+  margin:0 auto 16px;
+  position:relative;
+  display:grid;
+  place-items:center;
+  border-radius:24px;
+  color:white;
+  font-size:39px;
+  font-weight:1000;
+
+  background:linear-gradient(
+    145deg,
+    #ff7584,
+    #e00039 35%,
+    #a00029 65%,
+    #540018
+  );
+
+  border:2px solid #ffd982;
+
+  box-shadow:
+    0 9px 0 #69001c,
+    0 16px 25px rgba(120,0,30,.4),
+    inset 0 3px 8px rgba(255,255,255,.5),
+    inset 0 -8px 15px rgba(50,0,15,.25);
+
+  transform-style:preserve-3d;
+  animation:logoFloat 4s ease-in-out infinite;
+  overflow:hidden;
 }
-.logo:before{
-  content:"";position:absolute;width:39px;height:39px;
-  border:2px solid rgba(255,225,155,.9);
-  transform:rotate(45deg);border-radius:8px;
+
+.logo::before{
+  content:"";
+  position:absolute;
+  width:43px;
+  height:43px;
+  border:3px solid #ffe5a1;
+  border-radius:12px 12px 12px 4px;
+  transform:rotate(45deg) translateZ(12px);
+  box-shadow:0 0 12px rgba(255,215,100,.45);
 }
-.logo span{position:relative;z-index:1;text-shadow:0 2px 4px rgba(0,0,0,.2)}
-.brand h1{font-size:23px;letter-spacing:2px;color:#80133f;font-weight:900}
-.brand h1 span{color:#b18a43}
-.brand p{margin-top:7px;color:var(--muted);font-size:11px;letter-spacing:3px;font-weight:bold}
-.heading{text-align:center;margin-bottom:25px}
-.heading small{color:#b18a43;font-size:10px;font-weight:900;letter-spacing:3px}
-.heading h2{font-size:27px;color:#30233e;margin:9px 0}
-.heading p{font-size:12px;color:var(--muted);line-height:1.6}
+
+.logo span{
+  position:relative;
+  z-index:2;
+  transform:translateZ(24px);
+  text-shadow:
+    0 3px 0 #8a0021,
+    0 5px 0 #62001b,
+    0 8px 10px rgba(30,0,0,.6);
+}
+
+.logo-shine{
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:55%;
+  height:100%;
+  background:linear-gradient(
+    100deg,
+    transparent,
+    rgba(255,255,255,.55),
+    transparent
+  );
+  transform:skewX(-20deg);
+  animation:logoShine 5s ease-in-out infinite;
+  pointer-events:none;
+  z-index:3;
+}
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0) rotateY(-8deg) rotateX(5deg);
+  }
+  50%{
+    transform:translateY(-10px) rotateY(8deg) rotateX(-5deg);
+  }
+}
+
+@keyframes logoShine{
+  0%,65%{left:-100%}
+  100%{left:150%}
+}
+
+.brand h1{
+  font-size:25px;
+  letter-spacing:3px;
+  color:#fff;
+  font-weight:1000;
+
+  text-shadow:
+    0 1px 0 #ffd0d9,
+    0 2px 0 #d90035,
+    0 4px 0 #a0002a,
+    0 6px 0 #69001d,
+    0 9px 12px rgba(35,0,15,.55);
+}
+
+.brand h1 span{
+  color:#ffe09a;
+  text-shadow:
+    0 1px 0 #b37a1a,
+    0 3px 0 #80550f,
+    0 5px 8px rgba(30,0,0,.4);
+}
+
+.brand p{
+  margin-top:12px;
+  color:#fff;
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:1000;
+  text-shadow:0 2px 6px rgba(35,0,20,.5);
+}
+
+/* HEADING */
+
+.heading{
+  text-align:center;
+  margin-bottom:25px;
+  transform:translateZ(22px);
+}
+
+.heading small{
+  color:#ffe09a;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:3px;
+  text-shadow:0 2px 5px rgba(30,0,20,.5);
+}
+
+.heading h2{
+  font-size:28px;
+  color:#fff;
+  margin:9px 0;
+  font-weight:1000;
+
+  text-shadow:
+    0 1px 0 #ffe1e8,
+    0 3px 0 #a90030,
+    0 5px 0 #71001e,
+    0 8px 12px rgba(35,0,20,.55);
+}
+
+.heading p{
+  font-size:12px;
+  color:#fff;
+  line-height:1.6;
+  font-weight:700;
+  text-shadow:0 2px 6px rgba(35,0,20,.45);
+}
+
+/* PARTNER NOTICE */
+
 .account-notice{
-  display:none;margin:-7px 0 21px;padding:13px;
-  border-radius:12px;background:#effaf3;
-  border:1px solid #c6ead2;color:#17633b;
-  text-align:center;font-size:12px;line-height:1.7;
+  display:none;
+  margin:-7px 0 21px;
+  padding:13px;
+  border-radius:12px;
+
+  background:rgba(255,255,255,.19);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+  text-align:center;
+  font-size:12px;
+  line-height:1.7;
+  text-shadow:0 2px 5px rgba(30,0,20,.4);
 }
-.account-notice strong{display:block;font-size:14px;margin-bottom:3px}
-.form-group{margin-bottom:17px}
-.form-group label{display:block;font-size:12px;font-weight:800;color:#40334d;margin-bottom:8px}
-.required{color:#d60045}
-.input-wrap{position:relative}
+
+.account-notice strong{
+  display:block;
+  font-size:14px;
+  margin-bottom:3px;
+  color:#ffe09a;
+  text-shadow:0 2px 5px rgba(30,0,20,.5);
+}
+
+/* FORM */
+
+.form-group{
+  margin-bottom:17px;
+  transform:translateZ(15px);
+}
+
+.form-group label{
+  display:block;
+  font-size:12px;
+  font-weight:900;
+  color:#fff;
+  margin-bottom:8px;
+  text-shadow:
+    0 1px 0 #a0002b,
+    0 3px 5px rgba(30,0,20,.5);
+}
+
+.required{
+  color:#ffe09a;
+}
+
+.input-wrap{
+  position:relative;
+}
+
 .input-wrap input{
-  width:100%;height:51px;padding:0 14px;
-  border:1px solid var(--border);border-radius:11px;
-  outline:none;background:#faf9fc;color:#30233e;
-  font-size:13px;font-family:inherit;transition:.25s;
+  width:100%;
+  height:51px;
+  padding:0 14px;
+
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:12px;
+
+  outline:none;
+  background:rgba(255,255,255,.48);
+
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+
+  color:#30233e;
+  font-size:13px;
+  font-family:inherit;
+  transition:.25s;
+
+  box-shadow:
+    0 5px 12px rgba(30,0,20,.12),
+    inset 0 2px 4px rgba(255,255,255,.65);
 }
+
+.input-wrap input::placeholder{
+  color:rgba(60,35,45,.7);
+}
+
 .input-wrap input:focus{
-  border-color:#c34b80;background:white;
-  box-shadow:0 0 0 4px rgba(214,0,69,.08);
+  border-color:#ffe09a;
+  background:rgba(255,255,255,.7);
+
+  box-shadow:
+    0 0 0 4px rgba(255,211,106,.2),
+    0 7px 16px rgba(30,0,20,.16);
 }
-.input-wrap input::placeholder{color:#aaa4b4}
-.password-wrap input{padding-right:75px}
+
+/* PASSWORD */
+
+.password-wrap input{
+  padding-right:75px;
+}
+
 .show-btn{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  border:0;background:none;color:#a13c68;font-size:11px;
-  font-weight:900;cursor:pointer;padding:8px;
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:none;
+  color:#a0002b;
+  font-size:11px;
+  font-weight:1000;
+  cursor:pointer;
+  padding:8px;
+  text-shadow:0 1px 0 #fff,0 2px 4px rgba(100,0,30,.2);
 }
-.password-strength{display:none;margin-top:9px}
-.strength-track{height:5px;border-radius:10px;background:#eeeaf1;overflow:hidden}
-.strength-bar{width:0;height:100%;border-radius:10px;transition:.25s}
-.strength-text{margin-top:6px;font-size:10px;color:var(--muted)}
+
+/* PASSWORD STRENGTH */
+
+.password-strength{
+  display:none;
+  margin-top:9px;
+  padding:8px 10px;
+  border-radius:9px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);
+}
+
+.strength-track{
+  height:5px;
+  border-radius:10px;
+  background:rgba(255,255,255,.4);
+  overflow:hidden;
+}
+
+.strength-bar{
+  width:0;
+  height:100%;
+  border-radius:10px;
+  transition:.25s;
+}
+
+.strength-text{
+  margin-top:6px;
+  font-size:10px;
+  color:#fff;
+  font-weight:bold;
+  text-shadow:0 2px 5px rgba(30,0,20,.5);
+}
+
+/* REFERRAL STATUS */
+
 .referral-status{
-  display:none;margin-top:8px;padding:10px 11px;
-  border-radius:9px;font-size:11px;line-height:1.5;
+  display:none;
+  margin-top:8px;
+  padding:10px 11px;
+  border-radius:9px;
+  font-size:11px;
+  line-height:1.5;
   overflow-wrap:anywhere;
 }
+
 .referral-status.success{
-  display:block;color:#17633b;background:#effaf3;border:1px solid #c6ead2;
+  display:block;
+  color:#17633b;
+  background:rgba(239,250,243,.95);
+  border:1px solid #c6ead2;
 }
+
 .referral-status.error{
-  display:block;color:#a12b36;background:#fff0f1;border:1px solid #f4cbd0;
+  display:block;
+  color:#a12b36;
+  background:rgba(255,240,241,.95);
+  border:1px solid #f4cbd0;
 }
+
 .referral-status.info{
-  display:block;color:#66501c;background:#fff9e9;border:1px solid #f0e1b6;
+  display:block;
+  color:#66501c;
+  background:rgba(255,249,233,.95);
+  border:1px solid #f0e1b6;
 }
+
+/* TERMS */
+
 .terms{
-  display:flex;align-items:flex-start;gap:9px;
-  margin:20px 0;color:#777183;font-size:11px;line-height:1.7;
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  margin:20px 0;
+  color:#fff;
+  font-size:11px;
+  line-height:1.7;
+  font-weight:700;
+  text-shadow:0 2px 5px rgba(30,0,20,.5);
 }
+
 .terms input{
-  width:17px;height:17px;flex-shrink:0;margin-top:2px;accent-color:#a51c55;
+  width:17px;
+  height:17px;
+  flex-shrink:0;
+  margin-top:2px;
+  accent-color:#a51c55;
 }
-.terms a{color:#a51c55;font-weight:bold;text-decoration:underline}
+
+.terms a{
+  color:#ffe09a;
+  font-weight:1000;
+  text-decoration:underline;
+}
+
+/* 3D SUBMIT BUTTON */
+
 .submit-btn{
-  width:100%;min-height:53px;border:0;border-radius:12px;
-  background:linear-gradient(110deg,#ed286a,#9b164f,#d9a94d);
-  background-size:200% 100%;color:white;font-size:14px;
-  font-weight:900;letter-spacing:1px;cursor:pointer;
-  box-shadow:0 7px 18px rgba(180,25,90,.23);transition:.25s;
+  width:100%;
+  min-height:54px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:12px;
+
+  background:linear-gradient(
+    110deg,
+    #ff4568,
+    #d00038,
+    #81001c
+  );
+
+  background-size:200% 100%;
+  color:white;
+  font-size:14px;
+  font-weight:1000;
+  letter-spacing:1px;
+  cursor:pointer;
+
+  box-shadow:
+    0 7px 0 #70001b,
+    0 12px 20px rgba(190,0,45,.3),
+    inset 0 2px 5px rgba(255,255,255,.4);
+
+  transition:.25s;
+  position:relative;
+  overflow:hidden;
+  transform:translateZ(18px);
+
+  text-shadow:
+    0 1px 0 #ffb6c5,
+    0 3px 0 #79001c,
+    0 5px 7px rgba(40,0,10,.5);
 }
+
+.submit-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:65%;
+  height:100%;
+
+  background:linear-gradient(
+    100deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+  );
+
+  transform:skewX(-20deg);
+  transition:left .7s ease;
+}
+
+.submit-btn:hover::before{
+  left:150%;
+}
+
 .submit-btn:hover{
-  background-position:100% 0;transform:translateY(-2px);
-  box-shadow:0 10px 22px rgba(180,25,90,.30);
+  background-position:100% 0;
+  transform:translateY(-3px) translateZ(18px);
+
+  box-shadow:
+    0 10px 0 #70001b,
+    0 16px 25px rgba(190,0,45,.4);
 }
-.submit-btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
+
+.submit-btn:active{
+  transform:translateY(4px) translateZ(10px);
+  box-shadow:0 2px 0 #70001b;
+}
+
+.submit-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* MESSAGE */
+
 .message{
-  display:none;margin-top:15px;padding:12px;border-radius:10px;
-  font-size:12px;line-height:1.6;overflow-wrap:anywhere;
+  display:none;
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+  background:rgba(255,255,255,.94);
 }
-.message.error{display:block;color:#a12b36;background:#fff0f1;border:1px solid #f4cbd0}
-.message.success{display:block;color:#17633b;background:#effaf3;border:1px solid #c6ead2}
-.login-link{margin-top:23px;text-align:center;color:var(--muted);font-size:12px}
-.login-link a{color:#a51c55;font-weight:900;text-decoration:none}
-.login-link a:hover{text-decoration:underline}
+
+.message.error{
+  display:block;
+  color:#a12b36;
+  border:1px solid #f4cbd0;
+}
+
+.message.success{
+  display:block;
+  color:#17633b;
+  border:1px solid #c6ead2;
+}
+
+/* LOGIN LINK */
+
+.login-link{
+  margin-top:23px;
+  text-align:center;
+  color:#fff;
+  font-size:12px;
+  font-weight:800;
+  transform:translateZ(12px);
+  text-shadow:0 2px 6px rgba(30,0,20,.5);
+}
+
+.login-link a{
+  color:#ffe09a;
+  font-weight:1000;
+  text-decoration:none;
+  text-shadow:
+    0 1px 0 #b47b20,
+    0 3px 5px rgba(30,0,20,.5);
+}
+
+.login-link a:hover{
+  text-decoration:underline;
+}
+
+/* MOBILE */
+
 @media(max-width:480px){
-  body{padding:18px 12px}
-  .container{padding:30px 22px;border-radius:21px}
-  .logo{width:65px;height:65px;font-size:34px}
-  .heading h2{font-size:25px}
+
+  body{
+    padding:18px 12px;
+  }
+
+  .container{
+    padding:30px 22px;
+    border-radius:22px;
+  }
+
+  .logo{
+    width:68px;
+    height:68px;
+    font-size:35px;
+  }
+
+  .logo::before{
+    width:39px;
+    height:39px;
+  }
+
+  .brand h1{
+    font-size:23px;
+  }
+
+  .heading h2{
+    font-size:25px;
+  }
 }
+
+@media(max-height:750px){
+
+  .container{
+    padding-top:24px;
+    padding-bottom:24px;
+  }
+
+  .brand{
+    margin-bottom:19px;
+  }
+
+  .logo{
+    width:65px;
+    height:65px;
+    margin-bottom:12px;
+  }
+
+  .logo::before{
+    width:37px;
+    height:37px;
+  }
+
+  .heading{
+    margin-bottom:19px;
+  }
+
+  .form-group{
+    margin-bottom:14px;
+  }
+}
+
+/* ACCESSIBILITY */
+
 @media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important;transition:none!important}
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+
+  .container{
+    transform:none!important;
+  }
 }
 </style>
 </head>
 
 <body>
-<main class="container">
+
+<div class="background-shape shape-one"></div>
+<div class="background-shape shape-two"></div>
+<div class="background-shape shape-three"></div>
+<div class="background-shape shape-four"></div>
+
+<div class="ambient-light"></div>
+<div class="glass-orb orb-one"></div>
+<div class="glass-orb orb-two"></div>
+
+<main class="container" id="registerCard">
 
   <div class="brand">
-    <div class="logo"><span>R</span></div>
+
+    <div class="logo">
+      <span>R</span>
+      <div class="logo-shine"></div>
+    </div>
+
     <h1>RUBALIA <span>NETWORK</span></h1>
+
     <p>GROW WITH TRUST</p>
+
   </div>
 
   <div class="heading">
+
     <small id="registrationLabel">MEMBER REGISTRATION</small>
+
     <h2 id="registrationTitle">Create Account</h2>
+
     <p id="registrationDescription">
       Enter your details to create your member account.
     </p>
+
   </div>
 
   <div class="account-notice" id="partnerNotice">
+
     <strong>FREE PARTNER REGISTRATION</strong>
+
     Create your Partner account without any registration fee.
     No income or commission is guaranteed by registration.
+
   </div>
 
   <form id="registerForm" novalidate>
 
     <div class="form-group">
-      <label for="fullName">Full Name <span class="required">*</span></label>
+
+      <label for="fullName">
+        Full Name <span class="required">*</span>
+      </label>
+
       <div class="input-wrap">
-        <input type="text" id="fullName"
+
+        <input
+          type="text"
+          id="fullName"
           placeholder="Enter your full name"
-          autocomplete="name" minlength="2" maxlength="120" required>
+          autocomplete="name"
+          minlength="2"
+          maxlength="120"
+          required>
+
       </div>
+
     </div>
 
     <div class="form-group">
-      <label for="email">Email Address <span class="required">*</span></label>
+
+      <label for="email">
+        Email Address <span class="required">*</span>
+      </label>
+
       <div class="input-wrap">
-        <input type="email" id="email"
+
+        <input
+          type="email"
+          id="email"
           placeholder="Enter your email address"
-          autocomplete="email" maxlength="255" required>
+          autocomplete="email"
+          maxlength="255"
+          required>
+
       </div>
+
     </div>
 
     <div class="form-group">
+
       <label for="referralCode">
         Referral Code
-        <span style="color:#888397;font-weight:normal">(Optional)</span>
+        <span style="color:rgba(255,255,255,.75);font-weight:normal">
+          (Optional)
+        </span>
       </label>
+
       <div class="input-wrap">
-        <input type="text" id="referralCode"
+
+        <input
+          type="text"
+          id="referralCode"
           placeholder="Example: RUB000001"
-          autocomplete="off" maxlength="30"
+          autocomplete="off"
+          maxlength="30"
           autocapitalize="characters">
+
       </div>
+
       <div id="referralStatus" class="referral-status"></div>
+
     </div>
 
     <div class="form-group">
-      <label for="password">Password <span class="required">*</span></label>
+
+      <label for="password">
+        Password <span class="required">*</span>
+      </label>
+
       <div class="input-wrap password-wrap">
-        <input type="password" id="password"
+
+        <input
+          type="password"
+          id="password"
           placeholder="Create password (8–72 characters)"
-          autocomplete="new-password" minlength="8" maxlength="72" required>
-        <button type="button" class="show-btn" data-target="password">SHOW</button>
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
+
+        <button
+          type="button"
+          class="show-btn"
+          data-target="password">
+          SHOW
+        </button>
+
       </div>
+
       <div class="password-strength" id="passwordStrength">
+
         <div class="strength-track">
           <div class="strength-bar" id="strengthBar"></div>
         </div>
+
         <div class="strength-text" id="strengthText"></div>
+
       </div>
+
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+
+      <label for="confirmPassword">
+        Confirm Password <span class="required">*</span>
+      </label>
+
       <div class="input-wrap password-wrap">
-        <input type="password" id="confirmPassword"
+
+        <input
+          type="password"
+          id="confirmPassword"
           placeholder="Enter password again"
-          autocomplete="new-password" minlength="8" maxlength="72" required>
-        <button type="button" class="show-btn" data-target="confirmPassword">SHOW</button>
+          autocomplete="new-password"
+          minlength="8"
+          maxlength="72"
+          required>
+
+        <button
+          type="button"
+          class="show-btn"
+          data-target="confirmPassword">
+          SHOW
+        </button>
+
       </div>
+
     </div>
 
     <label class="terms">
+
       <input type="checkbox" id="terms" required>
+
       <span>
         I agree to the RUBALIA NETWORK
-        <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+        <a href="terms.html" target="_blank" rel="noopener">
+          Terms &amp; Conditions
+        </a>
         and understand that registration does not guarantee any income.
       </span>
+
     </label>
 
-    <button type="submit" class="submit-btn" id="submitBtn">
+    <button
+      type="submit"
+      class="submit-btn"
+      id="submitBtn">
       CREATE ACCOUNT
     </button>
 
-    <div id="formMessage" class="message" role="status" aria-live="polite"></div>
+    <div
+      id="formMessage"
+      class="message"
+      role="status"
+      aria-live="polite">
+    </div>
+
   </form>
 
   <div class="login-link">
     Already have an account?
     <a href="login.html">Login Here</a>
   </div>
+
 </main>
 
 <script>
@@ -286,13 +1063,51 @@ const termsInput = document.getElementById("terms");
 const strengthBox = document.getElementById("passwordStrength");
 const strengthBar = document.getElementById("strengthBar");
 const strengthText = document.getElementById("strengthText");
+const registerCard = document.getElementById("registerCard");
 
 let verifiedReferralCode = "";
 let referralIsValid = false;
 let referralRequestNumber = 0;
 
-// Registration page mode
+/* DESKTOP 3D TILT */
+
+const reducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+const isTouchDevice = window.matchMedia(
+  "(pointer: coarse)"
+).matches;
+
+if(!reducedMotion && !isTouchDevice){
+
+  registerCard.addEventListener("mousemove",function(event){
+
+    const rect = registerCard.getBoundingClientRect();
+
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    const rotateY = (x - .5) * 4;
+    const rotateX = (.5 - y) * 4;
+
+    registerCard.style.transform =
+      "rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg)";
+
+  });
+
+  registerCard.addEventListener("mouseleave",function(){
+
+    registerCard.style.transform = "rotateX(0) rotateY(0)";
+
+  });
+
+}
+
+/* REGISTRATION MODE */
+
 if(isPartnerRegistration){
+
   document.title = "Free Partner Registration | RUBALIA NETWORK";
 
   document.getElementById("registrationLabel").textContent =
@@ -307,47 +1122,61 @@ if(isPartnerRegistration){
   document.getElementById("partnerNotice").style.display = "block";
 
   submitBtn.textContent = "CREATE FREE PARTNER ACCOUNT";
+
 }
 
 /* SHOW / HIDE PASSWORD */
 
 document.querySelectorAll(".show-btn").forEach(function(button){
+
   button.addEventListener("click",function(){
+
     const field = document.getElementById(button.dataset.target);
     const isHidden = field.type === "password";
 
     field.type = isHidden ? "text" : "password";
     button.textContent = isHidden ? "HIDE" : "SHOW";
+
   });
+
 });
 
 /* MESSAGE */
 
 function showMessage(type,text){
+
   message.className = "message " + type;
   message.textContent = text;
+
 }
 
 function clearMessage(){
+
   message.className = "message";
   message.textContent = "";
+
 }
 
 /* REFERRAL STATUS */
 
 function showReferralStatus(type,text){
+
   referralStatus.className = "referral-status " + type;
   referralStatus.textContent = text;
+
 }
 
 function clearReferralStatus(){
+
   referralStatus.className = "referral-status";
   referralStatus.textContent = "";
+
 }
 
 /* REFERRAL CODE VERIFICATION */
 
 async function verifyReferralCode(){
+
   const code = referralInput.value.trim().toUpperCase();
 
   referralInput.value = code;
@@ -357,18 +1186,27 @@ async function verifyReferralCode(){
   const requestNumber = ++referralRequestNumber;
 
   if(!code){
+
     clearReferralStatus();
     return true;
+
   }
 
   if(!/^RUB\d{6,}$/.test(code)){
-    showReferralStatus("error","Invalid format. Example: RUB000001");
+
+    showReferralStatus(
+      "error",
+      "Invalid format. Example: RUB000001"
+    );
+
     return false;
+
   }
 
   showReferralStatus("info","Verifying referral code...");
 
   try{
+
     const response = await fetch(
       API_BASE + "/referral/verify/" + encodeURIComponent(code),
       {method:"GET"}
@@ -383,11 +1221,14 @@ async function verifyReferralCode(){
     }
 
     if(!response.ok || !data.success || !data.valid){
+
       showReferralStatus(
         "error",
         data.message || "Referral code is invalid or inactive."
       );
+
       return false;
+
     }
 
     verifiedReferralCode = code;
@@ -406,35 +1247,47 @@ async function verifyReferralCode(){
     return true;
 
   }catch(error){
+
     if(requestNumber === referralRequestNumber){
+
       showReferralStatus(
         "error",
         "Unable to verify referral code. Please check your internet connection and try again."
       );
+
     }
 
     return false;
+
   }
+
 }
 
 /* READ REFERRAL CODE FROM URL */
 
 (function loadReferralFromUrl(){
+
   const urlReferral = params.get("ref");
 
   if(urlReferral){
+
     referralInput.value = urlReferral.trim().toUpperCase();
     verifyReferralCode();
+
   }
+
 })();
 
 /* VERIFY WHEN USER LEAVES FIELD */
 
 referralInput.addEventListener("blur",function(){
+
   verifyReferralCode();
+
 });
 
 referralInput.addEventListener("input",function(){
+
   referralIsValid = false;
   verifiedReferralCode = "";
   referralRequestNumber++;
@@ -445,18 +1298,22 @@ referralInput.addEventListener("input",function(){
   referralInput.value = referralInput.value
     .replace(/\s/g,"")
     .toUpperCase();
+
 });
 
 /* PASSWORD STRENGTH */
 
 passwordInput.addEventListener("input",function(){
+
   const password = passwordInput.value;
 
   if(!password){
+
     strengthBox.style.display = "none";
     strengthBar.style.width = "0";
     strengthText.textContent = "";
     return;
+
   }
 
   strengthBox.style.display = "block";
@@ -473,19 +1330,27 @@ passwordInput.addEventListener("input",function(){
   let color = "#d64b4b";
 
   if(score >= 4){
+
     label = "Strong";
     color = "#16804b";
+
   }else if(score >= 3){
+
     label = "Good";
     color = "#c58b28";
+
   }else if(score >= 2){
+
     label = "Fair";
     color = "#d18a35";
+
   }
 
   strengthBar.style.width = (score * 20) + "%";
   strengthBar.style.background = color;
+
   strengthText.textContent = "Password strength: " + label;
+
 });
 
 /* CLEAR FORM ERROR */
@@ -496,12 +1361,15 @@ passwordInput.addEventListener("input",function(){
   passwordInput,
   confirmPasswordInput
 ].forEach(function(field){
+
   field.addEventListener("input",clearMessage);
+
 });
 
 /* REGISTRATION */
 
 form.addEventListener("submit",async function(event){
+
   event.preventDefault();
 
   const fullName = fullNameInput.value.trim();
@@ -513,42 +1381,64 @@ form.addEventListener("submit",async function(event){
   clearMessage();
 
   if(fullName.length < 2 || fullName.length > 120){
-    showMessage("error","Please enter your full name (2–120 characters).");
+
+    showMessage(
+      "error",
+      "Please enter your full name (2–120 characters)."
+    );
+
     fullNameInput.focus();
     return;
+
   }
 
   if(!emailInput.checkValidity()){
+
     showMessage("error","Please enter a valid email address.");
     emailInput.focus();
     return;
+
   }
 
   if(password.length < 8 || password.length > 72){
-    showMessage("error","Password must contain 8 to 72 characters.");
+
+    showMessage(
+      "error",
+      "Password must contain 8 to 72 characters."
+    );
+
     passwordInput.focus();
     return;
+
   }
 
   if(password !== confirmPassword){
+
     showMessage("error","Passwords do not match.");
     confirmPasswordInput.focus();
     return;
+
   }
 
   if(!termsInput.checked){
+
     showMessage("error","Please accept the Terms & Conditions.");
     termsInput.focus();
     return;
+
   }
 
-  // Verify referral before registration.
+  /* VERIFY REFERRAL BEFORE REGISTRATION */
+
   if(referralCode){
+
     const isVerified = await verifyReferralCode();
 
-    if(!isVerified ||
-       !referralIsValid ||
-       verifiedReferralCode !== referralCode){
+    if(
+      !isVerified ||
+      !referralIsValid ||
+      verifiedReferralCode !== referralCode
+    ){
 
       showMessage(
         "error",
@@ -557,7 +1447,9 @@ form.addEventListener("submit",async function(event){
 
       referralInput.focus();
       return;
+
     }
+
   }
 
   submitBtn.disabled = true;
@@ -567,15 +1459,17 @@ form.addEventListener("submit",async function(event){
     : "CREATING ACCOUNT...";
 
   try{
-    const requestBody = {
-      fullName: fullName,
-      email: email,
-      password: password,
 
-      // Partner registration is selected by ?partner=1
-      accountType: isPartnerRegistration
+    const requestBody = {
+
+      fullName:fullName,
+      email:email,
+      password:password,
+
+      accountType:isPartnerRegistration
         ? "partner"
         : "customer"
+
     };
 
     if(referralCode){
@@ -583,9 +1477,15 @@ form.addEventListener("submit",async function(event){
     }
 
     const response = await fetch(API_BASE + "/auth/register",{
+
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
       body:JSON.stringify(requestBody)
+
     });
 
     const data = await response.json().catch(function(){
@@ -593,28 +1493,38 @@ form.addEventListener("submit",async function(event){
     });
 
     if(!response.ok || !data.success){
+
       throw new Error(
         data.message || "Registration failed. Please try again."
       );
+
     }
 
     if(!data.token || !data.user){
+
       throw new Error(
         "Account was created, but the login session could not be verified. Please try logging in."
       );
+
     }
 
+    /* SAVE SESSION */
+
     try{
+
       sessionStorage.setItem("rubalia_token",data.token);
 
       sessionStorage.setItem(
         "rubalia_user",
         JSON.stringify(data.user)
       );
+
     }catch(storageError){
+
       throw new Error(
         "Browser session storage is unavailable. Please enable it and try again."
       );
+
     }
 
     const memberId = data.user.memberId || "";
@@ -633,13 +1543,17 @@ form.addEventListener("submit",async function(event){
     submitBtn.textContent = "ACCOUNT CREATED";
 
     window.setTimeout(function(){
+
       window.location.href = "dashboard.html";
+
     },1500);
 
   }catch(error){
+
     showMessage(
       "error",
-      error.message || "Unable to complete registration. Please try again."
+      error.message ||
+      "Unable to complete registration. Please try again."
     );
 
     submitBtn.disabled = false;
@@ -647,7 +1561,9 @@ form.addEventListener("submit",async function(event){
     submitBtn.textContent = isPartnerRegistration
       ? "CREATE FREE PARTNER ACCOUNT"
       : "CREATE ACCOUNT";
+
   }
+
 });
 </script>
 
