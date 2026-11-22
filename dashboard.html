@@ -291,7 +291,7 @@ footer strong{color:#f4d58c}
   <nav class="menu">
     <a href="dashboard.html" class="active"><span class="menu-icon">⌂</span>Dashboard</a>
     <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
-    <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
+    <a href="packages.html"><span class="menu-icon">▣</span>Packages</a>
     <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
     <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
     <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
@@ -521,19 +521,11 @@ async function verifySession(){
 /* CATEGORY NAVIGATION */
 function openCategory(category){
   if(!CATEGORIES.includes(category)) return;
-  selectedCategory = category;
-  clearNotice();
-  $("categoryView").classList.add("hidden");
-  $("packagesView").classList.add("active");
-  $("pageTitle").textContent = category;
-  $("pageSubtitle").textContent = "Browse packages available in this category.";
-  $("selectedCategoryTitle").textContent = category;
-  $("searchInput").value = "";
-  allPackages = [];
-  $("packageCount").textContent = "Loading...";
-  showState($("packageGrid"),"⏳","Loading Packages","Fetching this category's packages from the server.");
-  window.scrollTo({top:0,behavior:"smooth"});
-  loadPackages();
+
+  // Open the separate packages page and pass the selected category safely.
+  // Example: packages.html?category=Beauty%20%26%20Cosmetics
+  const target = "packages.html?category=" + encodeURIComponent(category);
+  window.location.href = target;
 }
 function showCategories(){
   selectedCategory = "";
