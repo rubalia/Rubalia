@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,48 +23,32 @@
   -webkit-tap-highlight-color:transparent;
 }
 
+html,body{
+  width:100%;
+  min-height:0;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+}
+
 body{
-  min-height:100vh;
   font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 15% 15%,#243e72,transparent 35%),
-    radial-gradient(circle at 90% 85%,#4a174a,transparent 35%),
-    linear-gradient(145deg,#050b1b,#101a38);
+  background:transparent;
   color:white;
-  overflow-x:hidden;
 }
 
-/* PAGE */
+/* CARD ONLY */
 
-.page{
-  min-height:100vh;
+.card-only{
+  width:100%;
   display:flex;
-  flex-direction:column;
-  align-items:center;
   justify-content:center;
-  padding:25px 12px;
+  align-items:center;
+  padding:0;
+  margin:0;
 }
 
-.page-heading{
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.page-heading h1{
-  font-size:21px;
-  letter-spacing:3px;
-  color:var(--gold);
-  text-shadow:0 3px 8px #000;
-}
-
-.page-heading p{
-  margin-top:8px;
-  color:#aebbd4;
-  font-size:11px;
-  letter-spacing:1px;
-}
-
-/* SLIDER */
+/* CARD WRAPPER */
 
 .slider-wrap{
   width:100%;
@@ -126,8 +111,6 @@ body{
     radial-gradient(circle at 90% 5%,#234d8a,transparent 48%),
     linear-gradient(145deg,#101d4a,#071332 75%);
 }
-
-/* DECORATION */
 
 .card-front::before{
   content:"";
@@ -334,6 +317,8 @@ body{
   font-weight:bold;
 }
 
+/* ACTION BUTTONS */
+
 .card-actions{
   position:absolute;
   bottom:9px;
@@ -362,72 +347,6 @@ body{
   transform:scale(.96);
 }
 
-/* CARD INSTRUCTION */
-
-.card-hint{
-  margin-top:24px;
-  color:#aebbd4;
-  font-size:10px;
-  letter-spacing:1px;
-  text-align:center;
-}
-
-.flip-indicator{
-  width:35px;
-  height:35px;
-  margin:12px auto 0;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  border:1px solid rgba(244,209,122,.4);
-  color:var(--gold);
-  font-size:16px;
-  box-shadow:0 0 15px rgba(244,209,122,.1);
-}
-
-/* DOTS */
-
-.slider-dots{
-  display:flex;
-  justify-content:center;
-  gap:7px;
-  margin-top:22px;
-}
-
-.dot{
-  width:6px;
-  height:6px;
-  border-radius:20px;
-  background:#65718b;
-}
-
-.dot.active{
-  width:19px;
-  background:var(--gold);
-}
-
-/* MESSAGE */
-
-.notice{
-  margin-top:20px;
-  max-width:300px;
-  text-align:center;
-  color:#aebbd4;
-  font-size:10px;
-  line-height:1.6;
-}
-
-/* MOBILE */
-
-@media(max-width:360px){
-  .card-slider,
-  .card,
-  .card-face{
-    width:190px;
-    height:120px;
-  }
-}
-
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
     transition:none!important;
@@ -439,12 +358,7 @@ body{
 
 <body>
 
-<main class="page">
-
-  <header class="page-heading">
-    <h1>MEMBER CARD</h1>
-    <p>YOUR RUBALIA GOLD CARD</p>
-  </header>
+<div class="card-only">
 
   <section class="slider-wrap">
 
@@ -470,6 +384,7 @@ body{
           </div>
 
           <div class="front-bottom">
+
             <div class="user-name" id="cardName">
               MEMBER NAME
             </div>
@@ -477,6 +392,7 @@ body{
             <div class="created-date" id="cardDate">
               ACCOUNT CREATED: --
             </div>
+
           </div>
 
           <div class="card-brand">
@@ -529,24 +445,7 @@ body{
 
   </section>
 
-  <div class="card-hint">
-    TAP CARD TO VIEW BACK SIDE
-  </div>
-
-  <div class="flip-indicator" id="flipIndicator">
-    ↻
-  </div>
-
-  <div class="slider-dots">
-    <span class="dot active"></span>
-  </div>
-
-  <p class="notice">
-    RUBALIA GOLD is a member identity and balance display card.
-    Deposit and withdrawal transactions require account verification.
-  </p>
-
-</main>
+</div>
 
 <script>
 "use strict";
@@ -554,11 +453,15 @@ body{
 /*
   RUBALIA MEMBER CARD
 
-  User information is read from the existing
-  sessionStorage key: rubalia_user.
+  User information is read from:
+  sessionStorage key: rubalia_user
 
-  Balance and member fields may need mapping to
-  the exact backend response schema.
+  Supported fields:
+  fullName / full_name / name
+  memberId / member_id / username / id
+  createdAt / created_at
+  balance / walletBalance / wallet_balance
+  availableBalance / available_balance
 */
 
 const card = document.getElementById("memberCard");
@@ -570,8 +473,6 @@ const cardBalance = document.getElementById("cardBalance");
 
 const backSignature = document.getElementById("backSignature");
 const backMemberId = document.getElementById("backMemberId");
-
-const flipIndicator = document.getElementById("flipIndicator");
 
 let isFlipped = false;
 
@@ -630,6 +531,8 @@ function getCurrentUser(){
 
   }catch(error){
 
+    console.error("User data loading error:",error);
+
     return null;
 
   }
@@ -646,8 +549,14 @@ function loadMemberCard(){
 
     cardName.textContent = "MEMBER NAME";
     cardUserId.textContent = "20240101 000000";
-    backMemberId.textContent = "MEMBER ID: 20240101 000000";
+
+    backSignature.textContent = "RUBALIA MEMBER";
+
+    backMemberId.textContent =
+      "MEMBER ID: 20240101 000000";
+
     cardDate.textContent = "ACCOUNT CREATED: --";
+
     cardBalance.textContent = "৳ 0.00";
 
     return;
@@ -688,10 +597,14 @@ function loadMemberCard(){
   const displayId = "20240101 " + formattedId;
 
   cardName.textContent = String(fullName).toUpperCase();
-  backSignature.textContent = String(fullName).toUpperCase();
+
+  backSignature.textContent =
+    String(fullName).toUpperCase();
 
   cardUserId.textContent = displayId;
-  backMemberId.textContent = "MEMBER ID: " + displayId;
+
+  backMemberId.textContent =
+    "MEMBER ID: " + displayId;
 
   cardDate.textContent =
     "ACCOUNT CREATED: " + formatDate(createdAt);
@@ -707,8 +620,6 @@ function toggleCard(){
   isFlipped = !isFlipped;
 
   card.classList.toggle("flipped",isFlipped);
-
-  flipIndicator.textContent = isFlipped ? "↻" : "↻";
 
 }
 
@@ -741,16 +652,21 @@ card.addEventListener("touchend",function(event){
   const diffX = touch.clientX - startX;
   const diffY = touch.clientY - startY;
 
-  if(Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)){
+  if(
+    Math.abs(diffX) > 45 &&
+    Math.abs(diffX) > Math.abs(diffY)
+  ){
+
     // Reserved for multiple-card slider navigation.
-    // Only one card is currently configured.
+
   }
 
 },{passive:true});
 
-/* ACTION BUTTONS */
+/* DEPOSIT BUTTON */
 
-document.getElementById("depositBtn").addEventListener("click",function(event){
+document.getElementById("depositBtn")
+.addEventListener("click",function(event){
 
   event.stopPropagation();
 
@@ -758,7 +674,10 @@ document.getElementById("depositBtn").addEventListener("click",function(event){
 
 });
 
-document.getElementById("withdrawBtn").addEventListener("click",function(event){
+/* WITHDRAW BUTTON */
+
+document.getElementById("withdrawBtn")
+.addEventListener("click",function(event){
 
   event.stopPropagation();
 
@@ -769,6 +688,22 @@ document.getElementById("withdrawBtn").addEventListener("click",function(event){
 /* START */
 
 loadMemberCard();
+
+/* REFRESH USER DATA */
+
+window.addEventListener("pageshow",function(){
+
+  loadMemberCard();
+
+});
+
+window.addEventListener("storage",function(event){
+
+  if(event.key === "rubalia_user"){
+    loadMemberCard();
+  }
+
+});
 
 </script>
 
