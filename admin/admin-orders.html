@@ -1,104 +1,243 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
+<meta name="description" content="Rubalia Network Admin Orders Management">
 <title>Orders Management | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --navy:#071a35;
-  --navy2:#102b50;
-  --gold:#d6ad55;
-  --bg:#f3f6fb;
-  --white:#fff;
-  --text:#18263c;
-  --muted:#78869a;
-  --border:#e5eaf1;
-  --green:#16845b;
-  --red:#c34b4b;
-  --orange:#b7791f;
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --orange:#b7791f;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+html{scroll-behavior:auto}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
 button,input,select{font:inherit}
 button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
 a{text-decoration:none;color:inherit}
+[hidden]{display:none!important}
 
-.topbar{
-  min-height:65px;background:var(--navy);color:white;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;position:sticky;top:0;z-index:20
+/* LOADING */
+.loading-screen,.error-screen{
+ position:fixed;inset:0;z-index:1000;
+ display:flex;align-items:center;justify-content:center;
+ background:var(--bg);padding:18px
 }
-.brand{font-size:19px;font-weight:900}
+.loading-box,.error-card{
+ width:100%;max-width:390px;padding:25px;
+ background:white;border:1px solid var(--border);
+ border-radius:12px;text-align:center
+}
+.loading-box strong{color:var(--navy)}
+.loading-box p,.error-card p{
+ color:var(--muted);font-size:12px;line-height:1.7
+}
+.spinner{
+ width:30px;height:30px;margin:0 auto 15px;
+ border:3px solid #e5eaf1;
+ border-top-color:var(--gold);
+ border-radius:50%;
+ animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-screen{display:none}
+.error-card h2{color:var(--navy);font-size:19px}
+.error-card button,.error-card a{
+ display:inline-block;margin:5px;padding:10px 14px;
+ background:var(--gold);color:var(--navy);
+ border:0;border-radius:7px;font-size:11px;font-weight:bold
+}
+
+/* TOPBAR */
+.topbar{
+ min-height:60px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 18px;position:sticky;top:0;z-index:50
+}
+.top-left{display:flex;align-items:center;gap:11px}
+.brand{font-size:17px;font-weight:900}
 .brand span{color:var(--gold)}
-.top-actions{display:flex;align-items:center;gap:10px}
+.top-actions{display:flex;align-items:center;gap:9px}
 .admin-label{
-  font-size:10px;background:rgba(214,173,85,.17);
-  color:#f3dfa9;padding:8px 11px;border-radius:20px
+ font-size:9px;background:#ffffff15;color:#f3dfa9;
+ padding:7px 10px;border-radius:20px;
+ border:1px solid #d6ad5545
+}
+.admin-avatar{
+ width:30px;height:30px;border-radius:50%;
+ display:grid;place-items:center;
+ background:var(--gold);color:var(--navy);
+ font-weight:bold;font-size:12px
 }
 .menu-btn{
-  display:none;background:transparent;border:1px solid #52647b;
-  color:white;border-radius:7px;padding:8px 11px
+ display:none;background:transparent;
+ border:1px solid #52647b;color:white;
+ border-radius:7px;padding:7px 10px;font-size:17px
 }
 
-.layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 65px)}
-.sidebar{background:var(--navy2);padding:18px 13px;color:white}
+/* LAYOUT */
+.layout{
+ display:grid;grid-template-columns:225px minmax(0,1fr);
+ min-height:calc(100vh - 60px)
+}
+.sidebar{
+ background:var(--navy2);padding:17px 11px;color:white;
+ min-height:calc(100vh - 60px)
+}
+.admin-profile{
+ padding:8px 10px 15px;
+ border-bottom:1px solid #ffffff20;margin-bottom:12px
+}
+.admin-profile strong{display:block;font-size:12px;margin-bottom:5px}
+.admin-profile small{
+ display:block;color:#b8c7d9;font-size:10px;
+ overflow-wrap:anywhere
+}
 .side-heading{
-  color:#9eafc5;font-size:10px;font-weight:bold;
-  letter-spacing:1px;margin:20px 10px 9px
+ color:#9eafc5;font-size:9px;font-weight:bold;
+ letter-spacing:1px;margin:18px 10px 8px
 }
 .nav-link,.logout{
-  display:flex;gap:10px;align-items:center;padding:11px 12px;
-  margin:3px 0;border-radius:8px;color:#dce6f2;font-size:12px
+ display:flex;gap:9px;align-items:center;
+ padding:10px;border-radius:7px;margin:2px 0;
+ color:#dce6f2;font-size:11px
 }
 .nav-link:hover,.nav-link.active,.logout:hover{
-  background:rgba(214,173,85,.17);color:#f3dfa9
+ background:#ffffff16;color:#f3dfa9
 }
-.logout{width:100%;background:transparent;border:0;text-align:left}
+.logout{
+ width:100%;background:transparent;
+ border:0;text-align:left
+}
+.main{min-width:0;width:100%}
+.content{
+ padding:22px;width:100%;
+ max-width:1500px;margin:auto
+}
 
-.main{padding:24px;max-width:1500px;width:100%;margin:auto}
+/* PAGE HEADING */
 .heading{
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:12px;margin-bottom:20px
+ display:flex;justify-content:space-between;
+ align-items:center;flex-wrap:wrap;
+ gap:12px;margin-bottom:17px
 }
-.heading h1{margin:0 0 7px;color:var(--navy);font-size:25px}
-.heading p{margin:0;color:var(--muted);font-size:12px}
-.refresh-btn,.filter-btn{
-  border:1px solid var(--border);background:white;color:var(--navy);
-  padding:10px 13px;border-radius:8px;font-size:11px;font-weight:bold
+.heading h1{
+ margin:0 0 6px;color:var(--navy);font-size:23px
 }
-.refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.heading p{
+ margin:0;color:var(--muted);font-size:11px;line-height:1.6
+}
+.refresh-btn{
+ border:1px solid var(--border);background:white;
+ color:var(--navy);padding:10px 13px;
+ border-radius:8px;font-size:10px;font-weight:bold
+}
+.refresh-btn:disabled{opacity:.5}
 
+/* NOTICE */
+.notice{
+ display:none;padding:11px 13px;
+ border-radius:8px;margin-bottom:14px;
+ font-size:11px;line-height:1.6
+}
+.notice.error{
+ display:block;background:#fff0f1;
+ color:#a12b36;border:1px solid #f4cbd0
+}
+.notice.success{
+ display:block;background:#effaf3;
+ color:#17633b;border:1px solid #c6ead2
+}
+.connection{
+ display:inline-flex;align-items:center;gap:6px;
+ padding:7px 10px;border-radius:20px;
+ background:#fff0f0;border:1px solid #f2cccc;
+ color:#bd3c46;font-size:9px;font-weight:bold
+}
+.connection.online{
+ background:#e7f7ef;border-color:#c7ead8;color:var(--green)
+}
+.dot{
+ width:7px;height:7px;border-radius:50%;
+ background:var(--red)
+}
+.connection.online .dot{background:var(--green)}
+
+/* STATS */
 .stats{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;margin-bottom:20px
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:10px;margin-bottom:17px
 }
-.stat{background:white;border:1px solid var(--border);border-radius:11px;padding:16px}
-.stat small{color:var(--muted);font-size:11px}
-.stat strong{display:block;margin-top:10px;font-size:25px;color:var(--navy)}
+.stat{
+ background:white;border:1px solid var(--border);
+ border-radius:10px;padding:13px;min-width:0
+}
+.stat small{color:var(--muted);font-size:10px}
+.stat strong{
+ display:block;margin-top:9px;
+ font-size:22px;color:var(--navy);
+ overflow-wrap:anywhere
+}
 
+/* PANEL */
 .panel{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:17px;margin-bottom:18px
+ background:white;border:1px solid var(--border);
+ border-radius:11px;margin-bottom:16px;overflow:hidden
 }
-.filters{display:grid;grid-template-columns:minmax(0,1fr) 190px 130px;gap:10px}
+.panel-head{
+ padding:13px 14px;border-bottom:1px solid var(--border);
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap
+}
+.panel-head h3{margin:0;font-size:13px;color:var(--navy)}
+.panel-head p{margin:4px 0 0;font-size:10px;color:var(--muted)}
+.filters{
+ display:grid;grid-template-columns:minmax(0,1fr) 180px 140px;
+ gap:9px;padding:13px
+}
 .filters input,.filters select{
-  width:100%;height:42px;padding:0 12px;border:1px solid var(--border);
-  border-radius:8px;background:white;color:var(--text);outline:none;font-size:12px
+ width:100%;height:40px;padding:0 11px;
+ border:1px solid var(--border);border-radius:7px;
+ background:white;color:var(--text);outline:none;font-size:11px
 }
 .filters input:focus,.filters select:focus{border-color:var(--gold)}
 
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:850px}
-th{text-align:left;background:#f7f9fc;color:var(--muted);padding:13px 10px;font-size:10px}
-td{padding:13px 10px;border-bottom:1px solid #edf0f5;font-size:11px;vertical-align:middle}
+/* TABLE */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{
+ text-align:left;background:#f7f9fc;color:var(--muted);
+ padding:12px 10px;font-size:9px;
+ white-space:nowrap;text-transform:uppercase
+}
+td{
+ padding:12px 10px;border-bottom:1px solid #edf0f5;
+ font-size:10px;vertical-align:middle
+}
 td strong{color:var(--navy)}
-
 .status,.payment-badge{
-  display:inline-block;padding:5px 8px;border-radius:20px;
-  font-size:9px;font-weight:bold;text-transform:capitalize;white-space:nowrap
+ display:inline-block;padding:5px 8px;
+ border-radius:20px;font-size:9px;
+ font-weight:bold;text-transform:capitalize;white-space:nowrap
 }
 .status.pending{background:#fff2dc;color:#a16b14}
 .status.confirmed{background:#e8efff;color:#315a9b}
@@ -111,729 +250,1112 @@ td strong{color:var(--navy)}
 .payment-badge.failed{background:#fceaea;color:#c34b4b}
 .payment-badge.refunded{background:#fceaea;color:#c34b4b}
 .payment-badge.unverified{background:#eef2f7;color:#526176}
-
 .view-btn{
-  border:0;background:var(--navy);color:white;padding:8px 11px;
-  border-radius:7px;font-size:10px;font-weight:bold
+ border:0;background:var(--navy);color:white;
+ padding:8px 10px;border-radius:7px;
+ font-size:9px;font-weight:bold;white-space:nowrap
 }
-.empty{text-align:center;padding:35px 15px;color:var(--muted);font-size:12px}
-
-.notice{
-  display:none;padding:12px 14px;border-radius:8px;
-  margin-bottom:15px;font-size:12px;line-height:1.6
+.empty{
+ text-align:center;padding:28px 14px;
+ color:var(--muted);font-size:11px;line-height:1.7
 }
-.notice.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
-.notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+.table-foot{
+ padding:11px 13px;color:var(--muted);
+ font-size:10px;border-top:1px solid var(--border)
+}
 
+/* MODAL */
 .modal{
-  display:none;position:fixed;inset:0;z-index:100;
-  background:rgba(5,15,30,.65);padding:15px;overflow-y:auto;
-  align-items:flex-start;justify-content:center
+ display:none;position:fixed;inset:0;z-index:100;
+ background:rgba(5,15,30,.65);padding:12px;
+ overflow-y:auto;align-items:flex-start;justify-content:center
 }
 .modal.show{display:flex}
 .modal-card{
-  width:100%;max-width:650px;background:white;
-  border-radius:13px;margin:25px auto;overflow:hidden
+ width:100%;max-width:620px;background:white;
+ border-radius:12px;margin:18px auto;overflow:hidden
 }
 .modal-head{
-  background:var(--navy);color:white;padding:17px 20px;
-  display:flex;justify-content:space-between;align-items:center;gap:10px
+ background:var(--navy);color:white;padding:15px 17px;
+ display:flex;justify-content:space-between;align-items:center
 }
-.modal-head h2{margin:0;font-size:17px}
-.close-btn{background:transparent;border:0;color:white;font-size:25px}
-.modal-body{padding:19px}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.detail{border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0}
-.detail small{display:block;color:var(--muted);font-size:10px;margin-bottom:7px}
-.detail strong{font-size:12px;color:var(--navy);overflow-wrap:anywhere}
-.modal-section{margin-top:20px}
-.modal-section h3{font-size:13px;color:var(--navy);margin:0 0 11px}
+.modal-head h2{margin:0;font-size:15px}
+.close-btn{
+ background:transparent;border:0;color:white;font-size:23px;
+ padding:0 5px
+}
+.modal-body{padding:15px}
+.detail-grid{
+ display:grid;grid-template-columns:1fr 1fr;gap:9px
+}
+.detail{
+ border:1px solid var(--border);
+ border-radius:8px;padding:11px;min-width:0
+}
+.detail small{
+ display:block;color:var(--muted);
+ font-size:9px;margin-bottom:6px
+}
+.detail strong{
+ font-size:11px;color:var(--navy);
+ overflow-wrap:anywhere
+}
+.modal-section{margin-top:17px}
+.modal-section h3{
+ font-size:12px;color:var(--navy);margin:0 0 9px
+}
+.shipping-box{
+ background:#f7f9fc;padding:12px;border-radius:8px;
+ font-size:11px;line-height:1.8;overflow-wrap:anywhere
+}
 .item-row{
-  display:flex;justify-content:space-between;gap:10px;
-  border-bottom:1px solid var(--border);padding:11px 0;font-size:11px
+ display:flex;justify-content:space-between;gap:10px;
+ border-bottom:1px solid var(--border);
+ padding:10px 0;font-size:10px
 }
 .item-row strong{color:var(--navy)}
+.item-meta{color:var(--muted);margin-top:4px}
 .total-row{
-  display:flex;justify-content:space-between;padding:14px 0;
-  font-weight:bold;color:var(--navy)
+ display:flex;justify-content:space-between;
+ padding:13px 0;font-weight:bold;color:var(--navy);
+ font-size:12px
 }
-.shipping-box{background:#f7f9fc;padding:13px;border-radius:9px;font-size:12px;line-height:1.8;overflow-wrap:anywhere}
-.status-control{display:flex;gap:9px;margin-top:17px;flex-wrap:wrap}
+.status-control{
+ display:flex;gap:8px;margin-top:12px;flex-wrap:wrap
+}
 .status-control select{
-  flex:1;min-width:150px;height:42px;border:1px solid var(--border);
-  border-radius:8px;padding:0 10px
+ flex:1;min-width:140px;height:40px;
+ border:1px solid var(--border);border-radius:7px;padding:0 9px
 }
 .update-btn{
-  border:0;border-radius:8px;background:var(--gold);color:var(--navy);
-  font-weight:bold;padding:0 17px;min-height:42px
+ border:0;border-radius:7px;background:var(--gold);
+ color:var(--navy);font-weight:bold;padding:0 15px;
+ min-height:40px;font-size:10px
 }
 .update-btn:disabled{opacity:.5;cursor:not-allowed}
-.modal-message{margin-top:12px;font-size:11px;line-height:1.6;color:var(--muted)}
-.footer{text-align:center;padding:20px;color:#9aa5b5;font-size:10px}
+.modal-message{
+ margin-top:10px;font-size:10px;
+ line-height:1.6;color:var(--muted)
+}
+.footer{
+ text-align:center;padding:18px;color:#9aa5b5;font-size:9px
+}
 
-@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* MOBILE */
+@media(max-width:1000px){
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media(max-width:800px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .sidebar.open{display:block}
-  .menu-btn{display:block}
-  .main{padding:16px}
+ .layout{grid-template-columns:1fr}
+ .sidebar{
+  display:none;position:fixed;top:60px;left:0;bottom:0;
+  width:260px;min-height:0;overflow-y:auto;z-index:45
+ }
+ .sidebar.open{display:block}
+ .menu-btn{display:block}
+ .content{padding:15px}
 }
 @media(max-width:550px){
-  .topbar{padding:0 12px}
-  .brand{font-size:16px}
-  .main{padding:13px}
-  .heading h1{font-size:21px}
-  .stats{gap:8px}
-  .stat{padding:12px}
-  .stat strong{font-size:21px}
-  .filters{grid-template-columns:1fr 1fr}
-  .filters input{grid-column:1/-1}
-  .detail-grid{grid-template-columns:1fr 1fr}
-  .modal{padding:7px}
-  .modal-card{margin:12px auto}
+ .topbar{min-height:55px;padding:0 11px}
+ .sidebar{top:55px}
+ .brand{font-size:15px}
+ .admin-label{font-size:8px;padding:6px 8px}
+ .content{padding:12px}
+ .heading h1{font-size:20px}
+ .stats{gap:8px}
+ .stat{padding:11px}
+ .stat small{font-size:9px}
+ .stat strong{font-size:20px}
+ .filters{grid-template-columns:1fr 1fr;gap:7px;padding:10px}
+ .filters input{grid-column:1/-1}
+ .detail-grid{grid-template-columns:1fr 1fr}
+ .modal{padding:6px}
+ .modal-card{margin:8px auto}
+ .modal-body{padding:11px}
+ .panel-head{padding:11px}
+}
+@media(max-width:350px){
+ .stat strong{font-size:18px}
+ .detail-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying administrator access...</p>
+ </div>
+</div>
+
+<!-- AUTH ERROR -->
+<div class="error-screen" id="errorScreen">
+ <div class="error-card">
+  <h2 id="errorTitle">Access Error</h2>
+  <p id="errorMessage">Unable to verify administrator access.</p>
+  <a href="../login.html">Login</a>
+  <button type="button" onclick="location.reload()">Try Again</button>
+ </div>
+</div>
+
+<div id="adminApp" hidden>
+
 <header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="menu-btn" id="menuBtn" type="button">☰</button>
-    <div class="brand">RUBALIA <span>NETWORK</span></div>
-  </div>
-  <div class="top-actions">
-    <span class="admin-label">ADMIN PANEL</span>
-  </div>
+ <div class="top-left">
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu">☰</button>
+  <div class="brand">RUBALIA <span>NETWORK</span></div>
+ </div>
+
+ <div class="top-actions">
+  <span class="admin-label">ADMIN PANEL</span>
+  <div class="admin-avatar" id="adminAvatar">A</div>
+ </div>
 </header>
 
 <div class="layout">
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-  <div class="side-heading">Main Menu</div>
-  <a class="nav-link" href="../admin-dashboard.html">▦ Dashboard</a>
 
-  <div class="side-heading">Management</div>
-  <a class="nav-link" href="admin-users.html">👥 Users</a>
-  <a class="nav-link" href="admin-products.html">📦 Products</a>
-  <a class="nav-link" href="admin-packages.html">🎁 Packages</a>
-  <a class="nav-link active" href="admin-orders.html">🛒 Orders Management</a>
+ <div class="admin-profile">
+  <strong id="adminName">Administrator</strong>
+  <small id="adminEmail">Loading...</small>
+ </div>
 
-  <div class="side-heading">Finance</div>
-  <a class="nav-link" href="admin-payments.html">💳 Payment Records</a>
-  <a class="nav-link" href="admin-withdrawals.html">💸 Withdrawals</a>
-  <a class="nav-link" href="admin-commissions.html">💰 Commissions</a>
+ <div class="side-heading">Main Menu</div>
+ <a class="nav-link" href="../admin-dashboard.html">▦ Dashboard</a>
 
-  <div class="side-heading">System</div>
-  <a class="nav-link" href="admin-settings.html">⚙️ Settings</a>
-  <a class="nav-link" href="../dashboard.html">🌐 Visit Shop</a>
-  <button class="logout" id="logoutBtn" type="button">↪ Logout</button>
+ <div class="side-heading">Management</div>
+ <a class="nav-link" href="admin-users.html">👥 Users</a>
+ <a class="nav-link" href="admin-partners.html">🤝 Partners</a>
+ <a class="nav-link" href="admin-applications.html">📋 Applications</a>
+ <a class="nav-link" href="admin-products.html">📦 Products</a>
+ <a class="nav-link" href="admin-packages.html">🎁 Packages</a>
+ <a class="nav-link active" href="admin-orders.html">🛒 Orders Management</a>
+
+ <div class="side-heading">Finance</div>
+ <a class="nav-link" href="admin-payments.html">💳 Payment Records</a>
+ <a class="nav-link" href="admin-withdrawals.html">💸 Withdrawals</a>
+ <a class="nav-link" href="admin-commissions.html">💰 Commissions</a>
+
+ <div class="side-heading">Communication</div>
+ <a class="nav-link" href="admin-announcements.html">📢 Announcements</a>
+ <a class="nav-link" href="admin-support.html">🎧 Support</a>
+
+ <div class="side-heading">System</div>
+ <a class="nav-link" href="admin-settings.html">⚙️ Settings</a>
+ <a class="nav-link" href="../index.html">🌐 Visit Website</a>
+
+ <button class="logout" id="logoutBtn" type="button">↪ Logout</button>
 </aside>
 
 <main class="main">
+<section class="content">
 
-  <div class="heading">
-    <div>
-      <h1>Orders Management</h1>
-      <p>Review customer orders and manage verified orders.</p>
-    </div>
-    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh Orders</button>
+ <div class="heading">
+  <div>
+   <h1>Orders Management</h1>
+   <p>Review customer orders and manage verified orders.</p>
   </div>
 
-  <div class="notice" id="notice"></div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+   <span class="connection" id="connection">
+    <span class="dot"></span>
+    <span id="connectionText">CHECKING</span>
+   </span>
+   <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh Orders</button>
+  </div>
+ </div>
 
-  <section class="stats">
-    <div class="stat">
-      <small>Loaded Orders</small>
-      <strong id="totalOrders">—</strong>
-    </div>
-    <div class="stat">
-      <small>Pending Orders</small>
-      <strong id="pendingOrders">—</strong>
-    </div>
-    <div class="stat">
-      <small>Confirmed Orders</small>
-      <strong id="confirmedOrders">—</strong>
-    </div>
-    <div class="stat">
-      <small>Delivered Orders</small>
-      <strong id="deliveredOrders">—</strong>
-    </div>
-  </section>
+ <div class="notice" id="notice" role="status"></div>
 
-  <section class="panel">
-    <div class="filters">
-      <input id="searchInput" type="search"
-        placeholder="Search order number, customer, email or phone..."
-        autocomplete="off">
+ <!-- STATISTICS -->
+ <section class="stats">
+  <div class="stat">
+   <small>Loaded Orders</small>
+   <strong id="totalOrders">—</strong>
+  </div>
+  <div class="stat">
+   <small>Pending Orders</small>
+   <strong id="pendingOrders">—</strong>
+  </div>
+  <div class="stat">
+   <small>Confirmed Orders</small>
+   <strong id="confirmedOrders">—</strong>
+  </div>
+  <div class="stat">
+   <small>Delivered Orders</small>
+   <strong id="deliveredOrders">—</strong>
+  </div>
+ </section>
 
-      <select id="statusFilter">
-        <option value="">All Order Statuses</option>
-        <option value="pending">Pending</option>
-        <option value="confirmed">Confirmed</option>
-        <option value="processing">Processing</option>
-        <option value="shipped">Shipped</option>
-        <option value="delivered">Delivered</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
+ <!-- FILTERS -->
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h3>Search & Filter Orders</h3>
+    <p>Find orders by customer, order number or payment status.</p>
+   </div>
+   <button class="refresh-btn" id="resetFilters" type="button">Reset</button>
+  </div>
 
-      <select id="paymentFilter">
-        <option value="">All Payments</option>
-        <option value="paid">Paid</option>
-        <option value="pending">Pending</option>
-        <option value="failed">Failed</option>
-        <option value="refunded">Refunded</option>
-        <option value="unverified">Unverified</option>
-      </select>
-    </div>
-  </section>
+  <div class="filters">
+   <input id="searchInput" type="search"
+    placeholder="Search order number, customer, email or phone..."
+    autocomplete="off">
 
-  <section class="panel">
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>ORDER NUMBER</th>
-            <th>CUSTOMER</th>
-            <th>AMOUNT</th>
-            <th>PAYMENT</th>
-            <th>ORDER STATUS</th>
-            <th>DATE</th>
-            <th>ACTION</th>
-          </tr>
-        </thead>
-        <tbody id="ordersBody">
-          <tr><td colspan="7" class="empty">Checking orders...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+   <select id="statusFilter">
+    <option value="">All Order Statuses</option>
+    <option value="pending">Pending</option>
+    <option value="confirmed">Confirmed</option>
+    <option value="processing">Processing</option>
+    <option value="shipped">Shipped</option>
+    <option value="delivered">Delivered</option>
+    <option value="cancelled">Cancelled</option>
+   </select>
 
+   <select id="paymentFilter">
+    <option value="">All Payments</option>
+    <option value="paid">Paid</option>
+    <option value="pending">Pending</option>
+    <option value="failed">Failed</option>
+    <option value="refunded">Refunded</option>
+    <option value="unverified">Unverified</option>
+   </select>
+  </div>
+ </section>
+
+ <!-- ORDERS TABLE -->
+ <section class="panel">
+  <div class="panel-head">
+   <div>
+    <h3>Customer Orders</h3>
+    <p id="resultCount">Waiting for order data...</p>
+   </div>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>ORDER NUMBER</th>
+      <th>CUSTOMER</th>
+      <th>AMOUNT</th>
+      <th>PAYMENT</th>
+      <th>ORDER STATUS</th>
+      <th>DATE</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+    <tbody id="ordersBody">
+     <tr><td colspan="7" class="empty">Checking orders...</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="table-foot" id="tableFoot">
+   Orders are loaded from the backend.
+  </div>
+ </section>
+
+</section>
 </main>
 </div>
 
 <footer class="footer">
-  © <span id="year"></span> RUBALIA NETWORK — Orders Management
+ © <span id="year"></span> RUBALIA NETWORK — Orders Management
 </footer>
 
+</div>
+
+<!-- ORDER DETAILS MODAL -->
 <div class="modal" id="orderModal">
-  <div class="modal-card">
-    <div class="modal-head">
-      <h2 id="modalTitle">Order Details</h2>
-      <button class="close-btn" id="closeModal" type="button">×</button>
-    </div>
+ <div class="modal-card">
 
-    <div class="modal-body">
-      <div class="detail-grid">
-        <div class="detail"><small>Customer Name</small><strong id="dCustomer">—</strong></div>
-        <div class="detail"><small>Email</small><strong id="dEmail">—</strong></div>
-        <div class="detail"><small>Phone</small><strong id="dPhone">—</strong></div>
-        <div class="detail"><small>Order Date</small><strong id="dDate">—</strong></div>
-        <div class="detail"><small>Payment Method</small><strong id="dMethod">—</strong></div>
-        <div class="detail"><small>Payment Status</small><strong id="dPayment">—</strong></div>
-        <div class="detail"><small>Refund Status</small><strong id="dRefund">—</strong></div>
-        <div class="detail"><small>Commission Status</small><strong id="dCommission">—</strong></div>
-      </div>
-
-      <div class="modal-section">
-        <h3>Delivery Address</h3>
-        <div class="shipping-box" id="dAddress">—</div>
-      </div>
-
-      <div class="modal-section">
-        <h3>Ordered Items</h3>
-        <div id="dItems"></div>
-        <div class="total-row">
-          <span>Total Amount</span>
-          <strong id="dTotal">৳0.00</strong>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <h3>Update Order Status</h3>
-        <div class="status-control">
-          <select id="newStatus">
-            <option value="pending">Pending</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
-
-          <button class="update-btn" id="updateStatusBtn" type="button">
-            Update Status
-          </button>
-        </div>
-        <div class="modal-message" id="modalMessage">
-          Only verified paid orders can be processed.
-        </div>
-      </div>
-    </div>
+  <div class="modal-head">
+   <h2 id="modalTitle">Order Details</h2>
+   <button class="close-btn" id="closeModal" type="button" aria-label="Close">×</button>
   </div>
+
+  <div class="modal-body">
+
+   <div class="detail-grid">
+    <div class="detail"><small>Customer Name</small><strong id="dCustomer">—</strong></div>
+    <div class="detail"><small>Email</small><strong id="dEmail">—</strong></div>
+    <div class="detail"><small>Phone</small><strong id="dPhone">—</strong></div>
+    <div class="detail"><small>Order Date</small><strong id="dDate">—</strong></div>
+    <div class="detail"><small>Payment Method</small><strong id="dMethod">—</strong></div>
+    <div class="detail"><small>Payment Status</small><strong id="dPayment">—</strong></div>
+    <div class="detail"><small>Refund Status</small><strong id="dRefund">—</strong></div>
+    <div class="detail"><small>Commission Status</small><strong id="dCommission">—</strong></div>
+   </div>
+
+   <div class="modal-section">
+    <h3>Delivery Address</h3>
+    <div class="shipping-box" id="dAddress">—</div>
+   </div>
+
+   <div class="modal-section">
+    <h3>Ordered Items</h3>
+    <div id="dItems"></div>
+    <div class="total-row">
+     <span>Total Amount</span>
+     <strong id="dTotal">৳—</strong>
+    </div>
+   </div>
+
+   <div class="modal-section">
+    <h3>Update Order Status</h3>
+
+    <div class="status-control">
+     <select id="newStatus">
+      <option value="pending">Pending</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="processing">Processing</option>
+      <option value="shipped">Shipped</option>
+      <option value="delivered">Delivered</option>
+      <option value="cancelled">Cancelled</option>
+     </select>
+
+     <button class="update-btn" id="updateStatusBtn" type="button">
+      Update Status
+     </button>
+    </div>
+
+    <div class="modal-message" id="modalMessage">
+     Payment verification is required before processing an order.
+    </div>
+   </div>
+
+  </div>
+ </div>
 </div>
 
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
+const API_BASE="https://rubalia.onrender.com/api";
+const TOKEN_KEY="rubalia_token";
+const USER_KEY="rubalia_user";
 
-let token = "";
-let orders = [];
-let selectedOrder = null;
+let token="";
+let orders=[];
+let selectedOrder=null;
+let loadingOrders=false;
+let updatingOrder=false;
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
+
+// ========================================
+// HELPERS
+// ========================================
+
+function text(value,fallback="—"){
+ if(value===null||value===undefined||value==="")return fallback;
+ return String(value);
+}
 
 function money(value){
-  const number = Number(value);
-  if(!Number.isFinite(number)) return "—";
+ if(value===null||value===undefined||value==="")return "—";
+ const number=Number(value);
+ if(!Number.isFinite(number))return "—";
 
-  return "৳" + number.toLocaleString("en-BD",{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
+ return "৳"+number.toLocaleString("en-BD",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
 }
 
 function dateText(value){
-  if(!value) return "—";
-  const date = new Date(value);
-  if(Number.isNaN(date.getTime())) return "—";
+ if(!value)return "—";
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "—";
 
-  return date.toLocaleString("en-GB",{
-    day:"2-digit",
-    month:"short",
-    year:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
-  });
+ return date.toLocaleString("en-GB",{
+  day:"2-digit",
+  month:"short",
+  year:"numeric",
+  hour:"2-digit",
+  minute:"2-digit"
+ });
 }
 
-function safeText(value){
-  return String(value ?? "—");
+function normalize(value){
+ return String(value||"").trim().toLowerCase();
 }
 
 function showNotice(type,message){
-  const notice = $("notice");
-  notice.className = "notice " + type;
-  notice.textContent = message;
+ const notice=$("notice");
+ notice.className="notice "+type;
+ notice.textContent=message;
 }
 
 function clearNotice(){
-  $("notice").className = "notice";
-  $("notice").textContent = "";
+ $("notice").className="notice";
+ $("notice").textContent="";
+}
+
+function setConnection(online,message){
+ $("connection").classList.toggle("online",online);
+ $("connectionText").textContent=message;
+}
+
+function showFatalError(title,message){
+ $("loadingScreen").style.display="none";
+ $("adminApp").hidden=true;
+ $("errorTitle").textContent=title;
+ $("errorMessage").textContent=message;
+ $("errorScreen").style.display="flex";
 }
 
 function logout(){
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
-  location.replace("../login.html");
+ sessionStorage.removeItem(TOKEN_KEY);
+ sessionStorage.removeItem(USER_KEY);
+ window.location.replace("../login.html");
+}
+
+// ========================================
+// FETCH WITH TIMEOUT
+// ========================================
+
+async function fetchWithTimeout(url,options={},timeout=20000){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),timeout);
+
+ try{
+  return await fetch(url,{
+   ...options,
+   signal:controller.signal
+  });
+ }finally{
+  clearTimeout(timer);
+ }
 }
 
 async function apiRequest(path,options={}){
-  const response = await fetch(API_BASE + path,{
-    method:options.method || "GET",
-    headers:{
-      "Authorization":"Bearer " + token,
-      "Accept":"application/json",
-      ...(options.body ? {"Content-Type":"application/json"} : {})
-    },
-    body:options.body ? JSON.stringify(options.body) : undefined,
-    cache:"no-store"
-  });
-
-  const data = await response.json().catch(()=>({}));
-
-  if(response.status === 401){
-    logout();
-    throw new Error("Your session expired. Please login again.");
+ const response=await fetchWithTimeout(
+  API_BASE+path,
+  {
+   method:options.method||"GET",
+   headers:{
+    "Authorization":"Bearer "+token,
+    "Accept":"application/json",
+    ...(options.body?{"Content-Type":"application/json"}:{})
+   },
+   body:options.body?JSON.stringify(options.body):undefined,
+   cache:"no-store"
   }
+ );
 
-  if(response.status === 403){
-    throw new Error("Administrator permission required.");
-  }
+ const data=await response.json().catch(()=>({}));
 
-  if(!response.ok || data.success === false){
-    throw new Error(data.message || "Server request failed.");
-  }
+ if(response.status===401){
+  logout();
+  throw new Error("Your session has expired.");
+ }
 
-  return data;
+ if(response.status===403){
+  throw new Error("Administrator permission required.");
+ }
+
+ if(!response.ok||data.success===false){
+  throw new Error(data.message||("Server error: "+response.status));
+ }
+
+ return data;
+}
+
+// ========================================
+// PAYMENT STATUS
+// ========================================
+
+function paymentStatus(order){
+ return normalize(order.payment_status||"unverified");
 }
 
 function paymentName(value){
-  const names = {
-    wallet:"Rubalia Wallet",
-    bkash:"bKash",
-    nagad:"Nagad",
-    rocket:"Rocket",
-    upay:"Upay",
-    usdt_bep20:"USDT BEP20",
-    sslcommerz:"Gateway",
-    legacy:"Legacy"
-  };
+ const names={
+  wallet:"Rubalia Wallet",
+  bkash:"bKash",
+  nagad:"Nagad",
+  rocket:"Rocket",
+  upay:"Upay",
+  usdt_bep20:"USDT BEP20",
+  sslcommerz:"Payment Gateway"
+ };
 
-  return names[String(value || "").toLowerCase()] ||
-    String(value || "Unknown");
+ const key=normalize(value);
+ return names[key]||text(value,"Unknown");
 }
 
-function validClass(value){
-  const allowed = [
-    "pending","confirmed","processing","shipped",
-    "delivered","cancelled","paid","failed",
-    "refunded","unverified"
-  ];
+function safeStatus(value){
+ const allowed=[
+  "pending","confirmed","processing",
+  "shipped","delivered","cancelled",
+  "paid","failed","refunded","unverified"
+ ];
 
-  const key = String(value || "").toLowerCase();
-  return allowed.includes(key) ? key : "unverified";
+ const key=normalize(value);
+ return allowed.includes(key)?key:"unverified";
 }
 
-function paymentStatus(order){
-  return String(order.payment_status || "unverified").toLowerCase();
+/*
+ * Only a verified "paid" payment is eligible.
+ * Payment method alone never proves payment.
+ */
+function canProcessOrder(order){
+ const paid=paymentStatus(order)==="paid";
+ const refunded=paymentStatus(order)==="refunded";
+ const refundStatus=normalize(order.refund_status);
+
+ const refundCompleted=[
+  "completed","refunded","approved"
+ ].includes(refundStatus);
+
+ return paid&&!refunded&&!refundCompleted;
 }
+
+// ========================================
+// CUSTOMER DETAILS
+// ========================================
+
+function customerName(order){
+ return (
+  order.shipping_name||
+  order.customer_name||
+  order.full_name||
+  order.user_name||
+  order.name||
+  "Customer"
+ );
+}
+
+function customerEmail(order){
+ return (
+  order.customer_email||
+  order.email||
+  order.user_email||
+  ""
+ );
+}
+
+function customerPhone(order){
+ return (
+  order.shipping_phone||
+  order.customer_phone||
+  order.phone||
+  ""
+ );
+}
+
+function orderNumber(order){
+ return order.order_number||order.order_code||("#"+order.id);
+}
+
+function orderDate(order){
+ return order.created_at||order.order_date||order.createdAt||null;
+}
+
+function orderAmount(order){
+ return order.total_amount??order.total??order.amount;
+}
+
+// ========================================
+// STATISTICS
+// ========================================
 
 function updateStats(){
-  $("totalOrders").textContent = orders.length.toLocaleString();
+ $("totalOrders").textContent=orders.length.toLocaleString();
 
-  $("pendingOrders").textContent =
-    orders.filter(o=>String(o.status).toLowerCase()==="pending").length.toLocaleString();
+ $("pendingOrders").textContent=
+  orders.filter(o=>normalize(o.status)==="pending").length.toLocaleString();
 
-  $("confirmedOrders").textContent =
-    orders.filter(o=>String(o.status).toLowerCase()==="confirmed").length.toLocaleString();
+ $("confirmedOrders").textContent=
+  orders.filter(o=>normalize(o.status)==="confirmed").length.toLocaleString();
 
-  $("deliveredOrders").textContent =
-    orders.filter(o=>String(o.status).toLowerCase()==="delivered").length.toLocaleString();
+ $("deliveredOrders").textContent=
+  orders.filter(o=>normalize(o.status)==="delivered").length.toLocaleString();
 }
+
+// ========================================
+// ORDER FILTERS
+// ========================================
+
+function getFilteredOrders(){
+ const query=normalize($("searchInput").value);
+ const status=normalize($("statusFilter").value);
+ const payment=normalize($("paymentFilter").value);
+
+ return orders.filter(order=>{
+  const searchable=[
+   orderNumber(order),
+   order.id,
+   customerName(order),
+   customerEmail(order),
+   customerPhone(order)
+  ].join(" ").toLowerCase();
+
+  const currentPayment=paymentStatus(order);
+
+  const matchesPayment=!payment||currentPayment===payment;
+  const matchesStatus=!status||normalize(order.status)===status;
+  const matchesSearch=!query||searchable.includes(query);
+
+  return matchesPayment&&matchesStatus&&matchesSearch;
+ });
+}
+
+// ========================================
+// RENDER ORDERS
+// ========================================
 
 function renderOrders(){
-  const body = $("ordersBody");
-  body.replaceChildren();
+ const body=$("ordersBody");
+ body.replaceChildren();
 
-  const query = $("searchInput").value.trim().toLowerCase();
-  const status = $("statusFilter").value;
-  const payment = $("paymentFilter").value;
+ const filtered=getFilteredOrders();
 
-  const filtered = orders.filter(order=>{
-    const searchable = [
-      order.order_number,
-      order.customer_name,
-      order.customer_email,
-      order.shipping_phone,
-      order.id
-    ].join(" ").toLowerCase();
+ $("resultCount").textContent=
+  "Showing "+filtered.length+" of "+orders.length+" loaded orders";
 
-    const currentPayment = paymentStatus(order);
+ if(!filtered.length){
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+  cell.colSpan=7;
+  cell.className="empty";
+  cell.textContent=orders.length
+   ?"No matching orders found."
+   :"No orders are available.";
 
-    const paymentMatches =
-      !payment ||
-      currentPayment === payment ||
-      (payment === "unverified" && !order.payment_status);
+  row.appendChild(cell);
+  body.appendChild(row);
+  return;
+ }
 
-    return (!query || searchable.includes(query)) &&
-      (!status || String(order.status).toLowerCase()===status) &&
-      paymentMatches;
+ filtered.forEach(order=>{
+  const row=document.createElement("tr");
+
+  const cells=[
+   orderNumber(order),
+   customerName(order),
+   money(orderAmount(order)),
+   paymentName(order.payment_method),
+   text(order.status,"pending"),
+   dateText(orderDate(order))
+  ];
+
+  cells.forEach((value,index)=>{
+   const cell=document.createElement("td");
+
+   if(index===0){
+    const strong=document.createElement("strong");
+    strong.textContent=text(value);
+    cell.appendChild(strong);
+   }else if(index===3){
+    const badge=document.createElement("span");
+    badge.className="payment-badge "+safeStatus(paymentStatus(order));
+    badge.textContent=text(value)+" · "+paymentStatus(order);
+    cell.appendChild(badge);
+   }else if(index===4){
+    const badge=document.createElement("span");
+    badge.className="status "+safeStatus(value);
+    badge.textContent=text(value);
+    cell.appendChild(badge);
+   }else{
+    cell.textContent=text(value);
+   }
+
+   row.appendChild(cell);
   });
 
-  if(!filtered.length){
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = 7;
-    cell.className = "empty";
-    cell.textContent = orders.length
-      ? "No matching orders found."
-      : "No orders are available.";
-    row.appendChild(cell);
-    body.appendChild(row);
-    return;
-  }
+  const actionCell=document.createElement("td");
+  const button=document.createElement("button");
 
-  filtered.forEach(order=>{
-    const row = document.createElement("tr");
+  button.type="button";
+  button.className="view-btn";
+  button.textContent="View / Manage";
 
-    const values = [
-      order.order_number || ("#" + order.id),
-      order.customer_name || "Customer",
-      money(order.total_amount),
-      paymentName(order.payment_method),
-      order.status || "pending",
-      dateText(order.created_at)
-    ];
-
-    values.forEach((value,index)=>{
-      const cell = document.createElement("td");
-
-      if(index===0){
-        const strong = document.createElement("strong");
-        strong.textContent = safeText(value);
-        cell.appendChild(strong);
-      }else if(index===3){
-        const badge = document.createElement("span");
-        badge.className = "payment-badge " + validClass(paymentStatus(order));
-        badge.textContent = safeText(value) + " · " + paymentStatus(order);
-        cell.appendChild(badge);
-      }else if(index===4){
-        const badge = document.createElement("span");
-        badge.className = "status " + validClass(value);
-        badge.textContent = safeText(value);
-        cell.appendChild(badge);
-      }else{
-        cell.textContent = safeText(value);
-      }
-
-      row.appendChild(cell);
-    });
-
-    const actionCell = document.createElement("td");
-    const button = document.createElement("button");
-    button.className = "view-btn";
-    button.type = "button";
-    button.textContent = "View / Manage";
-    button.addEventListener("click",()=>openOrder(order.id));
-    actionCell.appendChild(button);
-    row.appendChild(actionCell);
-
-    body.appendChild(row);
+  button.addEventListener("click",()=>{
+   openOrder(order.id);
   });
+
+  actionCell.appendChild(button);
+  row.appendChild(actionCell);
+  body.appendChild(row);
+ });
 }
+
+// ========================================
+// ORDER ITEMS
+// ========================================
 
 function loadItems(items){
-  const container = $("dItems");
-  container.replaceChildren();
+ const container=$("dItems");
+ container.replaceChildren();
 
-  if(!Array.isArray(items) || !items.length){
-    container.textContent = "No item details available.";
-    return;
-  }
+ if(!Array.isArray(items)||!items.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="No item details available.";
+  container.appendChild(empty);
+  return;
+ }
 
-  items.forEach(item=>{
-    const row = document.createElement("div");
-    row.className = "item-row";
+ items.forEach(item=>{
+  const row=document.createElement("div");
+  row.className="item-row";
 
-    const left = document.createElement("div");
-    const name = document.createElement("strong");
-    name.textContent = safeText(item.productName);
+  const left=document.createElement("div");
 
-    const meta = document.createElement("div");
-    meta.style.color = "#78869a";
-    meta.style.marginTop = "5px";
-    meta.textContent =
-      "Qty: " + safeText(item.quantity) +
-      " × " + money(item.unitPrice);
+  const name=document.createElement("strong");
+  name.textContent=text(
+   item.productName||
+   item.product_name||
+   item.name,
+   "Product"
+  );
 
-    left.append(name,meta);
+  const quantity=item.quantity??1;
+  const unitPrice=item.unitPrice??item.unit_price??item.price;
 
-    const right = document.createElement("strong");
-    right.textContent = money(item.subtotal);
+  const meta=document.createElement("div");
+  meta.className="item-meta";
+  meta.textContent="Qty: "+quantity+" × "+money(unitPrice);
 
-    row.append(left,right);
-    container.appendChild(row);
-  });
+  left.append(name,meta);
+
+  const right=document.createElement("strong");
+  right.textContent=money(
+   item.subtotal??item.total??(Number(unitPrice)*Number(quantity))
+  );
+
+  row.append(left,right);
+  container.appendChild(row);
+ });
 }
 
-function canProcessOrder(order){
-  const paid = paymentStatus(order) === "paid";
-  const legacy = String(order.payment_method || "").toLowerCase() === "legacy";
-  const refunded = paymentStatus(order) === "refunded";
-  const refundCompleted = String(order.refund_status || "").toLowerCase() === "completed";
-
-  return (paid || legacy) && !refunded && !refundCompleted;
-}
+// ========================================
+// OPEN ORDER DETAILS
+// ========================================
 
 function openOrder(id){
-  const order = orders.find(item=>Number(item.id)===Number(id));
-  if(!order) return;
+ const order=orders.find(item=>String(item.id)===String(id));
+ if(!order)return;
 
-  selectedOrder = order;
+ selectedOrder=order;
 
-  $("modalTitle").textContent =
-    "Order " + (order.order_number || "#" + order.id);
+ $("modalTitle").textContent="Order "+orderNumber(order);
 
-  $("dCustomer").textContent = safeText(order.shipping_name || order.customer_name);
-  $("dEmail").textContent = safeText(order.customer_email);
-  $("dPhone").textContent = safeText(order.shipping_phone);
-  $("dDate").textContent = dateText(order.created_at);
-  $("dMethod").textContent = paymentName(order.payment_method);
-  $("dPayment").textContent = safeText(order.payment_status || "unverified");
-  $("dRefund").textContent = safeText(order.refund_status || "—");
-  $("dCommission").textContent = safeText(order.commission_status || "—");
+ $("dCustomer").textContent=customerName(order);
+ $("dEmail").textContent=customerEmail(order)||"—";
+ $("dPhone").textContent=customerPhone(order)||"—";
+ $("dDate").textContent=dateText(orderDate(order));
+ $("dMethod").textContent=paymentName(order.payment_method);
+ $("dPayment").textContent=paymentStatus(order);
+ $("dRefund").textContent=text(order.refund_status);
+ $("dCommission").textContent=text(order.commission_status);
 
-  $("dAddress").textContent = safeText(order.shipping_address);
-  $("dTotal").textContent = money(order.total_amount);
+ $("dAddress").textContent=text(
+  order.shipping_address||
+  order.delivery_address||
+  order.address
+ );
 
-  loadItems(order.items);
+ $("dTotal").textContent=money(orderAmount(order));
 
-  $("newStatus").value = order.status || "pending";
+ loadItems(order.items);
 
-  const allowed = canProcessOrder(order);
-  const cancelled = String(order.status).toLowerCase() === "cancelled";
-  const delivered = String(order.status).toLowerCase() === "delivered";
+ const currentStatus=normalize(order.status||"pending");
+ const eligible=canProcessOrder(order);
+ const terminal=currentStatus==="cancelled";
 
-  $("updateStatusBtn").disabled = !allowed || cancelled;
-  $("newStatus").disabled = !allowed || cancelled;
+ $("newStatus").value=currentStatus;
+ $("newStatus").disabled=!eligible||terminal;
+ $("updateStatusBtn").disabled=!eligible||terminal;
 
-  if(!allowed){
-    $("modalMessage").textContent =
-      "Payment is not verified, or this order has been refunded. Status updates are blocked.";
-  }else if(cancelled){
-    $("modalMessage").textContent =
-      "Cancelled orders cannot be reopened.";
-  }else if(delivered){
-    $("modalMessage").textContent =
-      "This order is delivered. The backend will enforce its status transition rules.";
-  }else{
-    $("modalMessage").textContent =
-      "Payment is verified. You can update this order status.";
-  }
+ if(!eligible){
+  $("modalMessage").textContent=
+   "Payment is not verified as PAID, or the order has been refunded. Status updates are blocked.";
+ }else if(terminal){
+  $("modalMessage").textContent=
+   "Cancelled orders cannot be reopened from this page.";
+ }else{
+  $("modalMessage").textContent=
+   "Payment is verified as PAID. Select a new status and update the order.";
+ }
 
-  $("orderModal").classList.add("show");
+ $("orderModal").classList.add("show");
 }
 
 function closeModal(){
-  $("orderModal").classList.remove("show");
-  selectedOrder = null;
+ $("orderModal").classList.remove("show");
+ selectedOrder=null;
 }
+
+// ========================================
+// UPDATE ORDER STATUS
+// ========================================
 
 async function updateOrderStatus(){
-  if(!selectedOrder) return;
+ if(!selectedOrder||updatingOrder)return;
 
-  const status = $("newStatus").value;
-  const button = $("updateStatusBtn");
+ const order=selectedOrder;
+ const newStatus=normalize($("newStatus").value);
+ const currentStatus=normalize(order.status);
 
-  if(!canProcessOrder(selectedOrder)){
-    showNotice("error","Payment is not verified or this order has been refunded.");
-    return;
-  }
+ if(!canProcessOrder(order)){
+  $("modalMessage").textContent=
+   "This order cannot be updated because payment is not verified.";
+  return;
+ }
 
-  if(String(selectedOrder.status).toLowerCase()==="cancelled"){
-    showNotice("error","A cancelled order cannot be reopened.");
-    return;
-  }
+ if(currentStatus==="cancelled"){
+  $("modalMessage").textContent=
+   "Cancelled orders cannot be reopened.";
+  return;
+ }
 
-  if(status === selectedOrder.status){
-    showNotice("error","This order already has the selected status.");
-    return;
-  }
+ if(!newStatus){
+  $("modalMessage").textContent="Please select an order status.";
+  return;
+ }
 
-  if(!confirm("Change order status to " + status + "?")){
-    return;
-  }
+ if(newStatus===currentStatus){
+  $("modalMessage").textContent="The order already has this status.";
+  return;
+ }
 
-  button.disabled = true;
-  button.textContent = "Updating...";
+ const confirmed=window.confirm(
+  "Update order "+orderNumber(order)+" to "+newStatus+"?"
+ );
 
-  try{
-    const result = await apiRequest(
-      "/orders/" + encodeURIComponent(selectedOrder.id) + "/status",
-      {
-        method:"PATCH",
-        body:{status}
-      }
-    );
+ if(!confirmed)return;
 
-    showNotice("success",result.message || "Order status updated.");
+ updatingOrder=true;
 
-    closeModal();
-    await loadOrders();
+ const button=$("updateStatusBtn");
+ button.disabled=true;
+ button.textContent="Updating...";
 
-  }catch(error){
-    showNotice("error",error.message);
-  }finally{
-    button.disabled = false;
-    button.textContent = "Update Status";
-  }
+ try{
+  const result=await apiRequest(
+   "/orders/"+encodeURIComponent(order.id)+"/status",
+   {
+    method:"PATCH",
+    body:{status:newStatus}
+   }
+  );
+
+  closeModal();
+
+  showNotice(
+   "success",
+   result.message||"Order status updated successfully."
+  );
+
+  await loadOrders();
+
+ }catch(error){
+  $("modalMessage").textContent=error.message;
+  showNotice("error",error.message);
+
+ }finally{
+  updatingOrder=false;
+  button.disabled=false;
+  button.textContent="Update Status";
+ }
 }
+
+// ========================================
+// LOAD ORDERS
+// Existing endpoint:
+// GET /api/orders/admin/all
+// ========================================
 
 async function loadOrders(){
-  clearNotice();
+ if(loadingOrders)return;
 
-  $("refreshBtn").disabled = true;
-  $("refreshBtn").textContent = "Loading...";
+ loadingOrders=true;
 
-  try{
-    const data = await apiRequest("/orders/admin/all");
+ clearNotice();
 
-    if(!Array.isArray(data.orders)){
-      throw new Error("The server returned an unexpected orders response.");
-    }
+ $("refreshBtn").disabled=true;
+ $("refreshBtn").textContent="Loading...";
 
-    orders = data.orders;
+ setConnection(false,"CONNECTING");
 
-    updateStats();
-    renderOrders();
+ try{
+  const data=await apiRequest("/orders/admin/all");
 
-  }catch(error){
-    showNotice("error",error.message);
-    orders = [];
-    updateStats();
-
-    const body = $("ordersBody");
-    body.replaceChildren();
-
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = 7;
-    cell.className = "empty";
-    cell.textContent = "Unable to load orders. Please refresh and try again.";
-    row.appendChild(cell);
-    body.appendChild(row);
-
-  }finally{
-    $("refreshBtn").disabled = false;
-    $("refreshBtn").textContent = "↻ Refresh Orders";
+  if(!Array.isArray(data.orders)){
+   throw new Error(
+    "Unexpected API response. Expected an orders array."
+   );
   }
+
+  orders=data.orders;
+
+  updateStats();
+  renderOrders();
+
+  setConnection(true,"API CONNECTED");
+
+  $("tableFoot").textContent=
+   "Successfully loaded "+orders.length+" orders from backend.";
+
+ }catch(error){
+
+  if(error.message.includes("session has expired"))return;
+
+  if(error.message.includes("Administrator permission")){
+   showFatalError("Access Denied",error.message);
+   return;
+  }
+
+  orders=[];
+  updateStats();
+  renderOrders();
+
+  setConnection(false,"API NOT CONNECTED");
+
+  $("tableFoot").textContent="Unable to load orders.";
+
+  showNotice(
+   "error",
+   error.name==="AbortError"
+    ?"The server took too long to respond. Please try again."
+    :error.message
+  );
+
+  console.error("Orders API error:",error);
+
+ }finally{
+  loadingOrders=false;
+  $("refreshBtn").disabled=false;
+  $("refreshBtn").textContent="↻ Refresh Orders";
+ }
 }
 
-async function initialize(){
-  token = sessionStorage.getItem("rubalia_token") || "";
+// ========================================
+// ADMIN AUTHENTICATION
+// ========================================
 
-  if(!token){
-    logout();
-    return;
+async function verifyAdmin(){
+ token=sessionStorage.getItem(TOKEN_KEY)||"";
+
+ if(!token){
+  window.location.replace("../login.html");
+  return false;
+ }
+
+ try{
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("Account information was not returned.");
   }
 
-  try{
-    const data = await apiRequest("/auth/me");
-    const user = data.user || data.profile;
-
-    if(!user){
-      throw new Error("Account information was not returned.");
-    }
-
-    if(String(user.role).toLowerCase() !== "admin"){
-      location.replace("../dashboard.html");
-      return;
-    }
-
-    $("year").textContent = new Date().getFullYear();
-
-    await loadOrders();
-
-  }catch(error){
-    showNotice("error",error.message);
+  if(normalize(user.role)!=="admin"){
+   window.location.replace("../dashboard.html");
+   return false;
   }
+
+  const name=user.full_name||user.fullName||"Administrator";
+
+  $("adminName").textContent=name;
+  $("adminEmail").textContent=user.email||"";
+  $("adminAvatar").textContent=name.charAt(0).toUpperCase()||"A";
+
+  return true;
+
+ }catch(error){
+
+  if(error.message.includes("session has expired"))return false;
+
+  showFatalError(
+   "Unable to Verify Administrator",
+   error.message
+  );
+
+  return false;
+ }
 }
+
+// ========================================
+// EVENTS
+// ========================================
+
+$("menuBtn").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
+
+$("logoutBtn").addEventListener("click",logout);
 
 $("refreshBtn").addEventListener("click",loadOrders);
+
 $("searchInput").addEventListener("input",renderOrders);
 $("statusFilter").addEventListener("change",renderOrders);
 $("paymentFilter").addEventListener("change",renderOrders);
-$("updateStatusBtn").addEventListener("click",updateOrderStatus);
-$("closeModal").addEventListener("click",closeModal);
-$("logoutBtn").addEventListener("click",logout);
 
-$("menuBtn").addEventListener("click",()=>{
-  $("sidebar").classList.toggle("open");
+$("resetFilters").addEventListener("click",()=>{
+ $("searchInput").value="";
+ $("statusFilter").value="";
+ $("paymentFilter").value="";
+ renderOrders();
 });
 
+$("updateStatusBtn").addEventListener("click",updateOrderStatus);
+
+$("closeModal").addEventListener("click",closeModal);
+
 $("orderModal").addEventListener("click",event=>{
-  if(event.target === $("orderModal")) closeModal();
+ if(event.target===$("orderModal"))closeModal();
 });
 
 document.addEventListener("keydown",event=>{
-  if(event.key === "Escape") closeModal();
+ if(event.key==="Escape")closeModal();
 });
 
-initialize();
-</script>
+document.querySelectorAll(".sidebar a").forEach(link=>{
+ link.addEventListener("click",()=>{
+  $("sidebar").classList.remove("open");
+ });
+});
 
+document.addEventListener("click",event=>{
+ if(
+  window.innerWidth<=800 &&
+  $("sidebar").classList.contains("open") &&
+  !$("sidebar").contains(event.target) &&
+  !$("menuBtn").contains(event.target)
+ ){
+  $("sidebar").classList.remove("open");
+ }
+});
+
+// ========================================
+// INITIALIZE
+// ========================================
+
+async function initialize(){
+ $("year").textContent=new Date().getFullYear();
+
+ const verified=await verifyAdmin();
+ if(!verified)return;
+
+ $("loadingScreen").style.display="none";
+ $("adminApp").hidden=false;
+
+ await loadOrders();
+}
+
+initialize();
+
+</script>
 </body>
 </html>
