@@ -34,6 +34,11 @@ const {
   runMonthlyFinancialReportMigration
 } = require("./database/monthly-financial-report-migration");
 
+// Moderator Migration
+const {
+  runModeratorMigration
+} = require("./database/moderator-migration");
+
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -43,6 +48,7 @@ const orderRoutes = require("./routes/order.routes");
 const teamRoutes = require("./routes/team.routes");
 const walletRoutes = require("./routes/wallet.routes");
 const adminRoutes = require("./routes/admin.routes");
+const moderatorRoutes = require("./routes/moderator.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const uploadRoutes = require("./routes/upload.routes");
 const paymentRoutes = require("./routes/payment.routes");
@@ -261,7 +267,13 @@ app.use("/api/packages", packageRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/wallet", walletRoutes);
+
+// Admin APIs
 app.use("/api/admin", adminRoutes);
+
+// Moderator management APIs
+app.use("/api/moderators", moderatorRoutes);
+
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/referral", referralRoutes);
 app.use("/api/commission", commissionRoutes);
@@ -345,6 +357,10 @@ async function startServer() {
     await runMonthlyFinancialReportMigration();
     console.log("Monthly financial report migration completed.");
 
+    // Moderator Database Migration
+    await runModeratorMigration();
+    console.log("Moderator migration completed.");
+
     // Start Commission Worker
     startCommissionWorker(pool);
     console.log("Commission worker started.");
@@ -371,6 +387,8 @@ async function startServer() {
       console.log("Public admin announcement API enabled.");
       console.log("Monthly financial reports API enabled.");
       console.log("Monthly financial report worker enabled.");
+      console.log("Moderator management API enabled.");
+      console.log("Moderator database migration enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
     });
 
