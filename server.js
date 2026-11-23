@@ -29,6 +29,11 @@ const {
   runProfileImageMigration
 } = require("./database/profile-image-migration");
 
+// Monthly Financial Report Migration
+const {
+  runMonthlyFinancialReportMigration
+} = require("./database/monthly-financial-report-migration");
+
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -47,11 +52,20 @@ const refundRoutes = require("./routes/refund.routes");
 const supportRoutes = require("./routes/support.routes");
 const settingsRoutes = require("./routes/settings.routes");
 
+// Monthly Financial Report Route
+const financialReportRoutes = require("./routes/financial-report.routes");
+
 // Commission Worker
 const {
   startCommissionWorker,
   stopCommissionWorker
 } = require("./workers/commission.worker");
+
+// Monthly Financial Report Worker
+const {
+  startMonthlyFinancialReportWorker,
+  stopMonthlyFinancialReportWorker
+} = require("./workers/monthly-financial-report.worker");
 
 // Error Handlers
 const {
@@ -260,6 +274,15 @@ app.use("/api/support", supportRoutes);
 app.use("/api/settings", settingsRoutes);
 
 // =====================================================
+// MONTHLY FINANCIAL REPORT API
+// =====================================================
+
+app.use(
+  "/api/financial-reports",
+  financialReportRoutes
+);
+
+// =====================================================
 // ERROR HANDLING
 // =====================================================
 
@@ -318,9 +341,17 @@ async function startServer() {
     await runProfileImageMigration();
     console.log("Profile image migration completed.");
 
+    // Monthly Financial Report Database Migration
+    await runMonthlyFinancialReportMigration();
+    console.log("Monthly financial report migration completed.");
+
     // Start Commission Worker
     startCommissionWorker(pool);
     console.log("Commission worker started.");
+
+    // Start Monthly Financial Report Worker
+    startMonthlyFinancialReportWorker(pool);
+    console.log("Monthly financial report worker started.");
 
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
@@ -338,6 +369,8 @@ async function startServer() {
       console.log("Member settings API enabled.");
       console.log("Password reset system enabled.");
       console.log("Public admin announcement API enabled.");
+      console.log("Monthly financial reports API enabled.");
+      console.log("Monthly financial report worker enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
     });
 
@@ -357,7 +390,11 @@ async function startServer() {
       console.log(`${signal} received. Shutting down...`);
 
       try {
+        // Stop Commission Worker
         await stopCommissionWorker();
+
+        // Stop Monthly Financial Report Worker
+        await stopMonthlyFinancialReportWorker();
 
         server.close(async () => {
           try {
