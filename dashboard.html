@@ -63,8 +63,9 @@ main{max-width:1450px;margin:auto;padding:8px 10px 14px}
 .notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
 
 /* categories are displayed in the separate product-category.html iframe */
-.product-category-frame{display:block;width:100%;min-height:900px;margin:0 auto 18px;padding:0;overflow:hidden;border:0;border-radius:16px;background:transparent}
-.product-category-frame iframe{display:block;width:100%;height:1000px;min-height:900px;border:0;border-radius:16px;background:transparent}
+.product-category-frame{display:block;width:100%;height:auto;min-height:0;margin:0 auto 18px;padding:0;overflow:hidden;border:0;border-radius:16px;background:transparent}
+.product-category-frame.hidden{display:none}
+.product-category-frame iframe{display:block;width:100%;height:1px;min-height:0;border:0;border-radius:16px;background:transparent;overflow:hidden}
 
 /* package view */
 .packages-view{display:none}.packages-view.active{display:block}
@@ -112,8 +113,8 @@ footer strong{color:#f4d58c}
 .announcement-ticker{height:27px;padding:2px 7px}.announcement-window{height:23px}.announcement-window iframe{height:23px}
 main{padding:8px 5px 12px}.slider-frame{margin-bottom:7px;border-radius:9px}
 .welcome-banner{margin-bottom:10px;border-radius:7px;aspect-ratio:9.6/1}
-.product-category-frame{min-height:1050px;margin-bottom:12px;border-radius:12px}
-.product-category-frame iframe{height:1150px;min-height:1050px;border-radius:12px}
+.product-category-frame{min-height:0;margin-bottom:12px;border-radius:12px}
+.product-category-frame iframe{height:1px;min-height:0;border-radius:12px}
 .section-heading{padding:0 5px}.section-heading h2{font-size:16px}
 .search-section{padding:0 5px}.package-grid{gap:8px;padding:0 3px}
 .item-image{height:112px}.item-body{padding:6px;gap:5px}.item-type{padding:4px 9px;font-size:7px}
@@ -123,7 +124,7 @@ main{padding:8px 5px 12px}.slider-frame{margin-bottom:7px;border-radius:9px}
 }
 @media(max-width:360px){
 .app-header{padding-left:50px}.app-brand-name{font-size:11px}.profile-link{width:31px;height:31px}
-.header-balance{min-width:65px;font-size:11px}.product-category-frame{min-height:1050px}
+.header-balance{min-width:65px;font-size:11px}.product-category-frame{min-height:0}
 .item-image{height:88px}.item-body{padding:5px;gap:5px}.item-title{font-size:10px}
 .item-description{font-size:7px}.item-price{font-size:10px}.buy-btn{padding:7px 5px;font-size:7px}
 }
@@ -302,10 +303,101 @@ setInterval(loadAdminAnnouncement,60000);
    page directly to packages.html?category=... . No iframe navigation lock. */
 function goToCategory(category){const value=String(category||"").trim();if(!value)return;location.href="packages.html?category="+encodeURIComponent(value)}
 const categoryFrame=$("categoryFrame");
+
+/* Automatically fit the category iframe to its real content.
+   The child page is same-origin, so its actual document height and image
+   loading state can be measured without a fixed 1150px height. */
+let categoryResizeObserver=null;
+let categoryMutationObserver=null;
+let categoryResizeBound=false;
+
+function resizeCategoryFrame(){
+  try{
+    const doc=categoryFrame.contentDocument;
+    if(!doc||!doc.body)return;
+
+    /* Remove the child's 100vh minimum so the iframe can also shrink. */
+    doc.documentElement.style.height="auto";
+    doc.documentElement.style.minHeight="0";
+    doc.body.style.height="auto";
+    doc.body.style.minHeight="0";
+
+    const measure=()=>{
+      const body=doc.body;
+      const root=doc.documentElement;
+      if(!body||!root)return;
+
+      const contentHeight=Math.max(
+        body.scrollHeight,
+        root.scrollHeight,
+        body.offsetHeight,
+        root.offsetHeight
+      );
+      if(contentHeight>0){
+        categoryFrame.style.height=Math.ceil(contentHeight+3)+"px";
+      }
+    };
+
+    requestAnimationFrame(()=>requestAnimationFrame(measure));
+  }catch(error){
+    console.warn("Could not measure category iframe:",error);
+  }
+}
+
+function setupCategoryAutoHeight(doc){
+  try{
+    if(!doc||!doc.body)return;
+
+    /* Load all embedded category images promptly, then recalculate height. */
+    doc.querySelectorAll("img").forEach(img=>{
+      img.loading="eager";
+      if(img.complete){
+        if(typeof img.decode==="function")img.decode().catch(()=>{}).finally(resizeCategoryFrame);
+      }else{
+        img.addEventListener("load",resizeCategoryFrame,{once:true});
+        img.addEventListener("error",resizeCategoryFrame,{once:true});
+      }
+    });
+
+    if(categoryResizeObserver)categoryResizeObserver.disconnect();
+    if(categoryMutationObserver)categoryMutationObserver.disconnect();
+
+    if("ResizeObserver" in window){
+      categoryResizeObserver=new ResizeObserver(resizeCategoryFrame);
+      categoryResizeObserver.observe(doc.documentElement);
+      categoryResizeObserver.observe(doc.body);
+      const grid=doc.getElementById("categoryGrid");
+      if(grid)categoryResizeObserver.observe(grid);
+    }
+
+    if("MutationObserver" in window){
+      categoryMutationObserver=new MutationObserver(resizeCategoryFrame);
+      categoryMutationObserver.observe(doc.body,{childList:true,subtree:true,attributes:true,characterData:true});
+    }
+
+    if(!categoryResizeBound){
+      window.addEventListener("resize",resizeCategoryFrame,{passive:true});
+      categoryResizeBound=true;
+    }
+
+    if(doc.fonts&&doc.fonts.ready){
+      doc.fonts.ready.then(resizeCategoryFrame).catch(()=>{});
+    }
+
+    resizeCategoryFrame();
+    setTimeout(resizeCategoryFrame,250);
+    setTimeout(resizeCategoryFrame,800);
+    setTimeout(resizeCategoryFrame,1600);
+  }catch(error){
+    console.warn("Category auto-height setup failed:",error);
+  }
+}
+
 categoryFrame.addEventListener("load",function(){
   try{
     const doc=categoryFrame.contentDocument;
     if(!doc)return;
+    setupCategoryAutoHeight(doc);
     doc.addEventListener("click",function(event){
       const target=event.target;
       const clickable=target.closest("a,button,[data-category],.category-card,.category-item,.category-banner,[role='button']");
@@ -325,7 +417,7 @@ categoryFrame.addEventListener("load",function(){
 });
 
 /* Package view and category routing */
-function showCategories(){selectedCategory="";$("packagesView").classList.remove("active");$("categoryView").classList.remove("hidden");clearNotice();window.scrollTo({top:0,behavior:"smooth"})}
+function showCategories(){selectedCategory="";$("packagesView").classList.remove("active");$("categoryView").classList.remove("hidden");clearNotice();requestAnimationFrame(resizeCategoryFrame);window.scrollTo({top:0,behavior:"smooth"})}
 $("backToCategories").addEventListener("click",showCategories);
 function readCategoryFromURL(){const params=new URLSearchParams(location.search);const category=params.get("category");if(category){selectedCategory=category;$("categoryView").classList.add("hidden");$("packagesView").classList.add("active");$("selectedCategoryTitle").textContent=category+" Packages";loadPackages()}}
 
