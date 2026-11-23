@@ -10,14 +10,11 @@
 <style>
 :root{
   --navy:#071a35;
-  --navy2:#102b50;
-  --blue:#1768b5;
-  --cyan:#24b8d5;
-  --gold:#f0d48b;
-  --green:#159b69;
-  --red:#dc4444;
+  --navy2:#142b50;
+  --blue:#2459a0;
+  --cyan:#39c7df;
   --bg:#edf2f8;
-  --text:#26364d;
+  --text:#17243d;
   --muted:#8290a5;
   --border:#dfe7f0;
 }
@@ -31,48 +28,160 @@ a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 .layout{display:flex;min-height:100vh}
 
-/* SIDEBAR - WITHDRAW PAGE STYLE */
+/* DESKTOP SIDEBAR */
 .sidebar{
   width:250px;
-  background:var(--navy);
+  min-width:250px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#101f40,#1b3768,#2459a0);
   color:white;
   padding:24px 16px;
-  flex-shrink:0
+  flex-shrink:0;
+  z-index:1000
+}
+.drawer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:5px 10px 25px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  margin-bottom:15px
 }
 .brand{
   font-size:22px;
   font-weight:900;
-  color:var(--gold);
-  padding:5px 10px 25px;
+  color:white;
   letter-spacing:1px
 }
 .brand small{
   display:block;
   font-size:10px;
   letter-spacing:4px;
-  color:white;
+  color:#70d9e9;
   margin-top:5px
 }
+.close-menu{
+  display:none;
+  width:48px;
+  height:48px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:13px;
+  color:white;
+  background:rgba(255,255,255,.08);
+  font-size:25px;
+  cursor:pointer
+}
 .menu-title{
-  color:#829bb8;
-  font-size:10px;
+  color:#91a9ce;
+  font-size:11px;
   font-weight:bold;
-  padding:15px 12px 8px;
-  letter-spacing:1.5px
+  padding:18px 12px 12px;
+  letter-spacing:2px
 }
 .menu a{
-  display:block;
-  padding:12px;
-  margin:4px 0;
-  border-radius:9px;
-  color:#dce6f3;
-  font-size:13px;
+  display:flex;
+  align-items:center;
+  gap:17px;
+  padding:15px 13px;
+  margin:5px 0;
+  border-radius:12px;
+  color:#e0e9f5;
+  font-size:14px;
   transition:.2s
 }
-.menu a:hover,
+.menu-icon{
+  width:24px;
+  text-align:center;
+  font-size:20px;
+  flex-shrink:0
+}
+.menu a:hover{
+  background:rgba(255,255,255,.09);
+  color:white
+}
 .menu a.active{
-  background:#18375e;
-  color:var(--gold)
+  background:linear-gradient(100deg,#36bfd9,#6ad9e8);
+  color:#09264b;
+  font-weight:900;
+  box-shadow:0 7px 20px rgba(0,0,0,.13)
+}
+
+/* MOBILE NAVIGATION HEADER */
+.mobile-header{
+  display:none;
+  height:124px;
+  padding:0 22px;
+  align-items:center;
+  gap:14px;
+  color:white;
+  background:linear-gradient(110deg,#101e3d,#1b3c73,#2459a0);
+  border-bottom:4px solid #38c4dc;
+  box-shadow:0 8px 22px rgba(10,30,65,.15)
+}
+.hamburger{
+  width:75px;
+  height:75px;
+  flex-shrink:0;
+  border:2px solid rgba(255,255,255,.22);
+  border-radius:19px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:35px;
+  cursor:pointer
+}
+.mobile-logo{
+  width:70px;
+  height:70px;
+  flex-shrink:0;
+  border-radius:19px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#10294d;
+  font-size:40px;
+  font-weight:900;
+  background:linear-gradient(145deg,#8be5ed,#25a9c9);
+  box-shadow:0 5px 15px rgba(0,0,0,.12)
+}
+.mobile-brand{
+  min-width:0;
+  flex:1
+}
+.mobile-brand strong{
+  display:block;
+  font-size:23px;
+  letter-spacing:1px;
+  color:white
+}
+.mobile-brand small{
+  display:block;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:5px;
+  color:#72d9e8;
+  margin-top:5px
+}
+.page-label{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#70d9e9;
+  white-space:nowrap
+}
+
+/* DRAWER OVERLAY */
+.drawer-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(4,12,30,.65);
+  z-index:999;
+  opacity:0;
+  transition:opacity .25s
+}
+.drawer-overlay.show{
+  display:block;
+  opacity:1
 }
 
 /* MAIN */
@@ -90,7 +199,7 @@ button,input,select{font:inherit}
 .member{font-size:12px;color:var(--muted)}
 .content{padding:28px;max-width:1200px;margin:auto}
 
-/* PAGE HEADING */
+/* HEADING */
 .heading{
   display:flex;
   justify-content:space-between;
@@ -157,16 +266,19 @@ button,input,select{font:inherit}
   margin-bottom:23px;
   box-shadow:0 10px 25px rgba(7,26,53,.17)
 }
-.balance-label{font-size:12px;color:#d7eaff}
+.balance-label{
+  font-size:12px;
+  color:#d7eaff
+}
 .balance-amount{
   font-size:36px;
   font-weight:900;
-  color:var(--gold);
+  color:#65d9e9;
   margin:13px 0
 }
 .balance small{font-size:11px;color:#d7eaff}
 
-/* CONTENT GRID */
+/* GRID & CARDS */
 .grid{
   display:grid;
   grid-template-columns:1fr 1.3fr;
@@ -283,7 +395,7 @@ button,input,select{font:inherit}
 .submit-btn:hover{filter:brightness(1.1)}
 .submit-btn:disabled{opacity:.55;cursor:not-allowed}
 
-/* HISTORY TABLE */
+/* HISTORY */
 .table-wrap{overflow-x:auto}
 table{
   width:100%;
@@ -330,190 +442,316 @@ td strong{color:var(--navy)}
 .footer span{color:#176bb0;font-weight:bold}
 .loading{opacity:.6;pointer-events:none}
 
-/* RESPONSIVE */
+/* RESPONSIVE DRAWER */
 @media(max-width:950px){
-  .sidebar{width:220px}
   .grid{grid-template-columns:1fr}
 }
 @media(max-width:650px){
   .layout{display:block}
+
+  .mobile-header{display:flex}
+
+  .topbar{display:none}
+
   .sidebar{
-    width:100%;
-    padding:15px
+    position:fixed;
+    top:0;
+    left:0;
+    width:min(80vw,350px);
+    height:100dvh;
+    min-height:100dvh;
+    overflow-y:auto;
+    padding:24px 16px;
+    background:linear-gradient(180deg,#101e3d 0%,#1b3769 55%,#2459a0 100%);
+    transform:translateX(-105%);
+    transition:transform .28s ease;
+    z-index:1001;
+    box-shadow:8px 0 25px rgba(0,0,0,.2)
   }
-  .brand{padding:5px 8px 15px}
-  .menu-title{display:none}
-  .menu{
-    display:flex;
-    overflow-x:auto;
-    gap:5px;
-    padding-bottom:5px;
-    scrollbar-width:none
+  .sidebar.open{transform:translateX(0)}
+
+  .drawer-head{
+    padding:5px 15px 25px;
+    margin-bottom:15px
   }
-  .menu::-webkit-scrollbar{display:none}
-  .menu a{
-    white-space:nowrap;
+  .brand{font-size:25px}
+  .brand small{font-size:12px}
+  .close-menu{
+    display:block;
+    width:68px;
+    height:68px;
+    font-size:30px
+  }
+
+  .menu-title{
+    display:block;
     font-size:11px;
-    padding:10px;
-    flex-shrink:0
+    padding:25px 22px 12px
   }
-  .topbar{height:55px;padding:0 16px}
-  .content{padding:17px 13px}
+  .menu{
+    display:block;
+    overflow:visible;
+    padding:0 7px
+  }
+  .menu a{
+    display:flex;
+    width:100%;
+    padding:17px 16px;
+    margin:5px 0;
+    border-radius:12px;
+    font-size:16px;
+    gap:18px
+  }
+  .menu-icon{
+    width:25px;
+    font-size:21px
+  }
+
+  .content{padding:25px 17px}
   .heading{padding:21px 18px}
-  .heading h1{font-size:21px}
-  .balance{padding:22px}
-  .balance-amount{font-size:30px}
-  .card{padding:16px}
+  .heading h1{font-size:22px}
+  .balance{padding:23px}
+  .balance-amount{font-size:31px}
+  .card{padding:17px}
+}
+
+@media(max-width:380px){
+  .mobile-header{
+    padding:0 12px;
+    gap:9px;
+    height:105px
+  }
+  .hamburger{
+    width:55px;
+    height:60px;
+    font-size:29px
+  }
+  .mobile-logo{
+    width:55px;
+    height:58px;
+    font-size:32px;
+    border-radius:15px
+  }
+  .mobile-brand strong{font-size:18px}
+  .mobile-brand small{font-size:10px;letter-spacing:4px}
+  .page-label{font-size:10px}
 }
 </style>
 </head>
 
 <body>
+
 <div class="layout">
 
-<aside class="sidebar">
-  <div class="brand">RUBALIA<small>NETWORK</small></div>
+<!-- DESKTOP SIDEBAR / MOBILE DRAWER -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="drawer-head">
+    <div class="brand">
+      RUBALIA
+      <small>NETWORK</small>
+    </div>
+    <button class="close-menu" id="closeMenu" aria-label="Close menu">×</button>
+  </div>
 
   <div class="menu-title">MAIN MENU</div>
+
   <nav class="menu">
-    <a href="dashboard.html">⌂ Dashboard</a>
-    <a href="profile.html">♙ My Profile</a>
-    <a href="products.html">▣ Products</a>
-    <a href="orders.html">▤ My Orders</a>
-    <a href="team.html">♧ My Team</a>
-    <a href="income.html">৳ Income Details</a>
-    <a href="wallet.html">◈ My Wallet</a>
-    <a href="deposit.html" class="active">＋ Deposit</a>
-    <a href="withdraw.html">⇧ Withdraw</a>
+    <a href="dashboard.html">
+      <span class="menu-icon">⌂</span>Dashboard
+    </a>
+    <a href="profile.html">
+      <span class="menu-icon">♙</span>My Profile
+    </a>
+    <a href="products.html">
+      <span class="menu-icon">▣</span>Packages
+    </a>
+    <a href="orders.html">
+      <span class="menu-icon">▤</span>My Orders
+    </a>
+    <a href="team.html">
+      <span class="menu-icon">♧</span>My Team
+    </a>
+    <a href="income.html">
+      <span class="menu-icon">৳</span>Income Details
+    </a>
+    <a href="wallet.html">
+      <span class="menu-icon">◇</span>My Wallet
+    </a>
+    <a href="deposit.html" class="active">
+      <span class="menu-icon">＋</span>Deposit
+    </a>
+    <a href="withdraw.html">
+      <span class="menu-icon">⇧</span>Withdraw
+    </a>
   </nav>
 
   <div class="menu-title">ACCOUNT</div>
+
   <nav class="menu">
-    <a href="settings.html">⚙ Settings</a>
-    <a href="contact.html">✉ Contact Support</a>
-    <a href="#" id="logoutLink">↪ Logout</a>
+    <a href="settings.html">
+      <span class="menu-icon">⚙</span>Settings
+    </a>
+    <a href="contact.html">
+      <span class="menu-icon">✉</span>Contact Support
+    </a>
+    <a href="#" id="logoutLink">
+      <span class="menu-icon">↪</span>Logout
+    </a>
   </nav>
+
 </aside>
 
+<!-- DRAWER BACKDROP -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
 <main class="main">
-<header class="topbar">
-  <strong>◈ Deposit</strong>
-  <span class="member">Member Panel · RUBALIA</span>
-</header>
 
-<div class="content">
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
 
-  <div class="heading">
-    <div>
-      <h1>💳 Wallet Deposit</h1>
-      <p>Submit your payment transaction reference for verification.</p>
+    <button class="hamburger" id="openMenu" aria-label="Open navigation">
+      ☰
+    </button>
+
+    <div class="mobile-logo">R</div>
+
+    <div class="mobile-brand">
+      <strong>RUBALIA</strong>
+      <small>NETWORK</small>
     </div>
-    <span class="live-tag">API CONNECTED</span>
-  </div>
 
-  <div id="notice" class="notice" role="status" aria-live="polite"></div>
+    <div class="page-label">DEPOSIT</div>
 
-  <section class="balance">
-    <div class="balance-label">CURRENT WALLET BALANCE</div>
-    <div class="balance-amount" id="walletBalance">৳0.00</div>
-    <small id="walletCurrency">Loading wallet...</small>
-  </section>
+  </header>
 
-  <div class="grid">
+  <!-- DESKTOP HEADER -->
+  <header class="topbar">
+    <strong>◈ Deposit</strong>
+    <span class="member">Member Panel · RUBALIA</span>
+  </header>
 
-    <section class="card">
-      <h2>💠 Available Deposit Methods</h2>
-      <p class="sub">Official methods configured by RUBALIA Admin.</p>
-      <div id="methodList">
-        <p class="empty">Loading payment methods...</p>
+  <div class="content">
+
+    <div class="heading">
+      <div>
+        <h1>💳 Wallet Deposit</h1>
+        <p>Submit your payment transaction reference for verification.</p>
       </div>
-      <p class="help">
-        Only use payment details displayed by the official RUBALIA system.
-        Never share your PIN, OTP, password or CVV.
-      </p>
+      <span class="live-tag">API CONNECTED</span>
+    </div>
+
+    <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+    <section class="balance">
+      <div class="balance-label">CURRENT WALLET BALANCE</div>
+      <div class="balance-amount" id="walletBalance">৳0.00</div>
+      <small id="walletCurrency">Loading wallet...</small>
+    </section>
+
+    <div class="grid">
+
+      <section class="card">
+        <h2>💠 Available Deposit Methods</h2>
+        <p class="sub">Official methods configured by RUBALIA Admin.</p>
+
+        <div id="methodList">
+          <p class="empty">Loading payment methods...</p>
+        </div>
+
+        <p class="help">
+          Only use payment details displayed by the official RUBALIA system.
+          Never share your PIN, OTP, password or CVV.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>📝 Deposit Request</h2>
+        <p class="sub">Submit your payment details after completing the payment.</p>
+
+        <form id="depositForm">
+
+          <div class="form-group">
+            <label for="method">Select Deposit Method</label>
+            <select id="method" required>
+              <option value="">Loading methods...</option>
+            </select>
+          </div>
+
+          <div id="paymentInstructions" class="notice info"></div>
+
+          <div class="form-group">
+            <label for="amount">Deposit Amount (BDT)</label>
+            <input type="number" id="amount" min="10" step="0.01"
+              placeholder="Enter amount" required>
+          </div>
+
+          <div class="form-group">
+            <label for="reference">Transaction Reference / TrxID</label>
+            <input type="text" id="reference" minlength="5" maxlength="180"
+              placeholder="Enter payment transaction reference" required>
+            <p class="help">
+              Enter the payment transaction ID only. Do not enter PIN or OTP.
+            </p>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Submit Deposit Request
+          </button>
+
+          <p class="help" style="text-align:center;margin-top:10px">
+            Your wallet will be credited only after Admin verification.
+          </p>
+
+        </form>
+      </section>
+
+    </div>
+
+    <section class="card">
+      <h2>🔄 Deposit Verification Process</h2>
+      <p class="sub">How your deposit request is processed</p>
+
+      <div>
+        <p class="help">01. Complete payment using an enabled official payment method.</p>
+        <p class="help">02. Submit the transaction reference and amount.</p>
+        <p class="help">03. Admin verifies the payment.</p>
+        <p class="help">04. After approval, the amount is credited to your wallet.</p>
+      </div>
     </section>
 
     <section class="card">
-      <h2>📝 Deposit Request</h2>
-      <p class="sub">Submit your payment details after completing the payment.</p>
+      <h2>📊 Deposit History</h2>
+      <p class="sub">Your previous deposit requests and their status.</p>
 
-      <form id="depositForm">
-
-        <div class="form-group">
-          <label for="method">Select Deposit Method</label>
-          <select id="method" required>
-            <option value="">Loading methods...</option>
-          </select>
-        </div>
-
-        <div id="paymentInstructions" class="notice info"></div>
-
-        <div class="form-group">
-          <label for="amount">Deposit Amount (BDT)</label>
-          <input type="number" id="amount" min="10" step="0.01"
-            placeholder="Enter amount" required>
-        </div>
-
-        <div class="form-group">
-          <label for="reference">Transaction Reference / TrxID</label>
-          <input type="text" id="reference" minlength="5" maxlength="180"
-            placeholder="Enter payment transaction reference" required>
-          <p class="help">
-            Enter the payment transaction ID only. Do not enter PIN or OTP.
-          </p>
-        </div>
-
-        <button type="submit" class="submit-btn" id="submitBtn">
-          Submit Deposit Request
-        </button>
-
-        <p class="help" style="text-align:center;margin-top:10px">
-          Your wallet will be credited only after Admin verification.
-        </p>
-      </form>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Payment Method</th>
+              <th>Amount</th>
+              <th>Transaction Reference</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="depositHistory">
+            <tr>
+              <td colspan="6" class="empty">Loading deposit history...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </div>
 
-  <section class="card">
-    <h2>🔄 Deposit Verification Process</h2>
-    <p class="sub">How your deposit request is processed</p>
-    <div>
-      <p class="help">01. Complete payment using an enabled official payment method.</p>
-      <p class="help">02. Submit the transaction reference and amount.</p>
-      <p class="help">03. Admin verifies the payment.</p>
-      <p class="help">04. After approval, the amount is credited to your wallet.</p>
-    </div>
-  </section>
+  <footer class="footer">
+    © <span id="year"></span>
+    <span>RUBALIA NETWORK</span>. All Rights Reserved.
+  </footer>
 
-  <section class="card">
-    <h2>📊 Deposit History</h2>
-    <p class="sub">Your previous deposit requests and their status.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Request ID</th>
-            <th>Payment Method</th>
-            <th>Amount</th>
-            <th>Transaction Reference</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody id="depositHistory">
-          <tr><td colspan="6" class="empty">Loading deposit history...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-</div>
-
-<footer class="footer">
-  © <span id="year"></span> <span>RUBALIA NETWORK</span>. All Rights Reserved.
-</footer>
 </main>
 </div>
 
@@ -527,12 +765,45 @@ let depositMethods = [];
 
 const $ = id => document.getElementById(id);
 
+/* NAVIGATION DRAWER */
+const sidebar = $("sidebar");
+const drawerOverlay = $("drawerOverlay");
+
+function openDrawer(){
+  sidebar.classList.add("open");
+  drawerOverlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeDrawer(){
+  sidebar.classList.remove("open");
+  drawerOverlay.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+$("openMenu").addEventListener("click",openDrawer);
+$("closeMenu").addEventListener("click",closeDrawer);
+drawerOverlay.addEventListener("click",closeDrawer);
+
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape") closeDrawer();
+});
+
+/* CLOSE DRAWER WHEN A MENU LINK IS SELECTED */
+sidebar.querySelectorAll(".menu a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    if(link.id !== "logoutLink") closeDrawer();
+  });
+});
+
+/* NOTICE */
 function showNotice(message,type="info"){
   const notice = $("notice");
   notice.className = "notice " + type;
   notice.textContent = message;
 }
 
+/* MONEY */
 function formatMoney(value,currency="BDT"){
   const amount = Number(value || 0);
 
@@ -549,6 +820,7 @@ function formatMoney(value,currency="BDT"){
   }) + " " + currency;
 }
 
+/* DATE */
 function formatDate(value){
   if(!value) return "—";
 
@@ -565,6 +837,7 @@ function formatDate(value){
   });
 }
 
+/* API REQUEST */
 async function apiRequest(path,options={}){
   const response = await fetch(API_BASE + path,{
     ...options,
@@ -593,6 +866,7 @@ async function apiRequest(path,options={}){
   return data;
 }
 
+/* PAYMENT METHOD ICON */
 function methodIcon(gateway){
   const icons = {
     bkash:"B",
@@ -606,6 +880,7 @@ function methodIcon(gateway){
   return icons[gateway] || "৳";
 }
 
+/* RENDER METHODS */
 function renderMethods(){
   const list = $("methodList");
   const select = $("method");
@@ -648,7 +923,8 @@ function renderMethods(){
     if(method.instructions) detailParts.push(method.instructions);
     if(method.usdt_rate) detailParts.push("USDT rate: " + method.usdt_rate);
 
-    details.textContent = detailParts.join(" · ") || "Follow official payment instructions.";
+    details.textContent = detailParts.join(" · ") ||
+      "Follow official payment instructions.";
 
     info.append(title,details);
 
@@ -669,6 +945,7 @@ function renderMethods(){
   updateInstructions();
 }
 
+/* PAYMENT INSTRUCTIONS */
 function updateInstructions(){
   const selected = $("method").value;
   const method = depositMethods.find(item=>item.gateway === selected);
@@ -693,6 +970,7 @@ function updateInstructions(){
     "Please follow the official payment instructions.";
 }
 
+/* LOAD WALLET */
 async function loadWallet(){
   const data = await apiRequest("/wallet");
   const wallet = data.wallet;
@@ -708,6 +986,7 @@ async function loadWallet(){
     "Wallet ID: " + wallet.id + " · " + wallet.currency;
 }
 
+/* LOAD METHODS */
 async function loadMethods(){
   const data = await apiRequest("/wallet/deposit-methods");
 
@@ -715,6 +994,7 @@ async function loadMethods(){
   renderMethods();
 }
 
+/* LOAD DEPOSIT HISTORY */
 async function loadDepositHistory(){
   const data = await apiRequest("/wallet/deposits");
   const tbody = $("depositHistory");
@@ -752,8 +1032,12 @@ async function loadDepositHistory(){
 
     const statusCell = document.createElement("td");
     const badge = document.createElement("span");
-    badge.className = "status " + String(item.status || "pending").toLowerCase();
+
+    badge.className = "status " +
+      String(item.status || "pending").toLowerCase();
+
     badge.textContent = item.status || "pending";
+
     statusCell.appendChild(badge);
     row.appendChild(statusCell);
 
@@ -765,6 +1049,7 @@ async function loadDepositHistory(){
   });
 }
 
+/* IDEMPOTENCY KEY */
 function createIdempotencyKey(){
   if(window.crypto && typeof window.crypto.randomUUID === "function"){
     return window.crypto.randomUUID();
@@ -775,6 +1060,7 @@ function createIdempotencyKey(){
     Math.random().toString(36).slice(2);
 }
 
+/* SUBMIT DEPOSIT */
 async function submitDeposit(event){
   event.preventDefault();
 
@@ -792,7 +1078,8 @@ async function submitDeposit(event){
     return;
   }
 
-  if(transactionReference.length < 5 || transactionReference.length > 180){
+  if(transactionReference.length < 5 ||
+     transactionReference.length > 180){
     showNotice("Please enter a valid transaction reference.","error");
     return;
   }
@@ -829,7 +1116,10 @@ async function submitDeposit(event){
     ]);
 
   }catch(error){
-    showNotice(error.message || "Unable to submit deposit request.","error");
+    showNotice(
+      error.message || "Unable to submit deposit request.",
+      "error"
+    );
   }finally{
     button.disabled = false;
     button.textContent = "Submit Deposit Request";
@@ -837,6 +1127,7 @@ async function submitDeposit(event){
   }
 }
 
+/* INITIALIZE */
 async function initialize(){
   token = sessionStorage.getItem("rubalia_token") || "";
 
@@ -854,10 +1145,14 @@ async function initialize(){
       loadDepositHistory()
     ]);
   }catch(error){
-    showNotice(error.message || "Unable to load deposit information.","error");
+    showNotice(
+      error.message || "Unable to load deposit information.",
+      "error"
+    );
   }
 }
 
+/* EVENTS */
 $("depositForm").addEventListener("submit",submitDeposit);
 $("method").addEventListener("change",updateInstructions);
 
@@ -873,5 +1168,6 @@ $("logoutLink").addEventListener("click",function(event){
 
 initialize();
 </script>
+
 </body>
 </html>
