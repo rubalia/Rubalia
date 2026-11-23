@@ -24,6 +24,11 @@ const {
   runPasswordResetMigration
 } = require("./database/password-reset-migration");
 
+// Profile Image Migration
+const {
+  runProfileImageMigration
+} = require("./database/profile-image-migration");
+
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -179,7 +184,6 @@ app.get("/api/health", async (req, res) => {
 
 // =====================================================
 // PUBLIC ADMIN ANNOUNCEMENT API
-// Members can read the currently active announcement.
 // =====================================================
 
 app.get("/api/public/admin-message", async (req, res) => {
@@ -310,6 +314,10 @@ async function startServer() {
     await runPasswordResetMigration();
     console.log("Password reset migration completed.");
 
+    // Profile Image Database Migration
+    await runProfileImageMigration();
+    console.log("Profile image migration completed.");
+
     // Start Commission Worker
     startCommissionWorker(pool);
     console.log("Commission worker started.");
@@ -317,6 +325,7 @@ async function startServer() {
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
       console.log("Cloudinary upload route registered.");
+      console.log("Member profile photo upload API enabled.");
       console.log("Payment route registered.");
       console.log("Referral route registered.");
       console.log("Commission route registered.");
