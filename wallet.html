@@ -20,580 +20,357 @@
   --red:#dc4444;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 body.menu-open{overflow:hidden}
 
 /* HEADER */
 .app-header{
-  height:76px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:0 22px;
-  color:white;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 4px 15px #230a2d2e;
-  position:relative;
-  z-index:100;
+height:76px;display:flex;align-items:center;
+justify-content:space-between;gap:12px;padding:0 22px;
+color:white;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+box-shadow:0 4px 15px #230a2d2e;position:relative;z-index:100;
 }
 .header-left{display:flex;align-items:center;gap:13px;min-width:0}
 .menu-toggle{
-  width:48px;height:48px;flex-shrink:0;
-  border:1px solid #ffffff38;
-  background:#ffffff14;color:white;
-  border-radius:12px;font-size:25px;cursor:pointer;
+width:48px;height:48px;flex-shrink:0;
+border:1px solid #ffffff38;background:#ffffff14;
+color:white;border-radius:12px;font-size:25px;cursor:pointer;
 }
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
 .brand-icon{
-  width:48px;height:48px;border-radius:14px;
-  background:linear-gradient(140deg,#ffe58a,#e6a928);
-  display:flex;justify-content:center;align-items:center;
-  color:#512a83;font-size:27px;font-weight:900;flex-shrink:0;
+width:48px;height:48px;border-radius:14px;
+background:linear-gradient(140deg,#ffe58a,#e6a928);
+display:flex;justify-content:center;align-items:center;
+color:#512a83;font-size:27px;font-weight:900;flex-shrink:0;
 }
 .brand-text{font-size:17px;font-weight:900;letter-spacing:1px;white-space:nowrap}
 .brand-text span{color:#ffe58a}
-.brand-text small{
-  display:block;font-size:9px;letter-spacing:3px;
-  color:#f5dca4;margin-top:4px;
-}
+.brand-text small{display:block;font-size:9px;letter-spacing:3px;color:#f5dca4;margin-top:4px}
 .orders-button{
-  border:1px solid #ffffff4d;background:#ffffff14;color:white;
-  border-radius:11px;padding:12px 15px;
-  font-size:12px;font-weight:bold;white-space:nowrap;
+border:1px solid #ffffff4d;background:#ffffff14;color:white;
+border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;
+white-space:nowrap;
 }
 
 /* SIDEBAR */
 .drawer-overlay{
-  position:fixed;inset:0;background:#0c051e94;
-  z-index:200;opacity:0;visibility:hidden;transition:.25s;
+position:fixed;inset:0;background:#0c051e94;z-index:200;
+opacity:0;visibility:hidden;transition:.25s;
 }
 .drawer-overlay.show{opacity:1;visibility:visible}
 .sidebar{
-  position:fixed;top:0;bottom:0;left:0;
-  width:285px;max-width:85vw;overflow-y:auto;
-  padding:20px 14px 25px;color:white;
-  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
-  z-index:201;transform:translateX(-105%);
-  transition:transform .28s;box-shadow:10px 0 35px #0003;
+position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;
+overflow-y:auto;padding:20px 14px 25px;color:white;
+background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+z-index:201;transform:translateX(-105%);transition:transform .28s;
+box-shadow:10px 0 35px #0003;
 }
 .sidebar.open{transform:translateX(0)}
-.drawer-top{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:4px 7px 22px;
-}
+.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
 .drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
-.drawer-brand small{
-  display:block;font-size:10px;letter-spacing:4px;
-  color:white;margin-top:4px;
-}
+.drawer-brand small{display:block;font-size:10px;letter-spacing:4px;color:white;margin-top:4px}
 .drawer-close{
-  width:36px;height:36px;border:1px solid #ffffff40;
-  border-radius:9px;color:white;background:#ffffff1a;
-  font-size:22px;cursor:pointer;
+width:36px;height:36px;border:1px solid #ffffff40;
+border-radius:9px;color:white;background:#ffffff1a;font-size:22px;cursor:pointer;
 }
-.menu-title{
-  color:#c8b5e9;font-size:10px;font-weight:bold;
-  padding:15px 12px 8px;letter-spacing:1.5px;
-}
+.menu-title{color:#c8b5e9;font-size:10px;font-weight:bold;padding:15px 12px 8px;letter-spacing:1.5px}
 .menu a{
-  display:flex;align-items:center;gap:13px;
-  padding:13px 12px;margin:3px 0;border-radius:9px;
-  color:#eee8fa;font-size:13px;border-bottom:1px solid #ffffff14;
+display:flex;align-items:center;gap:13px;padding:13px 12px;
+margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;
+border-bottom:1px solid #ffffff14;
 }
-.menu a:hover,.menu a.active{
-  background:linear-gradient(100deg,#e64c9a,#a14de0);
-  color:white;
-}
+.menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:white}
 .menu-icon{width:23px;text-align:center;font-size:17px}
 
 /* CONTENT */
 .content{padding:24px;max-width:1050px;margin:auto}
 
-/* PREMIUM CARD FLIP */
+/* PREMIUM CARD */
 .wallet-card-wrap{
-  width:100%;
-  max-width:650px;
-  height:255px;
-  margin:4px auto 22px;
-  perspective:1200px;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+width:100%;
+max-width:650px;
+height:205px;
+margin:4px auto 17px;
+perspective:1200px;
+cursor:pointer;
+-webkit-tap-highlight-color:transparent;
 }
 .wallet-card-inner{
-  position:relative;
-  width:100%;height:100%;
-  transition:transform .8s cubic-bezier(.2,.7,.2,1);
-  transform-style:preserve-3d;
+position:relative;width:100%;height:100%;
+transition:transform .8s cubic-bezier(.2,.7,.2,1);
+transform-style:preserve-3d;
 }
-.wallet-card-wrap.flipped .wallet-card-inner{
-  transform:rotateY(180deg);
-}
+.wallet-card-wrap.flipped .wallet-card-inner{transform:rotateY(180deg)}
+
 .card-face{
-  position:absolute;
-  inset:0;
-  width:100%;height:100%;
-  overflow:hidden;
-  border-radius:22px;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  color:white;
-  box-shadow:
-    0 18px 40px #24104d35,
-    inset 0 1px 1px #ffffff45;
+position:absolute;inset:0;width:100%;height:100%;
+overflow:hidden;border-radius:19px;color:white;
+backface-visibility:hidden;-webkit-backface-visibility:hidden;
+box-shadow:0 15px 35px #24104d35,inset 0 1px 1px #ffffff45;
 }
 
-/* FRONT SIDE */
+/* FRONT */
 .card-front{
-  background:
-    radial-gradient(ellipse at 95% 5%,#e84fb8c9 0%,transparent 38%),
-    radial-gradient(ellipse at 5% 100%,#4235c9 0%,transparent 55%),
-    linear-gradient(125deg,#090d2c 0%,#251568 38%,#51219b 70%,#a32c9b 100%);
-  padding:23px 27px;
+background:
+radial-gradient(ellipse at 95% 5%,#e84fb8c9 0%,transparent 38%),
+radial-gradient(ellipse at 5% 100%,#4235c9 0%,transparent 55%),
+linear-gradient(125deg,#090d2c 0%,#251568 38%,#51219b 70%,#a32c9b 100%);
+padding:20px 25px;
 }
 .card-front:before{
-  content:"";
-  position:absolute;
-  width:340px;height:340px;
-  border:1px solid #ffffff22;
-  border-radius:50%;
-  right:-90px;top:-200px;
-  box-shadow:0 0 0 30px #ffffff05,0 0 0 65px #ffffff04;
+content:"";position:absolute;width:300px;height:300px;
+border:1px solid #ffffff22;border-radius:50%;
+right:-90px;top:-190px;
+box-shadow:0 0 0 30px #ffffff05,0 0 0 65px #ffffff04;
 }
 .card-front:after{
-  content:"";
-  position:absolute;
-  width:250px;height:250px;
-  border:1px solid #ffffff19;
-  border-radius:50%;
-  right:90px;bottom:-210px;
+content:"";position:absolute;width:220px;height:220px;
+border:1px solid #ffffff19;border-radius:50%;
+right:90px;bottom:-190px;
 }
-.front-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column}
+.front-content{
+position:relative;z-index:2;height:100%;
+display:flex;flex-direction:column;
+}
 .front-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
+display:flex;justify-content:space-between;
+align-items:flex-start;gap:10px;
 }
 .card-brand{
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:#ffe58a;
+font-size:21px;font-weight:900;
+letter-spacing:2px;color:#ffe58a;
 }
 .card-brand small{
-  display:block;
-  color:#e5dcff;
-  font-size:10px;
-  letter-spacing:5px;
-  margin-top:4px;
+display:block;color:#e5dcff;
+font-size:10px;letter-spacing:5px;margin-top:4px;
 }
-.member-wallet{
-  text-align:right;
-  font-size:12px;
-  letter-spacing:3px;
-  font-weight:800;
-  color:#f5eaff;
-  line-height:1.5;
-}
-.member-wallet small{
-  display:block;
-  color:#e7d2ff;
-  font-size:9px;
-  letter-spacing:1.5px;
-  margin-top:4px;
-}
-.front-balances{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:30px;
-  align-items:center;
-}
-.balance-block{min-width:0}
-.balance-block.right{
-  text-align:right;
-  border-left:1px solid #ffffff28;
-  padding-left:13px;
-}
-.balance-caption{
-  font-size:9px;
-  color:#e3d6ff;
-  letter-spacing:2px;
-  font-weight:bold;
-  margin-bottom:8px;
+
+/* ONLY ONE BALANCE ON RIGHT */
+.card-balance{
+text-align:right;
+align-self:flex-start;
+padding-top:8px;
 }
 .balance-value{
-  font-size:clamp(19px,4vw,29px);
-  font-weight:900;
-  color:#ffe58a;
-  overflow-wrap:anywhere;
-  text-shadow:0 2px 12px #0004;
+font-size:clamp(22px,4.5vw,30px);
+font-weight:900;color:#ffe58a;
+white-space:nowrap;
+text-shadow:0 2px 12px #0004;
 }
 .front-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:10px;
-  margin-top:auto;
+display:flex;justify-content:space-between;
+align-items:flex-end;gap:10px;margin-top:auto;
 }
 .chip-area{display:flex;align-items:center;gap:12px}
 .chip{
-  width:43px;height:33px;
-  border-radius:7px;
-  background:linear-gradient(135deg,#fff0b6,#c79a48 55%,#f7d98a);
-  border:1px solid #fff9;
-  position:relative;overflow:hidden;
-  box-shadow:inset 0 1px 3px #fff8;
+width:43px;height:33px;border-radius:7px;
+background:linear-gradient(135deg,#fff0b6,#c79a48 55%,#f7d98a);
+border:1px solid #fff9;position:relative;overflow:hidden;
+box-shadow:inset 0 1px 3px #fff8;
 }
 .chip:before,.chip:after{
-  content:"";position:absolute;background:#70532666;
+content:"";position:absolute;background:#70532666;
 }
 .chip:before{width:100%;height:1px;top:50%}
 .chip:after{width:1px;height:100%;left:50%}
 .contactless{font-size:23px;color:#f0e2ff}
-.holder-info{margin-left:12px}
-.holder-label{
-  font-size:8px;letter-spacing:2px;color:#c9bce9;
-}
+.holder-info{margin-left:7px}
+.holder-label{font-size:8px;letter-spacing:2px;color:#c9bce9}
 .holder-name{
-  font-size:12px;font-weight:900;
-  letter-spacing:1.5px;margin-top:5px;
-  text-transform:uppercase;
+font-size:12px;font-weight:900;
+letter-spacing:1.5px;margin-top:5px;text-transform:uppercase;
 }
 .visa-logo{
-  font-family:Arial,sans-serif;
-  font-size:37px;
-  font-weight:1000;
-  font-style:italic;
-  letter-spacing:-4px;
-  color:white;
-  text-shadow:0 3px 10px #0005;
-  line-height:1;
+font-family:Arial,sans-serif;font-size:37px;
+font-weight:1000;font-style:italic;letter-spacing:-4px;
+color:white;text-shadow:0 3px 10px #0005;line-height:1;
 }
 .visa-logo span{color:#f5c94c}
 
-/* BACK SIDE */
+/* BACK */
 .card-back{
-  transform:rotateY(180deg);
-  background:
-    radial-gradient(circle at 90% 100%,#a62a9b 0%,transparent 45%),
-    linear-gradient(135deg,#0c102e,#24105e 55%,#63228c);
-  padding:23px 0;
+transform:rotateY(180deg);
+background:
+radial-gradient(circle at 90% 100%,#a62a9b 0%,transparent 45%),
+linear-gradient(135deg,#0c102e,#24105e 55%,#63228c);
+padding:19px 0;
 }
-.back-content{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-  z-index:2;
-}
+.back-content{height:100%;display:flex;flex-direction:column;position:relative;z-index:2}
 .back-brand{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 26px 16px;
+display:flex;justify-content:space-between;
+align-items:center;padding:0 25px 13px;
 }
-.back-brand strong{
-  color:#ffe58a;
-  font-size:15px;
-  letter-spacing:2px;
-}
-.back-brand small{
-  color:#e6dcff;
-  font-size:9px;
-  letter-spacing:2px;
-}
+.back-brand strong{color:#ffe58a;font-size:15px;letter-spacing:2px}
+.back-brand small{color:#e6dcff;font-size:9px;letter-spacing:2px}
 .magnetic-strip{
-  width:100%;height:42px;
-  background:linear-gradient(180deg,#070812,#282532,#080812);
-  box-shadow:0 2px 5px #0005;
+width:100%;height:37px;
+background:linear-gradient(180deg,#070812,#282532,#080812);
+box-shadow:0 2px 5px #0005;
 }
 .back-details{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  padding:17px 26px 0;
+display:flex;justify-content:space-between;align-items:center;
+gap:15px;padding:14px 25px 0;
 }
 .back-owner small,.back-wallet small{
-  display:block;
-  color:#c5b5eb;
-  font-size:8px;
-  letter-spacing:2px;
-  margin-bottom:6px;
+display:block;color:#c5b5eb;font-size:8px;
+letter-spacing:2px;margin-bottom:6px;
 }
 .back-owner strong,.back-wallet strong{
-  font-size:11px;
-  letter-spacing:1px;
-  color:white;
-  overflow-wrap:anywhere;
+font-size:11px;letter-spacing:1px;color:white;
+overflow-wrap:anywhere;
 }
 .security-strip{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin:14px 26px 0;
-  padding:10px 13px;
-  background:#ffffff14;
-  border:1px solid #ffffff20;
-  border-radius:7px;
+display:flex;align-items:center;justify-content:space-between;
+gap:12px;margin:11px 25px 0;padding:8px 12px;
+background:#ffffff14;border:1px solid #ffffff20;border-radius:7px;
 }
-.security-strip span{
-  font-size:8px;
-  letter-spacing:1.5px;
-  color:#cfc1ee;
-}
-.security-strip strong{
-  color:#ffe58a;
-  font-size:12px;
-  letter-spacing:3px;
-}
+.security-strip span{font-size:8px;letter-spacing:1.5px;color:#cfc1ee}
+.security-strip strong{color:#ffe58a;font-size:12px;letter-spacing:3px}
 .back-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-top:auto;
-  padding:0 26px;
+display:flex;justify-content:space-between;align-items:flex-end;
+margin-top:auto;padding:0 25px;
 }
-.back-bottom small{
-  font-size:8px;
-  color:#d4c8ee;
-  letter-spacing:1px;
-  line-height:1.7;
-}
-.back-visa{
-  font-size:28px;
-  font-weight:1000;
-  font-style:italic;
-  letter-spacing:-3px;
-}
-.flip-hint{
-  text-align:center;
-  color:#9586af;
-  font-size:10px;
-  margin-top:-11px;
-  margin-bottom:18px;
-}
+.back-bottom small{font-size:8px;color:#d4c8ee;letter-spacing:1px;line-height:1.7}
+.back-visa{font-size:28px;font-weight:1000;font-style:italic;letter-spacing:-3px}
+.flip-hint{text-align:center;color:#9586af;font-size:10px;margin-bottom:18px}
 
-/* ACTION BUTTONS */
+/* ACTIONS */
 .wallet-actions{
-  max-width:650px;
-  margin:0 auto 20px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
+max-width:650px;margin:0 auto 20px;
+display:grid;grid-template-columns:repeat(3,1fr);gap:9px;
 }
 .action-btn{
-  min-height:46px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  padding:8px 5px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:bold;
-  border:1px solid transparent;
+min-height:46px;display:flex;align-items:center;
+justify-content:center;gap:6px;padding:8px 5px;
+border-radius:10px;font-size:12px;font-weight:bold;
+border:1px solid transparent;
 }
-.deposit-btn{
-  background:linear-gradient(110deg,#ffe58a,#ffbf52);
-  color:#57328c;
-}
-.withdraw-btn{
-  background:white;border-color:#d9c9f3;color:#6534b1;
-}
-.income-btn{
-  background:linear-gradient(110deg,#7439d1,#d847a3);
-  color:white;
-}
+.deposit-btn{background:linear-gradient(110deg,#ffe58a,#ffbf52);color:#57328c}
+.withdraw-btn{background:white;border-color:#d9c9f3;color:#6534b1}
+.income-btn{background:linear-gradient(110deg,#7439d1,#d847a3);color:white}
 
 /* STATS */
 .stats{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-bottom:20px;
+display:grid;grid-template-columns:repeat(2,1fr);
+gap:12px;margin-bottom:20px;
 }
 .stat{
-  background:white;
-  padding:17px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  min-width:0;
+background:white;padding:17px;border:1px solid var(--border);
+border-radius:15px;min-width:0;
 }
 .stat-label{font-size:12px;color:var(--muted)}
 .stat-value{
-  font-size:21px;
-  font-weight:900;
-  color:#6332b4;
-  margin:9px 0 5px;
-  overflow-wrap:anywhere;
+font-size:21px;font-weight:900;color:#6332b4;
+margin:9px 0 5px;overflow-wrap:anywhere;
 }
 .stat small{font-size:11px;color:var(--muted)}
 
 /* NOTICE */
 .notice{
-  display:none;
-  border-radius:10px;
-  padding:13px;
-  margin-bottom:15px;
-  font-size:12px;
-  line-height:1.6;
+display:none;border-radius:10px;padding:13px;
+margin-bottom:15px;font-size:12px;line-height:1.6;
 }
-.notice.error{
-  display:block;background:#fff0f1;color:#a12b36;
-  border:1px solid #f4cbd0;
-}
-.notice.success{
-  display:block;background:#effaf3;color:#17633b;
-  border:1px solid #c6ead2;
-}
+.notice.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.notice.success{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
 
 /* TRANSACTIONS */
 .card-section{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 5px 18px #48317b0a;
+background:white;border:1px solid var(--border);
+border-radius:17px;padding:20px;margin-bottom:18px;
+box-shadow:0 5px 18px #48317b0a;
 }
 .section-head{margin-bottom:17px}
 .section-head h2{font-size:18px;color:#5728a5}
 .section-head p{font-size:12px;color:var(--muted);margin-top:6px}
-.filters{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}
 .filters input,.filters select{
-  border:1px solid var(--border);
-  background:white;
-  padding:12px;
-  border-radius:10px;
-  outline:none;
-  color:var(--text);
-  font-size:13px;
-  min-height:44px;
+border:1px solid var(--border);background:white;
+padding:12px;border-radius:10px;outline:none;
+color:var(--text);font-size:13px;min-height:44px;
 }
 .filters input{flex:1;min-width:150px}
 .filters select{min-width:120px}
 .table-wrap{overflow-x:auto}
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:620px;
-}
-th{
-  text-align:left;
-  background:#f6f1ff;
-  color:#7541b8;
-  padding:14px;
-  font-size:12px;
-}
-td{
-  padding:14px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{text-align:left;background:#f6f1ff;color:#7541b8;padding:14px;font-size:12px}
+td{padding:14px;border-bottom:1px solid var(--border);font-size:12px}
 td strong{color:#5728a5}
 .credit{color:var(--green);font-weight:bold}
 .debit{color:var(--red);font-weight:bold}
 .tx-status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:bold;
-  text-transform:capitalize;
+display:inline-block;padding:5px 9px;border-radius:20px;
+font-size:10px;font-weight:bold;text-transform:capitalize;
 }
-.tx-status.completed,.tx-status.approved,.tx-status.paid{
-  background:#e5f8ef;color:#16845b;
-}
-.tx-status.pending,.tx-status.processing{
-  background:#fff3d9;color:#95651b;
-}
-.tx-status.rejected,.tx-status.failed{
-  background:#fceaea;color:#c34b4b;
-}
-.empty{
-  text-align:center;
-  padding:25px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* FOOTER */
-.footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-  padding:22px;
-}
+.tx-status.completed,.tx-status.approved,.tx-status.paid{background:#e5f8ef;color:#16845b}
+.tx-status.pending,.tx-status.processing{background:#fff3d9;color:#95651b}
+.tx-status.rejected,.tx-status.failed{background:#fceaea;color:#c34b4b}
+.empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
 .footer span{color:#d94698;font-weight:bold}
 
-/* RESPONSIVE */
+/* MOBILE */
 @media(max-width:700px){
-  .app-header{height:65px;padding:0 11px;gap:7px}
-  .header-left{gap:9px}
-  .menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
-  .brand{gap:7px}
-  .brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
-  .brand-text{font-size:13px;letter-spacing:.5px}
-  .brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
-  .orders-button{padding:10px 9px;font-size:10px;border-radius:9px}
+.app-header{height:65px;padding:0 11px;gap:7px}
+.header-left{gap:9px}
+.menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
+.brand{gap:7px}
+.brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
+.brand-text{font-size:13px;letter-spacing:.5px}
+.brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
+.orders-button{padding:10px 9px;font-size:10px;border-radius:9px}
 
-  .content{padding:17px 13px}
-  .wallet-card-wrap{height:245px;margin-bottom:20px}
-  .card-front{padding:19px}
-  .card-brand{font-size:17px}
-  .member-wallet{font-size:10px;letter-spacing:2px}
-  .front-balances{margin-top:32px;gap:9px}
-  .balance-caption{font-size:8px;letter-spacing:1.2px}
-  .balance-value{font-size:clamp(18px,4.3vw,25px)}
-  .holder-name{font-size:10px}
-  .visa-logo{font-size:31px}
-  .card-back{padding:20px 0}
-  .back-brand{padding:0 20px 14px}
-  .back-details{padding:15px 20px 0}
-  .security-strip{margin:12px 20px 0}
-  .back-bottom{padding:0 20px}
-  .wallet-actions{gap:6px;margin-bottom:16px}
-  .action-btn{min-height:43px;font-size:11px;padding:7px 3px}
-  .stats{gap:9px;margin-bottom:16px}
-  .stat{padding:14px 11px}
-  .stat-label{font-size:11px}
-  .stat-value{font-size:19px;margin:8px 0 5px}
-  .stat small{font-size:10px}
-  .card-section{padding:16px 13px;margin-bottom:15px}
-  .section-head h2{font-size:16px}
-  .section-head p{font-size:11px}
+.content{padding:17px 13px}
+.wallet-card-wrap{height:185px;margin-bottom:14px}
+.card-front{padding:18px 19px}
+.card-brand{font-size:18px}
+.card-brand small{font-size:9px}
+.card-balance{padding-top:9px}
+.balance-value{font-size:clamp(19px,5vw,26px)}
+.front-bottom{gap:7px}
+.chip{width:39px;height:30px}
+.contactless{font-size:20px}
+.holder-name{font-size:10px}
+.visa-logo{font-size:31px}
+.card-back{padding:17px 0}
+.back-brand{padding:0 19px 12px}
+.back-details{padding:12px 19px 0}
+.security-strip{margin:10px 19px 0}
+.back-bottom{padding:0 19px}
+
+.flip-hint{font-size:10px;margin-bottom:16px}
+.wallet-actions{gap:6px;margin-bottom:16px}
+.action-btn{min-height:43px;font-size:11px;padding:7px 3px}
+.stats{gap:9px;margin-bottom:16px}
+.stat{padding:14px 11px}
+.stat-label{font-size:11px}
+.stat-value{font-size:19px;margin:8px 0 5px}
+.stat small{font-size:10px}
+.card-section{padding:16px 13px;margin-bottom:15px}
+.section-head h2{font-size:16px}
+.section-head p{font-size:11px}
 }
+
 @media(max-width:380px){
-  .brand-text{font-size:11px}
-  .brand-icon{width:36px;height:36px}
-  .orders-button{font-size:9px;padding:9px 7px}
-  .wallet-card-wrap{height:225px}
-  .card-front{padding:16px}
-  .front-balances{margin-top:25px}
-  .balance-value{font-size:18px}
-  .card-brand{font-size:15px}
-  .member-wallet{font-size:9px}
-  .holder-name{font-size:9px}
-  .visa-logo{font-size:26px}
-  .action-btn{font-size:9px}
+.brand-text{font-size:11px}
+.brand-icon{width:36px;height:36px}
+.orders-button{font-size:9px;padding:9px 7px}
+.wallet-card-wrap{height:170px}
+.card-front{padding:15px}
+.card-brand{font-size:16px}
+.card-brand small{font-size:8px}
+.balance-value{font-size:19px}
+.holder-name{font-size:9px}
+.holder-label{font-size:7px}
+.chip{width:34px;height:27px}
+.contactless{font-size:17px}
+.visa-logo{font-size:27px}
+.action-btn{font-size:9px}
 }
+
 @media(prefers-reduced-motion:reduce){
-  .wallet-card-inner{transition:none}
+.wallet-card-inner{transition:none}
 }
 </style>
 </head>
@@ -604,7 +381,6 @@ td strong{color:#5728a5}
   <div class="header-left">
     <button class="menu-toggle" id="menuToggle" type="button"
       aria-label="Open menu" aria-expanded="false">☰</button>
-
     <div class="brand">
       <div class="brand-icon">R</div>
       <div class="brand-text">
@@ -613,7 +389,6 @@ td strong{color:#5728a5}
       </div>
     </div>
   </div>
-
   <a href="orders.html" class="orders-button">📦 My Orders</a>
 </header>
 
@@ -621,10 +396,7 @@ td strong{color:#5728a5}
 
 <aside class="sidebar" id="sidebar">
   <div class="drawer-top">
-    <div class="drawer-brand">
-      RUBALIA
-      <small>NETWORK</small>
-    </div>
+    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
     <button class="drawer-close" id="drawerClose" type="button">×</button>
   </div>
 
@@ -653,21 +425,16 @@ td strong{color:#5728a5}
 
   <div class="notice" id="notice" role="alert"></div>
 
-  <!-- PREMIUM FLIP CARD -->
-  <div
-    class="wallet-card-wrap"
-    id="walletCard"
-    role="button"
-    tabindex="0"
-    aria-label="Tap to flip wallet card"
-    aria-pressed="false"
-  >
+  <!-- PREMIUM VISA STYLE WALLET CARD -->
+  <div class="wallet-card-wrap" id="walletCard"
+       role="button" tabindex="0"
+       aria-label="Tap to flip wallet card"
+       aria-pressed="false">
 
     <div class="wallet-card-inner">
 
-      <!-- FRONT SIDE -->
+      <!-- FRONT -->
       <section class="card-face card-front">
-
         <div class="front-content">
 
           <div class="front-top">
@@ -676,28 +443,10 @@ td strong{color:#5728a5}
               <small>NETWORK</small>
             </div>
 
-            <div class="member-wallet">
-              MEMBER WALLET
-              <small>PREMIUM MEMBER</small>
+            <!-- ONLY BALANCE ON RIGHT -->
+            <div class="card-balance">
+              <div class="balance-value" id="walletBalance">Loading...</div>
             </div>
-          </div>
-
-          <div class="front-balances">
-
-            <div class="balance-block">
-              <div class="balance-caption">RUBALIA NETWORK</div>
-              <div class="balance-value" id="walletBalance">
-                Loading...
-              </div>
-            </div>
-
-            <div class="balance-block right">
-              <div class="balance-caption">MEMBER WALLET</div>
-              <div class="balance-value" id="memberWalletBalance">
-                Loading...
-              </div>
-            </div>
-
           </div>
 
           <div class="front-bottom">
@@ -708,24 +457,18 @@ td strong{color:#5728a5}
 
               <div class="holder-info">
                 <div class="holder-label">CARD HOLDER</div>
-                <div class="holder-name" id="cardHolder">
-                  RUBALIA MEMBER
-                </div>
+                <div class="holder-name" id="cardHolder">RUBALIA MEMBER</div>
               </div>
             </div>
 
-            <div class="visa-logo">
-              V<span>I</span>SA
-            </div>
+            <div class="visa-logo">V<span>I</span>SA</div>
 
           </div>
-
         </div>
       </section>
 
-      <!-- BACK SIDE -->
+      <!-- BACK -->
       <section class="card-face card-back">
-
         <div class="back-content">
 
           <div class="back-brand">
@@ -736,7 +479,6 @@ td strong{color:#5728a5}
           <div class="magnetic-strip"></div>
 
           <div class="back-details">
-
             <div class="back-owner">
               <small>CARD HOLDER</small>
               <strong id="backHolder">RUBALIA MEMBER</strong>
@@ -746,7 +488,6 @@ td strong{color:#5728a5}
               <small>WALLET ID</small>
               <strong id="walletId">Loading...</strong>
             </div>
-
           </div>
 
           <div class="security-strip">
@@ -760,7 +501,6 @@ td strong{color:#5728a5}
               GROW WITH TRUST<br>
               MEMBER WALLET
             </small>
-
             <div class="back-visa">VISA</div>
           </div>
 
@@ -772,22 +512,14 @@ td strong{color:#5728a5}
 
   <div class="flip-hint">↻ TAP CARD TO VIEW BACK SIDE</div>
 
-  <!-- ACTION BUTTONS -->
+  <!-- ACTIONS -->
   <div class="wallet-actions">
-    <a href="deposit.html" class="action-btn deposit-btn">
-      ＋ Deposit
-    </a>
-
-    <a href="withdraw.html" class="action-btn withdraw-btn">
-      ⇧ Withdraw
-    </a>
-
-    <a href="income.html" class="action-btn income-btn">
-      ↗ Income Details
-    </a>
+    <a href="deposit.html" class="action-btn deposit-btn">＋ Deposit</a>
+    <a href="withdraw.html" class="action-btn withdraw-btn">⇧ Withdraw</a>
+    <a href="income.html" class="action-btn income-btn">↗ Income Details</a>
   </div>
 
-  <!-- WALLET STATISTICS -->
+  <!-- STATS -->
   <section class="stats">
 
     <div class="stat">
@@ -819,13 +551,8 @@ td strong{color:#5728a5}
     </div>
 
     <div class="filters">
-
-      <input
-        type="search"
-        id="searchInput"
-        placeholder="Search transaction..."
-        autocomplete="off"
-      >
+      <input type="search" id="searchInput"
+        placeholder="Search transaction..." autocomplete="off">
 
       <select id="typeFilter">
         <option value="all">All Types</option>
@@ -840,7 +567,6 @@ td strong{color:#5728a5}
         <option value="approved">Approved</option>
         <option value="rejected">Rejected</option>
       </select>
-
     </div>
 
     <div class="table-wrap">
@@ -858,9 +584,7 @@ td strong{color:#5728a5}
 
         <tbody id="transactionTable">
           <tr>
-            <td colspan="6" class="empty">
-              Loading transactions...
-            </td>
+            <td colspan="6" class="empty">Loading transactions...</td>
           </tr>
         </tbody>
       </table>
@@ -872,18 +596,14 @@ td strong{color:#5728a5}
 
 <footer class="footer">
   © <span id="year"></span>
-  <span>RUBALIA NETWORK</span>.
-  All Rights Reserved.
+  <span>RUBALIA NETWORK</span>. All Rights Reserved.
 </footer>
-
 </main>
 
 <script>
 "use strict";
 
-/* API CONFIGURATION */
 const API_BASE="https://rubalia.onrender.com/api";
-
 const $=id=>document.getElementById(id);
 
 let token="";
@@ -896,10 +616,10 @@ const walletCard=$("walletCard");
 
 function flipCard(){
   walletCard.classList.toggle("flipped");
-
-  const flipped=walletCard.classList.contains("flipped");
-
-  walletCard.setAttribute("aria-pressed",String(flipped));
+  walletCard.setAttribute(
+    "aria-pressed",
+    String(walletCard.classList.contains("flipped"))
+  );
 }
 
 walletCard.addEventListener("click",flipCard);
@@ -942,12 +662,10 @@ document.addEventListener("keydown",e=>{
 });
 
 sidebar.querySelectorAll("a").forEach(a=>{
-  if(a.id!=="logoutLink"){
-    a.addEventListener("click",closeMenu);
-  }
+  if(a.id!=="logoutLink")a.addEventListener("click",closeMenu);
 });
 
-/* MONEY FORMAT */
+/* MONEY */
 function formatMoney(value,currency="BDT"){
   const n=Number(value);
 
@@ -968,12 +686,11 @@ function formatMoney(value,currency="BDT"){
   })+" "+currency;
 }
 
-/* DATE FORMAT */
+/* DATE */
 function formatDate(value){
   if(!value)return "—";
 
   const d=new Date(value);
-
   if(Number.isNaN(d.getTime()))return "—";
 
   return d.toLocaleString("en-GB",{
@@ -985,14 +702,14 @@ function formatDate(value){
   });
 }
 
-/* NOTIFICATION */
+/* NOTICE */
 function showNotice(message,type="error"){
   const el=$("notice");
   el.className="notice "+type;
   el.textContent=message;
 }
 
-/* API REQUEST */
+/* API */
 async function apiRequest(path){
 
   const response=await fetch(API_BASE+path,{
@@ -1017,9 +734,7 @@ async function apiRequest(path){
   }
 
   if(!response.ok||data.success===false){
-    throw new Error(
-      data.message||"Unable to load wallet information."
-    );
+    throw new Error(data.message||"Unable to load wallet information.");
   }
 
   return data;
@@ -1029,7 +744,6 @@ async function apiRequest(path){
 async function verifyUser(){
 
   const data=await apiRequest("/auth/me");
-
   const user=data.user||data.profile;
 
   if(!user){
@@ -1059,7 +773,7 @@ async function verifyUser(){
   return true;
 }
 
-/* RENDER WALLET */
+/* WALLET */
 function renderWallet(data){
 
   const wallet=data.wallet;
@@ -1072,9 +786,7 @@ function renderWallet(data){
   const formatted=formatMoney(wallet.balance,currency);
 
   $("walletBalance").textContent=formatted;
-  $("memberWalletBalance").textContent=formatted;
   $("availableBalance").textContent=formatted;
-
   $("walletId").textContent=wallet.id;
 }
 
@@ -1087,30 +799,21 @@ function transactionDirection(item){
   if(effect>0)return "credit";
   if(effect<0)return "debit";
 
-  if([
-    "deposit",
-    "refund",
-    "commission",
-    "adjustment"
-  ].includes(type)){
+  if(["deposit","refund","commission","adjustment"].includes(type)){
     return "credit";
   }
 
-  if([
-    "purchase",
-    "withdrawal"
-  ].includes(type)){
+  if(["purchase","withdrawal"].includes(type)){
     return "debit";
   }
 
   return "other";
 }
 
-/* RENDER TRANSACTIONS */
+/* TRANSACTIONS */
 function renderTransactions(){
 
   const body=$("transactionTable");
-
   body.replaceChildren();
 
   const query=$("searchInput").value.trim().toLowerCase();
@@ -1145,7 +848,6 @@ function renderTransactions(){
 
     row.appendChild(cell);
     body.appendChild(row);
-
     return;
   }
 
@@ -1190,16 +892,12 @@ function renderTransactions(){
       }else if(index===4){
 
         const badge=document.createElement("span");
-
-        badge.className=
-          "tx-status "+String(value).toLowerCase();
-
+        badge.className="tx-status "+String(value).toLowerCase();
         badge.textContent=String(value);
 
         cell.appendChild(badge);
 
       }else{
-
         cell.textContent=String(value);
       }
 
@@ -1218,22 +916,16 @@ function calculateSummary(){
     .reduce((sum,x)=>sum+Number(x.amount||0),0);
 
   const pendingWithdrawal=withdrawals
-    .filter(x=>[
-      "pending",
-      "approved",
-      "processing"
-    ].includes(String(x.status).toLowerCase()))
+    .filter(x=>["pending","approved","processing"].includes(
+      String(x.status).toLowerCase()
+    ))
     .reduce((sum,x)=>sum+Number(x.amount||0),0);
 
   const pendingCount=
-    deposits.filter(x=>
-      String(x.status).toLowerCase()==="pending"
-    ).length+
-    withdrawals.filter(x=>
-      ["pending","approved","processing"].includes(
-        String(x.status).toLowerCase()
-      )
-    ).length;
+    deposits.filter(x=>String(x.status).toLowerCase()==="pending").length+
+    withdrawals.filter(x=>["pending","approved","processing"].includes(
+      String(x.status).toLowerCase()
+    )).length;
 
   const received=transactions
     .filter(item=>
@@ -1251,16 +943,14 @@ function calculateSummary(){
   $("totalReceived").textContent=formatMoney(received);
 }
 
-/* LOAD WALLET DATA */
+/* LOAD WALLET */
 async function loadWallet(){
 
   const results=await Promise.all([
-
     apiRequest("/wallet"),
     apiRequest("/wallet/transactions"),
     apiRequest("/wallet/deposits"),
     apiRequest("/wallet/withdrawals")
-
   ]);
 
   renderWallet(results[0]);
@@ -1293,7 +983,6 @@ async function initialize(){
   try{
 
     const valid=await verifyUser();
-
     if(!valid)return;
 
     await loadWallet();
@@ -1303,9 +992,7 @@ async function initialize(){
     if(
       error.message.includes("Session expired")||
       error.message==="Your account is not active."
-    ){
-      return;
-    }
+    )return;
 
     showNotice(error.message||"Unable to load wallet.");
 
@@ -1314,11 +1001,9 @@ async function initialize(){
   }
 }
 
-/* FILTER EVENTS */
+/* FILTERS */
 $("searchInput").addEventListener("input",renderTransactions);
-
 $("typeFilter").addEventListener("change",renderTransactions);
-
 $("statusFilter").addEventListener("change",renderTransactions);
 
 /* LOGOUT */
@@ -1335,9 +1020,8 @@ $("logoutLink").addEventListener("click",e=>{
   }
 });
 
-/* START */
 initialize();
-
 </script>
+
 </body>
 </html>
