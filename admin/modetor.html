@@ -1,521 +1,603 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
-<title>Moderator Dashboard | RUBALIA NETWORK</title>
+<meta name="description" content="Rubalia Network Moderator Management">
+<title>Moderator Settings | Rubalia Network</title>
 
 <style>
 :root{
  --navy:#071a35;
  --navy2:#102b50;
- --gold:#d7ad55;
- --gold2:#f1d48b;
+ --gold:#d6ad55;
  --bg:#f3f6fb;
  --white:#fff;
- --text:#18283e;
- --muted:#718096;
- --border:#e3e9f1;
- --green:#16865b;
- --red:#d34d55;
- --blue:#2878c8;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --orange:#c58b32;
+ --blue:#3978bd;
+ --purple:#8064bd;
+ --shadow:0 2px 9px rgba(16,43,80,.045);
 }
 *{box-sizing:border-box}
 body{
  margin:0;
- min-height:100vh;
  font-family:Arial,Helvetica,sans-serif;
  background:var(--bg);
  color:var(--text);
 }
-button,a{font:inherit}
-a{text-decoration:none;color:inherit}
+button,input{font:inherit}
 button{cursor:pointer}
 [hidden]{display:none!important}
 
-.sidebar{
- width:245px;
- position:fixed;
- inset:0 auto 0 0;
- z-index:20;
- overflow-y:auto;
- padding:22px 14px;
- background:var(--navy);
- color:white;
- transition:.25s;
-}
-.brand{
- padding:8px 12px 24px;
- border-bottom:1px solid #ffffff20;
- margin-bottom:18px;
-}
-.brand h2{
- margin:0;
- color:var(--gold2);
- font-size:22px;
- letter-spacing:1px;
-}
-.brand small{
- color:#b9c7d9;
- font-size:10px;
- letter-spacing:1px;
-}
-.nav-title{
- color:#8fa3bd;
- font-size:10px;
- font-weight:bold;
- letter-spacing:1.5px;
- padding:14px 12px 8px;
-}
-.nav a{
- display:flex;
- align-items:center;
- gap:11px;
- padding:12px;
- color:#d5deeb;
- border-radius:8px;
- margin:3px 0;
- font-size:13px;
-}
-.nav a:hover,.nav a.active{
- background:#ffffff16;
- color:var(--gold2);
-}
-.sidebar-footer{
- margin-top:25px;
- padding:15px 12px;
- border-top:1px solid #ffffff20;
- color:#aebbd0;
- font-size:10px;
- line-height:1.7;
-}
-.main{
- margin-left:245px;
- width:calc(100% - 245px);
- min-width:0;
-}
 .topbar{
- height:68px;
- background:white;
- border-bottom:1px solid var(--border);
+ min-height:60px;
+ background:var(--navy);
+ color:#fff;
  display:flex;
  align-items:center;
  justify-content:space-between;
- gap:12px;
- padding:0 25px;
+ padding:0 20px;
+ gap:10px;
  position:sticky;
  top:0;
- z-index:10;
+ z-index:20;
 }
-.top-left{
+.brand{
+ font-size:18px;
+ font-weight:900;
+ letter-spacing:.5px;
+}
+.brand span{color:var(--gold)}
+.top-actions{
  display:flex;
  align-items:center;
- gap:12px;
- min-width:0;
+ gap:8px;
 }
-.menu-btn{
- display:none;
- border:0;
- background:#f0f3f8;
- padding:9px 12px;
- border-radius:7px;
-}
-.topbar strong{font-size:13px}
-.account{
- display:flex;
- align-items:center;
- gap:10px;
- font-size:12px;
-}
-.avatar{
- width:36px;
- height:36px;
- flex-shrink:0;
- border-radius:50%;
- background:var(--navy2);
- color:var(--gold2);
- display:grid;
- place-items:center;
+.top-label{
+ color:#f3dfa9;
+ background:#d6ad5520;
+ border:1px solid #d6ad5555;
+ padding:7px 10px;
+ border-radius:20px;
+ font-size:9px;
  font-weight:bold;
 }
-.account-info strong{
- display:block;
- max-width:150px;
- overflow:hidden;
- text-overflow:ellipsis;
- white-space:nowrap;
-}
-.account-info small{color:var(--muted)}
-.logout{
- border:1px solid #f0d6d6;
- background:#fff0f0;
- color:var(--red);
- padding:9px 12px;
+.top-btn{
+ border:1px solid #ffffff35;
+ background:transparent;
+ color:white;
+ padding:8px 10px;
  border-radius:7px;
- font-size:11px;
+ font-size:10px;
  font-weight:bold;
 }
-.content{
- max-width:1450px;
+.main{
+ max-width:1250px;
  margin:auto;
- padding:25px;
+ padding:22px;
 }
 .page-head{
  display:flex;
- align-items:flex-start;
  justify-content:space-between;
- gap:15px;
- margin-bottom:22px;
+ align-items:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:18px;
 }
 .page-head h1{
- margin:0 0 7px;
- font-size:25px;
+ margin:0 0 5px;
+ color:var(--navy);
+ font-size:23px;
 }
 .page-head p{
  margin:0;
  color:var(--muted);
- font-size:12px;
+ font-size:11px;
  line-height:1.6;
 }
-.role-badge{
+.badge{
  display:inline-block;
- padding:7px 11px;
+ padding:7px 10px;
  border-radius:20px;
- background:#fff4d9;
- color:#936b19;
- font-size:10px;
+ background:#e7f7ef;
+ color:var(--green);
+ font-size:9px;
  font-weight:bold;
 }
 .welcome{
- background:linear-gradient(115deg,#071a35,#17385f);
+ background:linear-gradient(110deg,var(--navy),#17385f);
  color:white;
  border-radius:12px;
- padding:23px;
- margin-bottom:20px;
+ padding:19px;
+ margin-bottom:18px;
 }
 .welcome h2{
- margin:0 0 8px;
- font-size:21px;
+ margin:0 0 7px;
+ font-size:17px;
 }
 .welcome p{
  margin:0;
- color:#c5d1e1;
- font-size:12px;
+ color:#c8d5e5;
+ font-size:11px;
  line-height:1.7;
 }
 .stats{
  display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:14px;
- margin-bottom:20px;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;
+ margin-bottom:18px;
 }
 .stat{
- background:white;
+ background:#fff;
  border:1px solid var(--border);
- border-radius:10px;
- padding:17px;
+ border-radius:9px;
+ padding:12px;
+ box-shadow:var(--shadow);
 }
-.stat-label{color:var(--muted);font-size:11px}
-.stat-value{
- margin:9px 0 5px;
- font-size:20px;
- font-weight:bold;
+.stat small{
+ color:var(--muted);
+ font-size:10px;
 }
-.stat-note{color:var(--muted);font-size:10px}
+.stat strong{
+ display:block;
+ margin-top:7px;
+ color:var(--navy);
+ font-size:21px;
+}
 .panel{
  background:white;
  border:1px solid var(--border);
  border-radius:11px;
- margin-bottom:19px;
- overflow:hidden;
+ padding:16px;
+ margin-bottom:17px;
+ box-shadow:var(--shadow);
 }
 .panel-head{
- padding:17px 19px;
- border-bottom:1px solid var(--border);
  display:flex;
  align-items:center;
  justify-content:space-between;
  gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:13px;
 }
-.panel-head h3{margin:0;font-size:14px}
-.panel-body{padding:18px}
-.module-grid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:13px;
-}
-.module-card{
- display:block;
- border:1px solid var(--border);
- border-radius:10px;
- padding:16px;
- transition:.2s;
- background:white;
-}
-.module-card:hover{
- border-color:var(--gold);
- transform:translateY(-2px);
- box-shadow:0 5px 18px #071a3510;
-}
-.module-icon{
- width:40px;
- height:40px;
- border-radius:9px;
- background:#f4f0e5;
- display:grid;
- place-items:center;
- color:#8d6b25;
- font-size:19px;
- margin-bottom:12px;
-}
-.module-card h4{margin:0 0 6px;font-size:13px}
-.module-card p{
+.panel-head h3{
  margin:0;
+ color:var(--navy);
+ font-size:14px;
+}
+.panel-head p{
+ margin:4px 0 0;
  color:var(--muted);
  font-size:10px;
+}
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+}
+.field{min-width:0}
+.field.full{grid-column:1/-1}
+.field label{
+ display:block;
+ color:var(--navy);
+ font-size:10px;
+ font-weight:bold;
+ margin-bottom:7px;
+}
+.field input{
+ width:100%;
+ min-height:42px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:10px;
+ outline:none;
+ font-size:12px;
+ background:#fff;
+ color:var(--text);
+}
+.field input:focus{
+ border-color:var(--blue);
+ box-shadow:0 0 0 3px #3978bd15;
+}
+.help{
+ color:var(--muted);
+ font-size:9px;
+ line-height:1.5;
+ margin-top:6px;
+}
+.search-row{
+ display:flex;
+ gap:8px;
+}
+.search-row input{flex:1;min-width:0}
+.btn{
+ border:0;
+ border-radius:7px;
+ padding:10px 13px;
+ font-size:10px;
+ font-weight:bold;
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-blue{background:#eaf2fc;color:#245b96}
+.btn-green{background:#e7f7ef;color:var(--green)}
+.btn-red{background:#fceaea;color:var(--red)}
+.btn-gray{background:#edf0f5;color:#526176}
+.btn:disabled{
+ opacity:.5;
+ cursor:wait;
+}
+.user-result{
+ display:none;
+ margin-top:11px;
+ padding:12px;
+ border:1px solid #dce7f5;
+ background:#f4f8fd;
+ border-radius:8px;
+ font-size:11px;
+ line-height:1.7;
+}
+.user-result.show{display:block}
+.permission-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+ margin:18px 0 10px;
+}
+.permission-head strong{
+ color:var(--navy);
+ font-size:12px;
+}
+.permission-tools{
+ display:flex;
+ gap:6px;
+ flex-wrap:wrap;
+}
+.permission-tools button{
+ border:1px solid var(--border);
+ background:#fff;
+ color:var(--navy);
+ border-radius:6px;
+ padding:7px 9px;
+ font-size:9px;
+ font-weight:bold;
+}
+.permission-table-wrap{
+ overflow-x:auto;
+ border:1px solid var(--border);
+ border-radius:8px;
+}
+.permission-table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:520px;
+}
+.permission-table th{
+ background:#f6f8fb;
+ color:var(--muted);
+ font-size:9px;
+ text-align:center;
+ padding:11px 7px;
+}
+.permission-table th:first-child{text-align:left}
+.permission-table td{
+ border-top:1px solid #edf0f5;
+ padding:10px 7px;
+ text-align:center;
+ font-size:10px;
+}
+.permission-table td:first-child{
+ text-align:left;
+ color:var(--navy);
+ font-weight:bold;
+}
+.permission-table input{
+ width:17px;
+ height:17px;
+ accent-color:var(--navy);
+ cursor:pointer;
+}
+.form-actions{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-top:15px;
+}
+.message{
+ display:none;
+ margin-top:12px;
+ padding:11px;
+ border-radius:8px;
+ font-size:11px;
  line-height:1.6;
 }
-.module-footer{
- display:flex;
- align-items:center;
- justify-content:space-between;
- margin-top:13px;
- padding-top:10px;
- border-top:1px solid #edf0f4;
+.message.success{
+ display:block;
+ background:#e7f7ef;
+ color:var(--green);
+ border:1px solid #c9ead6;
 }
-.module-footer small{color:var(--muted);font-size:10px}
-.open-label{color:var(--blue);font-size:10px;font-weight:bold}
-.info-grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
+.message.error{
+ display:block;
+ background:#fff0f0;
+ color:var(--red);
+ border:1px solid #f0c8c8;
 }
-.info-row{
+.toolbar{
  display:flex;
  align-items:center;
  justify-content:space-between;
  gap:10px;
- background:#f7f9fc;
- border-radius:8px;
- padding:12px;
+ flex-wrap:wrap;
+ margin-bottom:12px;
+}
+.toolbar input{
+ width:100%;
+ max-width:300px;
+ min-height:38px;
+ border:1px solid var(--border);
+ border-radius:7px;
+ padding:9px;
  font-size:11px;
+ outline:none;
 }
-.info-row strong{
- text-align:right;
- overflow-wrap:anywhere;
+.table-wrap{
+ overflow-x:auto;
+ -webkit-overflow-scrolling:touch;
+}
+.data-table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:690px;
+}
+.data-table th{
+ background:#f7f9fc;
+ color:var(--muted);
+ font-size:9px;
+ text-align:left;
+ padding:11px 9px;
+ white-space:nowrap;
+}
+.data-table td{
+ border-bottom:1px solid #edf0f5;
+ padding:11px 9px;
+ font-size:10px;
+ vertical-align:middle;
+}
+.data-table strong{color:var(--navy)}
+.status{
+ display:inline-block;
+ padding:5px 8px;
+ border-radius:20px;
+ font-size:9px;
+ font-weight:bold;
+}
+.status.active{background:#e7f7ef;color:var(--green)}
+.status.inactive{background:#fceaea;color:var(--red)}
+.action-buttons{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap;
+}
+.action-buttons button{
+ border:0;
+ border-radius:6px;
+ padding:7px 8px;
+ font-size:9px;
+ font-weight:bold;
+}
+.empty{
+ text-align:center;
+ padding:25px!important;
+ color:var(--muted);
+}
+.footer{
+ text-align:center;
+ color:#9aa5b5;
+ padding:18px;
+ font-size:9px;
+}
+.loading{
+ color:var(--muted);
+ text-align:center;
+ padding:20px;
+ font-size:11px;
 }
 .notice{
  background:#fff9eb;
  border:1px solid #f0dfb8;
- color:#806022;
- padding:13px 15px;
  border-radius:8px;
- font-size:11px;
- line-height:1.7;
- margin-bottom:18px;
-}
-.loading{
- padding:55px 15px;
- text-align:center;
- color:var(--muted);
- font-size:13px;
-}
-.error-box{
- background:#fff0f0;
- border:1px solid #f0c8c8;
- color:#a42d2d;
- padding:20px;
- border-radius:10px;
- font-size:12px;
- line-height:1.7;
-}
-.footer{
- padding:18px;
- text-align:center;
- color:var(--muted);
+ padding:12px;
+ color:#76591e;
  font-size:10px;
+ line-height:1.7;
+ margin-bottom:16px;
 }
-@media(max-width:1050px){
- .module-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:700px){
- .sidebar{transform:translateX(-100%)}
- .sidebar.open{transform:translateX(0)}
- .main{margin-left:0;width:100%}
- .menu-btn{display:block}
- .topbar{padding:0 12px}
- .account-info{display:none}
- .content{padding:16px 12px}
- .page-head{flex-direction:column}
- .page-head h1{font-size:21px}
- .stats{grid-template-columns:1fr 1fr}
- .module-grid{grid-template-columns:1fr 1fr;gap:9px}
- .module-card{padding:12px}
- .module-card h4{font-size:12px}
- .info-grid{grid-template-columns:1fr}
- .welcome{padding:19px}
- .welcome h2{font-size:18px}
-}
-@media(max-width:360px){
- .module-grid,.stats{grid-template-columns:1fr}
+@media(max-width:650px){
+ .main{padding:13px}
+ .topbar{padding:0 11px;min-height:55px}
+ .brand{font-size:15px}
+ .top-label{font-size:8px;padding:6px 7px}
+ .top-btn{font-size:9px;padding:7px}
+ .page-head h1{font-size:20px}
+ .stats{gap:6px}
+ .stat{padding:9px}
+ .stat small{font-size:8px}
+ .stat strong{font-size:17px}
+ .panel{padding:11px}
+ .form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .search-row{flex-direction:column}
+ .search-row button{width:100%}
 }
 </style>
 </head>
 
 <body>
 
-<aside class="sidebar" id="sidebar">
- <div class="brand">
-  <h2>RUBALIA</h2>
-  <small>NETWORK MODERATOR PANEL</small>
- </div>
-
- <nav class="nav">
-  <div class="nav-title">MODERATOR</div>
-  <a href="moderator.html" class="active">▦ Dashboard</a>
-
-  <div class="nav-title">MANAGEMENT</div>
-  <a href="admin-products.html">◈ Products</a>
-  <a href="admin-packages.html">▣ Packages</a>
-  <a href="admin-orders.html">▤ Orders</a>
-  <a href="admin-payments.html">＄ Payments</a>
-  <a href="admin-withdrawals.html">⇧ Withdrawals</a>
-  <a href="admin-commissions.html">％ Commissions</a>
-  <a href="admin-support.html">✉ Support</a>
-
-  <div class="nav-title">REPORTS</div>
-  <a href="admin-reports.html">▥ Reports</a>
-  <a href="admin-users.html">♙ Users</a>
-  <a href="admin-announcements.html">♢ Notifications</a>
-
-  <div class="nav-title">ACCOUNT</div>
-  <a href="../dashboard.html">↗ Member Dashboard</a>
- </nav>
-
- <div class="sidebar-footer">
-  RUBALIA NETWORK<br>
-  GROW WITH TRUST
- </div>
-</aside>
-
-<main class="main">
-
 <header class="topbar">
- <div class="top-left">
-  <button class="menu-btn" id="menuBtn" type="button">☰</button>
-  <strong>Moderator Panel / Dashboard</strong>
- </div>
-
- <div class="account">
-  <div class="avatar" id="avatar">M</div>
-  <div class="account-info">
-   <strong id="topName">Moderator</strong>
-   <small>Moderator Account</small>
-  </div>
-  <button class="logout" id="logoutBtn" type="button">LOGOUT</button>
+ <div class="brand">RUBALIA <span>NETWORK</span></div>
+ <div class="top-actions">
+  <span class="top-label">MAIN ADMIN</span>
+  <button class="top-btn" id="backBtn" type="button">← Dashboard</button>
  </div>
 </header>
 
-<div class="content">
+<main class="main">
 
- <div id="loading" class="loading">
-  <div style="font-size:28px;margin-bottom:12px">⏳</div>
-  Verifying your moderator account...
+ <div class="page-head">
+  <div>
+   <h1>🛡️ Moderator Settings</h1>
+   <p>Create moderators and control their module permissions.</p>
+  </div>
+  <span class="badge">ADMIN CONTROL</span>
  </div>
 
- <div id="dashboardContent" hidden>
+ <section class="welcome">
+  <h2>Moderator Management Center</h2>
+  <p>
+   Assign an existing active Customer or Partner account as a Moderator.
+   You can control View, Create, Edit and Delete permissions separately.
+  </p>
+ </section>
 
-  <div class="page-head">
+ <section class="stats">
+  <div class="stat">
+   <small>Total Moderators</small>
+   <strong id="totalModerators">—</strong>
+  </div>
+  <div class="stat">
+   <small>Active Moderators</small>
+   <strong id="activeModerators">—</strong>
+  </div>
+  <div class="stat">
+   <small>Inactive Moderators</small>
+   <strong id="inactiveModerators">—</strong>
+  </div>
+ </section>
+
+ <div class="notice">
+  <strong>Security:</strong>
+  Only the Main Admin can manage moderator accounts.
+  Permissions are enforced by the backend API. Assign only the access
+  required for each moderator's responsibilities.
+ </div>
+
+ <!-- CREATE / EDIT FORM -->
+ <section class="panel" id="editorPanel">
+
+  <div class="panel-head">
    <div>
-    <h1>Moderator Dashboard</h1>
-    <p>Manage your assigned Rubalia Network responsibilities.</p>
+    <h3 id="formTitle">Create New Moderator</h3>
+    <p id="formSubtitle">Find an existing account using its registered email address.</p>
    </div>
-   <span class="role-badge">● MODERATOR</span>
+   <span class="badge" id="formMode">NEW MODERATOR</span>
   </div>
 
-  <section class="welcome">
-   <h2>Welcome, <span id="welcomeName">Moderator</span></h2>
-   <p>
-    You are signed in to the RUBALIA NETWORK Moderator Panel.
-    Your available actions depend on the permissions assigned by the Main Admin.
-   </p>
-  </section>
+  <div class="form-grid">
 
-  <section class="stats">
-   <div class="stat">
-    <div class="stat-label">Account Role</div>
-    <div class="stat-value">Moderator</div>
-    <div class="stat-note">Restricted access account</div>
-   </div>
-
-   <div class="stat">
-    <div class="stat-label">Account Status</div>
-    <div class="stat-value" id="accountStatus">Active</div>
-    <div class="stat-note">Verified from server</div>
-   </div>
-
-   <div class="stat">
-    <div class="stat-label">Assigned Modules</div>
-    <div class="stat-value">Backend controlled</div>
-    <div class="stat-note">Access checked by server</div>
-   </div>
-  </section>
-
-  <div class="notice">
-   <strong>Security Notice:</strong>
-   Your account does not have Main Admin access.
-   Every protected action is checked by the backend.
-   Seeing a shortcut does not grant permission to access protected data.
-  </div>
-
-  <section class="panel">
-   <div class="panel-head">
-    <h3>Management Modules</h3>
-    <span class="role-badge">MODULE SHORTCUTS</span>
-   </div>
-   <div class="panel-body">
-    <div class="module-grid" id="moduleGrid"></div>
-   </div>
-  </section>
-
-  <section class="panel">
-   <div class="panel-head">
-    <h3>Account Information</h3>
-   </div>
-   <div class="panel-body">
-    <div class="info-grid">
-     <div class="info-row">
-      <span>Full Name</span>
-      <strong id="profileName">—</strong>
-     </div>
-     <div class="info-row">
-      <span>Email Address</span>
-      <strong id="profileEmail">—</strong>
-     </div>
-     <div class="info-row">
-      <span>Account Role</span>
-      <strong>Moderator</strong>
-     </div>
-     <div class="info-row">
-      <span>Account Status</span>
-      <strong id="profileStatus">Active</strong>
-     </div>
+   <div class="field full" id="searchField">
+    <label for="searchEmail">Registered User Email</label>
+    <div class="search-row">
+     <input id="searchEmail" type="email" maxlength="255"
+      placeholder="Enter registered user's email">
+     <button class="btn btn-primary" id="searchBtn" type="button">SEARCH USER</button>
     </div>
+    <div class="help">The account must already exist and be active.</div>
+    <div class="user-result" id="userResult"></div>
    </div>
-  </section>
 
- </div>
+   <div class="field full" id="editUserField" hidden>
+    <label>Selected Moderator</label>
+    <div class="user-result show" id="editUserInfo"></div>
+   </div>
 
- <div id="errorBox" class="error-box" hidden></div>
+  </div>
 
-</div>
+  <div class="permission-head">
+   <strong>Module Permissions</strong>
+   <div class="permission-tools">
+    <button type="button" id="selectAllView">ALL VIEW</button>
+    <button type="button" id="clearAll">CLEAR ALL</button>
+   </div>
+  </div>
 
-<footer class="footer">
- © <span id="year"></span> RUBALIA NETWORK — GROW WITH TRUST
-</footer>
+  <div class="permission-table-wrap">
+   <table class="permission-table">
+    <thead>
+     <tr>
+      <th>MODULE</th>
+      <th>VIEW</th>
+      <th>CREATE</th>
+      <th>EDIT</th>
+      <th>DELETE</th>
+     </tr>
+    </thead>
+    <tbody id="permissionBody"></tbody>
+   </table>
+  </div>
+
+  <div class="form-actions">
+   <button class="btn btn-primary" id="saveBtn" type="button">CREATE MODERATOR</button>
+   <button class="btn btn-gray" id="cancelEditBtn" type="button" hidden>CANCEL EDIT</button>
+  </div>
+
+  <div class="message" id="formMessage"></div>
+
+ </section>
+
+ <!-- MODERATOR LIST -->
+ <section class="panel">
+
+  <div class="panel-head">
+   <div>
+    <h3>All Moderators</h3>
+    <p>Review, edit, deactivate or revoke moderator access.</p>
+   </div>
+   <button class="btn btn-blue" id="refreshBtn" type="button">↻ REFRESH</button>
+  </div>
+
+  <div class="toolbar">
+   <input id="filterInput" type="search" placeholder="Search by name or email...">
+   <span class="help" id="listCount">Loading moderators...</span>
+  </div>
+
+  <div class="table-wrap">
+   <table class="data-table">
+    <thead>
+     <tr>
+      <th>NAME</th>
+      <th>EMAIL</th>
+      <th>STATUS</th>
+      <th>PERMISSIONS</th>
+      <th>CREATED</th>
+      <th>ACTIONS</th>
+     </tr>
+    </thead>
+    <tbody id="moderatorBody">
+     <tr><td colspan="6" class="empty">Loading moderators...</td></tr>
+    </tbody>
+   </table>
+  </div>
+
+  <div class="message" id="listMessage"></div>
+ </section>
 
 </main>
+
+<footer class="footer">
+ © <span id="year"></span> RUBALIA NETWORK. All Rights Reserved.
+ <br>Main Administrator — Moderator Settings
+</footer>
 
 <script>
 "use strict";
@@ -524,70 +606,28 @@ const API_BASE="https://rubalia.onrender.com/api";
 const REQUEST_TIMEOUT=90000;
 const $=id=>document.getElementById(id);
 
-$("year").textContent=new Date().getFullYear();
-
 const MODULES=[
- {
-  name:"Products",
-  icon:"◈",
-  description:"Product catalogue and product management.",
-  url:"admin-products.html"
- },
- {
-  name:"Packages",
-  icon:"▣",
-  description:"Product packages and package management.",
-  url:"admin-packages.html"
- },
- {
-  name:"Orders",
-  icon:"▤",
-  description:"Customer orders and order processing.",
-  url:"admin-orders.html"
- },
- {
-  name:"Payments",
-  icon:"＄",
-  description:"Payment requests and payment verification.",
-  url:"admin-payments.html"
- },
- {
-  name:"Wallet",
-  icon:"◉",
-  description:"Wallet and withdrawal management.",
-  url:"admin-withdrawals.html"
- },
- {
-  name:"Commissions",
-  icon:"％",
-  description:"Commission and related records.",
-  url:"admin-commissions.html"
- },
- {
-  name:"Refunds",
-  icon:"↩",
-  description:"Refund requests and processing.",
-  url:"admin-orders.html"
- },
- {
-  name:"Support",
-  icon:"✉",
-  description:"Customer support tickets.",
-  url:"admin-support.html"
- },
- {
-  name:"Reports",
-  icon:"▥",
-  description:"Business and financial reports.",
-  url:"admin-reports.html"
- },
- {
-  name:"Notifications",
-  icon:"♢",
-  description:"Notifications and announcements.",
-  url:"admin-announcements.html"
- }
+ "Products",
+ "Packages",
+ "Orders",
+ "Payments",
+ "Wallet",
+ "Commissions",
+ "Refunds",
+ "Support",
+ "Reports",
+ "Notifications"
 ];
+
+const ACTIONS=["view","create","edit","delete"];
+
+let token="";
+let moderators=[];
+let selectedUser=null;
+let editingModerator=null;
+let requestBusy=false;
+
+$("year").textContent=new Date().getFullYear();
 
 function getToken(){
  try{
@@ -597,51 +637,58 @@ function getToken(){
  }
 }
 
-function clearSession(){
- try{
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
- }catch(error){}
+function showMessage(id,type,message){
+ const box=$(id);
+ box.className="message "+type;
+ box.textContent=message;
 }
 
-function logout(){
- clearSession();
- window.location.replace("../login.html");
+function hideMessage(id){
+ const box=$(id);
+ box.className="message";
+ box.textContent="";
 }
 
-$("logoutBtn").addEventListener("click",logout);
+function escapeText(value){
+ return String(value??"");
+}
 
-async function apiRequest(path){
- const token=getToken();
+function formatDate(value){
+ if(!value)return "—";
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "—";
+ return date.toLocaleDateString("en-GB",{
+  day:"2-digit",month:"short",year:"numeric"
+ });
+}
 
- if(!token){
-  throw new Error("Login required.");
- }
-
+async function apiRequest(path,options={}){
  const controller=new AbortController();
- const timeout=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT);
+ const timeout=setTimeout(
+  ()=>controller.abort(),
+  REQUEST_TIMEOUT
+ );
 
  try{
   const response=await fetch(API_BASE+path,{
-   method:"GET",
+   ...options,
    signal:controller.signal,
    cache:"no-store",
    headers:{
     "Accept":"application/json",
-    "Authorization":"Bearer "+token
+    ...(options.body?{"Content-Type":"application/json"}:{}),
+    "Authorization":"Bearer "+token,
+    ...(options.headers||{})
    }
   });
 
   const data=await response.json().catch(()=>({}));
 
   if(response.status===401){
-   clearSession();
-   window.location.replace("../login.html");
-   throw new Error("Your login session has expired.");
-  }
-
-  if(response.status===403){
-   throw new Error(data.message||"You do not have permission.");
+   sessionStorage.removeItem("rubalia_token");
+   sessionStorage.removeItem("rubalia_user");
+   location.replace("../login.html");
+   throw new Error("Session expired. Please login again.");
   }
 
   if(!response.ok||data.success===false){
@@ -655,7 +702,7 @@ async function apiRequest(path){
    throw new Error("Server response is taking too long.");
   }
   if(error instanceof TypeError){
-   throw new Error("Unable to connect to the server.");
+   throw new Error("Unable to connect to Rubalia server.");
   }
   throw error;
  }finally{
@@ -663,140 +710,578 @@ async function apiRequest(path){
  }
 }
 
-function renderModules(){
- const grid=$("moduleGrid");
- grid.replaceChildren();
+/* PERMISSION TABLE */
 
- MODULES.forEach(module=>{
-  const card=document.createElement("a");
-  card.className="module-card";
-  card.href=module.url;
+function renderPermissionTable(permissions={}){
+ const body=$("permissionBody");
+ body.replaceChildren();
 
-  const icon=document.createElement("div");
-  icon.className="module-icon";
-  icon.textContent=module.icon;
+ MODULES.forEach(moduleName=>{
+  const row=document.createElement("tr");
 
-  const title=document.createElement("h4");
-  title.textContent=module.name;
+  const nameCell=document.createElement("td");
+  nameCell.textContent=moduleName;
+  row.appendChild(nameCell);
 
-  const description=document.createElement("p");
-  description.textContent=module.description;
+  ACTIONS.forEach(action=>{
+   const cell=document.createElement("td");
+   const checkbox=document.createElement("input");
 
-  const footer=document.createElement("div");
-  footer.className="module-footer";
+   checkbox.type="checkbox";
+   checkbox.className="permission-check";
+   checkbox.dataset.module=moduleName;
+   checkbox.dataset.action=action;
+   checkbox.checked=permissions?.[moduleName]?.[action]===true;
+   checkbox.setAttribute(
+    "aria-label",
+    moduleName+" "+action
+   );
 
-  const label=document.createElement("small");
-  label.textContent="Open module";
+   cell.appendChild(checkbox);
+   row.appendChild(cell);
+  });
 
-  const arrow=document.createElement("span");
-  arrow.className="open-label";
-  arrow.textContent="OPEN →";
-
-  footer.append(label,arrow);
-  card.append(icon,title,description,footer);
-  grid.appendChild(card);
+  body.appendChild(row);
  });
 }
 
-function showUser(user){
- const name=String(user.full_name||user.name||"Moderator");
- const email=String(user.email||"");
- const status=String(user.status||"Active");
+function collectPermissions(){
+ const permissions={};
 
- $("topName").textContent=name;
- $("welcomeName").textContent=name;
- $("profileName").textContent=name;
- $("profileEmail").textContent=email;
- $("avatar").textContent=name.trim().charAt(0).toUpperCase()||"M";
- $("accountStatus").textContent=status;
- $("profileStatus").textContent=status;
-}
+ MODULES.forEach(moduleName=>{
+  permissions[moduleName]={};
 
-function showError(error){
- $("loading").hidden=true;
- $("dashboardContent").hidden=true;
- $("errorBox").hidden=false;
-
- const message=document.createElement("div");
- message.textContent=error.message||"Unable to load dashboard.";
-
- const retry=document.createElement("button");
- retry.type="button";
- retry.textContent="RETRY";
- retry.style.cssText=
-  "margin-top:15px;padding:10px 18px;border:0;border-radius:7px;background:#071a35;color:white;font-weight:bold";
-
- retry.addEventListener("click",()=>{
-  $("errorBox").hidden=true;
-  $("loading").hidden=false;
-  initializeDashboard();
+  ACTIONS.forEach(action=>{
+   permissions[moduleName][action]=false;
+  });
  });
 
- const login=document.createElement("a");
- login.href="../login.html";
- login.textContent="Go to Login";
- login.style.cssText=
-  "display:inline-block;margin:15px 0 0 12px;color:#2878c8;font-weight:bold";
+ document.querySelectorAll(".permission-check").forEach(check=>{
+  permissions[check.dataset.module][check.dataset.action]=check.checked;
+ });
 
- $("errorBox").replaceChildren(message,retry,login);
+ return permissions;
 }
 
-async function initializeDashboard(){
+function setAllPermissions(action,value){
+ document.querySelectorAll(".permission-check").forEach(check=>{
+  if(!action||check.dataset.action===action){
+   check.checked=value;
+  }
+ });
+}
+
+function createEmptyPermissions(){
+ const result={};
+ MODULES.forEach(moduleName=>{
+  result[moduleName]={};
+  ACTIONS.forEach(action=>{
+   result[moduleName][action]=false;
+  });
+ });
+ return result;
+}
+
+/* USER SEARCH */
+
+async function searchUser(){
+ hideMessage("formMessage");
+
+ const email=$("searchEmail").value.trim().toLowerCase();
+
+ if(!email){
+  showMessage("formMessage","error","Please enter a registered email address.");
+  return;
+ }
+
+ const button=$("searchBtn");
+ button.disabled=true;
+ button.textContent="SEARCHING...";
+
  try{
-  if(!getToken()){
-   window.location.replace("../login.html");
-   return;
+  const data=await apiRequest(
+   "/moderators/search?email="+encodeURIComponent(email)
+  );
+
+  const user=data.user;
+
+  if(!user){
+   throw new Error("User information was not returned.");
   }
 
+  if(user.is_moderator){
+   throw new Error("This user is already a moderator.");
+  }
+
+  if(user.role==="admin"){
+   throw new Error("Main Admin cannot be assigned as a moderator.");
+  }
+
+  if(!["customer","partner"].includes(user.role)){
+   throw new Error("Only Customer or Partner accounts can be assigned.");
+  }
+
+  if(user.status!=="active"){
+   throw new Error("This account is inactive.");
+  }
+
+  selectedUser=user;
+
+  const result=$("userResult");
+  result.replaceChildren();
+
+  const strong=document.createElement("strong");
+  strong.textContent=user.full_name||"Registered User";
+
+  const line=document.createElement("div");
+  line.textContent=user.email+" · "+user.role+" · "+user.status;
+
+  const hint=document.createElement("div");
+  hint.textContent="Account verified. Select permissions below and create moderator.";
+
+  result.append(strong,line,hint);
+  result.classList.add("show");
+
+  $("saveBtn").disabled=false;
+
+ }catch(error){
+  selectedUser=null;
+  $("userResult").classList.remove("show");
+  showMessage("formMessage","error",error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent="SEARCH USER";
+ }
+}
+
+/* CREATE MODERATOR */
+
+async function createModerator(){
+ if(!selectedUser){
+  showMessage("formMessage","error","Search and select an existing user first.");
+  return;
+ }
+
+ const permissions=collectPermissions();
+
+ const button=$("saveBtn");
+ button.disabled=true;
+ button.textContent="CREATING...";
+
+ try{
+  const data=await apiRequest("/moderators",{
+   method:"POST",
+   body:JSON.stringify({
+    email:selectedUser.email,
+    permissions
+   })
+  });
+
+  showMessage(
+   "formMessage",
+   "success",
+   (data.message||"Moderator created successfully.")+
+   " The user must log in again."
+  );
+
+  selectedUser=null;
+  $("searchEmail").value="";
+  $("userResult").classList.remove("show");
+  renderPermissionTable(createEmptyPermissions());
+
+  await loadModerators();
+
+ }catch(error){
+  showMessage("formMessage","error",error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent="CREATE MODERATOR";
+ }
+}
+
+/* EDIT MODE */
+
+function startEdit(moderator){
+ editingModerator=moderator;
+ selectedUser=null;
+
+ $("formTitle").textContent="Edit Moderator";
+ $("formSubtitle").textContent="Update permissions or account status.";
+ $("formMode").textContent="EDIT MODE";
+
+ $("searchField").hidden=true;
+ $("editUserField").hidden=false;
+
+ $("editUserInfo").textContent=
+  (moderator.full_name||"Moderator")+" · "+moderator.email;
+
+ $("saveBtn").textContent="SAVE CHANGES";
+ $("cancelEditBtn").hidden=false;
+
+ renderPermissionTable(moderator.permissions||{});
+
+ $("editorPanel").scrollIntoView({
+  behavior:"smooth",
+  block:"start"
+ });
+
+ hideMessage("formMessage");
+}
+
+function resetEditor(){
+ editingModerator=null;
+ selectedUser=null;
+
+ $("formTitle").textContent="Create New Moderator";
+ $("formSubtitle").textContent="Find an existing account using its registered email address.";
+ $("formMode").textContent="NEW MODERATOR";
+
+ $("searchField").hidden=false;
+ $("editUserField").hidden=true;
+
+ $("searchEmail").value="";
+ $("userResult").classList.remove("show");
+
+ $("saveBtn").textContent="CREATE MODERATOR";
+ $("cancelEditBtn").hidden=true;
+
+ renderPermissionTable(createEmptyPermissions());
+ hideMessage("formMessage");
+}
+
+async function saveModeratorChanges(){
+ if(!editingModerator)return;
+
+ const button=$("saveBtn");
+ button.disabled=true;
+ button.textContent="SAVING...";
+
+ try{
+  const data=await apiRequest(
+   "/moderators/"+encodeURIComponent(editingModerator.id),
+   {
+    method:"PATCH",
+    body:JSON.stringify({
+     permissions:collectPermissions()
+    })
+   }
+  );
+
+  showMessage(
+   "formMessage",
+   "success",
+   data.message||"Moderator permissions updated."
+  );
+
+  await loadModerators();
+  resetEditor();
+
+ }catch(error){
+  showMessage("formMessage","error",error.message);
+ }finally{
+  button.disabled=false;
+  button.textContent=editingModerator?"SAVE CHANGES":"CREATE MODERATOR";
+ }
+}
+
+/* STATUS UPDATE */
+
+async function toggleStatus(moderator){
+ const nextStatus=
+  moderator.status==="active"?"inactive":"active";
+
+ const confirmText=nextStatus==="inactive"
+  ?"Deactivate this moderator?"
+  :"Activate this moderator?";
+
+ if(!confirm(confirmText))return;
+
+ try{
+  const data=await apiRequest(
+   "/moderators/"+encodeURIComponent(moderator.id),
+   {
+    method:"PATCH",
+    body:JSON.stringify({status:nextStatus})
+   }
+  );
+
+  showMessage(
+   "listMessage",
+   "success",
+   data.message||"Moderator status updated."
+  );
+
+  await loadModerators();
+
+ }catch(error){
+  showMessage("listMessage","error",error.message);
+ }
+}
+
+/* DELETE MODERATOR */
+
+async function deleteModerator(moderator){
+ const approved=confirm(
+  "Are you sure you want to revoke moderator access for "+
+  moderator.email+"?\n\nThe account's original role will be restored."
+ );
+
+ if(!approved)return;
+
+ try{
+  const data=await apiRequest(
+   "/moderators/"+encodeURIComponent(moderator.id),
+   {method:"DELETE"}
+  );
+
+  if(
+   editingModerator&&
+   String(editingModerator.id)===String(moderator.id)
+  ){
+   resetEditor();
+  }
+
+  showMessage(
+   "listMessage",
+   "success",
+   data.message||"Moderator access revoked."
+  );
+
+  await loadModerators();
+
+ }catch(error){
+  showMessage("listMessage","error",error.message);
+ }
+}
+
+/* LIST */
+
+function countPermissions(permissions){
+ let count=0;
+
+ MODULES.forEach(moduleName=>{
+  ACTIONS.forEach(action=>{
+   if(permissions?.[moduleName]?.[action]===true)count++;
+  });
+ });
+
+ return count;
+}
+
+function renderModerators(){
+ const body=$("moderatorBody");
+ const filter=$("filterInput").value.trim().toLowerCase();
+
+ body.replaceChildren();
+
+ const filtered=moderators.filter(item=>{
+  const name=String(item.full_name||"").toLowerCase();
+  const email=String(item.email||"").toLowerCase();
+  return name.includes(filter)||email.includes(filter);
+ });
+
+ $("listCount").textContent=
+  filtered.length+" of "+moderators.length+" moderators";
+
+ if(!filtered.length){
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+  cell.colSpan=6;
+  cell.className="empty";
+  cell.textContent=moderators.length
+   ?"No matching moderators found."
+   :"No moderators have been created yet.";
+  row.appendChild(cell);
+  body.appendChild(row);
+  return;
+ }
+
+ filtered.forEach(moderator=>{
+  const row=document.createElement("tr");
+
+  const nameCell=document.createElement("td");
+  const name=document.createElement("strong");
+  name.textContent=moderator.full_name||"—";
+  nameCell.appendChild(name);
+
+  const emailCell=document.createElement("td");
+  emailCell.textContent=moderator.email||"—";
+
+  const statusCell=document.createElement("td");
+  const status=document.createElement("span");
+  status.className="status "+
+   (moderator.status==="active"?"active":"inactive");
+  status.textContent=String(moderator.status||"unknown").toUpperCase();
+  statusCell.appendChild(status);
+
+  const permissionCell=document.createElement("td");
+  permissionCell.textContent=
+   countPermissions(moderator.permissions)+" permissions";
+
+  const dateCell=document.createElement("td");
+  dateCell.textContent=formatDate(moderator.created_at);
+
+  const actionCell=document.createElement("td");
+  const actions=document.createElement("div");
+  actions.className="action-buttons";
+
+  const edit=document.createElement("button");
+  edit.className="btn-blue";
+  edit.textContent="EDIT";
+  edit.addEventListener("click",()=>startEdit(moderator));
+
+  const toggle=document.createElement("button");
+  toggle.className=
+   moderator.status==="active"?"btn-red":"btn-green";
+  toggle.textContent=
+   moderator.status==="active"?"DEACTIVATE":"ACTIVATE";
+  toggle.addEventListener("click",()=>toggleStatus(moderator));
+
+  const remove=document.createElement("button");
+  remove.className="btn-red";
+  remove.textContent="REVOKE";
+  remove.addEventListener("click",()=>deleteModerator(moderator));
+
+  actions.append(edit,toggle,remove);
+  actionCell.appendChild(actions);
+
+  row.append(
+   nameCell,
+   emailCell,
+   statusCell,
+   permissionCell,
+   dateCell,
+   actionCell
+  );
+
+  body.appendChild(row);
+ });
+
+ updateStats();
+}
+
+function updateStats(){
+ const total=moderators.length;
+ const active=moderators.filter(m=>m.status==="active").length;
+ const inactive=moderators.filter(m=>m.status==="inactive").length;
+
+ $("totalModerators").textContent=total.toLocaleString("en-US");
+ $("activeModerators").textContent=active.toLocaleString("en-US");
+ $("inactiveModerators").textContent=inactive.toLocaleString("en-US");
+}
+
+async function loadModerators(){
+ const button=$("refreshBtn");
+ button.disabled=true;
+ button.textContent="LOADING...";
+
+ try{
+  const data=await apiRequest("/moderators");
+
+  moderators=Array.isArray(data.moderators)
+   ?data.moderators:[ ];
+
+  renderModerators();
+  hideMessage("listMessage");
+
+ }catch(error){
+  $("moderatorBody").replaceChildren();
+
+  const row=document.createElement("tr");
+  const cell=document.createElement("td");
+  cell.colSpan=6;
+  cell.className="empty";
+  cell.textContent=error.message;
+  row.appendChild(cell);
+  $("moderatorBody").appendChild(row);
+
+  $("listCount").textContent="Unable to load moderators";
+  showMessage("listMessage","error",error.message);
+
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ REFRESH";
+ }
+}
+
+/* INITIALIZATION */
+
+async function initialize(){
+ token=getToken();
+
+ if(!token){
+  location.replace("../login.html");
+  return;
+ }
+
+ try{
   const data=await apiRequest("/auth/me");
   const user=data.user||data.profile;
 
   if(!user){
-   throw new Error("Unable to verify your account.");
+   throw new Error("Unable to verify administrator account.");
   }
 
-  const role=String(user.role||"").trim().toLowerCase();
-
-  if(role==="admin"){
-   window.location.replace("../admin-dashboard.html");
+  if(String(user.role||"").toLowerCase()!=="admin"){
+   location.replace("../dashboard.html");
    return;
   }
 
-  if(role!=="moderator"){
-   window.location.replace("../dashboard.html");
-   return;
-  }
-
-  if(user.status&&user.status!=="active"){
-   throw new Error("Your moderator account is inactive.");
-  }
-
-  showUser(user);
-  renderModules();
-
-  $("loading").hidden=true;
-  $("dashboardContent").hidden=false;
+  renderPermissionTable(createEmptyPermissions());
+  await loadModerators();
 
  }catch(error){
-  showError(error);
+  if(!error.message.includes("Session expired")){
+   document.querySelector(".main").replaceChildren();
+
+   const box=document.createElement("div");
+   box.className="panel";
+   box.style.margin="25px";
+   box.textContent="Access verification failed: "+error.message;
+
+   document.querySelector(".main").appendChild(box);
+  }
  }
 }
 
-$("menuBtn").addEventListener("click",()=>{
- $("sidebar").classList.toggle("open");
-});
+/* EVENTS */
 
-document.addEventListener("click",event=>{
- if(
-  window.innerWidth<=700&&
-  !$("sidebar").contains(event.target)&&
-  !$("menuBtn").contains(event.target)
- ){
-  $("sidebar").classList.remove("open");
+$("searchBtn").addEventListener("click",searchUser);
+
+$("searchEmail").addEventListener("keydown",event=>{
+ if(event.key==="Enter"){
+  event.preventDefault();
+  searchUser();
  }
 });
 
-initializeDashboard();
+$("saveBtn").addEventListener("click",()=>{
+ if(editingModerator){
+  saveModeratorChanges();
+ }else{
+  createModerator();
+ }
+});
+
+$("cancelEditBtn").addEventListener("click",resetEditor);
+
+$("selectAllView").addEventListener("click",()=>{
+ setAllPermissions("view",true);
+});
+
+$("clearAll").addEventListener("click",()=>{
+ setAllPermissions(null,false);
+});
+
+$("refreshBtn").addEventListener("click",loadModerators);
+
+$("filterInput").addEventListener("input",renderModerators);
+
+$("backBtn").addEventListener("click",()=>{
+ location.href="../admin-dashboard.html";
+});
+
+initialize();
 </script>
 
 </body>
