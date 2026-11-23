@@ -4,33 +4,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#310d35">
+<meta name="theme-color" content="#071329">
 <meta name="description" content="RUBALIA NETWORK Packages">
 <title>Packages | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --red:#a71952;
-  --pink:#e72c76;
-  --dark:#21172f;
-  --gold:#e5bd68;
-  --bg:#f7f5f9;
+  --bg:#071329;
+  --navy:#0A1B3D;
+  --blue:#0757A9;
+  --electric:#00B4FF;
+  --gold:#FFC107;
+  --gold-light:#FFD54F;
   --white:#fff;
-  --text:#29243a;
-  --muted:#858196;
-  --border:#eae6ee;
+  --text:#F4F8FF;
+  --muted:#A9BAD3;
+  --border:rgba(62,153,255,.35);
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(ellipse at 50% 0%,#102d59 0%,transparent 45%),
+    linear-gradient(180deg,#071329,#040B19);
   color:var(--text);
+  min-height:100vh;
 }
+
 a{text-decoration:none;color:inherit}
-button,input{font-family:inherit}
+button,input{font:inherit}
 
 /* HEADER */
+
 .app-header{
   min-height:76px;
   width:100%;
@@ -40,17 +48,37 @@ button,input{font-family:inherit}
   gap:12px;
   padding:0 22px;
   color:white;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 4px 15px rgba(35,10,45,.18);
+  background:linear-gradient(115deg,#06132B 0%,#073B85 55%,#071329 100%);
+  border-bottom:2px solid rgba(0,180,255,.65);
+  box-shadow:0 5px 25px rgba(0,145,255,.2);
   position:relative;
   z-index:100;
+  overflow:hidden;
 }
+
+.app-header:after{
+  content:"";
+  position:absolute;
+  width:350px;
+  height:150px;
+  right:100px;
+  top:-115px;
+  transform:rotate(-25deg);
+  background:linear-gradient(90deg,transparent,#FFC107,#FFE58A,transparent);
+  filter:blur(8px);
+  opacity:.8;
+  pointer-events:none;
+}
+
 .header-left{
   display:flex;
   align-items:center;
   gap:13px;
   min-width:0;
+  position:relative;
+  z-index:1;
 }
+
 .back-button{
   width:48px;
   height:48px;
@@ -58,423 +86,547 @@ button,input{font-family:inherit}
   display:flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(255,255,255,.25);
-  background:rgba(255,255,255,.09);
+  border:1px solid rgba(55,164,255,.5);
+  background:linear-gradient(145deg,#102C59,#071B39);
   color:white;
-  border-radius:12px;
+  border-radius:13px;
   font-size:27px;
   cursor:pointer;
 }
+
 .brand{
   display:flex;
   align-items:center;
   gap:10px;
   min-width:0;
 }
+
 .brand-icon{
   width:48px;
   height:48px;
   border-radius:14px;
-  background:linear-gradient(140deg,#ffe58a,#e6a928);
+  background:linear-gradient(140deg,#FFE66B,#FFC107,#E99B00);
   display:flex;
   justify-content:center;
   align-items:center;
-  color:#512a83;
-  font-size:27px;
+  color:#071C40;
+  font-size:29px;
   font-weight:900;
   flex-shrink:0;
-  box-shadow:0 4px 10px rgba(0,0,0,.18),
-  inset 0 2px 4px rgba(255,255,255,.6);
+  box-shadow:0 0 16px rgba(255,193,7,.25);
 }
+
 .brand-text{
   font-size:17px;
   font-weight:900;
   letter-spacing:1px;
   white-space:nowrap;
+  color:#fff;
 }
-.brand-text span{color:#ffe58a}
+
+.brand-text span{color:var(--gold)}
+
 .brand-text small{
   display:block;
   font-size:9px;
   letter-spacing:3px;
-  color:#f5dca4;
+  color:#D9E9FF;
   margin-top:4px;
 }
+
 .orders-button{
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.08);
+  position:relative;
+  z-index:1;
+  border:1px solid rgba(0,180,255,.7);
+  background:linear-gradient(130deg,#082958,#0757A9);
   color:white;
-  border-radius:11px;
+  border-radius:12px;
   padding:12px 15px;
   font-size:12px;
   font-weight:bold;
   white-space:nowrap;
+  box-shadow:0 0 12px rgba(0,180,255,.2);
 }
 
 /* MAIN */
+
 main{
   max-width:1150px;
   margin:auto;
-  padding:22px 20px 50px;
+  padding:25px 20px 45px;
 }
 
-/* CATEGORY */
+/* CATEGORY HEADING */
+
 .category-heading{
+  position:relative;
+  overflow:hidden;
   margin:0 0 22px;
-  padding:23px 15px;
+  padding:27px 15px;
   text-align:center;
   color:white;
-  border-radius:20px;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
-  box-shadow:0 8px 20px rgba(60,20,60,.13);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(0,180,255,.2),transparent 40%),
+    linear-gradient(120deg,#061A3B,#07509C 60%,#071A38);
+  border:1px solid rgba(0,180,255,.6);
+  box-shadow:0 0 18px rgba(0,145,255,.18);
 }
+
+.category-heading:after{
+  content:"";
+  position:absolute;
+  width:230px;
+  height:100px;
+  right:-50px;
+  bottom:-70px;
+  background:linear-gradient(90deg,transparent,#FFC107,transparent);
+  transform:rotate(-25deg);
+  filter:blur(10px);
+  opacity:.65;
+}
+
 .category-heading h1{
+  position:relative;
+  z-index:1;
   margin:0;
   font-size:27px;
   font-weight:900;
+  color:#fff;
 }
+
 .category-heading p{
+  position:relative;
+  z-index:1;
   margin:9px 0 0;
-  font-size:14px;
-  color:#f4e6f0;
+  font-size:13px;
+  color:#C5E4FF;
 }
 
 /* SEARCH */
+
 .search-section{
   margin:0 0 22px;
   display:flex;
   align-items:center;
   gap:12px;
 }
+
 .search-box{
   flex:1;
   position:relative;
 }
+
 .search-box input{
   width:100%;
-  height:54px;
+  height:52px;
   padding:0 15px 0 45px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:white;
+  border:1px solid rgba(0,180,255,.4);
+  border-radius:12px;
+  background:#091C3A;
   outline:none;
-  color:var(--text);
-  font-size:15px;
+  color:white;
+  font-size:14px;
 }
-.search-box input:focus{border-color:#c64d81}
+
+.search-box input::placeholder{color:#8FAACB}
+
+.search-box input:focus{
+  border-color:#00C8FF;
+  box-shadow:0 0 12px rgba(0,180,255,.2);
+}
+
 .search-icon{
   position:absolute;
   left:16px;
-  top:17px;
-  color:#9c91a4;
-  font-size:19px;
+  top:14px;
+  color:#72CCFF;
+  font-size:20px;
 }
+
 .refresh-btn{
-  border:1px solid var(--border);
-  background:white;
-  color:#6d5269;
-  padding:17px 18px;
-  border-radius:13px;
-  font-size:13px;
+  border:1px solid #00C8FF;
+  background:linear-gradient(135deg,#008BD9,#064BB0);
+  color:white;
+  padding:16px 18px;
+  border-radius:12px;
+  font-size:12px;
   font-weight:bold;
   cursor:pointer;
   white-space:nowrap;
+  box-shadow:0 0 12px rgba(0,180,255,.2);
 }
+
 .refresh-btn:disabled{
   opacity:.5;
   cursor:wait;
 }
 
 /* PACKAGE GRID */
+
 .package-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
+  gap:16px;
   align-items:start;
 }
+
+/* PACKAGE CARD */
+
 .item-card{
   min-width:0;
   overflow:hidden;
   position:relative;
-  border-radius:16px;
-  background:linear-gradient(145deg,#fff,#f2edff,#e6f4ff);
-  border:1px solid rgba(151,119,198,.3);
-  box-shadow:0 8px 18px rgba(66,43,110,.12),
-  0 3px 6px rgba(66,43,110,.06),
-  inset 0 1px 0 #fff;
+  border-radius:17px;
+  background:linear-gradient(145deg,#0D2852,#07172F 70%,#0A2855);
+  border:1px solid rgba(35,144,255,.65);
+  box-shadow:
+    0 7px 20px rgba(0,0,0,.3),
+    0 0 12px rgba(0,145,255,.12),
+    inset 0 0 20px rgba(0,145,255,.07);
   transition:transform .25s,box-shadow .25s;
 }
+
 .item-card:hover{
   transform:translateY(-3px);
-  box-shadow:0 13px 23px rgba(66,43,110,.17);
+  box-shadow:0 12px 25px rgba(0,145,255,.2);
 }
 
 /* PACKAGE IMAGE */
+
 .item-image{
   width:100%;
-  height:180px;
+  height:190px;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  background:linear-gradient(135deg,#e9dcff,#dceaff,#d9f5ed);
+  background:linear-gradient(135deg,#102D59,#07172F,#123D72);
+  border-bottom:1px solid rgba(0,180,255,.3);
 }
+
 .item-image img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
 }
+
 .image-placeholder{
   display:grid;
   place-items:center;
   width:100%;
   height:100%;
-  color:#9974c1;
-  font-size:45px;
+  color:#FFD54F;
+  font-size:48px;
+  background:
+    radial-gradient(circle,rgba(0,180,255,.15),transparent 65%);
 }
 
-/* PRICE CARD - DIRECTLY BELOW IMAGE */
+/* PRICE CARD */
+
 .item-price-card{
   padding:12px;
-  background:linear-gradient(145deg,#f8f4ff,#eaf0ff,#edf9f8);
+  background:linear-gradient(145deg,#0B2045,#07162E);
 }
+
 .item-bottom{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
+  gap:9px;
   padding:13px;
-  border-radius:11px;
+  border-radius:12px;
   background:
-    radial-gradient(circle at 90% 0%,rgba(255,255,255,.22),transparent 45%),
-    linear-gradient(145deg,#164b79,#087e91 52%,#20a99c);
-  border:1px solid rgba(255,255,255,.6);
+    radial-gradient(circle at 90% 0%,rgba(255,255,255,.15),transparent 45%),
+    linear-gradient(145deg,#164B79,#087E91 52%,#168D99);
+  border:1px solid rgba(0,200,255,.5);
   box-shadow:
-    0 4px 0 #103d60,
-    0 7px 10px rgba(12,74,105,.17),
-    inset 0 1px 3px rgba(255,255,255,.4);
+    0 4px 0 #103D60,
+    0 7px 10px rgba(0,0,0,.2),
+    inset 0 1px 3px rgba(255,255,255,.3);
 }
+
 .price-stock{
   min-width:0;
   flex:1;
 }
+
 .item-price{
-  color:#fff;
-  font-size:19px;
+  color:#FFD52F;
+  font-size:21px;
   font-weight:900;
   overflow-wrap:anywhere;
-  text-shadow:0 1px 3px rgba(0,0,0,.2);
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
 }
+
 .item-price small{
   display:block;
   margin-bottom:6px;
-  color:#d9fff6;
+  color:#D8F7FF;
   font-size:10px;
   font-weight:900;
   letter-spacing:1px;
   text-shadow:none;
 }
+
 .item-stock{
   margin-top:8px;
-  color:#e1fff0;
-  font-size:12px;
+  color:#C9FFE3;
+  font-size:11px;
   font-weight:bold;
 }
-.item-stock.out{color:#ffe0e0}
+
+.item-stock.out{color:#FFE0E0}
+
+/* BUY BUTTON */
+
 .buy-btn{
   display:inline-block;
   flex-shrink:0;
-  border:1px solid rgba(255,255,255,.5);
-  padding:13px 14px;
+  border:1px solid rgba(255,255,255,.45);
+  padding:13px 15px;
   border-radius:10px;
-  background:linear-gradient(145deg,#ff5597,#e51e70 55%,#a80f50);
-  color:white;
+  background:linear-gradient(145deg,#FFCE35,#F3A900 55%,#C77A00);
+  color:#14233D;
   font-size:12px;
   font-weight:900;
   cursor:pointer;
   white-space:nowrap;
   box-shadow:
-    0 4px 0 #78103d,
-    0 6px 9px rgba(100,10,50,.22),
-    inset 0 1px 3px rgba(255,255,255,.45);
+    0 4px 0 #895600,
+    0 6px 9px rgba(0,0,0,.22),
+    inset 0 1px 3px rgba(255,255,255,.55);
   transition:.2s;
 }
+
 .buy-btn:hover{transform:translateY(-2px)}
+
 .buy-btn:active{transform:translateY(2px)}
+
 .buy-btn:disabled{
   opacity:.45;
   cursor:not-allowed;
+  transform:none;
 }
 
 /* STATES */
+
 .state-box{
   grid-column:1/-1;
   padding:40px 15px;
-  border:1px dashed #dcd3e0;
-  border-radius:14px;
-  background:white;
+  border:1px dashed rgba(0,180,255,.4);
+  border-radius:15px;
+  background:linear-gradient(145deg,#0C2450,#07172F);
   text-align:center;
 }
+
 .state-icon{
-  font-size:35px;
-  margin-bottom:10px;
+  font-size:38px;
+  margin-bottom:12px;
 }
+
 .state-box h3{
-  margin:0 0 8px;
-  color:#3b2d46;
+  margin:0 0 9px;
+  color:white;
   font-size:17px;
 }
+
 .state-box p{
   margin:0;
-  color:var(--muted);
-  font-size:13px;
+  color:#A9BEDA;
+  font-size:12px;
   line-height:1.7;
 }
+
 .state-box button{
-  margin-top:14px;
-  border:0;
-  padding:11px 17px;
+  margin-top:15px;
+  border:1px solid #00C8FF;
+  padding:11px 18px;
   border-radius:9px;
   color:white;
-  background:#a51d54;
+  background:linear-gradient(135deg,#008BD9,#064BB0);
   font-size:12px;
   font-weight:bold;
   cursor:pointer;
 }
+
+/* NOTICE */
+
 .notice{
   display:none;
   margin:0 0 15px;
   padding:12px;
-  border-radius:9px;
+  border-radius:10px;
   font-size:12px;
   line-height:1.6;
 }
+
 .notice.error{
   display:block;
-  background:#fff0f1;
-  color:#a12b36;
-  border:1px solid #f4cbd0;
+  background:rgba(229,57,53,.14);
+  color:#FFB7B7;
+  border:1px solid rgba(255,82,82,.5);
 }
+
 .notice.success{
   display:block;
-  background:#effaf3;
-  color:#17633b;
-  border:1px solid #c6ead2;
+  background:rgba(22,163,74,.14);
+  color:#9FFFC0;
+  border:1px solid rgba(22,163,74,.5);
 }
 
 /* FOOTER */
+
 footer{
   padding:25px 15px;
-  background:linear-gradient(110deg,#17152f,#74133e);
-  color:#d9cbd9;
+  background:linear-gradient(110deg,#06142E,#0A2C60,#071329);
+  border-top:1px solid rgba(0,180,255,.3);
+  color:#9DB7D9;
   text-align:center;
   font-size:11px;
 }
-footer strong{color:#f4d58c}
+
+footer strong{color:#FFD54F}
 
 /* MOBILE */
+
 @media(max-width:700px){
+
   .app-header{
     min-height:65px;
     padding:0 11px;
     gap:7px;
   }
+
   .header-left{gap:9px}
+
   .back-button{
     width:41px;
     height:41px;
     font-size:25px;
     border-radius:10px;
   }
+
   .brand{gap:7px}
+
   .brand-icon{
     width:40px;
     height:40px;
     font-size:23px;
     border-radius:12px;
   }
+
   .brand-text{
     font-size:13px;
     letter-spacing:.5px;
   }
+
   .brand-text small{
     font-size:7px;
     letter-spacing:2.5px;
     margin-top:3px;
   }
+
   .orders-button{
     padding:10px 9px;
     font-size:10px;
     border-radius:9px;
   }
-  main{padding:17px 11px 35px}
+
+  main{padding:19px 11px 35px}
+
   .category-heading{
     margin-bottom:17px;
-    padding:22px 12px;
-    border-radius:17px;
+    padding:23px 12px;
+    border-radius:16px;
   }
+
   .category-heading h1{font-size:23px}
-  .category-heading p{font-size:13px}
+  .category-heading p{font-size:12px}
+
   .search-section{
     margin-bottom:18px;
-    gap:9px;
+    gap:8px;
   }
+
   .search-box input{
-    height:48px;
-    font-size:13px;
+    height:47px;
+    font-size:12px;
     padding-left:39px;
   }
+
   .search-icon{
     left:13px;
-    top:14px;
+    top:12px;
   }
+
   .refresh-btn{
-    padding:15px 11px;
-    font-size:11px;
+    padding:14px 11px;
+    font-size:10px;
   }
-  .package-grid{gap:9px}
+
+  .package-grid{gap:10px}
+
+  .item-card{border-radius:14px}
+
   .item-image{height:125px}
-  .item-price-card{padding:7px}
+
+  .item-price-card{padding:8px}
+
   .item-bottom{
     padding:9px;
     gap:6px;
     border-radius:9px;
     box-shadow:
-      0 3px 0 #103d60,
-      0 5px 8px rgba(12,74,105,.15),
-      inset 0 1px 2px rgba(255,255,255,.4);
+      0 3px 0 #103D60,
+      0 5px 8px rgba(0,0,0,.2),
+      inset 0 1px 2px rgba(255,255,255,.3);
   }
-  .item-price{font-size:14px}
+
+  .item-price{font-size:15px}
+
   .item-price small{font-size:8px}
+
   .item-stock{
     font-size:10px;
     margin-top:6px;
   }
+
   .buy-btn{
     padding:10px 9px;
     font-size:10px;
     border-radius:8px;
   }
 }
+
 @media(max-width:360px){
+
   .brand-text{font-size:11px}
+
   .brand-icon{
     width:36px;
     height:36px;
   }
+
   .orders-button{
     font-size:9px;
     padding:9px 7px;
   }
+
   .back-button{
     width:37px;
     height:37px;
   }
+
   .item-image{height:100px}
-  .item-price-card{padding:5px}
+
+  .item-price-card{padding:6px}
+
   .item-bottom{padding:7px}
+
   .item-price{font-size:12px}
+
   .buy-btn{
     padding:8px 6px;
     font-size:9px;
@@ -486,20 +638,27 @@ footer strong{color:#f4d58c}
 <body>
 
 <header class="app-header">
+
   <div class="header-left">
+
     <button class="back-button" id="backButton"
       type="button" aria-label="Go back">←</button>
 
     <a href="dashboard.html" class="brand">
       <div class="brand-icon">R</div>
+
       <div class="brand-text">
         RUBALIA <span>NETWORK</span>
         <small>GROW WITH TRUST</small>
       </div>
     </a>
+
   </div>
 
-  <a href="orders.html" class="orders-button">📦 My Orders</a>
+  <a href="orders.html" class="orders-button">
+    📦 My Orders
+  </a>
+
 </header>
 
 <main>
@@ -512,24 +671,34 @@ footer strong{color:#f4d58c}
   <div class="notice" id="notice" role="status"></div>
 
   <section class="search-section">
+
     <div class="search-box">
       <span class="search-icon">⌕</span>
-      <input type="search" id="searchInput"
-        placeholder="Search packages..." autocomplete="off">
+
+      <input type="search"
+        id="searchInput"
+        placeholder="Search packages..."
+        autocomplete="off">
     </div>
+
     <button class="refresh-btn" id="refreshBtn" type="button">
       ↻ Refresh
     </button>
+
   </section>
 
   <section id="packages">
+
     <div class="package-grid" id="packageGrid">
+
       <div class="state-box">
         <div class="state-icon">⏳</div>
         <h3>Loading Packages</h3>
         <p>Please wait while we load available packages.</p>
       </div>
+
     </div>
+
   </section>
 
 </main>
@@ -554,6 +723,8 @@ const selectedCategory = (params.get("category") || "").trim();
 $("categoryTitle").textContent = selectedCategory || "Our Packages";
 document.title = (selectedCategory || "Packages") + " | RUBALIA NETWORK";
 
+/* BACK BUTTON */
+
 $("backButton").addEventListener("click",()=>{
   if(history.length > 1){
     history.back();
@@ -563,20 +734,28 @@ $("backButton").addEventListener("click",()=>{
 });
 
 /* HELPERS */
+
 function safeImageURL(value){
   if(!value) return "";
+
   try{
     const url = new URL(value,location.href);
+
     if(url.protocol==="https:" || url.protocol==="http:"){
       return url.href;
     }
   }catch(error){}
+
   return "";
 }
 
 function formatPrice(value){
   const number = Number(value);
-  if(!Number.isFinite(number)) return "Price unavailable";
+
+  if(!Number.isFinite(number)){
+    return "Price unavailable";
+  }
+
   return "৳ " + number.toLocaleString("en-BD",{
     maximumFractionDigits:2
   });
@@ -594,6 +773,7 @@ function clearNotice(){
 }
 
 /* LOADING STATE */
+
 function showState(container,icon,title,description,buttonText){
   container.replaceChildren();
 
@@ -624,7 +804,9 @@ function showState(container,icon,title,description,buttonText){
 }
 
 /* API */
+
 async function fetchJSON(path,token){
+
   const response = await fetch(API_BASE+path,{
     method:"GET",
     headers:{
@@ -653,18 +835,24 @@ async function fetchJSON(path,token){
 }
 
 /* AUTHENTICATION */
+
 async function verifySession(){
+
   const token = sessionStorage.getItem("rubalia_token");
 
   if(!token){
+
     const currentUrl = location.pathname + location.search;
+
     location.replace(
       "login.html?redirect="+encodeURIComponent(currentUrl)
     );
+
     throw new Error("Login required.");
   }
 
   const data = await fetchJSON("/auth/me",token);
+
   const user = data.user || data.profile;
 
   if(!user){
@@ -690,7 +878,9 @@ async function verifySession(){
 }
 
 /* BUY NOW */
+
 function buyPackage(id){
+
   const packageId = Number(id);
 
   if(!Number.isSafeInteger(packageId) || packageId<=0){
@@ -713,22 +903,28 @@ function buyPackage(id){
 }
 
 /* PACKAGE RENDER */
+
 function renderPackages(packages){
+
   const grid = $("packageGrid");
   grid.replaceChildren();
 
   if(!packages.length){
+
     showState(
       grid,
       "📦",
       "No Packages Available",
       "There are currently no active packages available."
     );
+
     return;
   }
 
   packages.forEach(item=>{
+
     const id = Number(item.id);
+
     const validPackageId =
       Number.isSafeInteger(id) && id>0;
 
@@ -738,36 +934,47 @@ function renderPackages(packages){
     card.className = "item-card";
 
     /* IMAGE */
+
     const imageBox = document.createElement("div");
     imageBox.className = "item-image";
 
     const imageURL = safeImageURL(item.image_url);
 
     if(imageURL){
+
       const image = document.createElement("img");
+
       image.src = imageURL;
       image.alt = name;
       image.loading = "lazy";
 
       image.addEventListener("error",()=>{
+
         imageBox.replaceChildren();
 
         const placeholder = document.createElement("div");
+
         placeholder.className = "image-placeholder";
         placeholder.textContent = "📦";
 
         imageBox.appendChild(placeholder);
+
       });
 
       imageBox.appendChild(image);
+
     }else{
+
       const placeholder = document.createElement("div");
+
       placeholder.className = "image-placeholder";
       placeholder.textContent = "📦";
+
       imageBox.appendChild(placeholder);
     }
 
-    /* PRICE CARD - RIGHT BELOW IMAGE */
+    /* PRICE CARD */
+
     const priceCard = document.createElement("div");
     priceCard.className = "item-price-card";
 
@@ -794,9 +1001,11 @@ function renderPackages(packages){
       item.stock!=="";
 
     const stock = Number(item.stock);
+
     const outOfStock = stockKnown && stock<=0;
 
     const stockText = document.createElement("div");
+
     stockText.className =
       "item-stock"+(outOfStock?" out":"");
 
@@ -806,9 +1015,13 @@ function renderPackages(packages){
 
     priceStock.append(price,stockText);
 
+    /* BUY BUTTON */
+
     const buy = document.createElement("button");
+
     buy.className = "buy-btn";
     buy.type = "button";
+
     buy.textContent = outOfStock
       ? "UNAVAILABLE"
       : "BUY NOW";
@@ -820,19 +1033,26 @@ function renderPackages(packages){
     });
 
     bottom.append(priceStock,buy);
+
     priceCard.appendChild(bottom);
 
     /* FINAL CARD */
+
     card.append(imageBox,priceCard);
+
     grid.appendChild(card);
+
   });
 }
 
 /* SEARCH + CATEGORY FILTER */
+
 function filterPackages(){
+
   const query = $("searchInput").value.trim().toLowerCase();
 
   const filtered = allPackages.filter(item=>{
+
     const categoryMatches =
       !selectedCategory ||
       String(item.category || "").trim().toLowerCase() ===
@@ -847,6 +1067,7 @@ function filterPackages(){
     );
 
     return categoryMatches && searchMatches;
+
   });
 
   renderPackages(filtered);
@@ -855,10 +1076,13 @@ function filterPackages(){
 $("searchInput").addEventListener("input",filterPackages);
 
 /* LOAD PACKAGES */
+
 async function loadStore(){
+
   if(loading) return;
 
   loading = true;
+
   clearNotice();
 
   const refreshButton = $("refreshBtn");
@@ -876,6 +1100,7 @@ async function loadStore(){
   );
 
   try{
+
     const token = await verifySession();
 
     const packageData = await fetchJSON("/packages",token);
@@ -887,6 +1112,7 @@ async function loadStore(){
     filterPackages();
 
   }catch(error){
+
     const ignoredErrors = [
       "Login required.",
       "Opening Admin Dashboard.",
@@ -895,6 +1121,7 @@ async function loadStore(){
     ];
 
     if(!ignoredErrors.includes(error.message)){
+
       showNotice(
         "error",
         error.message || "Unable to load packages. Please try again."
@@ -908,18 +1135,23 @@ async function loadStore(){
         "Retry"
       );
     }
+
   }finally{
+
     loading = false;
+
     refreshButton.disabled = false;
     refreshButton.textContent = "↻ Refresh";
   }
 }
 
 /* START */
+
 loadStore();
 
 $("refreshBtn").addEventListener("click",loadStore);
 
 </script>
+
 </body>
 </html>
