@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
-<meta name="description" content="Rubalia Network Financial Reports">
-<title>Financial Reports | Rubalia Network</title>
+<meta name="description" content="Rubalia Network Monthly Financial Reports">
+<title>Financial Reports | RUBALIA NETWORK</title>
 
 <style>
 :root{
@@ -19,1462 +20,1750 @@
  --border:#e5eaf1;
  --green:#16845b;
  --red:#c34b4b;
- --blue:#3978bd;
  --shadow:0 2px 9px rgba(16,43,80,.045);
 }
+
 *{box-sizing:border-box}
+
 body{
- margin:0;font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);color:var(--text)
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
 }
-a{text-decoration:none;color:inherit}
+
 button,input,select{font:inherit}
 button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 [hidden]{display:none!important}
 
-.loading-screen,.error-screen{
- position:fixed;inset:0;z-index:1000;
- display:flex;align-items:center;justify-content:center;
- background:var(--bg);padding:18px
-}
-.loading-box,.error-card{
- width:100%;max-width:400px;padding:25px;
- background:#fff;border:1px solid var(--border);
- border-radius:13px;text-align:center
-}
-.loading-box strong{color:var(--navy)}
-.loading-box p,.error-card p{
- color:var(--muted);font-size:13px;line-height:1.6
-}
-.spinner{
- width:32px;height:32px;border:3px solid #e3e8ef;
- border-top-color:var(--gold);border-radius:50%;
- margin:0 auto 15px;animation:spin .8s linear infinite
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-screen{display:none}
-.error-card h2{color:var(--navy)}
-.error-card a,.error-card button{
- display:inline-block;margin:6px 3px 0;padding:11px 16px;
- border:0;border-radius:8px;background:var(--gold);
- color:var(--navy);font-weight:bold;font-size:12px
-}
-
 /* HEADER */
+
 .topbar{
- min-height:60px;background:var(--navy);color:white;
- display:flex;align-items:center;justify-content:space-between;
- padding:0 20px;position:sticky;top:0;z-index:50
+ min-height:60px;
+ background:var(--navy);
+ color:white;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 20px;
+ position:sticky;
+ top:0;
+ z-index:50;
 }
-.brand{font-size:19px;font-weight:900;letter-spacing:.4px}
+
+.brand{
+ font-size:19px;
+ font-weight:900;
+ letter-spacing:.4px;
+}
+
 .brand span{color:var(--gold)}
-.top-right{display:flex;align-items:center;gap:10px}
+
+.top-right{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
 .admin-label{
- font-size:9px;background:rgba(214,173,85,.16);
- color:#f3dfa9;border:1px solid rgba(214,173,85,.35);
- padding:7px 10px;border-radius:20px;font-weight:bold
+ font-size:9px;
+ background:rgba(214,173,85,.16);
+ color:#f3dfa9;
+ border:1px solid rgba(214,173,85,.35);
+ padding:7px 10px;
+ border-radius:20px;
+ font-weight:bold;
 }
+
 .admin-avatar{
- width:34px;height:34px;border-radius:50%;
- background:var(--gold);color:var(--navy);
- display:grid;place-items:center;font-weight:bold
-}
-.mobile-menu{
- display:none;border:1px solid rgba(255,255,255,.25);
- background:transparent;color:white;border-radius:7px;
- padding:7px 10px;font-size:18px
+ width:35px;
+ height:35px;
+ border-radius:50%;
+ background:var(--gold);
+ color:var(--navy);
+ display:grid;
+ place-items:center;
+ font-weight:bold;
 }
 
-/* LAYOUT AND SIDEBAR */
+/* LAYOUT */
+
 .layout{
- display:grid;grid-template-columns:225px minmax(0,1fr);
- min-height:calc(100vh - 60px)
-}
-.sidebar{
- background:var(--navy2);color:white;
- padding:17px 11px;min-height:calc(100vh - 60px)
-}
-.admin-profile{
- padding:8px 10px 17px;margin-bottom:12px;
- border-bottom:1px solid rgba(255,255,255,.13)
-}
-.admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
-.admin-profile small{
- color:#b8c7d9;font-size:10px;overflow-wrap:anywhere
-}
-.side-heading{
- color:#9eafc5;font-size:9px;font-weight:bold;
- text-transform:uppercase;letter-spacing:1px;
- margin:17px 10px 7px
-}
-.nav-link,.logout-btn{
- display:flex;align-items:center;gap:9px;
- padding:10px;border-radius:7px;margin:2px 0;
- font-size:11px;color:#dce6f2;width:100%
-}
-.nav-link:hover,.nav-link.active,.logout-btn:hover{
- background:rgba(214,173,85,.15);color:#f3dfa9
-}
-.nav-link.active{border-left:3px solid var(--gold)}
-.nav-icon{width:18px;text-align:center;font-size:14px}
-.logout-btn{
- background:transparent;border:0;text-align:left
+ display:grid;
+ grid-template-columns:225px minmax(0,1fr);
+ min-height:calc(100vh - 60px);
 }
 
-/* MAIN */
+.sidebar{
+ background:var(--navy2);
+ padding:18px 11px;
+ color:white;
+}
+
+.side-title{
+ padding:8px 10px 17px;
+ border-bottom:1px solid #ffffff20;
+ margin-bottom:12px;
+}
+
+.side-title strong{
+ display:block;
+ font-size:13px;
+}
+
+.side-title small{
+ color:#b8c7d9;
+ font-size:10px;
+}
+
+.nav{
+ display:block;
+ padding:11px 10px;
+ border-radius:7px;
+ color:#dce6f2;
+ font-size:11px;
+ margin:3px 0;
+}
+
+.nav:hover,.nav.active{
+ background:#d6ad5526;
+ color:#f3dfa9;
+}
+
 .main{
- padding:22px;width:100%;max-width:1550px;
- margin:auto;min-width:0
+ padding:22px;
+ max-width:1400px;
+ width:100%;
+ margin:auto;
 }
+
+/* PAGE HEADER */
+
 .heading{
- display:flex;justify-content:space-between;
- align-items:center;gap:12px;flex-wrap:wrap;
- margin-bottom:17px
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:18px;
 }
-.heading h1{color:var(--navy);font-size:23px;margin:0 0 5px}
-.heading p{margin:0;color:var(--muted);font-size:11px}
-.live-badge{
- display:inline-flex;align-items:center;gap:5px;
- background:#e7f7ef;color:var(--green);
- border-radius:20px;padding:7px 10px;
- font-size:9px;font-weight:bold;white-space:nowrap
+
+.heading h1{
+ font-size:23px;
+ color:var(--navy);
+ margin:0 0 5px;
 }
-.live-badge.offline{background:#fceaea;color:var(--red)}
-.live-badge.warning{background:#fff4dc;color:#9a6a0a}
+
+.heading p{
+ font-size:11px;
+ color:var(--muted);
+ margin:0;
+}
 
 /* BUTTONS */
+
 .btn{
- border:0;border-radius:7px;padding:10px 13px;
- font-size:10px;font-weight:bold
+ border:0;
+ border-radius:7px;
+ padding:10px 14px;
+ background:var(--navy);
+ color:white;
+ font-weight:bold;
+ font-size:11px;
 }
-.btn-primary{background:var(--navy);color:white}
-.btn-gold{background:var(--gold);color:var(--navy)}
-.btn-light{background:#edf1f6;color:var(--navy)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.refresh-btn{
- border:1px solid var(--border);background:white;
- color:var(--navy);padding:8px 11px;
- border-radius:7px;font-size:10px;font-weight:bold
+
+.btn.gold{
+ background:var(--gold);
+ color:var(--navy);
+}
+
+.btn.light{
+ background:#eef2f7;
+ color:var(--navy);
+}
+
+.btn.danger{
+ background:#fff0f0;
+ color:var(--red);
+}
+
+.btn:disabled{
+ opacity:.5;
+ cursor:wait;
 }
 
 /* NOTICE */
+
 .notice{
- background:#fff9eb;border:1px solid #f0dfb8;
- border-radius:9px;padding:13px;color:#76591e;
- font-size:10px;line-height:1.7;margin-bottom:17px
-}
-.notice strong{color:#624817}
-.error-notice{
- display:none;background:#fff0f0;border:1px solid #f0cccc;
- color:#a34237;border-radius:9px;padding:12px;
- font-size:10px;line-height:1.7;margin-bottom:15px
+ padding:12px;
+ border-radius:8px;
+ background:#fff8e9;
+ border:1px solid #efdfbb;
+ color:#76591e;
+ font-size:10px;
+ line-height:1.7;
+ margin-bottom:16px;
 }
 
-/* FILTERS */
-.filter-card{
- background:white;border:1px solid var(--border);
- border-radius:10px;padding:15px;margin-bottom:17px;
- box-shadow:var(--shadow)
-}
-.filter-title{
- font-size:12px;font-weight:bold;color:var(--navy);
- margin-bottom:12px
-}
-.filters{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:11px;align-items:end
-}
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field label{font-size:10px;font-weight:bold;color:#526176}
-.field input,.field select{
- width:100%;min-width:0;border:1px solid #dce2eb;
- border-radius:7px;padding:10px;font-size:11px;
- color:var(--text);background:white;outline:none
-}
-.field input:focus,.field select:focus{border-color:var(--gold)}
-.filter-actions{display:flex;gap:7px;flex-wrap:wrap}
+/* STATISTICS */
 
-/* SECTION */
-.section-head{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap;
- margin:20px 0 11px
-}
-.section-title{font-size:16px;color:var(--navy);margin:0 0 4px}
-.section-subtitle{font-size:10px;color:var(--muted);margin:0}
-
-/* REPORT CARDS */
 .stats{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
- gap:9px;margin-bottom:18px
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:11px;
+ margin-bottom:17px;
 }
-.stat-card{
- background:white;border:1px solid var(--border);
- border-radius:9px;padding:12px;min-width:0;
- box-shadow:var(--shadow)
+
+.stat{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:10px;
+ padding:15px;
+ min-width:0;
+ box-shadow:var(--shadow);
 }
-.stat-top{
- display:flex;justify-content:space-between;
- align-items:center;gap:5px
+
+.stat span{
+ display:block;
+ font-size:10px;
+ color:var(--muted);
 }
-.stat-name{color:var(--muted);font-size:10px}
-.stat-icon{
- width:28px;height:28px;display:grid;
- place-items:center;border-radius:7px;
- background:#f1f4f9;font-size:14px;flex-shrink:0
+
+.stat strong{
+ display:block;
+ font-size:19px;
+ color:var(--navy);
+ margin-top:9px;
+ overflow-wrap:anywhere;
 }
-.stat-value{
- display:block;font-size:20px;color:var(--navy);
- font-weight:800;margin:8px 0 4px;overflow-wrap:anywhere
+
+.stat.profit{
+ border-top:3px solid var(--green);
 }
-.stat-note{font-size:9px;color:var(--muted);line-height:1.5}
-.stat-card.gold{border-top:3px solid var(--gold)}
-.stat-card.blue{border-top:3px solid var(--blue)}
-.stat-card.green{border-top:3px solid var(--green)}
-.stat-card.red{border-top:3px solid var(--red)}
+
+.stat.cost{
+ border-top:3px solid var(--red);
+}
 
 /* PANELS */
+
 .panel{
- background:white;border:1px solid var(--border);
- border-radius:11px;padding:15px;min-width:0;
- box-shadow:var(--shadow);margin-bottom:16px
+ background:white;
+ border:1px solid var(--border);
+ border-radius:11px;
+ padding:17px;
+ margin-bottom:16px;
+ box-shadow:var(--shadow);
 }
+
 .panel-head{
- display:flex;justify-content:space-between;
- align-items:center;gap:9px;flex-wrap:wrap;
- margin-bottom:13px
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-bottom:14px;
 }
-.panel-head h3{margin:0;color:var(--navy);font-size:13px}
-.panel-subtitle{font-size:10px;color:var(--muted);margin-top:5px}
 
-/* REPORT TABS */
-.report-tabs{
- display:flex;gap:7px;overflow-x:auto;
- padding:3px 0 12px;margin-bottom:8px;
- -webkit-overflow-scrolling:touch
+.panel h2{
+ font-size:15px;
+ color:var(--navy);
+ margin:0 0 5px;
 }
-.report-tab{
- white-space:nowrap;border:1px solid var(--border);
- background:white;color:#65748a;padding:10px 13px;
- border-radius:7px;font-size:10px;font-weight:bold
-}
-.report-tab.active{
- background:var(--navy);color:white;border-color:var(--navy)
-}
-.report-section{display:none}
-.report-section.active{display:block}
 
-/* TABLES */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:500px}
+.sub{
+ font-size:10px;
+ color:var(--muted);
+ margin:0;
+}
+
+/* FORM */
+
+.form-grid{
+ display:grid;
+ grid-template-columns:2fr 1fr 1fr 1fr auto;
+ gap:9px;
+ align-items:end;
+}
+
+.field label{
+ display:block;
+ font-size:10px;
+ color:var(--muted);
+ margin-bottom:6px;
+}
+
+.field input,
+.field select{
+ width:100%;
+ border:1px solid var(--border);
+ border-radius:7px;
+ padding:11px;
+ background:white;
+ color:var(--text);
+ font-size:11px;
+ outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+ border-color:var(--gold);
+}
+
+/* TABLE */
+
+.table-wrap{
+ overflow-x:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:560px;
+}
+
+th,td{
+ text-align:left;
+ padding:12px 9px;
+ border-bottom:1px solid #edf0f5;
+ font-size:10px;
+}
+
 th{
- text-align:left;font-size:9px;color:var(--muted);
- background:#f7f9fc;padding:11px 9px;white-space:nowrap
-}
-td{
- padding:11px 9px;border-bottom:1px solid #edf0f5;
- font-size:10px;white-space:nowrap
-}
-td strong{color:var(--navy)}
-tbody tr:last-child td{border-bottom:0}
-.status{
- display:inline-block;padding:5px 7px;border-radius:20px;
- font-size:9px;font-weight:bold;background:#eef2f7;color:#526176
-}
-.status.complete{background:#e7f7ef;color:var(--green)}
-.status.pending{background:#fff2dc;color:#a16b14}
-.status.cancelled{background:#fceaea;color:var(--red)}
-.empty-state{
- padding:20px;text-align:center;color:var(--muted);font-size:11px
+ color:var(--muted);
+ background:#f7f9fc;
+ white-space:nowrap;
 }
 
-/* FINANCIAL SUMMARY */
-.summary-row{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px
+td{color:var(--text)}
+
+.right{text-align:right}
+
+.status{
+ font-size:9px;
+ color:var(--green);
+ background:#e7f7ef;
+ border-radius:20px;
+ padding:5px 9px;
+ white-space:nowrap;
 }
-.summary-item{
- border:1px solid var(--border);border-radius:9px;
- padding:13px;min-width:0
+
+.empty{
+ text-align:center;
+ color:var(--muted);
+ padding:25px;
+ font-size:11px;
 }
-.summary-item span{display:block;font-size:10px;color:var(--muted)}
-.summary-item strong{
- display:block;font-size:17px;color:var(--navy);
- margin-top:8px;overflow-wrap:anywhere
+
+/* GENERATE */
+
+.generate-row{
+ display:flex;
+ align-items:end;
+ gap:10px;
+ flex-wrap:wrap;
 }
-.summary-item small{display:block;font-size:9px;color:var(--muted);margin-top:5px}
-.unavailable{
- background:#f7f8fa;border:1px dashed #cbd3df;
- color:#69778a;border-radius:8px;padding:13px;
- font-size:10px;line-height:1.6
+
+.generate-row .field{
+ width:180px;
 }
-.footer{
- text-align:center;padding:18px;color:#9aa5b5;font-size:9px
+
+/* WARNINGS */
+
+.error{
+ color:var(--red);
+ font-size:11px;
+ margin-top:10px;
+ line-height:1.6;
+ white-space:pre-wrap;
 }
+
+.success-message{
+ color:var(--green);
+ font-size:11px;
+ margin-top:10px;
+}
+
+/* LOADING */
+
+.loading{
+ text-align:center;
+ padding:22px;
+ color:var(--muted);
+ font-size:11px;
+}
+
+/* TOAST */
+
 .toast{
- position:fixed;bottom:18px;right:18px;z-index:100;
- background:var(--navy);color:white;padding:12px 16px;
- border-radius:8px;font-size:11px;display:none;
- max-width:calc(100% - 36px)
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ background:var(--navy);
+ color:white;
+ padding:12px 18px;
+ border-radius:8px;
+ font-size:11px;
+ display:none;
+ z-index:100;
+ max-width:90%;
+ text-align:center;
+ box-shadow:0 5px 20px #0002;
 }
-.toast.show{display:block}
 
 /* RESPONSIVE */
-@media(max-width:1100px){
- .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
- .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:800px){
- .layout{grid-template-columns:1fr}
- .sidebar{
-  display:none;padding:12px;min-height:auto;
-  position:fixed;top:60px;left:0;right:0;bottom:0;
-  overflow-y:auto;z-index:45
+
+@media(max-width:1000px){
+ .stats{
+  grid-template-columns:repeat(2,1fr);
  }
- .sidebar.open{display:block}
- .mobile-menu{display:block}
- .main{padding:16px}
+
+ .form-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+
+ .form-grid .wide{
+  grid-column:1/-1;
+ }
 }
+
+@media(max-width:760px){
+
+ .layout{
+  grid-template-columns:1fr;
+ }
+
+ .sidebar{
+  display:flex;
+  gap:5px;
+  overflow-x:auto;
+  padding:8px;
+ }
+
+ .side-title{
+  display:none;
+ }
+
+ .nav{
+  white-space:nowrap;
+  font-size:10px;
+  padding:10px;
+ }
+
+ .main{
+  padding:13px;
+ }
+
+}
+
 @media(max-width:480px){
- .topbar{padding:0 11px;min-height:55px}
- .sidebar{top:55px}
+
+ .topbar{
+  min-height:55px;
+  padding:0 11px;
+ }
+
  .brand{font-size:16px}
- .admin-label{font-size:8px;padding:6px 7px}
- .admin-avatar{width:30px;height:30px}
- .main{padding:11px}
+
+ .main{padding:10px}
+
  .heading h1{font-size:20px}
- .heading p{font-size:10px}
- .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
- .stat-card{padding:9px 10px}
- .stat-name{font-size:9px}
- .stat-icon{width:24px;height:24px;font-size:12px}
- .stat-value{font-size:17px;margin:6px 0 3px}
- .stat-note{font-size:8px}
- .filter-card,.panel{padding:11px}
- .filters{grid-template-columns:1fr 1fr;gap:8px}
- .filter-actions{grid-column:1/-1}
- .filter-actions button{flex:1}
- .section-title{font-size:14px}
- .summary-row{grid-template-columns:1fr}
- .summary-item strong{font-size:16px}
-}
-@media(max-width:350px){
- .filters{grid-template-columns:1fr}
- .filter-actions{grid-column:auto}
- .stat-value{font-size:15px}
+
+ .stats{gap:7px}
+
+ .stat{padding:11px}
+
+ .stat strong{font-size:16px}
+
+ .panel{padding:12px}
+
+ .form-grid{
+  grid-template-columns:1fr 1fr;
+ }
+
+ .form-grid .wide{
+  grid-column:1/-1;
+ }
+
+ .generate-row .field{
+  width:100%;
+ }
+
+ .generate-row .btn{
+  width:100%;
+ }
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="loading-screen" id="loadingScreen">
- <div class="loading-box">
-  <div class="spinner"></div>
-  <strong>RUBALIA NETWORK</strong>
-  <p>Verifying administrator access...</p>
- </div>
-</div>
-
-<div class="error-screen" id="errorScreen">
- <div class="error-card">
-  <h2 id="errorTitle">Access Error</h2>
-  <p id="errorMessage">Unable to verify administrator access.</p>
-  <a href="../login.html">Login</a>
-  <button type="button" onclick="location.reload()">Try Again</button>
- </div>
-</div>
-
-<div id="adminApp" hidden>
+<!-- HEADER -->
 
 <header class="topbar">
- <div style="display:flex;align-items:center;gap:10px">
-  <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
-  <div class="brand">RUBALIA <span>NETWORK</span></div>
+
+ <div class="brand">
+  RUBALIA <span>NETWORK</span>
  </div>
+
  <div class="top-right">
+
   <span class="admin-label">ADMIN PANEL</span>
-  <div class="admin-avatar" id="adminAvatar">A</div>
+
+  <div class="admin-avatar" id="adminAvatar">
+   A
+  </div>
+
  </div>
+
 </header>
+
 
 <div class="layout">
 
-<aside class="sidebar" id="sidebar">
+<!-- SIDEBAR -->
 
- <div class="admin-profile">
-  <strong id="adminName">Administrator</strong>
-  <small id="adminEmail">Loading...</small>
+<aside class="sidebar">
+
+ <div class="side-title">
+
+  <strong id="adminName">
+   Administrator
+  </strong>
+
+  <small id="adminEmail"></small>
+
  </div>
 
- <div class="side-heading">Main Menu</div>
- <a href="../admin-dashboard.html" class="nav-link">
-  <span class="nav-icon">▦</span> Dashboard
+ <a class="nav" href="../admin-dashboard.html">
+  ▦ Dashboard
  </a>
 
- <div class="side-heading">Management</div>
- <a href="admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
- <a href="admin-partners.html" class="nav-link"><span class="nav-icon">🤝</span> Manage Partners</a>
- <a href="admin-applications.html" class="nav-link"><span class="nav-icon">📋</span> Partner Applications</a>
- <a href="admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
- <a href="admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Packages Management</a>
- <a href="admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
+ <a class="nav active" href="admin-reports.html">
+  📈 Financial Reports
+ </a>
 
- <div class="side-heading">Finance</div>
- <a href="admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
- <a href="admin-withdrawals.html" class="nav-link"><span class="nav-icon">💸</span> Withdraw Requests</a>
- <a href="admin-commissions.html" class="nav-link"><span class="nav-icon">📊</span> Commission Management</a>
- <a href="admin-refunds.html" class="nav-link"><span class="nav-icon">↩️</span> Refund Management</a>
- <a href="admin-financial-reports.html" class="nav-link active"><span class="nav-icon">📈</span> Financial Reports</a>
+ <a class="nav" href="admin-commissions.html">
+  💸 Commission Management
+ </a>
 
- <div class="side-heading">Communication</div>
- <a href="admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
- <a href="admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Tickets</a>
- <a href="admin-email-management.html" class="nav-link"><span class="nav-icon">✉️</span> Email Management</a>
- <a href="admin-sms-management.html" class="nav-link"><span class="nav-icon">📱</span> SMS Management</a>
+ <a class="nav" href="admin-orders.html">
+  🛒 Orders
+ </a>
 
- <div class="side-heading">System</div>
- <a href="admin-settings.html" class="nav-link"><span class="nav-icon">⚙️</span> Admin Settings</a>
- <a href="admin-audit-logs.html" class="nav-link"><span class="nav-icon">📜</span> Audit Logs</a>
- <a href="admin-system-health.html" class="nav-link"><span class="nav-icon">❤️</span> System Health</a>
- <a href="admin-api-management.html" class="nav-link"><span class="nav-icon">🔌</span> API Management</a>
- <a href="admin-error-logs.html" class="nav-link"><span class="nav-icon">⚠️</span> Error Logs</a>
- <a href="admin-backup.html" class="nav-link"><span class="nav-icon">💾</span> Database Backup</a>
- <a href="admin-database.html" class="nav-link"><span class="nav-icon">🗄️</span> Database Management</a>
+ <a class="nav" href="admin-products.html">
+  📦 Products
+ </a>
 
- <div class="side-heading">Website</div>
- <a href="../index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
+ <a class="nav" href="admin-packages.html">
+  🎁 Packages
+ </a>
 
- <button class="logout-btn" id="logoutBtn" type="button">
-  <span class="nav-icon">↪</span> Logout
- </button>
+ <a class="nav" href="../dashboard.html">
+  ← User Dashboard
+ </a>
+
 </aside>
+
+
+<!-- MAIN CONTENT -->
 
 <main class="main">
 
- <div class="heading">
+
+<!-- PAGE HEADER -->
+
+<div class="heading">
+
+ <div>
+
+  <h1>Monthly Financial Report</h1>
+
+  <p>
+   Company-wide sales, commission, expenses and profit.
+  </p>
+
+ </div>
+
+ <button
+  class="btn light"
+  id="refreshBtn"
+  type="button"
+ >
+  ↻ Refresh
+ </button>
+
+</div>
+
+
+<!-- NOTICE -->
+
+<div class="notice">
+
+ <strong>Automatic Monthly Report</strong><br>
+
+ Reports are generated automatically after each calendar month closes
+ according to Bangladesh time. Each report is saved as a permanent PDF
+ snapshot and cannot be overwritten.
+
+ Add company expenses before the report is generated.
+
+</div>
+
+
+<!-- STATISTICS -->
+
+<section class="stats">
+
+ <div class="stat">
+
+  <span>Packages Sold</span>
+
+  <strong id="packagesSold">—</strong>
+
+ </div>
+
+
+ <div class="stat">
+
+  <span>Total Sales</span>
+
+  <strong id="totalSales">—</strong>
+
+ </div>
+
+
+ <div class="stat">
+
+  <span>Commission Paid</span>
+
+  <strong id="commissionPaid">—</strong>
+
+ </div>
+
+
+ <div class="stat cost">
+
+  <span>Total Expenses</span>
+
+  <strong id="totalExpenses">—</strong>
+
+ </div>
+
+
+ <div class="stat profit">
+
+  <span>Net Profit</span>
+
+  <strong id="netProfit">—</strong>
+
+ </div>
+
+</section>
+
+
+<!-- MANUAL GENERATE -->
+
+<section class="panel">
+
+ <div class="panel-head">
+
   <div>
-   <h1>Financial Reports</h1>
-   <p>Review actual order values, profit and commission information.</p>
+
+   <h2>Generate Monthly Report</h2>
+
+   <p class="sub">
+    Generate a PDF for a completed calendar month.
+   </p>
+
   </div>
-  <span class="live-badge" id="serverBadge">● CONNECTING TO SERVER</span>
+
  </div>
 
- <div class="notice">
-  <strong>Financial data notice:</strong>
-  Figures on this page are loaded from the Rubalia server.
-  Order totals are not automatically treated as received cash.
-  Actual expenses, payment settlements, refunds and account balances
-  require their respective verified backend records.
-  Unavailable information is not replaced with sample figures.
+
+ <div class="generate-row">
+
+  <div class="field">
+
+   <label for="generateMonth">
+    Select Month
+   </label>
+
+   <input
+    type="month"
+    id="generateMonth"
+   >
+
+  </div>
+
+  <button
+   class="btn gold"
+   id="generateBtn"
+   type="button"
+  >
+   Generate PDF Report
+  </button>
+
  </div>
 
- <div class="error-notice" id="reportError"></div>
+ <div id="generateMessage"></div>
 
- <!-- FILTERS -->
- <section class="filter-card">
-  <div class="filter-title">Report Filters</div>
-  <div class="filters">
-   <div class="field">
-    <label for="dateFrom">Start Date</label>
-    <input type="date" id="dateFrom">
-   </div>
-   <div class="field">
-    <label for="dateTo">End Date</label>
-    <input type="date" id="dateTo">
-   </div>
-   <div class="field">
-    <label for="period">Quick Period</label>
-    <select id="period">
-     <option value="all">All Available Records</option>
-     <option value="7">Last 7 Days</option>
-     <option value="30">Last 30 Days</option>
-     <option value="90">Last 90 Days</option>
-     <option value="365">Last 365 Days</option>
-    </select>
-   </div>
-   <div class="filter-actions">
-    <button class="btn btn-primary" id="applyFilterBtn" type="button">Apply Filters</button>
-    <button class="btn btn-light" id="resetFilterBtn" type="button">Reset</button>
-   </div>
+</section>
+
+
+<!-- COMPANY EXPENSE FORM -->
+
+<section class="panel">
+
+ <div class="panel-head">
+
+  <div>
+
+   <h2>Record Company Expense</h2>
+
+   <p class="sub">
+    Record expenses for the monthly financial statement.
+   </p>
+
   </div>
- </section>
 
- <!-- REPORT TABS -->
- <div class="report-tabs">
-  <button class="report-tab active" data-report="overview">Overview</button>
-  <button class="report-tab" data-report="sales">Sales & Orders</button>
-  <button class="report-tab" data-report="profit">Profit & Commission</button>
-  <button class="report-tab" data-report="expenses">Expenses</button>
-  <button class="report-tab" data-report="cashflow">Cash Flow</button>
-  <button class="report-tab" data-report="balance">Balance Sheet</button>
  </div>
 
- <!-- OVERVIEW -->
- <section class="report-section active" id="overview">
 
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Financial Overview</h2>
-    <p class="section-subtitle">Server-reported figures for the selected period</p>
-   </div>
-   <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh Report</button>
+ <form id="expenseForm" class="form-grid">
+
+  <div class="field wide">
+
+   <label for="expenseDescription">
+    Expense Description
+   </label>
+
+   <input
+    id="expenseDescription"
+    type="text"
+    maxlength="240"
+    placeholder="Example: Office rent"
+    required
+   >
+
   </div>
 
-  <section class="stats">
-   <div class="stat-card gold">
-    <div class="stat-top">
-     <span class="stat-name">Total Order Value</span>
-     <span class="stat-icon">🛒</span>
-    </div>
-    <strong class="stat-value" id="totalOrderValue">৳—</strong>
-    <span class="stat-note">Value of orders in selected period</span>
-   </div>
 
-   <div class="stat-card green">
-    <div class="stat-top">
-     <span class="stat-name">Completed Order Value</span>
-     <span class="stat-icon">✅</span>
-    </div>
-    <strong class="stat-value" id="completedOrderValue">৳—</strong>
-    <span class="stat-note">Orders marked delivered or completed</span>
-   </div>
+  <div class="field">
 
-   <div class="stat-card blue">
-    <div class="stat-top">
-     <span class="stat-name">Actual Gross Profit</span>
-     <span class="stat-icon">📈</span>
-    </div>
-    <strong class="stat-value" id="grossProfit">৳—</strong>
-    <span class="stat-note">Commission report's recorded profit</span>
-   </div>
+   <label for="expenseCategory">
+    Category
+   </label>
 
-   <div class="stat-card red">
-    <div class="stat-top">
-     <span class="stat-name">Company Share</span>
-     <span class="stat-icon">🏢</span>
-    </div>
-    <strong class="stat-value" id="companyShare">৳—</strong>
-    <span class="stat-note">Company share from commission report</span>
-   </div>
-  </section>
+   <select id="expenseCategory" required>
 
-  <section class="stats">
-   <div class="stat-card">
-    <div class="stat-top">
-     <span class="stat-name">Total Orders</span>
-     <span class="stat-icon">📦</span>
-    </div>
-    <strong class="stat-value" id="totalOrders">—</strong>
-    <span class="stat-note">Orders in selected period</span>
-   </div>
+    <option value="office">Office</option>
 
-   <div class="stat-card">
-    <div class="stat-top">
-     <span class="stat-name">Completed Orders</span>
-     <span class="stat-icon">✔️</span>
-    </div>
-    <strong class="stat-value" id="completedOrders">—</strong>
-    <span class="stat-note">Delivered or completed</span>
-   </div>
+    <option value="marketing">Marketing</option>
 
-   <div class="stat-card">
-    <div class="stat-top">
-     <span class="stat-name">Pending Orders</span>
-     <span class="stat-icon">⏳</span>
-    </div>
-    <strong class="stat-value" id="pendingOrders">—</strong>
-    <span class="stat-note">Pending or processing</span>
-   </div>
+    <option value="salary">Salary</option>
 
-   <div class="stat-card">
-    <div class="stat-top">
-     <span class="stat-name">Cancelled Orders</span>
-     <span class="stat-icon">✖️</span>
-    </div>
-    <strong class="stat-value" id="cancelledOrders">—</strong>
-    <span class="stat-note">Cancelled orders</span>
-   </div>
-  </section>
+    <option value="transport">Transport</option>
 
-  <section class="panel">
-   <div class="panel-head">
-    <div>
-     <h3>Financial Summary</h3>
-     <div class="panel-subtitle">Available server information</div>
-    </div>
-    <span class="live-badge" id="commissionBadge">COMMISSION API</span>
-   </div>
+    <option value="utilities">Utilities</option>
 
-   <div class="summary-row">
-    <div class="summary-item">
-     <span>Distributed Commission</span>
-     <strong id="distributedCommission">৳—</strong>
-     <small>Commission recorded for eligible members</small>
-    </div>
-    <div class="summary-item">
-     <span>Unallocated Commission</span>
-     <strong id="unallocatedCommission">৳—</strong>
-     <small>Unallocated amount reported by the server</small>
-    </div>
-   </div>
-  </section>
+    <option value="other">Other</option>
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3>Financial Data Availability</h3>
-   </div>
-   <div class="summary-row">
-    <div class="summary-item">
-     <span>Sales & Orders</span>
-     <strong id="salesAvailability">Checking...</strong>
-     <small>Source: Admin Orders API</small>
-    </div>
-    <div class="summary-item">
-     <span>Profit & Commission</span>
-     <strong id="profitAvailability">Checking...</strong>
-     <small>Source: Commission Admin Report API</small>
-    </div>
-    <div class="summary-item">
-     <span>Expenses</span>
-     <strong>Unavailable</strong>
-     <small>Expense records API not connected</small>
-    </div>
-    <div class="summary-item">
-     <span>Cash Flow & Balance Sheet</span>
-     <strong>Unavailable</strong>
-     <small>Verified ledger API not connected</small>
-    </div>
-   </div>
-  </section>
- </section>
+   </select>
 
- <!-- SALES -->
- <section class="report-section" id="sales">
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Sales & Orders Report</h2>
-    <p class="section-subtitle">Order information from the server</p>
-   </div>
   </div>
 
-  <section class="stats">
-   <div class="stat-card gold">
-    <span class="stat-name">Total Order Value</span>
-    <strong class="stat-value" id="salesTotalValue">৳—</strong>
-    <span class="stat-note">All included order statuses</span>
-   </div>
-   <div class="stat-card green">
-    <span class="stat-name">Completed Order Value</span>
-    <strong class="stat-value" id="salesCompletedValue">৳—</strong>
-    <span class="stat-note">Delivered or completed orders</span>
-   </div>
-   <div class="stat-card blue">
-    <span class="stat-name">Average Order Value</span>
-    <strong class="stat-value" id="averageOrderValue">৳—</strong>
-    <span class="stat-note">Total order value divided by order count</span>
-   </div>
-   <div class="stat-card">
-    <span class="stat-name">Total Order Count</span>
-    <strong class="stat-value" id="salesOrderCount">—</strong>
-    <span class="stat-note">Selected date range</span>
-   </div>
-  </section>
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3>Order Records</h3>
-    <span class="live-badge">SERVER DATA</span>
-   </div>
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr>
-       <th>ORDER ID</th>
-       <th>CUSTOMER</th>
-       <th>ORDER VALUE</th>
-       <th>STATUS</th>
-       <th>DATE</th>
-      </tr>
-     </thead>
-     <tbody id="salesOrdersBody">
-      <tr><td colspan="5" class="empty-state">Loading orders...</td></tr>
-     </tbody>
-    </table>
-   </div>
-  </section>
- </section>
+  <div class="field">
 
- <!-- PROFIT -->
- <section class="report-section" id="profit">
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Profit & Commission Report</h2>
-    <p class="section-subtitle">Figures from the Commission API</p>
-   </div>
+   <label for="expenseAmount">
+    Amount (BDT)
+   </label>
+
+   <input
+    id="expenseAmount"
+    type="number"
+    min="0.01"
+    step="0.01"
+    placeholder="0.00"
+    required
+   >
+
   </div>
 
-  <section class="stats">
-   <div class="stat-card blue">
-    <span class="stat-name">Actual Gross Profit</span>
-    <strong class="stat-value" id="profitGross">৳—</strong>
-    <span class="stat-note">Profit reported by commission service</span>
-   </div>
-   <div class="stat-card gold">
-    <span class="stat-name">Company Share</span>
-    <strong class="stat-value" id="profitCompany">৳—</strong>
-    <span class="stat-note">Company's recorded share</span>
-   </div>
-   <div class="stat-card green">
-    <span class="stat-name">Distributed Commission</span>
-    <strong class="stat-value" id="profitDistributed">৳—</strong>
-    <span class="stat-note">Total commission by level</span>
-   </div>
-   <div class="stat-card">
-    <span class="stat-name">Unallocated Commission</span>
-    <strong class="stat-value" id="profitUnallocated">৳—</strong>
-    <span class="stat-note">Reported unallocated amount</span>
-   </div>
-  </section>
 
-  <section class="panel">
-   <div class="panel-head">
-    <h3>Level-Wise Commission</h3>
-    <a href="admin-commissions.html" class="refresh-btn">Manage Commissions →</a>
-   </div>
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr>
-       <th>LEVEL</th>
-       <th>COMMISSION RATE</th>
-       <th>TRANSACTIONS</th>
-       <th>TOTAL COMMISSION</th>
-      </tr>
-     </thead>
-     <tbody id="commissionLevelsBody">
-      <tr><td colspan="4" class="empty-state">Loading commission report...</td></tr>
-     </tbody>
-    </table>
-   </div>
-  </section>
+  <div class="field">
 
-  <div class="notice">
-   Commission totals are shown from the commission report API.
-   They are not independently recalculated by this page.
-  </div>
- </section>
+   <label for="expenseDate">
+    Expense Date
+   </label>
 
- <!-- EXPENSES -->
- <section class="report-section" id="expenses">
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Expense Report</h2>
-    <p class="section-subtitle">Business operating expenses</p>
-   </div>
-  </div>
-  <div class="unavailable">
-   <strong>Expense data is not connected.</strong><br>
-   The currently provided Dashboard code does not include an expense-record API.
-   No expense amount or expense category will be fabricated.
-   Connect an authenticated expense API to display salaries, rent, marketing,
-   hosting, delivery, administration and other business expenses.
-  </div>
- </section>
+   <input
+    id="expenseDate"
+    type="date"
+    required
+   >
 
- <!-- CASH FLOW -->
- <section class="report-section" id="cashflow">
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Cash Flow Report</h2>
-    <p class="section-subtitle">Actual cash received and paid</p>
-   </div>
   </div>
-  <div class="unavailable">
-   <strong>Cash flow data is not connected.</strong><br>
-   Order value does not confirm that money has been received.
-   A verified payment, refund, withdrawal and expense ledger is required
-   before cash inflow, cash outflow and net cash flow can be calculated.
-  </div>
- </section>
 
- <!-- BALANCE SHEET -->
- <section class="report-section" id="balance">
-  <div class="section-head">
-   <div>
-    <h2 class="section-title">Balance Sheet</h2>
-    <p class="section-subtitle">Assets, liabilities and equity</p>
-   </div>
-  </div>
-  <div class="unavailable">
-   <strong>Balance sheet data is not connected.</strong><br>
-   The current API information does not provide verified asset,
-   liability and equity ledger balances. These values must come from
-   a proper accounting ledger, not estimated from order or commission totals.
-  </div>
- </section>
 
- <div class="notice">
-  <strong>Important:</strong>
-  This page displays only the server information available through the
-  existing Admin Dashboard and Commission APIs. Date filters apply to
-  order records on this page. The commission endpoint currently provides
-  aggregate report values; it does not provide a date-filtered report here.
+  <button
+   class="btn gold"
+   id="saveExpenseBtn"
+   type="submit"
+  >
+   Save Expense
+  </button>
+
+ </form>
+
+ <div class="error" id="expenseError"></div>
+
+</section>
+
+
+<!-- MONTHLY PDF ARCHIVE -->
+
+<section class="panel">
+
+ <div class="panel-head">
+
+  <div>
+
+   <h2>Monthly PDF Archive</h2>
+
+   <p class="sub">
+    View and download previous monthly financial reports.
+   </p>
+
+  </div>
+
  </div>
 
- <div style="text-align:center;margin:18px 0">
-  <button class="refresh-btn" id="logoutMainBtn" type="button">↪ Logout from Admin Panel</button>
+
+ <div class="table-wrap">
+
+  <table>
+
+   <thead>
+
+    <tr>
+
+     <th>Month</th>
+
+     <th>Packages Sold</th>
+
+     <th>Total Sales</th>
+
+     <th>Commission</th>
+
+     <th>Net Profit</th>
+
+     <th>Generated</th>
+
+     <th class="right">Download</th>
+
+    </tr>
+
+   </thead>
+
+   <tbody id="reportsBody">
+
+    <tr>
+     <td colspan="7" class="loading">
+      Loading monthly reports...
+     </td>
+    </tr>
+
+   </tbody>
+
+  </table>
+
  </div>
+
+ <div class="error" id="reportsError"></div>
+
+</section>
+
+
+<!-- COMPANY EXPENSE HISTORY -->
+
+<section class="panel">
+
+ <div class="panel-head">
+
+  <div>
+
+   <h2>Company Expense History</h2>
+
+   <p class="sub">
+    Latest recorded company expenses.
+   </p>
+
+  </div>
+
+ </div>
+
+
+ <div class="table-wrap">
+
+  <table>
+
+   <thead>
+
+    <tr>
+
+     <th>Date</th>
+
+     <th>Description</th>
+
+     <th>Category</th>
+
+     <th class="right">Amount</th>
+
+    </tr>
+
+   </thead>
+
+   <tbody id="expensesBody">
+
+    <tr>
+
+     <td colspan="4" class="loading">
+      Loading expenses...
+     </td>
+
+    </tr>
+
+   </tbody>
+
+  </table>
+
+ </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<p style="
+ text-align:center;
+ color:#8993a2;
+ font-size:10px;
+ padding:10px;
+">
+
+ RUBALIA NETWORK © <span id="year"></span>
+
+</p>
+
 
 </main>
-</div>
-
-<footer class="footer">
- © <span id="year"></span> Rubalia Network. All Rights Reserved.
- <br>Financial Reports
-</footer>
 
 </div>
+
 
 <div class="toast" id="toast"></div>
+
 
 <script>
 "use strict";
 
-const API_BASE="https://rubalia.onrender.com/api";
-let adminToken="";
-let allOrders=[];
-let commissionData=null;
-let currentReport="overview";
-let filteredOrders=[];
-let toastTimer=null;
 
-const $=id=>document.getElementById(id);
+// =====================================================
+// CONFIGURATION
+// =====================================================
 
-function formatNumber(value){
- if(value===null||value===undefined||value==="")return "—";
- const number=Number(value);
- return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
+const API_BASE = "https://rubalia.onrender.com/api";
+
+let adminToken = "";
+
+let reportsData = [];
+
+
+// =====================================================
+// HELPERS
+// =====================================================
+
+const $ = id => document.getElementById(id);
+
+
+function escapeHtml(value){
+
+ return String(value ?? "").replace(
+  /[&<>"']/g,
+  char => ({
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#39;"
+  })[char]
+ );
+
 }
 
-function formatMoney(value){
- if(value===null||value===undefined||value==="")return "৳—";
- const number=Number(value);
- if(!Number.isFinite(number))return "৳—";
- return "৳"+number.toLocaleString("en-BD",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- });
+
+function money(value){
+
+ if(value === null || value === undefined){
+  return "N/A";
+ }
+
+ return "৳" + Number(value).toLocaleString(
+  "en-BD",
+  {
+   minimumFractionDigits:2,
+   maximumFractionDigits:2
+  }
+ );
+
 }
 
-function formatDate(value){
- if(!value)return "—";
- const date=new Date(value);
- if(Number.isNaN(date.getTime()))return "—";
- return date.toLocaleDateString("en-GB",{
-  day:"2-digit",month:"short",year:"numeric"
- });
+
+function toast(message){
+
+ $("toast").textContent = message;
+
+ $("toast").style.display = "block";
+
+ clearTimeout(window.rubaliaToastTimer);
+
+ window.rubaliaToastTimer = setTimeout(()=>{
+
+  $("toast").style.display = "none";
+
+ },3000);
+
 }
+
 
 function initials(name){
- const value=String(name||"A").trim();
- return value?value.charAt(0).toUpperCase():"A";
+
+ return String(name || "Administrator")
+  .trim()
+  .split(/\s+/)
+  .slice(0,2)
+  .map(part => part.charAt(0))
+  .join("")
+  .toUpperCase();
+
 }
 
-function showError(title,message){
- $("loadingScreen").style.display="none";
- $("adminApp").hidden=true;
- $("errorTitle").textContent=title;
- $("errorMessage").textContent=message;
- $("errorScreen").style.display="flex";
+
+function getDhakaDate(){
+
+ return new Intl.DateTimeFormat(
+  "en-CA",
+  {
+   timeZone:"Asia/Dhaka",
+   year:"numeric",
+   month:"2-digit",
+   day:"2-digit"
+  }
+ ).format(new Date());
+
 }
 
-function showToast(message){
- const toast=$("toast");
- toast.textContent=message;
- toast.classList.add("show");
- clearTimeout(toastTimer);
- toastTimer=setTimeout(()=>toast.classList.remove("show"),2800);
+
+function getPreviousMonth(){
+
+ const today = getDhakaDate();
+
+ const [year,month] = today.split("-").map(Number);
+
+ const date = new Date(
+  Date.UTC(year,month-2,1)
+ );
+
+ return date.toISOString().slice(0,7);
+
 }
 
-function setAvailability(id,message,offline=false){
- const element=$(id);
- element.textContent=message;
- element.style.color=offline?"#c34b4b":"#16845b";
-}
 
-async function apiRequest(path){
- const response=await fetch(API_BASE+path,{
-  method:"GET",
-  headers:{
-   "Authorization":"Bearer "+adminToken,
-   "Accept":"application/json"
-  },
-  cache:"no-store"
- });
+// =====================================================
+// API REQUEST
+// =====================================================
 
- const data=await response.json().catch(()=>({}));
+async function api(path,options={}){
 
- if(response.status===401){
+ const response = await fetch(
+  API_BASE + path,
+  {
+   ...options,
+
+   headers:{
+    "Authorization":"Bearer " + adminToken,
+
+    ...(options.body ? {
+     "Content-Type":"application/json"
+    } : {}),
+
+    ...(options.headers || {})
+   }
+  }
+ );
+
+
+ const data = await response.json().catch(()=>({}));
+
+
+ if(response.status === 401){
+
   sessionStorage.removeItem("rubalia_token");
+
   sessionStorage.removeItem("rubalia_user");
+
   window.location.replace("../login.html");
-  throw new Error("Your session has expired. Please login again.");
+
+  throw new Error("Your session has expired.");
+
  }
 
- if(response.status===403){
-  throw new Error("Your account does not have administrator permission.");
+
+ if(response.status === 403){
+
+  throw new Error(
+   data.message || "Administrator permission required."
+  );
+
  }
 
- if(!response.ok||data.success===false){
-  throw new Error(data.message||"Unable to load server information.");
+
+ if(!response.ok || data.success === false){
+
+  throw new Error(
+   data.message || "Server request failed."
+  );
+
  }
+
 
  return data;
+
 }
 
-/* DATE FILTER */
-function orderDate(order){
- const value=order.created_at||order.createdAt||order.order_date;
- if(!value)return null;
- const date=new Date(value);
- return Number.isNaN(date.getTime())?null:date;
-}
 
-function applyDateFilter(){
- const from=$("dateFrom").value;
- const to=$("dateTo").value;
+// =====================================================
+// LOAD REPORT ARCHIVE
+// =====================================================
 
- if(from&&to&&from>to){
-  showToast("Start date cannot be after end date.");
-  return false;
- }
+function renderReports(reports){
 
- const start=from?new Date(from+"T00:00:00"):null;
- const end=to?new Date(to+"T23:59:59.999"):null;
+ const body = $("reportsBody");
 
- filteredOrders=allOrders.filter(order=>{
-  const date=orderDate(order);
+ reportsData = reports;
 
-  // Records without a date cannot be accurately placed in a date range.
-  if(!date)return !start&&!end;
 
-  if(start&&date<start)return false;
-  if(end&&date>end)return false;
-  return true;
- });
+ if(!reports.length){
 
- renderAllReports();
- return true;
-}
+  body.innerHTML = `
+   <tr>
+    <td colspan="7" class="empty">
+     No monthly financial reports available yet.
+    </td>
+   </tr>
+  `;
 
-function resetFilters(){
- $("dateFrom").value="";
- $("dateTo").value="";
- $("period").value="all";
- filteredOrders=[...allOrders];
- renderAllReports();
- showToast("Date filters reset.");
-}
-
-function setQuickPeriod(days){
- if(!days){
-  $("dateFrom").value="";
-  $("dateTo").value="";
   return;
+
  }
 
- const today=new Date();
- const start=new Date(today);
- start.setDate(today.getDate()-days+1);
 
- const format=date=>{
-  const year=date.getFullYear();
-  const month=String(date.getMonth()+1).padStart(2,"0");
-  const day=String(date.getDate()).padStart(2,"0");
-  return year+"-"+month+"-"+day;
- };
+ body.innerHTML = reports.map(row=>{
 
- $("dateFrom").value=format(start);
- $("dateTo").value=format(today);
-}
+  const report = row.report_data || {};
 
-/* ORDER STATUS */
-function normalizedStatus(order){
- return String(order.status||"").trim().toLowerCase();
-}
+  const totals = report.totals || {};
 
-function isCompleted(order){
- return ["delivered","completed"].includes(normalizedStatus(order));
-}
+  const month = String(row.month_start).slice(0,7);
 
-function isPending(order){
- return ["pending","processing"].includes(normalizedStatus(order));
-}
+  const generated = row.generated_at
+   ? new Date(row.generated_at).toLocaleString()
+   : "—";
 
-function isCancelled(order){
- return ["cancelled","canceled"].includes(normalizedStatus(order));
-}
 
-function orderAmount(order){
- const value=Number(order.total_amount);
- return Number.isFinite(value)?value:0;
-}
+  return `
+   <tr>
 
-function sumOrders(orders){
- return orders.reduce((sum,order)=>sum+orderAmount(order),0);
-}
+    <td>
+     <strong>${escapeHtml(month)}</strong>
+    </td>
 
-function setText(id,value){
- $(id).textContent=value;
-}
+    <td>
+     ${Number(totals.packages_sold || 0).toLocaleString()}
+    </td>
 
-/* ORDER TABLE */
-function renderOrdersTable(){
- const body=$("salesOrdersBody");
- body.replaceChildren();
+    <td>
+     ${money(totals.total_sales)}
+    </td>
 
- if(!filteredOrders.length){
-  const row=document.createElement("tr");
-  const cell=document.createElement("td");
-  cell.colSpan=5;
-  cell.className="empty-state";
-  cell.textContent="No orders found for this date range.";
-  row.appendChild(cell);
-  body.appendChild(row);
-  return;
- }
+    <td>
+     ${money(totals.commission_paid)}
+    </td>
 
- const sorted=[...filteredOrders].sort((a,b)=>{
-  return (orderDate(b)?.getTime()||0)-(orderDate(a)?.getTime()||0);
- });
+    <td>
+     <strong style="color:${
+      totals.net_profit === null
+       ? "#c34b4b"
+       : "#16845b"
+     }">
+      ${money(totals.net_profit)}
+     </strong>
+    </td>
 
- sorted.forEach(order=>{
-  const row=document.createElement("tr");
+    <td>${escapeHtml(generated)}</td>
 
-  const values=[
-   order.order_number||("#"+(order.id??"—")),
-   order.customer_name||"—",
-   formatMoney(order.total_amount),
-   order.status||"Unknown",
-   formatDate(order.created_at||order.createdAt||order.order_date)
-  ];
+    <td class="right">
 
-  values.forEach((value,index)=>{
-   const cell=document.createElement("td");
+     <button
+      class="btn"
+      data-pdf="${escapeHtml(month)}"
+      type="button"
+     >
+      ↓ PDF
+     </button>
 
-   if(index===0){
-    const strong=document.createElement("strong");
-    strong.textContent=String(value);
-    cell.appendChild(strong);
-   }else if(index===3){
-    const badge=document.createElement("span");
-    badge.className="status";
-    if(isCompleted(order))badge.classList.add("complete");
-    else if(isPending(order))badge.classList.add("pending");
-    else if(isCancelled(order))badge.classList.add("cancelled");
-    badge.textContent=String(value);
-    cell.appendChild(badge);
-   }else{
-    cell.textContent=String(value);
-   }
+    </td>
 
-   row.appendChild(cell);
+   </tr>
+  `;
+
+ }).join("");
+
+
+ body.querySelectorAll("[data-pdf]").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+   downloadPdf(button.dataset.pdf,button);
+
   });
 
-  body.appendChild(row);
  });
+
 }
 
-/* COMMISSION REPORT */
-function renderCommissionLevels(levels){
- const body=$("commissionLevelsBody");
- body.replaceChildren();
 
- if(!Array.isArray(levels)){
-  const row=document.createElement("tr");
-  const cell=document.createElement("td");
-  cell.colSpan=4;
-  cell.className="empty-state";
-  cell.textContent="Commission level data unavailable.";
-  row.appendChild(cell);
-  body.appendChild(row);
-  return;
- }
+// =====================================================
+// DOWNLOAD PDF
+// =====================================================
 
- const levelMap=new Map();
+async function downloadPdf(month,button){
 
- levels.forEach(item=>{
-  const level=Number(item.level);
-  if(Number.isInteger(level)&&level>=1&&level<=10){
-   levelMap.set(level,item);
+ const oldText = button.textContent;
+
+ button.disabled = true;
+
+ button.textContent = "Preparing...";
+
+
+ try{
+
+  const response = await fetch(
+   API_BASE +
+   "/financial-reports/monthly/" +
+   encodeURIComponent(month) +
+   "/pdf",
+   {
+    headers:{
+     "Authorization":"Bearer " + adminToken
+    }
+   }
+  );
+
+
+  if(!response.ok){
+
+   const data = await response.json().catch(()=>({}));
+
+   throw new Error(
+    data.message || "PDF download failed."
+   );
+
   }
- });
 
- for(let level=1;level<=10;level++){
-  const item=levelMap.get(level);
-  const row=document.createElement("tr");
 
-  const values=[
-   "Level "+String(level).padStart(2,"0"),
-   item?.commission_rate??item?.rate,
-   item?.total_transactions,
-   item?.total_commission
-  ];
+  const blob = await response.blob();
 
-  values.forEach((value,index)=>{
-   const cell=document.createElement("td");
+  const url = URL.createObjectURL(blob);
 
-   if(index===0){
-    const strong=document.createElement("strong");
-    strong.textContent=values[0];
-    cell.appendChild(strong);
-   }else if(index===1){
-    cell.textContent=value===null||value===undefined
-     ?"—":formatNumber(value)+"%";
-   }else if(index===2){
-    cell.textContent=formatNumber(value);
-   }else{
-    const strong=document.createElement("strong");
-    strong.textContent=formatMoney(value);
-    cell.appendChild(strong);
-   }
+  const link = document.createElement("a");
 
-   row.appendChild(cell);
-  });
+  link.href = url;
 
-  body.appendChild(row);
+  link.download =
+   "rubalia-monthly-financial-" +
+   month +
+   ".pdf";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  link.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+
+  toast("PDF downloaded successfully.");
+
+ }catch(error){
+
+  toast(error.message);
+
+ }finally{
+
+  button.disabled = false;
+
+  button.textContent = oldText;
+
  }
+
 }
 
-function renderCommission(){
- if(!commissionData){
-  setAvailability("profitAvailability","Unavailable",true);
-  $("commissionBadge").textContent="UNAVAILABLE";
-  $("commissionBadge").classList.add("offline");
+
+// =====================================================
+// LOAD COMPANY EXPENSES
+// =====================================================
+
+function renderExpenses(expenses){
+
+ const body = $("expensesBody");
+
+
+ if(!expenses.length){
+
+  body.innerHTML = `
+   <tr>
+    <td colspan="4" class="empty">
+     No company expenses recorded.
+    </td>
+   </tr>
+  `;
+
   return;
+
  }
 
- const report=commissionData.report||{};
- const totals=report.totals||{};
- const levels=Array.isArray(report.levels)?report.levels:[];
 
- const distributed=levels.reduce((sum,item)=>{
-  const amount=Number(item.total_commission);
-  return sum+(Number.isFinite(amount)?amount:0);
- },0);
+ body.innerHTML = expenses.map(item=>{
 
- const gross=totals.gross_profit;
- const company=totals.company_share;
- const unallocated=totals.unallocated_commission;
+  return `
+   <tr>
 
- setText("grossProfit",formatMoney(gross));
- setText("companyShare",formatMoney(company));
- setText("distributedCommission",formatMoney(distributed));
- setText("unallocatedCommission",formatMoney(unallocated));
+    <td>
+     ${escapeHtml(String(item.expense_date).slice(0,10))}
+    </td>
 
- setText("profitGross",formatMoney(gross));
- setText("profitCompany",formatMoney(company));
- setText("profitDistributed",formatMoney(distributed));
- setText("profitUnallocated",formatMoney(unallocated));
+    <td>
+     ${escapeHtml(item.description)}
+    </td>
 
- renderCommissionLevels(levels);
+    <td>
+     ${escapeHtml(item.category)}
+    </td>
 
- setAvailability("profitAvailability","Received");
- $("commissionBadge").textContent="SERVER REPORT";
- $("commissionBadge").classList.remove("offline");
+    <td class="right">
+     <strong>${money(item.amount)}</strong>
+    </td>
+
+   </tr>
+  `;
+
+ }).join("");
+
 }
 
-/* ORDER REPORTS */
-function renderOrderReports(){
- const orders=filteredOrders;
 
- const total=orders.length;
- const completed=orders.filter(isCompleted);
- const pending=orders.filter(isPending);
- const cancelled=orders.filter(isCancelled);
+// =====================================================
+// UPDATE STATISTICS
+// =====================================================
 
- const totalValue=sumOrders(orders);
- const completedValue=sumOrders(completed);
- const average=total?totalValue/total:0;
+function updateStatistics(reports){
 
- setText("totalOrderValue",formatMoney(totalValue));
- setText("completedOrderValue",formatMoney(completedValue));
- setText("totalOrders",formatNumber(total));
- setText("completedOrders",formatNumber(completed.length));
- setText("pendingOrders",formatNumber(pending.length));
- setText("cancelledOrders",formatNumber(cancelled.length));
+ const latest = reports.length
+  ? reports[0].report_data?.totals
+  : null;
 
- setText("salesTotalValue",formatMoney(totalValue));
- setText("salesCompletedValue",formatMoney(completedValue));
- setText("averageOrderValue",total?formatMoney(average):"৳0.00");
- setText("salesOrderCount",formatNumber(total));
 
- renderOrdersTable();
-}
+ if(!latest){
 
-/* ALL REPORTS */
-function renderAllReports(){
- renderOrderReports();
- renderCommission();
-}
+  $("packagesSold").textContent = "—";
 
-/* LOAD DATA */
-async function loadOrders(){
- const data=await apiRequest("/admin/orders");
+  $("totalSales").textContent = "—";
 
- if(!Array.isArray(data.orders)){
-  throw new Error("The Orders API returned an invalid response.");
+  $("commissionPaid").textContent = "—";
+
+  $("totalExpenses").textContent = "—";
+
+  $("netProfit").textContent = "—";
+
+  return;
+
  }
 
- allOrders=data.orders;
- filteredOrders=[...allOrders];
 
- setAvailability("salesAvailability","Received");
+ $("packagesSold").textContent =
+  Number(latest.packages_sold || 0).toLocaleString();
+
+
+ $("totalSales").textContent =
+  money(latest.total_sales);
+
+
+ $("commissionPaid").textContent =
+  money(latest.commission_paid);
+
+
+ $("totalExpenses").textContent =
+  money(latest.total_expenses);
+
+
+ $("netProfit").textContent =
+  money(latest.net_profit);
+
 }
 
-async function loadCommission(){
- const data=await apiRequest("/commission/admin/report");
 
- if(!data.report||!data.report.totals){
-  throw new Error("The Commission API returned an incomplete report.");
+// =====================================================
+// LOAD ALL REPORT DATA
+// =====================================================
+
+async function loadAll(){
+
+ $("reportsError").textContent = "";
+
+ $("expenseError").textContent = "";
+
+
+ const [reportResponse,expenseResponse] =
+  await Promise.all([
+
+   api("/financial-reports/monthly"),
+
+   api("/financial-reports/expenses")
+
+  ]);
+
+
+ const reports = reportResponse.reports || [];
+
+ const expenses = expenseResponse.expenses || [];
+
+
+ renderReports(reports);
+
+ renderExpenses(expenses);
+
+ updateStatistics(reports);
+
+}
+
+
+// =====================================================
+// ADD COMPANY EXPENSE
+// =====================================================
+
+$("expenseForm").addEventListener(
+ "submit",
+ async event=>{
+
+  event.preventDefault();
+
+  $("expenseError").textContent = "";
+
+  const button = $("saveExpenseBtn");
+
+  button.disabled = true;
+
+  button.textContent = "Saving...";
+
+
+  try{
+
+   const payload = {
+
+    description:
+     $("expenseDescription").value.trim(),
+
+    category:
+     $("expenseCategory").value,
+
+    amount:
+     $("expenseAmount").value,
+
+    expense_date:
+     $("expenseDate").value
+
+   };
+
+
+   await api(
+    "/financial-reports/expenses",
+    {
+     method:"POST",
+
+     body:JSON.stringify(payload)
+    }
+   );
+
+
+   $("expenseForm").reset();
+
+   $("expenseDate").value = getDhakaDate();
+
+   toast("Company expense saved successfully.");
+
+   await loadAll();
+
+
+  }catch(error){
+
+   $("expenseError").textContent = error.message;
+
+  }finally{
+
+   button.disabled = false;
+
+   button.textContent = "Save Expense";
+
+  }
+
  }
+);
 
- commissionData=data;
-}
 
-async function loadReports(){
- const button=$("refreshBtn");
- button.disabled=true;
- button.textContent="Loading...";
+// =====================================================
+// MANUALLY GENERATE REPORT
+// =====================================================
 
- $("reportError").style.display="none";
- $("serverBadge").textContent="● LOADING SERVER DATA";
- $("serverBadge").classList.remove("offline");
+$("generateBtn").addEventListener(
+ "click",
+ async ()=>{
 
- let orderError=null;
- let commissionError=null;
+  const month = $("generateMonth").value;
 
- try{
-  await loadOrders();
- }catch(error){
-  orderError=error;
-  allOrders=[];
-  filteredOrders=[];
-  setAvailability("salesAvailability","Unavailable",true);
+  const button = $("generateBtn");
+
+  $("generateMessage").textContent = "";
+
+
+  if(!month){
+
+   $("generateMessage").className = "error";
+
+   $("generateMessage").textContent =
+    "Please select a reporting month.";
+
+   return;
+
+  }
+
+
+  if(month > getPreviousMonth()){
+
+   $("generateMessage").className = "error";
+
+   $("generateMessage").textContent =
+    "Only completed calendar months can be generated.";
+
+   return;
+
+  }
+
+
+  const confirmed = confirm(
+   "Generate financial report for " +
+   month +
+   "?\n\nAn existing report will not be overwritten."
+  );
+
+
+  if(!confirmed)return;
+
+
+  button.disabled = true;
+
+  button.textContent = "Generating...";
+
+
+  try{
+
+   const result = await api(
+    "/financial-reports/monthly/" +
+    encodeURIComponent(month) +
+    "/generate",
+    {
+     method:"POST"
+    }
+   );
+
+
+   $("generateMessage").className =
+    "success-message";
+
+   $("generateMessage").textContent =
+    result.message || "Report processed successfully.";
+
+
+   toast(result.message || "Report processed.");
+
+   await loadAll();
+
+
+  }catch(error){
+
+   $("generateMessage").className = "error";
+
+   $("generateMessage").textContent =
+    error.message;
+
+  }finally{
+
+   button.disabled = false;
+
+   button.textContent = "Generate PDF Report";
+
+  }
+
  }
+);
 
- try{
-  await loadCommission();
- }catch(error){
-  commissionError=error;
-  commissionData=null;
-  setAvailability("profitAvailability","Unavailable",true);
-  $("commissionBadge").textContent="UNAVAILABLE";
-  $("commissionBadge").classList.add("offline");
+
+// =====================================================
+// REFRESH
+// =====================================================
+
+$("refreshBtn").addEventListener(
+ "click",
+ async ()=>{
+
+  const button = $("refreshBtn");
+
+  button.disabled = true;
+
+  button.textContent = "Loading...";
+
+
+  try{
+
+   await loadAll();
+
+   toast("Financial reports refreshed.");
+
+  }catch(error){
+
+   $("reportsError").textContent =
+    error.message;
+
+  }finally{
+
+   button.disabled = false;
+
+   button.textContent = "↻ Refresh";
+
+  }
+
  }
+);
 
- renderAllReports();
 
- if(orderError||commissionError){
-  const errors=[];
-  if(orderError)errors.push("Orders: "+orderError.message);
-  if(commissionError)errors.push("Commission: "+commissionError.message);
+// =====================================================
+// AUTHENTICATION
+// =====================================================
 
-  $("reportError").textContent=errors.join(" | ");
-  $("reportError").style.display="block";
-  $("serverBadge").textContent="● PARTIAL DATA";
-  $("serverBadge").classList.add("offline");
- }else{
-  $("serverBadge").textContent="● LIVE SERVER DATA";
-  $("serverBadge").classList.remove("offline");
- }
-
- button.disabled=false;
- button.textContent="↻ Refresh Report";
-}
-
-/* TABS */
-function showReport(reportId){
- currentReport=reportId;
-
- document.querySelectorAll(".report-section").forEach(section=>{
-  section.classList.toggle("active",section.id===reportId);
- });
-
- document.querySelectorAll(".report-tab").forEach(tab=>{
-  tab.classList.toggle("active",tab.dataset.report===reportId);
- });
-}
-
-/* CSV EXPORT */
-function csvEscape(value){
- return '"'+String(value??"").replace(/"/g,'""')+'"';
-}
-
-function exportCurrentReport(){
- const rows=[
-  ["Rubalia Network - Financial Reports"],
-  ["Generated At",new Date().toISOString()],
-  ["Report Section",currentReport],
-  ["Currency","BDT"],
-  ["Start Date",$("dateFrom").value||"All"],
-  ["End Date",$("dateTo").value||"All"],
-  []
- ];
-
- if(currentReport==="overview"||currentReport==="sales"){
-  rows.push(["Order ID","Customer","Order Value BDT","Status","Date"]);
-
-  filteredOrders.forEach(order=>{
-   rows.push([
-    order.order_number||order.id,
-    order.customer_name||"",
-    order.total_amount??"",
-    order.status||"",
-    order.created_at||order.createdAt||order.order_date||""
-   ]);
-  });
- }else if(currentReport==="profit"){
-  const report=commissionData?.report||{};
-  const totals=report.totals||{};
-
-  rows.push(["Metric","Amount BDT"]);
-  rows.push(["Gross Profit",totals.gross_profit??"Unavailable"]);
-  rows.push(["Company Share",totals.company_share??"Unavailable"]);
-  rows.push(["Unallocated Commission",totals.unallocated_commission??"Unavailable"]);
-  rows.push([]);
-  rows.push(["Level","Rate","Transactions","Commission BDT"]);
-
-  (report.levels||[]).forEach(item=>{
-   rows.push([
-    item.level,
-    item.commission_rate??item.rate??"",
-    item.total_transactions??"",
-    item.total_commission??""
-   ]);
-  });
- }else{
-  rows.push(["Information","Not connected to a verified backend ledger"]);
- }
-
- const csv="\uFEFF"+rows.map(row=>row.map(csvEscape).join(",")).join("\r\n");
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");
-
- link.href=url;
- link.download="rubalia-financial-"+currentReport+"-report.csv";
- document.body.appendChild(link);
- link.click();
- link.remove();
-
- setTimeout(()=>URL.revokeObjectURL(url),1000);
- showToast("Financial report CSV exported.");
-}
-
-/* AUTHENTICATION */
 async function initializeAdmin(){
- adminToken=sessionStorage.getItem("rubalia_token")||"";
+
+ adminToken =
+  sessionStorage.getItem("rubalia_token") || "";
+
 
  if(!adminToken){
+
   window.location.replace("../login.html");
+
   return;
+
  }
+
+
+ $("year").textContent =
+  new Date().getFullYear();
+
+
+ $("expenseDate").value =
+  getDhakaDate();
+
+
+ $("generateMonth").value =
+  getPreviousMonth();
+
 
  try{
-  const data=await apiRequest("/auth/me");
-  const user=data.user||data.profile;
+
+  const data = await api("/auth/me");
+
+  const user = data.user || data.profile;
+
 
   if(!user){
-   throw new Error("The server did not return account information.");
+
+   throw new Error(
+    "Unable to verify administrator account."
+   );
+
   }
 
-  if(String(user.role||"").toLowerCase()!=="admin"){
+
+  if(
+   String(user.role || "").toLowerCase() !== "admin"
+  ){
+
    window.location.replace("../dashboard.html");
+
    return;
+
   }
 
-  const name=user.full_name||user.fullName||"Administrator";
-  const email=user.email||"";
 
-  $("adminName").textContent=name;
-  $("adminEmail").textContent=email;
-  $("adminAvatar").textContent=initials(name);
-  $("year").textContent=new Date().getFullYear();
+  const name =
+   user.full_name ||
+   user.fullName ||
+   "Administrator";
 
-  $("loadingScreen").style.display="none";
-  $("adminApp").hidden=false;
 
-  await loadReports();
+  $("adminName").textContent = name;
+
+  $("adminEmail").textContent =
+   user.email || "";
+
+  $("adminAvatar").textContent =
+   initials(name);
+
+
+  await loadAll();
+
 
  }catch(error){
-  if(error.message.includes("session has expired"))return;
 
-  showError(
-   error.message.includes("administrator permission")
-    ?"Access Denied":"Unable to Verify Account",
-   error.message
-  );
+  $("reportsError").textContent =
+   error.message;
+
  }
+
 }
 
-/* LOGOUT */
-function logout(){
- sessionStorage.removeItem("rubalia_token");
- sessionStorage.removeItem("rubalia_user");
- window.location.replace("../login.html");
-}
 
-/* EVENTS */
-$("menuBtn").addEventListener("click",()=>{
- $("sidebar").classList.toggle("open");
-});
+// =====================================================
+// START
+// =====================================================
 
-$("logoutBtn").addEventListener("click",logout);
-$("logoutMainBtn").addEventListener("click",logout);
-$("refreshBtn").addEventListener("click",loadReports);
-
-$("applyFilterBtn").addEventListener("click",()=>{
- if(applyDateFilter())showToast("Date filters applied.");
-});
-
-$("resetFilterBtn").addEventListener("click",resetFilters);
-
-$("period").addEventListener("change",()=>{
- const days=Number($("period").value);
- setQuickPeriod(days);
-});
-
-document.querySelectorAll(".report-tab").forEach(tab=>{
- tab.addEventListener("click",()=>{
-  showReport(tab.dataset.report);
- });
-});
-
-document.querySelectorAll(".sidebar a").forEach(link=>{
- link.addEventListener("click",()=>{
-  $("sidebar").classList.remove("open");
- });
-});
-
-document.addEventListener("click",event=>{
- const sidebar=$("sidebar");
- const menu=$("menuBtn");
-
- if(
-  window.innerWidth<=800&&
-  sidebar.classList.contains("open")&&
-  !sidebar.contains(event.target)&&
-  !menu.contains(event.target)
- ){
-  sidebar.classList.remove("open");
- }
-});
-
-/* START */
 initializeAdmin();
+
 </script>
 
 </body>
-      </html>
+</html>
