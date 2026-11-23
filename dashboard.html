@@ -135,9 +135,9 @@ main{padding:8px 5px 12px}.slider-frame{margin-bottom:7px;border-radius:9px}
   <div class="app-brand"><h1 class="app-brand-name">RUBALIA <span>NETWORK</span></h1></div>
   <div class="header-account">
     <a class="profile-link" id="headerProfile" href="profile.html" aria-label="My Profile" title="My Profile">R</a>
-    <a class="header-balance" id="headerBalance" href="wallet.html" aria-label="Available wallet balance">
+    <div class="header-balance" id="headerBalance" role="status" aria-label="Available wallet balance">
       <small>৳</small><span id="headerBalanceValue">--</span>
-    </a>
+    </div>
   </div>
 </header>
 <div class="top-menu-bar"><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button></div>
@@ -273,9 +273,65 @@ async function fetchJSON(path,token){const r=await fetch(API_BASE+path,{headers:
 
 /* Load profile and the actual wallet ledger balance from GET /api/wallet.
    The wallet API returns {success:true,wallet:{balance:...}}. */
-function updateProfile(user){const profile=$("headerProfile");const avatar=safeImageURL(user.avatar_url||user.profile_image||user.photo_url||user.profile_picture);if(avatar){const img=document.createElement("img");img.src=avatar;img.alt=user.full_name||"Profile";profile.replaceChildren(img)}else{profile.textContent=String(user.full_name||"R").trim().split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"R"}}
-async function loadWalletBalance(token){const balanceEl=$("headerBalanceValue");try{const data=await fetchJSON("/wallet",token);const amount=data.wallet&&data.wallet.balance;if(amount!==undefined&&amount!==null){balanceEl.textContent=Number(amount).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})}else{balanceEl.textContent="--"}}catch(error){balanceEl.textContent="--";console.warn("Wallet balance could not be loaded:",error.message)}}
-async function verifySession(){const token=sessionStorage.getItem("rubalia_token");if(!token){location.replace("login.html");throw new Error("Login required.")}const data=await fetchJSON("/auth/me",token);const user=data.user||data.profile;if(!user)throw new Error("Unable to verify your account.");if(String(user.role||"").toLowerCase()==="admin"){location.replace("admin-dashboard.html");throw new Error("Opening Admin Dashboard.")}if(user.status&&String(user.status).toLowerCase()!=="active"){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");throw new Error("Your account is not active.")}updateProfile(user);sessionStorage.setItem("rubalia_user",JSON.stringify({id:user.id,full_name:user.full_name,email:user.email,role:user.role,status:user.status,avatar_url:user.avatar_url||user.profile_image||user.photo_url||user.profile_picture||""}));await loadWalletBalance(token);return token}
+function updateProfile(user){
+  const profile=$("headerProfile");
+  const avatar=safeImageURL(user.avatar_url||user.avatarUrl||user.profile_image||user.photo_url||user.profile_picture);
+  if(avatar){
+    const img=document.createElement("img");
+    img.src=avatar;img.alt=user.full_name||"Profile";img.referrerPolicy="no-referrer";
+    img.onerror=()=>{profile.textContent=String(user.full_name||"R").trim().split(/\\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"R"};
+    profile.replaceChildren(img);
+  }else{
+    profile.textContent=String(user.full_name||"R").trim().split(/\\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()||"R";
+  }
+}
+async function loadWalletBalance(token){
+  const balanceEl=$("headerBalanceValue");
+  try{
+    const data=await fetchJSON("/wallet",token);
+    const amount=data.wallet&&data.wallet.balance;
+    balanceEl.textContent=amount!==undefined&&amount!==null
+      ?Number(amount).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})
+      :"--";
+  }catch(error){
+    balanceEl.textContent="--";
+    console.warn("Wallet balance could not be loaded:",error.message);
+  }
+}
+async function verifySession(){
+  const token=sessionStorage.getItem("rubalia_token");
+  if(!token){location.replace("login.html");throw new Error("Login required.")}
+  const data=await fetchJSON("/auth/me",token);
+  let user=data.user||data.profile;
+  if(!user)throw new Error("Unable to verify your account.");
+  if(String(user.role||"").toLowerCase()==="admin"){
+    location.replace("admin-dashboard.html");throw new Error("Opening Admin Dashboard.");
+  }
+  if(user.status&&String(user.status).toLowerCase()!=="active"){
+    sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");
+    location.replace("login.html");throw new Error("Your account is not active.");
+  }
+
+  // /auth/me may omit avatar_url; load the persisted photo from /api/profile.
+  try{
+    const profileData=await fetchJSON("/profile",token);
+    if(profileData.profile)user={...user,...profileData.profile};
+  }catch(error){
+    console.warn("Could not load extended profile data:",error.message);
+    const cached=JSON.parse(sessionStorage.getItem("rubalia_user")||"{}");
+    if(!user.avatar_url&&!user.avatarUrl&&!user.profile_image&&!user.photo_url&&!user.profile_picture){
+      user.avatar_url=cached.avatar_url||"";
+    }
+  }
+
+  updateProfile(user);
+  sessionStorage.setItem("rubalia_user",JSON.stringify({
+    id:user.id,full_name:user.full_name,email:user.email,role:user.role,status:user.status,
+    avatar_url:user.avatar_url||user.avatarUrl||user.profile_image||user.photo_url||user.profile_picture||""
+  }));
+  await loadWalletBalance(token);
+  return token;
+}
 
 /* Load the active Admin announcement from the public backend endpoint.
    This is the same live message managed by Admin; no iframe parsing is needed. */
@@ -321,20 +377,30 @@ function resizeCategoryFrame(){
     doc.documentElement.style.minHeight="0";
     doc.body.style.height="auto";
     doc.body.style.minHeight="0";
+    doc.body.style.paddingBottom="0";
+    doc.documentElement.style.overflow="hidden";
+    doc.body.style.overflow="hidden";
 
     const measure=()=>{
       const body=doc.body;
       const root=doc.documentElement;
       if(!body||!root)return;
 
-      const contentHeight=Math.max(
-        body.scrollHeight,
-        root.scrollHeight,
-        body.offsetHeight,
-        root.offsetHeight
-      );
+      // Measure the actual category cards/images. Some child layouts keep a
+      // 100vh/min-height wrapper, which creates a large empty block below cards.
+      let contentBottom=0;
+      const contentNodes=doc.querySelectorAll("#categoryGrid, .category-card, .category-item, .category-banner, img");
+      contentNodes.forEach(node=>{
+        const rect=node.getBoundingClientRect();
+        if(rect.width>0&&rect.height>0){
+          contentBottom=Math.max(contentBottom,rect.bottom+(doc.defaultView.scrollY||0));
+        }
+      });
+      const contentHeight=contentBottom>0
+        ?contentBottom+24
+        :Math.max(body.scrollHeight,root.scrollHeight,body.offsetHeight,root.offsetHeight);
       if(contentHeight>0){
-        categoryFrame.style.height=Math.ceil(contentHeight+3)+"px";
+        categoryFrame.style.height=Math.ceil(contentHeight)+"px";
       }
     };
 
