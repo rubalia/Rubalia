@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,60 +10,41 @@
 
 <style>
 :root{
- --navy:#071a35;
- --navy2:#102b50;
- --navy3:#193d68;
- --gold:#d6ad55;
- --bg:#f3f6fb;
- --white:#fff;
- --text:#18263c;
- --muted:#78869a;
- --border:#e5eaf1;
- --green:#16845b;
- --red:#c34b4b;
+ --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
+ --bg:#f3f6fb;--white:#fff;--text:#18263c;
+ --muted:#78869a;--border:#e5eaf1;
+ --green:#16845b;--red:#c34b4b;
  --shadow:0 2px 9px rgba(16,43,80,.045);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:auto}
-body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);
- color:var(--text);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
 [hidden]{display:none!important}
 
 .loading-screen,.error-screen{
- position:fixed;inset:0;z-index:1000;
- display:flex;align-items:center;justify-content:center;
- background:var(--bg);padding:18px
+ position:fixed;inset:0;z-index:1000;display:flex;
+ align-items:center;justify-content:center;background:var(--bg);padding:18px
 }
 .loading-box,.error-card{
- width:100%;max-width:400px;padding:25px;
- background:#fff;border:1px solid var(--border);
- border-radius:13px;text-align:center;
+ width:100%;max-width:400px;padding:25px;background:#fff;
+ border:1px solid var(--border);border-radius:13px;text-align:center
 }
 .loading-box strong{color:var(--navy)}
-.loading-box p,.error-card p{
- color:var(--muted);font-size:13px;line-height:1.6
-}
+.loading-box p,.error-card p{color:var(--muted);font-size:13px;line-height:1.6}
 .spinner{
- width:32px;height:32px;
- border:3px solid #e3e8ef;
- border-top-color:var(--gold);
- border-radius:50%;margin:0 auto 15px;
+ width:32px;height:32px;border:3px solid #e3e8ef;
+ border-top-color:var(--gold);border-radius:50%;margin:0 auto 15px;
  animation:spin .8s linear infinite
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-screen{display:none}
 .error-card h2{color:var(--navy)}
 .error-card a,.error-card button{
- display:inline-block;margin:6px 3px 0;
- padding:11px 16px;border:0;border-radius:8px;
- background:var(--gold);color:var(--navy);
- font-weight:bold;font-size:12px
+ display:inline-block;margin:6px 3px 0;padding:11px 16px;
+ border:0;border-radius:8px;background:var(--gold);
+ color:var(--navy);font-weight:bold;font-size:12px
 }
 
 /* TOP BAR */
@@ -80,9 +62,8 @@ button{font:inherit;cursor:pointer}
  padding:7px 10px;border-radius:20px;font-weight:bold
 }
 .admin-avatar{
- width:34px;height:34px;border-radius:50%;
- background:var(--gold);color:var(--navy);
- display:grid;place-items:center;font-weight:bold
+ width:34px;height:34px;border-radius:50%;background:var(--gold);
+ color:var(--navy);display:grid;place-items:center;font-weight:bold
 }
 .mobile-menu{
  display:none;border:1px solid rgba(255,255,255,.25);
@@ -91,188 +72,115 @@ button{font:inherit;cursor:pointer}
 }
 
 /* LAYOUT */
-.layout{
- display:grid;grid-template-columns:225px minmax(0,1fr);
- min-height:calc(100vh - 60px)
-}
-.sidebar{
- background:var(--navy2);color:white;
- padding:17px 11px;min-height:calc(100vh - 60px)
-}
-.admin-profile{
- padding:8px 10px 17px;margin-bottom:12px;
- border-bottom:1px solid rgba(255,255,255,.13)
-}
+.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:calc(100vh - 60px)}
+.sidebar{background:var(--navy2);color:white;padding:17px 11px;min-height:calc(100vh - 60px)}
+.admin-profile{padding:8px 10px 17px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.13)}
 .admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
-.admin-profile small{
- color:#b8c7d9;font-size:10px;overflow-wrap:anywhere
-}
+.admin-profile small{color:#b8c7d9;font-size:10px;overflow-wrap:anywhere}
 .side-heading{
- color:#9eafc5;font-size:9px;font-weight:bold;
- text-transform:uppercase;letter-spacing:1px;
- margin:17px 10px 7px
+ color:#9eafc5;font-size:9px;font-weight:bold;text-transform:uppercase;
+ letter-spacing:1px;margin:17px 10px 7px
 }
 .nav-link,.logout-btn{
- display:flex;align-items:center;gap:9px;
- padding:10px;border-radius:7px;margin:2px 0;
- font-size:11px;color:#dce6f2;width:100%
+ display:flex;align-items:center;gap:9px;padding:10px;border-radius:7px;
+ margin:2px 0;font-size:11px;color:#dce6f2;width:100%
 }
-.nav-link:hover,.nav-link.active,.logout-btn:hover{
- background:rgba(214,173,85,.15);color:#f3dfa9
-}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{background:rgba(214,173,85,.15);color:#f3dfa9}
 .nav-icon{width:18px;text-align:center;font-size:14px}
-.logout-btn{
- background:transparent;border:0;text-align:left
-}
+.logout-btn{background:transparent;border:0;text-align:left}
 
 /* MAIN */
-.main{
- padding:22px;width:100%;max-width:1550px;margin:auto;
- min-width:0
-}
+.main{padding:22px;width:100%;max-width:1550px;margin:auto;min-width:0}
 .heading{
- display:flex;justify-content:space-between;
- align-items:center;gap:12px;flex-wrap:wrap;
- margin-bottom:17px
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;flex-wrap:wrap;margin-bottom:17px
 }
 .heading h1{color:var(--navy);font-size:23px;margin:0 0 5px}
 .heading p{margin:0;color:var(--muted);font-size:11px}
 .live-badge{
- display:inline-flex;align-items:center;gap:5px;
- background:#e7f7ef;color:var(--green);
- border-radius:20px;padding:7px 10px;
+ display:inline-flex;align-items:center;gap:5px;background:#e7f7ef;
+ color:var(--green);border-radius:20px;padding:7px 10px;
  font-size:9px;font-weight:bold;white-space:nowrap
 }
 .live-badge.offline{background:#fceaea;color:var(--red)}
 
 /* WELCOME */
 .welcome{
- background:var(--navy);
- color:white;border-radius:12px;padding:18px 20px;
- margin-bottom:17px;display:flex;
- justify-content:space-between;align-items:center;gap:12px
+ background:var(--navy);color:white;border-radius:12px;padding:18px 20px;
+ margin-bottom:17px;display:flex;justify-content:space-between;align-items:center;gap:12px
 }
 .welcome h2{margin:0 0 6px;font-size:18px}
 .welcome p{margin:0;color:#c8d5e5;font-size:11px;line-height:1.7}
 .welcome-icon{font-size:35px}
 
 /* ANNOUNCEMENT */
-.announcement-card{
- background:#fffaf0;border:1px solid #ead8ad;
- border-radius:11px;padding:14px;margin-bottom:18px
-}
-.announcement-top{
- display:flex;align-items:center;justify-content:space-between;
- gap:8px;flex-wrap:wrap;margin-bottom:10px
-}
-.announcement-title{
- display:flex;align-items:center;gap:8px;
- color:var(--navy);font-size:12px;font-weight:bold
-}
-.announcement-indicator{
- font-size:9px;font-weight:bold;color:var(--green);
- background:#e3f6eb;padding:5px 8px;border-radius:20px
-}
-.announcement-text{
- color:#59451e;font-size:12px;line-height:1.7;
- overflow-wrap:anywhere;white-space:pre-wrap
-}
-.announcement-bottom{
- display:flex;justify-content:space-between;
- align-items:center;gap:8px;flex-wrap:wrap;
- margin-top:11px;border-top:1px solid #eadfc5;
- padding-top:10px
-}
+.announcement-card{background:#fffaf0;border:1px solid #ead8ad;border-radius:11px;padding:14px;margin-bottom:18px}
+.announcement-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.announcement-title{display:flex;align-items:center;gap:8px;color:var(--navy);font-size:12px;font-weight:bold}
+.announcement-indicator{font-size:9px;font-weight:bold;color:var(--green);background:#e3f6eb;padding:5px 8px;border-radius:20px}
+.announcement-text{color:#59451e;font-size:12px;line-height:1.7;overflow-wrap:anywhere;white-space:pre-wrap}
+.announcement-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px;border-top:1px solid #eadfc5;padding-top:10px}
 .announcement-date{font-size:9px;color:#9a8459}
 .announcement-link{color:#8a6724;font-size:10px;font-weight:bold}
 
 /* SECTION HEAD */
-.section-head{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap;
- margin:19px 0 11px
-}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:19px 0 11px}
 .section-title{font-size:16px;color:var(--navy);margin:0 0 4px}
 .section-subtitle{font-size:10px;color:var(--muted);margin:0}
 
-/* SMALL BUSINESS OVERVIEW CARDS */
+/* BUSINESS OVERVIEW: 3 CARDS PER ROW */
 .stats{
  display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
+ grid-template-columns:repeat(3,minmax(0,1fr));
  gap:9px;margin-bottom:20px
 }
 .stat-card{
- background:#fff;border:1px solid var(--border);
- border-radius:9px;padding:11px 12px;
- min-width:0;box-shadow:var(--shadow)
+ display:block;background:#fff;border:1px solid var(--border);
+ border-radius:9px;padding:11px 12px;min-width:0;
+ box-shadow:var(--shadow);transition:.15s
 }
-.stat-top{
- display:flex;justify-content:space-between;
- align-items:center;gap:5px
-}
-.stat-name{color:var(--muted);font-size:10px}
+.stat-card.link-card:active{transform:scale(.98);background:#f8fafc}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:5px}
+.stat-name{color:var(--muted);font-size:10px;line-height:1.35}
 .stat-icon{
- width:27px;height:27px;display:grid;
- place-items:center;border-radius:7px;
- background:#f1f4f9;font-size:13px;flex-shrink:0
+ width:27px;height:27px;display:grid;place-items:center;
+ border-radius:7px;background:#f1f4f9;font-size:13px;flex-shrink:0
 }
 .stat-value{
  display:block;font-size:21px;color:var(--navy);
- font-weight:800;margin:7px 0 3px;
- overflow-wrap:anywhere
+ font-weight:800;margin:7px 0 3px;overflow-wrap:anywhere
 }
-.stat-note{font-size:9px;color:var(--muted)}
+.stat-note{font-size:9px;color:var(--muted);line-height:1.4}
+.stat-card.deposit{border-left:3px solid var(--green)}
+.stat-card.withdraw{border-left:3px solid #c58b32}
+.stat-card.deposit .stat-icon{background:#e7f7ef}
+.stat-card.withdraw .stat-icon{background:#fff3df}
+.stat-card.has-pending{background:#fffaf0;border-color:#e8c879}
+.stat-card.has-pending .stat-value{color:#b16b12}
 
 /* GENERAL PANELS */
 .panel{
- background:#fff;border:1px solid var(--border);
- border-radius:11px;padding:15px;min-width:0;
- box-shadow:var(--shadow);margin-bottom:16px
+ background:#fff;border:1px solid var(--border);border-radius:11px;
+ padding:15px;min-width:0;box-shadow:var(--shadow);margin-bottom:16px
 }
-.panel-head{
- display:flex;justify-content:space-between;
- align-items:center;gap:9px;flex-wrap:wrap;
- margin-bottom:13px
-}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px}
 .panel-head h3{margin:0;color:var(--navy);font-size:13px}
-.refresh-btn{
- border:1px solid var(--border);background:white;
- color:var(--navy);padding:8px 11px;
- border-radius:7px;font-size:10px;font-weight:bold
-}
+.refresh-btn{border:1px solid var(--border);background:white;color:var(--navy);padding:8px 11px;border-radius:7px;font-size:10px;font-weight:bold}
 .refresh-btn:disabled{opacity:.5;cursor:wait}
 
 /* MANAGEMENT CARDS */
-.management-grid{
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:10px;margin-bottom:19px
-}
+.management-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:19px}
 .option-card{
- display:flex;align-items:center;gap:11px;
- min-width:0;min-height:70px;padding:12px;
- background:#fff;border:1px solid var(--border);
+ display:flex;align-items:center;gap:11px;min-width:0;min-height:70px;
+ padding:12px;background:#fff;border:1px solid var(--border);
  border-radius:10px;box-shadow:var(--shadow)
 }
 .option-card:active{background:#f7f9fc}
-.option-icon{
- width:37px;height:37px;flex-shrink:0;
- display:grid;place-items:center;
- background:#f1f4f9;border-radius:9px;font-size:18px
-}
+.option-icon{width:37px;height:37px;flex-shrink:0;display:grid;place-items:center;background:#f1f4f9;border-radius:9px;font-size:18px}
 .option-info{min-width:0}
-.option-info strong{
- display:block;color:var(--navy);
- font-size:11px;line-height:1.4
-}
-.option-info small{
- display:block;color:var(--muted);
- font-size:9px;line-height:1.4;margin-top:3px
-}
-.option-arrow{
- margin-left:auto;color:#9ba7b6;font-size:15px;
- flex-shrink:0
-}
+.option-info strong{display:block;color:var(--navy);font-size:11px;line-height:1.4}
+.option-info small{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:3px}
+.option-arrow{margin-left:auto;color:#9ba7b6;font-size:15px;flex-shrink:0}
 .option-card.gold{border-left:3px solid var(--gold)}
 .option-card.blue{border-left:3px solid #3978bd}
 .option-card.green{border-left:3px solid var(--green)}
@@ -281,113 +189,52 @@ button{font:inherit;cursor:pointer}
 
 /* COMMISSION */
 .commission-section{margin-bottom:19px}
-.commission-heading{
- display:flex;align-items:center;justify-content:space-between;
- gap:10px;flex-wrap:wrap;margin-bottom:12px
-}
-.commission-heading h2{
- font-size:16px;color:var(--navy);margin:0 0 4px
-}
+.commission-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.commission-heading h2{font-size:16px;color:var(--navy);margin:0 0 4px}
 .commission-heading p{font-size:10px;color:var(--muted);margin:0}
 .commission-actions{display:flex;gap:7px;flex-wrap:wrap}
-.commission-btn{
- display:inline-block;padding:9px 11px;
- border-radius:7px;background:var(--navy);
- color:white;font-size:10px;font-weight:bold
-}
+.commission-btn{display:inline-block;padding:9px 11px;border-radius:7px;background:var(--navy);color:white;font-size:10px;font-weight:bold}
 .commission-btn.gold{background:var(--gold);color:var(--navy)}
-.commission-stats{
- display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
- gap:9px;margin-bottom:12px
-}
-.commission-card{
- background:#fff;border:1px solid var(--border);
- border-radius:9px;padding:12px;min-width:0;
- box-shadow:var(--shadow)
-}
+.commission-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:12px}
+.commission-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0;box-shadow:var(--shadow)}
 .commission-card .label{font-size:9px;color:var(--muted)}
-.commission-card .value{
- display:block;font-size:19px;font-weight:800;
- color:var(--navy);margin:8px 0 4px;overflow-wrap:anywhere
-}
+.commission-card .value{display:block;font-size:19px;font-weight:800;color:var(--navy);margin:8px 0 4px;overflow-wrap:anywhere}
 .commission-card .note{font-size:9px;color:var(--muted)}
 .commission-card.company{border-top:3px solid var(--gold)}
 .commission-card.profit{border-top:3px solid #315e91}
 .commission-card.distributed{border-top:3px solid var(--green)}
 .commission-card.unallocated{border-top:3px solid #c58b32}
 .commission-card.orders{border-top:3px solid #7c70b8}
-.commission-error{
- display:none;background:#fff4f2;border:1px solid #f1d0cb;
- color:#a34237;border-radius:8px;padding:11px;
- font-size:10px;line-height:1.6;margin-bottom:12px
-}
-.commission-loading{
- color:var(--muted);font-size:10px;padding:14px;text-align:center
-}
-.level-pill{
- display:inline-block;background:#edf2f8;color:var(--navy);
- padding:5px 8px;border-radius:20px;font-weight:bold;font-size:9px
-}
+.commission-error{display:none;background:#fff4f2;border:1px solid #f1d0cb;color:#a34237;border-radius:8px;padding:11px;font-size:10px;line-height:1.6;margin-bottom:12px}
+.commission-loading{color:var(--muted);font-size:10px;padding:14px;text-align:center}
+.level-pill{display:inline-block;background:#edf2f8;color:var(--navy);padding:5px 8px;border-radius:20px;font-weight:bold;font-size:9px}
 
 /* TABLES */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;min-width:510px}
-th{
- text-align:left;font-size:9px;color:var(--muted);
- background:#f7f9fc;padding:11px 9px;white-space:nowrap
-}
-td{
- padding:11px 9px;border-bottom:1px solid #edf0f5;
- font-size:10px
-}
+th{text-align:left;font-size:9px;color:var(--muted);background:#f7f9fc;padding:11px 9px;white-space:nowrap}
+td{padding:11px 9px;border-bottom:1px solid #edf0f5;font-size:10px}
 td strong{color:var(--navy)}
-.status{
- display:inline-block;padding:5px 7px;border-radius:20px;
- font-size:9px;font-weight:bold;background:#eef2f7;color:#526176
-}
+.status{display:inline-block;padding:5px 7px;border-radius:20px;font-size:9px;font-weight:bold;background:#eef2f7;color:#526176}
 .status.pending{background:#fff2dc;color:#a16b14}
 .status.complete{background:#e7f7ef;color:#16845b}
 .status.cancelled{background:#fceaea;color:#c34b4b}
 .empty-state{padding:20px;text-align:center;color:var(--muted);font-size:11px}
 
 /* ACCOUNT */
-.account-box{
- background:#f7f9fc;border:1px solid var(--border);
- border-radius:9px;padding:14px
-}
-.account-box strong{
- color:var(--navy);font-size:13px;
- display:block;margin-bottom:5px
-}
-.account-box p{
- font-size:11px;color:var(--muted);
- overflow-wrap:anywhere;margin:0 0 10px
-}
-
-/* FOOTER AND NOTICE */
-.notice{
- background:#fff9eb;border:1px solid #f0dfb8;
- border-radius:9px;padding:12px;color:#76591e;
- font-size:10px;line-height:1.7;margin-top:15px
-}
-.footer{
- text-align:center;padding:18px;
- color:#9aa5b5;font-size:9px
-}
+.account-box{background:#f7f9fc;border:1px solid var(--border);border-radius:9px;padding:14px}
+.account-box strong{color:var(--navy);font-size:13px;display:block;margin-bottom:5px}
+.account-box p{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin:0 0 10px}
+.notice{background:#fff9eb;border:1px solid #f0dfb8;border-radius:9px;padding:12px;color:#76591e;font-size:10px;line-height:1.7;margin-top:15px}
+.footer{text-align:center;padding:18px;color:#9aa5b5;font-size:9px}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
- .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
  .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
- .sidebar{
-  display:none;padding:12px;
-  min-height:auto;position:fixed;
-  top:60px;left:0;right:0;bottom:0;
-  overflow-y:auto;z-index:45
- }
+ .sidebar{display:none;padding:12px;min-height:auto;position:fixed;top:60px;left:0;right:0;bottom:0;overflow-y:auto;z-index:45}
  .sidebar.open{display:block}
  .mobile-menu{display:block}
  .main{padding:16px}
@@ -406,11 +253,11 @@ td strong{color:var(--navy)}
  .welcome h2{font-size:15px}
  .welcome p{font-size:10px}
  .welcome-icon{font-size:29px}
- .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
- .stat-card{padding:9px 10px}
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .stat-card{padding:8px 7px;border-radius:8px}
  .stat-name{font-size:9px}
- .stat-icon{width:24px;height:24px;font-size:12px}
- .stat-value{font-size:19px;margin:6px 0 2px}
+ .stat-icon{width:22px;height:22px;font-size:11px}
+ .stat-value{font-size:17px;margin:6px 0 2px}
  .stat-note{font-size:8px}
  .section-title{font-size:14px}
  .section-subtitle{font-size:9px}
@@ -436,7 +283,9 @@ td strong{color:var(--navy)}
  .option-icon{width:27px;height:27px;font-size:13px}
  .option-info strong{font-size:9px}
  .option-info small{font-size:7px}
- .stat-value{font-size:17px}
+ .stat-value{font-size:15px}
+ .stat-name{font-size:8px}
+ .stat-note{font-size:7px}
 }
 </style>
 </head>
@@ -559,49 +408,78 @@ td strong{color:var(--navy)}
  <div class="section-head">
   <div>
    <h2 class="section-title">Business Overview</h2>
-   <p class="section-subtitle">Live account and order statistics</p>
+   <p class="section-subtitle">Live account, order, deposit and withdrawal statistics</p>
   </div>
+  <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
  </div>
 
  <section class="stats">
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Users</span><span class="stat-icon">👥</span></div>
    <strong class="stat-value" id="totalUsers">—</strong>
    <span class="stat-note">All registered accounts</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Active Users</span><span class="stat-icon">🟢</span></div>
    <strong class="stat-value" id="activeUsers">—</strong>
    <span class="stat-note">Active accounts</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Products</span><span class="stat-icon">📦</span></div>
    <strong class="stat-value" id="totalProducts">—</strong>
    <span class="stat-note">All products</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Active Products</span><span class="stat-icon">🛍️</span></div>
    <strong class="stat-value" id="activeProducts">—</strong>
    <span class="stat-note">Available products</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Total Orders</span><span class="stat-icon">🛒</span></div>
    <strong class="stat-value" id="totalOrders">—</strong>
    <span class="stat-note">All recorded orders</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Pending Orders</span><span class="stat-icon">⏳</span></div>
    <strong class="stat-value" id="pendingOrders">—</strong>
    <span class="stat-note">Awaiting processing</span>
   </div>
+
   <div class="stat-card">
    <div class="stat-top"><span class="stat-name">Delivered Orders</span><span class="stat-icon">✅</span></div>
    <strong class="stat-value" id="deliveredOrders">—</strong>
    <span class="stat-note">Successfully delivered</span>
   </div>
+
+  <!-- PENDING PROFILE WALLET DEPOSITS -->
+  <a href="admin/admin-payments.html" class="stat-card link-card deposit" id="pendingDepositCard">
+   <div class="stat-top">
+    <span class="stat-name">Pending Deposits</span>
+    <span class="stat-icon">💰</span>
+   </div>
+   <strong class="stat-value" id="pendingDeposits">—</strong>
+   <span class="stat-note" id="pendingDepositNote">Profile wallet requests · View requests →</span>
+  </a>
+
+  <!-- PENDING WITHDRAWALS -->
+  <a href="admin/admin-withdrawals.html" class="stat-card link-card withdraw" id="pendingWithdrawalCard">
+   <div class="stat-top">
+    <span class="stat-name">Pending Withdrawals</span>
+    <span class="stat-icon">💸</span>
+   </div>
+   <strong class="stat-value" id="pendingWithdrawals">—</strong>
+   <span class="stat-note" id="pendingWithdrawalNote">Withdrawal requests · View requests →</span>
+  </a>
+
  </section>
 
- <!-- ALL MANAGEMENT OPTIONS -->
+ <!-- MANAGEMENT CENTER -->
  <div class="section-head">
   <div>
    <h2 class="section-title">Management Center</h2>
@@ -649,7 +527,7 @@ td strong{color:var(--navy)}
 
   <a href="admin/admin-payments.html" class="option-card gold">
    <span class="option-icon">💳</span>
-   <span class="option-info"><strong>Payment Records</strong><small>Verify payments</small></span>
+   <span class="option-info"><strong>Payment Records</strong><small>Verify payments and deposits</small></span>
    <span class="option-arrow">›</span>
   </a>
 
@@ -851,10 +729,7 @@ td strong{color:var(--navy)}
  <section class="panel">
   <div class="panel-head">
    <h3>Recent Orders</h3>
-   <div style="display:flex;gap:7px;align-items:center">
-    <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
-    <a href="admin/admin-orders.html" class="commission-btn">View All →</a>
-   </div>
+   <a href="admin/admin-orders.html" class="commission-btn">View All →</a>
   </div>
 
   <div class="table-wrap">
@@ -879,10 +754,10 @@ td strong{color:var(--navy)}
  <div class="notice">
   <strong>Important:</strong>
   Dashboard figures are loaded from the Rubalia server.
+  Pending Deposits refers to Profile Wallet Deposit Requests.
+  Pending Withdrawals refers to withdrawal requests awaiting processing.
   Commission information is loaded separately from the Commission API.
   If an API is unavailable, its figures will remain unavailable rather than showing fabricated data.
-  Refund Management is handled separately through the Refund API.
-  Cancelling an order does not automatically return money to the customer.
  </div>
 
  <div style="text-align:center;margin:18px 0">
@@ -1098,6 +973,90 @@ function showOrders(orders){
 }
 
 // ==========================================
+// PENDING DEPOSIT AND WITHDRAWAL COUNTS
+// ==========================================
+
+function updateRequestCard(cardId,valueId,noteId,count,label){
+ const card=$(cardId);
+ const value=$(valueId);
+ const note=$(noteId);
+
+ if(count===null||count===undefined||!Number.isFinite(Number(count))){
+  value.textContent="—";
+  note.textContent="Unable to load request count";
+  card.classList.remove("has-pending");
+  return;
+ }
+
+ const total=Math.max(0,Number(count));
+ value.textContent=formatNumber(total);
+
+ if(total>0){
+  card.classList.add("has-pending");
+  note.textContent=total+" "+label+" waiting · View requests →";
+ }else{
+  card.classList.remove("has-pending");
+  note.textContent="No pending requests · View requests →";
+ }
+}
+
+async function loadPendingDepositCount(){
+ try{
+  const data=await apiRequest("/wallet/admin/deposits?status=pending");
+  const deposits=Array.isArray(data.deposits)?data.deposits:null;
+
+  if(!deposits)throw new Error("Invalid deposit response");
+
+  updateRequestCard(
+   "pendingDepositCard",
+   "pendingDeposits",
+   "pendingDepositNote",
+   deposits.length,
+   "deposit request"
+  );
+
+ }catch(error){
+  console.error("Pending deposit count error:",error);
+
+  updateRequestCard(
+   "pendingDepositCard",
+   "pendingDeposits",
+   "pendingDepositNote",
+   null,
+   "deposit request"
+  );
+ }
+}
+
+async function loadPendingWithdrawalCount(){
+ try{
+  const data=await apiRequest("/wallet/admin/withdrawals?status=pending");
+  const withdrawals=Array.isArray(data.withdrawals)?data.withdrawals:null;
+
+  if(!withdrawals)throw new Error("Invalid withdrawal response");
+
+  updateRequestCard(
+   "pendingWithdrawalCard",
+   "pendingWithdrawals",
+   "pendingWithdrawalNote",
+   withdrawals.length,
+   "withdrawal request"
+  );
+
+ }catch(error){
+  console.error("Pending withdrawal count error:",error);
+
+  updateRequestCard(
+   "pendingWithdrawalCard",
+   "pendingWithdrawals",
+   "pendingWithdrawalNote",
+   null,
+   "withdrawal request"
+  );
+ }
+}
+
+// ==========================================
 // COMMISSION REPORT
 // ==========================================
 
@@ -1206,7 +1165,6 @@ async function loadCommissionReport(){
   $("commissionBadge").classList.remove("offline");
 
  }catch(error){
-
   if(error.message.includes("session has expired"))return;
 
   if(error.message.includes("administrator permission")){
@@ -1265,7 +1223,6 @@ async function loadDashboardData(){
   }else{
    $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
    $("serverBadge").classList.add("offline");
-
    showOrders([]);
 
    showError(
@@ -1278,6 +1235,19 @@ async function loadDashboardData(){
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
+}
+
+// ==========================================
+// REFRESH ALL DASHBOARD INFORMATION
+// ==========================================
+
+async function refreshAllDashboardData(){
+ await Promise.allSettled([
+  loadDashboardData(),
+  loadPendingDepositCount(),
+  loadPendingWithdrawalCount(),
+  loadCommissionReport()
+ ]);
 }
 
 // ==========================================
@@ -1322,14 +1292,16 @@ async function initializeAdmin(){
 
   loadAnnouncement();
 
-  await loadDashboardData();
-
-  if($("adminApp").hidden)return;
-
-  await loadCommissionReport();
+  // Load independently so one unavailable API
+  // does not block the other dashboard cards.
+  await Promise.allSettled([
+   loadDashboardData(),
+   loadPendingDepositCount(),
+   loadPendingWithdrawalCount(),
+   loadCommissionReport()
+  ]);
 
  }catch(error){
-
   if(error.message.includes("administrator permission")){
    showError("Access Denied",error.message);
   }else{
@@ -1359,7 +1331,7 @@ $("menuBtn").addEventListener("click",()=>{
 $("logoutBtn").addEventListener("click",logout);
 $("mainLogoutBtn").addEventListener("click",logout);
 
-$("refreshBtn").addEventListener("click",loadDashboardData);
+$("refreshBtn").addEventListener("click",refreshAllDashboardData);
 $("refreshCommissionBtn").addEventListener("click",loadCommissionReport);
 
 document.querySelectorAll(".sidebar a").forEach(link=>{
