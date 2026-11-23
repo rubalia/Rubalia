@@ -1,40 +1,50 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#24112f">
+<meta name="theme-color" content="#073C35">
 <title>My Orders | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --bg:#f5f3fb;
-  --card:#fff;
-  --dark:#211638;
-  --muted:#817991;
-  --purple:#7139d8;
-  --pink:#e43e91;
-  --gold:#e6ad39;
-  --green:#159b68;
-  --red:#dc4660;
-  --border:#eee9f5;
+  --bg:#F0F6F3;
+  --card:#FFFFFF;
+  --dark:#123C34;
+  --muted:#71877F;
+  --green:#087F68;
+  --green2:#0DA58A;
+  --teal:#064D49;
+  --gold:#D9B86C;
+  --gold-light:#F5DFA5;
+  --green-soft:#E6F5EF;
+  --red:#D94B60;
+  --border:#DDEBE4;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(ellipse at top,#E0F2E9,transparent 55%),
+    var(--bg);
   color:var(--dark);
   min-height:100vh;
 }
+
 body.menu-open{overflow:hidden}
 button,input{font:inherit}
 button{cursor:pointer}
 a{text-decoration:none;color:inherit}
 
 /* HEADER */
+
 .topbar{
   height:76px;
-  background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+  background:
+    linear-gradient(110deg,#052F2A,#086D5C 55%,#063F3B);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -43,22 +53,27 @@ a{text-decoration:none;color:inherit}
   position:sticky;
   top:0;
   z-index:100;
+  border-bottom:2px solid var(--gold);
+  box-shadow:0 5px 20px rgba(3,63,52,.25);
 }
+
 .top-left{
   display:flex;
   align-items:center;
   gap:13px;
 }
+
 .menu-btn{
-  width:40px;
-  height:40px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.08);
+  width:42px;
+  height:42px;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.09);
   color:white;
-  border-radius:9px;
+  border-radius:11px;
   font-size:23px;
   cursor:pointer;
 }
+
 .brand{
   display:flex;
   align-items:center;
@@ -67,43 +82,51 @@ a{text-decoration:none;color:inherit}
   letter-spacing:1px;
   font-size:17px;
 }
+
 .brand-icon{
-  width:38px;
-  height:38px;
+  width:43px;
+  height:43px;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#f0d48b,#c28a36);
-  color:#32152e;
-  border-radius:10px;
-  font-size:21px;
+  background:linear-gradient(135deg,#FFE8A8,#D9B86C,#BD8E37);
+  color:#123C34;
+  border-radius:13px;
+  font-size:24px;
+  box-shadow:0 4px 12px #0003;
 }
+
 .brand small{
   display:block;
   font-size:9px;
   letter-spacing:4px;
-  color:#f0d48b;
+  color:#F5DFA5;
   margin-top:3px;
 }
+
 .page-label{
   font-size:12px;
-  color:#f5dca4;
-  font-weight:bold;
+  color:#F5DFA5;
+  font-weight:900;
+  letter-spacing:1.5px;
 }
 
-/* NAVIGATION DRAWER */
+/* SIDEBAR */
+
 .drawer-overlay{
   position:fixed;
   inset:0;
-  background:rgba(12,5,24,.58);
+  background:rgba(2,28,25,.65);
   z-index:200;
   opacity:0;
   visibility:hidden;
   transition:.25s;
 }
+
 .drawer-overlay.show{
   opacity:1;
   visibility:visible;
 }
+
 .sidebar{
   position:fixed;
   top:0;
@@ -112,103 +135,125 @@ a{text-decoration:none;color:inherit}
   max-width:85vw;
   height:100vh;
   height:100dvh;
-  background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+  background:
+    linear-gradient(180deg,#063C35,#087664,#064B48);
   color:white;
   z-index:201;
   transform:translateX(-105%);
   transition:.28s;
   overflow-y:auto;
   padding:22px 15px;
+  box-shadow:10px 0 35px #0003;
 }
+
 .sidebar.open{transform:translateX(0)}
+
 .drawer-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:5px 8px 25px;
-  border-bottom:1px solid rgba(255,255,255,.13);
+  border-bottom:1px solid rgba(255,255,255,.17);
 }
+
 .drawer-brand{
-  font-size:20px;
+  font-size:21px;
   font-weight:900;
   letter-spacing:1px;
+  color:#F5DFA5;
 }
+
 .drawer-brand small{
   display:block;
-  color:#f0d48b;
+  color:white;
   font-size:9px;
   letter-spacing:4px;
   margin-top:4px;
 }
+
 .close-menu{
-  border:0;
-  background:rgba(255,255,255,.1);
+  border:1px solid #ffffff35;
+  background:#ffffff12;
   color:white;
-  width:35px;
-  height:35px;
-  border-radius:8px;
+  width:36px;
+  height:36px;
+  border-radius:9px;
   font-size:23px;
 }
+
 .menu-title{
-  color:#c0afd7;
+  color:#B9DCD0;
   font-size:10px;
   font-weight:bold;
   padding:22px 12px 9px;
   letter-spacing:1.5px;
 }
+
 .menu a{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px;
+  padding:13px 12px;
   margin:4px 0;
-  border-radius:9px;
-  color:#eee7f7;
+  border-radius:10px;
+  color:#E8F6F0;
   font-size:13px;
   transition:.2s;
 }
+
 .menu a:hover,.menu a.active{
-  background:linear-gradient(100deg,#e64c9a,#a14de0);
-  color:white;
+  background:linear-gradient(110deg,#D9B86C,#F0D99D);
+  color:#103D34;
+  box-shadow:0 4px 12px #0002;
 }
+
 .menu a span{
-  width:20px;
+  width:22px;
   text-align:center;
-  font-size:16px;
+  font-size:17px;
 }
 
 /* PAGE */
+
 .container{
   width:min(100% - 28px,1050px);
   margin:28px auto 50px;
 }
+
 .page-heading{
   margin-bottom:22px;
 }
+
 .page-heading h1{
-  font-size:25px;
+  font-size:27px;
   margin-bottom:7px;
-  color:#211638;
+  color:#075B4B;
+  font-weight:900;
 }
+
 .page-heading p{
   font-size:13px;
   color:var(--muted);
 }
+
 .member-info{
   font-size:11px;
-  color:var(--muted);
+  color:#087F68;
+  font-weight:bold;
   margin-top:8px;
 }
+
 .notice{
-  background:#fff8e9;
-  border:1px solid #f4dfad;
-  color:#805b18;
-  padding:13px;
+  background:linear-gradient(110deg,#F9F2DF,#FFF9E9);
+  border:1px solid #E9D39A;
+  color:#806329;
+  padding:14px;
   border-radius:13px;
   font-size:12px;
-  line-height:1.6;
+  line-height:1.7;
   margin-bottom:17px;
 }
+
 .message{
   display:none;
   padding:13px 15px;
@@ -217,220 +262,332 @@ a{text-decoration:none;color:inherit}
   line-height:1.6;
   margin-bottom:17px;
 }
+
 .message.show{display:block}
+
 .message.error{
-  background:#fff0f1;
-  border:1px solid #ffd1d7;
-  color:#b52e43;
+  background:#FFF0F1;
+  border:1px solid #FFD1D7;
+  color:#B52E43;
 }
+
 .message.success{
-  background:#eaf8f1;
-  border:1px solid #b8e6cf;
-  color:#176a49;
+  background:#E6F7EF;
+  border:1px solid #B8E6CF;
+  color:#176A49;
 }
 
 /* SUMMARY */
+
 .summary-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:11px;
+  gap:12px;
   margin-bottom:20px;
 }
+
 .summary-card{
-  background:var(--card);
-  padding:15px 12px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#FFFFFF,#F0F8F4);
+  padding:17px 14px;
   border:1px solid var(--border);
-  border-radius:15px;
-  box-shadow:0 4px 15px #26113d08;
+  border-radius:16px;
+  box-shadow:0 5px 17px rgba(10,75,57,.06);
 }
+
+.summary-card:after{
+  content:"";
+  position:absolute;
+  width:80px;
+  height:80px;
+  right:-35px;
+  bottom:-40px;
+  border-radius:50%;
+  background:rgba(13,165,138,.08);
+}
+
 .summary-icon{
-  font-size:20px;
-  margin-bottom:9px;
+  font-size:22px;
+  margin-bottom:11px;
 }
+
 .summary-value{
-  font-size:23px;
+  font-size:25px;
   font-weight:900;
+  color:#087F68;
 }
+
 .summary-label{
   font-size:11px;
   color:var(--muted);
-  margin-top:5px;
+  margin-top:6px;
 }
 
 /* SEARCH AND FILTER */
+
 .toolbar{
-  background:#fff;
-  padding:14px;
+  background:#FFFFFF;
+  padding:15px;
   border:1px solid var(--border);
   border-radius:16px;
-  margin-bottom:16px;
+  margin-bottom:17px;
+  box-shadow:0 4px 15px rgba(10,75,57,.04);
 }
+
 .search-box{
   width:100%;
-  padding:13px;
-  border:1px solid #e8e1f0;
+  padding:14px;
+  border:1px solid #DDEBE4;
   border-radius:11px;
   outline:none;
-  background:#faf9fc;
+  background:#F6FAF8;
   color:var(--dark);
+  font-size:13px;
 }
-.search-box:focus{border-color:var(--purple)}
+
+.search-box:focus{
+  border-color:#0DA58A;
+  box-shadow:0 0 0 3px #0DA58A18;
+}
+
 .filters{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  padding-top:12px;
+  padding-top:13px;
   scrollbar-width:thin;
 }
+
 .filter-btn{
   flex-shrink:0;
-  border:1px solid #e9e3f0;
-  background:#fff;
-  color:#71677f;
+  border:1px solid #DDEBE4;
+  background:#F8FBF9;
+  color:#647B71;
   border-radius:30px;
-  padding:8px 13px;
+  padding:9px 14px;
   font-size:11px;
+  font-weight:bold;
+  transition:.2s;
 }
+
 .filter-btn.active{
-  background:var(--purple);
-  border-color:var(--purple);
-  color:#fff;
+  background:linear-gradient(120deg,#087F68,#0DA58A);
+  border-color:#087F68;
+  color:white;
+  box-shadow:0 3px 10px #087F6830;
 }
+
 .section-title{
-  font-size:17px;
-  font-weight:800;
-  margin:20px 0 13px;
+  font-size:18px;
+  font-weight:900;
+  margin:22px 0 14px;
+  color:#075B4B;
 }
 
 /* ORDER CARDS */
+
 .orders-list{
   display:grid;
-  gap:13px;
+  gap:14px;
 }
+
 .order-card{
-  background:#fff;
-  border:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#FFFFFF,#F8FCFA);
+  border:1px solid #DDEBE4;
+  border-left:4px solid #0B9278;
   border-radius:17px;
-  padding:16px;
-  box-shadow:0 5px 18px #25143c08;
+  padding:17px;
+  box-shadow:0 5px 18px rgba(5,75,55,.07);
+  transition:.2s;
 }
+
+.order-card:hover{
+  box-shadow:0 9px 24px rgba(5,75,55,.12);
+  transform:translateY(-2px);
+}
+
 .order-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap:10px;
 }
+
 .order-id{
   font-size:13px;
   font-weight:900;
+  color:#075B4B;
   word-break:break-all;
 }
+
 .order-date{
   font-size:11px;
   color:var(--muted);
-  margin-top:6px;
+  margin-top:7px;
 }
+
 .status{
   display:inline-block;
-  padding:6px 10px;
+  padding:7px 11px;
   border-radius:30px;
   font-size:10px;
-  font-weight:800;
+  font-weight:900;
   text-transform:capitalize;
   white-space:nowrap;
 }
-.status.pending{background:#fff2d6;color:#a16a00}
-.status.confirmed{background:#e5f0ff;color:#2866c4}
-.status.processing{background:#eee6ff;color:#7035c9}
-.status.shipped{background:#e5f0ff;color:#2866c4}
-.status.delivered{background:#ddf7e9;color:#12804f}
-.status.cancelled{background:#ffe4e9;color:#bd344e}
-.status.unknown{background:#eee;color:#555}
+
+.status.pending{
+  background:#FFF2D8;
+  color:#A16A00;
+}
+
+.status.confirmed{
+  background:#E2F0FF;
+  color:#2866C4;
+}
+
+.status.processing{
+  background:#EEE6FF;
+  color:#7035C9;
+}
+
+.status.shipped{
+  background:#E2F0FF;
+  color:#2866C4;
+}
+
+.status.delivered{
+  background:#DDF7E9;
+  color:#12804F;
+}
+
+.status.cancelled{
+  background:#FFE4E9;
+  color:#BD344E;
+}
+
+.status.unknown{
+  background:#EDF1EF;
+  color:#65756D;
+}
+
 .order-divider{
   height:1px;
-  background:#f0ecf4;
-  margin:14px 0;
+  background:#E5EEE9;
+  margin:15px 0;
 }
+
 .order-info{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px;
 }
+
 .info-label{
   font-size:10px;
-  color:var(--muted);
-  margin-bottom:5px;
+  color:#82948B;
+  margin-bottom:6px;
 }
+
 .info-value{
   font-size:13px;
   font-weight:800;
+  color:#204C40;
   word-break:break-word;
 }
+
 .order-bottom{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:10px;
-  margin-top:15px;
+  margin-top:16px;
 }
+
 .order-total{
-  font-size:19px;
+  font-size:20px;
   font-weight:900;
-  color:var(--purple);
+  color:#087F68;
 }
+
 .details-btn{
-  border:0;
-  background:linear-gradient(120deg,var(--purple),var(--pink));
-  color:white;
+  border:1px solid #D6B76D;
+  background:linear-gradient(135deg,#F5DFA5,#D9B86C);
+  color:#264437;
   border-radius:10px;
-  padding:10px 15px;
+  padding:11px 16px;
   font-size:11px;
-  font-weight:800;
+  font-weight:900;
+  box-shadow:0 3px 7px #9C792B20;
+  transition:.2s;
 }
+
+.details-btn:hover{
+  background:linear-gradient(135deg,#FFEAB5,#E1BE70);
+  transform:translateY(-2px);
+}
+
+/* EMPTY AND LOADING */
+
 .empty{
-  background:#fff;
-  border:1px dashed #dcd2e8;
+  background:#FFFFFF;
+  border:1px dashed #BBD7CA;
   border-radius:17px;
   text-align:center;
-  padding:40px 15px;
+  padding:42px 15px;
   color:var(--muted);
 }
-.empty-icon{font-size:38px;margin-bottom:12px}
-.empty h3{
-  color:var(--dark);
-  font-size:16px;
-  margin-bottom:7px;
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:13px;
 }
+
+.empty h3{
+  color:#075B4B;
+  font-size:17px;
+  margin-bottom:8px;
+}
+
 .empty p{
   font-size:12px;
-  line-height:1.6;
+  line-height:1.7;
 }
+
 .loading{
-  background:#fff;
-  padding:30px;
+  background:#FFFFFF;
+  padding:35px;
   text-align:center;
   border-radius:15px;
-  color:var(--muted);
+  color:#087F68;
+  border:1px solid var(--border);
 }
+
 .error-box{
-  background:#fff0f1;
-  color:#b52e43;
-  border:1px solid #ffd1d7;
-  padding:15px;
+  background:#FFF0F1;
+  color:#B52E43;
+  border:1px solid #FFD1D7;
+  padding:16px;
   border-radius:12px;
   font-size:13px;
-  line-height:1.6;
+  line-height:1.7;
 }
+
 .retry-btn{
-  margin-top:10px;
-  background:#b52e43;
+  margin-top:11px;
+  background:linear-gradient(120deg,#087F68,#0DA58A);
   color:#fff;
   border:0;
-  padding:9px 15px;
+  padding:10px 16px;
   border-radius:9px;
+  font-weight:bold;
 }
 
 /* MODAL */
+
 .modal{
   position:fixed;
   inset:0;
@@ -439,78 +596,159 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   justify-content:center;
   padding:16px;
-  background:#160d25a8;
+  background:rgba(2,31,26,.72);
+  backdrop-filter:blur(4px);
 }
+
 .modal.show{display:flex}
+
 .modal-card{
   width:min(100%,480px);
   max-height:85vh;
   overflow:auto;
-  background:#fff;
+  background:linear-gradient(145deg,#FFFFFF,#F3FAF6);
+  border:1px solid #D9E9DF;
   border-radius:19px;
   padding:20px;
+  box-shadow:0 15px 50px #0004;
 }
+
 .modal-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:18px;
+  padding-bottom:13px;
+  border-bottom:1px solid #DDEBE4;
 }
-.modal-header h2{font-size:18px}
+
+.modal-header h2{
+  font-size:19px;
+  color:#075B4B;
+}
+
 .close-btn{
   border:0;
-  background:#f1edf7;
-  width:32px;
-  height:32px;
+  background:#E6F3EC;
+  color:#075B4B;
+  width:34px;
+  height:34px;
   border-radius:50%;
-  font-size:18px;
+  font-size:19px;
 }
+
 .detail-row{
-  padding:11px 0;
-  border-bottom:1px solid #eeeaf3;
+  padding:12px 0;
+  border-bottom:1px solid #E5EEE9;
   display:flex;
   justify-content:space-between;
   gap:15px;
   font-size:12px;
 }
-.detail-row span:first-child{color:var(--muted)}
+
+.detail-row span:first-child{color:#71877F}
+
 .detail-row strong{
+  color:#174B3C;
   text-align:right;
   word-break:break-word;
 }
-.item-list{margin-top:15px}
-.item-row{
-  background:#f8f6fb;
-  padding:11px;
-  border-radius:10px;
-  margin-top:8px;
-  font-size:12px;
-  line-height:1.6;
-}
-.footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:11px;
-  padding:20px;
+
+.item-list{margin-top:16px}
+
+.item-list>strong{
+  color:#075B4B;
+  font-size:13px;
 }
 
+.item-row{
+  background:linear-gradient(120deg,#EAF5EE,#F6FAF7);
+  border:1px solid #DFEBE3;
+  padding:12px;
+  border-radius:11px;
+  margin-top:9px;
+  font-size:12px;
+  line-height:1.8;
+  color:#36584A;
+}
+
+.item-row strong{color:#075B4B}
+
+/* FOOTER */
+
+.footer{
+  text-align:center;
+  color:#C4D9CE;
+  font-size:11px;
+  padding:23px 15px;
+  background:linear-gradient(110deg,#052F2A,#086D5C,#063F3B);
+  border-top:2px solid var(--gold);
+}
+
+.footer strong{color:#F5DFA5}
+
+/* RESPONSIVE */
+
 @media(min-width:700px){
-  .orders-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .orders-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
 }
+
 @media(max-width:650px){
-  .topbar{height:65px;padding:0 13px}
-  .brand{font-size:14px}
-  .brand-icon{width:34px;height:34px}
-  .page-label{font-size:10px}
-  .container{margin:20px auto 35px}
-  .page-heading h1{font-size:22px}
+
+  .topbar{
+    height:65px;
+    padding:0 12px;
+  }
+
+  .menu-btn{
+    width:39px;
+    height:39px;
+    font-size:21px;
+  }
+
+  .brand{
+    font-size:14px;
+    gap:8px;
+  }
+
+  .brand-icon{
+    width:37px;
+    height:37px;
+    font-size:21px;
+  }
+
+  .page-label{
+    font-size:10px;
+    letter-spacing:1px;
+  }
+
+  .container{
+    margin:20px auto 35px;
+  }
+
+  .page-heading h1{font-size:23px}
 }
+
 @media(max-width:380px){
+
   .summary-grid{gap:7px}
+
   .summary-card{padding:12px 9px}
+
   .summary-value{font-size:20px}
+
   .order-info{gap:10px}
+
   .order-card{padding:13px}
+
+  .order-total{font-size:17px}
+
+  .details-btn{
+    padding:10px 11px;
+    font-size:10px;
+  }
 }
 </style>
 </head>
@@ -519,8 +757,10 @@ a{text-decoration:none;color:inherit}
 
 <header class="topbar">
   <div class="top-left">
+
     <button class="menu-btn" id="menuBtn"
-      aria-label="Open navigation" aria-expanded="false">☰</button>
+      aria-label="Open navigation"
+      aria-expanded="false">☰</button>
 
     <div class="brand">
       <div class="brand-icon">R</div>
@@ -529,6 +769,7 @@ a{text-decoration:none;color:inherit}
         <small>NETWORK</small>
       </div>
     </div>
+
   </div>
 
   <span class="page-label">MY ORDERS</span>
@@ -537,13 +778,17 @@ a{text-decoration:none;color:inherit}
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <aside class="sidebar" id="sidebar">
+
   <div class="drawer-head">
+
     <div class="drawer-brand">
       RUBALIA
       <small>NETWORK</small>
     </div>
+
     <button class="close-menu" id="closeMenu"
       aria-label="Close navigation">×</button>
+
   </div>
 
   <div class="menu-title">MAIN MENU</div>
@@ -566,6 +811,7 @@ a{text-decoration:none;color:inherit}
     <a href="contact.html"><span>✉</span> Contact Support</a>
     <a href="#" id="logoutBtn"><span>↪</span> Logout</a>
   </nav>
+
 </aside>
 
 <main class="container">
@@ -584,6 +830,7 @@ a{text-decoration:none;color:inherit}
   <div class="message" id="message"></div>
 
   <section class="summary-grid">
+
     <div class="summary-card">
       <div class="summary-icon">📦</div>
       <div class="summary-value" id="totalOrders">—</div>
@@ -601,9 +848,11 @@ a{text-decoration:none;color:inherit}
       <div class="summary-value" id="deliveredOrders">—</div>
       <div class="summary-label">Delivered Orders</div>
     </div>
+
   </section>
 
   <section class="toolbar">
+
     <input
       id="searchInput"
       class="search-box"
@@ -621,6 +870,7 @@ a{text-decoration:none;color:inherit}
       <button class="filter-btn" data-filter="delivered">Delivered</button>
       <button class="filter-btn" data-filter="cancelled">Cancelled</button>
     </div>
+
   </section>
 
   <h2 class="section-title">Order History</h2>
@@ -632,20 +882,25 @@ a{text-decoration:none;color:inherit}
 </main>
 
 <footer class="footer">
-  © 2026 RUBALIA NETWORK. All Rights Reserved.
+  © 2026 <strong>RUBALIA NETWORK</strong>. All Rights Reserved.
   <br><br>
   Your orders are retrieved from the Rubalia server.
 </footer>
 
 <div class="modal" id="orderModal">
+
   <div class="modal-card">
+
     <div class="modal-header">
       <h2>Order Details</h2>
       <button class="close-btn" id="closeModalBtn"
         aria-label="Close">×</button>
     </div>
+
     <div id="modalContent"></div>
+
   </div>
+
 </div>
 
 <script>
@@ -701,6 +956,7 @@ function authHeaders(){
 }
 
 async function apiRequest(path){
+
   const response = await fetch(API + path,{
     method:"GET",
     headers:authHeaders()
@@ -729,6 +985,7 @@ async function apiRequest(path){
 /* AUTHENTICATION */
 
 async function verifySession(){
+
   if(!token){
     window.location.replace("login.html");
     return false;
@@ -763,6 +1020,7 @@ function getStatus(order){
 }
 
 function statusClass(status){
+
   const allowed = [
     "pending",
     "confirmed",
@@ -785,6 +1043,7 @@ function getOrderId(order){
 }
 
 function getDate(order){
+
   const raw = order.created_at;
 
   if(!raw) return "Date unavailable";
@@ -807,6 +1066,7 @@ function getTotal(order){
 }
 
 function getPaymentMethod(order){
+
   const method = String(order.payment_method || "Not available");
 
   if(method.toLowerCase() === "wallet"){
@@ -827,6 +1087,7 @@ function getItems(order){
 /* SUMMARY */
 
 function updateSummary(){
+
   document.getElementById("totalOrders").textContent =
     allOrders.length;
 
@@ -842,10 +1103,12 @@ function updateSummary(){
 /* ORDER LIST */
 
 function renderOrders(){
+
   const search = document.getElementById("searchInput")
     .value.trim().toLowerCase();
 
   const filtered = allOrders.filter(order=>{
+
     const id = String(getOrderId(order)).toLowerCase();
     const status = getStatus(order);
 
@@ -854,6 +1117,7 @@ function renderOrders(){
   });
 
   if(!filtered.length){
+
     container.innerHTML = `
       <div class="empty">
         <div class="empty-icon">📦</div>
@@ -865,22 +1129,27 @@ function renderOrders(){
         </p>
       </div>
     `;
+
     return;
   }
 
   container.innerHTML = `
     <div class="orders-list">
       ${filtered.map(order=>{
+
         const status = getStatus(order);
         const total = getTotal(order);
 
         return `
           <article class="order-card">
+
             <div class="order-top">
+
               <div>
                 <div class="order-id">
                   Order #${escapeHTML(getOrderId(order))}
                 </div>
+
                 <div class="order-date">
                   ${escapeHTML(getDate(order))}
                 </div>
@@ -889,11 +1158,13 @@ function renderOrders(){
               <span class="status ${statusClass(status)}">
                 ${escapeHTML(statusLabel(status))}
               </span>
+
             </div>
 
             <div class="order-divider"></div>
 
             <div class="order-info">
+
               <div>
                 <div class="info-label">Payment Method</div>
                 <div class="info-value">
@@ -907,9 +1178,11 @@ function renderOrders(){
                   ${escapeHTML(getPaymentStatus(order))}
                 </div>
               </div>
+
             </div>
 
             <div class="order-bottom">
+
               <div>
                 <div class="info-label">Order Total</div>
                 <div class="order-total">
@@ -922,9 +1195,12 @@ function renderOrders(){
                 data-order-id="${escapeHTML(order.id)}">
                 View Details
               </button>
+
             </div>
+
           </article>
         `;
+
       }).join("")}
     </div>
   `;
@@ -933,6 +1209,7 @@ function renderOrders(){
 /* ORDER DETAILS */
 
 function detailRow(label,value){
+
   return `
     <div class="detail-row">
       <span>${escapeHTML(label)}</span>
@@ -942,6 +1219,7 @@ function detailRow(label,value){
 }
 
 function showDetails(id){
+
   const order = allOrders.find(
     item => String(item.id) === String(id)
   );
@@ -977,6 +1255,7 @@ function showDetails(id){
   html += `
     <div class="item-list">
       <strong>Shipping Information</strong>
+
       <div class="item-row">
         <strong>${escapeHTML(order.shipping_name || "Not available")}</strong><br>
         Phone: ${escapeHTML(order.shipping_phone || "Not available")}<br>
@@ -988,7 +1267,9 @@ function showDetails(id){
   html += `<div class="item-list"><strong>Order Items</strong>`;
 
   if(items.length){
+
     html += items.map(item=>{
+
       const name = item.productName || "Order Item";
       const quantity = item.quantity ?? "—";
       const price = item.unitPrice;
@@ -1004,8 +1285,11 @@ function showDetails(id){
           Subtotal: ${subtotal === undefined ? "Not available" : money(subtotal)}
         </div>
       `;
+
     }).join("");
+
   }else{
+
     html += `
       <div class="item-row">
         Order item details are not available.
@@ -1016,9 +1300,11 @@ function showDetails(id){
   html += `</div>`;
 
   if(order.refund_admin_note){
+
     html += `
       <div class="item-list">
         <strong>Refund Information</strong>
+
         <div class="item-row">
           ${escapeHTML(order.refund_admin_note)}
         </div>
@@ -1027,11 +1313,13 @@ function showDetails(id){
   }
 
   modalContent.innerHTML = html;
+
   modal.classList.add("show");
   document.body.style.overflow = "hidden";
 }
 
 function closeModal(){
+
   modal.classList.remove("show");
   document.body.style.overflow = "";
 }
@@ -1039,10 +1327,12 @@ function closeModal(){
 /* LOAD ORDERS */
 
 async function loadOrders(){
+
   container.innerHTML =
     '<div class="loading">Loading your orders...</div>';
 
   try{
+
     const data = await apiRequest("/orders");
 
     allOrders = Array.isArray(data.orders) ? data.orders : [];
@@ -1051,6 +1341,7 @@ async function loadOrders(){
     renderOrders();
 
   }catch(error){
+
     console.error("Order loading error:",error);
 
     container.innerHTML = `
@@ -1072,12 +1363,16 @@ document.getElementById("searchInput")
   .addEventListener("input",renderOrders);
 
 document.querySelectorAll(".filter-btn").forEach(button=>{
+
   button.addEventListener("click",()=>{
+
     document.querySelectorAll(".filter-btn")
       .forEach(btn=>btn.classList.remove("active"));
 
     button.classList.add("active");
+
     activeFilter = button.dataset.filter;
+
     renderOrders();
   });
 });
@@ -1085,6 +1380,7 @@ document.querySelectorAll(".filter-btn").forEach(button=>{
 /* EVENT DELEGATION */
 
 container.addEventListener("click",event=>{
+
   const detailsButton = event.target.closest("[data-order-id]");
 
   if(detailsButton){
@@ -1096,15 +1392,16 @@ container.addEventListener("click",event=>{
   }
 });
 
+/* MODAL */
+
 document.getElementById("closeModalBtn")
   .addEventListener("click",closeModal);
 
 modal.addEventListener("click",event=>{
-  if(event.target === modal) closeModal();
-});
 
-document.addEventListener("keydown",event=>{
-  if(event.key === "Escape") closeModal();
+  if(event.target === modal){
+    closeModal();
+  }
 });
 
 /* DRAWER */
@@ -1114,20 +1411,25 @@ const overlay = document.getElementById("drawerOverlay");
 const menuBtn = document.getElementById("menuBtn");
 
 function openMenu(){
+
   sidebar.classList.add("open");
   overlay.classList.add("show");
   document.body.classList.add("menu-open");
+
   menuBtn.setAttribute("aria-expanded","true");
 }
 
 function closeMenu(){
+
   sidebar.classList.remove("open");
   overlay.classList.remove("show");
   document.body.classList.remove("menu-open");
+
   menuBtn.setAttribute("aria-expanded","false");
 }
 
 menuBtn.addEventListener("click",()=>{
+
   if(sidebar.classList.contains("open")){
     closeMenu();
   }else{
@@ -1141,10 +1443,15 @@ document.getElementById("closeMenu")
 overlay.addEventListener("click",closeMenu);
 
 document.addEventListener("keydown",event=>{
-  if(event.key === "Escape") closeMenu();
+
+  if(event.key === "Escape"){
+    closeModal();
+    closeMenu();
+  }
 });
 
 document.querySelectorAll(".menu a").forEach(link=>{
+
   if(link.id !== "logoutBtn"){
     link.addEventListener("click",closeMenu);
   }
@@ -1153,20 +1460,26 @@ document.querySelectorAll(".menu a").forEach(link=>{
 /* LOGOUT */
 
 document.getElementById("logoutBtn").addEventListener("click",event=>{
+
   event.preventDefault();
 
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
+  if(confirm("Are you sure you want to log out?")){
 
-  window.location.href = "login.html";
+    sessionStorage.removeItem("rubalia_token");
+    sessionStorage.removeItem("rubalia_user");
+
+    window.location.href = "login.html";
+  }
 });
 
 /* INITIALIZE */
 
 async function initialize(){
+
   hideMessage();
 
   try{
+
     const authenticated = await verifySession();
 
     if(!authenticated) return;
@@ -1174,13 +1487,18 @@ async function initialize(){
     await loadOrders();
 
   }catch(error){
-    showMessage(error.message || "Unable to verify your account.","error");
+
+    showMessage(
+      error.message || "Unable to verify your account.",
+      "error"
+    );
 
     container.innerHTML = `
       <div class="error-box">
         Unable to verify your account.
         <br>
-        <button class="retry-btn" onclick="location.reload()">
+        <button class="retry-btn"
+          onclick="location.reload()">
           Reload Page
         </button>
       </div>
@@ -1189,6 +1507,7 @@ async function initialize(){
 }
 
 initialize();
+
 </script>
 
 </body>
