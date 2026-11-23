@@ -10,177 +10,493 @@
 
 <style>
 :root{
- --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
- --bg:#f3f6fb;--white:#fff;--text:#18263c;
- --muted:#78869a;--border:#e5eaf1;
- --green:#16845b;--red:#c34b4b;
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --orange:#c58b32;
  --shadow:0 2px 9px rgba(16,43,80,.045);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:auto}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
 a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
 [hidden]{display:none!important}
 
 .loading-screen,.error-screen{
- position:fixed;inset:0;z-index:1000;display:flex;
- align-items:center;justify-content:center;background:var(--bg);padding:18px
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:var(--bg);
+ padding:18px;
 }
 .loading-box,.error-card{
- width:100%;max-width:400px;padding:25px;background:#fff;
- border:1px solid var(--border);border-radius:13px;text-align:center
+ width:100%;
+ max-width:400px;
+ padding:25px;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:13px;
+ text-align:center;
 }
 .loading-box strong{color:var(--navy)}
-.loading-box p,.error-card p{color:var(--muted);font-size:13px;line-height:1.6}
+.loading-box p,.error-card p{
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.6;
+}
 .spinner{
- width:32px;height:32px;border:3px solid #e3e8ef;
- border-top-color:var(--gold);border-radius:50%;margin:0 auto 15px;
- animation:spin .8s linear infinite
+ width:32px;
+ height:32px;
+ border:3px solid #e3e8ef;
+ border-top-color:var(--gold);
+ border-radius:50%;
+ margin:0 auto 15px;
+ animation:spin .8s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-screen{display:none}
 .error-card h2{color:var(--navy)}
 .error-card a,.error-card button{
- display:inline-block;margin:6px 3px 0;padding:11px 16px;
- border:0;border-radius:8px;background:var(--gold);
- color:var(--navy);font-weight:bold;font-size:12px
+ display:inline-block;
+ margin:6px 3px 0;
+ padding:11px 16px;
+ border:0;
+ border-radius:8px;
+ background:var(--gold);
+ color:var(--navy);
+ font-weight:bold;
+ font-size:12px;
 }
 
 /* TOP BAR */
 .topbar{
- min-height:60px;background:var(--navy);color:white;
- display:flex;align-items:center;justify-content:space-between;
- padding:0 20px;position:sticky;top:0;z-index:50
+ min-height:60px;
+ background:var(--navy);
+ color:white;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 20px;
+ position:sticky;
+ top:0;
+ z-index:50;
 }
-.brand{font-size:19px;font-weight:900;letter-spacing:.4px}
+.brand{
+ font-size:19px;
+ font-weight:900;
+ letter-spacing:.4px;
+}
 .brand span{color:var(--gold)}
-.top-right{display:flex;align-items:center;gap:10px}
+.top-right{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
 .admin-label{
- font-size:9px;background:rgba(214,173,85,.16);
- color:#f3dfa9;border:1px solid rgba(214,173,85,.35);
- padding:7px 10px;border-radius:20px;font-weight:bold
+ font-size:9px;
+ background:rgba(214,173,85,.16);
+ color:#f3dfa9;
+ border:1px solid rgba(214,173,85,.35);
+ padding:7px 10px;
+ border-radius:20px;
+ font-weight:bold;
 }
 .admin-avatar{
- width:34px;height:34px;border-radius:50%;background:var(--gold);
- color:var(--navy);display:grid;place-items:center;font-weight:bold
+ width:34px;
+ height:34px;
+ border-radius:50%;
+ background:var(--gold);
+ color:var(--navy);
+ display:grid;
+ place-items:center;
+ font-weight:bold;
 }
 .mobile-menu{
- display:none;border:1px solid rgba(255,255,255,.25);
- background:transparent;color:white;border-radius:7px;
- padding:7px 10px;font-size:18px
+ display:none;
+ border:1px solid rgba(255,255,255,.25);
+ background:transparent;
+ color:white;
+ border-radius:7px;
+ padding:7px 10px;
+ font-size:18px;
 }
 
 /* LAYOUT */
-.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:calc(100vh - 60px)}
-.sidebar{background:var(--navy2);color:white;padding:17px 11px;min-height:calc(100vh - 60px)}
-.admin-profile{padding:8px 10px 17px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.13)}
-.admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
-.admin-profile small{color:#b8c7d9;font-size:10px;overflow-wrap:anywhere}
+.layout{
+ display:grid;
+ grid-template-columns:225px minmax(0,1fr);
+ min-height:calc(100vh - 60px);
+}
+.sidebar{
+ background:var(--navy2);
+ color:white;
+ padding:17px 11px;
+ min-height:calc(100vh - 60px);
+}
+.admin-profile{
+ padding:8px 10px 17px;
+ margin-bottom:12px;
+ border-bottom:1px solid rgba(255,255,255,.13);
+}
+.admin-profile strong{
+ display:block;
+ font-size:13px;
+ margin-bottom:5px;
+}
+.admin-profile small{
+ color:#b8c7d9;
+ font-size:10px;
+ overflow-wrap:anywhere;
+}
 .side-heading{
- color:#9eafc5;font-size:9px;font-weight:bold;text-transform:uppercase;
- letter-spacing:1px;margin:17px 10px 7px
+ color:#9eafc5;
+ font-size:9px;
+ font-weight:bold;
+ text-transform:uppercase;
+ letter-spacing:1px;
+ margin:17px 10px 7px;
 }
 .nav-link,.logout-btn{
- display:flex;align-items:center;gap:9px;padding:10px;border-radius:7px;
- margin:2px 0;font-size:11px;color:#dce6f2;width:100%
+ display:flex;
+ align-items:center;
+ gap:9px;
+ padding:10px;
+ border-radius:7px;
+ margin:2px 0;
+ font-size:11px;
+ color:#dce6f2;
+ width:100%;
 }
-.nav-link:hover,.nav-link.active,.logout-btn:hover{background:rgba(214,173,85,.15);color:#f3dfa9}
-.nav-icon{width:18px;text-align:center;font-size:14px}
-.logout-btn{background:transparent;border:0;text-align:left}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{
+ background:rgba(214,173,85,.15);
+ color:#f3dfa9;
+}
+.nav-icon{
+ width:18px;
+ text-align:center;
+ font-size:14px;
+}
+.logout-btn{
+ background:transparent;
+ border:0;
+ text-align:left;
+}
 
 /* MAIN */
-.main{padding:22px;width:100%;max-width:1550px;margin:auto;min-width:0}
+.main{
+ padding:22px;
+ width:100%;
+ max-width:1550px;
+ margin:auto;
+ min-width:0;
+}
 .heading{
- display:flex;justify-content:space-between;align-items:center;
- gap:12px;flex-wrap:wrap;margin-bottom:17px
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:17px;
 }
-.heading h1{color:var(--navy);font-size:23px;margin:0 0 5px}
-.heading p{margin:0;color:var(--muted);font-size:11px}
+.heading h1{
+ color:var(--navy);
+ font-size:23px;
+ margin:0 0 5px;
+}
+.heading p{
+ margin:0;
+ color:var(--muted);
+ font-size:11px;
+}
 .live-badge{
- display:inline-flex;align-items:center;gap:5px;background:#e7f7ef;
- color:var(--green);border-radius:20px;padding:7px 10px;
- font-size:9px;font-weight:bold;white-space:nowrap
+ display:inline-flex;
+ align-items:center;
+ gap:5px;
+ background:#e7f7ef;
+ color:var(--green);
+ border-radius:20px;
+ padding:7px 10px;
+ font-size:9px;
+ font-weight:bold;
+ white-space:nowrap;
 }
-.live-badge.offline{background:#fceaea;color:var(--red)}
+.live-badge.offline{
+ background:#fceaea;
+ color:var(--red);
+}
 
 /* WELCOME */
 .welcome{
- background:var(--navy);color:white;border-radius:12px;padding:18px 20px;
- margin-bottom:17px;display:flex;justify-content:space-between;align-items:center;gap:12px
+ background:var(--navy);
+ color:white;
+ border-radius:12px;
+ padding:18px 20px;
+ margin-bottom:17px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
 }
-.welcome h2{margin:0 0 6px;font-size:18px}
-.welcome p{margin:0;color:#c8d5e5;font-size:11px;line-height:1.7}
+.welcome h2{
+ margin:0 0 6px;
+ font-size:18px;
+}
+.welcome p{
+ margin:0;
+ color:#c8d5e5;
+ font-size:11px;
+ line-height:1.7;
+}
 .welcome-icon{font-size:35px}
 
 /* ANNOUNCEMENT */
-.announcement-card{background:#fffaf0;border:1px solid #ead8ad;border-radius:11px;padding:14px;margin-bottom:18px}
-.announcement-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.announcement-title{display:flex;align-items:center;gap:8px;color:var(--navy);font-size:12px;font-weight:bold}
-.announcement-indicator{font-size:9px;font-weight:bold;color:var(--green);background:#e3f6eb;padding:5px 8px;border-radius:20px}
-.announcement-text{color:#59451e;font-size:12px;line-height:1.7;overflow-wrap:anywhere;white-space:pre-wrap}
-.announcement-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px;border-top:1px solid #eadfc5;padding-top:10px}
-.announcement-date{font-size:9px;color:#9a8459}
-.announcement-link{color:#8a6724;font-size:10px;font-weight:bold}
+.announcement-card{
+ background:#fffaf0;
+ border:1px solid #ead8ad;
+ border-radius:11px;
+ padding:14px;
+ margin-bottom:18px;
+}
+.announcement-top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-bottom:10px;
+}
+.announcement-title{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ color:var(--navy);
+ font-size:12px;
+ font-weight:bold;
+}
+.announcement-indicator{
+ font-size:9px;
+ font-weight:bold;
+ color:var(--green);
+ background:#e3f6eb;
+ padding:5px 8px;
+ border-radius:20px;
+}
+.announcement-text{
+ color:#59451e;
+ font-size:12px;
+ line-height:1.7;
+ overflow-wrap:anywhere;
+ white-space:pre-wrap;
+}
+.announcement-bottom{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-top:11px;
+ border-top:1px solid #eadfc5;
+ padding-top:10px;
+}
+.announcement-date{
+ font-size:9px;
+ color:#9a8459;
+}
+.announcement-link{
+ color:#8a6724;
+ font-size:10px;
+ font-weight:bold;
+}
 
 /* SECTION HEAD */
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:19px 0 11px}
-.section-title{font-size:16px;color:var(--navy);margin:0 0 4px}
-.section-subtitle{font-size:10px;color:var(--muted);margin:0}
+.section-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+ margin:19px 0 11px;
+}
+.section-title{
+ font-size:16px;
+ color:var(--navy);
+ margin:0 0 4px;
+}
+.section-subtitle{
+ font-size:10px;
+ color:var(--muted);
+ margin:0;
+}
 
-/* BUSINESS OVERVIEW: 3 CARDS PER ROW */
+/* SLIM BUSINESS OVERVIEW CARDS */
 .stats{
  display:grid;
  grid-template-columns:repeat(3,minmax(0,1fr));
- gap:9px;margin-bottom:20px
+ gap:7px;
+ margin-bottom:18px;
 }
 .stat-card{
- display:block;background:#fff;border:1px solid var(--border);
- border-radius:9px;padding:11px 12px;min-width:0;
- box-shadow:var(--shadow);transition:.15s
+ display:block;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:7px 8px;
+ min-width:0;
+ min-height:76px;
+ box-shadow:var(--shadow);
+ transition:.15s;
 }
-.stat-card.link-card:active{transform:scale(.98);background:#f8fafc}
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:5px}
-.stat-name{color:var(--muted);font-size:10px;line-height:1.35}
+.stat-card.link-card:active{
+ transform:scale(.98);
+ background:#f8fafc;
+}
+.stat-top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:4px;
+}
+.stat-name{
+ color:var(--muted);
+ font-size:9px;
+ line-height:1.3;
+}
 .stat-icon{
- width:27px;height:27px;display:grid;place-items:center;
- border-radius:7px;background:#f1f4f9;font-size:13px;flex-shrink:0
+ width:21px;
+ height:21px;
+ display:grid;
+ place-items:center;
+ border-radius:6px;
+ background:#f1f4f9;
+ font-size:11px;
+ flex-shrink:0;
 }
 .stat-value{
- display:block;font-size:21px;color:var(--navy);
- font-weight:800;margin:7px 0 3px;overflow-wrap:anywhere
+ display:block;
+ font-size:17px;
+ color:var(--navy);
+ font-weight:800;
+ margin:5px 0 2px;
+ overflow-wrap:anywhere;
 }
-.stat-note{font-size:9px;color:var(--muted);line-height:1.4}
+.stat-note{
+ font-size:8px;
+ color:var(--muted);
+ line-height:1.3;
+}
 .stat-card.deposit{border-left:3px solid var(--green)}
-.stat-card.withdraw{border-left:3px solid #c58b32}
+.stat-card.withdraw{border-left:3px solid var(--orange)}
 .stat-card.deposit .stat-icon{background:#e7f7ef}
 .stat-card.withdraw .stat-icon{background:#fff3df}
-.stat-card.has-pending{background:#fffaf0;border-color:#e8c879}
+.stat-card.has-pending{
+ background:#fffaf0;
+ border-color:#e8c879;
+}
 .stat-card.has-pending .stat-value{color:#b16b12}
 
 /* GENERAL PANELS */
 .panel{
- background:#fff;border:1px solid var(--border);border-radius:11px;
- padding:15px;min-width:0;box-shadow:var(--shadow);margin-bottom:16px
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:11px;
+ padding:15px;
+ min-width:0;
+ box-shadow:var(--shadow);
+ margin-bottom:16px;
 }
-.panel-head{display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px}
-.panel-head h3{margin:0;color:var(--navy);font-size:13px}
-.refresh-btn{border:1px solid var(--border);background:white;color:var(--navy);padding:8px 11px;border-radius:7px;font-size:10px;font-weight:bold}
-.refresh-btn:disabled{opacity:.5;cursor:wait}
+.panel-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-bottom:13px;
+}
+.panel-head h3{
+ margin:0;
+ color:var(--navy);
+ font-size:13px;
+}
+.refresh-btn{
+ border:1px solid var(--border);
+ background:white;
+ color:var(--navy);
+ padding:8px 11px;
+ border-radius:7px;
+ font-size:10px;
+ font-weight:bold;
+}
+.refresh-btn:disabled{
+ opacity:.5;
+ cursor:wait;
+}
 
 /* MANAGEMENT CARDS */
-.management-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:19px}
+.management-grid{
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:10px;
+ margin-bottom:19px;
+}
 .option-card{
- display:flex;align-items:center;gap:11px;min-width:0;min-height:70px;
- padding:12px;background:#fff;border:1px solid var(--border);
- border-radius:10px;box-shadow:var(--shadow)
+ display:flex;
+ align-items:center;
+ gap:11px;
+ min-width:0;
+ min-height:70px;
+ padding:12px;
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:10px;
+ box-shadow:var(--shadow);
 }
 .option-card:active{background:#f7f9fc}
-.option-icon{width:37px;height:37px;flex-shrink:0;display:grid;place-items:center;background:#f1f4f9;border-radius:9px;font-size:18px}
+.option-icon{
+ width:37px;
+ height:37px;
+ flex-shrink:0;
+ display:grid;
+ place-items:center;
+ background:#f1f4f9;
+ border-radius:9px;
+ font-size:18px;
+}
 .option-info{min-width:0}
-.option-info strong{display:block;color:var(--navy);font-size:11px;line-height:1.4}
-.option-info small{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:3px}
-.option-arrow{margin-left:auto;color:#9ba7b6;font-size:15px;flex-shrink:0}
+.option-info strong{
+ display:block;
+ color:var(--navy);
+ font-size:11px;
+ line-height:1.4;
+}
+.option-info small{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ line-height:1.4;
+ margin-top:3px;
+}
+.option-arrow{
+ margin-left:auto;
+ color:#9ba7b6;
+ font-size:15px;
+ flex-shrink:0;
+}
 .option-card.gold{border-left:3px solid var(--gold)}
 .option-card.blue{border-left:3px solid #3978bd}
 .option-card.green{border-left:3px solid var(--green)}
@@ -189,109 +505,313 @@ button{font:inherit;cursor:pointer}
 
 /* COMMISSION */
 .commission-section{margin-bottom:19px}
-.commission-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.commission-heading h2{font-size:16px;color:var(--navy);margin:0 0 4px}
-.commission-heading p{font-size:10px;color:var(--muted);margin:0}
-.commission-actions{display:flex;gap:7px;flex-wrap:wrap}
-.commission-btn{display:inline-block;padding:9px 11px;border-radius:7px;background:var(--navy);color:white;font-size:10px;font-weight:bold}
-.commission-btn.gold{background:var(--gold);color:var(--navy)}
-.commission-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:12px}
-.commission-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0;box-shadow:var(--shadow)}
-.commission-card .label{font-size:9px;color:var(--muted)}
-.commission-card .value{display:block;font-size:19px;font-weight:800;color:var(--navy);margin:8px 0 4px;overflow-wrap:anywhere}
-.commission-card .note{font-size:9px;color:var(--muted)}
+.commission-heading{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:12px;
+}
+.commission-heading h2{
+ font-size:16px;
+ color:var(--navy);
+ margin:0 0 4px;
+}
+.commission-heading p{
+ font-size:10px;
+ color:var(--muted);
+ margin:0;
+}
+.commission-actions{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+}
+.commission-btn{
+ display:inline-block;
+ padding:9px 11px;
+ border-radius:7px;
+ background:var(--navy);
+ color:white;
+ font-size:10px;
+ font-weight:bold;
+}
+.commission-btn.gold{
+ background:var(--gold);
+ color:var(--navy);
+}
+.commission-stats{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;
+ margin-bottom:12px;
+}
+.commission-card{
+ background:#fff;
+ border:1px solid var(--border);
+ border-radius:9px;
+ padding:12px;
+ min-width:0;
+ box-shadow:var(--shadow);
+}
+.commission-card .label{
+ font-size:9px;
+ color:var(--muted);
+}
+.commission-card .value{
+ display:block;
+ font-size:19px;
+ font-weight:800;
+ color:var(--navy);
+ margin:8px 0 4px;
+ overflow-wrap:anywhere;
+}
+.commission-card .note{
+ font-size:9px;
+ color:var(--muted);
+}
 .commission-card.company{border-top:3px solid var(--gold)}
 .commission-card.profit{border-top:3px solid #315e91}
 .commission-card.distributed{border-top:3px solid var(--green)}
 .commission-card.unallocated{border-top:3px solid #c58b32}
 .commission-card.orders{border-top:3px solid #7c70b8}
-.commission-error{display:none;background:#fff4f2;border:1px solid #f1d0cb;color:#a34237;border-radius:8px;padding:11px;font-size:10px;line-height:1.6;margin-bottom:12px}
-.commission-loading{color:var(--muted);font-size:10px;padding:14px;text-align:center}
-.level-pill{display:inline-block;background:#edf2f8;color:var(--navy);padding:5px 8px;border-radius:20px;font-weight:bold;font-size:9px}
+.commission-error{
+ display:none;
+ background:#fff4f2;
+ border:1px solid #f1d0cb;
+ color:#a34237;
+ border-radius:8px;
+ padding:11px;
+ font-size:10px;
+ line-height:1.6;
+ margin-bottom:12px;
+}
+.commission-loading{
+ color:var(--muted);
+ font-size:10px;
+ padding:14px;
+ text-align:center;
+}
+.level-pill{
+ display:inline-block;
+ background:#edf2f8;
+ color:var(--navy);
+ padding:5px 8px;
+ border-radius:20px;
+ font-weight:bold;
+ font-size:9px;
+}
 
 /* TABLES */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:510px}
-th{text-align:left;font-size:9px;color:var(--muted);background:#f7f9fc;padding:11px 9px;white-space:nowrap}
-td{padding:11px 9px;border-bottom:1px solid #edf0f5;font-size:10px}
+.table-wrap{
+ overflow-x:auto;
+ -webkit-overflow-scrolling:touch;
+}
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:510px;
+}
+th{
+ text-align:left;
+ font-size:9px;
+ color:var(--muted);
+ background:#f7f9fc;
+ padding:11px 9px;
+ white-space:nowrap;
+}
+td{
+ padding:11px 9px;
+ border-bottom:1px solid #edf0f5;
+ font-size:10px;
+}
 td strong{color:var(--navy)}
-.status{display:inline-block;padding:5px 7px;border-radius:20px;font-size:9px;font-weight:bold;background:#eef2f7;color:#526176}
+.status{
+ display:inline-block;
+ padding:5px 7px;
+ border-radius:20px;
+ font-size:9px;
+ font-weight:bold;
+ background:#eef2f7;
+ color:#526176;
+}
 .status.pending{background:#fff2dc;color:#a16b14}
 .status.complete{background:#e7f7ef;color:#16845b}
 .status.cancelled{background:#fceaea;color:#c34b4b}
-.empty-state{padding:20px;text-align:center;color:var(--muted);font-size:11px}
+.empty-state{
+ padding:20px;
+ text-align:center;
+ color:var(--muted);
+ font-size:11px;
+}
 
 /* ACCOUNT */
-.account-box{background:#f7f9fc;border:1px solid var(--border);border-radius:9px;padding:14px}
-.account-box strong{color:var(--navy);font-size:13px;display:block;margin-bottom:5px}
-.account-box p{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin:0 0 10px}
-.notice{background:#fff9eb;border:1px solid #f0dfb8;border-radius:9px;padding:12px;color:#76591e;font-size:10px;line-height:1.7;margin-top:15px}
-.footer{text-align:center;padding:18px;color:#9aa5b5;font-size:9px}
+.account-box{
+ background:#f7f9fc;
+ border:1px solid var(--border);
+ border-radius:9px;
+ padding:14px;
+}
+.account-box strong{
+ color:var(--navy);
+ font-size:13px;
+ display:block;
+ margin-bottom:5px;
+}
+.account-box p{
+ font-size:11px;
+ color:var(--muted);
+ overflow-wrap:anywhere;
+ margin:0 0 10px;
+}
+.notice{
+ background:#fff9eb;
+ border:1px solid #f0dfb8;
+ border-radius:9px;
+ padding:12px;
+ color:#76591e;
+ font-size:10px;
+ line-height:1.7;
+ margin-top:15px;
+}
+.footer{
+ text-align:center;
+ padding:18px;
+ color:#9aa5b5;
+ font-size:9px;
+}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
- .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .management-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+ }
 }
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
- .sidebar{display:none;padding:12px;min-height:auto;position:fixed;top:60px;left:0;right:0;bottom:0;overflow-y:auto;z-index:45}
+ .sidebar{
+  display:none;
+  padding:12px;
+  min-height:auto;
+  position:fixed;
+  top:60px;
+  left:0;
+  right:0;
+  bottom:0;
+  overflow-y:auto;
+  z-index:45;
+ }
  .sidebar.open{display:block}
  .mobile-menu{display:block}
  .main{padding:16px}
- .management-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .management-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
 }
 @media(max-width:480px){
- .topbar{padding:0 11px;min-height:55px}
+ .topbar{
+  padding:0 11px;
+  min-height:55px;
+ }
  .sidebar{top:55px}
  .brand{font-size:16px}
- .admin-label{font-size:8px;padding:6px 7px}
- .admin-avatar{width:30px;height:30px}
+ .admin-label{
+  font-size:8px;
+  padding:6px 7px;
+ }
+ .admin-avatar{
+  width:30px;
+  height:30px;
+ }
  .main{padding:11px}
  .heading h1{font-size:20px}
  .heading p{font-size:10px}
- .welcome{padding:14px;border-radius:9px}
+ .welcome{
+  padding:14px;
+  border-radius:9px;
+ }
  .welcome h2{font-size:15px}
  .welcome p{font-size:10px}
  .welcome-icon{font-size:29px}
- .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
- .stat-card{padding:8px 7px;border-radius:8px}
- .stat-name{font-size:9px}
- .stat-icon{width:22px;height:22px;font-size:11px}
- .stat-value{font-size:17px;margin:6px 0 2px}
- .stat-note{font-size:8px}
+
+ /* MOBILE: THREE SLIM CARDS PER ROW */
+ .stats{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:5px;
+ }
+ .stat-card{
+  padding:6px 6px;
+  min-height:70px;
+  border-radius:7px;
+ }
+ .stat-name{font-size:8px}
+ .stat-icon{
+  width:19px;
+  height:19px;
+  font-size:10px;
+ }
+ .stat-value{
+  font-size:15px;
+  margin:4px 0 2px;
+ }
+ .stat-note{font-size:7px}
+
  .section-title{font-size:14px}
  .section-subtitle{font-size:9px}
  .management-grid{gap:7px}
- .option-card{padding:9px;min-height:62px;gap:8px}
- .option-icon{width:31px;height:31px;font-size:15px}
+ .option-card{
+  padding:9px;
+  min-height:62px;
+  gap:8px;
+ }
+ .option-icon{
+  width:31px;
+  height:31px;
+  font-size:15px;
+ }
  .option-info strong{font-size:10px}
  .option-info small{font-size:8px}
  .option-arrow{font-size:12px}
  .panel{padding:11px}
- .commission-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .commission-stats{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+ }
  .commission-card{padding:10px}
  .commission-card .value{font-size:17px}
  .commission-card .label,.commission-card .note{font-size:8px}
  .commission-heading h2{font-size:14px}
  .commission-heading p{font-size:9px}
- .commission-btn,.refresh-btn{font-size:9px;padding:8px 9px}
+ .commission-btn,.refresh-btn{
+  font-size:9px;
+  padding:8px 9px;
+ }
  .announcement-card{padding:11px}
  .announcement-text{font-size:11px}
 }
 @media(max-width:350px){
- .option-card{gap:6px;padding:8px}
- .option-icon{width:27px;height:27px;font-size:13px}
+ .option-card{
+  gap:6px;
+  padding:8px;
+ }
+ .option-icon{
+  width:27px;
+  height:27px;
+  font-size:13px;
+ }
  .option-info strong{font-size:9px}
  .option-info small{font-size:7px}
- .stat-value{font-size:15px}
- .stat-name{font-size:8px}
- .stat-note{font-size:7px}
+ .stat-value{font-size:14px}
+ .stat-name{font-size:7px}
+ .stat-note{font-size:6px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOADING -->
 <div class="loading-screen" id="loadingScreen">
  <div class="loading-box">
   <div class="spinner"></div>
@@ -300,6 +820,7 @@ td strong{color:var(--navy)}
  </div>
 </div>
 
+<!-- ERROR -->
 <div class="error-screen" id="errorScreen">
  <div class="error-card">
   <h2 id="errorTitle">Access Error</h2>
@@ -311,6 +832,7 @@ td strong{color:var(--navy)}
 
 <div id="adminApp" hidden>
 
+<!-- TOP BAR -->
 <header class="topbar">
  <div style="display:flex;align-items:center;gap:10px">
   <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
@@ -324,6 +846,7 @@ td strong{color:var(--navy)}
 
 <div class="layout">
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
 
  <div class="admin-profile">
@@ -373,6 +896,7 @@ td strong{color:var(--navy)}
  </button>
 </aside>
 
+<!-- MAIN CONTENT -->
 <main class="main">
 
  <div class="heading">
@@ -383,6 +907,7 @@ td strong{color:var(--navy)}
   <span class="live-badge" id="serverBadge">● CONNECTING TO SERVER</span>
  </div>
 
+ <!-- WELCOME -->
  <section class="welcome">
   <div>
    <h2 id="welcomeTitle">Welcome, Administrator!</h2>
@@ -416,65 +941,90 @@ td strong{color:var(--navy)}
  <section class="stats">
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Total Users</span><span class="stat-icon">👥</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Total Users</span>
+    <span class="stat-icon">👥</span>
+   </div>
    <strong class="stat-value" id="totalUsers">—</strong>
    <span class="stat-note">All registered accounts</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Active Users</span><span class="stat-icon">🟢</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Active Users</span>
+    <span class="stat-icon">🟢</span>
+   </div>
    <strong class="stat-value" id="activeUsers">—</strong>
    <span class="stat-note">Active accounts</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Total Products</span><span class="stat-icon">📦</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Total Products</span>
+    <span class="stat-icon">📦</span>
+   </div>
    <strong class="stat-value" id="totalProducts">—</strong>
    <span class="stat-note">All products</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Active Products</span><span class="stat-icon">🛍️</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Active Products</span>
+    <span class="stat-icon">🛍️</span>
+   </div>
    <strong class="stat-value" id="activeProducts">—</strong>
    <span class="stat-note">Available products</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Total Orders</span><span class="stat-icon">🛒</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Total Orders</span>
+    <span class="stat-icon">🛒</span>
+   </div>
    <strong class="stat-value" id="totalOrders">—</strong>
    <span class="stat-note">All recorded orders</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Pending Orders</span><span class="stat-icon">⏳</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Pending Orders</span>
+    <span class="stat-icon">⏳</span>
+   </div>
    <strong class="stat-value" id="pendingOrders">—</strong>
    <span class="stat-note">Awaiting processing</span>
   </div>
 
   <div class="stat-card">
-   <div class="stat-top"><span class="stat-name">Delivered Orders</span><span class="stat-icon">✅</span></div>
+   <div class="stat-top">
+    <span class="stat-name">Delivered Orders</span>
+    <span class="stat-icon">✅</span>
+   </div>
    <strong class="stat-value" id="deliveredOrders">—</strong>
    <span class="stat-note">Successfully delivered</span>
   </div>
 
-  <!-- PENDING PROFILE WALLET DEPOSITS -->
-  <a href="admin/admin-payments.html" class="stat-card link-card deposit" id="pendingDepositCard">
+  <!-- PENDING DEPOSITS -->
+  <a href="admin/admin-payments.html"
+     class="stat-card link-card deposit"
+     id="pendingDepositCard">
    <div class="stat-top">
     <span class="stat-name">Pending Deposits</span>
     <span class="stat-icon">💰</span>
    </div>
    <strong class="stat-value" id="pendingDeposits">—</strong>
-   <span class="stat-note" id="pendingDepositNote">Profile wallet requests · View requests →</span>
+   <span class="stat-note" id="pendingDepositNote">Wallet requests · View →</span>
   </a>
 
   <!-- PENDING WITHDRAWALS -->
-  <a href="admin/admin-withdrawals.html" class="stat-card link-card withdraw" id="pendingWithdrawalCard">
+  <a href="admin/admin-withdrawals.html"
+     class="stat-card link-card withdraw"
+     id="pendingWithdrawalCard">
    <div class="stat-top">
     <span class="stat-name">Pending Withdrawals</span>
     <span class="stat-icon">💸</span>
    </div>
    <strong class="stat-value" id="pendingWithdrawals">—</strong>
-   <span class="stat-note" id="pendingWithdrawalNote">Withdrawal requests · View requests →</span>
+   <span class="stat-note" id="pendingWithdrawalNote">Withdrawal requests · View →</span>
   </a>
 
  </section>
@@ -555,9 +1105,10 @@ td strong{color:var(--navy)}
    <span class="option-arrow">›</span>
   </a>
 
+  <!-- FINANCIAL REPORTS CARD -->
   <a href="admin/admin-reports.html" class="option-card blue">
    <span class="option-icon">📈</span>
-   <span class="option-info"><strong>Financial Reports</strong><small>Business reports</small></span>
+   <span class="option-info"><strong>Financial Reports</strong><small>Monthly company profit and loss reports</small></span>
    <span class="option-arrow">›</span>
   </a>
 
@@ -717,7 +1268,9 @@ td strong{color:var(--navy)}
 
  <!-- ADMIN ACCOUNT -->
  <section class="panel">
-  <div class="panel-head"><h3>Administrator Account</h3></div>
+  <div class="panel-head">
+   <h3>Administrator Account</h3>
+  </div>
   <div class="account-box">
    <strong id="accountName">—</strong>
    <p id="accountEmail">—</p>
@@ -777,15 +1330,13 @@ td strong{color:var(--navy)}
 <script>
 "use strict";
 
-// ==========================================
-// API CONFIGURATION
-// ==========================================
-
+/* API CONFIGURATION */
 const API_BASE="https://rubalia.onrender.com/api";
 let adminToken="";
 
 const $=id=>document.getElementById(id);
 
+/* BASIC HELPERS */
 function showError(title,message){
  $("loadingScreen").style.display="none";
  $("adminApp").hidden=true;
@@ -804,6 +1355,7 @@ function formatMoney(value){
  if(value===null||value===undefined||value==="")return "৳—";
  const number=Number(value);
  if(!Number.isFinite(number))return "৳—";
+
  return "৳"+number.toLocaleString("en-BD",{
   minimumFractionDigits:2,
   maximumFractionDigits:2
@@ -814,8 +1366,11 @@ function formatDate(value){
  if(!value)return "—";
  const date=new Date(value);
  if(Number.isNaN(date.getTime()))return "—";
+
  return date.toLocaleDateString("en-GB",{
-  day:"2-digit",month:"short",year:"numeric"
+  day:"2-digit",
+  month:"short",
+  year:"numeric"
  });
 }
 
@@ -824,10 +1379,7 @@ function initials(name){
  return value?value.charAt(0).toUpperCase():"A";
 }
 
-// ==========================================
-// AUTHENTICATED API REQUEST
-// ==========================================
-
+/* AUTHENTICATED API REQUEST */
 async function apiRequest(path){
  const response=await fetch(API_BASE+path,{
   method:"GET",
@@ -858,10 +1410,7 @@ async function apiRequest(path){
  return data;
 }
 
-// ==========================================
-// PUBLIC ANNOUNCEMENT API
-// ==========================================
-
+/* ANNOUNCEMENT */
 async function loadAnnouncement(){
  const text=$("announcementText");
  const status=$("announcementStatus");
@@ -895,7 +1444,9 @@ async function loadAnnouncement(){
   status.textContent="● ACTIVE";
   status.style.color="";
   status.style.background="";
-  date.textContent="Last updated: "+formatDate(message.updated_at||message.created_at);
+  date.textContent="Last updated: "+formatDate(
+   message.updated_at||message.created_at
+  );
 
  }catch(error){
   text.textContent="Unable to load the announcement at this moment.";
@@ -907,10 +1458,7 @@ async function loadAnnouncement(){
  }
 }
 
-// ==========================================
-// RECENT ORDERS
-// ==========================================
-
+/* RECENT ORDERS */
 function showOrders(orders){
  const body=$("ordersBody");
  body.replaceChildren();
@@ -945,6 +1493,7 @@ function showOrders(orders){
     const strong=document.createElement("strong");
     strong.textContent=String(value);
     cell.appendChild(strong);
+
    }else if(index===4){
     const badge=document.createElement("span");
     badge.className="status";
@@ -961,6 +1510,7 @@ function showOrders(orders){
 
     badge.textContent=String(value);
     cell.appendChild(badge);
+
    }else{
     cell.textContent=String(value);
    }
@@ -972,10 +1522,7 @@ function showOrders(orders){
  });
 }
 
-// ==========================================
-// PENDING DEPOSIT AND WITHDRAWAL COUNTS
-// ==========================================
-
+/* PENDING DEPOSIT AND WITHDRAWAL CARDS */
 function updateRequestCard(cardId,valueId,noteId,count,label){
  const card=$(cardId);
  const value=$(valueId);
@@ -989,14 +1536,15 @@ function updateRequestCard(cardId,valueId,noteId,count,label){
  }
 
  const total=Math.max(0,Number(count));
+
  value.textContent=formatNumber(total);
 
  if(total>0){
   card.classList.add("has-pending");
-  note.textContent=total+" "+label+" waiting · View requests →";
+  note.textContent=total+" "+label+" waiting · View →";
  }else{
   card.classList.remove("has-pending");
-  note.textContent="No pending requests · View requests →";
+  note.textContent="No pending requests · View →";
  }
 }
 
@@ -1005,7 +1553,9 @@ async function loadPendingDepositCount(){
   const data=await apiRequest("/wallet/admin/deposits?status=pending");
   const deposits=Array.isArray(data.deposits)?data.deposits:null;
 
-  if(!deposits)throw new Error("Invalid deposit response");
+  if(!deposits){
+   throw new Error("Invalid deposit response");
+  }
 
   updateRequestCard(
    "pendingDepositCard",
@@ -1033,7 +1583,9 @@ async function loadPendingWithdrawalCount(){
   const data=await apiRequest("/wallet/admin/withdrawals?status=pending");
   const withdrawals=Array.isArray(data.withdrawals)?data.withdrawals:null;
 
-  if(!withdrawals)throw new Error("Invalid withdrawal response");
+  if(!withdrawals){
+   throw new Error("Invalid withdrawal response");
+  }
 
   updateRequestCard(
    "pendingWithdrawalCard",
@@ -1056,10 +1608,7 @@ async function loadPendingWithdrawalCount(){
  }
 }
 
-// ==========================================
-// COMMISSION REPORT
-// ==========================================
-
+/* COMMISSION REPORT */
 function showCommissionError(message){
  $("commissionError").style.display="block";
  $("commissionError").textContent=message;
@@ -1078,9 +1627,11 @@ function showCommissionError(message){
 
  const row=document.createElement("tr");
  const cell=document.createElement("td");
+
  cell.colSpan=4;
  cell.className="commission-loading";
  cell.textContent="Commission report is currently unavailable.";
+
  row.appendChild(cell);
  body.appendChild(row);
 }
@@ -1098,6 +1649,7 @@ function showCommissionLevels(levels){
 
  levels.forEach(item=>{
   const level=Number(item.level);
+
   if(Number.isInteger(level)&&level>=1&&level<=10){
    levelMap.set(level,item);
   }
@@ -1109,19 +1661,23 @@ function showCommissionLevels(levels){
 
   const levelCell=document.createElement("td");
   const pill=document.createElement("span");
+
   pill.className="level-pill";
   pill.textContent="Level "+level;
   levelCell.appendChild(pill);
 
   const rateCell=document.createElement("td");
   const rate=item?.commission_rate??item?.rate;
-  rateCell.textContent=rate===null||rate===undefined?"—":formatNumber(rate)+"%";
+
+  rateCell.textContent=
+   rate===null||rate===undefined?"—":formatNumber(rate)+"%";
 
   const countCell=document.createElement("td");
   countCell.textContent=formatNumber(item?.total_transactions);
 
   const amountCell=document.createElement("td");
   const strong=document.createElement("strong");
+
   strong.textContent=formatMoney(item?.total_commission);
   amountCell.appendChild(strong);
 
@@ -1182,10 +1738,7 @@ async function loadCommissionReport(){
  }
 }
 
-// ==========================================
-// MAIN DASHBOARD DATA
-// ==========================================
-
+/* MAIN DASHBOARD DATA */
 async function loadDashboardData(){
  const button=$("refreshBtn");
 
@@ -1214,15 +1767,17 @@ async function loadDashboardData(){
   $("serverBadge").textContent="● LIVE SERVER DATA";
   $("serverBadge").classList.remove("offline");
 
- }catch(error){
+  return true;
 
+ }catch(error){
   if(error.message.includes("administrator permission")){
    showError("Access Denied",error.message);
   }else if(error.message.includes("session has expired")){
-   return;
+   return false;
   }else{
    $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
    $("serverBadge").classList.add("offline");
+
    showOrders([]);
 
    showError(
@@ -1231,16 +1786,15 @@ async function loadDashboardData(){
    );
   }
 
+  return false;
+
  }finally{
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
 }
 
-// ==========================================
-// REFRESH ALL DASHBOARD INFORMATION
-// ==========================================
-
+/* REFRESH ALL DASHBOARD INFORMATION */
 async function refreshAllDashboardData(){
  await Promise.allSettled([
   loadDashboardData(),
@@ -1250,10 +1804,7 @@ async function refreshAllDashboardData(){
  ]);
 }
 
-// ==========================================
-// ADMIN AUTHENTICATION
-// ==========================================
-
+/* ADMIN AUTHENTICATION */
 async function initializeAdmin(){
  adminToken=sessionStorage.getItem("rubalia_token")||"";
 
@@ -1292,8 +1843,6 @@ async function initializeAdmin(){
 
   loadAnnouncement();
 
-  // Load independently so one unavailable API
-  // does not block the other dashboard cards.
   await Promise.allSettled([
    loadDashboardData(),
    loadPendingDepositCount(),
@@ -1310,20 +1859,14 @@ async function initializeAdmin(){
  }
 }
 
-// ==========================================
-// LOGOUT
-// ==========================================
-
+/* LOGOUT */
 function logout(){
  sessionStorage.removeItem("rubalia_token");
  sessionStorage.removeItem("rubalia_user");
  window.location.replace("login.html");
 }
 
-// ==========================================
-// EVENTS
-// ==========================================
-
+/* EVENTS */
 $("menuBtn").addEventListener("click",()=>{
  $("sidebar").classList.toggle("open");
 });
@@ -1354,10 +1897,7 @@ document.addEventListener("click",event=>{
  }
 });
 
-// ==========================================
-// START
-// ==========================================
-
+/* START */
 initializeAdmin();
 
 </script>
