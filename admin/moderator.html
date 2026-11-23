@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35">
+<title>Moderator Dashboard | RUBALIA NETWORK</title>
+
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d7ad55;
+ --gold2:#f1d48b;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18283e;
+ --muted:#718096;
+ --border:#e3e9f1;
+ --green:#16865b;
+ --red:#d34d55;
+ --blue:#2878c8;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ min-height:100vh;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
+button,a{font:inherit}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+
+.sidebar{
+ width:245px;
+ position:fixed;
+ inset:0 auto 0 0;
+ z-index:20;
+ overflow-y:auto;
+ padding:22px 14px;
+ background:var(--navy);
+ color:white;
+ transition:.25s;
+}
+.brand{
+ padding:8px 12px 24px;
+ border-bottom:1px solid #ffffff20;
+ margin-bottom:18px;
+}
+.brand h2{
+ margin:0;
+ color:var(--gold2);
+ font-size:22px;
+ letter-spacing:1px;
+}
+.brand small{
+ color:#b9c7d9;
+ font-size:10px;
+ letter-spacing:1px;
+}
+.nav-title{
+ color:#8fa3bd;
+ font-size:10px;
+ font-weight:bold;
+ letter-spacing:1.5px;
+ padding:14px 12px 8px;
+}
+.nav a{
+ display:flex;
+ align-items:center;
+ gap:11px;
+ padding:12px;
+ color:#d5deeb;
+ border-radius:8px;
+ margin:3px 0;
+ font-size:13px;
+}
+.nav a:hover,.nav a.active{
+ background:#ffffff16;
+ color:var(--gold2);
+}
+.sidebar-footer{
+ margin-top:25px;
+ padding:15px 12px;
+ border-top:1px solid #ffffff20;
+ color:#aebbd0;
+ font-size:10px;
+ line-height:1.7;
+}
+.main{
+ margin-left:245px;
+ width:calc(100% - 245px);
+ min-width:0;
+}
+.topbar{
+ height:68px;
+ background:white;
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ padding:0 25px;
+ position:sticky;
+ top:0;
+ z-index:10;
+}
+.top-left{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ min-width:0;
+}
+.menu-btn{
+ display:none;
+ border:0;
+ background:#f0f3f8;
+ padding:9px 12px;
+ border-radius:7px;
+}
+.topbar strong{font-size:13px}
+.account{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:12px;
+}
+.avatar{
+ width:36px;
+ height:36px;
+ flex-shrink:0;
+ border-radius:50%;
+ background:var(--navy2);
+ color:var(--gold2);
+ display:grid;
+ place-items:center;
+ font-weight:bold;
+}
+.account-info strong{
+ display:block;
+ max-width:150px;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+}
+.account-info small{color:var(--muted)}
+.logout{
+ border:1px solid #f0d6d6;
+ background:#fff0f0;
+ color:var(--red);
+ padding:9px 12px;
+ border-radius:7px;
+ font-size:11px;
+ font-weight:bold;
+}
+.content{
+ max-width:1450px;
+ margin:auto;
+ padding:25px;
+}
+.page-head{
+ display:flex;
+ align-items:flex-start;
+ justify-content:space-between;
+ gap:15px;
+ margin-bottom:22px;
+}
+.page-head h1{
+ margin:0 0 7px;
+ font-size:25px;
+}
+.page-head p{
+ margin:0;
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.6;
+}
+.role-badge{
+ display:inline-block;
+ padding:7px 11px;
+ border-radius:20px;
+ background:#fff4d9;
+ color:#936b19;
+ font-size:10px;
+ font-weight:bold;
+}
+.welcome{
+ background:linear-gradient(115deg,#071a35,#17385f);
+ color:white;
+ border-radius:12px;
+ padding:23px;
+ margin-bottom:20px;
+}
+.welcome h2{
+ margin:0 0 8px;
+ font-size:21px;
+}
+.welcome p{
+ margin:0;
+ color:#c5d1e1;
+ font-size:12px;
+ line-height:1.7;
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:14px;
+ margin-bottom:20px;
+}
+.stat{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:10px;
+ padding:17px;
+}
+.stat-label{color:var(--muted);font-size:11px}
+.stat-value{
+ margin:9px 0 5px;
+ font-size:20px;
+ font-weight:bold;
+}
+.stat-note{color:var(--muted);font-size:10px}
+.panel{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:11px;
+ margin-bottom:19px;
+ overflow:hidden;
+}
+.panel-head{
+ padding:17px 19px;
+ border-bottom:1px solid var(--border);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+}
+.panel-head h3{margin:0;font-size:14px}
+.panel-body{padding:18px}
+.module-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:13px;
+}
+.module-card{
+ display:block;
+ border:1px solid var(--border);
+ border-radius:10px;
+ padding:16px;
+ transition:.2s;
+ background:white;
+}
+.module-card:hover{
+ border-color:var(--gold);
+ transform:translateY(-2px);
+ box-shadow:0 5px 18px #071a3510;
+}
+.module-icon{
+ width:40px;
+ height:40px;
+ border-radius:9px;
+ background:#f4f0e5;
+ display:grid;
+ place-items:center;
+ color:#8d6b25;
+ font-size:19px;
+ margin-bottom:12px;
+}
+.module-card h4{margin:0 0 6px;font-size:13px}
+.module-card p{
+ margin:0;
+ color:var(--muted);
+ font-size:10px;
+ line-height:1.6;
+}
+.module-footer{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-top:13px;
+ padding-top:10px;
+ border-top:1px solid #edf0f4;
+}
+.module-footer small{color:var(--muted);font-size:10px}
+.open-label{color:var(--blue);font-size:10px;font-weight:bold}
+.info-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+.info-row{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ background:#f7f9fc;
+ border-radius:8px;
+ padding:12px;
+ font-size:11px;
+}
+.info-row strong{
+ text-align:right;
+ overflow-wrap:anywhere;
+}
+.notice{
+ background:#fff9eb;
+ border:1px solid #f0dfb8;
+ color:#806022;
+ padding:13px 15px;
+ border-radius:8px;
+ font-size:11px;
+ line-height:1.7;
+ margin-bottom:18px;
+}
+.loading{
+ padding:55px 15px;
+ text-align:center;
+ color:var(--muted);
+ font-size:13px;
+}
+.error-box{
+ background:#fff0f0;
+ border:1px solid #f0c8c8;
+ color:#a42d2d;
+ padding:20px;
+ border-radius:10px;
+ font-size:12px;
+ line-height:1.7;
+}
+.footer{
+ padding:18px;
+ text-align:center;
+ color:var(--muted);
+ font-size:10px;
+}
+@media(max-width:1050px){
+ .module-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+ .sidebar{transform:translateX(-100%)}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;width:100%}
+ .menu-btn{display:block}
+ .topbar{padding:0 12px}
+ .account-info{display:none}
+ .content{padding:16px 12px}
+ .page-head{flex-direction:column}
+ .page-head h1{font-size:21px}
+ .stats{grid-template-columns:1fr 1fr}
+ .module-grid{grid-template-columns:1fr 1fr;gap:9px}
+ .module-card{padding:12px}
+ .module-card h4{font-size:12px}
+ .info-grid{grid-template-columns:1fr}
+ .welcome{padding:19px}
+ .welcome h2{font-size:18px}
+}
+@media(max-width:360px){
+ .module-grid,.stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+ <div class="brand">
+  <h2>RUBALIA</h2>
+  <small>NETWORK MODERATOR PANEL</small>
+ </div>
+
+ <nav class="nav">
+  <div class="nav-title">MODERATOR</div>
+  <a href="moderator.html" class="active">▦ Dashboard</a>
+
+  <div class="nav-title">MANAGEMENT</div>
+  <a href="admin-products.html">◈ Products</a>
+  <a href="admin-packages.html">▣ Packages</a>
+  <a href="admin-orders.html">▤ Orders</a>
+  <a href="admin-payments.html">＄ Payments</a>
+  <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+  <a href="admin-commissions.html">％ Commissions</a>
+  <a href="admin-support.html">✉ Support</a>
+
+  <div class="nav-title">REPORTS</div>
+  <a href="admin-reports.html">▥ Reports</a>
+  <a href="admin-users.html">♙ Users</a>
+  <a href="admin-announcements.html">♢ Notifications</a>
+
+  <div class="nav-title">ACCOUNT</div>
+  <a href="../dashboard.html">↗ Member Dashboard</a>
+ </nav>
+
+ <div class="sidebar-footer">
+  RUBALIA NETWORK<br>
+  GROW WITH TRUST
+ </div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+ <div class="top-left">
+  <button class="menu-btn" id="menuBtn" type="button">☰</button>
+  <strong>Moderator Panel / Dashboard</strong>
+ </div>
+
+ <div class="account">
+  <div class="avatar" id="avatar">M</div>
+  <div class="account-info">
+   <strong id="topName">Moderator</strong>
+   <small>Moderator Account</small>
+  </div>
+  <button class="logout" id="logoutBtn" type="button">LOGOUT</button>
+ </div>
+</header>
+
+<div class="content">
+
+ <div id="loading" class="loading">
+  <div style="font-size:28px;margin-bottom:12px">⏳</div>
+  Verifying your moderator account...
+ </div>
+
+ <div id="dashboardContent" hidden>
+
+  <div class="page-head">
+   <div>
+    <h1>Moderator Dashboard</h1>
+    <p>Manage your assigned Rubalia Network responsibilities.</p>
+   </div>
+   <span class="role-badge">● MODERATOR</span>
+  </div>
+
+  <section class="welcome">
+   <h2>Welcome, <span id="welcomeName">Moderator</span></h2>
+   <p>
+    You are signed in to the RUBALIA NETWORK Moderator Panel.
+    Your available actions depend on the permissions assigned by the Main Admin.
+   </p>
+  </section>
+
+  <section class="stats">
+   <div class="stat">
+    <div class="stat-label">Account Role</div>
+    <div class="stat-value">Moderator</div>
+    <div class="stat-note">Restricted access account</div>
+   </div>
+
+   <div class="stat">
+    <div class="stat-label">Account Status</div>
+    <div class="stat-value" id="accountStatus">Active</div>
+    <div class="stat-note">Verified from server</div>
+   </div>
+
+   <div class="stat">
+    <div class="stat-label">Assigned Modules</div>
+    <div class="stat-value">Backend controlled</div>
+    <div class="stat-note">Access checked by server</div>
+   </div>
+  </section>
+
+  <div class="notice">
+   <strong>Security Notice:</strong>
+   Your account does not have Main Admin access.
+   Every protected action is checked by the backend.
+   Seeing a shortcut does not grant permission to access protected data.
+  </div>
+
+  <section class="panel">
+   <div class="panel-head">
+    <h3>Management Modules</h3>
+    <span class="role-badge">MODULE SHORTCUTS</span>
+   </div>
+   <div class="panel-body">
+    <div class="module-grid" id="moduleGrid"></div>
+   </div>
+  </section>
+
+  <section class="panel">
+   <div class="panel-head">
+    <h3>Account Information</h3>
+   </div>
+   <div class="panel-body">
+    <div class="info-grid">
+     <div class="info-row">
+      <span>Full Name</span>
+      <strong id="profileName">—</strong>
+     </div>
+     <div class="info-row">
+      <span>Email Address</span>
+      <strong id="profileEmail">—</strong>
+     </div>
+     <div class="info-row">
+      <span>Account Role</span>
+      <strong>Moderator</strong>
+     </div>
+     <div class="info-row">
+      <span>Account Status</span>
+      <strong id="profileStatus">Active</strong>
+     </div>
+    </div>
+   </div>
+  </section>
+
+ </div>
+
+ <div id="errorBox" class="error-box" hidden></div>
+
+</div>
+
+<footer class="footer">
+ © <span id="year"></span> RUBALIA NETWORK — GROW WITH TRUST
+</footer>
+
+</main>
+
+<script>
+"use strict";
+
+const API_BASE="https://rubalia.onrender.com/api";
+const REQUEST_TIMEOUT=90000;
+const $=id=>document.getElementById(id);
+
+$("year").textContent=new Date().getFullYear();
+
+const MODULES=[
+ {
+  name:"Products",
+  icon:"◈",
+  description:"Product catalogue and product management.",
+  url:"admin-products.html"
+ },
+ {
+  name:"Packages",
+  icon:"▣",
+  description:"Product packages and package management.",
+  url:"admin-packages.html"
+ },
+ {
+  name:"Orders",
+  icon:"▤",
+  description:"Customer orders and order processing.",
+  url:"admin-orders.html"
+ },
+ {
+  name:"Payments",
+  icon:"＄",
+  description:"Payment requests and payment verification.",
+  url:"admin-payments.html"
+ },
+ {
+  name:"Wallet",
+  icon:"◉",
+  description:"Wallet and withdrawal management.",
+  url:"admin-withdrawals.html"
+ },
+ {
+  name:"Commissions",
+  icon:"％",
+  description:"Commission and related records.",
+  url:"admin-commissions.html"
+ },
+ {
+  name:"Refunds",
+  icon:"↩",
+  description:"Refund requests and processing.",
+  url:"admin-orders.html"
+ },
+ {
+  name:"Support",
+  icon:"✉",
+  description:"Customer support tickets.",
+  url:"admin-support.html"
+ },
+ {
+  name:"Reports",
+  icon:"▥",
+  description:"Business and financial reports.",
+  url:"admin-reports.html"
+ },
+ {
+  name:"Notifications",
+  icon:"♢",
+  description:"Notifications and announcements.",
+  url:"admin-announcements.html"
+ }
+];
+
+function getToken(){
+ try{
+  return sessionStorage.getItem("rubalia_token")||"";
+ }catch(error){
+  return "";
+ }
+}
+
+function clearSession(){
+ try{
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+ }catch(error){}
+}
+
+function logout(){
+ clearSession();
+ window.location.replace("../login.html");
+}
+
+$("logoutBtn").addEventListener("click",logout);
+
+async function apiRequest(path){
+ const token=getToken();
+
+ if(!token){
+  throw new Error("Login required.");
+ }
+
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT);
+
+ try{
+  const response=await fetch(API_BASE+path,{
+   method:"GET",
+   signal:controller.signal,
+   cache:"no-store",
+   headers:{
+    "Accept":"application/json",
+    "Authorization":"Bearer "+token
+   }
+  });
+
+  const data=await response.json().catch(()=>({}));
+
+  if(response.status===401){
+   clearSession();
+   window.location.replace("../login.html");
+   throw new Error("Your login session has expired.");
+  }
+
+  if(response.status===403){
+   throw new Error(data.message||"You do not have permission.");
+  }
+
+  if(!response.ok||data.success===false){
+   throw new Error(data.message||"Server request failed.");
+  }
+
+  return data;
+
+ }catch(error){
+  if(error.name==="AbortError"){
+   throw new Error("Server response is taking too long.");
+  }
+  if(error instanceof TypeError){
+   throw new Error("Unable to connect to the server.");
+  }
+  throw error;
+ }finally{
+  clearTimeout(timeout);
+ }
+}
+
+function renderModules(){
+ const grid=$("moduleGrid");
+ grid.replaceChildren();
+
+ MODULES.forEach(module=>{
+  const card=document.createElement("a");
+  card.className="module-card";
+  card.href=module.url;
+
+  const icon=document.createElement("div");
+  icon.className="module-icon";
+  icon.textContent=module.icon;
+
+  const title=document.createElement("h4");
+  title.textContent=module.name;
+
+  const description=document.createElement("p");
+  description.textContent=module.description;
+
+  const footer=document.createElement("div");
+  footer.className="module-footer";
+
+  const label=document.createElement("small");
+  label.textContent="Open module";
+
+  const arrow=document.createElement("span");
+  arrow.className="open-label";
+  arrow.textContent="OPEN →";
+
+  footer.append(label,arrow);
+  card.append(icon,title,description,footer);
+  grid.appendChild(card);
+ });
+}
+
+function showUser(user){
+ const name=String(user.full_name||user.name||"Moderator");
+ const email=String(user.email||"");
+ const status=String(user.status||"Active");
+
+ $("topName").textContent=name;
+ $("welcomeName").textContent=name;
+ $("profileName").textContent=name;
+ $("profileEmail").textContent=email;
+ $("avatar").textContent=name.trim().charAt(0).toUpperCase()||"M";
+ $("accountStatus").textContent=status;
+ $("profileStatus").textContent=status;
+}
+
+function showError(error){
+ $("loading").hidden=true;
+ $("dashboardContent").hidden=true;
+ $("errorBox").hidden=false;
+
+ const message=document.createElement("div");
+ message.textContent=error.message||"Unable to load dashboard.";
+
+ const retry=document.createElement("button");
+ retry.type="button";
+ retry.textContent="RETRY";
+ retry.style.cssText=
+  "margin-top:15px;padding:10px 18px;border:0;border-radius:7px;background:#071a35;color:white;font-weight:bold";
+
+ retry.addEventListener("click",()=>{
+  $("errorBox").hidden=true;
+  $("loading").hidden=false;
+  initializeDashboard();
+ });
+
+ const login=document.createElement("a");
+ login.href="../login.html";
+ login.textContent="Go to Login";
+ login.style.cssText=
+  "display:inline-block;margin:15px 0 0 12px;color:#2878c8;font-weight:bold";
+
+ $("errorBox").replaceChildren(message,retry,login);
+}
+
+async function initializeDashboard(){
+ try{
+  if(!getToken()){
+   window.location.replace("../login.html");
+   return;
+  }
+
+  const data=await apiRequest("/auth/me");
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("Unable to verify your account.");
+  }
+
+  const role=String(user.role||"").trim().toLowerCase();
+
+  if(role==="admin"){
+   window.location.replace("../admin-dashboard.html");
+   return;
+  }
+
+  if(role!=="moderator"){
+   window.location.replace("../dashboard.html");
+   return;
+  }
+
+  if(user.status&&user.status!=="active"){
+   throw new Error("Your moderator account is inactive.");
+  }
+
+  showUser(user);
+  renderModules();
+
+  $("loading").hidden=true;
+  $("dashboardContent").hidden=false;
+
+ }catch(error){
+  showError(error);
+ }
+}
+
+$("menuBtn").addEventListener("click",()=>{
+ $("sidebar").classList.toggle("open");
+});
+
+document.addEventListener("click",event=>{
+ if(
+  window.innerWidth<=700&&
+  !$("sidebar").contains(event.target)&&
+  !$("menuBtn").contains(event.target)
+ ){
+  $("sidebar").classList.remove("open");
+ }
+});
+
+initializeDashboard();
+</script>
+
+</body>
+</html>
