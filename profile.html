@@ -678,8 +678,12 @@ async function uploadPhoto(file){
     const url = data.image?.url || data.avatar_url || data.url;
     if(!url) throw new Error("The server did not return the image URL.");
     member.avatar_url = url;
+    member.avatarUrl = url;
     setPhoto(url,member.full_name || member.fullName);
-    try{sessionStorage.setItem("rubalia_user",JSON.stringify(member));}catch(_){}
+    try{
+      sessionStorage.setItem("rubalia_user",JSON.stringify(member));
+      localStorage.setItem("rubalia_user",JSON.stringify(member));
+    }catch(_){}
     note.textContent = "Your profile photo has been updated.";
   }catch(err){
     note.textContent = err.message || "Upload failed.";
@@ -718,14 +722,37 @@ $("logoutLink").addEventListener("click",e=>{e.preventDefault();if(confirm("Are 
 async function init(){
   if(!token()){logout();return;}
   try{
-    const data = await api("/auth/me");
-    if(!data.user) throw new Error("Member profile was not returned.");
-    renderMember(data.user);
+    // First load the authenticated member identity.
+    const authData = await api("/auth/me");
+    if(!authData.user) throw new Error("Member profile was not returned.");
+
+    // Always request the saved profile from PostgreSQL. This is the source
+    // of truth for avatar_url after a page refresh.
+    let completeUser = {...authData.user};
+    try{
+      const profileData = await api("/profile");
+      const savedProfile = profileData.profile || profileData.user || profileData.data?.profile;
+      if(savedProfile && typeof savedProfile === "object"){
+        completeUser = {...completeUser, ...savedProfile};
+      }else{
+        throw new Error("The profile API did not return saved profile data.");
+      }
+    }catch(profileError){
+      // Keep an avatar already included in /auth/me, but never silently
+      // pretend that the saved profile photo was successfully loaded.
+      console.error("Saved profile could not be loaded:", profileError);
+      if(!completeUser.avatar_url && !completeUser.avatarUrl){
+        $("uploadNote").textContent = "Profile photo could not be loaded from the server. Please refresh or contact support.";
+        $("uploadNote").classList.add("error");
+      }
+    }
+
+    renderMember(completeUser);
     loadWallet();
     loadReferral();
   }catch(err){
     $("memberName").textContent = "Unable to load profile";
-    $("uploadNote").textContent = err.message;
+    $("uploadNote").textContent = err.message || "Unable to load your profile.";
     $("uploadNote").classList.add("error");
     console.error(err);
   }
