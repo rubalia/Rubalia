@@ -22,277 +22,115 @@
   --green:#18794e;
 }
 *{box-sizing:border-box}
-html{
-  min-height:100%;
-  -webkit-text-size-adjust:100%;
-}
+html{min-height:100%;-webkit-text-size-adjust:100%}
 body{
-  margin:0;
-  min-height:100vh;
-  min-height:100dvh;
-  padding:20px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--bg);
-  color:var(--text);
+  margin:0;min-height:100vh;min-height:100dvh;
+  padding:20px 15px;display:flex;align-items:center;
+  justify-content:center;background:var(--bg);color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
 button,input{font:inherit}
 button,a{-webkit-tap-highlight-color:transparent}
 a{text-decoration:none}
 [hidden]{display:none!important}
-
-.page{
-  width:100%;
-  max-width:410px;
-  margin:auto;
-}
+.page{width:100%;max-width:410px;margin:auto}
 .login-card{
-  width:100%;
-  padding:30px 25px 25px;
-  background:var(--white);
-  border:1px solid var(--border);
-  border-radius:18px;
+  width:100%;padding:30px 25px 25px;background:var(--white);
+  border:1px solid var(--border);border-radius:18px;
   box-shadow:0 8px 28px rgba(48,0,18,.07);
 }
-.brand{
-  text-align:center;
-  margin-bottom:27px;
-}
+.brand{text-align:center;margin-bottom:27px}
 .logo{
-  width:68px;
-  height:68px;
-  margin:0 auto 13px;
-  display:grid;
-  place-items:center;
-  border-radius:17px;
-  color:#fff;
-  background:var(--dark);
-  border:2px solid var(--gold);
-  font-size:40px;
-  font-weight:900;
+  width:68px;height:68px;margin:0 auto 13px;display:grid;
+  place-items:center;border-radius:17px;color:#fff;
+  background:var(--dark);border:2px solid var(--gold);
+  font-size:40px;font-weight:900;
 }
-.brand-name{
-  color:var(--dark);
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:3px;
-}
+.brand-name{color:var(--dark);font-size:25px;font-weight:900;letter-spacing:3px}
 .brand-network{
-  margin-top:5px;
-  color:#a47b31;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:7px;
-  padding-left:7px;
+  margin-top:5px;color:#a47b31;font-size:10px;font-weight:900;
+  letter-spacing:7px;padding-left:7px;
 }
-.slogan{
-  margin-top:12px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.7px;
-}
-.heading{
-  text-align:center;
-  margin-bottom:24px;
-}
-.heading h1{
-  margin:0 0 7px;
-  color:var(--dark);
-  font-size:25px;
-}
-.heading p{
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
-.form-group{
-  margin-bottom:17px;
-}
+.slogan{margin-top:12px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.7px}
+.heading{text-align:center;margin-bottom:24px}
+.heading h1{margin:0 0 7px;color:var(--dark);font-size:25px}
+.heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.form-group{margin-bottom:17px}
 .form-group label{
-  display:block;
-  margin-bottom:8px;
-  color:#40363b;
-  font-size:12px;
-  font-weight:800;
+  display:block;margin-bottom:8px;color:#40363b;
+  font-size:12px;font-weight:800;
 }
 .input-wrap{position:relative}
 .form-group input{
-  width:100%;
-  height:51px;
-  padding:0 13px;
-  border:1px solid #ded8dd;
-  border-radius:10px;
-  outline:none;
-  background:#fff;
-  color:var(--text);
-  font-size:14px;
+  width:100%;height:51px;padding:0 13px;border:1px solid #ded8dd;
+  border-radius:10px;outline:none;background:#fff;color:var(--text);font-size:14px;
 }
-.form-group input:focus{
-  border-color:var(--red);
-  box-shadow:0 0 0 3px rgba(214,0,37,.08);
-}
+.form-group input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(214,0,37,.08)}
 .form-group input::placeholder{color:#aaa2a7}
 .password-wrap input{padding-right:70px}
 .show-password{
-  position:absolute;
-  top:50%;
-  right:9px;
-  transform:translateY(-50%);
-  min-width:48px;
-  min-height:38px;
-  border:0;
-  background:transparent;
-  color:var(--dark);
-  font-size:11px;
-  font-weight:900;
-  cursor:pointer;
+  position:absolute;top:50%;right:9px;transform:translateY(-50%);
+  min-width:48px;min-height:38px;border:0;background:transparent;
+  color:var(--dark);font-size:11px;font-weight:900;cursor:pointer;
 }
 .email-suggestions{
-  display:none;
-  position:absolute;
-  top:calc(100% + 5px);
-  left:0;
-  right:0;
-  z-index:10;
-  max-height:190px;
-  overflow-y:auto;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:10px;
+  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;
+  z-index:10;max-height:190px;overflow-y:auto;background:#fff;
+  border:1px solid var(--border);border-radius:10px;
   box-shadow:0 8px 20px rgba(0,0,0,.09);
 }
 .email-suggestions.show{display:block}
 .suggestion-heading{
-  padding:10px 12px;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
+  padding:10px 12px;color:var(--muted);font-size:10px;
+  font-weight:800;text-transform:uppercase;
 }
 .suggestion-item{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:11px 12px;
-  border-top:1px solid #f0ecef;
-  cursor:pointer;
+  display:flex;align-items:center;gap:9px;padding:11px 12px;
+  border-top:1px solid #f0ecef;cursor:pointer;
 }
 .suggestion-item:active{background:#fff4f6}
 .suggestion-icon{
-  width:30px;
-  height:30px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:#fff0f3;
-  color:var(--dark);
-  font-weight:900;
+  width:30px;height:30px;flex-shrink:0;display:grid;place-items:center;
+  border-radius:50%;background:#fff0f3;color:var(--dark);font-weight:900;
 }
 .suggestion-email{
-  flex:1;
-  min-width:0;
-  color:#44323a;
-  font-size:12px;
-  overflow-wrap:anywhere;
+  flex:1;min-width:0;color:#44323a;font-size:12px;overflow-wrap:anywhere;
 }
 .remove-suggestion{
-  width:32px;
-  height:32px;
-  border:0;
-  border-radius:7px;
-  background:#fff0f2;
-  color:var(--red);
-  font-size:18px;
+  width:32px;height:32px;border:0;border-radius:7px;
+  background:#fff0f2;color:var(--red);font-size:18px;
 }
-.suggestion-empty{
-  padding:12px;
-  color:var(--muted);
-  font-size:12px;
-}
+.suggestion-empty{padding:12px;color:var(--muted);font-size:12px}
 .form-options{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin:2px 0 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;margin:2px 0 20px;
 }
 .remember-option{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:#51474d;
-  font-size:12px;
-  font-weight:700;
+  display:flex;align-items:center;gap:7px;color:#51474d;
+  font-size:12px;font-weight:700;
 }
-.remember-option input{
-  width:17px;
-  height:17px;
-  accent-color:var(--red);
-}
-.forgot{
-  color:var(--dark);
-  font-size:11px;
-  font-weight:800;
-}
+.remember-option input{width:17px;height:17px;accent-color:var(--red)}
+.forgot{color:var(--dark);font-size:11px;font-weight:800}
 .login-btn{
-  width:100%;
-  min-height:52px;
-  border:0;
-  border-radius:10px;
-  background:var(--dark);
-  color:#fff;
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:1px;
-  cursor:pointer;
+  width:100%;min-height:52px;border:0;border-radius:10px;
+  background:var(--dark);color:#fff;font-size:14px;
+  font-weight:900;letter-spacing:1px;cursor:pointer;
 }
 .login-btn:active{background:var(--dark2)}
-.login-btn:disabled{
-  opacity:.6;
-  cursor:wait;
-}
+.login-btn:disabled{opacity:.6;cursor:wait}
 .form-message{
-  display:none;
-  margin-top:14px;
-  padding:11px 12px;
-  border-radius:8px;
-  font-size:12px;
-  line-height:1.6;
-  overflow-wrap:anywhere;
+  display:none;margin-top:14px;padding:11px 12px;border-radius:8px;
+  font-size:12px;line-height:1.6;overflow-wrap:anywhere;
 }
 .form-message.error{
-  display:block;
-  color:#a00025;
-  background:#fff0f2;
-  border:1px solid #f0c8d0;
+  display:block;color:#a00025;background:#fff0f2;border:1px solid #f0c8d0;
 }
 .form-message.success{
-  display:block;
-  color:var(--green);
-  background:#edf9f2;
-  border:1px solid #c9ead6;
+  display:block;color:var(--green);background:#edf9f2;border:1px solid #c9ead6;
 }
-.register-text{
-  margin-top:22px;
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-}
-.register-text a{
-  color:var(--dark);
-  font-weight:900;
-}
-.footer{
-  margin-top:17px;
-  text-align:center;
-  color:#99929a;
-  font-size:10px;
-}
+.register-text{margin-top:22px;text-align:center;color:var(--muted);font-size:12px}
+.register-text a{color:var(--dark);font-weight:900}
+.footer{margin-top:17px;text-align:center;color:#99929a;font-size:10px}
 @media(max-width:360px){
   body{padding:12px}
   .login-card{padding:25px 17px 21px}
@@ -303,16 +141,13 @@ a{text-decoration:none}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
-    animation:none!important;
-    transition:none!important;
-    scroll-behavior:auto!important;
+    animation:none!important;transition:none!important;scroll-behavior:auto!important;
   }
 }
 </style>
 </head>
 
 <body>
-
 <main class="page">
 <section class="login-card">
 
@@ -329,7 +164,6 @@ a{text-decoration:none}
   </div>
 
   <form id="loginForm" novalidate>
-
     <div class="form-group">
       <label for="email">Email Address</label>
       <div class="input-wrap">
@@ -356,9 +190,7 @@ a{text-decoration:none}
           placeholder="Enter your password"
           autocomplete="current-password"
           required>
-        <button type="button" class="show-password" id="showPassword">
-          SHOW
-        </button>
+        <button type="button" class="show-password" id="showPassword">SHOW</button>
       </div>
     </div>
 
@@ -370,13 +202,8 @@ a{text-decoration:none}
       <a href="forgot-password.html" class="forgot">Forgot Password?</a>
     </div>
 
-    <button type="submit" class="login-btn" id="loginBtn">
-      SIGN IN
-    </button>
-
-    <div class="form-message" id="formMessage"
-      role="status" aria-live="polite"></div>
-
+    <button type="submit" class="login-btn" id="loginBtn">SIGN IN</button>
+    <div class="form-message" id="formMessage" role="status" aria-live="polite"></div>
   </form>
 
   <div class="register-text">
@@ -394,10 +221,7 @@ a{text-decoration:none}
 <script>
 "use strict";
 
-/* =================================
-   CONFIGURATION
-================================= */
-
+/* CONFIGURATION */
 const API_BASE="https://rubalia.onrender.com/api";
 const SAVED_EMAILS_KEY="rubalia_saved_emails";
 const REQUEST_TIMEOUT=90000;
@@ -415,30 +239,20 @@ const emailSuggestions=$("emailSuggestions");
 
 $("year").textContent=new Date().getFullYear();
 
-/* =================================
-   MESSAGE
-================================= */
-
+/* MESSAGE */
 function showMessage(type,message){
   formMessage.className="form-message "+type;
   formMessage.textContent=message;
 }
-
 function clearMessage(){
   formMessage.className="form-message";
   formMessage.textContent="";
 }
 
-/* =================================
-   API REQUEST WITH TIMEOUT
-================================= */
-
+/* API REQUEST */
 async function requestAPI(path,options={}){
   const controller=new AbortController();
-  const timeout=setTimeout(
-    ()=>controller.abort(),
-    REQUEST_TIMEOUT
-  );
+  const timeout=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT);
 
   try{
     const response=await fetch(API_BASE+path,{
@@ -450,53 +264,35 @@ async function requestAPI(path,options={}){
     const data=await response.json().catch(()=>({}));
 
     if(!response.ok||data.success===false){
-      throw new Error(
-        data.message||"Request failed. Please try again."
-      );
+      throw new Error(data.message||"Request failed. Please try again.");
     }
-
     return data;
 
   }catch(error){
     if(error.name==="AbortError"){
-      throw new Error(
-        "Server response is taking too long. Please try again."
-      );
+      throw new Error("Server response is taking too long. Please try again.");
     }
-
     if(error instanceof TypeError){
-      throw new Error(
-        "Unable to connect to the server. Check your internet connection."
-      );
+      throw new Error("Unable to connect to the server. Check your internet connection.");
     }
-
     throw error;
-
   }finally{
     clearTimeout(timeout);
   }
 }
 
-/* =================================
-   PASSWORD VISIBILITY
-================================= */
-
+/* PASSWORD VISIBILITY */
 showPasswordBtn.addEventListener("click",()=>{
   const show=passwordInput.type==="password";
   passwordInput.type=show?"text":"password";
   showPasswordBtn.textContent=show?"HIDE":"SHOW";
 });
 
-/* =================================
-   SAVED EMAILS
-   Passwords are never stored.
-================================= */
-
+/* SAVED EMAILS - PASSWORDS ARE NEVER STORED */
 function getSavedEmails(){
   try{
     const value=localStorage.getItem(SAVED_EMAILS_KEY);
     const list=value?JSON.parse(value):[];
-
     if(!Array.isArray(list))return [];
 
     return list.filter(email=>
@@ -504,7 +300,6 @@ function getSavedEmails(){
       email.length<=255&&
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ).slice(0,5);
-
   }catch(error){
     return [];
   }
@@ -513,21 +308,10 @@ function getSavedEmails(){
 function saveEmail(email){
   try{
     let emails=getSavedEmails();
-
-    emails=emails.filter(
-      item=>item.toLowerCase()!==email.toLowerCase()
-    );
-
+    emails=emails.filter(item=>item.toLowerCase()!==email.toLowerCase());
     emails.unshift(email);
-
-    localStorage.setItem(
-      SAVED_EMAILS_KEY,
-      JSON.stringify(emails.slice(0,5))
-    );
-
-  }catch(error){
-    // Login should continue if local storage is unavailable.
-  }
+    localStorage.setItem(SAVED_EMAILS_KEY,JSON.stringify(emails.slice(0,5)));
+  }catch(error){}
 }
 
 function removeSavedEmail(email){
@@ -535,27 +319,17 @@ function removeSavedEmail(email){
     const emails=getSavedEmails().filter(
       item=>item.toLowerCase()!==email.toLowerCase()
     );
-
-    localStorage.setItem(
-      SAVED_EMAILS_KEY,
-      JSON.stringify(emails)
-    );
-
+    localStorage.setItem(SAVED_EMAILS_KEY,JSON.stringify(emails));
     renderEmailSuggestions();
-
   }catch(error){
     showMessage("error","Unable to remove saved email.");
   }
 }
 
-/* =================================
-   EMAIL SUGGESTIONS
-================================= */
-
+/* EMAIL SUGGESTIONS */
 function renderEmailSuggestions(){
   const emails=getSavedEmails();
   const search=emailInput.value.trim().toLowerCase();
-
   const filtered=emails.filter(email=>
     !search||email.toLowerCase().includes(search)
   );
@@ -602,7 +376,6 @@ function renderEmailSuggestions(){
 
     item.addEventListener("click",event=>{
       if(event.target===remove)return;
-
       emailInput.value=email;
       emailSuggestions.classList.remove("show");
       passwordInput.focus();
@@ -634,17 +407,13 @@ document.addEventListener("click",event=>{
   }
 });
 
-/* =================================
-   LOGIN
-================================= */
-
+/* LOGIN */
 let loginInProgress=false;
 
 loginForm.addEventListener("submit",async event=>{
   event.preventDefault();
 
   if(loginInProgress)return;
-
   clearMessage();
 
   const email=emailInput.value.trim().toLowerCase();
@@ -667,9 +436,7 @@ loginForm.addEventListener("submit",async event=>{
   emailSuggestions.classList.remove("show");
 
   try{
-
     /* STEP 1: LOGIN */
-
     const loginData=await requestAPI("/auth/login",{
       method:"POST",
       headers:{
@@ -680,13 +447,10 @@ loginForm.addEventListener("submit",async event=>{
     });
 
     if(!loginData.token){
-      throw new Error(
-        "The server did not return an authentication token."
-      );
+      throw new Error("The server did not return an authentication token.");
     }
 
     /* STEP 2: VERIFY USER */
-
     const verifyData=await requestAPI("/auth/me",{
       method:"GET",
       headers:{
@@ -698,41 +462,38 @@ loginForm.addEventListener("submit",async event=>{
     const user=verifyData.user||verifyData.profile;
 
     if(!user){
-      throw new Error(
-        "Unable to verify your account information."
-      );
+      throw new Error("Unable to verify your account information.");
     }
 
-    const role=String(user.role||"")
-      .trim()
-      .toLowerCase();
+    const role=String(user.role||"").trim().toLowerCase();
 
     if(!role){
       throw new Error("Your account role could not be verified.");
     }
 
     /* STEP 3: SAVE SESSION */
-
     try{
       sessionStorage.setItem("rubalia_token",loginData.token);
       sessionStorage.setItem("rubalia_user",JSON.stringify(user));
     }catch(storageError){
-      throw new Error(
-        "Unable to save your login session. Please check browser storage."
-      );
+      throw new Error("Unable to save your login session. Please check browser storage.");
     }
 
     /* STEP 4: REMEMBER EMAIL */
-
     if(rememberMe.checked){
       saveEmail(email);
     }
 
-    /* STEP 5: REDIRECT */
+    /* STEP 5: ROLE-BASED REDIRECT */
+    let destination;
 
-    const destination=role==="admin"
-      ?"admin-dashboard.html"
-      :"dashboard.html";
+    if(role==="admin"){
+      destination="admin-dashboard.html";
+    }else if(role==="moderator"){
+      destination="modetor.html";
+    }else{
+      destination="dashboard.html";
+    }
 
     loginBtn.textContent="SUCCESS";
     passwordInput.value="";
@@ -742,11 +503,7 @@ loginForm.addEventListener("submit",async event=>{
     window.location.replace(destination);
 
   }catch(error){
-
-    showMessage(
-      "error",
-      error.message||"Unable to login. Please try again."
-    );
+    showMessage("error",error.message||"Unable to login. Please try again.");
 
     loginInProgress=false;
     loginBtn.disabled=false;
