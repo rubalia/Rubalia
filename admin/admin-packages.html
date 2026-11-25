@@ -11,7 +11,7 @@
 :root{
  --navy:#071a35;
  --navy2:#102b50;
- --gold:#d9ad55;
+ --gold:#d6ad55;
  --bg:#f3f5f9;
  --white:#fff;
  --text:#17243a;
@@ -33,7 +33,6 @@ button:disabled{opacity:.55;cursor:not-allowed}
 a{text-decoration:none;color:inherit}
 [hidden]{display:none!important}
 
-/* HEADER */
 .topbar{
  min-height:65px;
  background:var(--navy);
@@ -68,7 +67,6 @@ a{text-decoration:none;color:inherit}
  font-size:18px;
 }
 
-/* LAYOUT */
 .layout{
  display:grid;
  grid-template-columns:235px minmax(0,1fr);
@@ -107,7 +105,6 @@ a{text-decoration:none;color:inherit}
  text-align:left;
 }
 
-/* MAIN */
 .main{
  width:100%;
  max-width:1500px;
@@ -146,13 +143,17 @@ a{text-decoration:none;color:inherit}
  font-size:12px;
 }
 
-/* FORM */
 .form-grid{
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
  gap:14px;
 }
-.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field{
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ min-width:0;
+}
 .field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:700}
 input,select,textarea{
@@ -168,7 +169,11 @@ input,select,textarea{
 }
 input:focus,select:focus,textarea:focus{border-color:var(--gold)}
 textarea{min-height:85px;resize:vertical}
-.help{font-size:11px;color:var(--muted);line-height:1.5}
+.help{
+ font-size:11px;
+ color:var(--muted);
+ line-height:1.5;
+}
 .btn{
  border:0;
  border-radius:8px;
@@ -189,6 +194,7 @@ textarea{min-height:85px;resize:vertical}
  padding-bottom:9px;
  border-bottom:1px solid var(--border);
 }
+
 .image-area{
  border:1px dashed #b9c1d5;
  background:#fafaff;
@@ -204,9 +210,12 @@ textarea{min-height:85px;resize:vertical}
  border-radius:8px;
  background:#eee;
 }
-.upload-status{font-size:11px;color:var(--muted);margin-top:8px}
+.upload-status{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:8px;
+}
 
-/* PRODUCT COST */
 .product-cost-card{
  background:#f8f9fc;
  border:1px solid var(--border);
@@ -220,8 +229,23 @@ textarea{min-height:85px;resize:vertical}
  font-size:11px;
  color:var(--muted);
 }
+.optional-label{
+ color:var(--muted);
+ font-size:10px;
+ font-weight:normal;
+}
+.product-number{
+ display:inline-grid;
+ place-items:center;
+ width:23px;
+ height:23px;
+ background:#fff5df;
+ color:#936b19;
+ border-radius:50%;
+ margin-right:5px;
+ font-size:11px;
+}
 
-/* COST SUMMARY */
 .cost-grid{
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
@@ -250,7 +274,6 @@ textarea{min-height:85px;resize:vertical}
 .profit{color:var(--green);font-weight:800}
 .loss{color:var(--red);font-weight:800}
 
-/* MESSAGE */
 .message{
  display:none;
  padding:12px;
@@ -262,7 +285,6 @@ textarea{min-height:85px;resize:vertical}
 .message.error{display:block;background:#fee2e2;color:#991b1b}
 .message.success{display:block;background:#dcfce7;color:#166534}
 
-/* CATEGORY SELECT */
 .category-select-wrap{position:relative}
 .category-select-wrap select{
  appearance:none;
@@ -282,7 +304,6 @@ textarea{min-height:85px;resize:vertical}
 }
 .category-hint{font-size:11px;color:var(--muted)}
 
-/* CATEGORY FILTER CARDS */
 .category-filter-title{
  display:flex;
  justify-content:space-between;
@@ -320,7 +341,6 @@ textarea{min-height:85px;resize:vertical}
  color:var(--text);
  text-align:left;
 }
-.category-filter:active{background:#f8f5ec}
 .category-filter.active{
  border-color:var(--gold);
  background:#fff8e8;
@@ -360,7 +380,6 @@ textarea{min-height:85px;resize:vertical}
  font-weight:bold;
 }
 
-/* PACKAGE CATEGORY GROUP */
 .category-group{
  background:#fff;
  border:1px solid var(--border);
@@ -392,7 +411,6 @@ textarea{min-height:85px;resize:vertical}
  white-space:nowrap;
 }
 
-/* PACKAGE CARDS */
 .package-list{
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
@@ -444,7 +462,6 @@ textarea{min-height:85px;resize:vertical}
 .status.draft{background:#fef3c7;color:#92400e}
 .status.inactive,.status.archived{background:#fee2e2;color:#991b1b}
 
-/* COMPACT PACKAGE COST */
 .package-cost{
  background:#f7f8fc;
  border-radius:7px;
@@ -501,7 +518,6 @@ textarea{min-height:85px;resize:vertical}
  font-size:10px;
 }
 
-/* MOBILE */
 @media(max-width:1050px){
  .category-filter-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
@@ -596,7 +612,6 @@ textarea{min-height:85px;resize:vertical}
 
  <div id="message" class="message" role="alert"></div>
 
- <!-- CREATE / EDIT FORM -->
  <section class="panel">
   <h2 id="formTitle">Create New Package</h2>
 
@@ -661,26 +676,45 @@ textarea{min-height:85px;resize:vertical}
 
    </div>
 
-   <div class="section-title">Select Three Products</div>
+   <div class="section-title">
+    Select Package Products
+    <span class="optional-label">— Select at least one product, maximum three</span>
+   </div>
 
    <div class="form-grid">
+
     <div class="field full">
-     <label for="product1">First Product *</label>
-     <select id="product1" required><option value="">Loading products...</option></select>
+     <label for="product1">
+      <span class="product-number">1</span>First Product *
+     </label>
+     <select id="product1" required>
+      <option value="">Loading products...</option>
+     </select>
      <div id="productCost1"></div>
     </div>
 
     <div class="field full">
-     <label for="product2">Second Product *</label>
-     <select id="product2" required><option value="">Loading products...</option></select>
+     <label for="product2">
+      <span class="product-number">2</span>Second Product
+      <span class="optional-label">(Optional)</span>
+     </label>
+     <select id="product2">
+      <option value="">No second product</option>
+     </select>
      <div id="productCost2"></div>
     </div>
 
     <div class="field full">
-     <label for="product3">Third Product *</label>
-     <select id="product3" required><option value="">Loading products...</option></select>
+     <label for="product3">
+      <span class="product-number">3</span>Third Product
+      <span class="optional-label">(Optional)</span>
+     </label>
+     <select id="product3">
+      <option value="">No third product</option>
+     </select>
      <div id="productCost3"></div>
     </div>
+
    </div>
 
    <div class="section-title">Package Additional Costs</div>
@@ -716,7 +750,7 @@ textarea{min-height:85px;resize:vertical}
    </div>
 
    <p class="help" style="margin-top:10px">
-    Package Cost = Three Products' Cost Price + Package Delivery
+    Package Cost = Selected Products' Cost Price + Package Delivery
     + Package Packaging + Package Other Cost.
    </p>
 
@@ -728,7 +762,6 @@ textarea{min-height:85px;resize:vertical}
   </form>
  </section>
 
- <!-- PACKAGE CATEGORY FILTERS -->
  <section class="panel">
   <div class="category-filter-title">
    <h2>All Packages</h2>
@@ -745,7 +778,6 @@ textarea{min-height:85px;resize:vertical}
   </div>
  </section>
 
- <!-- FILTERED PACKAGES -->
  <section class="panel">
   <div id="packageList">
    <div class="loading">Loading packages...</div>
@@ -787,11 +819,11 @@ let selectedCategory="all";
 let uploading=false;
 let saving=false;
 let changingStatus=false;
-let requestController=null;
 
 const $=id=>document.getElementById(id);
 
 /* UTILITIES */
+
 function money(value){
  const amount=Number(value??0);
  return "৳"+(Number.isFinite(amount)?amount:0).toLocaleString("en-BD",{
@@ -802,7 +834,11 @@ function money(value){
 
 function escapeHTML(value){
  return String(value??"").replace(/[&<>"']/g,char=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#039;"
  })[char]);
 }
 
@@ -812,7 +848,9 @@ function safeImageUrl(value){
  try{
   const parsed=new URL(url);
   return parsed.protocol==="https:"||parsed.protocol==="http:"?url:"";
- }catch(error){return ""}
+ }catch(error){
+  return "";
+ }
 }
 
 function showMessage(text,type="success"){
@@ -842,6 +880,7 @@ function authHeaders(extra={}){
 }
 
 /* API */
+
 async function apiRequest(path,options={}){
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),20000);
@@ -885,6 +924,7 @@ async function apiRequest(path,options={}){
 }
 
 /* AUTHENTICATION */
+
 async function verifyAdmin(){
  if(!token){
   logout();
@@ -911,6 +951,7 @@ async function verifyAdmin(){
 }
 
 /* PRODUCT COST */
+
 function productCostPrice(product){
  return Number(product?.cost_price||0);
 }
@@ -922,34 +963,61 @@ function productActualCost(product){
   Number(product?.other_cost||0);
 }
 
-/* LOAD PRODUCTS */
-async function loadProducts(){
- const data=await apiRequest("/products/admin/all");
- products=Array.isArray(data.products)?data.products:[];
+/* PRODUCT SELECT OPTIONS */
 
+function updateProductOptions(){
  const activeProducts=products.filter(p=>
   String(p.status||"").toLowerCase()==="active"
  );
 
- const options=[
-  '<option value="">Select a product</option>',
-  ...activeProducts.map(p=>`
-   <option value="${Number(p.id)}">
-    ${escapeHTML(p.name)}${p.sku?" - "+escapeHTML(p.sku):""}
-   </option>
-  `)
- ].join("");
+ const selectIds=["product1","product2","product3"];
 
- ["product1","product2","product3"].forEach(id=>{
-  $(id).innerHTML=options;
+ selectIds.forEach((selectId,index)=>{
+  const select=$(selectId);
+  const previousValue=select.value;
+
+  const emptyText=index===0
+   ?"Select a product"
+   :"No product selected";
+
+  select.innerHTML=[
+   `<option value="">${emptyText}</option>`,
+   ...activeProducts.map(product=>`
+    <option value="${Number(product.id)}">
+     ${escapeHTML(product.name)}
+     ${product.sku?" - "+escapeHTML(product.sku):""}
+    </option>
+   `)
+  ].join("");
+
+  if(previousValue&&activeProducts.some(p=>String(p.id)===previousValue)){
+   select.value=previousValue;
+  }
  });
 
  updateCostSummary();
 }
 
+/* LOAD PRODUCTS */
+
+async function loadProducts(){
+ const data=await apiRequest("/products/admin/all");
+ products=Array.isArray(data.products)?data.products:[];
+ updateProductOptions();
+}
+
 function getSelectedProduct(selectId){
  const id=Number($(selectId).value);
+ if(!id)return null;
  return products.find(p=>Number(p.id)===id)||null;
+}
+
+function getSelectedProducts(){
+ return [
+  getSelectedProduct("product1"),
+  getSelectedProduct("product2"),
+  getSelectedProduct("product3")
+ ];
 }
 
 function renderSelectedProduct(selectId,boxId){
@@ -973,6 +1041,8 @@ function renderSelectedProduct(selectId,boxId){
  `;
 }
 
+/* PACKAGE COST CALCULATION */
+
 function getPackageCalculation(){
  const p1=getSelectedProduct("product1");
  const p2=getSelectedProduct("product2");
@@ -991,8 +1061,14 @@ function getPackageCalculation(){
  const total=productTotal+delivery+packaging+other;
 
  return {
-  c1,c2,c3,productTotal,delivery,packaging,other,
-  total,selling,profit:selling-total
+  c1,c2,c3,
+  productTotal,
+  delivery,
+  packaging,
+  other,
+  total,
+  selling,
+  profit:selling-total
  };
 }
 
@@ -1019,8 +1095,10 @@ function updateCostSummary(){
 }
 
 /* LOAD PACKAGES */
+
 async function loadPackages(){
- $("packageList").innerHTML='<div class="loading">Loading packages...</div>';
+ $("packageList").innerHTML=
+  '<div class="loading">Loading packages...</div>';
 
  const data=await apiRequest("/packages/admin/all");
  packages=Array.isArray(data.packages)?data.packages:[];
@@ -1030,6 +1108,7 @@ async function loadPackages(){
 }
 
 /* CATEGORY COUNTS */
+
 function getCategoryCounts(){
  const counts={};
 
@@ -1043,11 +1122,11 @@ function getCategoryCounts(){
  return counts;
 }
 
-/* CATEGORY FILTER CARDS */
+/* CATEGORY FILTERS */
+
 function renderCategoryFilters(){
  const container=$("categoryFilters");
  const counts=getCategoryCounts();
-
  const allCount=packages.length;
 
  const categories=[
@@ -1078,7 +1157,6 @@ function renderCategoryFilters(){
  });
 
  container.innerHTML=cards.join("");
-
  $("packageTotal").textContent=allCount+" Total Packages";
 
  container.querySelectorAll("[data-category]").forEach(button=>{
@@ -1096,14 +1174,15 @@ function renderCategoryFilters(){
 }
 
 /* PACKAGE LIST FILTER */
+
 function renderPackages(){
  const container=$("packageList");
 
  const filtered=selectedCategory==="all"
   ?packages
   :packages.filter(item=>
-    (String(item.category||"").trim()||"Uncategorized")===selectedCategory
-   );
+   (String(item.category||"").trim()||"Uncategorized")===selectedCategory
+  );
 
  $("filterLabel").textContent=
   selectedCategory==="all"
@@ -1112,9 +1191,7 @@ function renderPackages(){
 
  if(!filtered.length){
   container.innerHTML=`
-   <div class="empty">
-    No packages found in this category.
-   </div>
+   <div class="empty">No packages found in this category.</div>
   `;
   return;
  }
@@ -1136,7 +1213,9 @@ function renderPackages(){
    <section class="category-group">
     <div class="category-heading">
      <h3>${escapeHTML(category)}</h3>
-     <span class="category-count">${items.length} PACKAGE${items.length===1?"":"S"}</span>
+     <span class="category-count">
+      ${items.length} PACKAGE${items.length===1?"":"S"}
+     </span>
     </div>
     <div class="package-list">
      ${items.map(renderPackageCard).join("")}
@@ -1147,6 +1226,7 @@ function renderPackages(){
 }
 
 /* PACKAGE CARD */
+
 function renderPackageCard(item){
  const imageUrl=safeImageUrl(item.image_url);
 
@@ -1173,11 +1253,13 @@ function renderPackageCard(item){
     <p class="package-price">${money(item.price)}</p>
     <p>Stock: ${Number(item.stock||0)}</p>
     <p>Products: ${escapeHTML(names||"Not available")}</p>
-    <span class="status ${["active","draft","inactive","archived"].includes(status)?status:""}">${escapeHTML(status)}</span>
+    <span class="status ${["active","draft","inactive","archived"].includes(status)?status:""}">
+     ${escapeHTML(status)}
+    </span>
 
     <div class="package-cost">
      <div class="package-cost-row">
-      <span>Three Product Cost</span>
+      <span>Selected Product Cost</span>
       <strong>${money(productCost)}</strong>
      </div>
      <div class="package-cost-row">
@@ -1227,6 +1309,7 @@ function renderPackageCard(item){
 }
 
 /* IMAGE PREVIEW */
+
 $("imageFile").addEventListener("change",()=>{
  const file=$("imageFile").files[0];
  if(!file)return;
@@ -1253,11 +1336,15 @@ $("imageFile").addEventListener("change",()=>{
   $("uploadStatus").textContent="Image selected. Click Upload Image.";
  };
 
- reader.onerror=()=>showMessage("Unable to preview the selected image.","error");
+ reader.onerror=()=>{
+  showMessage("Unable to preview the selected image.","error");
+ };
+
  reader.readAsDataURL(file);
 });
 
 /* IMAGE UPLOAD */
+
 $("uploadButton").addEventListener("click",async()=>{
  hideMessage();
 
@@ -1341,6 +1428,7 @@ $("removeImageButton").addEventListener("click",()=>{
 });
 
 /* RESET FORM */
+
 function resetForm(){
  editingId=null;
  $("packageForm").reset();
@@ -1363,6 +1451,7 @@ function resetForm(){
 }
 
 /* EDIT PACKAGE */
+
 function editPackage(id){
  const item=packages.find(p=>Number(p.id)===Number(id));
  if(!item)return;
@@ -1389,13 +1478,16 @@ function editPackage(id){
  $("price").value=item.price??0;
  $("stock").value=item.stock??0;
 
- $("product1").value=item.products?.[0]?.id||"";
- $("product2").value=item.products?.[1]?.id||"";
- $("product3").value=item.products?.[2]?.id||"";
+ const itemProducts=Array.isArray(item.products)?item.products:[];
+
+ $("product1").value=itemProducts[0]?.id||"";
+ $("product2").value=itemProducts[1]?.id||"";
+ $("product3").value=itemProducts[2]?.id||"";
 
  $("imageUrl").value=safeImageUrl(item.image_url);
 
  const costs=item.costs||{};
+
  $("deliveryCost").value=costs.deliveryCost??0;
  $("packagingCost").value=costs.packagingCost??0;
  $("otherCost").value=costs.otherCost??0;
@@ -1421,6 +1513,7 @@ function editPackage(id){
 }
 
 /* MONEY VALIDATION */
+
 function validateMoney(id,label){
  const value=$(id).value.trim();
 
@@ -1430,13 +1523,58 @@ function validateMoney(id,label){
   !Number.isFinite(Number(value))||
   Number(value)<0
  ){
-  throw new Error(label+" must be a valid non-negative amount with up to 2 decimal places.");
+  throw new Error(
+   label+" must be a valid non-negative amount with up to 2 decimal places."
+  );
  }
 
  return Number(value);
 }
 
+/* PRODUCT VALIDATION */
+
+function getSelectedProductIds(){
+ return [
+  $("product1").value,
+  $("product2").value,
+  $("product3").value
+ ].filter(Boolean).map(Number);
+}
+
+function validateProductSelection(){
+ const ids=getSelectedProductIds();
+
+ if(ids.length<1){
+  throw new Error("Please select at least one product.");
+ }
+
+ if(ids.length>3){
+  throw new Error("A package can contain a maximum of three products.");
+ }
+
+ if(ids.some(id=>!Number.isSafeInteger(id)||id<=0)){
+  throw new Error("Invalid product selection.");
+ }
+
+ if(new Set(ids).size!==ids.length){
+  throw new Error("You cannot select the same product more than once.");
+ }
+
+ const activeIds=new Set(
+  products
+   .filter(p=>String(p.status||"").toLowerCase()==="active")
+   .map(p=>Number(p.id))
+ );
+
+ if(ids.some(id=>!activeIds.has(id))){
+  throw new Error("Please select only active products.");
+ }
+
+ return ids;
+}
+
 /* CREATE / UPDATE */
+
 $("packageForm").addEventListener("submit",async event=>{
  event.preventDefault();
  hideMessage();
@@ -1448,47 +1586,55 @@ $("packageForm").addEventListener("submit",async event=>{
   return;
  }
 
- const product1Id=Number($("product1").value);
- const product2Id=Number($("product2").value);
- const product3Id=Number($("product3").value);
-
- if(
-  !product1Id||!product2Id||!product3Id||
-  new Set([product1Id,product2Id,product3Id]).size!==3
- ){
-  showMessage("Select three different products.","error");
-  return;
- }
-
- const stock=Number($("stock").value);
-
- if(!Number.isSafeInteger(stock)||stock<0||stock>2147483647){
-  showMessage("Stock must be a valid non-negative whole number.","error");
-  return;
- }
-
+ let productIds;
  let payload;
 
  try{
+  productIds=validateProductSelection();
+
+  const stock=Number($("stock").value);
+
+  if(!Number.isSafeInteger(stock)||stock<0||stock>2147483647){
+   throw new Error("Stock must be a valid non-negative whole number.");
+  }
+
   payload={
    name:$("name").value.trim(),
    category:$("category").value,
    description:$("description").value.trim(),
    imageUrl:$("imageUrl").value.trim(),
-   product1Id,
-   product2Id,
-   product3Id,
+
+   /* API accepts 1, 2 or 3 product IDs */
+   productIds,
+
+   /* Legacy fields retained for route compatibility */
+   product1Id:productIds[0]||null,
+   product2Id:productIds[1]||null,
+   product3Id:productIds[2]||null,
+
    price:validateMoney("price","Package Selling Price"),
    stock,
+
    deliveryCost:validateMoney("deliveryCost","Package Delivery Cost"),
    packagingCost:validateMoney("packagingCost","Package Packaging Cost"),
    otherCost:validateMoney("otherCost","Package Other Cost")
   };
 
-  if(!payload.category)throw new Error("Please select a package category.");
-  if(payload.name.length<2||payload.name.length>180)throw new Error("Package name must be between 2 and 180 characters.");
-  if(payload.description.length>5000)throw new Error("Description must not exceed 5000 characters.");
-  if(payload.imageUrl&&!safeImageUrl(payload.imageUrl))throw new Error("Please upload a valid banner image.");
+  if(!payload.category){
+   throw new Error("Please select a package category.");
+  }
+
+  if(payload.name.length<2||payload.name.length>180){
+   throw new Error("Package name must be between 2 and 180 characters.");
+  }
+
+  if(payload.description.length>5000){
+   throw new Error("Description must not exceed 5000 characters.");
+  }
+
+  if(payload.imageUrl&&!safeImageUrl(payload.imageUrl)){
+   throw new Error("Please upload a valid banner image.");
+  }
 
  }catch(error){
   showMessage(error.message,"error");
@@ -1501,7 +1647,10 @@ $("packageForm").addEventListener("submit",async event=>{
 
  try{
   const isEditing=editingId!==null;
-  const endpoint=isEditing?"/packages/"+encodeURIComponent(editingId):"/packages";
+
+  const endpoint=isEditing
+   ?"/packages/"+encodeURIComponent(editingId)
+   :"/packages";
 
   await apiRequest(endpoint,{
    method:isEditing?"PUT":"POST",
@@ -1523,11 +1672,13 @@ $("packageForm").addEventListener("submit",async event=>{
  }finally{
   saving=false;
   $("saveButton").disabled=false;
-  $("saveButton").textContent=editingId!==null?"Update Package":"Create Package";
+  $("saveButton").textContent=
+   editingId!==null?"Update Package":"Create Package";
  }
 });
 
 /* CHANGE STATUS */
+
 async function changeStatus(id,status){
  if(changingStatus)return;
 
@@ -1560,8 +1711,10 @@ async function changeStatus(id,status){
 }
 
 /* ARCHIVE PACKAGE */
+
 async function archivePackage(id){
  if(changingStatus)return;
+
  if(!confirm("Are you sure you want to archive this package?"))return;
 
  changingStatus=true;
@@ -1582,6 +1735,7 @@ async function archivePackage(id){
 }
 
 /* CATEGORY RESET */
+
 $("resetFilter").addEventListener("click",()=>{
  selectedCategory="all";
  renderCategoryFilters();
@@ -1589,9 +1743,15 @@ $("resetFilter").addEventListener("click",()=>{
 });
 
 /* FORM EVENTS */
+
 [
- "product1","product2","product3",
- "deliveryCost","packagingCost","otherCost","price"
+ "product1",
+ "product2",
+ "product3",
+ "deliveryCost",
+ "packagingCost",
+ "otherCost",
+ "price"
 ].forEach(id=>{
  $(id).addEventListener("input",updateCostSummary);
  $(id).addEventListener("change",updateCostSummary);
@@ -1600,6 +1760,7 @@ $("resetFilter").addEventListener("click",()=>{
 $("cancelButton").addEventListener("click",resetForm);
 
 /* NAVIGATION */
+
 $("menuBtn").addEventListener("click",()=>{
  $("sidebar").classList.toggle("open");
 });
@@ -1613,6 +1774,7 @@ document.querySelectorAll(".sidebar a").forEach(link=>{
 $("logoutBtn").addEventListener("click",logout);
 
 /* INITIALIZE */
+
 async function initializePage(){
  $("year").textContent=new Date().getFullYear();
 
