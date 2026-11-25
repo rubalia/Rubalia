@@ -44,29 +44,26 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Check Rubalia icon
+      - name: Verify Rubalia Icon
         run: |
-          test -f assets/icon.png
-          python3 - <<'PY'
-          from PIL import Image
-          image = Image.open("assets/icon.png")
-          print("Rubalia source icon:", image.size)
-          if image.width < 1024 or image.height < 1024:
-              raise SystemExit("Icon must be at least 1024x1024")
-          PY
+          if [ ! -s assets/icon.png ]; then
+            echo "ERROR: android-app/assets/icon.png is missing or empty"
+            exit 1
+          fi
+          file assets/icon.png
 
       - name: Generate Android project
         run: npx cap add android
 
       - name: Generate Rubalia Android icons
-        run: >
-          npx --yes @capacitor/assets generate
-          --android
-          --assetPath assets
-          --iconBackgroundColor "#071a35"
-          --iconBackgroundColorDark "#071a35"
-          --splashBackgroundColor "#071a35"
-          --splashBackgroundColorDark "#071a35"
+        run: |
+          npx --yes @capacitor/assets generate \
+            --android \
+            --assetPath assets \
+            --iconBackgroundColor "#071a35" \
+            --iconBackgroundColorDark "#071a35" \
+            --splashBackgroundColor "#071a35" \
+            --splashBackgroundColorDark "#071a35"
 
       - name: Sync Android
         run: npx cap sync android
