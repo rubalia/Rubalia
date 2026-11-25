@@ -1,4 +1,6 @@
 
+"use strict";
+
 const express = require("express");
 
 const pool = require("../config/database");
@@ -13,6 +15,12 @@ const PACKAGE_STATUSES = [
   "inactive",
   "archived"
 ];
+
+const MAX_PRODUCTS_PER_PACKAGE = 3;
+
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function isPositiveId(value) {
   return (
@@ -73,16 +81,53 @@ function getCostValue(data, camelName, snakeName) {
   return 0;
 }
 
+/*
+ * Supports both formats:
+ *
+ * productIds: [1, 2, 3]
+ *
+ * OR legacy format:
+ *
+ * product1Id: 1
+ * product2Id: 2
+ * product3Id: 3
+ *
+ * Empty optional product fields are ignored.
+ */
+function getProductIds(data) {
+  let rawIds = [];
+
+  if (Array.isArray(data.productIds)) {
+    rawIds = data.productIds;
+  } else {
+    rawIds = [
+      data.product1Id ?? data.product_1_id,
+      data.product2Id ?? data.product_2_id,
+      data.product3Id ?? data.product_3_id
+    ];
+  }
+
+  const productIds = rawIds
+    .filter(value =>
+      value !== undefined &&
+      value !== null &&
+      String(value).trim() !== ""
+    )
+    .map(Number);
+
+  return productIds;
+}
+
+/* =========================================================
+   PACKAGE VALIDATION
+========================================================= */
+
 function validatePackage(data) {
   const name = String(data.name || "").trim();
   const category = String(data.category || "").trim();
   const description = String(data.description || "").trim();
 
-  const productIds = [
-    Number(data.product1Id ?? data.product_1_id),
-    Number(data.product2Id ?? data.product_2_id),
-    Number(data.product3Id ?? data.product_3_id)
-  ];
+  const productIds = getProductIds(data);
 
   const priceRaw = String(data.price ?? "").trim();
   const price = Number(priceRaw);
@@ -107,15 +152,26 @@ function validatePackage(data) {
     };
   }
 
-  if (!productIds.every(isPositiveId)) {
+  /* At least one and maximum three products */
+
+  if (
+    productIds.length < 1 ||
+    productIds.length > MAX_PRODUCTS_PER_PACKAGE
+  ) {
     return {
-      error: "Select exactly three valid products."
+      error: "A package must contain at least one and at most three products."
     };
   }
 
-  if (new Set(productIds).size !== 3) {
+  if (!productIds.every(isPositiveId)) {
     return {
-      error: "A package must contain three different products."
+      error: "Select valid products."
+    };
+  }
+
+  if (new Set(productIds).size !== productIds.length) {
+    return {
+      error: "The same product cannot be selected more than once."
     };
   }
 
@@ -199,25 +255,39 @@ function validatePackage(data) {
   };
 }
 
+/* =========================================================
+   CHECK PRODUCTS
+========================================================= */
+
 async function checkProducts(productIds, client = pool) {
+  if (!Array.isArray(productIds) || productIds.length < 1) {
+    return false;
+  }
+
   const result = await client.query(
     `SELECT id
      FROM products
-     WHERE id = ANY($1::int[])
+     WHERE id = ANY($1::bigint[])
        AND status = 'active'`,
     [productIds]
   );
 
-  return result.rows.length === 3;
+  return result.rows.length === productIds.length;
 }
 
-/**
- * Shared package query.
+/* =========================================================
+   PACKAGE SELECT
+========================================================= */
+
+/*
+ * LEFT JOIN is important.
  *
- * Product actual cost and package extra costs are selected
- * for internal Admin cost reporting.
- * Public response formatting removes these fields.
+ * Old INNER JOIN required all three products.
+ * LEFT JOIN allows packages containing only one or two products.
+ *
+ * Old packages containing three products continue to work.
  */
+
 const PACKAGE_SELECT = `
   SELECT
     pa.id,
@@ -256,12 +326,55 @@ const PACKAGE_SELECT = `
     p3.cost_price AS product_3_cost_price
 
   FROM packages pa
-  JOIN products p1 ON p1.id = pa.product_1_id
-  JOIN products p2 ON p2.id = pa.product_2_id
-  JOIN products p3 ON p3.id = pa.product_3_id
+
+  LEFT JOIN products p1
+    ON p1.id = pa.product_1_id
+
+  LEFT JOIN products p2
+    ON p2.id = pa.product_2_id
+
+  LEFT JOIN products p3
+    ON p3.id = pa.product_3_id
 `;
 
+/* =========================================================
+   FORMAT PACKAGE
+========================================================= */
+
 function formatPackage(row, includeCosts = false) {
+  const productRows = [
+    {
+      id: row.product_1_id,
+      name: row.product_1_name,
+      sku: row.product_1_sku,
+      description: row.product_1_description,
+      price: row.product_1_price,
+      costPrice: row.product_1_cost_price
+    },
+    {
+      id: row.product_2_id,
+      name: row.product_2_name,
+      sku: row.product_2_sku,
+      description: row.product_2_description,
+      price: row.product_2_price,
+      costPrice: row.product_2_cost_price
+    },
+    {
+      id: row.product_3_id,
+      name: row.product_3_name,
+      sku: row.product_3_sku,
+      description: row.product_3_description,
+      price: row.product_3_price,
+      costPrice: row.product_3_cost_price
+    }
+  ];
+
+  const selectedProducts = productRows
+    .filter(product =>
+      product.id !== null &&
+      product.id !== undefined
+    );
+
   const formatted = {
     id: row.id,
     name: row.name,
@@ -274,37 +387,19 @@ function formatPackage(row, includeCosts = false) {
     created_at: row.created_at,
     updated_at: row.updated_at,
 
-    products: [
-      {
-        id: row.product_1_id,
-        name: row.product_1_name,
-        sku: row.product_1_sku,
-        description: row.product_1_description,
-        price: Number(row.product_1_price)
-      },
-      {
-        id: row.product_2_id,
-        name: row.product_2_name,
-        sku: row.product_2_sku,
-        description: row.product_2_description,
-        price: Number(row.product_2_price)
-      },
-      {
-        id: row.product_3_id,
-        name: row.product_3_name,
-        sku: row.product_3_sku,
-        description: row.product_3_description,
-        price: Number(row.product_3_price)
-      }
-    ]
+    products: selectedProducts.map(product => ({
+      id: product.id,
+      name: product.name,
+      sku: product.sku,
+      description: product.description,
+      price: Number(product.price || 0)
+    }))
   };
 
   if (includeCosts) {
-    const productCosts = [
-      Number(row.product_1_cost_price || 0),
-      Number(row.product_2_cost_price || 0),
-      Number(row.product_3_cost_price || 0)
-    ];
+    const productCosts = selectedProducts.map(product =>
+      Number(product.costPrice || 0)
+    );
 
     const componentProductCost = productCosts.reduce(
       (sum, cost) => sum + cost,
@@ -315,24 +410,18 @@ function formatPackage(row, includeCosts = false) {
     const packagingCost = Number(row.packaging_cost || 0);
     const otherCost = Number(row.other_cost || 0);
 
+    const totalCost =
+      componentProductCost +
+      deliveryCost +
+      packagingCost +
+      otherCost;
+
     formatted.costs = {
-      products: [
-        {
-          productId: row.product_1_id,
-          productName: row.product_1_name,
-          costPrice: productCosts[0]
-        },
-        {
-          productId: row.product_2_id,
-          productName: row.product_2_name,
-          costPrice: productCosts[1]
-        },
-        {
-          productId: row.product_3_id,
-          productName: row.product_3_name,
-          costPrice: productCosts[2]
-        }
-      ],
+      products: selectedProducts.map(product => ({
+        productId: product.id,
+        productName: product.name,
+        costPrice: Number(product.costPrice || 0)
+      })),
 
       componentProductCost,
 
@@ -340,40 +429,35 @@ function formatPackage(row, includeCosts = false) {
       packagingCost,
       otherCost,
 
-      totalCost:
-        componentProductCost +
-        deliveryCost +
-        packagingCost +
-        otherCost,
+      totalCost,
 
       estimatedProfit:
-        Number(row.price) -
-        (
-          componentProductCost +
-          deliveryCost +
-          packagingCost +
-          otherCost
-        )
+        Number(row.price || 0) - totalCost
     };
   }
 
   return formatted;
 }
 
-/**
- * PUBLIC
- * GET /api/packages
- *
- * Cost details are not returned.
- */
+/* =========================================================
+   PUBLIC: GET ALL ACTIVE PACKAGES
+   GET /api/packages
+========================================================= */
+
 router.get("/", async (req, res, next) => {
   try {
     const result = await pool.query(
       `${PACKAGE_SELECT}
        WHERE pa.status = 'active'
          AND p1.status = 'active'
-         AND p2.status = 'active'
-         AND p3.status = 'active'
+         AND (
+           pa.product_2_id IS NULL
+           OR p2.status = 'active'
+         )
+         AND (
+           pa.product_3_id IS NULL
+           OR p3.status = 'active'
+         )
        ORDER BY pa.created_at DESC`
     );
 
@@ -388,10 +472,11 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-/**
- * PUBLIC
- * GET /api/packages/:id
- */
+/* =========================================================
+   PUBLIC: GET SINGLE PACKAGE
+   GET /api/packages/:id
+========================================================= */
+
 router.get("/:id", async (req, res, next) => {
   try {
     if (!isPositiveId(req.params.id)) {
@@ -406,8 +491,14 @@ router.get("/:id", async (req, res, next) => {
        WHERE pa.id = $1
          AND pa.status = 'active'
          AND p1.status = 'active'
-         AND p2.status = 'active'
-         AND p3.status = 'active'`,
+         AND (
+           pa.product_2_id IS NULL
+           OR p2.status = 'active'
+         )
+         AND (
+           pa.product_3_id IS NULL
+           OR p3.status = 'active'
+         )`,
       [Number(req.params.id)]
     );
 
@@ -427,12 +518,11 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-/**
- * ADMIN
- * GET /api/packages/admin/all
- *
- * Includes product cost and package extra cost breakdown.
- */
+/* =========================================================
+   ADMIN: GET ALL PACKAGES
+   GET /api/packages/admin/all
+========================================================= */
+
 router.get(
   "/admin/all",
   authenticateToken,
@@ -456,16 +546,19 @@ router.get(
   }
 );
 
-/**
- * ADMIN
- * POST /api/packages
- */
+/* =========================================================
+   ADMIN: CREATE PACKAGE
+   POST /api/packages
+========================================================= */
+
 router.post(
   "/",
   authenticateToken,
   requireAdmin,
   async (req, res, next) => {
     const client = await pool.connect();
+
+    let transactionStarted = false;
 
     try {
       const validation = validatePackage(req.body || {});
@@ -480,6 +573,7 @@ router.post(
       const data = validation.value;
 
       await client.query("BEGIN");
+      transactionStarted = true;
 
       const productsValid = await checkProducts(
         data.productIds,
@@ -488,12 +582,17 @@ router.post(
 
       if (!productsValid) {
         await client.query("ROLLBACK");
+        transactionStarted = false;
 
         return res.status(400).json({
           success: false,
-          message: "All three selected products must exist and be active."
+          message: "All selected products must exist and be active."
         });
       }
+
+      const product1Id = data.productIds[0] || null;
+      const product2Id = data.productIds[1] || null;
+      const product3Id = data.productIds[2] || null;
 
       const result = await client.query(
         `INSERT INTO packages (
@@ -512,8 +611,10 @@ router.post(
            other_cost
          )
          VALUES (
-           $1, $2, $3, $4, $5, $6, $7,
-           $8, $9, 'draft', $10, $11, $12
+           $1, $2, $3, $4,
+           $5, $6, $7,
+           $8, $9, 'draft',
+           $10, $11, $12
          )
          RETURNING
            id,
@@ -527,9 +628,9 @@ router.post(
           data.category || null,
           data.description || null,
           data.imageUrl,
-          data.productIds[0],
-          data.productIds[1],
-          data.productIds[2],
+          product1Id,
+          product2Id,
+          product3Id,
           data.price,
           data.stock,
           data.deliveryCost,
@@ -539,6 +640,7 @@ router.post(
       );
 
       await client.query("COMMIT");
+      transactionStarted = false;
 
       return res.status(201).json({
         success: true,
@@ -546,7 +648,10 @@ router.post(
         package: result.rows[0]
       });
     } catch (error) {
-      await client.query("ROLLBACK");
+      if (transactionStarted) {
+        await client.query("ROLLBACK").catch(() => {});
+      }
+
       next(error);
     } finally {
       client.release();
@@ -554,19 +659,19 @@ router.post(
   }
 );
 
-/**
- * ADMIN
- * PUT /api/packages/:id
- *
- * Updates current package configuration only.
- * Existing order snapshots remain unchanged.
- */
+/* =========================================================
+   ADMIN: UPDATE PACKAGE
+   PUT /api/packages/:id
+========================================================= */
+
 router.put(
   "/:id",
   authenticateToken,
   requireAdmin,
   async (req, res, next) => {
     const client = await pool.connect();
+
+    let transactionStarted = false;
 
     try {
       if (!isPositiveId(req.params.id)) {
@@ -589,6 +694,7 @@ router.put(
       const packageId = Number(req.params.id);
 
       await client.query("BEGIN");
+      transactionStarted = true;
 
       const productsValid = await checkProducts(
         data.productIds,
@@ -597,12 +703,17 @@ router.put(
 
       if (!productsValid) {
         await client.query("ROLLBACK");
+        transactionStarted = false;
 
         return res.status(400).json({
           success: false,
-          message: "All three selected products must exist and be active."
+          message: "All selected products must exist and be active."
         });
       }
+
+      const product1Id = data.productIds[0] || null;
+      const product2Id = data.productIds[1] || null;
+      const product3Id = data.productIds[2] || null;
 
       const result = await client.query(
         `UPDATE packages
@@ -633,9 +744,9 @@ router.put(
           data.category || null,
           data.description || null,
           data.imageUrl,
-          data.productIds[0],
-          data.productIds[1],
-          data.productIds[2],
+          product1Id,
+          product2Id,
+          product3Id,
           data.price,
           data.stock,
           data.deliveryCost,
@@ -647,6 +758,7 @@ router.put(
 
       if (!result.rows.length) {
         await client.query("ROLLBACK");
+        transactionStarted = false;
 
         return res.status(404).json({
           success: false,
@@ -655,6 +767,7 @@ router.put(
       }
 
       await client.query("COMMIT");
+      transactionStarted = false;
 
       return res.json({
         success: true,
@@ -662,7 +775,10 @@ router.put(
         package: result.rows[0]
       });
     } catch (error) {
-      await client.query("ROLLBACK");
+      if (transactionStarted) {
+        await client.query("ROLLBACK").catch(() => {});
+      }
+
       next(error);
     } finally {
       client.release();
@@ -670,10 +786,11 @@ router.put(
   }
 );
 
-/**
- * ADMIN
- * PATCH /api/packages/:id/status
- */
+/* =========================================================
+   ADMIN: CHANGE PACKAGE STATUS
+   PATCH /api/packages/:id/status
+========================================================= */
+
 router.patch(
   "/:id/status",
   authenticateToken,
@@ -694,6 +811,66 @@ router.patch(
           success: false,
           message: "Invalid package status."
         });
+      }
+
+      /*
+       * A package cannot be activated if its required
+       * first product is missing or inactive.
+       */
+
+      if (status === "active") {
+        const packageCheck = await pool.query(
+          `SELECT
+             pa.id,
+             p1.status AS product_1_status,
+             p2.status AS product_2_status,
+             p3.status AS product_3_status
+           FROM packages pa
+           LEFT JOIN products p1
+             ON p1.id = pa.product_1_id
+           LEFT JOIN products p2
+             ON p2.id = pa.product_2_id
+           LEFT JOIN products p3
+             ON p3.id = pa.product_3_id
+           WHERE pa.id = $1`,
+          [Number(req.params.id)]
+        );
+
+        if (!packageCheck.rows.length) {
+          return res.status(404).json({
+            success: false,
+            message: "Package not found."
+          });
+        }
+
+        const item = packageCheck.rows[0];
+
+        if (item.product_1_status !== "active") {
+          return res.status(400).json({
+            success: false,
+            message: "The first product must be active before activating this package."
+          });
+        }
+
+        if (
+          item.product_2_status &&
+          item.product_2_status !== "active"
+        ) {
+          return res.status(400).json({
+            success: false,
+            message: "The second selected product is not active."
+          });
+        }
+
+        if (
+          item.product_3_status &&
+          item.product_3_status !== "active"
+        ) {
+          return res.status(400).json({
+            success: false,
+            message: "The third selected product is not active."
+          });
+        }
       }
 
       const result = await pool.query(
@@ -724,12 +901,11 @@ router.patch(
   }
 );
 
-/**
- * ADMIN
- * DELETE /api/packages/:id
- *
- * Archives package instead of permanently deleting it.
- */
+/* =========================================================
+   ADMIN: ARCHIVE PACKAGE
+   DELETE /api/packages/:id
+========================================================= */
+
 router.delete(
   "/:id",
   authenticateToken,
