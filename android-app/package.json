@@ -1,11 +1,13 @@
+
 {
   "name": "rubalia-android-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
-  "description": "Rubalia Android App",
+  "description": "Rubalia Android App with Firebase Push Notifications",
   "dependencies": {
     "@capacitor/android": "^7.4.3",
-    "@capacitor/core": "^7.4.3"
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/push-notifications": "^7.4.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^7.4.3"
