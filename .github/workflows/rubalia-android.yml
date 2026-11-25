@@ -1,20 +1,22 @@
 
-name: Build Rubalia Android APK
+name: RUBALIA NETWORK Android APK
 
 on:
   workflow_dispatch:
+
   push:
+    branches:
+      - main
     paths:
       - "android-app/**"
       - ".github/workflows/rubalia-android.yml"
-    tags:
-      - "android-v*"
 
 permissions:
   contents: read
 
 jobs:
   build:
+    name: Build Rubalia Android APK
     runs-on: ubuntu-latest
 
     defaults:
@@ -22,13 +24,15 @@ jobs:
         working-directory: android-app
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
+          cache-dependency-path: android-app/package-lock.json
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -38,24 +42,50 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: "platform-tools"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Dependencies
+        run: npm install --no-audit --no-fund
 
-      - name: Verify Rubalia Icon
+      - name: Verify Website Files
         run: |
-          if [ ! -s assets/icon.png ]; then
-            echo "ERROR: android-app/assets/icon.png is missing or empty"
+          if [ ! -s www/index.html ]; then
+            echo "ERROR: android-app/www/index.html missing"
             exit 1
           fi
-          file assets/icon.png
 
-      - name: Generate Android project
+      - name: Verify Firebase Configuration
+        run: |
+          if [ ! -s google-services.json ]; then
+            echo "ERROR: google-services.json missing"
+            exit 1
+          fi
+
+          node -e "
+          const f=require('./google-services.json');
+          const c=f.client?.[0]?.client_info?.android_client_info?.package_name;
+          if(c !== 'com.rubalia.network') {
+            console.error('Firebase package name mismatch:', c);
+            process.exit(1);
+          }
+          console.log('Firebase configuration verified.');
+          "
+
+      - name: Verify Rubalia App Icon
+        run: |
+          if [ ! -s assets/icon.png ]; then
+            echo "ERROR: assets/icon.png missing"
+            exit 1
+          fi
+
+      - name: Add Android Platform
         run: npx cap add android
 
-      - name: Generate Rubalia Android icons
+      - name: Install Firebase Configuration
+        run: |
+          mkdir -p android/app
+          cp google-services.json android/app/google-services.json
+
+      - name: Generate Android Icons
         run: |
           npx --yes @capacitor/assets generate \
             --android \
@@ -65,14 +95,18 @@ jobs:
             --splashBackgroundColor "#071a35" \
             --splashBackgroundColorDark "#071a35"
 
-      - name: Sync Android
+      - name: Sync Capacitor Plugins
         run: npx cap sync android
 
-      - name: Build APK
+      - name: Verify Firebase File
+        run: |
+          test -s android/app/google-services.json
+
+      - name: Build Debug APK
         working-directory: android-app/android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon --max-workers=2
 
       - name: Prepare APK
         working-directory: android-app
@@ -82,6 +116,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Rubalia-Android-APK
+          name: RUBALIA-NETWORK-Android-APK
           path: android-app/Rubalia.apk
+          if-no-files-found: error
           retention-days: 30
