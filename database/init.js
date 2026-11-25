@@ -149,6 +149,48 @@ async function initializeDatabase() {
 
 
   // =========================================================
+  // PACKAGE PRODUCT COUNT MIGRATION
+  // Supports 1, 2 or 3 products per package.
+  // Existing package records are preserved.
+  // =========================================================
+
+  await pool.query(`
+    ALTER TABLE packages
+    ALTER COLUMN product_2_id DROP NOT NULL,
+    ALTER COLUMN product_3_id DROP NOT NULL;
+  `);
+
+  await pool.query(`
+    ALTER TABLE packages
+    DROP CONSTRAINT IF EXISTS packages_three_different_products;
+  `);
+
+  await pool.query(`
+    ALTER TABLE packages
+    ADD CONSTRAINT packages_three_different_products
+    CHECK (
+      product_1_id IS NOT NULL
+
+      AND (
+        product_2_id IS NULL
+        OR product_1_id <> product_2_id
+      )
+
+      AND (
+        product_3_id IS NULL
+        OR product_1_id <> product_3_id
+      )
+
+      AND (
+        product_2_id IS NULL
+        OR product_3_id IS NULL
+        OR product_2_id <> product_3_id
+      )
+    );
+  `);
+
+
+  // =========================================================
   // PACKAGE COST MIGRATION
   // =========================================================
 
@@ -875,6 +917,7 @@ async function initializeDatabase() {
   console.log("Commission settings and ledgers checked.");
   console.log("10-level Unilevel database structure checked.");
   console.log("Admin announcements table checked.");
+  console.log("Packages support 1, 2 or 3 products.");
 }
 
 module.exports = { initializeDatabase };
