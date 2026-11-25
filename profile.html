@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -360,7 +361,6 @@ button:disabled{opacity:.55;cursor:wait}
 </head>
 
 <body>
-<!-- All interface icons and decorative artwork are embedded SVG. -->
 <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
   <symbol id="i-crown" viewBox="0 0 64 48"><path d="M7 37 2 12l15 12L31 3l14 21 17-12-7 25H7Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 43h46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="2" cy="10" r="3" fill="currentColor"/><circle cx="31" cy="3" r="3" fill="currentColor"/><circle cx="62" cy="10" r="3" fill="currentColor"/></symbol>
@@ -503,11 +503,38 @@ button:disabled{opacity:.55;cursor:wait}
       </div>
     </section>
 
+    <!-- QUICK ACTIONS -->
     <section class="quick-grid">
-      <a class="quick-card" href="settings.html#profile"><svg class="icon"><use href="#i-user"/></svg><span>Edit Profile</span></a>
-      <a class="quick-card" href="settings.html#security"><svg class="icon"><use href="#i-shield"/></svg><span>Security</span></a>
-      <a class="quick-card" href="wallet.html"><svg class="icon"><use href="#i-wallet"/></svg><span>Wallet History</span></a>
-      <a class="quick-card" href="membership.html"><svg class="icon"><use href="#i-crown"/></svg><span>Membership</span></a>
+      <a class="quick-card" href="settings.html#profile">
+        <svg class="icon"><use href="#i-user"/></svg>
+        <span>Edit Profile</span>
+      </a>
+
+      <a class="quick-card" href="settings.html#security">
+        <svg class="icon"><use href="#i-shield"/></svg>
+        <span>Security</span>
+      </a>
+
+      <a class="quick-card" href="wallet.html">
+        <svg class="icon"><use href="#i-wallet"/></svg>
+        <span>Wallet History</span>
+      </a>
+
+      <!-- MEMBERSHIP REPLACED WITH DOWNLOAD APP -->
+      <a class="quick-card"
+         href="https://github.com/rubalia/Rubalia/releases/latest/download/Rubalia.apk"
+         target="_blank"
+         rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M12 3v12"/>
+          <path d="m7 10 5 5 5-5"/>
+          <path d="M5 17v3h14v-3"/>
+        </svg>
+        <span>Download App</span>
+      </a>
     </section>
 
     <section class="referral-panel">
@@ -722,12 +749,9 @@ $("logoutLink").addEventListener("click",e=>{e.preventDefault();if(confirm("Are 
 async function init(){
   if(!token()){logout();return;}
   try{
-    // First load the authenticated member identity.
     const authData = await api("/auth/me");
     if(!authData.user) throw new Error("Member profile was not returned.");
 
-    // Always request the saved profile from PostgreSQL. This is the source
-    // of truth for avatar_url after a page refresh.
     let completeUser = {...authData.user};
     try{
       const profileData = await api("/profile");
@@ -738,8 +762,6 @@ async function init(){
         throw new Error("The profile API did not return saved profile data.");
       }
     }catch(profileError){
-      // Keep an avatar already included in /auth/me, but never silently
-      // pretend that the saved profile photo was successfully loaded.
       console.error("Saved profile could not be loaded:", profileError);
       if(!completeUser.avatar_url && !completeUser.avatarUrl){
         $("uploadNote").textContent = "Profile photo could not be loaded from the server. Please refresh or contact support.";
