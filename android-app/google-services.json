@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1051801348543",
+    "project_id": "rubalianetwork",
+    "storage_bucket": "rubalianetwork.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051801348543:android:137c383debe1fa8865990a",
+        "android_client_info": {
+          "package_name": "com.rubalia.network"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaPmARK1lAC0oT1FqLijxE_Ei-cz4h4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
