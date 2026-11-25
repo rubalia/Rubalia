@@ -3,7 +3,6 @@ name: RUBALIA NETWORK Android APK
 
 on:
   workflow_dispatch:
-
   push:
     branches:
       - main
@@ -31,8 +30,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: android-app/package-lock.json
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -46,41 +43,25 @@ jobs:
       - name: Install Dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Verify Website Files
-        run: |
-          if [ ! -s www/index.html ]; then
-            echo "ERROR: android-app/www/index.html missing"
-            exit 1
-          fi
+      - name: Verify Website
+        run: test -s www/index.html
 
       - name: Verify Firebase Configuration
         run: |
-          if [ ! -s google-services.json ]; then
-            echo "ERROR: google-services.json missing"
-            exit 1
-          fi
-
+          test -s google-services.json
           node -e "
           const f=require('./google-services.json');
-          const c=f.client?.[0]?.client_info?.android_client_info?.package_name;
-          if(c !== 'com.rubalia.network') {
-            console.error('Firebase package name mismatch:', c);
-            process.exit(1);
-          }
-          console.log('Firebase configuration verified.');
+          if(f.client[0].client_info.android_client_info.package_name !== 'com.rubalia.network') process.exit(1);
+          console.log('Firebase config verified');
           "
 
-      - name: Verify Rubalia App Icon
-        run: |
-          if [ ! -s assets/icon.png ]; then
-            echo "ERROR: assets/icon.png missing"
-            exit 1
-          fi
+      - name: Verify App Icon
+        run: test -s assets/icon.png
 
       - name: Add Android Platform
         run: npx cap add android
 
-      - name: Install Firebase Configuration
+      - name: Copy Firebase Configuration
         run: |
           mkdir -p android/app
           cp google-services.json android/app/google-services.json
@@ -95,14 +76,13 @@ jobs:
             --splashBackgroundColor "#071a35" \
             --splashBackgroundColorDark "#071a35"
 
-      - name: Sync Capacitor Plugins
+      - name: Sync Capacitor
         run: npx cap sync android
 
       - name: Verify Firebase File
-        run: |
-          test -s android/app/google-services.json
+        run: test -s android/app/google-services.json
 
-      - name: Build Debug APK
+      - name: Build APK
         working-directory: android-app/android
         run: |
           chmod +x gradlew
