@@ -1,18 +1,14 @@
 
 {
   "appId": "com.rubalia.network",
-  "appName": "RUBALIA NETWORK",
+  "appName": "Rubalia",
   "webDir": "www",
-  "loggingBehavior": "debug",
   "server": {
     "url": "https://rubalia.github.io/Rubalia/",
     "cleartext": false,
     "allowNavigation": [
-      "rubalia.github.io"
+      "rubalia.github.io",
+      "rubalia.onrender.com"
     ]
-  },
-  "android": {
-    "allowMixedContent": false,
-    "backgroundColor": "#210d2d"
   }
 }
