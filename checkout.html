@@ -7,15 +7,26 @@
 <meta name="theme-color" content="#21152f">
 <title>Checkout | RUBALIA NETWORK</title>
 <style>
-:root{--red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#d9ae5b;--bg:#f7f5f9;--text:#29243a;--muted:#858196;--border:#eae6ee;--green:#16804b}
+:root{
+ --red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#d9ae5b;
+ --bg:#f7f5f9;--text:#29243a;--muted:#858196;--border:#eae6ee;
+ --green:#16804b
+}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
-a{text-decoration:none;color:inherit}button,input,textarea{font:inherit}
-header{min-height:65px;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);color:white}
-.logo{font-size:19px;font-weight:900;letter-spacing:1px}.logo span{color:#f5dda0}
-.header-link{padding:9px 13px;border:1px solid #ffffff55;border-radius:8px;font-size:11px;font-weight:bold}
-main{max-width:1050px;margin:30px auto;padding:0 17px 45px}
-.page-heading{margin-bottom:22px}.page-heading h1{font-size:25px;color:#30243e;margin:0 0 7px}.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+header{
+ min-height:65px;padding:12px 5%;display:flex;align-items:center;
+ justify-content:space-between;background:linear-gradient(110deg,#19152f,#74133e 75%,#a51d54);color:white
+}
+.logo{font-size:19px;font-weight:900;letter-spacing:1px}
+.logo span{color:#f5dda0}
+.header-link{padding:10px 15px;border:1px solid #ffffff65;border-radius:25px;font-size:12px;font-weight:bold}
+main{width:100%;max-width:1050px;margin:30px auto;padding:0 17px 45px}
+.page-heading{margin-bottom:22px}
+.page-heading h1{font-size:25px;color:#30243e;margin:0 0 7px}
+.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
 .checkout-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
 .panel{background:white;border:1px solid var(--border);border-radius:15px;padding:21px;box-shadow:0 8px 25px #1f14310d}
 .panel h2{margin:0 0 17px;color:#30243e;font-size:16px}
@@ -23,13 +34,16 @@ main{max-width:1050px;margin:30px auto;padding:0 17px 45px}
 .package-image img{width:100%;height:100%;object-fit:cover}
 .package-name{margin:17px 0 8px;color:#30243e;font-size:21px;font-weight:900}
 .package-description{color:var(--muted);font-size:12px;line-height:1.7}
-.price-row{margin-top:17px;padding:15px 0;border-block:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.price-label{font-size:11px;color:var(--muted)}.price-value{font-size:23px;color:#a71952;font-weight:900}
+.price-row{margin-top:17px;padding:15px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.price-label{font-size:11px;color:var(--muted)}
+.price-value{font-size:23px;color:#a71952;font-weight:900}
 .stock-text{font-size:11px;color:var(--green);margin-top:12px}
-.product-list{margin-top:19px}.product-list h3{font-size:12px;color:#30243e}
+.product-list{margin-top:19px}
+.product-list h3{font-size:12px;color:#30243e}
 .product-item{padding:10px 0;border-bottom:1px solid #f0edf2;display:flex;justify-content:space-between;gap:10px;font-size:11px}
 .product-item span:last-child{color:var(--muted)}
-.form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:7px;color:#4b4055;font-size:11px;font-weight:bold}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;margin-bottom:7px;color:#4b4055;font-size:11px;font-weight:bold}
 .form-group input,.form-group textarea{width:100%;border:1px solid #e5dfeb;border-radius:9px;background:#fff;color:var(--text);padding:13px;font-size:12px;outline:none}
 .form-group input:focus,.form-group textarea:focus{border-color:#c64d81;box-shadow:0 0 0 3px #d600450c}
 .form-group textarea{min-height:95px;resize:vertical}
@@ -39,17 +53,22 @@ main{max-width:1050px;margin:30px auto;padding:0 17px 45px}
 .summary{margin-top:20px;padding:15px;border-radius:10px;background:#fbf7fa}
 .summary-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:12px}
 .summary-total{border-top:1px solid #e8dfe7;margin-top:7px;padding-top:14px;font-size:16px;font-weight:900;color:#a71952}
-.payment-section{margin-top:20px}.payment-section h3{font-size:13px;margin:0 0 12px}
-.payment-option{display:flex;gap:12px;align-items:center;padding:12px;margin-bottom:9px;border:1px solid #e9e2eb;background:#fff;border-radius:10px;cursor:pointer;transition:.2s}
-.payment-option.selected{border:2px solid #b32262;background:#fff8fb;padding:11px;box-shadow:0 3px 12px #a7195210}
+.payment-section{margin-top:20px}
+.payment-section h3{font-size:13px;margin:0 0 12px}
+.payment-option{
+ display:flex;gap:10px;align-items:center;padding:10px 11px;margin-bottom:8px;
+ border:1px solid #e9e2eb;background:#fff;border-radius:10px;cursor:pointer;transition:.2s
+}
+.payment-option.selected{border:2px solid #b32262;background:linear-gradient(110deg,#fff5f9,#f8f1ff);padding:9px 10px;box-shadow:0 4px 12px #a7195210}
 .payment-option input{width:17px;height:17px;accent-color:#a71952;flex-shrink:0}
-.payment-logo{width:76px;height:43px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;border:1px solid #f0edf2;border-radius:7px;padding:5px}
+.payment-logo{width:68px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;border:1px solid #f0edf2;border-radius:7px;padding:4px}
 .payment-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.payment-logo .bank-svg{width:35px;height:35px}
-.payment-option strong{display:block;font-size:12px;margin-bottom:4px}
-.payment-option small{display:block;font-size:10px;color:var(--muted);line-height:1.5}
+.payment-logo svg{width:31px;height:31px}
+.payment-option strong{display:block;font-size:12px;margin-bottom:3px}
+.payment-option small{display:block;font-size:10px;color:var(--muted);line-height:1.4}
 .wallet-card{margin-top:14px;padding:17px;border-radius:12px;color:white;background:linear-gradient(120deg,#21172f,#751640,#a71952)}
-.wallet-title{font-size:11px;color:#f3dbe7}.wallet-amount{margin-top:8px;font-size:25px;font-weight:900}
+.wallet-title{font-size:11px;color:#f3dbe7}
+.wallet-amount{margin-top:8px;font-size:25px;font-weight:900}
 .wallet-note{margin-top:8px;font-size:10px;color:#f3dbe7;line-height:1.6}
 .status{margin-top:12px;padding:12px;border-radius:9px;font-size:11px;line-height:1.7}
 .good{color:#17633b;background:#effaf3;border:1px solid #c6ead2}
@@ -59,14 +78,16 @@ main{max-width:1050px;margin:30px auto;padding:0 17px 45px}
 .submit-btn:disabled{opacity:.45;cursor:not-allowed}
 .message{display:none;padding:13px;margin-bottom:15px;border-radius:9px;font-size:12px;line-height:1.7}
 .message.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
-.loading-overlay{display:none;position:fixed;inset:0;background:#160d20d9;z-index:99;align-items:center;justify-content:center;padding:20px}
+.loading-overlay{display:none;position:fixed;inset:0;background:#190c24c9;backdrop-filter:blur(5px);z-index:99;align-items:center;justify-content:center;padding:20px}
 .loading-overlay.show{display:flex}
-.loading-card{width:100%;max-width:320px;padding:30px 22px;background:white;border-radius:16px;text-align:center}
-.spinner{width:43px;height:43px;border:4px solid #f4dce7;border-top-color:#a71952;border-radius:50%;margin:0 auto 17px;animation:spin .8s linear infinite}
+.loading-card{width:100%;max-width:320px;padding:32px 22px;border-radius:20px;text-align:center;color:white;background:linear-gradient(135deg,#21152f,#8d174f,#e72c76);box-shadow:0 15px 45px #0004}
+.loading-card h3{margin:0;color:white;font-size:20px}
+.loading-card p{color:#ffe5ef;font-size:12px;margin:10px 0 0}
+.spinner{width:48px;height:48px;border:4px solid #ffffff55;border-top-color:#f5dda0;border-right-color:white;border-radius:50%;margin:0 auto 20px;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-card h3{margin:0 0 8px;color:#30243e}.loading-card p{font-size:12px;color:var(--muted);margin:0}
 footer{text-align:center;padding:25px;background:#21152f;color:#d9cbd9;font-size:10px}
-footer strong{color:#f5dda0}[hidden]{display:none!important}
+footer strong{color:#f5dda0}
+[hidden]{display:none!important}
 @media(max-width:750px){.checkout-grid{grid-template-columns:1fr}main{margin:22px auto}.package-image{height:205px}}
 </style>
 </head>
@@ -91,7 +112,7 @@ footer strong{color:#f5dda0}[hidden]{display:none!important}
 <div class="package-description" id="packageDescription"></div>
 <div class="price-row"><span class="price-label">Package Price</span><span class="price-value" id="packagePrice">—</span></div>
 <div class="stock-text" id="stockText"></div>
-<div class="product-list"><h3>Included Products</h3><div id="includedProducts">Loading...</div></div>
+<div class="product-list"><h3>Included Products</h3><div id="includedProducts">Loading products...</div></div>
 </section>
 
 <section class="panel">
@@ -112,11 +133,12 @@ footer strong{color:#f5dda0}[hidden]{display:none!important}
 <div class="form-group">
 <label>Quantity *</label>
 <div class="quantity-control">
-<button type="button" id="minusBtn">−</button>
+<button type="button" id="minusBtn" aria-label="Decrease quantity">−</button>
 <input id="quantity" type="number" min="1" max="100" value="1" readonly>
-<button type="button" id="plusBtn">+</button>
+<button type="button" id="plusBtn" aria-label="Increase quantity">+</button>
 </div>
 </div>
+
 <div class="summary">
 <div class="summary-row"><span>Package Price</span><strong id="summaryPrice">৳ 0.00</strong></div>
 <div class="summary-row"><span>Quantity</span><strong id="summaryQuantity">1</strong></div>
@@ -130,7 +152,7 @@ footer strong{color:#f5dda0}[hidden]{display:none!important}
 <div class="wallet-card" id="walletCard">
 <div class="wallet-title">AVAILABLE WALLET BALANCE</div>
 <div class="wallet-amount" id="walletBalance">Loading...</div>
-<div class="wallet-note">Wallet payment will be checked securely by the server.</div>
+<div class="wallet-note">Wallet payment will be checked and deducted securely by the server.</div>
 </div>
 <div id="walletStatus" class="status info">Checking wallet balance...</div>
 </div>
@@ -148,7 +170,7 @@ After confirmation, the selected payment method will open on a separate page. Ga
 <div class="loading-card">
 <div class="spinner"></div>
 <h3>Preparing Payment Page</h3>
-<p id="loadingText">Please wait 3 seconds...</p>
+<p>Please wait...</p>
 </div>
 </div>
 
@@ -169,29 +191,22 @@ const LOGOS={
  redotpay:"https://cdn.simpleicons.org/redotpay/111111",
  usdt_bep20:"https://cdn.simpleicons.org/tether/26A17B"
 };
-const FRIENDLY={
- bkash:"bKash",nagad:"Nagad",rocket:"Rocket",upay:"upay",
- redotpay:"RedotPay",binance:"Binance",bank_transfer:"Bank Transfer",
- usdt_bep20:"USDT (BEP20)"
-};
+const NAMES={bkash:"bKash",nagad:"Nagad",rocket:"Rocket",upay:"upay",redotpay:"RedotPay",binance:"Binance",bank_transfer:"Bank Transfer",usdt_bep20:"USDT (BEP20)"};
 
-function showMessage(text){
- const box=$("pageMessage");box.className="message error";box.textContent=text;box.style.display="block";
-}
+function showMessage(text){const box=$("pageMessage");box.className="message error";box.textContent=text;box.style.display="block";}
 function clearMessage(){$("pageMessage").style.display="none";}
-function money(v){
- const n=Number(v);return "৳ "+(Number.isFinite(n)?n:0).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});
-}
+function money(v){const n=Number(v);return "৳ "+(Number.isFinite(n)?n:0).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});}
+
 async function api(path,options={}){
  const r=await fetch(API_BASE+path,{...options,headers:{
- "Accept":"application/json",
- ...(options.body?{"Content-Type":"application/json"}:{}),
- ...(token?{"Authorization":"Bearer "+token}:{}),
- ...(options.headers||{})
+  "Accept":"application/json",
+  ...(options.body?{"Content-Type":"application/json"}:{}),
+  ...(token?{"Authorization":"Bearer "+token}:{}),
+  ...(options.headers||{})
  },cache:"no-store"});
  const d=await r.json().catch(()=>({}));
- if(r.status===401){sessionStorage.removeItem("rubalia_token");location.replace("login.html");throw Error("Login session expired.");}
- if(!r.ok||d.success===false)throw Error(d.message||"Request failed.");
+ if(r.status===401){sessionStorage.removeItem("rubalia_token");sessionStorage.removeItem("rubalia_user");location.replace("login.html");throw Error("Your login session has expired. Please login again.");}
+ if(!r.ok||d.success===false)throw Error(d.message||"Request failed. Please try again.");
  return d;
 }
 function qty(){return Number($("quantity").value);}
@@ -205,12 +220,14 @@ function renderPackage(p){
  $("packagePrice").textContent=money(p.price);
  $("stockText").textContent="Available Stock: "+Number(p.stock||0);
  if(p.image_url){
-  const img=document.createElement("img");img.src=p.image_url;img.alt=p.name||"Package";img.onerror=()=>{$("packageImage").textContent="📦";};
+  const img=document.createElement("img");img.src=p.image_url;img.alt=p.name||"Package";img.loading="lazy";
+  img.onerror=()=>{$("packageImage").textContent="📦";};
   $("packageImage").replaceChildren(img);
  }else $("packageImage").textContent="📦";
  const list=$("includedProducts");list.replaceChildren();
  if(Array.isArray(p.products)&&p.products.length){
-  p.products.forEach(x=>{const row=document.createElement("div");row.className="product-item";
+  p.products.forEach(x=>{
+   const row=document.createElement("div");row.className="product-item";
    const n=document.createElement("span");n.textContent=x.name||"Product";
    const pr=document.createElement("span");pr.textContent=money(x.price);
    row.append(n,pr);list.append(row);
@@ -226,13 +243,8 @@ function updateTotal(){
  $("summaryTotal").textContent=money(total());
  updateStatus();
 }
-function logoFor(gateway){
- if(LOGOS[gateway])return LOGOS[gateway];
- if(gateway.includes("bank")||gateway.includes("transfer"))return "";
- return "";
-}
-function addBankIcon(){
- return '<svg class="bank-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M5 17L24 6l19 11H5Z" fill="#A71952"/><path d="M8 20h32M10 39h28M7 43h34" stroke="#A71952" stroke-width="3" stroke-linecap="round"/><path d="M13 21v16m8-16v16m8-16v16m8-16v16" stroke="#A71952" stroke-width="3"/></svg>';
+function bankIcon(){
+ return '<svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M5 17L24 6l19 11H5Z" fill="#A71952"/><path d="M8 20h32M10 39h28M7 43h34" stroke="#A71952" stroke-width="3" stroke-linecap="round"/><path d="M13 21v16m8-16v16m8-16v16m8-16v16" stroke="#A71952" stroke-width="3"/></svg>';
 }
 function renderOptions(){
  const box=$("paymentOptions");box.replaceChildren();
@@ -243,15 +255,18 @@ function renderOptions(){
   const radio=document.createElement("input");radio.type="radio";radio.name="paymentMethod";radio.value=id;radio.checked=selectedMethod===id;
   radio.addEventListener("change",()=>selectMethod(id));
   const logo=document.createElement("span");logo.className="payment-logo";
-  if(id==="bank_transfer"||id.includes("bank"))logo.innerHTML=addBankIcon();
+  if(id==="bank_transfer"||id.includes("bank"))logo.innerHTML=bankIcon();
   else if(id==="wallet")logo.textContent="👛";
   else{
-   const src=logoFor(id);
-   if(src){const img=document.createElement("img");img.src=src;img.alt=(FRIENDLY[id]||m.display_name||id)+" logo";img.onerror=()=>{logo.textContent=FRIENDLY[id]||m.display_name||"Payment";};logo.append(img);}
-   else logo.textContent=FRIENDLY[id]||m.display_name||"Payment";
+   const src=LOGOS[id];
+   if(src){
+    const img=document.createElement("img");img.src=src;img.alt=(NAMES[id]||m.display_name||id)+" logo";
+    img.onerror=()=>{logo.textContent=NAMES[id]||m.display_name||"Payment";};
+    logo.append(img);
+   }else logo.textContent=NAMES[id]||m.display_name||"Payment";
   }
   const text=document.createElement("span"),strong=document.createElement("strong"),small=document.createElement("small");
-  strong.textContent=id==="wallet"?"RUBALIA Wallet":(FRIENDLY[id]||m.display_name||m.name||id);
+  strong.textContent=id==="wallet"?"RUBALIA Wallet":(NAMES[id]||m.display_name||m.name||id);
   small.textContent=id==="wallet"?"Pay using your available wallet balance.":id==="usdt_bep20"?"USDT payment • BEP20 network":"Manual transaction verification";
   text.append(strong,small);label.append(radio,logo,text);box.append(label);
  });
@@ -278,32 +293,38 @@ function updateStatus(){
  if(!selectedMethod){b.disabled=true;b.textContent="SELECT PAYMENT METHOD";return;}
  if(selectedMethod==="wallet"){
   if(walletBalance>=sum){
-   $("walletStatus").className="status good";$("walletStatus").textContent="Your wallet balance is sufficient.";
+   $("walletStatus").className="status good";
+   $("walletStatus").textContent="Your wallet balance is sufficient. You can continue.";
    b.disabled=false;b.textContent="CONFIRM & CONTINUE";
   }else{
-   $("walletStatus").className="status bad";$("walletStatus").textContent="Insufficient wallet balance. Please choose another payment method.";
+   $("walletStatus").className="status bad";
+   $("walletStatus").textContent="Insufficient wallet balance. Please choose another payment method or add funds.";
    b.disabled=true;b.textContent="INSUFFICIENT WALLET BALANCE";
   }
   return;
  }
- const m=selectedGateway();
- if(!m||m.enabled!==true){b.disabled=true;b.textContent="PAYMENT METHOD UNAVAILABLE";return;}
+ const method=selectedGateway();
+ if(!method||method.enabled!==true){b.disabled=true;b.textContent="PAYMENT METHOD UNAVAILABLE";return;}
  b.disabled=false;b.textContent="CONFIRM & CONTINUE";
 }
 async function loadWallet(){
- const d=await api("/wallet");if(!d.wallet)throw Error("Wallet information unavailable.");
- walletBalance=Number(d.wallet.balance);if(!Number.isFinite(walletBalance)||walletBalance<0)throw Error("Invalid wallet balance.");
+ const d=await api("/wallet");
+ if(!d.wallet)throw Error("Wallet information was not returned.");
+ walletBalance=Number(d.wallet.balance);
+ if(!Number.isFinite(walletBalance)||walletBalance<0)throw Error("Invalid wallet balance.");
  walletLoaded=true;$("walletBalance").textContent=money(walletBalance);updateStatus();
 }
 async function loadMethods(){
- const d=await api("/payment/methods");if(!Array.isArray(d.methods))throw Error("Payment methods were not returned.");
- paymentMethods=d.methods;methodsLoaded=true;selectedMethod="wallet";renderOptions();updateStatus();
+ const d=await api("/payment/methods");
+ if(!Array.isArray(d.methods))throw Error("Payment methods were not returned by the server.");
+ paymentMethods=d.methods;methodsLoaded=true;selectedMethod="wallet";
+ renderOptions();updateStatus();
 }
 async function initialize(){
  token=sessionStorage.getItem("rubalia_token")||"";
- if(!token){location.replace("login.html?redirect="+encodeURIComponent(location.pathname+location.search));return;}
+ if(!token){const back=location.pathname+location.search;location.replace("login.html?redirect="+encodeURIComponent(back));return;}
  const params=new URLSearchParams(location.search);
- if(params.get("type")!=="package"){showMessage("Invalid package link.");return;}
+ if(params.get("type")!=="package"){showMessage("Invalid package link. Please return to the shop.");return;}
  packageId=Number(params.get("id"));
  if(!Number.isSafeInteger(packageId)||packageId<1){showMessage("Invalid package ID.");return;}
  try{
@@ -312,52 +333,39 @@ async function initialize(){
   if(String(me.user.role).toLowerCase()==="admin"){location.replace("admin-dashboard.html");return;}
   $("customerName").value=me.user.full_name||me.user.fullName||"";
   const p=await api("/packages/"+packageId);
-  if(!p.package)throw Error("Package information unavailable.");
+  if(!p.package)throw Error("Package information was not returned.");
   renderPackage(p.package);
   await Promise.all([loadWallet(),loadMethods()]);
   $("checkoutGrid").hidden=false;updateTotal();
- }catch(e){showMessage(e.message);}
+ }catch(e){showMessage(e.message);$("submitBtn").disabled=true;$("submitBtn").textContent="CHECKOUT UNAVAILABLE";}
 }
 $("minusBtn").addEventListener("click",()=>{if(qty()>1){$("quantity").value=qty()-1;updateTotal();}});
 $("plusBtn").addEventListener("click",()=>{if(qty()<Number($("quantity").max)&&qty()<100){$("quantity").value=qty()+1;updateTotal();}});
 
-$("checkoutForm").addEventListener("submit",async e=>{
+$("checkoutForm").addEventListener("submit",e=>{
  e.preventDefault();clearMessage();
  if(redirecting)return;
  if(!packageData||!walletLoaded||!methodsLoaded){showMessage("Checkout information is not ready.");return;}
  const shippingName=$("customerName").value.trim();
  const shippingPhone=$("customerPhone").value.trim();
  const shippingAddress=$("customerAddress").value.trim();
- const quantity=qty(),sum=total();
+ const quantity=qty(),amount=total();
  if(shippingName.length<2||shippingPhone.length<6||shippingAddress.length<5){showMessage("Please complete all delivery information.");return;}
  if(!Number.isInteger(quantity)||quantity<1||quantity>Number(packageData.stock)||quantity>100){showMessage("Please select a valid quantity.");return;}
  if(!selectedMethod){showMessage("Please select a payment method.");return;}
- if(selectedMethod==="wallet"&&walletBalance<sum){showMessage("Insufficient wallet balance.");return;}
+ if(selectedMethod==="wallet"&&walletBalance<amount){showMessage("Insufficient wallet balance.");return;}
  if(selectedMethod!=="wallet"&&!selectedGateway()){showMessage("Selected payment method is unavailable.");return;}
-
  const intent={
   packageId,quantity,method:selectedMethod,
   shippingName,shippingPhone,shippingAddress,
   packageName:packageData.name||"Package",
-  amount:sum,createdAt:Date.now()
+  amount,createdAt:Date.now()
  };
  try{sessionStorage.setItem("rubalia_checkout_intent",JSON.stringify(intent));}
- catch(_){showMessage("Unable to save checkout details. Please try again.");return;}
-
- redirecting=true;
- $("submitBtn").disabled=true;
- $("submitBtn").textContent="PLEASE WAIT...";
+ catch(_){showMessage("Unable to save checkout information. Please try again.");return;}
+ redirecting=true;$("submitBtn").disabled=true;$("submitBtn").textContent="PLEASE WAIT...";
  $("loadingOverlay").classList.add("show");
- let remaining=3;
- $("loadingText").textContent="Opening payment page in "+remaining+" seconds...";
- const timer=setInterval(()=>{
-  remaining--;
-  if(remaining>0)$("loadingText").textContent="Opening payment page in "+remaining+" seconds...";
-  else{
-   clearInterval(timer);
-   location.href="payment.html";
-  }
- },1000);
+ setTimeout(()=>{location.href="payment.html";},3000);
 });
 initialize();
 </script>
