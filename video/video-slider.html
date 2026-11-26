@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b36">
+<title>RUBALIA Banner Slider</title>
+
+<style>
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+html,body{
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ background:#071b36;
+ font-family:Arial,sans-serif;
+}
+
+.slider{
+ position:relative;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ border-radius:9px;
+ background:#071b36;
+}
+
+.frame{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ border:0;
+ opacity:0;
+ visibility:hidden;
+ transition:opacity .5s ease;
+ pointer-events:none;
+}
+
+.frame.active{
+ opacity:1;
+ visibility:visible;
+}
+</style>
+</head>
+
+<body>
+
+<div class="slider" id="slider"></div>
+
+<script>
+"use strict";
+
+/* HTML BANNER FILE LIST */
+const banners=[
+ "banner-1.html",
+ "banner-2.html",
+ "banner-3.html",
+ "banner-4.html"
+];
+
+/* SLIDE SETTINGS */
+const SLIDE_TIME=3000;
+
+const slider=document.getElementById("slider");
+
+let currentIndex=0;
+let timer=null;
+
+/* CREATE HTML BANNERS */
+function createBanners(){
+
+ slider.replaceChildren();
+
+ banners.forEach((file,index)=>{
+
+  const frame=document.createElement("iframe");
+
+  frame.className="frame";
+  frame.src=file;
+  frame.title="RUBALIA Banner "+(index+1);
+
+  frame.setAttribute("loading",index===0?"eager":"lazy");
+
+  /* No clicking or navigation */
+  frame.setAttribute("sandbox","allow-scripts");
+
+  slider.appendChild(frame);
+
+ });
+
+ showBanner(0);
+ startSlider();
+}
+
+/* SHOW BANNER */
+function showBanner(index){
+
+ const frames=slider.querySelectorAll(".frame");
+
+ if(!frames.length)return;
+
+ currentIndex=(index+frames.length)%frames.length;
+
+ frames.forEach((frame,i)=>{
+  frame.classList.toggle("active",i===currentIndex);
+ });
+
+}
+
+/* NEXT BANNER */
+function nextBanner(){
+ showBanner(currentIndex+1);
+}
+
+/* AUTO SLIDER */
+function startSlider(){
+
+ stopSlider();
+
+ if(banners.length<=1)return;
+
+ timer=setInterval(()=>{
+  nextBanner();
+ },SLIDE_TIME);
+
+}
+
+/* STOP SLIDER */
+function stopSlider(){
+
+ if(timer){
+  clearInterval(timer);
+  timer=null;
+ }
+
+}
+
+/* INITIALIZE */
+createBanners();
+
+</script>
+
+</body>
+</html>
