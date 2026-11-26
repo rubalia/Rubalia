@@ -500,6 +500,7 @@ $("refreshBtn").addEventListener("click",loadPackages);
 
 /* Start dashboard */
 (async()=>{try{const token=await verifySession();readCategoryFromURL();}catch(error){if(!["Login required.","Opening Admin Dashboard.","Your account is not active.","Your login session has expired."].includes(error.message))showNotice("error",error.message||"Unable to verify your session.")}})();
+<script src="push-notifications.js"></script>
 </script>
 </body>
 </html>
