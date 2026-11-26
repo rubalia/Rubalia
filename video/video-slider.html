@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,234 +5,112 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071b36">
 <title>RUBALIA Banner Slider</title>
-
 <style>
-*{
- margin:0;
- padding:0;
- box-sizing:border-box;
-}
-
-html,body{
- width:100%;
- height:100%;
- min-width:0;
- min-height:0;
- overflow:hidden;
- background:#071b36;
- font-family:Arial,sans-serif;
-}
-
-html{
- overflow:hidden;
-}
-
-body{
- display:block;
-}
-
-.slider{
- position:relative;
- display:block;
- width:100%;
- height:100%;
- min-width:0;
- min-height:0;
- max-width:100%;
- max-height:100%;
- overflow:hidden;
- border:0;
- border-radius:0;
- padding:0;
- margin:0;
- background:#071b36;
- isolation:isolate;
-}
-
-/* BANNER FRAMES */
-.frame{
- position:absolute;
- top:0;
- left:0;
- display:block;
-
- width:100%;
- height:100%;
-
- min-width:0;
- min-height:0;
- max-width:100%;
- max-height:100%;
-
- margin:0;
- padding:0;
- border:0;
- outline:0;
-
- overflow:hidden;
- background:#071b36;
-
- opacity:0;
- visibility:hidden;
- pointer-events:none;
-
- transition:opacity .35s ease;
-}
-
-.frame.active{
- opacity:1;
- visibility:visible;
- pointer-events:auto;
- z-index:2;
-}
-
-/* MOBILE */
-@media(max-width:700px){
- html,body,.slider{
-  width:100%;
-  height:100%;
-  min-height:0;
-  max-height:100%;
-  overflow:hidden;
- }
-
- .frame{
-  width:100%;
-  height:100%;
-  min-height:0;
-  max-height:100%;
- }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;min-width:0;min-height:0;overflow:hidden;background:#071b36;font-family:Arial,sans-serif}
+.slider{position:relative;display:block;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;max-height:100%;overflow:hidden;border:0;border-radius:0;padding:0;margin:0;background:#071b36;isolation:isolate}
+.frame{position:absolute;top:0;left:0;display:block;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;max-height:100%;margin:0;padding:0;border:0;outline:0;overflow:hidden;background:#071b36;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease}
+.frame.active{opacity:1;visibility:visible;pointer-events:auto;z-index:2}
+@media(max-width:700px){html,body,.slider{width:100%;height:100%;min-height:0;max-height:100%;overflow:hidden}.frame{width:100%;height:100%;min-height:0;max-height:100%}}
 </style>
 </head>
-
 <body>
-
-<div class="slider" id="slider"
-     aria-label="RUBALIA banner slider"></div>
-
+<div class="slider" id="slider" aria-label="RUBALIA banner slider"></div>
 <script>
 "use strict";
-
-/* BANNER HTML FILES */
-const banners=[
- "buy.html",
- "diposit.html",
- "reffer.html",
- "welcome.html"
-];
-
-/* SLIDE CHANGE TIME */
+const banners=["buy.html","diposit.html","reffer.html","welcome.html"];
 const SLIDE_TIME=4000;
-
 const slider=document.getElementById("slider");
+let currentIndex=0,timer=null,frames=[];
 
-let currentIndex=0;
-let timer=null;
-let frames=[];
+function postOpenRequest(file,index){
+  try{
+    window.parent.postMessage({
+      type:"RUBALIA_OPEN_VIDEO",
+      file:String(file),
+      index:Number(index)
+    },location.origin);
+  }catch(error){
+    console.warn("Could not open dashboard video:",error);
+  }
+}
 
-/* CREATE BANNERS */
-function createBanners(){
-
- slider.replaceChildren();
- frames=[];
-
- banners.forEach((file,index)=>{
-
-  const frame=document.createElement("iframe");
-
-  frame.className="frame";
-  frame.src=file;
-  frame.title="RUBALIA Banner "+(index+1);
-
-  frame.loading="eager";
-  frame.setAttribute("scrolling","no");
-  frame.setAttribute("frameborder","0");
-
-  frame.setAttribute(
-   "sandbox",
-   "allow-scripts allow-same-origin"
-  );
-
+function wireBannerFrame(frame,file,index){
   frame.addEventListener("load",()=>{
-   frame.dataset.loaded="true";
+    frame.dataset.loaded="true";
+    try{
+      const doc=frame.contentDocument;
+      if(!doc)return;
+      /* Catch taps on the banner button before the banner's own small modal opens. */
+      doc.addEventListener("click",event=>{
+        const target=event.target;
+        if(!target||typeof target.closest!=="function")return;
+        const banner=target.closest(
+          ".deposit-banner,.banner,.buy-banner,.refer-banner,.welcome-banner,button,[data-video]"
+        );
+        if(!banner)return;
+        const isLikelyBanner=
+          banner.matches(".deposit-banner,.banner,.buy-banner,.refer-banner,.welcome-banner,[data-video]") ||
+          (banner.tagName==="BUTTON" && (
+            banner.id.toLowerCase().includes("banner") ||
+            (banner.getAttribute("aria-label")||"").toLowerCase().includes("ভিডিও") ||
+            (banner.getAttribute("aria-label")||"").toLowerCase().includes("video")
+          ));
+        if(!isLikelyBanner)return;
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        postOpenRequest(file,index);
+      },true);
+    }catch(error){
+      console.warn("Banner click bridge unavailable for",file,error);
+    }
   });
+}
 
-  frame.addEventListener("error",()=>{
-   console.error("Unable to load banner:",file);
+function createBanners(){
+  slider.replaceChildren();
+  frames=[];
+  banners.forEach((file,index)=>{
+    const frame=document.createElement("iframe");
+    frame.className="frame";
+    frame.src=file;
+    frame.title="RUBALIA Banner "+(index+1);
+    frame.loading="eager";
+    frame.setAttribute("scrolling","no");
+    frame.setAttribute("frameborder","0");
+    frame.setAttribute("sandbox","allow-scripts allow-same-origin");
+    wireBannerFrame(frame,file,index);
+    frame.addEventListener("error",()=>console.error("Unable to load banner:",file));
+    frames.push(frame);
+    slider.appendChild(frame);
   });
-
-  frames.push(frame);
-  slider.appendChild(frame);
- });
-
- showBanner(0);
- startSlider();
-}
-
-/* SHOW SELECTED BANNER */
-function showBanner(index){
-
- if(!frames.length)return;
-
- currentIndex=(index+frames.length)%frames.length;
-
- frames.forEach((frame,i)=>{
-
-  const active=i===currentIndex;
-
-  frame.classList.toggle("active",active);
-
-  frame.setAttribute(
-   "aria-hidden",
-   active?"false":"true"
-  );
-
-  frame.style.zIndex=active?"2":"1";
- });
-}
-
-/* NEXT BANNER */
-function nextBanner(){
-
- if(frames.length<=1)return;
-
- showBanner(currentIndex+1);
-}
-
-/* START SLIDER */
-function startSlider(){
-
- stopSlider();
-
- if(document.hidden||frames.length<=1)return;
-
- timer=setInterval(nextBanner,SLIDE_TIME);
-}
-
-/* STOP SLIDER */
-function stopSlider(){
-
- if(timer!==null){
-  clearInterval(timer);
-  timer=null;
- }
-}
-
-/* TAB VISIBILITY */
-document.addEventListener("visibilitychange",()=>{
-
- if(document.hidden){
-  stopSlider();
- }else{
+  showBanner(0);
   startSlider();
- }
+}
+function showBanner(index){
+  if(!frames.length)return;
+  currentIndex=(index+frames.length)%frames.length;
+  frames.forEach((frame,i)=>{
+    const active=i===currentIndex;
+    frame.classList.toggle("active",active);
+    frame.setAttribute("aria-hidden",active?"false":"true");
+    frame.style.zIndex=active?"2":"1";
+  });
+}
+function nextBanner(){if(frames.length>1)showBanner(currentIndex+1)}
+function startSlider(){
+  stopSlider();
+  if(document.hidden||frames.length<=1)return;
+  timer=setInterval(nextBanner,SLIDE_TIME);
+}
+function stopSlider(){
+  if(timer!==null){clearInterval(timer);timer=null}
+}
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden)stopSlider();else startSlider();
 });
-
-/* INITIALIZE */
 createBanners();
-
 </script>
-
 </body>
 </html>
