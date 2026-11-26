@@ -149,6 +149,7 @@ body.menu-open{overflow:hidden}
 /* MAIN */
 main{max-width:1450px;margin:auto;padding:8px 10px 14px}
 
+/* EXISTING PROMOTIONAL SLIDER */
 .slider-frame{
  display:block;width:100%;aspect-ratio:3/1;margin:0 0 9px;
  overflow:hidden;border-radius:13px;
@@ -159,19 +160,40 @@ main{max-width:1450px;margin:auto;padding:8px 10px 14px}
  display:block;width:100%;height:100%;border:0;background:transparent
 }
 
-/* VIDEO BANNER SLIDER */
+/* VIDEO BANNER SLIDER - FIXED POSITION AND SIZE */
 .video-slider-frame{
- display:block;width:100%;aspect-ratio:9.6/1;
- min-height:42px;margin:0 0 13px;
- overflow:hidden;border-radius:9px;
- background:linear-gradient(120deg,#071b36,#174b78,#10294b);
- box-shadow:0 5px 13px #27123d35
-}
-.video-slider-frame iframe{
- display:block;width:100%;height:100%;
- border:0;background:transparent
+ display:block;
+ position:relative;
+ width:100%;
+ aspect-ratio:9.6/1;
+ min-height:0;
+ height:auto;
+ margin:0 0 13px;
+ padding:0;
+ overflow:hidden;
+ border-radius:9px;
+ background:#071b36;
+ box-shadow:0 5px 13px #27123d35;
+ isolation:isolate;
 }
 
+.video-slider-frame iframe{
+ display:block;
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ min-height:0;
+ margin:0;
+ padding:0;
+ border:0;
+ overflow:hidden;
+ background:#071b36;
+ touch-action:pan-x;
+ overscroll-behavior:none;
+}
+
+/* NOTICE */
 .notice{
  display:none;margin:12px 0;padding:12px;border-radius:9px;
  font-size:11px;line-height:1.6
@@ -423,16 +445,21 @@ footer strong{color:#f4d58c}
           referrerpolicy="strict-origin-when-cross-origin"></iframe>
  </section>
 
- <!-- VIDEO BANNER SLIDER: FILE IS INSIDE video FOLDER -->
- <section class="video-slider-frame" aria-label="RUBALIA video banner slider">
+ <!-- VIDEO BANNER SLIDER -->
+ <section class="video-slider-frame"
+          aria-label="RUBALIA video banner slider">
+
   <iframe
-    src="video/video-slider.html"
-    title="RUBALIA Video Slider"
-    loading="eager"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    allowfullscreen
-    referrerpolicy="strict-origin-when-cross-origin">
+   src="video/video-slider.html"
+   title="RUBALIA Video Banner Slider"
+   loading="eager"
+   scrolling="no"
+   frameborder="0"
+   allow="autoplay; encrypted-media; picture-in-picture"
+   allowfullscreen
+   referrerpolicy="strict-origin-when-cross-origin">
   </iframe>
+
  </section>
 
  <div class="notice" id="notice" role="status"></div>
