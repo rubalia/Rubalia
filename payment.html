@@ -1,176 +1,556 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#21152f">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="RUBALIA NETWORK Payment">
 <title>Payment | RUBALIA NETWORK</title>
+
 <style>
 :root{
- --red:#a71952;--pink:#e72c76;--dark:#21152f;
- --gold:#d9ae5b;--muted:#858196;--border:#eee2ed;
- --bg:#f7f2f8;--text:#29243a
+ --primary:#a71952;
+ --secondary:#e72c76;
+ --dark:#21152f;
+ --gold:#d9ae5b;
+ --bg:#ffffff;
+ --text:#171717;
+ --muted:#777777;
+ --border:#e5e5e5;
 }
 *{box-sizing:border-box}
 body{
  margin:0;
- background:linear-gradient(145deg,#fdf4f8,#f3edfa,#fff8ed);
+ background:#fff;
  color:var(--text);
- font-family:Arial,Helvetica,sans-serif
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
 }
+button,input{font:inherit}
+a{text-decoration:none;color:inherit}
+
 header{
- padding:14px 5%;min-height:68px;
- background:linear-gradient(110deg,#21152f,#74133e 65%,#b51e61);
- color:white;display:flex;justify-content:space-between;align-items:center;
- box-shadow:0 5px 18px #21152f25
+ min-height:65px;
+ padding:12px 16px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ background:linear-gradient(110deg,#21152f,#74133e 70%,#a51d54);
+ color:#fff;
 }
-.logo{font-size:19px;font-weight:900;letter-spacing:.5px}
+.logo{
+ font-size:18px;
+ font-weight:900;
+ letter-spacing:.4px;
+}
 .logo span{color:#f5dda0}
+
 .back-btn{
- display:inline-flex;align-items:center;gap:9px;
- padding:11px 19px;border:1px solid #ffffff70;
- border-radius:30px;color:white;background:#ffffff18;
- font-size:13px;font-weight:bold;transition:.2s
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ padding:11px 17px;
+ border:1px solid #ffffff75;
+ border-radius:30px;
+ background:#ffffff17;
+ color:white;
+ font-size:13px;
+ font-weight:bold;
 }
-.back-btn:active{transform:scale(.96);background:#ffffff30}
-.back-btn span{font-size:19px;line-height:1}
-main{max-width:570px;margin:25px auto;padding:0 15px 40px}
-.panel{
- background:#fff;border:1px solid #eee2ed;border-radius:19px;
- padding:20px;box-shadow:0 10px 30px #4b17400c
+.back-btn span{font-size:19px}
+
+main{
+ width:100%;
+ max-width:600px;
+ margin:0 auto;
+ padding:20px 16px 40px;
 }
-h1{font-size:22px;margin:0 0 7px;color:#30243e}
-.sub{font-size:12px;color:var(--muted);line-height:1.7;margin:0 0 18px}
-.method-head{
- display:flex;align-items:center;gap:12px;padding:10px;
- border:1px solid #f0d6e4;border-radius:12px;
- background:linear-gradient(110deg,#fff5f9,#f7f1ff);
- margin-bottom:13px
+
+/* Payment banner */
+.payment-banner{
+ width:100%;
+ min-height:105px;
+ padding:17px;
+ display:flex;
+ align-items:center;
+ gap:16px;
+ border-radius:9px;
+ background:#e83e35;
+ color:white;
+ margin-bottom:22px;
 }
-.method-logo{
- width:72px;height:39px;display:flex;align-items:center;
- justify-content:center;padding:4px;border:1px solid #eee7ef;
- border-radius:7px;background:white;flex-shrink:0
+.payment-logo{
+ width:76px;
+ height:76px;
+ flex-shrink:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ background:white;
+ border:2px solid #e8e8e8;
+ padding:9px;
 }
-.method-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.method-head strong{font-size:15px}
-.method-head small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
-.row{
- padding:9px 12px;margin:8px 0;
- background:linear-gradient(110deg,#fcf7fb,#f8f5fc);
- border:1px solid #eee7ef;border-radius:9px
+.payment-logo img{
+ max-width:100%;
+ max-height:100%;
+ object-fit:contain;
 }
-.row small{display:block;color:#858196;font-size:10px;margin-bottom:4px}
-.row strong{font-size:13px;overflow-wrap:anywhere}
-.copy{
- margin-top:7px;padding:6px 10px;border:0;border-radius:6px;
- background:#f3e5ee;color:#9b174f;font-size:10px;font-weight:bold;cursor:pointer
+.payment-banner-text{
+ font-size:21px;
+ font-weight:900;
+ letter-spacing:.3px;
 }
-.instructions{font-size:12px;line-height:1.8;color:#65566b;white-space:pre-line;margin:13px 0}
-.help{
- padding:11px;border-radius:9px;
- background:linear-gradient(110deg,#f1f5ff,#f8f1ff);
- border:1px solid #d7e2fa;color:#34558a;
- font-size:11px;line-height:1.7;margin:13px 0
+.payment-banner-text small{
+ display:block;
+ margin-top:5px;
+ font-size:11px;
+ font-weight:normal;
+ opacity:.9;
 }
-.form-group{margin-top:15px}
-.form-group label{display:block;font-size:11px;font-weight:bold;margin-bottom:7px}
-.form-group input{
- width:100%;padding:13px;border:1px solid #e5dfeb;
- border-radius:9px;font-size:12px;outline:none
+
+/* Amount */
+.amount-box{
+ padding:15px;
+ margin-bottom:20px;
+ border:1px solid #eadde6;
+ border-radius:9px;
+ background:#fff8fb;
+ text-align:center;
 }
-.form-group input:focus{border-color:#c64d81;box-shadow:0 0 0 3px #d600450c}
-.btn{
- width:100%;padding:15px;border:0;border-radius:10px;
- background:linear-gradient(110deg,#ed286a,#9b164f);
- color:white;font-weight:900;font-size:12px;margin-top:15px;cursor:pointer;
- box-shadow:0 5px 15px #a7195225
+.amount-label{
+ color:#777;
+ font-size:12px;
+ margin-bottom:7px;
 }
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.message{display:none;padding:12px;border-radius:9px;font-size:12px;line-height:1.7;margin:12px 0}
-.error{display:block;background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
-.good{display:block;background:#effaf3;color:#17633b;border:1px solid #c6ead2}
-.info{display:block;background:#f1f5ff;color:#34558a;border:1px solid #d7e2fa}
-footer{text-align:center;padding:22px;background:#21152f;color:#d9cbd9;font-size:10px}
+.amount-value{
+ color:#a71952;
+ font-size:25px;
+ font-weight:900;
+}
+
+/* Warning */
+.notice{
+ margin-bottom:18px;
+ color:#d84a43;
+ font-size:17px;
+ font-weight:bold;
+ line-height:1.8;
+}
+
+/* Wallet number */
+.field-title{
+ display:block;
+ font-size:16px;
+ font-weight:900;
+ margin:0 0 7px;
+}
+.field-description{
+ font-size:14px;
+ line-height:1.8;
+ margin:0 0 10px;
+}
+.wallet-box{
+ min-height:66px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:10px 13px;
+ margin-bottom:22px;
+ border-radius:5px;
+ background:#f1f1f1;
+}
+.wallet-number{
+ font-size:20px;
+ letter-spacing:.5px;
+ overflow-wrap:anywhere;
+}
+.copy-btn{
+ border:0;
+ background:transparent;
+ color:#16805d;
+ padding:8px;
+ font-size:25px;
+ cursor:pointer;
+ flex-shrink:0;
+}
+.copy-btn svg{
+ width:32px;
+ height:32px;
+}
+
+/* Transaction */
+.transaction-label{
+ font-size:16px;
+ font-weight:900;
+ line-height:1.7;
+ margin-bottom:12px;
+}
+.transaction-label span{
+ color:#d84a43;
+}
+.transaction-input{
+ width:100%;
+ min-height:70px;
+ padding:14px 16px;
+ border:2px solid #e31c27;
+ border-radius:6px;
+ outline:none;
+ font-size:16px;
+ background:#fff;
+}
+.transaction-input:focus{
+ border-color:#a71952;
+ box-shadow:0 0 0 3px #a7195212;
+}
+.transaction-input::placeholder{
+ color:#aaa;
+}
+
+/* Confirm */
+.confirm-wrap{
+ text-align:center;
+ margin:22px 0 17px;
+}
+.confirm-btn{
+ min-width:210px;
+ min-height:60px;
+ padding:12px 35px;
+ border:2px solid #171717;
+ border-radius:17px;
+ background:#fff;
+ color:#171717;
+ font-size:19px;
+ font-weight:bold;
+ cursor:pointer;
+ transition:.2s;
+}
+.confirm-btn:active{transform:scale(.97)}
+.confirm-btn:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+/* Warning footer */
+.warning-title{
+ font-size:16px;
+ font-weight:900;
+ margin:16px 0 8px;
+}
+.warning-red{
+ color:#df554f;
+ font-size:14px;
+ font-weight:bold;
+ line-height:1.8;
+ text-align:center;
+}
+.warning-description{
+ color:#999;
+ font-size:12px;
+ line-height:1.8;
+ text-align:center;
+ margin-top:5px;
+}
+
+/* Instructions */
+.instruction-box{
+ margin-top:18px;
+ padding:13px;
+ background:#fff8fb;
+ border:1px solid #f0d9e5;
+ border-radius:8px;
+ color:#675466;
+ font-size:12px;
+ line-height:1.8;
+ white-space:pre-line;
+}
+
+/* Bank details */
+.bank-details{
+ margin-bottom:17px;
+}
+.bank-row{
+ padding:12px;
+ margin:8px 0;
+ background:#f5f5f5;
+ border-radius:6px;
+}
+.bank-row small{
+ display:block;
+ color:#777;
+ font-size:11px;
+ margin-bottom:5px;
+}
+.bank-row strong{
+ font-size:15px;
+ overflow-wrap:anywhere;
+}
+
+/* Status */
+.message{
+ display:none;
+ padding:13px;
+ border-radius:8px;
+ margin:12px 0;
+ font-size:13px;
+ line-height:1.7;
+}
+.message.error{
+ display:block;
+ color:#a12b36;
+ background:#fff0f1;
+ border:1px solid #f4cbd0;
+}
+.message.good{
+ display:block;
+ color:#17633b;
+ background:#effaf3;
+ border:1px solid #c6ead2;
+}
+.message.info{
+ display:block;
+ color:#34558a;
+ background:#f1f5ff;
+ border:1px solid #d7e2fa;
+}
+
+/* Loading */
+.loading{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:999;
+ background:#21152fbb;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+.loading.show{display:flex}
+.loading-card{
+ width:100%;
+ max-width:300px;
+ padding:28px;
+ text-align:center;
+ border-radius:15px;
+ background:white;
+}
+.spinner{
+ width:42px;
+ height:42px;
+ border:4px solid #f4dce7;
+ border-top-color:#a71952;
+ border-radius:50%;
+ margin:0 auto 15px;
+ animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-card strong{
+ display:block;
+ font-size:16px;
+ color:#30243e;
+}
+.loading-card small{
+ display:block;
+ margin-top:7px;
+ color:#888;
+}
+
+footer{
+ padding:22px;
+ background:#21152f;
+ color:#d9cbd9;
+ text-align:center;
+ font-size:10px;
+}
+footer strong{color:#f5dda0}
+
 [hidden]{display:none!important}
+
 @media(max-width:400px){
- header{padding:12px 13px}
- .logo{font-size:16px}
- .back-btn{padding:10px 13px;font-size:11px}
- .panel{padding:16px}
+ main{padding:17px 13px 30px}
+ .payment-banner{min-height:95px;padding:13px;gap:12px}
+ .payment-logo{width:68px;height:68px}
+ .payment-banner-text{font-size:18px}
+ .notice{font-size:15px}
+ .wallet-number{font-size:18px}
+ .confirm-btn{min-width:190px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="logo">RUBALIA <span>NETWORK</span></div>
-<a href="checkout.html" class="back-btn">
-<span>←</span> Back to Checkout
-</a>
+ <div class="logo">RUBALIA <span>NETWORK</span></div>
+ <a href="checkout.html" class="back-btn">
+  <span>←</span> Back
+ </a>
 </header>
 
 <main>
-<section class="panel">
-<h1>Complete Payment</h1>
-<p class="sub">
-Follow the payment instructions below. Your payment will be checked by RUBALIA NETWORK Admin.
-</p>
 
-<div id="message" class="message"></div>
+ <div id="pageMessage" class="message"></div>
 
-<div id="paymentContent" hidden>
-<div class="method-head">
-<div class="method-logo" id="methodLogo"></div>
-<div>
-<strong id="methodName">Payment Method</strong>
-<small id="methodSubtitle">Selected payment method</small>
-</div>
-</div>
+ <div id="paymentContent" hidden>
 
-<div class="row">
-<small>PACKAGE</small>
-<strong id="packageName">—</strong>
-</div>
+  <!-- Payment Method Banner -->
+  <div class="payment-banner" id="paymentBanner">
+   <div class="payment-logo" id="paymentLogo"></div>
+   <div class="payment-banner-text">
+    <span id="paymentTitle">Payment Deposit</span>
+    <small id="paymentSubtitle">RUBALIA NETWORK</small>
+   </div>
+  </div>
 
-<div class="row">
-<small>QUANTITY</small>
-<strong id="quantity">—</strong>
-</div>
+  <!-- Amount -->
+  <div class="amount-box">
+   <div class="amount-label">আপনাকে মোট যে পরিমাণ টাকা পাঠাতে হবে</div>
+   <div class="amount-value" id="amountValue">৳ 0.00</div>
+  </div>
 
-<div class="row">
-<small>TOTAL AMOUNT</small>
-<strong id="total">—</strong>
-</div>
+  <!-- Warning -->
+  <div class="notice" id="topNotice">
+   অনুগ্রহ করে সঠিক পরিমাণ টাকা পাঠান।
+  </div>
 
-<div id="gatewayDetails"></div>
+  <!-- Wallet Number -->
+  <div id="walletSection">
+   <label class="field-title" id="walletLabel">Wallet No*</label>
+   <p class="field-description" id="walletDescription">
+    নিচের নম্বরে নির্ধারিত টাকা পাঠান।
+   </p>
 
-<div class="instructions" id="instructions"></div>
-<div class="help" id="help"></div>
+   <div class="wallet-box">
+    <strong class="wallet-number" id="walletNumber">—</strong>
+    <button type="button" class="copy-btn" id="copyBtn" aria-label="Copy number">
+     <svg viewBox="0 0 48 48" fill="none">
+      <rect x="13" y="5" width="29" height="34" rx="3" stroke="currentColor" stroke-width="3"/>
+      <path d="M7 13v29a3 3 0 003 3h25" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M20 15h15M20 22h15M20 29h10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+     </svg>
+    </button>
+   </div>
+  </div>
 
-<div id="referenceArea" class="form-group">
-<label for="transactionReference" id="referenceLabel">Transaction ID / Reference *</label>
-<input id="transactionReference" type="text" maxlength="180" placeholder="Enter transaction reference">
-</div>
+  <!-- Bank Details -->
+  <div class="bank-details" id="bankSection" hidden></div>
 
-<button class="btn" id="payBtn" disabled>SUBMIT PAYMENT</button>
-</div>
-</section>
+  <!-- Transaction Reference -->
+  <div id="transactionSection">
+   <div class="transaction-label">
+    ক্যাশআউটের TrxID নাম্বারটি লিখুন
+    <span>(প্রয়োজন)</span>
+   </div>
+
+   <input
+    type="text"
+    id="transactionReference"
+    class="transaction-input"
+    maxlength="180"
+    placeholder="TrxID অবশ্যই পূরণ করতে হবে!"
+    autocomplete="off"
+   >
+  </div>
+
+  <!-- Wallet Payment -->
+  <div id="walletPaymentSection" hidden>
+   <div class="instruction-box">
+    আপনার RUBALIA Wallet থেকে এই অর্ডারের টাকা কেটে নেওয়া হবে।
+   </div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instruction-box" id="paymentInstructions"></div>
+
+  <!-- Confirm -->
+  <div class="confirm-wrap">
+   <button type="button" class="confirm-btn" id="confirmBtn">
+    নিশ্চিত
+   </button>
+  </div>
+
+  <!-- Warning -->
+  <div class="warning-title">⚠ সতর্কতা:</div>
+
+  <div class="warning-red" id="warningRed">
+   লেনদেন আইডি সঠিকভাবে পূরণ করতে হবে, অন্যথায় পেমেন্ট যাচাই ব্যর্থ হতে পারে!
+  </div>
+
+  <div class="warning-description" id="warningDescription">
+   অনুগ্রহ করে নিশ্চিত হয়ে নিন যে আপনি সঠিক পেমেন্ট নম্বরে সঠিক পরিমাণ টাকা পাঠিয়েছেন।
+   একই Transaction ID একাধিকবার ব্যবহার করবেন না।
+  </div>
+
+ </div>
 </main>
 
-<footer>© RUBALIA NETWORK — All Rights Reserved.</footer>
+<div class="loading" id="loading">
+ <div class="loading-card">
+  <div class="spinner"></div>
+  <strong>Processing Payment...</strong>
+  <small>Please wait</small>
+ </div>
+</div>
+
+<footer>
+ © <strong>RUBALIA NETWORK</strong> — All Rights Reserved.
+</footer>
 
 <script>
 "use strict";
 
 const API_BASE="https://rubalia.onrender.com/api";
+
 const $=id=>document.getElementById(id);
 
 let token="";
 let intent=null;
 let method=null;
 let submitting=false;
+
+const METHOD_CONFIG={
+ bkash:{
+  title:"bKash Deposit",
+  color:"#d71967",
+  description:"এই বিকাশ নম্বরে শুধুমাত্র ক্যাশআউট গ্রহণ করা হয়।"
+ },
+ nagad:{
+  title:"NAGAD Deposit",
+  color:"#ed483c",
+  description:"এই NAGAD নম্বরে শুধুমাত্র ক্যাশআউট গ্রহণ করা হয়।"
+ },
+ rocket:{
+  title:"ROCKET Deposit",
+  color:"#8b2b85",
+  description:"এই ROCKET নম্বরে শুধুমাত্র ক্যাশআউট গ্রহণ করা হয়।"
+ },
+ upay:{
+  title:"upay Deposit",
+  color:"#653b9b",
+  description:"এই upay নম্বরে নির্ধারিত টাকা পাঠান।"
+ },
+ redotpay:{
+  title:"RedotPay Deposit",
+  color:"#242424",
+  description:"নির্ধারিত RedotPay অ্যাকাউন্টে পেমেন্ট করুন।"
+ },
+ binance:{
+  title:"Binance Deposit",
+  color:"#eebc22",
+  description:"সঠিক নেটওয়ার্ক ব্যবহার করে পেমেন্ট করুন।"
+ },
+ usdt_bep20:{
+  title:"USDT Deposit",
+  color:"#26a17b",
+  description:"শুধুমাত্র BEP20 নেটওয়ার্ক ব্যবহার করুন।"
+ },
+ bank_transfer:{
+  title:"Bank Transfer",
+  color:"#245b8f",
+  description:"প্রদর্শিত ব্যাংক অ্যাকাউন্টে টাকা পাঠান।"
+ }
+};
 
 const LOGOS={
  bkash:"https://raw.githubusercontent.com/mdmubarokhosin/Bd-MFS-Logo/refs/heads/main/logos/png/bkash.png",
@@ -182,18 +562,6 @@ const LOGOS={
  usdt_bep20:"https://cdn.simpleicons.org/tether/26A17B"
 };
 
-const NAMES={
- bkash:"bKash",
- nagad:"Nagad",
- rocket:"Rocket",
- upay:"upay",
- redotpay:"RedotPay",
- binance:"Binance",
- bank_transfer:"Bank Transfer",
- usdt_bep20:"USDT (BEP20)",
- wallet:"RUBALIA Wallet"
-};
-
 function money(value){
  const n=Number(value);
  return "৳ "+(Number.isFinite(n)?n:0).toLocaleString("en-BD",{
@@ -203,10 +571,10 @@ function money(value){
 }
 
 function showMessage(type,text){
- const el=$("message");
- el.className="message "+type;
- el.textContent=text;
- el.style.display="block";
+ const box=$("pageMessage");
+ box.className="message "+type;
+ box.textContent=text;
+ box.style.display="block";
 }
 
 async function api(path,options={}){
@@ -227,7 +595,7 @@ async function api(path,options={}){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
   location.replace("login.html");
-  throw Error("Your login session has expired. Please login again.");
+  throw Error("আপনার Login Session শেষ হয়েছে। আবার Login করুন।");
  }
 
  if(!response.ok||data.success===false){
@@ -237,102 +605,127 @@ async function api(path,options={}){
  return data;
 }
 
-function addRow(label,value,copyable=false){
- if(value===undefined||value===null||value==="")return;
+function setMethodDesign(){
+ const id=intent.method;
+ const config=METHOD_CONFIG[id]||{
+  title:method.display_name||method.name||id,
+  color:"#a71952",
+  description:"নির্ধারিত অ্যাকাউন্টে পেমেন্ট করুন।"
+ };
+
+ $("paymentTitle").textContent=config.title;
+ $("paymentBanner").style.background=config.color;
+ $("paymentSubtitle").textContent="RUBALIA NETWORK PAYMENT";
+
+ const logo=$("paymentLogo");
+ logo.replaceChildren();
+
+ const src=LOGOS[id];
+
+ if(src){
+  const img=document.createElement("img");
+  img.src=src;
+  img.alt=config.title+" Logo";
+  img.onerror=()=>{logo.textContent=config.title;};
+  logo.append(img);
+ }else{
+  logo.textContent=id==="wallet"?"👛":"🏦";
+ }
+
+ $("walletDescription").textContent=config.description;
+}
+
+function addBankRow(label,value,copy=false){
+ if(!value)return;
 
  const row=document.createElement("div");
- row.className="row";
+ row.className="bank-row";
 
  const small=document.createElement("small");
  small.textContent=label;
 
  const strong=document.createElement("strong");
- strong.textContent=String(value);
+ strong.textContent=value;
 
  row.append(small,strong);
 
- if(copyable){
-  const button=document.createElement("button");
-  button.type="button";
-  button.className="copy";
-  button.textContent="COPY";
+ if(copy){
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="copy-btn";
+  btn.textContent="COPY";
 
-  button.addEventListener("click",async()=>{
+  btn.addEventListener("click",async()=>{
    try{
     await navigator.clipboard.writeText(String(value));
-    button.textContent="COPIED";
+    btn.textContent="COPIED";
    }catch(_){
-    button.textContent="COPY FAILED";
+    btn.textContent="COPY FAILED";
    }
   });
 
-  row.append(button);
+  row.append(btn);
  }
 
- $("gatewayDetails").append(row);
-}
-
-function setLogo(){
- const box=$("methodLogo");
- box.replaceChildren();
-
- const src=LOGOS[intent.method];
-
- if(src){
-  const img=document.createElement("img");
-  img.src=src;
-  img.alt=(NAMES[intent.method]||intent.method)+" logo";
-
-  img.onerror=()=>{
-   box.textContent=NAMES[intent.method]||intent.method;
-  };
-
-  box.append(img);
- }else if(intent.method==="wallet"){
-  box.textContent="👛";
- }else{
-  box.textContent="🏦";
- }
+ $("bankSection").append(row);
 }
 
 function renderPayment(){
  $("paymentContent").hidden=false;
 
- $("packageName").textContent=intent.packageName||"Package";
- $("quantity").textContent=String(intent.quantity);
- $("total").textContent=money(intent.amount);
+ $("amountValue").textContent=money(intent.amount);
 
- $("methodName").textContent=
-  NAMES[intent.method]||
-  method.display_name||
-  method.name||
-  intent.method;
-
- $("methodSubtitle").textContent="Selected payment method";
-
- setLogo();
-
- const details=$("gatewayDetails");
- details.replaceChildren();
+ setMethodDesign();
 
  if(intent.method==="wallet"){
-  $("referenceArea").hidden=true;
+  $("walletSection").hidden=true;
+  $("transactionSection").hidden=true;
+  $("bankSection").hidden=true;
+  $("walletPaymentSection").hidden=false;
 
-  $("instructions").textContent=
-   "Your RUBALIA Wallet will be charged when you confirm this order.";
+  $("paymentInstructions").textContent=
+   "আপনার RUBALIA Wallet থেকে অর্ডারের টাকা নিরাপদে কেটে নেওয়া হবে।";
 
-  $("help").textContent=
-   "Wallet payment is processed securely by the RUBALIA server. Make sure your wallet has sufficient balance.";
+  $("topNotice").textContent=
+   "আপনার Wallet Balance পর্যাপ্ত আছে কিনা নিশ্চিত করুন।";
 
-  $("payBtn").textContent="PAY & PLACE ORDER";
-  $("payBtn").disabled=false;
+  $("warningRed").textContent=
+   "নিশ্চিত করার আগে অর্ডারের তথ্য যাচাই করে নিন।";
+
+  $("warningDescription").textContent=
+   "আপনি নিশ্চিত করলে Wallet থেকে টাকা কেটে অর্ডার তৈরি হবে।";
+
   return;
  }
 
- $("referenceArea").hidden=false;
- $("payBtn").textContent="SUBMIT PAYMENT FOR VERIFICATION";
+ if(intent.method==="bank_transfer"){
+  $("walletSection").hidden=true;
+  $("bankSection").hidden=false;
 
- if(intent.method==="usdt_bep20"){
+  $("bankSection").replaceChildren();
+
+  addBankRow("BANK NAME",method.bank_name);
+  addBankRow("ACCOUNT NAME",method.account_name);
+  addBankRow("ACCOUNT NUMBER",method.account_number,true);
+  addBankRow("BRANCH",method.branch);
+  addBankRow("AMOUNT TO PAY",money(intent.amount));
+
+  $("walletLabel").textContent="Bank Account";
+  $("walletSection").hidden=true;
+
+  $("transactionReference").placeholder=
+   "Enter Bank Transaction Reference";
+
+ }else if(intent.method==="usdt_bep20"){
+  $("walletLabel").textContent="USDT Wallet Address*";
+  $("walletDescription").textContent=
+   "শুধুমাত্র BNB Smart Chain (BEP20) নেটওয়ার্ক ব্যবহার করুন।";
+
+  $("walletNumber").textContent=method.wallet_address||"Not configured";
+
+  $("transactionReference").placeholder=
+   "Enter BEP20 Transaction Hash";
+
   const rate=Number(method.usdt_rate);
 
   if(
@@ -341,44 +734,56 @@ function renderPayment(){
    !Number.isFinite(rate)||
    rate<=0
   ){
-   throw Error("USDT payment is not properly configured by Admin.");
+   throw Error("USDT Payment configuration is incomplete.");
   }
 
   const expected=(Number(intent.amount)/rate).toFixed(6);
 
-  addRow("USDT WALLET ADDRESS",method.wallet_address,true);
-  addRow("NETWORK","BNB Smart Chain (BEP20)");
-  addRow("USDT EXCHANGE RATE","1 USDT = "+money(rate));
-  addRow("SEND EXACTLY",expected+" USDT");
+  $("paymentInstructions").textContent=
+   "Network: BEP20\n"+
+   "Exchange Rate: 1 USDT = "+money(rate)+"\n"+
+   "Send Exactly: "+expected+" USDT";
 
-  $("referenceLabel").textContent="BEP20 Transaction Hash *";
-  $("transactionReference").placeholder=
-   "0x followed by 64 hexadecimal characters";
+  $("topNotice").textContent=
+   "সঠিক নেটওয়ার্ক ও নির্ধারিত পরিমাণ USDT পাঠান।";
 
-  $("help").textContent=
-   "Send USDT using BEP20 network only. After sending, enter the transaction hash. Admin will verify the network, recipient address and amount.";
  }else{
-  addRow("BANK NAME",method.bank_name);
-  addRow("ACCOUNT NAME",method.account_name);
-  addRow("BRANCH",method.branch);
+  const account=method.account_number||method.wallet_address;
 
-  addRow(
-   "PAYMENT ACCOUNT NUMBER",
-   method.account_number||method.wallet_address,
-   true
-  );
+  if(!account){
+   throw Error("Admin has not configured the payment account number.");
+  }
 
-  addRow("AMOUNT TO PAY",money(intent.amount));
+  $("walletLabel").textContent="Wallet No*";
+  $("walletNumber").textContent=account;
 
-  $("referenceLabel").textContent="Transaction ID / Reference *";
-  $("transactionReference").placeholder="Enter your transaction ID";
+  $("transactionReference").placeholder=
+   "TrxID অবশ্যই পূরণ করতে হবে!";
 
-  $("help").textContent=
-   "Send the exact amount to the displayed account. Enter your transaction reference after payment. Your payment will remain pending until Admin verifies it.";
+  $("paymentInstructions").textContent=
+   method.instructions||
+   "প্রদর্শিত নম্বরে নির্ধারিত পরিমাণ টাকা Send Money অথবা Cash Out করুন। পেমেন্টের পর Transaction ID লিখুন।";
+
+  $("topNotice").textContent=
+   "আপনি যদি টাকার পরিমাণ পরিবর্তন করেন, তাহলে নির্ধারিত পেমেন্টের পরিমাণ সঠিকভাবে অনুসরণ করুন।";
  }
 
- $("instructions").textContent=method.instructions||"Please follow the payment details above.";
- $("payBtn").disabled=false;
+ if(intent.method!=="bank_transfer"){
+  $("walletSection").hidden=false;
+ }
+
+ $("bankSection").hidden=(
+  intent.method!=="bank_transfer"
+ );
+
+ $("transactionSection").hidden=false;
+ $("walletPaymentSection").hidden=true;
+
+ $("warningRed").textContent=
+  "লেনদেন আইডি সঠিকভাবে পূরণ করতে হবে, অন্যথায় পেমেন্ট যাচাই ব্যর্থ হতে পারে!";
+
+ $("warningDescription").textContent=
+  "অনুগ্রহ করে নিশ্চিত হয়ে নিন যে আপনি সঠিক পেমেন্ট নম্বরে সঠিক পরিমাণ টাকা পাঠিয়েছেন। অন্য কোনো নম্বরে টাকা পাঠালে RUBALIA NETWORK দায়ী থাকবে না।";
 }
 
 async function initialize(){
@@ -418,7 +823,6 @@ async function initialize(){
   if(intent.method==="wallet"){
    method={gateway:"wallet",enabled:true};
 
-   // Refresh wallet balance before allowing payment.
    const walletData=await api("/wallet");
 
    if(!walletData.wallet){
@@ -430,11 +834,12 @@ async function initialize(){
    if(!Number.isFinite(balance)||balance<Number(intent.amount)){
     throw Error("Insufficient wallet balance. Please return to checkout.");
    }
+
   }else{
    const data=await api("/payment/methods");
 
    if(!Array.isArray(data.methods)){
-    throw Error("Payment methods are unavailable.");
+    throw Error("Payment methods unavailable.");
    }
 
    method=data.methods.find(item=>
@@ -442,7 +847,7 @@ async function initialize(){
    );
 
    if(!method){
-    throw Error("This payment method is no longer available. Please return to checkout.");
+    throw Error("This payment method is no longer available.");
    }
   }
 
@@ -453,15 +858,35 @@ async function initialize(){
  }
 }
 
-$("payBtn").addEventListener("click",async()=>{
+/* Copy wallet number */
+$("copyBtn").addEventListener("click",async()=>{
+ const value=$("walletNumber").textContent.trim();
+
+ if(!value||value==="—")return;
+
+ try{
+  await navigator.clipboard.writeText(value);
+  $("copyBtn").textContent="✓";
+  setTimeout(()=>{$("copyBtn").innerHTML=`
+   <svg viewBox="0 0 48 48" fill="none">
+   <rect x="13" y="5" width="29" height="34" rx="3" stroke="currentColor" stroke-width="3"/>
+   <path d="M7 13v29a3 3 0 003 3h25" stroke="currentColor" stroke-width="3"/>
+   </svg>`;},1600);
+ }catch(_){
+  showMessage("error","Copy failed. Please copy the number manually.");
+ }
+});
+
+/* Submit payment */
+$("confirmBtn").addEventListener("click",async()=>{
  if(submitting||!intent||!method)return;
 
- const button=$("payBtn");
  const reference=$("transactionReference").value.trim();
 
  if(intent.method!=="wallet"){
   if(reference.length<5){
-   showMessage("error","Please enter your transaction reference.");
+   showMessage("error","অনুগ্রহ করে সঠিক Transaction ID / Reference লিখুন।");
+   $("transactionReference").focus();
    return;
   }
 
@@ -475,8 +900,11 @@ $("payBtn").addEventListener("click",async()=>{
  }
 
  submitting=true;
- button.disabled=true;
- button.textContent="PROCESSING...";
+
+ $("confirmBtn").disabled=true;
+ $("confirmBtn").textContent="Processing...";
+
+ $("loading").classList.add("show");
 
  try{
   const shipping={
@@ -492,6 +920,7 @@ $("payBtn").addEventListener("click",async()=>{
   }];
 
   if(intent.method==="wallet"){
+
    const result=await api("/orders",{
     method:"POST",
     body:JSON.stringify({
@@ -502,32 +931,32 @@ $("payBtn").addEventListener("click",async()=>{
    });
 
    if(!result.order){
-    throw Error("The server did not return order confirmation.");
+    throw Error("Order confirmation was not returned.");
    }
 
    sessionStorage.removeItem("rubalia_checkout_intent");
 
-   $("paymentContent").innerHTML="";
+   $("paymentContent").hidden=true;
 
    showMessage(
     "good",
-    "Payment successful! Your order has been placed. Order: "+
+    "অভিনন্দন! আপনার পেমেন্ট সফল হয়েছে। Order: "+
     (result.order.order_number||result.order.id)+
-    ". Amount: "+money(result.order.total_amount)
+    " | Amount: "+money(result.order.total_amount)
    );
 
    const link=document.createElement("a");
    link.href="orders.html";
    link.textContent="VIEW MY ORDERS";
-   link.className="btn";
-   link.style.display="block";
+   link.className="confirm-btn";
+   link.style.display="inline-block";
+   link.style.marginTop="15px";
    link.style.textAlign="center";
-   link.style.textDecoration="none";
 
-   $("paymentContent").append(link);
-   $("paymentContent").hidden=false;
+   $("pageMessage").append(link);
 
   }else{
+
    const result=await api("/payment/request",{
     method:"POST",
     body:JSON.stringify({
@@ -539,43 +968,45 @@ $("payBtn").addEventListener("click",async()=>{
    });
 
    if(!result.payment){
-    throw Error("The server did not return a payment request.");
+    throw Error("Payment request was not returned by server.");
    }
 
    sessionStorage.removeItem("rubalia_checkout_intent");
 
-   $("paymentContent").innerHTML="";
+   $("paymentContent").hidden=true;
 
    showMessage(
     "good",
-    "Payment request submitted successfully. Payment Reference: "+
+    "আপনার পেমেন্ট রিকোয়েস্ট সফলভাবে জমা হয়েছে। Payment Reference: "+
     (result.payment.payment_reference||"Submitted")+
-    ". Status: Pending Admin Verification. Your order will be created after Admin approval."
+    "। এখন Admin আপনার পেমেন্ট যাচাই করবেন।"
    );
 
    const link=document.createElement("a");
    link.href="dashboard.html";
    link.textContent="BACK TO DASHBOARD";
-   link.className="btn";
-   link.style.display="block";
+   link.className="confirm-btn";
+   link.style.display="inline-block";
+   link.style.marginTop="15px";
    link.style.textAlign="center";
-   link.style.textDecoration="none";
 
-   $("paymentContent").append(link);
-   $("paymentContent").hidden=false;
+   $("pageMessage").append(link);
   }
 
  }catch(error){
   showMessage("error",error.message);
+
   submitting=false;
-  button.disabled=false;
-  button.textContent=intent.method==="wallet"
-   ?"PAY & PLACE ORDER"
-   :"SUBMIT PAYMENT FOR VERIFICATION";
+  $("confirmBtn").disabled=false;
+  $("confirmBtn").textContent="নিশ্চিত";
+
+ }finally{
+  $("loading").classList.remove("show");
  }
 });
 
 initialize();
 </script>
+
 </body>
 </html>
