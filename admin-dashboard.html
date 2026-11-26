@@ -11,691 +11,195 @@
 
 <style>
 :root{
- --navy:#071a35;
- --navy2:#102b50;
- --gold:#d6ad55;
- --bg:#f3f6fb;
- --white:#fff;
- --text:#18263c;
- --muted:#78869a;
- --border:#e5eaf1;
- --green:#16845b;
- --red:#c34b4b;
- --orange:#c58b32;
+ --navy:#071a35;--navy2:#102b50;--gold:#d6ad55;
+ --bg:#f3f6fb;--white:#fff;--text:#18263c;
+ --muted:#78869a;--border:#e5eaf1;
+ --green:#16845b;--red:#c34b4b;--orange:#c58b32;
  --shadow:0 2px 9px rgba(16,43,80,.045);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:auto}
-body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);
- color:var(--text);
-}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
 [hidden]{display:none!important}
 
-/* LOADING & ERROR */
 .loading-screen,.error-screen{
- position:fixed;
- inset:0;
- z-index:1000;
- display:flex;
- align-items:center;
- justify-content:center;
- background:var(--bg);
- padding:18px;
+ position:fixed;inset:0;z-index:1000;
+ display:flex;align-items:center;justify-content:center;
+ background:var(--bg);padding:18px;
 }
 .loading-box,.error-card{
- width:100%;
- max-width:400px;
- padding:25px;
- background:#fff;
- border:1px solid var(--border);
- border-radius:13px;
- text-align:center;
+ width:100%;max-width:400px;padding:25px;background:#fff;
+ border:1px solid var(--border);border-radius:13px;text-align:center;
 }
 .loading-box strong{color:var(--navy)}
-.loading-box p,.error-card p{
- color:var(--muted);
- font-size:13px;
- line-height:1.6;
-}
+.loading-box p,.error-card p{color:var(--muted);font-size:13px;line-height:1.6}
 .spinner{
- width:32px;height:32px;
- border:3px solid #e3e8ef;
- border-top-color:var(--gold);
- border-radius:50%;
- margin:0 auto 15px;
- animation:spin .8s linear infinite;
+ width:32px;height:32px;border:3px solid #e3e8ef;
+ border-top-color:var(--gold);border-radius:50%;
+ margin:0 auto 15px;animation:spin .8s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .error-screen{display:none}
 .error-card h2{color:var(--navy)}
 .error-card a,.error-card button{
- display:inline-block;
- margin:6px 3px 0;
- padding:11px 16px;
- border:0;
- border-radius:8px;
- background:var(--gold);
- color:var(--navy);
- font-weight:bold;
- font-size:12px;
+ display:inline-block;margin:6px 3px 0;padding:11px 16px;
+ border:0;border-radius:8px;background:var(--gold);
+ color:var(--navy);font-weight:bold;font-size:12px;
 }
 
-/* TOPBAR */
 .topbar{
- min-height:60px;
- background:var(--navy);
- color:white;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 20px;
- position:sticky;
- top:0;
- z-index:50;
+ min-height:60px;background:var(--navy);color:white;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 20px;position:sticky;top:0;z-index:50;
 }
-.brand{
- font-size:19px;
- font-weight:900;
- letter-spacing:.4px;
-}
+.brand{font-size:19px;font-weight:900;letter-spacing:.4px}
 .brand span{color:var(--gold)}
-.top-right{
- display:flex;
- align-items:center;
- gap:10px;
-}
+.top-right{display:flex;align-items:center;gap:10px}
 .admin-label{
- font-size:9px;
- background:rgba(214,173,85,.16);
- color:#f3dfa9;
- border:1px solid rgba(214,173,85,.35);
- padding:7px 10px;
- border-radius:20px;
- font-weight:bold;
+ font-size:9px;background:rgba(214,173,85,.16);color:#f3dfa9;
+ border:1px solid rgba(214,173,85,.35);padding:7px 10px;
+ border-radius:20px;font-weight:bold;
 }
 .admin-avatar{
- width:34px;height:34px;
- border-radius:50%;
- background:var(--gold);
- color:var(--navy);
- display:grid;
- place-items:center;
- font-weight:bold;
+ width:34px;height:34px;border-radius:50%;background:var(--gold);
+ color:var(--navy);display:grid;place-items:center;font-weight:bold;
 }
 .mobile-menu{
- display:none;
- border:1px solid rgba(255,255,255,.25);
- background:transparent;
- color:white;
- border-radius:7px;
- padding:7px 10px;
- font-size:18px;
+ display:none;border:1px solid rgba(255,255,255,.25);
+ background:transparent;color:white;border-radius:7px;
+ padding:7px 10px;font-size:18px;
 }
 
-/* LAYOUT */
-.layout{
- display:grid;
- grid-template-columns:225px minmax(0,1fr);
- min-height:calc(100vh - 60px);
-}
-.sidebar{
- background:var(--navy2);
- color:white;
- padding:17px 11px;
- min-height:calc(100vh - 60px);
-}
-.admin-profile{
- padding:8px 10px 17px;
- margin-bottom:12px;
- border-bottom:1px solid rgba(255,255,255,.13);
-}
-.admin-profile strong{
- display:block;
- font-size:13px;
- margin-bottom:5px;
-}
-.admin-profile small{
- color:#b8c7d9;
- font-size:10px;
- overflow-wrap:anywhere;
-}
+.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:calc(100vh - 60px)}
+.sidebar{background:var(--navy2);color:white;padding:17px 11px;min-height:calc(100vh - 60px)}
+.admin-profile{padding:8px 10px 17px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.13)}
+.admin-profile strong{display:block;font-size:13px;margin-bottom:5px}
+.admin-profile small{color:#b8c7d9;font-size:10px;overflow-wrap:anywhere}
 .side-heading{
- color:#9eafc5;
- font-size:9px;
- font-weight:bold;
- text-transform:uppercase;
- letter-spacing:1px;
- margin:17px 10px 7px;
+ color:#9eafc5;font-size:9px;font-weight:bold;text-transform:uppercase;
+ letter-spacing:1px;margin:17px 10px 7px;
 }
 .nav-link,.logout-btn{
- display:flex;
- align-items:center;
- gap:9px;
- padding:10px;
- border-radius:7px;
- margin:2px 0;
- font-size:11px;
- color:#dce6f2;
- width:100%;
+ display:flex;align-items:center;gap:9px;padding:10px;
+ border-radius:7px;margin:2px 0;font-size:11px;
+ color:#dce6f2;width:100%;
 }
-.nav-link:hover,.nav-link.active,.logout-btn:hover{
- background:rgba(214,173,85,.15);
- color:#f3dfa9;
-}
-.nav-icon{
- width:18px;
- text-align:center;
- font-size:14px;
-}
-.logout-btn{
- background:transparent;
- border:0;
- text-align:left;
-}
+.nav-link:hover,.nav-link.active,.logout-btn:hover{background:rgba(214,173,85,.15);color:#f3dfa9}
+.nav-icon{width:18px;text-align:center;font-size:14px}
+.logout-btn{background:transparent;border:0;text-align:left}
 
-/* MAIN */
-.main{
- padding:22px;
- width:100%;
- max-width:1550px;
- margin:auto;
- min-width:0;
-}
-.heading{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:12px;
- flex-wrap:wrap;
- margin-bottom:17px;
-}
-.heading h1{
- color:var(--navy);
- font-size:23px;
- margin:0 0 5px;
-}
-.heading p{
- margin:0;
- color:var(--muted);
- font-size:11px;
-}
+.main{padding:22px;width:100%;max-width:1550px;margin:auto;min-width:0}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:17px}
+.heading h1{color:var(--navy);font-size:23px;margin:0 0 5px}
+.heading p{margin:0;color:var(--muted);font-size:11px}
 .live-badge{
- display:inline-flex;
- align-items:center;
- gap:5px;
- background:#e7f7ef;
- color:var(--green);
- border-radius:20px;
- padding:7px 10px;
- font-size:9px;
- font-weight:bold;
- white-space:nowrap;
+ display:inline-flex;align-items:center;gap:5px;background:#e7f7ef;
+ color:var(--green);border-radius:20px;padding:7px 10px;
+ font-size:9px;font-weight:bold;white-space:nowrap;
 }
-.live-badge.offline{
- background:#fceaea;
- color:var(--red);
-}
+.live-badge.offline{background:#fceaea;color:var(--red)}
 
-/* WELCOME */
 .welcome{
- background:var(--navy);
- color:white;
- border-radius:12px;
- padding:18px 20px;
- margin-bottom:17px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:12px;
+ background:var(--navy);color:white;border-radius:12px;padding:18px 20px;
+ margin-bottom:17px;display:flex;justify-content:space-between;
+ align-items:center;gap:12px;
 }
-.welcome h2{
- margin:0 0 6px;
- font-size:18px;
-}
-.welcome p{
- margin:0;
- color:#c8d5e5;
- font-size:11px;
- line-height:1.7;
-}
+.welcome h2{margin:0 0 6px;font-size:18px}
+.welcome p{margin:0;color:#c8d5e5;font-size:11px;line-height:1.7}
 .welcome-icon{font-size:35px}
 
-/* ANNOUNCEMENT */
-.announcement-card{
- background:#fffaf0;
- border:1px solid #ead8ad;
- border-radius:11px;
- padding:14px;
- margin-bottom:18px;
-}
-.announcement-top{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:8px;
- flex-wrap:wrap;
- margin-bottom:10px;
-}
-.announcement-title{
- display:flex;
- align-items:center;
- gap:8px;
- color:var(--navy);
- font-size:12px;
- font-weight:bold;
-}
-.announcement-indicator{
- font-size:9px;
- font-weight:bold;
- color:var(--green);
- background:#e3f6eb;
- padding:5px 8px;
- border-radius:20px;
-}
-.announcement-text{
- color:#59451e;
- font-size:12px;
- line-height:1.7;
- overflow-wrap:anywhere;
- white-space:pre-wrap;
-}
-.announcement-bottom{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- flex-wrap:wrap;
- margin-top:11px;
- border-top:1px solid #eadfc5;
- padding-top:10px;
-}
-.announcement-date{
- font-size:9px;
- color:#9a8459;
-}
-.announcement-link{
- color:#8a6724;
- font-size:10px;
- font-weight:bold;
-}
+.announcement-card{background:#fffaf0;border:1px solid #ead8ad;border-radius:11px;padding:14px;margin-bottom:18px}
+.announcement-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.announcement-title{display:flex;align-items:center;gap:8px;color:var(--navy);font-size:12px;font-weight:bold}
+.announcement-indicator{font-size:9px;font-weight:bold;color:var(--green);background:#e3f6eb;padding:5px 8px;border-radius:20px}
+.announcement-text{color:#59451e;font-size:12px;line-height:1.7;overflow-wrap:anywhere;white-space:pre-wrap}
+.announcement-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px;border-top:1px solid #eadfc5;padding-top:10px}
+.announcement-date{font-size:9px;color:#9a8459}
+.announcement-link{color:#8a6724;font-size:10px;font-weight:bold}
 
-/* SECTION */
-.section-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- flex-wrap:wrap;
- margin:19px 0 11px;
-}
-.section-title{
- font-size:16px;
- color:var(--navy);
- margin:0 0 4px;
-}
-.section-subtitle{
- font-size:10px;
- color:var(--muted);
- margin:0;
-}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:19px 0 11px}
+.section-title{font-size:16px;color:var(--navy);margin:0 0 4px}
+.section-subtitle{font-size:10px;color:var(--muted);margin:0}
 
-/* BUSINESS STATS */
-.stats{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:7px;
- margin-bottom:18px;
-}
-.stat-card{
- display:block;
- background:#fff;
- border:1px solid var(--border);
- border-radius:8px;
- padding:7px 8px;
- min-width:0;
- min-height:76px;
- box-shadow:var(--shadow);
- transition:.15s;
-}
-.stat-card.link-card:active{
- transform:scale(.98);
- background:#f8fafc;
-}
-.stat-top{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:4px;
-}
-.stat-name{
- color:var(--muted);
- font-size:9px;
- line-height:1.3;
-}
-.stat-icon{
- width:21px;height:21px;
- display:grid;
- place-items:center;
- border-radius:6px;
- background:#f1f4f9;
- font-size:11px;
- flex-shrink:0;
-}
-.stat-value{
- display:block;
- font-size:17px;
- color:var(--navy);
- font-weight:800;
- margin:5px 0 2px;
- overflow-wrap:anywhere;
-}
-.stat-note{
- font-size:8px;
- color:var(--muted);
- line-height:1.3;
-}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:18px}
+.stat-card{display:block;background:#fff;border:1px solid var(--border);border-radius:8px;padding:7px 8px;min-width:0;min-height:76px;box-shadow:var(--shadow);transition:.15s}
+.stat-card.link-card:active{transform:scale(.98);background:#f8fafc}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:4px}
+.stat-name{color:var(--muted);font-size:9px;line-height:1.3}
+.stat-icon{width:21px;height:21px;display:grid;place-items:center;border-radius:6px;background:#f1f4f9;font-size:11px;flex-shrink:0}
+.stat-value{display:block;font-size:17px;color:var(--navy);font-weight:800;margin:5px 0 2px;overflow-wrap:anywhere}
+.stat-note{font-size:8px;color:var(--muted);line-height:1.3}
 .stat-card.deposit{border-left:3px solid var(--green)}
 .stat-card.withdraw{border-left:3px solid var(--orange)}
 .stat-card.deposit .stat-icon{background:#e7f7ef}
 .stat-card.withdraw .stat-icon{background:#fff3df}
-.stat-card.has-pending{
- background:#fffaf0;
- border-color:#e8c879;
-}
+.stat-card.has-pending{background:#fffaf0;border-color:#e8c879}
 .stat-card.has-pending .stat-value{color:#b16b12}
 
-/* PANELS */
-.panel{
- background:#fff;
- border:1px solid var(--border);
- border-radius:11px;
- padding:15px;
- min-width:0;
- box-shadow:var(--shadow);
- margin-bottom:16px;
-}
-.panel-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:9px;
- flex-wrap:wrap;
- margin-bottom:13px;
-}
-.panel-head h3{
- margin:0;
- color:var(--navy);
- font-size:13px;
-}
-.refresh-btn{
- border:1px solid var(--border);
- background:white;
- color:var(--navy);
- padding:8px 11px;
- border-radius:7px;
- font-size:10px;
- font-weight:bold;
-}
-.refresh-btn:disabled{
- opacity:.5;
- cursor:wait;
-}
+.panel{background:#fff;border:1px solid var(--border);border-radius:11px;padding:15px;min-width:0;box-shadow:var(--shadow);margin-bottom:16px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.panel-head h3{margin:0;color:var(--navy);font-size:13px}
+.refresh-btn{border:1px solid var(--border);background:white;color:var(--navy);padding:8px 11px;border-radius:7px;font-size:10px;font-weight:bold}
+.refresh-btn:disabled{opacity:.5;cursor:wait}
 
-/* MANAGEMENT */
-.management-grid{
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:10px;
- margin-bottom:19px;
-}
-.option-card{
- display:flex;
- align-items:center;
- gap:11px;
- min-width:0;
- min-height:70px;
- padding:12px;
- background:#fff;
- border:1px solid var(--border);
- border-radius:10px;
- box-shadow:var(--shadow);
-}
+.management-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:19px}
+.option-card{display:flex;align-items:center;gap:11px;min-width:0;min-height:70px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow)}
 .option-card:active{background:#f7f9fc}
-.option-icon{
- width:37px;height:37px;
- flex-shrink:0;
- display:grid;
- place-items:center;
- background:#f1f4f9;
- border-radius:9px;
- font-size:18px;
-}
+.option-icon{width:37px;height:37px;flex-shrink:0;display:grid;place-items:center;background:#f1f4f9;border-radius:9px;font-size:18px}
 .option-info{min-width:0}
-.option-info strong{
- display:block;
- color:var(--navy);
- font-size:11px;
- line-height:1.4;
-}
-.option-info small{
- display:block;
- color:var(--muted);
- font-size:9px;
- line-height:1.4;
- margin-top:3px;
-}
-.option-arrow{
- margin-left:auto;
- color:#9ba7b6;
- font-size:15px;
- flex-shrink:0;
-}
+.option-info strong{display:block;color:var(--navy);font-size:11px;line-height:1.4}
+.option-info small{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:3px}
+.option-arrow{margin-left:auto;color:#9ba7b6;font-size:15px;flex-shrink:0}
 .option-card.gold{border-left:3px solid var(--gold)}
 .option-card.blue{border-left:3px solid #3978bd}
 .option-card.green{border-left:3px solid var(--green)}
 .option-card.red{border-left:3px solid #c34b4b}
 .option-card.purple{border-left:3px solid #8064bd}
 
-/* COMMISSION */
 .commission-section{margin-bottom:19px}
-.commission-heading{
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- flex-wrap:wrap;
- margin-bottom:12px;
-}
-.commission-heading h2{
- font-size:16px;
- color:var(--navy);
- margin:0 0 4px;
-}
-.commission-heading p{
- font-size:10px;
- color:var(--muted);
- margin:0;
-}
-.commission-actions{
- display:flex;
- gap:7px;
- flex-wrap:wrap;
-}
-.commission-btn{
- display:inline-block;
- padding:9px 11px;
- border-radius:7px;
- background:var(--navy);
- color:white;
- font-size:10px;
- font-weight:bold;
-}
-.commission-btn.gold{
- background:var(--gold);
- color:var(--navy);
-}
-.commission-stats{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:9px;
- margin-bottom:12px;
-}
-.commission-card{
- background:#fff;
- border:1px solid var(--border);
- border-radius:9px;
- padding:12px;
- min-width:0;
- box-shadow:var(--shadow);
-}
-.commission-card .label{
- font-size:9px;
- color:var(--muted);
-}
-.commission-card .value{
- display:block;
- font-size:19px;
- font-weight:800;
- color:var(--navy);
- margin:8px 0 4px;
- overflow-wrap:anywhere;
-}
-.commission-card .note{
- font-size:9px;
- color:var(--muted);
-}
+.commission-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.commission-heading h2{font-size:16px;color:var(--navy);margin:0 0 4px}
+.commission-heading p{font-size:10px;color:var(--muted);margin:0}
+.commission-actions{display:flex;gap:7px;flex-wrap:wrap}
+.commission-btn{display:inline-block;padding:9px 11px;border-radius:7px;background:var(--navy);color:white;font-size:10px;font-weight:bold}
+.commission-btn.gold{background:var(--gold);color:var(--navy)}
+.commission-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:12px}
+.commission-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px;min-width:0;box-shadow:var(--shadow)}
+.commission-card .label{font-size:9px;color:var(--muted)}
+.commission-card .value{display:block;font-size:19px;font-weight:800;color:var(--navy);margin:8px 0 4px;overflow-wrap:anywhere}
+.commission-card .note{font-size:9px;color:var(--muted)}
 .commission-card.company{border-top:3px solid var(--gold)}
 .commission-card.profit{border-top:3px solid #315e91}
 .commission-card.distributed{border-top:3px solid var(--green)}
 .commission-card.unallocated{border-top:3px solid #c58b32}
 .commission-card.orders{border-top:3px solid #7c70b8}
-.commission-error{
- display:none;
- background:#fff4f2;
- border:1px solid #f1d0cb;
- color:#a34237;
- border-radius:8px;
- padding:11px;
- font-size:10px;
- line-height:1.6;
- margin-bottom:12px;
-}
-.commission-loading{
- color:var(--muted);
- font-size:10px;
- padding:14px;
- text-align:center;
-}
-.level-pill{
- display:inline-block;
- background:#edf2f8;
- color:var(--navy);
- padding:5px 8px;
- border-radius:20px;
- font-weight:bold;
- font-size:9px;
-}
+.commission-error{display:none;background:#fff4f2;border:1px solid #f1d0cb;color:#a34237;border-radius:8px;padding:11px;font-size:10px;line-height:1.6;margin-bottom:12px}
+.commission-loading{color:var(--muted);font-size:10px;padding:14px;text-align:center}
+.level-pill{display:inline-block;background:#edf2f8;color:var(--navy);padding:5px 8px;border-radius:20px;font-weight:bold;font-size:9px}
 
-/* TABLES */
-.table-wrap{
- overflow-x:auto;
- -webkit-overflow-scrolling:touch;
-}
-table{
- width:100%;
- border-collapse:collapse;
- min-width:510px;
-}
-th{
- text-align:left;
- font-size:9px;
- color:var(--muted);
- background:#f7f9fc;
- padding:11px 9px;
- white-space:nowrap;
-}
-td{
- padding:11px 9px;
- border-bottom:1px solid #edf0f5;
- font-size:10px;
-}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:510px}
+th{text-align:left;font-size:9px;color:var(--muted);background:#f7f9fc;padding:11px 9px;white-space:nowrap}
+td{padding:11px 9px;border-bottom:1px solid #edf0f5;font-size:10px}
 td strong{color:var(--navy)}
-.status{
- display:inline-block;
- padding:5px 7px;
- border-radius:20px;
- font-size:9px;
- font-weight:bold;
- background:#eef2f7;
- color:#526176;
-}
+.status{display:inline-block;padding:5px 7px;border-radius:20px;font-size:9px;font-weight:bold;background:#eef2f7;color:#526176}
 .status.pending{background:#fff2dc;color:#a16b14}
 .status.complete{background:#e7f7ef;color:#16845b}
 .status.cancelled{background:#fceaea;color:#c34b4b}
-.empty-state{
- padding:20px;
- text-align:center;
- color:var(--muted);
- font-size:11px;
-}
+.empty-state{padding:20px;text-align:center;color:var(--muted);font-size:11px}
 
-/* ACCOUNT */
-.account-box{
- background:#f7f9fc;
- border:1px solid var(--border);
- border-radius:9px;
- padding:14px;
-}
-.account-box strong{
- color:var(--navy);
- font-size:13px;
- display:block;
- margin-bottom:5px;
-}
-.account-box p{
- font-size:11px;
- color:var(--muted);
- overflow-wrap:anywhere;
- margin:0 0 10px;
-}
-.notice{
- background:#fff9eb;
- border:1px solid #f0dfb8;
- border-radius:9px;
- padding:12px;
- color:#76591e;
- font-size:10px;
- line-height:1.7;
- margin-top:15px;
-}
-.footer{
- text-align:center;
- padding:18px;
- color:#9aa5b5;
- font-size:9px;
-}
+.account-box{background:#f7f9fc;border:1px solid var(--border);border-radius:9px;padding:14px}
+.account-box strong{color:var(--navy);font-size:13px;display:block;margin-bottom:5px}
+.account-box p{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin:0 0 10px}
+.notice{background:#fff9eb;border:1px solid #f0dfb8;border-radius:9px;padding:12px;color:#76591e;font-size:10px;line-height:1.7;margin-top:15px}
+.footer{text-align:center;padding:18px;color:#9aa5b5;font-size:9px}
 
-/* RESPONSIVE */
-@media(max-width:1100px){
- .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
+@media(max-width:1100px){.management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
- .sidebar{
-  display:none;
-  padding:12px;
-  min-height:auto;
-  position:fixed;
-  top:60px;
-  left:0;right:0;bottom:0;
-  overflow-y:auto;
-  z-index:45;
- }
+ .sidebar{display:none;padding:12px;min-height:auto;position:fixed;top:60px;left:0;right:0;bottom:0;overflow-y:auto;z-index:45}
  .sidebar.open{display:block}
  .mobile-menu{display:block}
  .main{padding:16px}
@@ -753,7 +257,6 @@ td strong{color:var(--navy)}
 
 <body>
 
-<!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen">
  <div class="loading-box">
   <div class="spinner"></div>
@@ -762,7 +265,6 @@ td strong{color:var(--navy)}
  </div>
 </div>
 
-<!-- ERROR SCREEN -->
 <div class="error-screen" id="errorScreen">
  <div class="error-card">
   <h2 id="errorTitle">Access Error</h2>
@@ -774,13 +276,11 @@ td strong{color:var(--navy)}
 
 <div id="adminApp" hidden>
 
-<!-- TOP BAR -->
 <header class="topbar">
  <div style="display:flex;align-items:center;gap:10px">
   <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
   <div class="brand">RUBALIA <span>NETWORK</span></div>
  </div>
-
  <div class="top-right">
   <span class="admin-label">ADMIN PANEL</span>
   <div class="admin-avatar" id="adminAvatar">A</div>
@@ -789,18 +289,14 @@ td strong{color:var(--navy)}
 
 <div class="layout">
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-
  <div class="admin-profile">
   <strong id="adminName">Administrator</strong>
   <small id="adminEmail">Loading...</small>
  </div>
 
  <div class="side-heading">Main Menu</div>
- <a href="admin-dashboard.html" class="nav-link active">
-  <span class="nav-icon">▦</span> Dashboard
- </a>
+ <a href="admin-dashboard.html" class="nav-link active"><span class="nav-icon">▦</span> Dashboard</a>
 
  <div class="side-heading">Management</div>
  <a href="admin/admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
@@ -821,6 +317,7 @@ td strong{color:var(--navy)}
 
  <div class="side-heading">Communication</div>
  <a href="admin/admin-announcements.html" class="nav-link"><span class="nav-icon">📢</span> Announcements</a>
+ <a href="admin/admin-push-notifications.html" class="nav-link"><span class="nav-icon">🔔</span> Push Notifications</a>
  <a href="admin/admin-support.html" class="nav-link"><span class="nav-icon">🎧</span> Support Tickets</a>
  <a href="admin/admin-email-management.html" class="nav-link"><span class="nav-icon">✉️</span> Email Management</a>
  <a href="admin/admin-sms-management.html" class="nav-link"><span class="nav-icon">📱</span> SMS Management</a>
@@ -837,12 +334,9 @@ td strong{color:var(--navy)}
  <div class="side-heading">Website</div>
  <a href="index.html" class="nav-link"><span class="nav-icon">🌐</span> Visit Website</a>
 
- <button class="logout-btn" id="logoutBtn" type="button">
-  <span class="nav-icon">↪</span> Logout
- </button>
+ <button class="logout-btn" id="logoutBtn" type="button"><span class="nav-icon">↪</span> Logout</button>
 </aside>
 
-<!-- MAIN CONTENT -->
 <main class="main">
 
  <div class="heading">
@@ -853,38 +347,26 @@ td strong{color:var(--navy)}
   <span class="live-badge" id="serverBadge">● CONNECTING TO SERVER</span>
  </div>
 
- <!-- WELCOME -->
  <section class="welcome">
   <div>
    <h2 id="welcomeTitle">Welcome, Administrator!</h2>
-   <p>Manage Rubalia Network from one place.<br>
-   Dashboard figures are loaded from PostgreSQL.</p>
+   <p>Manage Rubalia Network from one place.<br>Dashboard figures are loaded from PostgreSQL.</p>
   </div>
   <div class="welcome-icon">👑</div>
  </section>
 
- <!-- ANNOUNCEMENT -->
  <section class="announcement-card">
   <div class="announcement-top">
-   <div class="announcement-title">
-    <span>📢</span> Active Admin Announcement
-   </div>
+   <div class="announcement-title"><span>📢</span> Active Admin Announcement</div>
    <span class="announcement-indicator" id="announcementStatus">CHECKING...</span>
   </div>
-
-  <div class="announcement-text" id="announcementText">
-   Loading announcement...
-  </div>
-
+  <div class="announcement-text" id="announcementText">Loading announcement...</div>
   <div class="announcement-bottom">
    <span class="announcement-date" id="announcementDate"></span>
-   <a href="admin/admin-announcements.html" class="announcement-link">
-    Manage Announcements →
-   </a>
+   <a href="admin/admin-announcements.html" class="announcement-link">Manage Announcements →</a>
   </div>
  </section>
 
- <!-- BUSINESS OVERVIEW -->
  <div class="section-head">
   <div>
    <h2 class="section-title">Business Overview</h2>
@@ -894,95 +376,27 @@ td strong{color:var(--navy)}
  </div>
 
  <section class="stats">
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Total Users</span><span class="stat-icon">👥</span></div><strong class="stat-value" id="totalUsers">—</strong><span class="stat-note">All registered accounts</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Active Users</span><span class="stat-icon">🟢</span></div><strong class="stat-value" id="activeUsers">—</strong><span class="stat-note">Active accounts</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Total Products</span><span class="stat-icon">📦</span></div><strong class="stat-value" id="totalProducts">—</strong><span class="stat-note">All products</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Active Products</span><span class="stat-icon">🛍️</span></div><strong class="stat-value" id="activeProducts">—</strong><span class="stat-note">Available products</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Total Orders</span><span class="stat-icon">🛒</span></div><strong class="stat-value" id="totalOrders">—</strong><span class="stat-note">All recorded orders</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Pending Orders</span><span class="stat-icon">⏳</span></div><strong class="stat-value" id="pendingOrders">—</strong><span class="stat-note">Awaiting processing</span></div>
+  <div class="stat-card"><div class="stat-top"><span class="stat-name">Delivered Orders</span><span class="stat-icon">✅</span></div><strong class="stat-value" id="deliveredOrders">—</strong><span class="stat-note">Successfully delivered</span></div>
 
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Total Users</span>
-    <span class="stat-icon">👥</span>
-   </div>
-   <strong class="stat-value" id="totalUsers">—</strong>
-   <span class="stat-note">All registered accounts</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Active Users</span>
-    <span class="stat-icon">🟢</span>
-   </div>
-   <strong class="stat-value" id="activeUsers">—</strong>
-   <span class="stat-note">Active accounts</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Total Products</span>
-    <span class="stat-icon">📦</span>
-   </div>
-   <strong class="stat-value" id="totalProducts">—</strong>
-   <span class="stat-note">All products</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Active Products</span>
-    <span class="stat-icon">🛍️</span>
-   </div>
-   <strong class="stat-value" id="activeProducts">—</strong>
-   <span class="stat-note">Available products</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Total Orders</span>
-    <span class="stat-icon">🛒</span>
-   </div>
-   <strong class="stat-value" id="totalOrders">—</strong>
-   <span class="stat-note">All recorded orders</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Pending Orders</span>
-    <span class="stat-icon">⏳</span>
-   </div>
-   <strong class="stat-value" id="pendingOrders">—</strong>
-   <span class="stat-note">Awaiting processing</span>
-  </div>
-
-  <div class="stat-card">
-   <div class="stat-top">
-    <span class="stat-name">Delivered Orders</span>
-    <span class="stat-icon">✅</span>
-   </div>
-   <strong class="stat-value" id="deliveredOrders">—</strong>
-   <span class="stat-note">Successfully delivered</span>
-  </div>
-
-  <a href="admin/admin-payments.html"
-     class="stat-card link-card deposit"
-     id="pendingDepositCard">
-   <div class="stat-top">
-    <span class="stat-name">Pending Deposits</span>
-    <span class="stat-icon">💰</span>
-   </div>
+  <a href="admin/admin-payments.html" class="stat-card link-card deposit" id="pendingDepositCard">
+   <div class="stat-top"><span class="stat-name">Pending Deposits</span><span class="stat-icon">💰</span></div>
    <strong class="stat-value" id="pendingDeposits">—</strong>
    <span class="stat-note" id="pendingDepositNote">Wallet requests · View →</span>
   </a>
 
-  <a href="admin/admin-withdrawals.html"
-     class="stat-card link-card withdraw"
-     id="pendingWithdrawalCard">
-   <div class="stat-top">
-    <span class="stat-name">Pending Withdrawals</span>
-    <span class="stat-icon">💸</span>
-   </div>
+  <a href="admin/admin-withdrawals.html" class="stat-card link-card withdraw" id="pendingWithdrawalCard">
+   <div class="stat-top"><span class="stat-name">Pending Withdrawals</span><span class="stat-icon">💸</span></div>
    <strong class="stat-value" id="pendingWithdrawals">—</strong>
    <span class="stat-note" id="pendingWithdrawalNote">Withdrawal requests · View →</span>
   </a>
-
  </section>
 
- <!-- MANAGEMENT CENTER -->
  <div class="section-head">
   <div>
    <h2 class="section-title">Management Center</h2>
@@ -992,167 +406,44 @@ td strong{color:var(--navy)}
 
  <section class="management-grid">
 
-  <a href="admin/admin-users.html" class="option-card blue">
-   <span class="option-icon">👥</span>
-   <span class="option-info"><strong>Users Management</strong><small>Manage user accounts</small></span>
+  <a href="admin/admin-users.html" class="option-card blue"><span class="option-icon">👥</span><span class="option-info"><strong>Users Management</strong><small>Manage user accounts</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-partners.html" class="option-card blue"><span class="option-icon">🤝</span><span class="option-info"><strong>Manage Partners</strong><small>Partner accounts</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-applications.html" class="option-card purple"><span class="option-icon">📋</span><span class="option-info"><strong>Partner Applications</strong><small>Review applications</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-products.html" class="option-card green"><span class="option-icon">📦</span><span class="option-info"><strong>Products Management</strong><small>Manage products</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/modetor.html" class="option-card purple"><span class="option-icon">🛡️</span><span class="option-info"><strong>Moderator Settings</strong><small>Create moderators and manage permissions</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-packages.html" class="option-card gold"><span class="option-icon">🎁</span><span class="option-info"><strong>Packages Management</strong><small>Manage packages</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-orders.html" class="option-card blue"><span class="option-icon">🛒</span><span class="option-info"><strong>Orders Management</strong><small>View and process orders</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-payments.html" class="option-card gold"><span class="option-icon">💳</span><span class="option-info"><strong>Payment Records</strong><small>Verify payments and deposits</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-withdrawals.html" class="option-card green"><span class="option-icon">💸</span><span class="option-info"><strong>Withdraw Requests</strong><small>Review withdrawals</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-commissions.html" class="option-card purple"><span class="option-icon">📊</span><span class="option-info"><strong>Commission Management</strong><small>10-level commission</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-commission-settings.html" class="option-card gold"><span class="option-icon">⚙️</span><span class="option-info"><strong>Commission Settings</strong><small>Manage 10-level rates and commission engine</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-refunds.html" class="option-card red"><span class="option-icon">↩️</span><span class="option-info"><strong>Refund Management</strong><small>Review customer refunds</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-reports.html" class="option-card blue"><span class="option-icon">📈</span><span class="option-info"><strong>Financial Reports</strong><small>Monthly company profit and loss reports</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-announcements.html" class="option-card gold"><span class="option-icon">📢</span><span class="option-info"><strong>Announcements</strong><small>Publish messages</small></span><span class="option-arrow">›</span></a>
+
+  <a href="admin/admin-push-notifications.html" class="option-card gold">
+   <span class="option-icon">🔔</span>
+   <span class="option-info"><strong>Push Notifications</strong><small>Send notifications to users</small></span>
    <span class="option-arrow">›</span>
   </a>
 
-  <a href="admin/admin-partners.html" class="option-card blue">
-   <span class="option-icon">🤝</span>
-   <span class="option-info"><strong>Manage Partners</strong><small>Partner accounts</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-applications.html" class="option-card purple">
-   <span class="option-icon">📋</span>
-   <span class="option-info"><strong>Partner Applications</strong><small>Review applications</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-products.html" class="option-card green">
-   <span class="option-icon">📦</span>
-   <span class="option-info"><strong>Products Management</strong><small>Manage products</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/modetor.html" class="option-card purple">
-   <span class="option-icon">🛡️</span>
-   <span class="option-info"><strong>Moderator Settings</strong><small>Create moderators and manage permissions</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-packages.html" class="option-card gold">
-   <span class="option-icon">🎁</span>
-   <span class="option-info"><strong>Packages Management</strong><small>Manage packages</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-orders.html" class="option-card blue">
-   <span class="option-icon">🛒</span>
-   <span class="option-info"><strong>Orders Management</strong><small>View and process orders</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-payments.html" class="option-card gold">
-   <span class="option-icon">💳</span>
-   <span class="option-info"><strong>Payment Records</strong><small>Verify payments and deposits</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-withdrawals.html" class="option-card green">
-   <span class="option-icon">💸</span>
-   <span class="option-info"><strong>Withdraw Requests</strong><small>Review withdrawals</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-commissions.html" class="option-card purple">
-   <span class="option-icon">📊</span>
-   <span class="option-info"><strong>Commission Management</strong><small>10-level commission</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-commission-settings.html" class="option-card gold">
-   <span class="option-icon">⚙️</span>
-   <span class="option-info"><strong>Commission Settings</strong><small>Manage 10-level rates and commission engine</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-refunds.html" class="option-card red">
-   <span class="option-icon">↩️</span>
-   <span class="option-info"><strong>Refund Management</strong><small>Review customer refunds</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-reports.html" class="option-card blue">
-   <span class="option-icon">📈</span>
-   <span class="option-info"><strong>Financial Reports</strong><small>Monthly company profit and loss reports</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-announcements.html" class="option-card gold">
-   <span class="option-icon">📢</span>
-   <span class="option-info"><strong>Announcements</strong><small>Publish messages</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-support.html" class="option-card blue">
-   <span class="option-icon">🎧</span>
-   <span class="option-info"><strong>Support Tickets</strong><small>Customer support</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-email-management.html" class="option-card purple">
-   <span class="option-icon">✉️</span>
-   <span class="option-info"><strong>Email Management</strong><small>Manage email service</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-sms-management.html" class="option-card green">
-   <span class="option-icon">📱</span>
-   <span class="option-info"><strong>SMS Management</strong><small>Manage SMS service</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-settings.html" class="option-card gold">
-   <span class="option-icon">⚙️</span>
-   <span class="option-info"><strong>Admin Settings</strong><small>System configuration</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-audit-logs.html" class="option-card blue">
-   <span class="option-icon">📜</span>
-   <span class="option-info"><strong>Audit Logs</strong><small>Admin activity records</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-system-health.html" class="option-card green">
-   <span class="option-icon">❤️</span>
-   <span class="option-info"><strong>System Health</strong><small>Server health status</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-api-management.html" class="option-card purple">
-   <span class="option-icon">🔌</span>
-   <span class="option-info"><strong>API Management</strong><small>API configuration</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-error-logs.html" class="option-card red">
-   <span class="option-icon">⚠️</span>
-   <span class="option-info"><strong>Error Logs</strong><small>System error records</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-backup.html" class="option-card gold">
-   <span class="option-icon">💾</span>
-   <span class="option-info"><strong>Database Backup</strong><small>Backup management</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="admin/admin-database.html" class="option-card blue">
-   <span class="option-icon">🗄️</span>
-   <span class="option-info"><strong>Database Management</strong><small>Database tools</small></span>
-   <span class="option-arrow">›</span>
-  </a>
-
-  <a href="index.html" class="option-card green">
-   <span class="option-icon">🌐</span>
-   <span class="option-info"><strong>Visit Website</strong><small>Open public website</small></span>
-   <span class="option-arrow">›</span>
-  </a>
+  <a href="admin/admin-support.html" class="option-card blue"><span class="option-icon">🎧</span><span class="option-info"><strong>Support Tickets</strong><small>Customer support</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-email-management.html" class="option-card purple"><span class="option-icon">✉️</span><span class="option-info"><strong>Email Management</strong><small>Manage email service</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-sms-management.html" class="option-card green"><span class="option-icon">📱</span><span class="option-info"><strong>SMS Management</strong><small>Manage SMS service</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-settings.html" class="option-card gold"><span class="option-icon">⚙️</span><span class="option-info"><strong>Admin Settings</strong><small>System configuration</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-audit-logs.html" class="option-card blue"><span class="option-icon">📜</span><span class="option-info"><strong>Audit Logs</strong><small>Admin activity records</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-system-health.html" class="option-card green"><span class="option-icon">❤️</span><span class="option-info"><strong>System Health</strong><small>Server health status</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-api-management.html" class="option-card purple"><span class="option-icon">🔌</span><span class="option-info"><strong>API Management</strong><small>API configuration</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-error-logs.html" class="option-card red"><span class="option-icon">⚠️</span><span class="option-info"><strong>Error Logs</strong><small>System error records</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-backup.html" class="option-card gold"><span class="option-icon">💾</span><span class="option-info"><strong>Database Backup</strong><small>Backup management</small></span><span class="option-arrow">›</span></a>
+  <a href="admin/admin-database.html" class="option-card blue"><span class="option-icon">🗄️</span><span class="option-info"><strong>Database Management</strong><small>Database tools</small></span><span class="option-arrow">›</span></a>
+  <a href="index.html" class="option-card green"><span class="option-icon">🌐</span><span class="option-info"><strong>Visit Website</strong><small>Open public website</small></span><span class="option-arrow">›</span></a>
 
  </section>
 
- <!-- COMMISSION OVERVIEW -->
  <section class="commission-section">
-
   <div class="commission-heading">
-   <div>
-    <h2>Commission Overview</h2>
-    <p>10-Level Unilevel financial summary from the server.</p>
-   </div>
-
+   <div><h2>Commission Overview</h2><p>10-Level Unilevel financial summary from the server.</p></div>
    <div class="commission-actions">
     <button class="refresh-btn" id="refreshCommissionBtn" type="button">↻ Refresh</button>
     <a href="admin/admin-commissions.html" class="commission-btn gold">Manage Commissions →</a>
@@ -1162,75 +453,27 @@ td strong{color:var(--navy)}
   <div class="commission-error" id="commissionError"></div>
 
   <div class="commission-stats">
-
-   <div class="commission-card profit">
-    <span class="label">Total Actual Profit</span>
-    <strong class="value" id="commissionGrossProfit">৳—</strong>
-    <span class="note">Recorded profit after direct costs</span>
-   </div>
-
-   <div class="commission-card company">
-    <span class="label">Company Income</span>
-    <strong class="value" id="commissionCompanyShare">৳—</strong>
-    <span class="note">Company share</span>
-   </div>
-
-   <div class="commission-card distributed">
-    <span class="label">Distributed Commission</span>
-    <strong class="value" id="commissionDistributed">৳—</strong>
-    <span class="note">Commission recorded for members</span>
-   </div>
-
-   <div class="commission-card unallocated">
-    <span class="label">Unallocated Commission</span>
-    <strong class="value" id="commissionUnallocated">৳—</strong>
-    <span class="note">Amounts without eligible uplines</span>
-   </div>
-
-   <div class="commission-card orders">
-    <span class="label">Commission Orders</span>
-    <strong class="value" id="commissionOrders">—</strong>
-    <span class="note">Orders processed by commission engine</span>
-   </div>
-
-   <div class="commission-card">
-    <span class="label">Commission Levels</span>
-    <strong class="value">10</strong>
-    <span class="note">Unilevel structure</span>
-   </div>
-
+   <div class="commission-card profit"><span class="label">Total Actual Profit</span><strong class="value" id="commissionGrossProfit">৳—</strong><span class="note">Recorded profit after direct costs</span></div>
+   <div class="commission-card company"><span class="label">Company Income</span><strong class="value" id="commissionCompanyShare">৳—</strong><span class="note">Company share</span></div>
+   <div class="commission-card distributed"><span class="label">Distributed Commission</span><strong class="value" id="commissionDistributed">৳—</strong><span class="note">Commission recorded for members</span></div>
+   <div class="commission-card unallocated"><span class="label">Unallocated Commission</span><strong class="value" id="commissionUnallocated">৳—</strong><span class="note">Amounts without eligible uplines</span></div>
+   <div class="commission-card orders"><span class="label">Commission Orders</span><strong class="value" id="commissionOrders">—</strong><span class="note">Orders processed by commission engine</span></div>
+   <div class="commission-card"><span class="label">Commission Levels</span><strong class="value">10</strong><span class="note">Unilevel structure</span></div>
   </div>
 
   <section class="panel">
-   <div class="panel-head">
-    <h3>Level-Wise Commission Report</h3>
-    <span class="live-badge" id="commissionBadge">SERVER REPORT</span>
-   </div>
-
+   <div class="panel-head"><h3>Level-Wise Commission Report</h3><span class="live-badge" id="commissionBadge">SERVER REPORT</span></div>
    <div class="table-wrap">
     <table>
-     <thead>
-      <tr>
-       <th>LEVEL</th>
-       <th>COMMISSION RATE</th>
-       <th>TRANSACTIONS</th>
-       <th>TOTAL COMMISSION</th>
-      </tr>
-     </thead>
-     <tbody id="commissionLevelsBody">
-      <tr><td colspan="4" class="commission-loading">Loading commission report...</td></tr>
-     </tbody>
+     <thead><tr><th>LEVEL</th><th>COMMISSION RATE</th><th>TRANSACTIONS</th><th>TOTAL COMMISSION</th></tr></thead>
+     <tbody id="commissionLevelsBody"><tr><td colspan="4" class="commission-loading">Loading commission report...</td></tr></tbody>
     </table>
    </div>
   </section>
  </section>
 
- <!-- ADMIN ACCOUNT -->
  <section class="panel">
-  <div class="panel-head">
-   <h3>Administrator Account</h3>
-  </div>
-
+  <div class="panel-head"><h3>Administrator Account</h3></div>
   <div class="account-box">
    <strong id="accountName">—</strong>
    <p id="accountEmail">—</p>
@@ -1238,28 +481,15 @@ td strong{color:var(--navy)}
   </div>
  </section>
 
- <!-- RECENT ORDERS -->
  <section class="panel">
   <div class="panel-head">
    <h3>Recent Orders</h3>
    <a href="admin/admin-orders.html" class="commission-btn">View All →</a>
   </div>
-
   <div class="table-wrap">
    <table>
-    <thead>
-     <tr>
-      <th>ORDER ID</th>
-      <th>CUSTOMER</th>
-      <th>EMAIL</th>
-      <th>AMOUNT</th>
-      <th>STATUS</th>
-      <th>DATE</th>
-     </tr>
-    </thead>
-    <tbody id="ordersBody">
-     <tr><td colspan="6" class="empty-state">Loading orders...</td></tr>
-    </tbody>
+    <thead><tr><th>ORDER ID</th><th>CUSTOMER</th><th>EMAIL</th><th>AMOUNT</th><th>STATUS</th><th>DATE</th></tr></thead>
+    <tbody id="ordersBody"><tr><td colspan="6" class="empty-state">Loading orders...</td></tr></tbody>
    </table>
   </div>
  </section>
@@ -1274,9 +504,7 @@ td strong{color:var(--navy)}
  </div>
 
  <div style="text-align:center;margin:18px 0">
-  <button class="refresh-btn" id="mainLogoutBtn" type="button">
-   ↪ Logout from Admin Panel
-  </button>
+  <button class="refresh-btn" id="mainLogoutBtn" type="button">↪ Logout from Admin Panel</button>
  </div>
 
 </main>
@@ -1286,91 +514,80 @@ td strong{color:var(--navy)}
  © <span id="year"></span> Rubalia Network. All Rights Reserved.
  <br>Administrator Dashboard
 </footer>
-
 </div>
 
-<!-- DASHBOARD JAVASCRIPT -->
 <script>
 "use strict";
 
-/* =====================================
-   API CONFIGURATION
-===================================== */
-
 const API_BASE="https://rubalia.onrender.com/api";
-
 let adminToken="";
 let dashboardLoading=false;
 let commissionLoading=false;
+let logoutInProgress=false;
 
 const $=id=>document.getElementById(id);
 
-/* =====================================
-   ERROR HANDLING
-===================================== */
+/* AUTH STORAGE */
+
+function getStoredToken(){
+ return localStorage.getItem("rubalia_token")||
+        sessionStorage.getItem("rubalia_token")||"";
+}
+
+function clearLocalSession(){
+ const keys=[
+  "rubalia_token",
+  "rubalia_user",
+  "rubalia_last_activity"
+ ];
+
+ keys.forEach(key=>{
+  localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
+ });
+
+ /* Remove any legacy duplicate session data */
+ sessionStorage.removeItem("token");
+ localStorage.removeItem("token");
+}
 
 function showError(title,message){
  $("loadingScreen").style.display="none";
  $("adminApp").hidden=true;
-
  $("errorTitle").textContent=title;
  $("errorMessage").textContent=message;
-
  $("errorScreen").style.display="flex";
 }
 
 function formatNumber(value){
  if(value===null||value===undefined||value==="")return "—";
-
  const number=Number(value);
-
- return Number.isFinite(number)
-  ?number.toLocaleString("en-US")
-  :"—";
+ return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
 }
 
 function formatMoney(value){
  if(value===null||value===undefined||value==="")return "৳—";
-
  const number=Number(value);
-
  if(!Number.isFinite(number))return "৳—";
-
- return "৳"+number.toLocaleString("en-BD",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- });
+ return "৳"+number.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
 function formatDate(value){
  if(!value)return "—";
-
  const date=new Date(value);
-
  if(Number.isNaN(date.getTime()))return "—";
-
- return date.toLocaleDateString("en-GB",{
-  day:"2-digit",
-  month:"short",
-  year:"numeric"
- });
+ return date.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
 }
 
 function initials(name){
  const value=String(name||"A").trim();
-
  return value?value.charAt(0).toUpperCase():"A";
 }
 
-/* =====================================
-   AUTHENTICATED API REQUEST
-===================================== */
+/* AUTHENTICATED API */
 
 async function apiRequest(path){
-
- if(!adminToken){
-  throw new Error("Administrator session not found.");
- }
+ if(!adminToken)throw new Error("Administrator session not found.");
 
  const response=await fetch(API_BASE+path,{
   method:"GET",
@@ -1384,11 +601,8 @@ async function apiRequest(path){
  const data=await response.json().catch(()=>({}));
 
  if(response.status===401){
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
-
+  clearLocalSession();
   window.location.replace("login.html");
-
   throw new Error("Your session has expired. Please login again.");
  }
 
@@ -1397,108 +611,75 @@ async function apiRequest(path){
  }
 
  if(!response.ok||data.success===false){
-  throw new Error(
-   data.message||"Unable to load server information."
-  );
+  throw new Error(data.message||"Unable to load server information.");
  }
 
  return data;
 }
 
-/* =====================================
-   ANNOUNCEMENT
-===================================== */
+/* ANNOUNCEMENT */
 
 async function loadAnnouncement(){
-
  const text=$("announcementText");
  const status=$("announcementStatus");
  const date=$("announcementDate");
 
  try{
-
-  const response=await fetch(
-   API_BASE+"/public/admin-message",
-   {
-    method:"GET",
-    headers:{"Accept":"application/json"},
-    cache:"no-store"
-   }
-  );
+  const response=await fetch(API_BASE+"/public/admin-message",{
+   method:"GET",
+   headers:{"Accept":"application/json"},
+   cache:"no-store"
+  });
 
   const data=await response.json().catch(()=>({}));
-
-  if(!response.ok||data.success===false){
-   throw new Error("Announcement API unavailable.");
-  }
+  if(!response.ok||data.success===false)throw new Error("Announcement API unavailable.");
 
   const message=data.message;
 
   if(!message||!message.text){
-
    text.textContent="There is currently no active announcement.";
-
    status.textContent="NO ACTIVE MESSAGE";
    status.style.color="#78869a";
    status.style.background="#edf0f5";
-
    date.textContent="";
    return;
   }
 
   text.textContent=message.text;
-
   status.textContent="● ACTIVE";
   status.style.color="";
   status.style.background="";
-
-  date.textContent="Last updated: "+formatDate(
-   message.updated_at||message.created_at
-  );
+  date.textContent="Last updated: "+formatDate(message.updated_at||message.created_at);
 
  }catch(error){
-
   text.textContent="Unable to load the announcement at this moment.";
-
   status.textContent="UNAVAILABLE";
   status.style.color="#c34b4b";
   status.style.background="#fceaea";
-
   date.textContent="";
-
   console.error("Announcement loading error:",error);
  }
 }
 
-/* =====================================
-   RECENT ORDERS
-===================================== */
+/* RECENT ORDERS */
 
 function showOrders(orders){
-
  const body=$("ordersBody");
-
  body.replaceChildren();
 
  if(!Array.isArray(orders)||orders.length===0){
-
   const row=document.createElement("tr");
   const cell=document.createElement("td");
-
   cell.colSpan=6;
   cell.className="empty-state";
   cell.textContent="No orders found in the database.";
-
   row.appendChild(cell);
   body.appendChild(row);
-
   return;
  }
 
  orders.slice(0,10).forEach(order=>{
-
   const row=document.createElement("tr");
-
   const values=[
    order.order_number||("#"+order.id),
    order.customer_name||"—",
@@ -1509,40 +690,24 @@ function showOrders(orders){
   ];
 
   values.forEach((value,index)=>{
-
    const cell=document.createElement("td");
 
    if(index===0){
-
     const strong=document.createElement("strong");
     strong.textContent=String(value);
-
     cell.appendChild(strong);
-
    }else if(index===4){
-
     const badge=document.createElement("span");
-
     badge.className="status";
-
     const status=String(value).toLowerCase();
 
-    if(status==="pending"||status==="processing"){
-     badge.classList.add("pending");
-
-    }else if(status==="delivered"||status==="completed"){
-     badge.classList.add("complete");
-
-    }else if(status==="cancelled"){
-     badge.classList.add("cancelled");
-    }
+    if(status==="pending"||status==="processing")badge.classList.add("pending");
+    else if(status==="delivered"||status==="completed")badge.classList.add("complete");
+    else if(status==="cancelled")badge.classList.add("cancelled");
 
     badge.textContent=String(value);
-
     cell.appendChild(badge);
-
    }else{
-
     cell.textContent=String(value);
    }
 
@@ -1553,140 +718,63 @@ function showOrders(orders){
  });
 }
 
-/* =====================================
-   PENDING DEPOSIT / WITHDRAWAL
-===================================== */
+/* PENDING DEPOSIT / WITHDRAWAL */
 
-function updateRequestCard(
- cardId,
- valueId,
- noteId,
- count,
- label
-){
-
+function updateRequestCard(cardId,valueId,noteId,count,label){
  const card=$(cardId);
  const value=$(valueId);
  const note=$(noteId);
 
- if(
-  count===null||
-  count===undefined||
-  !Number.isFinite(Number(count))
- ){
-
+ if(count===null||count===undefined||!Number.isFinite(Number(count))){
   value.textContent="—";
   note.textContent="Unable to load request count";
-
   card.classList.remove("has-pending");
-
   return;
  }
 
  const total=Math.max(0,Number(count));
-
  value.textContent=formatNumber(total);
 
  if(total>0){
-
   card.classList.add("has-pending");
-
-  note.textContent=
-   total+" "+label+" waiting · View →";
-
+  note.textContent=total+" "+label+" waiting · View →";
  }else{
-
   card.classList.remove("has-pending");
-
   note.textContent="No pending requests · View →";
  }
 }
 
 async function loadPendingDepositCount(){
-
  try{
+  const data=await apiRequest("/wallet/admin/deposits?status=pending");
+  const deposits=Array.isArray(data.deposits)?data.deposits:null;
+  if(!deposits)throw new Error("Invalid deposit response");
 
-  const data=await apiRequest(
-   "/wallet/admin/deposits?status=pending"
-  );
-
-  const deposits=Array.isArray(data.deposits)
-   ?data.deposits
-   :null;
-
-  if(!deposits){
-   throw new Error("Invalid deposit response");
-  }
-
-  updateRequestCard(
-   "pendingDepositCard",
-   "pendingDeposits",
-   "pendingDepositNote",
-   deposits.length,
-   "deposit request"
-  );
-
+  updateRequestCard("pendingDepositCard","pendingDeposits","pendingDepositNote",deposits.length,"deposit request");
  }catch(error){
-
   console.error("Pending deposit count error:",error);
-
-  updateRequestCard(
-   "pendingDepositCard",
-   "pendingDeposits",
-   "pendingDepositNote",
-   null,
-   "deposit request"
-  );
+  updateRequestCard("pendingDepositCard","pendingDeposits","pendingDepositNote",null,"deposit request");
  }
 }
 
 async function loadPendingWithdrawalCount(){
-
  try{
+  const data=await apiRequest("/wallet/admin/withdrawals?status=pending");
+  const withdrawals=Array.isArray(data.withdrawals)?data.withdrawals:null;
+  if(!withdrawals)throw new Error("Invalid withdrawal response");
 
-  const data=await apiRequest(
-   "/wallet/admin/withdrawals?status=pending"
-  );
-
-  const withdrawals=Array.isArray(data.withdrawals)
-   ?data.withdrawals
-   :null;
-
-  if(!withdrawals){
-   throw new Error("Invalid withdrawal response");
-  }
-
-  updateRequestCard(
-   "pendingWithdrawalCard",
-   "pendingWithdrawals",
-   "pendingWithdrawalNote",
-   withdrawals.length,
-   "withdrawal request"
-  );
-
+  updateRequestCard("pendingWithdrawalCard","pendingWithdrawals","pendingWithdrawalNote",withdrawals.length,"withdrawal request");
  }catch(error){
-
   console.error("Pending withdrawal count error:",error);
-
-  updateRequestCard(
-   "pendingWithdrawalCard",
-   "pendingWithdrawals",
-   "pendingWithdrawalNote",
-   null,
-   "withdrawal request"
-  );
+  updateRequestCard("pendingWithdrawalCard","pendingWithdrawals","pendingWithdrawalNote",null,"withdrawal request");
  }
 }
 
-/* =====================================
-   COMMISSION ERROR
-===================================== */
+/* COMMISSION ERROR */
 
 function showCommissionError(message){
-
  $("commissionError").style.display="block";
  $("commissionError").textContent=message;
-
  $("commissionBadge").textContent="REPORT UNAVAILABLE";
  $("commissionBadge").classList.add("offline");
 
@@ -1697,201 +785,123 @@ function showCommissionError(message){
  $("commissionOrders").textContent="—";
 
  const body=$("commissionLevelsBody");
-
  body.replaceChildren();
 
  const row=document.createElement("tr");
  const cell=document.createElement("td");
-
  cell.colSpan=4;
  cell.className="commission-loading";
  cell.textContent="Commission report is currently unavailable.";
-
  row.appendChild(cell);
  body.appendChild(row);
 }
 
-/* =====================================
-   LEVEL-WISE COMMISSION
-===================================== */
+/* LEVEL COMMISSION */
 
 function showCommissionLevels(levels){
-
  const body=$("commissionLevelsBody");
-
  body.replaceChildren();
 
  if(!Array.isArray(levels)){
-  showCommissionError(
-   "The server returned an invalid commission levels report."
-  );
+  showCommissionError("The server returned an invalid commission levels report.");
   return;
  }
 
  const levelMap=new Map();
 
  levels.forEach(item=>{
-
   const level=Number(item.level);
-
-  if(Number.isInteger(level)&&level>=1&&level<=10){
-   levelMap.set(level,item);
-  }
+  if(Number.isInteger(level)&&level>=1&&level<=10)levelMap.set(level,item);
  });
 
  for(let level=1;level<=10;level++){
-
   const item=levelMap.get(level);
-
   const row=document.createElement("tr");
 
   const levelCell=document.createElement("td");
   const pill=document.createElement("span");
-
   pill.className="level-pill";
   pill.textContent="Level "+level;
-
   levelCell.appendChild(pill);
 
   const rateCell=document.createElement("td");
-
   const rate=item?.commission_rate??item?.rate;
-
-  rateCell.textContent=
-   rate===null||rate===undefined
-    ?"—"
-    :formatNumber(rate)+"%";
+  rateCell.textContent=rate===null||rate===undefined?"—":formatNumber(rate)+"%";
 
   const countCell=document.createElement("td");
-
-  countCell.textContent=formatNumber(
-   item?.total_transactions
-  );
+  countCell.textContent=formatNumber(item?.total_transactions);
 
   const amountCell=document.createElement("td");
-
   const strong=document.createElement("strong");
-
-  strong.textContent=formatMoney(
-   item?.total_commission
-  );
-
+  strong.textContent=formatMoney(item?.total_commission);
   amountCell.appendChild(strong);
 
-  row.append(
-   levelCell,
-   rateCell,
-   countCell,
-   amountCell
-  );
-
+  row.append(levelCell,rateCell,countCell,amountCell);
   body.appendChild(row);
  }
 }
 
-/* =====================================
-   COMMISSION REPORT
-===================================== */
+/* COMMISSION REPORT */
 
 async function loadCommissionReport(){
-
  const button=$("refreshCommissionBtn");
-
  if(commissionLoading)return;
 
  commissionLoading=true;
-
  button.disabled=true;
  button.textContent="Loading...";
 
  try{
-
-  const data=await apiRequest(
-   "/commission/admin/report"
-  );
-
+  const data=await apiRequest("/commission/admin/report");
   const report=data.report||{};
   const totals=report.totals||{};
   const levels=report.levels||[];
 
-  if(!Array.isArray(levels)){
-   throw new Error(
-    "Invalid commission levels returned by server."
-   );
-  }
+  if(!Array.isArray(levels))throw new Error("Invalid commission levels returned by server.");
 
   const distributed=levels.reduce((sum,item)=>{
-
    const amount=Number(item.total_commission);
-
    return sum+(Number.isFinite(amount)?amount:0);
-
   },0);
 
-  $("commissionGrossProfit").textContent=
-   formatMoney(totals.gross_profit);
-
-  $("commissionCompanyShare").textContent=
-   formatMoney(totals.company_share);
-
-  $("commissionDistributed").textContent=
-   formatMoney(distributed);
-
-  $("commissionUnallocated").textContent=
-   formatMoney(totals.unallocated_commission);
-
-  $("commissionOrders").textContent=
-   formatNumber(totals.total_orders);
+  $("commissionGrossProfit").textContent=formatMoney(totals.gross_profit);
+  $("commissionCompanyShare").textContent=formatMoney(totals.company_share);
+  $("commissionDistributed").textContent=formatMoney(distributed);
+  $("commissionUnallocated").textContent=formatMoney(totals.unallocated_commission);
+  $("commissionOrders").textContent=formatNumber(totals.total_orders);
 
   showCommissionLevels(levels);
-
   $("commissionError").style.display="none";
-
   $("commissionBadge").textContent="SERVER REPORT";
   $("commissionBadge").classList.remove("offline");
 
  }catch(error){
-
-  if(error.message.includes("session has expired")){
-   return;
-  }
+  if(error.message.includes("session has expired"))return;
 
   if(error.message.includes("administrator permission")){
    showError("Access Denied",error.message);
    return;
   }
 
-  showCommissionError(
-   error.message+
-   " Please check the Commission API and database migration."
-  );
-
+  showCommissionError(error.message+" Please check the Commission API and database migration.");
  }finally{
-
   commissionLoading=false;
-
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
 }
 
-/* =====================================
-   MAIN DASHBOARD DATA
-===================================== */
+/* MAIN DASHBOARD DATA */
 
 async function loadDashboardData(){
-
  const button=$("refreshBtn");
-
  if(dashboardLoading)return false;
 
  dashboardLoading=true;
-
  button.disabled=true;
  button.textContent="Loading...";
 
  try{
-
   const results=await Promise.all([
    apiRequest("/admin/dashboard"),
    apiRequest("/admin/orders")
@@ -1900,219 +910,160 @@ async function loadDashboardData(){
   const dashboard=results[0].dashboard||{};
   const orders=results[1].orders||[];
 
-  $("totalUsers").textContent=
-   formatNumber(dashboard.total_users);
-
-  $("activeUsers").textContent=
-   formatNumber(dashboard.active_users);
-
-  $("totalProducts").textContent=
-   formatNumber(dashboard.total_products);
-
-  $("activeProducts").textContent=
-   formatNumber(dashboard.active_products);
-
-  $("totalOrders").textContent=
-   formatNumber(dashboard.total_orders);
-
-  $("pendingOrders").textContent=
-   formatNumber(dashboard.pending_orders);
-
-  $("deliveredOrders").textContent=
-   formatNumber(dashboard.delivered_orders);
+  $("totalUsers").textContent=formatNumber(dashboard.total_users);
+  $("activeUsers").textContent=formatNumber(dashboard.active_users);
+  $("totalProducts").textContent=formatNumber(dashboard.total_products);
+  $("activeProducts").textContent=formatNumber(dashboard.active_products);
+  $("totalOrders").textContent=formatNumber(dashboard.total_orders);
+  $("pendingOrders").textContent=formatNumber(dashboard.pending_orders);
+  $("deliveredOrders").textContent=formatNumber(dashboard.delivered_orders);
 
   showOrders(orders);
 
   $("serverBadge").textContent="● LIVE SERVER DATA";
   $("serverBadge").classList.remove("offline");
-
   return true;
 
  }catch(error){
-
   if(error.message.includes("administrator permission")){
-
    showError("Access Denied",error.message);
-
   }else if(error.message.includes("session has expired")){
-
    return false;
-
   }else{
-
-   $("serverBadge").textContent=
-    "● SERVER DATA UNAVAILABLE";
-
+   $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
    $("serverBadge").classList.add("offline");
-
    showOrders([]);
-
    console.error("Dashboard API error:",error);
-
-   showError(
-    "Dashboard Data Error",
-    error.message+
-    " Please check the backend deployment and API endpoints."
-   );
+   showError("Dashboard Data Error",error.message+" Please check the backend deployment and API endpoints.");
   }
-
   return false;
-
  }finally{
-
   dashboardLoading=false;
-
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
 }
 
-/* =====================================
-   REFRESH ALL DASHBOARD INFORMATION
-===================================== */
+/* REFRESH ALL */
 
 async function refreshAllDashboardData(){
-
  await Promise.allSettled([
-
   loadDashboardData(),
-
   loadPendingDepositCount(),
-
   loadPendingWithdrawalCount(),
-
   loadCommissionReport()
-
  ]);
 }
 
-/* =====================================
-   ADMIN AUTHENTICATION
-===================================== */
+/* ADMIN AUTHENTICATION */
 
 async function initializeAdmin(){
-
- adminToken=
-  sessionStorage.getItem("rubalia_token")||"";
+ adminToken=getStoredToken();
 
  if(!adminToken){
-
+  clearLocalSession();
   window.location.replace("login.html");
   return;
  }
 
  try{
-
   const data=await apiRequest("/auth/me");
-
   const user=data.user||data.profile;
 
-  if(!user){
-
-   throw new Error(
-    "The server did not return account information."
-   );
-  }
+  if(!user)throw new Error("The server did not return account information.");
 
   if(String(user.role||"").toLowerCase()!=="admin"){
-
    window.location.replace("dashboard.html");
    return;
   }
 
-  const name=
-   user.full_name||
-   user.fullName||
-   "Administrator";
-
+  const name=user.full_name||user.fullName||"Administrator";
   const email=user.email||"";
 
   $("adminName").textContent=name;
   $("adminEmail").textContent=email;
-
   $("accountName").textContent=name;
   $("accountEmail").textContent=email;
-
   $("adminAvatar").textContent=initials(name);
-
-  $("welcomeTitle").textContent=
-   "Welcome, "+name+"!";
-
-  $("year").textContent=
-   new Date().getFullYear();
+  $("welcomeTitle").textContent="Welcome, "+name+"!";
+  $("year").textContent=new Date().getFullYear();
 
   $("loadingScreen").style.display="none";
-
   $("adminApp").hidden=false;
 
-  /* Load announcement */
   loadAnnouncement();
 
-  /* Load dashboard data */
   await Promise.allSettled([
-
    loadDashboardData(),
-
    loadPendingDepositCount(),
-
    loadPendingWithdrawalCount(),
-
    loadCommissionReport()
-
   ]);
 
  }catch(error){
-
   console.error("Admin authentication error:",error);
 
   if(error.message.includes("administrator permission")){
-
    showError("Access Denied",error.message);
-
   }else{
-
-   showError(
-    "Unable to Verify Account",
-    error.message
-   );
+   showError("Unable to Verify Account",error.message);
   }
  }
 }
 
-/* =====================================
-   LOGOUT
-===================================== */
+/* LOGOUT - CLEAR BOTH STORAGE AREAS AND REVOKE SERVER SESSION */
 
-function logout(){
+async function logout(){
+ if(logoutInProgress)return;
+ logoutInProgress=true;
 
- sessionStorage.removeItem("rubalia_token");
- sessionStorage.removeItem("rubalia_user");
+ const token=adminToken||getStoredToken();
 
- window.location.replace("login.html");
+ /* Clear browser session immediately, so login page cannot auto-login */
+ clearLocalSession();
+ adminToken="";
+
+ const logoutButtons=[$("logoutBtn"),$("mainLogoutBtn")];
+ logoutButtons.forEach(button=>{
+  if(button){
+   button.disabled=true;
+   button.textContent="Logging out...";
+  }
+ });
+
+ try{
+  if(token){
+   await fetch(API_BASE+"/auth/logout",{
+    method:"POST",
+    headers:{
+     "Authorization":"Bearer "+token,
+     "Accept":"application/json"
+    },
+    cache:"no-store",
+    keepalive:true
+   });
+  }
+ }catch(error){
+  console.warn("Server logout request failed; local session was cleared.",error);
+ }finally{
+  clearLocalSession();
+  window.location.replace("login.html");
+ }
 }
 
-/* =====================================
-   MOBILE MENU
-===================================== */
+/* MOBILE MENU */
 
 $("menuBtn").addEventListener("click",()=>{
-
  $("sidebar").classList.toggle("open");
-
 });
 
 document.querySelectorAll(".sidebar a").forEach(link=>{
-
  link.addEventListener("click",()=>{
-
   $("sidebar").classList.remove("open");
-
  });
-
 });
 
 document.addEventListener("click",event=>{
-
  const sidebar=$("sidebar");
  const menu=$("menuBtn");
 
@@ -2122,46 +1073,23 @@ document.addEventListener("click",event=>{
   !sidebar.contains(event.target)&&
   !menu.contains(event.target)
  ){
-
   sidebar.classList.remove("open");
-
  }
-
 });
 
-/* =====================================
-   BUTTON EVENTS
-===================================== */
+/* BUTTON EVENTS */
 
-$("logoutBtn").addEventListener(
- "click",
- logout
-);
+$("logoutBtn").addEventListener("click",logout);
+$("mainLogoutBtn").addEventListener("click",logout);
+$("refreshBtn").addEventListener("click",refreshAllDashboardData);
+$("refreshCommissionBtn").addEventListener("click",loadCommissionReport);
 
-$("mainLogoutBtn").addEventListener(
- "click",
- logout
-);
-
-$("refreshBtn").addEventListener(
- "click",
- refreshAllDashboardData
-);
-
-$("refreshCommissionBtn").addEventListener(
- "click",
- loadCommissionReport
-);
-
-/* =====================================
-   START APPLICATION
-===================================== */
+/* START */
 
 initializeAdmin();
 
 </script>
 
-<!-- PUSH NOTIFICATIONS -->
 <script src="push-notifications.js"></script>
 
 </body>
