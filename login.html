@@ -4,20 +4,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#710018">
+<meta name="theme-color" content="#071a35">
 <meta name="description" content="RUBALIA NETWORK Login">
 <title>Login | RUBALIA NETWORK</title>
 
 <style>
 :root{
-  --red:#d60025;
-  --dark:#710018;
-  --dark2:#4e0014;
-  --gold:#ffd36a;
-  --bg:#f5f6f9;
-  --text:#25212a;
-  --muted:#77717a;
-  --border:#e7e2e5;
+  --navy:#071a35;
+  --navy2:#102b50;
+  --gold:#d6ad55;
+  --bg:#f4f6fa;
+  --text:#26354a;
+  --muted:#758195;
+  --border:#e0e5ed;
   --white:#fff;
   --green:#18794e;
 }
@@ -37,23 +36,23 @@ a{text-decoration:none}
 .login-card{
   width:100%;padding:30px 25px 25px;background:var(--white);
   border:1px solid var(--border);border-radius:18px;
-  box-shadow:0 8px 28px rgba(48,0,18,.07);
+  box-shadow:0 8px 28px rgba(7,26,53,.08);
 }
 .brand{text-align:center;margin-bottom:27px}
 .logo{
   width:68px;height:68px;margin:0 auto 13px;display:grid;
-  place-items:center;border-radius:17px;color:#fff;
-  background:var(--dark);border:2px solid var(--gold);
+  place-items:center;border-radius:17px;color:var(--navy);
+  background:var(--gold);border:2px solid var(--navy);
   font-size:40px;font-weight:900;
 }
-.brand-name{color:var(--dark);font-size:25px;font-weight:900;letter-spacing:3px}
+.brand-name{color:var(--navy);font-size:25px;font-weight:900;letter-spacing:3px}
 .brand-network{
   margin-top:5px;color:#a47b31;font-size:10px;font-weight:900;
   letter-spacing:7px;padding-left:7px;
 }
 .slogan{margin-top:12px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.7px}
 .heading{text-align:center;margin-bottom:24px}
-.heading h1{margin:0 0 7px;color:var(--dark);font-size:25px}
+.heading h1{margin:0 0 7px;color:var(--navy);font-size:25px}
 .heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
 .form-group{margin-bottom:17px}
 .form-group label{
@@ -62,16 +61,16 @@ a{text-decoration:none}
 }
 .input-wrap{position:relative}
 .form-group input{
-  width:100%;height:51px;padding:0 13px;border:1px solid #ded8dd;
+  width:100%;height:51px;padding:0 13px;border:1px solid #dedfe5;
   border-radius:10px;outline:none;background:#fff;color:var(--text);font-size:14px;
 }
-.form-group input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(214,0,37,.08)}
+.form-group input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(214,173,85,.15)}
 .form-group input::placeholder{color:#aaa2a7}
 .password-wrap input{padding-right:70px}
 .show-password{
   position:absolute;top:50%;right:9px;transform:translateY(-50%);
   min-width:48px;min-height:38px;border:0;background:transparent;
-  color:var(--dark);font-size:11px;font-weight:900;cursor:pointer;
+  color:var(--navy);font-size:11px;font-weight:900;cursor:pointer;
 }
 .email-suggestions{
   display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;
@@ -88,17 +87,17 @@ a{text-decoration:none}
   display:flex;align-items:center;gap:9px;padding:11px 12px;
   border-top:1px solid #f0ecef;cursor:pointer;
 }
-.suggestion-item:active{background:#fff4f6}
+.suggestion-item:active{background:#f4f6fa}
 .suggestion-icon{
   width:30px;height:30px;flex-shrink:0;display:grid;place-items:center;
-  border-radius:50%;background:#fff0f3;color:var(--dark);font-weight:900;
+  border-radius:50%;background:#f5edda;color:var(--navy);font-weight:900;
 }
 .suggestion-email{
   flex:1;min-width:0;color:#44323a;font-size:12px;overflow-wrap:anywhere;
 }
 .remove-suggestion{
   width:32px;height:32px;border:0;border-radius:7px;
-  background:#fff0f2;color:var(--red);font-size:18px;
+  background:#fff0f2;color:#b42335;font-size:18px;
 }
 .suggestion-empty{padding:12px;color:var(--muted);font-size:12px}
 .form-options{
@@ -109,14 +108,14 @@ a{text-decoration:none}
   display:flex;align-items:center;gap:7px;color:#51474d;
   font-size:12px;font-weight:700;
 }
-.remember-option input{width:17px;height:17px;accent-color:var(--red)}
-.forgot{color:var(--dark);font-size:11px;font-weight:800}
+.remember-option input{width:17px;height:17px;accent-color:var(--navy)}
+.forgot{color:var(--navy);font-size:11px;font-weight:800}
 .login-btn{
   width:100%;min-height:52px;border:0;border-radius:10px;
-  background:var(--dark);color:#fff;font-size:14px;
+  background:var(--navy);color:#fff;font-size:14px;
   font-weight:900;letter-spacing:1px;cursor:pointer;
 }
-.login-btn:active{background:var(--dark2)}
+.login-btn:active{background:var(--navy2)}
 .login-btn:disabled{opacity:.6;cursor:wait}
 .form-message{
   display:none;margin-top:14px;padding:11px 12px;border-radius:8px;
@@ -129,7 +128,7 @@ a{text-decoration:none}
   display:block;color:var(--green);background:#edf9f2;border:1px solid #c9ead6;
 }
 .register-text{margin-top:22px;text-align:center;color:var(--muted);font-size:12px}
-.register-text a{color:var(--dark);font-weight:900}
+.register-text a{color:var(--navy);font-weight:900}
 .footer{margin-top:17px;text-align:center;color:#99929a;font-size:10px}
 @media(max-width:360px){
   body{padding:12px}
@@ -223,7 +222,12 @@ a{text-decoration:none}
 
 /* CONFIGURATION */
 const API_BASE="https://rubalia.onrender.com/api";
+
 const SAVED_EMAILS_KEY="rubalia_saved_emails";
+const TOKEN_KEY="rubalia_token";
+const USER_KEY="rubalia_user";
+const LAST_ACTIVITY_KEY="rubalia_last_activity";
+const INACTIVITY_LIMIT=24*60*60*1000;
 const REQUEST_TIMEOUT=90000;
 
 const $=id=>document.getElementById(id);
@@ -244,9 +248,59 @@ function showMessage(type,message){
   formMessage.className="form-message "+type;
   formMessage.textContent=message;
 }
+
 function clearMessage(){
   formMessage.className="form-message";
   formMessage.textContent="";
+}
+
+/* SESSION STORAGE HELPERS */
+function getStoredToken(){
+  return localStorage.getItem(TOKEN_KEY)||"";
+}
+
+function getStoredUser(){
+  try{
+    const value=localStorage.getItem(USER_KEY);
+    return value?JSON.parse(value):null;
+  }catch(error){
+    return null;
+  }
+}
+
+function clearLoginSession(){
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+  localStorage.removeItem(LAST_ACTIVITY_KEY);
+
+  sessionStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(USER_KEY);
+}
+
+function saveLoginSession(token,user){
+  const now=Date.now();
+
+  localStorage.setItem(TOKEN_KEY,token);
+  localStorage.setItem(USER_KEY,JSON.stringify(user));
+  localStorage.setItem(LAST_ACTIVITY_KEY,String(now));
+
+  /* Temporary compatibility with existing pages */
+  sessionStorage.setItem(TOKEN_KEY,token);
+  sessionStorage.setItem(USER_KEY,JSON.stringify(user));
+}
+
+/* ROLE REDIRECT */
+function getDashboardUrl(user){
+  const role=String(user?.role||"").trim().toLowerCase();
+
+  if(role==="admin")return "admin-dashboard.html";
+  if(role==="moderator")return "modetor.html";
+
+  return "dashboard.html";
+}
+
+function redirectToDashboard(user){
+  window.location.replace(getDashboardUrl(user));
 }
 
 /* API REQUEST */
@@ -264,20 +318,90 @@ async function requestAPI(path,options={}){
     const data=await response.json().catch(()=>({}));
 
     if(!response.ok||data.success===false){
-      throw new Error(data.message||"Request failed. Please try again.");
+      const error=new Error(
+        data.message||"Request failed. Please try again."
+      );
+      error.status=response.status;
+      error.code=data.code||"";
+      throw error;
     }
+
     return data;
 
   }catch(error){
     if(error.name==="AbortError"){
       throw new Error("Server response is taking too long. Please try again.");
     }
+
     if(error instanceof TypeError){
       throw new Error("Unable to connect to the server. Check your internet connection.");
     }
+
     throw error;
+
   }finally{
     clearTimeout(timeout);
+  }
+}
+
+/* VERIFY EXISTING SESSION ON LOGIN PAGE */
+async function restoreExistingSession(){
+  const token=getStoredToken();
+
+  if(!token)return false;
+
+  const lastActivity=Number(
+    localStorage.getItem(LAST_ACTIVITY_KEY)||0
+  );
+
+  if(
+    !lastActivity||
+    Date.now()-lastActivity>=INACTIVITY_LIMIT
+  ){
+    clearLoginSession();
+    return false;
+  }
+
+  loginBtn.disabled=true;
+  loginBtn.textContent="CHECKING SESSION...";
+
+  try{
+    const verifyData=await requestAPI("/auth/me",{
+      method:"GET",
+      headers:{
+        "Authorization":"Bearer "+token,
+        "Accept":"application/json"
+      }
+    });
+
+    const user=verifyData.user||getStoredUser();
+
+    if(!user){
+      clearLoginSession();
+      return false;
+    }
+
+    const now=Date.now();
+
+    localStorage.setItem(USER_KEY,JSON.stringify(user));
+    localStorage.setItem(LAST_ACTIVITY_KEY,String(now));
+
+    sessionStorage.setItem(TOKEN_KEY,token);
+    sessionStorage.setItem(USER_KEY,JSON.stringify(user));
+
+    redirectToDashboard(user);
+    return true;
+
+  }catch(error){
+    if(error.status===401||error.status===403){
+      clearLoginSession();
+    }
+
+    /* Keep the stored token if the server is temporarily unavailable. */
+    loginBtn.disabled=false;
+    loginBtn.textContent="SIGN IN";
+
+    return false;
   }
 }
 
@@ -293,6 +417,7 @@ function getSavedEmails(){
   try{
     const value=localStorage.getItem(SAVED_EMAILS_KEY);
     const list=value?JSON.parse(value):[];
+
     if(!Array.isArray(list))return [];
 
     return list.filter(email=>
@@ -300,6 +425,7 @@ function getSavedEmails(){
       email.length<=255&&
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ).slice(0,5);
+
   }catch(error){
     return [];
   }
@@ -308,9 +434,18 @@ function getSavedEmails(){
 function saveEmail(email){
   try{
     let emails=getSavedEmails();
-    emails=emails.filter(item=>item.toLowerCase()!==email.toLowerCase());
+
+    emails=emails.filter(
+      item=>item.toLowerCase()!==email.toLowerCase()
+    );
+
     emails.unshift(email);
-    localStorage.setItem(SAVED_EMAILS_KEY,JSON.stringify(emails.slice(0,5)));
+
+    localStorage.setItem(
+      SAVED_EMAILS_KEY,
+      JSON.stringify(emails.slice(0,5))
+    );
+
   }catch(error){}
 }
 
@@ -319,8 +454,14 @@ function removeSavedEmail(email){
     const emails=getSavedEmails().filter(
       item=>item.toLowerCase()!==email.toLowerCase()
     );
-    localStorage.setItem(SAVED_EMAILS_KEY,JSON.stringify(emails));
+
+    localStorage.setItem(
+      SAVED_EMAILS_KEY,
+      JSON.stringify(emails)
+    );
+
     renderEmailSuggestions();
+
   }catch(error){
     showMessage("error","Unable to remove saved email.");
   }
@@ -330,6 +471,7 @@ function removeSavedEmail(email){
 function renderEmailSuggestions(){
   const emails=getSavedEmails();
   const search=emailInput.value.trim().toLowerCase();
+
   const filtered=emails.filter(email=>
     !search||email.toLowerCase().includes(search)
   );
@@ -346,12 +488,14 @@ function renderEmailSuggestions(){
     }else{
       emailSuggestions.classList.remove("show");
     }
+
     return;
   }
 
   const heading=document.createElement("div");
   heading.className="suggestion-heading";
   heading.textContent="Saved Accounts";
+
   emailSuggestions.appendChild(heading);
 
   filtered.forEach(email=>{
@@ -376,6 +520,7 @@ function renderEmailSuggestions(){
 
     item.addEventListener("click",event=>{
       if(event.target===remove)return;
+
       emailInput.value=email;
       emailSuggestions.classList.remove("show");
       passwordInput.focus();
@@ -414,6 +559,7 @@ loginForm.addEventListener("submit",async event=>{
   event.preventDefault();
 
   if(loginInProgress)return;
+
   clearMessage();
 
   const email=emailInput.value.trim().toLowerCase();
@@ -433,6 +579,7 @@ loginForm.addEventListener("submit",async event=>{
   loginInProgress=true;
   loginBtn.disabled=true;
   loginBtn.textContent="SIGNING IN...";
+
   emailSuggestions.classList.remove("show");
 
   try{
@@ -443,7 +590,10 @@ loginForm.addEventListener("submit",async event=>{
         "Content-Type":"application/json",
         "Accept":"application/json"
       },
-      body:JSON.stringify({email,password})
+      body:JSON.stringify({
+        email,
+        password
+      })
     });
 
     if(!loginData.token){
@@ -471,12 +621,13 @@ loginForm.addEventListener("submit",async event=>{
       throw new Error("Your account role could not be verified.");
     }
 
-    /* STEP 3: SAVE SESSION */
+    /* STEP 3: SAVE PERSISTENT SESSION */
     try{
-      sessionStorage.setItem("rubalia_token",loginData.token);
-      sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+      saveLoginSession(loginData.token,user);
     }catch(storageError){
-      throw new Error("Unable to save your login session. Please check browser storage.");
+      throw new Error(
+        "Unable to save your login session. Please check browser storage."
+      );
     }
 
     /* STEP 4: REMEMBER EMAIL */
@@ -484,32 +635,34 @@ loginForm.addEventListener("submit",async event=>{
       saveEmail(email);
     }
 
-    /* STEP 5: ROLE-BASED REDIRECT */
-    let destination;
-
-    if(role==="admin"){
-      destination="admin-dashboard.html";
-    }else if(role==="moderator"){
-      destination="modetor.html";
-    }else{
-      destination="dashboard.html";
-    }
-
+    /* STEP 5: REDIRECT */
     loginBtn.textContent="SUCCESS";
+
     passwordInput.value="";
 
-    showMessage("success","Login successful. Opening your dashboard...");
+    showMessage(
+      "success",
+      "Login successful. Opening your dashboard..."
+    );
 
-    window.location.replace(destination);
+    redirectToDashboard(user);
 
   }catch(error){
-    showMessage("error",error.message||"Unable to login. Please try again.");
+    showMessage(
+      "error",
+      error.message||"Unable to login. Please try again."
+    );
 
     loginInProgress=false;
     loginBtn.disabled=false;
     loginBtn.textContent="SIGN IN";
   }
 });
+
+/* STARTUP */
+(async function initLoginPage(){
+  await restoreExistingSession();
+})();
 </script>
 
 </body>
