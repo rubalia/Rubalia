@@ -148,6 +148,7 @@ body.menu-open{overflow:hidden}
 
 /* MAIN */
 main{max-width:1450px;margin:auto;padding:8px 10px 14px}
+
 .slider-frame{
  display:block;width:100%;aspect-ratio:3/1;margin:0 0 9px;
  overflow:hidden;border-radius:13px;
@@ -157,16 +158,20 @@ main{max-width:1450px;margin:auto;padding:8px 10px 14px}
 .slider-frame iframe{
  display:block;width:100%;height:100%;border:0;background:transparent
 }
-.welcome-banner{
- display:block;width:100%;aspect-ratio:9.6/1;margin:0 0 13px;
- overflow:hidden;border-radius:9px;box-shadow:0 5px 13px #27123d35;
- animation:bannerFloat 4s ease-in-out infinite;transform-origin:center
+
+/* VIDEO BANNER SLIDER */
+.video-slider-frame{
+ display:block;width:100%;aspect-ratio:9.6/1;
+ min-height:42px;margin:0 0 13px;
+ overflow:hidden;border-radius:9px;
+ background:linear-gradient(120deg,#071b36,#174b78,#10294b);
+ box-shadow:0 5px 13px #27123d35
 }
-.welcome-svg{display:block;width:100%;height:100%}
-@keyframes bannerFloat{
- 0%,100%{filter:drop-shadow(0 3px 3px #3b145a55);transform:translateY(0)}
- 50%{filter:drop-shadow(0 7px 7px #8a35c877);transform:translateY(-2px)}
+.video-slider-frame iframe{
+ display:block;width:100%;height:100%;
+ border:0;background:transparent
 }
+
 .notice{
  display:none;margin:12px 0;padding:12px;border-radius:9px;
  font-size:11px;line-height:1.6
@@ -316,7 +321,7 @@ footer strong{color:#f4d58c}
  .announcement-window{height:23px}
  main{padding:8px 5px 12px}
  .slider-frame{margin-bottom:7px;border-radius:9px}
- .welcome-banner{margin-bottom:10px;border-radius:7px}
+ .video-slider-frame{margin-bottom:10px;border-radius:7px}
  .product-category-frame{margin-bottom:8px;border-radius:12px}
  .section-heading{padding:0 5px}
  .section-heading h2{font-size:16px}
@@ -410,92 +415,29 @@ footer strong{color:#f4d58c}
 </aside>
 
 <main>
+
+ <!-- EXISTING PROMOTIONAL SLIDER -->
  <section class="slider-frame" aria-label="Rubalia promotional slider">
   <iframe src="slide/slider.html" title="RUBALIA promotional slider"
           loading="lazy" allow="autoplay"
           referrerpolicy="strict-origin-when-cross-origin"></iframe>
  </section>
 
- <div class="welcome-banner" role="img"
-      aria-label="Welcome Back RUBALIA NETWORK">
-  <svg class="welcome-svg" viewBox="0 0 1536 160"
-       xmlns="http://www.w3.org/2000/svg"
-       preserveAspectRatio="xMidYMid meet">
-   <defs>
-    <linearGradient id="welcomeBg" x1="0" y1="0" x2="1" y2="1">
-     <stop offset="0" stop-color="#10002b"/>
-     <stop offset=".48" stop-color="#31005a"/>
-     <stop offset="1" stop-color="#080d2d"/>
-    </linearGradient>
-    <linearGradient id="welcomeGold" x1="0" y1="0" x2="1" y2="1">
-     <stop offset="0" stop-color="#fff3ad"/>
-     <stop offset=".48" stop-color="#e7ad39"/>
-     <stop offset="1" stop-color="#fff0a1"/>
-    </linearGradient>
-    <linearGradient id="welcomePurple" x1="0" y1="0" x2="1" y2="0">
-     <stop offset="0" stop-color="#8c18ef"/>
-     <stop offset=".5" stop-color="#f05aff"/>
-     <stop offset="1" stop-color="#6414c8"/>
-    </linearGradient>
-    <filter id="welcomeGlow" x="-30%" y="-50%" width="160%" height="200%">
-     <feGaussianBlur stdDeviation="5" result="blur"/>
-     <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="welcomeShadow" x="-20%" y="-30%" width="140%" height="160%">
-     <feDropShadow dx="0" dy="5" stdDeviation="4"
-                   flood-color="#000" flood-opacity=".65"/>
-    </filter>
-   </defs>
-   <rect width="1536" height="160" rx="12" fill="url(#welcomeBg)"/>
-   <path d="M0 0H430L275 160H0Z" fill="#7410b8" opacity=".24"/>
-   <path d="M1536 0H1190L1355 160H1536Z" fill="#7113ad" opacity=".22"/>
-   <path d="M0 130C210 90 230 30 400 0M1536 25C1380 80 1390 125 1190 160"
-         fill="none" stroke="url(#welcomePurple)" stroke-width="9"
-         filter="url(#welcomeGlow)"/>
-   <path d="M0 145C250 100 260 50 430 0M1536 10C1330 80 1370 120 1110 160"
-         fill="none" stroke="url(#welcomeGold)" stroke-width="2" opacity=".9"/>
-   <g fill="none" stroke="#b68cff" opacity=".25">
-    <path d="M40 35h180M40 45h120M1310 38h180M1370 48h120"/>
-    <circle cx="90" cy="82" r="34"/><circle cx="1445" cy="82" r="34"/>
-   </g>
-   <g transform="translate(205 80)" filter="url(#welcomeShadow)">
-    <circle r="53" fill="#210044" stroke="url(#welcomeGold)" stroke-width="4"/>
-    <path d="M-30 22L-12-31H13L-3-3H25L-23 34L-8 5H-34Z"
-          fill="url(#welcomePurple)" stroke="#fff" stroke-width="2"/>
-   </g>
-   <path d="M310 32V128" stroke="#fff" stroke-width="2" opacity=".55"/>
-   <text x="355" y="103" fill="#fff" font-size="76"
-         font-family="cursive" font-style="italic" filter="url(#welcomeShadow)">
-    Welcome Back
-   </text>
-   <g transform="translate(1010 0)" filter="url(#welcomeShadow)">
-    <path d="M20 108L52 30H106L138 108Z" fill="url(#welcomePurple)"
-          stroke="url(#welcomeGold)" stroke-width="3"/>
-    <path d="M54 76L77 27L101 76H82L104 105H49L70 76Z" fill="#fff"/>
-    <path d="M72 18L82 2L92 18L108 16L99 32H65L56 16Z"
-          fill="url(#welcomeGold)"/>
-   </g>
-   <text x="1160" y="91" fill="#fff" font-size="69"
-         font-family="Arial,Helvetica,sans-serif" font-weight="900"
-         letter-spacing="2" filter="url(#welcomeShadow)">RUBALIA</text>
-   <text x="1170" y="125" fill="#f4d9ff" font-size="25"
-         font-family="Arial,Helvetica,sans-serif" font-weight="700"
-         letter-spacing="13">NETWORK</text>
-   <path d="M1145 137H1495" stroke="url(#welcomeGold)" stroke-width="2"/>
-   <circle cx="1500" cy="20" r="4" fill="#fff4b0">
-    <animate attributeName="opacity" values=".2;1;.2" dur="2s" repeatCount="indefinite"/>
-   </circle>
-   <circle cx="330" cy="20" r="4" fill="#fff4b0">
-    <animate attributeName="opacity" values="1;.2;1" dur="2.8s" repeatCount="indefinite"/>
-   </circle>
-   <path d="M20 150H1516" stroke="url(#welcomePurple)"
-         stroke-width="3" filter="url(#welcomeGlow)"/>
-  </svg>
- </div>
+ <!-- NEW VIDEO BANNER SLIDER -->
+ <section class="video-slider-frame" aria-label="RUBALIA video banner slider">
+  <iframe
+    src="video-slider.html"
+    title="RUBALIA Video Slider"
+    loading="lazy"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin">
+  </iframe>
+ </section>
 
  <div class="notice" id="notice" role="status"></div>
 
- <!-- PRODUCT CATEGORY: product-category.html UNCHANGED -->
+ <!-- PRODUCT CATEGORY -->
  <section class="product-category-frame" id="categoryView"
           aria-label="Product categories">
   <iframe id="categoryFrame" src="product-category.html"
@@ -702,9 +644,7 @@ async function syncSessionActivity(){
    return;
   }
 
-  if(!response.ok){
-   return;
-  }
+  if(!response.ok)return;
 
   const data=await response.json().catch(()=>({}));
 
