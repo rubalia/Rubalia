@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35">
+<meta name="description" content="Rubalia Network Push Notification Management">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Push Notifications | RUBALIA NETWORK</title>
+
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#18263c;
+ --muted:#78869a;
+ --border:#e5eaf1;
+ --green:#16845b;
+ --red:#c34b4b;
+ --shadow:0 2px 9px rgba(16,43,80,.045);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer}
+input,textarea,select{font:inherit}
+[hidden]{display:none!important}
+
+.topbar{
+ min-height:60px;
+ background:var(--navy);
+ color:white;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:0 18px;
+ position:sticky;
+ top:0;
+ z-index:50;
+}
+.brand{font-size:18px;font-weight:900}
+.brand span{color:var(--gold)}
+.top-actions{display:flex;align-items:center;gap:9px}
+.admin-badge{
+ font-size:9px;
+ color:#f3dfa9;
+ background:rgba(214,173,85,.15);
+ border:1px solid rgba(214,173,85,.35);
+ border-radius:20px;
+ padding:7px 10px;
+ font-weight:bold;
+}
+.back-btn{
+ background:transparent;
+ color:white;
+ border:1px solid rgba(255,255,255,.3);
+ padding:8px 11px;
+ border-radius:7px;
+ font-size:10px;
+ font-weight:bold;
+}
+
+.container{
+ width:100%;
+ max-width:1050px;
+ margin:0 auto;
+ padding:22px;
+}
+.page-heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin-bottom:18px;
+}
+.page-heading h1{
+ margin:0 0 5px;
+ font-size:23px;
+ color:var(--navy);
+}
+.page-heading p{
+ margin:0;
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.6;
+}
+.status-pill{
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ padding:7px 10px;
+ background:#e7f7ef;
+ color:var(--green);
+ border-radius:20px;
+ font-size:9px;
+ font-weight:bold;
+}
+.status-pill.offline{
+ background:#fceaea;
+ color:var(--red);
+}
+
+.intro{
+ background:var(--navy);
+ color:white;
+ border-radius:12px;
+ padding:18px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ margin-bottom:18px;
+}
+.intro h2{font-size:16px;margin:0 0 7px}
+.intro p{
+ color:#c8d5e5;
+ font-size:11px;
+ line-height:1.7;
+ margin:0;
+}
+.intro-icon{font-size:35px}
+
+.panel{
+ background:white;
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:18px;
+ margin-bottom:17px;
+ box-shadow:var(--shadow);
+}
+.panel-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:16px;
+}
+.panel-title h3{
+ color:var(--navy);
+ font-size:14px;
+ margin:0;
+}
+.panel-title small{
+ color:var(--muted);
+ font-size:9px;
+}
+
+.form-group{margin-bottom:16px}
+.form-group label{
+ display:block;
+ color:var(--navy);
+ font-size:11px;
+ font-weight:bold;
+ margin-bottom:7px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select{
+ display:block;
+ width:100%;
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:12px;
+ color:var(--text);
+ background:#fff;
+ outline:none;
+ font-size:12px;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+ border-color:var(--gold);
+ box-shadow:0 0 0 3px rgba(214,173,85,.12);
+}
+.form-group textarea{
+ min-height:115px;
+ resize:vertical;
+ line-height:1.6;
+}
+.field-note{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ margin-top:6px;
+ line-height:1.5;
+}
+
+.audience-box{
+ border:1px solid var(--border);
+ border-radius:9px;
+ padding:13px;
+ background:#f8fafc;
+}
+.audience-option{
+ display:flex;
+ align-items:flex-start;
+ gap:10px;
+}
+.audience-option input{
+ width:16px;
+ height:16px;
+ accent-color:var(--navy);
+ margin-top:2px;
+}
+.audience-option strong{
+ display:block;
+ font-size:11px;
+ color:var(--navy);
+}
+.audience-option small{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ line-height:1.5;
+ margin-top:4px;
+}
+
+.preview{
+ border:1px solid var(--border);
+ background:#f8fafc;
+ border-radius:11px;
+ padding:14px;
+}
+.preview-label{
+ font-size:9px;
+ color:var(--muted);
+ font-weight:bold;
+ margin-bottom:10px;
+}
+.notification-preview{
+ background:white;
+ border:1px solid #e4e9f0;
+ border-radius:10px;
+ padding:13px;
+ display:flex;
+ align-items:flex-start;
+ gap:11px;
+ box-shadow:0 2px 7px rgba(0,0,0,.04);
+}
+.preview-logo{
+ width:39px;
+ height:39px;
+ flex-shrink:0;
+ display:grid;
+ place-items:center;
+ background:var(--navy);
+ color:var(--gold);
+ border-radius:9px;
+ font-size:19px;
+ font-weight:bold;
+}
+.preview-content{min-width:0;flex:1}
+.preview-content strong{
+ display:block;
+ font-size:12px;
+ color:var(--navy);
+ margin-bottom:5px;
+ overflow-wrap:anywhere;
+}
+.preview-content p{
+ margin:0;
+ font-size:11px;
+ color:#536176;
+ line-height:1.5;
+ overflow-wrap:anywhere;
+}
+.preview-content small{
+ display:block;
+ color:#9aa5b5;
+ font-size:9px;
+ margin-top:7px;
+}
+
+.actions{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-top:17px;
+}
+.primary-btn{
+ border:0;
+ background:var(--navy);
+ color:white;
+ border-radius:8px;
+ padding:12px 17px;
+ font-size:11px;
+ font-weight:bold;
+}
+.primary-btn:hover{background:var(--navy2)}
+.primary-btn:disabled{opacity:.5;cursor:wait}
+.secondary-btn{
+ border:1px solid var(--border);
+ background:white;
+ color:var(--navy);
+ border-radius:8px;
+ padding:12px 15px;
+ font-size:11px;
+ font-weight:bold;
+}
+
+.message-box{
+ display:none;
+ padding:12px;
+ border-radius:8px;
+ font-size:11px;
+ line-height:1.6;
+ margin-top:14px;
+ overflow-wrap:anywhere;
+}
+.message-box.success{
+ display:block;
+ color:#126d49;
+ background:#e7f7ef;
+ border:1px solid #c5e8d6;
+}
+.message-box.error{
+ display:block;
+ color:#a53e3e;
+ background:#fff0f0;
+ border:1px solid #f1cece;
+}
+.message-box.info{
+ display:block;
+ color:#76591e;
+ background:#fff9eb;
+ border:1px solid #f0dfb8;
+}
+
+.result-grid{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;
+ margin-top:15px;
+}
+.result-card{
+ border:1px solid var(--border);
+ border-radius:9px;
+ padding:13px;
+ background:#fff;
+}
+.result-card small{
+ color:var(--muted);
+ font-size:9px;
+}
+.result-card strong{
+ display:block;
+ color:var(--navy);
+ font-size:21px;
+ margin-top:7px;
+}
+.result-card.sent{border-top:3px solid var(--green)}
+.result-card.failed{border-top:3px solid var(--red)}
+.result-card.total{border-top:3px solid var(--gold)}
+
+.warning{
+ background:#fff9eb;
+ border:1px solid #f0dfb8;
+ color:#76591e;
+ padding:12px;
+ border-radius:9px;
+ font-size:10px;
+ line-height:1.7;
+ margin-top:16px;
+}
+.footer{
+ text-align:center;
+ color:#9aa5b5;
+ font-size:9px;
+ padding:20px;
+}
+
+.loading-screen,.error-screen{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ background:var(--bg);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+}
+.loading-box,.error-card{
+ width:100%;
+ max-width:380px;
+ background:white;
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:25px;
+ text-align:center;
+}
+.loading-box strong{color:var(--navy)}
+.loading-box p,.error-card p{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.6;
+}
+.spinner{
+ width:31px;
+ height:31px;
+ border:3px solid #e3e8ef;
+ border-top-color:var(--gold);
+ border-radius:50%;
+ margin:0 auto 14px;
+ animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-screen{display:none}
+.error-card h2{color:var(--navy)}
+
+@media(max-width:600px){
+ .container{padding:13px}
+ .topbar{padding:0 11px;min-height:55px}
+ .brand{font-size:15px}
+ .page-heading h1{font-size:20px}
+ .intro{padding:14px}
+ .intro h2{font-size:14px}
+ .intro p{font-size:10px}
+ .intro-icon{font-size:28px}
+ .panel{padding:13px}
+ .result-grid{gap:6px}
+ .result-card{padding:9px}
+ .result-card strong{font-size:18px}
+ .result-card small{font-size:8px}
+ .primary-btn,.secondary-btn{flex:1;text-align:center}
+}
+</style>
+</head>
+
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+ <div class="loading-box">
+  <div class="spinner"></div>
+  <strong>RUBALIA NETWORK</strong>
+  <p>Verifying administrator access...</p>
+ </div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+ <div class="error-card">
+  <h2 id="errorTitle">Access Error</h2>
+  <p id="errorMessage">Unable to verify administrator access.</p>
+  <a href="../login.html" class="primary-btn">Login Again</a>
+ </div>
+</div>
+
+<header class="topbar">
+ <div class="brand">RUBALIA <span>NETWORK</span></div>
+ <div class="top-actions">
+  <span class="admin-badge">ADMIN PANEL</span>
+  <a href="../admin-dashboard.html" class="back-btn">← Dashboard</a>
+ </div>
+</header>
+
+<main class="container" id="app" hidden>
+
+ <div class="page-heading">
+  <div>
+   <h1>Push Notifications</h1>
+   <p>Send notification messages to RUBALIA NETWORK users.</p>
+  </div>
+  <span class="status-pill" id="connectionStatus">● ADMIN VERIFIED</span>
+ </div>
+
+ <section class="intro">
+  <div>
+   <h2>Notification Center</h2>
+   <p>Send important updates, announcements and alerts<br>directly to registered user devices.</p>
+  </div>
+  <div class="intro-icon">🔔</div>
+ </section>
+
+ <section class="panel">
+  <div class="panel-title">
+   <h3>Compose Notification</h3>
+   <small>All fields marked * are required</small>
+  </div>
+
+  <form id="notificationForm">
+
+   <div class="form-group">
+    <label for="notificationTitle">Notification Title *</label>
+    <input
+     type="text"
+     id="notificationTitle"
+     maxlength="100"
+     placeholder="Example: RUBALIA NETWORK Update"
+     required
+    >
+    <span class="field-note">Maximum 100 characters.</span>
+   </div>
+
+   <div class="form-group">
+    <label for="notificationMessage">Notification Message *</label>
+    <textarea
+     id="notificationMessage"
+     maxlength="500"
+     placeholder="Write your notification message here..."
+     required
+    ></textarea>
+    <span class="field-note">Maximum 500 characters.</span>
+   </div>
+
+   <div class="form-group">
+    <label for="notificationLink">Notification Link (Optional)</label>
+    <input
+     type="url"
+     id="notificationLink"
+     maxlength="500"
+     placeholder="https://rubalia.github.io/Rubalia/"
+    >
+    <span class="field-note">Optional URL to open when the user taps the notification. Use a trusted HTTPS address.</span>
+   </div>
+
+   <div class="form-group">
+    <label>Notification Audience</label>
+    <div class="audience-box">
+     <label class="audience-option">
+      <input type="radio" name="audience" value="all" checked>
+      <span>
+       <strong>All Users</strong>
+       <small>Send this notification to all users who have registered a push-enabled device.</small>
+      </span>
+     </label>
+    </div>
+   </div>
+
+   <div class="form-group">
+    <label>Notification Preview</label>
+    <div class="preview">
+     <div class="preview-label">PREVIEW · RUBALIA NETWORK</div>
+     <div class="notification-preview">
+      <div class="preview-logo">R</div>
+      <div class="preview-content">
+       <strong id="previewTitle">Your notification title</strong>
+       <p id="previewMessage">Your notification message will appear here.</p>
+       <small>RUBALIA NETWORK · Now</small>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <div class="warning">
+    <strong>Important:</strong>
+    Notifications will only reach devices that have successfully registered for push notifications and allowed notification permissions. Sending a notification does not guarantee delivery to every registered user.
+   </div>
+
+   <div class="message-box" id="resultMessage" role="status" aria-live="polite"></div>
+
+   <div class="actions">
+    <button class="primary-btn" id="sendBtn" type="submit">🔔 Send Notification</button>
+    <button class="secondary-btn" id="clearBtn" type="button">Clear Form</button>
+   </div>
+
+  </form>
+ </section>
+
+ <section class="panel" id="resultPanel" hidden>
+  <div class="panel-title">
+   <h3>Last Broadcast Result</h3>
+   <small>Server response</small>
+  </div>
+
+  <div class="result-grid">
+   <div class="result-card total">
+    <small>Total Devices</small>
+    <strong id="resultTotal">—</strong>
+   </div>
+   <div class="result-card sent">
+    <small>Successful</small>
+    <strong id="resultSent">—</strong>
+   </div>
+   <div class="result-card failed">
+    <small>Failed</small>
+    <strong id="resultFailed">—</strong>
+   </div>
+  </div>
+ </section>
+
+ <div class="warning">
+  <strong>System information:</strong>
+  This page sends requests to the RUBALIA backend. Push delivery also requires the backend push service, registered device tokens and Firebase configuration to be deployed.
+ </div>
+
+</main>
+
+<footer class="footer">
+ © <span id="year"></span> RUBALIA NETWORK. All Rights Reserved.
+</footer>
+
+<script>
+"use strict";
+
+const API_BASE="https://rubalia.onrender.com/api";
+
+const $=id=>document.getElementById(id);
+
+let adminToken="";
+let sending=false;
+
+function getStoredToken(){
+ return localStorage.getItem("rubalia_token")||
+        sessionStorage.getItem("rubalia_token")||"";
+}
+
+function clearLocalSession(){
+ const keys=[
+  "rubalia_token",
+  "rubalia_user",
+  "rubalia_last_activity",
+  "token"
+ ];
+
+ keys.forEach(key=>{
+  localStorage.removeItem(key);
+  sessionStorage.removeItem(key);
+ });
+}
+
+function showError(title,message){
+ $("loadingScreen").style.display="none";
+ $("app").hidden=true;
+ $("errorTitle").textContent=title;
+ $("errorMessage").textContent=message;
+ $("errorScreen").style.display="flex";
+}
+
+function showMessage(type,message){
+ const box=$("resultMessage");
+ box.className="message-box "+type;
+ box.textContent=message;
+}
+
+function safeNotificationUrl(value){
+ if(!value)return "";
+
+ try{
+  const url=new URL(value);
+
+  if(url.protocol!=="https:")return "";
+
+  return url.href;
+ }catch(error){
+  return "";
+ }
+}
+
+/* ADMIN AUTHENTICATION */
+
+async function initializePage(){
+
+ adminToken=getStoredToken();
+
+ if(!adminToken){
+  clearLocalSession();
+  window.location.replace("../login.html");
+  return;
+ }
+
+ try{
+  const response=await fetch(API_BASE+"/auth/me",{
+   method:"GET",
+   headers:{
+    "Authorization":"Bearer "+adminToken,
+    "Accept":"application/json"
+   },
+   cache:"no-store"
+  });
+
+  const data=await response.json().catch(()=>({}));
+
+  if(response.status===401){
+   clearLocalSession();
+   window.location.replace("../login.html");
+   return;
+  }
+
+  if(!response.ok||data.success===false){
+   throw new Error(data.message||"Unable to verify your account.");
+  }
+
+  const user=data.user||data.profile;
+
+  if(!user){
+   throw new Error("Administrator account information was not returned.");
+  }
+
+  if(String(user.role||"").toLowerCase()!=="admin"){
+   window.location.replace("../dashboard.html");
+   return;
+  }
+
+  $("year").textContent=new Date().getFullYear();
+
+  $("loadingScreen").style.display="none";
+  $("app").hidden=false;
+
+ }catch(error){
+  console.error("Admin verification error:",error);
+  showError("Unable to Verify Account",error.message);
+ }
+}
+
+/* LIVE PREVIEW */
+
+function updatePreview(){
+
+ const title=$("notificationTitle").value.trim();
+ const message=$("notificationMessage").value.trim();
+
+ $("previewTitle").textContent=title||"Your notification title";
+ $("previewMessage").textContent=message||"Your notification message will appear here.";
+}
+
+$("notificationTitle").addEventListener("input",updatePreview);
+$("notificationMessage").addEventListener("input",updatePreview);
+
+/* CLEAR FORM */
+
+$("clearBtn").addEventListener("click",()=>{
+
+ $("notificationForm").reset();
+
+ $("previewTitle").textContent="Your notification title";
+ $("previewMessage").textContent="Your notification message will appear here.";
+
+ $("resultMessage").className="message-box";
+ $("resultMessage").textContent="";
+
+ $("resultPanel").hidden=true;
+
+});
+
+/* SEND PUSH NOTIFICATION */
+
+$("notificationForm").addEventListener("submit",async event=>{
+
+ event.preventDefault();
+
+ if(sending)return;
+
+ const title=$("notificationTitle").value.trim();
+ const message=$("notificationMessage").value.trim();
+ const rawLink=$("notificationLink").value.trim();
+ const audience=document.querySelector('input[name="audience"]:checked')?.value||"all";
+
+ if(!title||!message){
+  showMessage("error","Please enter both notification title and message.");
+  return;
+ }
+
+ if(title.length>100||message.length>500){
+  showMessage("error","Title or message exceeds the allowed character limit.");
+  return;
+ }
+
+ let link="";
+
+ if(rawLink){
+  link=safeNotificationUrl(rawLink);
+
+  if(!link){
+   showMessage("error","Please enter a valid HTTPS notification link.");
+   return;
+  }
+ }
+
+ const confirmed=window.confirm(
+  "Are you sure you want to send this push notification to ALL registered push-enabled users?"
+ );
+
+ if(!confirmed)return;
+
+ sending=true;
+
+ const button=$("sendBtn");
+ button.disabled=true;
+ button.textContent="Sending notification...";
+
+ $("resultMessage").className="message-box";
+ $("resultMessage").textContent="";
+
+ try{
+
+  const response=await fetch(API_BASE+"/push/broadcast",{
+   method:"POST",
+   headers:{
+    "Authorization":"Bearer "+adminToken,
+    "Content-Type":"application/json",
+    "Accept":"application/json"
+   },
+   body:JSON.stringify({
+    title:title,
+    message:message,
+    audience:audience,
+    link:link||undefined
+   }),
+   cache:"no-store"
+  });
+
+  const data=await response.json().catch(()=>({}));
+
+  if(response.status===401){
+   clearLocalSession();
+   window.location.replace("../login.html");
+   return;
+  }
+
+  if(response.status===403){
+   throw new Error("Your account does not have administrator permission.");
+  }
+
+  if(!response.ok||data.success===false){
+   throw new Error(data.message||"The server could not send the notification.");
+  }
+
+  const result=data.result||data;
+
+  const total=Number(
+   result.total_devices??
+   result.total??
+   result.targeted??
+   0
+  );
+
+  const sent=Number(
+   result.success_count??
+   result.sent??
+   result.success??
+   0
+  );
+
+  const failed=Number(
+   result.failure_count??
+   result.failed??
+   0
+  );
+
+  $("resultTotal").textContent=Number.isFinite(total)?total.toLocaleString("en-US"):"—";
+  $("resultSent").textContent=Number.isFinite(sent)?sent.toLocaleString("en-US"):"—";
+  $("resultFailed").textContent=Number.isFinite(failed)?failed.toLocaleString("en-US"):"—";
+
+  $("resultPanel").hidden=false;
+
+  showMessage(
+   "success",
+   data.message||"The notification request was accepted by the server."
+  );
+
+ }catch(error){
+
+  console.error("Push broadcast error:",error);
+
+  showMessage(
+   "error",
+   error.message+
+   " Please check whether the backend push broadcast API is deployed."
+  );
+
+ }finally{
+
+  sending=false;
+  button.disabled=false;
+  button.textContent="🔔 Send Notification";
+
+ }
+
+});
+
+/* LOGOUT */
+
+async function logout(){
+
+ const token=adminToken||getStoredToken();
+
+ clearLocalSession();
+ adminToken="";
+
+ try{
+  if(token){
+   await fetch(API_BASE+"/auth/logout",{
+    method:"POST",
+    headers:{
+     "Authorization":"Bearer "+token,
+     "Accept":"application/json"
+    },
+    cache:"no-store",
+    keepalive:true
+   });
+  }
+ }catch(error){
+  console.warn("Server logout request failed.",error);
+ }finally{
+  clearLocalSession();
+  window.location.replace("../login.html");
+ }
+}
+
+/* START */
+
+initializePage();
+
+</script>
+
+</body>
+</html>
