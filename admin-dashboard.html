@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
 <meta name="description" content="Rubalia Network Administrator Dashboard">
+<meta http-equiv="Cache-Control" content="no-store">
 <title>Admin Dashboard | Rubalia Network</title>
 
 <style>
@@ -35,6 +36,7 @@ a{text-decoration:none;color:inherit}
 button{font:inherit;cursor:pointer}
 [hidden]{display:none!important}
 
+/* LOADING & ERROR */
 .loading-screen,.error-screen{
  position:fixed;
  inset:0;
@@ -61,8 +63,7 @@ button{font:inherit;cursor:pointer}
  line-height:1.6;
 }
 .spinner{
- width:32px;
- height:32px;
+ width:32px;height:32px;
  border:3px solid #e3e8ef;
  border-top-color:var(--gold);
  border-radius:50%;
@@ -84,7 +85,7 @@ button{font:inherit;cursor:pointer}
  font-size:12px;
 }
 
-/* TOP BAR */
+/* TOPBAR */
 .topbar{
  min-height:60px;
  background:var(--navy);
@@ -118,8 +119,7 @@ button{font:inherit;cursor:pointer}
  font-weight:bold;
 }
 .admin-avatar{
- width:34px;
- height:34px;
+ width:34px;height:34px;
  border-radius:50%;
  background:var(--gold);
  color:var(--navy);
@@ -324,7 +324,7 @@ button{font:inherit;cursor:pointer}
  font-weight:bold;
 }
 
-/* SECTION HEAD */
+/* SECTION */
 .section-head{
  display:flex;
  justify-content:space-between;
@@ -344,7 +344,7 @@ button{font:inherit;cursor:pointer}
  margin:0;
 }
 
-/* SLIM BUSINESS OVERVIEW CARDS */
+/* BUSINESS STATS */
 .stats{
  display:grid;
  grid-template-columns:repeat(3,minmax(0,1fr));
@@ -378,8 +378,7 @@ button{font:inherit;cursor:pointer}
  line-height:1.3;
 }
 .stat-icon{
- width:21px;
- height:21px;
+ width:21px;height:21px;
  display:grid;
  place-items:center;
  border-radius:6px;
@@ -410,7 +409,7 @@ button{font:inherit;cursor:pointer}
 }
 .stat-card.has-pending .stat-value{color:#b16b12}
 
-/* GENERAL PANELS */
+/* PANELS */
 .panel{
  background:#fff;
  border:1px solid var(--border);
@@ -447,7 +446,7 @@ button{font:inherit;cursor:pointer}
  cursor:wait;
 }
 
-/* MANAGEMENT CARDS */
+/* MANAGEMENT */
 .management-grid{
  display:grid;
  grid-template-columns:repeat(4,minmax(0,1fr));
@@ -468,8 +467,7 @@ button{font:inherit;cursor:pointer}
 }
 .option-card:active{background:#f7f9fc}
 .option-icon{
- width:37px;
- height:37px;
+ width:37px;height:37px;
  flex-shrink:0;
  display:grid;
  place-items:center;
@@ -684,9 +682,7 @@ td strong{color:var(--navy)}
 
 /* RESPONSIVE */
 @media(max-width:1100px){
- .management-grid{
-  grid-template-columns:repeat(3,minmax(0,1fr));
- }
+ .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
@@ -696,110 +692,56 @@ td strong{color:var(--navy)}
   min-height:auto;
   position:fixed;
   top:60px;
-  left:0;
-  right:0;
-  bottom:0;
+  left:0;right:0;bottom:0;
   overflow-y:auto;
   z-index:45;
  }
  .sidebar.open{display:block}
  .mobile-menu{display:block}
  .main{padding:16px}
- .management-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
- }
+ .management-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:480px){
- .topbar{
-  padding:0 11px;
-  min-height:55px;
- }
+ .topbar{padding:0 11px;min-height:55px}
  .sidebar{top:55px}
  .brand{font-size:16px}
- .admin-label{
-  font-size:8px;
-  padding:6px 7px;
- }
- .admin-avatar{
-  width:30px;
-  height:30px;
- }
+ .admin-label{font-size:8px;padding:6px 7px}
+ .admin-avatar{width:30px;height:30px}
  .main{padding:11px}
  .heading h1{font-size:20px}
  .heading p{font-size:10px}
- .welcome{
-  padding:14px;
-  border-radius:9px;
- }
+ .welcome{padding:14px;border-radius:9px}
  .welcome h2{font-size:15px}
  .welcome p{font-size:10px}
  .welcome-icon{font-size:29px}
-
- /* MOBILE: THREE SLIM CARDS PER ROW */
- .stats{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:5px;
- }
- .stat-card{
-  padding:6px 6px;
-  min-height:70px;
-  border-radius:7px;
- }
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .stat-card{padding:6px;min-height:70px;border-radius:7px}
  .stat-name{font-size:8px}
- .stat-icon{
-  width:19px;
-  height:19px;
-  font-size:10px;
- }
- .stat-value{
-  font-size:15px;
-  margin:4px 0 2px;
- }
+ .stat-icon{width:19px;height:19px;font-size:10px}
+ .stat-value{font-size:15px;margin:4px 0 2px}
  .stat-note{font-size:7px}
-
  .section-title{font-size:14px}
  .section-subtitle{font-size:9px}
  .management-grid{gap:7px}
- .option-card{
-  padding:9px;
-  min-height:62px;
-  gap:8px;
- }
- .option-icon{
-  width:31px;
-  height:31px;
-  font-size:15px;
- }
+ .option-card{padding:9px;min-height:62px;gap:8px}
+ .option-icon{width:31px;height:31px;font-size:15px}
  .option-info strong{font-size:10px}
  .option-info small{font-size:8px}
  .option-arrow{font-size:12px}
  .panel{padding:11px}
- .commission-stats{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:7px;
- }
+ .commission-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
  .commission-card{padding:10px}
  .commission-card .value{font-size:17px}
  .commission-card .label,.commission-card .note{font-size:8px}
  .commission-heading h2{font-size:14px}
  .commission-heading p{font-size:9px}
- .commission-btn,.refresh-btn{
-  font-size:9px;
-  padding:8px 9px;
- }
+ .commission-btn,.refresh-btn{font-size:9px;padding:8px 9px}
  .announcement-card{padding:11px}
  .announcement-text{font-size:11px}
 }
 @media(max-width:350px){
- .option-card{
-  gap:6px;
-  padding:8px;
- }
- .option-icon{
-  width:27px;
-  height:27px;
-  font-size:13px;
- }
+ .option-card{gap:6px;padding:8px}
+ .option-icon{width:27px;height:27px;font-size:13px}
  .option-info strong{font-size:9px}
  .option-info small{font-size:7px}
  .stat-value{font-size:14px}
@@ -811,7 +753,7 @@ td strong{color:var(--navy)}
 
 <body>
 
-<!-- LOADING -->
+<!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen">
  <div class="loading-box">
   <div class="spinner"></div>
@@ -820,7 +762,7 @@ td strong{color:var(--navy)}
  </div>
 </div>
 
-<!-- ERROR -->
+<!-- ERROR SCREEN -->
 <div class="error-screen" id="errorScreen">
  <div class="error-card">
   <h2 id="errorTitle">Access Error</h2>
@@ -838,6 +780,7 @@ td strong{color:var(--navy)}
   <button class="mobile-menu" id="menuBtn" type="button" aria-label="Open menu">☰</button>
   <div class="brand">RUBALIA <span>NETWORK</span></div>
  </div>
+
  <div class="top-right">
   <span class="admin-label">ADMIN PANEL</span>
   <div class="admin-avatar" id="adminAvatar">A</div>
@@ -855,7 +798,9 @@ td strong{color:var(--navy)}
  </div>
 
  <div class="side-heading">Main Menu</div>
- <a href="admin-dashboard.html" class="nav-link active"><span class="nav-icon">▦</span> Dashboard</a>
+ <a href="admin-dashboard.html" class="nav-link active">
+  <span class="nav-icon">▦</span> Dashboard
+ </a>
 
  <div class="side-heading">Management</div>
  <a href="admin/admin-users.html" class="nav-link"><span class="nav-icon">👥</span> Users Management</a>
@@ -864,6 +809,7 @@ td strong{color:var(--navy)}
  <a href="admin/admin-products.html" class="nav-link"><span class="nav-icon">📦</span> Products Management</a>
  <a href="admin/admin-packages.html" class="nav-link"><span class="nav-icon">🎁</span> Packages Management</a>
  <a href="admin/admin-orders.html" class="nav-link"><span class="nav-icon">🛒</span> Orders Management</a>
+ <a href="admin/modetor.html" class="nav-link"><span class="nav-icon">🛡️</span> Moderator Settings</a>
 
  <div class="side-heading">Finance</div>
  <a href="admin/admin-payments.html" class="nav-link"><span class="nav-icon">💳</span> Payment Records</a>
@@ -911,7 +857,8 @@ td strong{color:var(--navy)}
  <section class="welcome">
   <div>
    <h2 id="welcomeTitle">Welcome, Administrator!</h2>
-   <p>Manage Rubalia Network from one place.<br>Dashboard figures are loaded from PostgreSQL.</p>
+   <p>Manage Rubalia Network from one place.<br>
+   Dashboard figures are loaded from PostgreSQL.</p>
   </div>
   <div class="welcome-icon">👑</div>
  </section>
@@ -919,13 +866,21 @@ td strong{color:var(--navy)}
  <!-- ANNOUNCEMENT -->
  <section class="announcement-card">
   <div class="announcement-top">
-   <div class="announcement-title"><span>📢</span> Active Admin Announcement</div>
+   <div class="announcement-title">
+    <span>📢</span> Active Admin Announcement
+   </div>
    <span class="announcement-indicator" id="announcementStatus">CHECKING...</span>
   </div>
-  <div class="announcement-text" id="announcementText">Loading announcement...</div>
+
+  <div class="announcement-text" id="announcementText">
+   Loading announcement...
+  </div>
+
   <div class="announcement-bottom">
    <span class="announcement-date" id="announcementDate"></span>
-   <a href="admin/admin-announcements.html" class="announcement-link">Manage Announcements →</a>
+   <a href="admin/admin-announcements.html" class="announcement-link">
+    Manage Announcements →
+   </a>
   </div>
  </section>
 
@@ -1003,7 +958,6 @@ td strong{color:var(--navy)}
    <span class="stat-note">Successfully delivered</span>
   </div>
 
-  <!-- PENDING DEPOSITS -->
   <a href="admin/admin-payments.html"
      class="stat-card link-card deposit"
      id="pendingDepositCard">
@@ -1015,7 +969,6 @@ td strong{color:var(--navy)}
    <span class="stat-note" id="pendingDepositNote">Wallet requests · View →</span>
   </a>
 
-  <!-- PENDING WITHDRAWALS -->
   <a href="admin/admin-withdrawals.html"
      class="stat-card link-card withdraw"
      id="pendingWithdrawalCard">
@@ -1064,13 +1017,10 @@ td strong{color:var(--navy)}
   </a>
 
   <a href="admin/modetor.html" class="option-card purple">
-    <span class="option-icon">🛡️</span>
-    <span class="option-info">
-        <strong>Moderator Settings</strong>
-        <small>Create moderators and manage permissions</small>
-    </span>
-    <span class="option-arrow">›</span>
-</a>
+   <span class="option-icon">🛡️</span>
+   <span class="option-info"><strong>Moderator Settings</strong><small>Create moderators and manage permissions</small></span>
+   <span class="option-arrow">›</span>
+  </a>
 
   <a href="admin/admin-packages.html" class="option-card gold">
    <span class="option-icon">🎁</span>
@@ -1114,7 +1064,6 @@ td strong{color:var(--navy)}
    <span class="option-arrow">›</span>
   </a>
 
-  <!-- FINANCIAL REPORTS CARD -->
   <a href="admin/admin-reports.html" class="option-card blue">
    <span class="option-icon">📈</span>
    <span class="option-info"><strong>Financial Reports</strong><small>Monthly company profit and loss reports</small></span>
@@ -1203,6 +1152,7 @@ td strong{color:var(--navy)}
     <h2>Commission Overview</h2>
     <p>10-Level Unilevel financial summary from the server.</p>
    </div>
+
    <div class="commission-actions">
     <button class="refresh-btn" id="refreshCommissionBtn" type="button">↻ Refresh</button>
     <a href="admin/admin-commissions.html" class="commission-btn gold">Manage Commissions →</a>
@@ -1280,6 +1230,7 @@ td strong{color:var(--navy)}
   <div class="panel-head">
    <h3>Administrator Account</h3>
   </div>
+
   <div class="account-box">
    <strong id="accountName">—</strong>
    <p id="accountEmail">—</p>
@@ -1323,7 +1274,9 @@ td strong{color:var(--navy)}
  </div>
 
  <div style="text-align:center;margin:18px 0">
-  <button class="refresh-btn" id="mainLogoutBtn" type="button">↪ Logout from Admin Panel</button>
+  <button class="refresh-btn" id="mainLogoutBtn" type="button">
+   ↪ Logout from Admin Panel
+  </button>
  </div>
 
 </main>
@@ -1336,33 +1289,51 @@ td strong{color:var(--navy)}
 
 </div>
 
+<!-- DASHBOARD JAVASCRIPT -->
 <script>
 "use strict";
 
-/* API CONFIGURATION */
+/* =====================================
+   API CONFIGURATION
+===================================== */
+
 const API_BASE="https://rubalia.onrender.com/api";
+
 let adminToken="";
+let dashboardLoading=false;
+let commissionLoading=false;
 
 const $=id=>document.getElementById(id);
 
-/* BASIC HELPERS */
+/* =====================================
+   ERROR HANDLING
+===================================== */
+
 function showError(title,message){
  $("loadingScreen").style.display="none";
  $("adminApp").hidden=true;
+
  $("errorTitle").textContent=title;
  $("errorMessage").textContent=message;
+
  $("errorScreen").style.display="flex";
 }
 
 function formatNumber(value){
  if(value===null||value===undefined||value==="")return "—";
+
  const number=Number(value);
- return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
+
+ return Number.isFinite(number)
+  ?number.toLocaleString("en-US")
+  :"—";
 }
 
 function formatMoney(value){
  if(value===null||value===undefined||value==="")return "৳—";
+
  const number=Number(value);
+
  if(!Number.isFinite(number))return "৳—";
 
  return "৳"+number.toLocaleString("en-BD",{
@@ -1373,7 +1344,9 @@ function formatMoney(value){
 
 function formatDate(value){
  if(!value)return "—";
+
  const date=new Date(value);
+
  if(Number.isNaN(date.getTime()))return "—";
 
  return date.toLocaleDateString("en-GB",{
@@ -1385,11 +1358,20 @@ function formatDate(value){
 
 function initials(name){
  const value=String(name||"A").trim();
+
  return value?value.charAt(0).toUpperCase():"A";
 }
 
-/* AUTHENTICATED API REQUEST */
+/* =====================================
+   AUTHENTICATED API REQUEST
+===================================== */
+
 async function apiRequest(path){
+
+ if(!adminToken){
+  throw new Error("Administrator session not found.");
+ }
+
  const response=await fetch(API_BASE+path,{
   method:"GET",
   headers:{
@@ -1404,7 +1386,9 @@ async function apiRequest(path){
  if(response.status===401){
   sessionStorage.removeItem("rubalia_token");
   sessionStorage.removeItem("rubalia_user");
+
   window.location.replace("login.html");
+
   throw new Error("Your session has expired. Please login again.");
  }
 
@@ -1413,24 +1397,34 @@ async function apiRequest(path){
  }
 
  if(!response.ok||data.success===false){
-  throw new Error(data.message||"Unable to load server information.");
+  throw new Error(
+   data.message||"Unable to load server information."
+  );
  }
 
  return data;
 }
 
-/* ANNOUNCEMENT */
+/* =====================================
+   ANNOUNCEMENT
+===================================== */
+
 async function loadAnnouncement(){
+
  const text=$("announcementText");
  const status=$("announcementStatus");
  const date=$("announcementDate");
 
  try{
-  const response=await fetch(API_BASE+"/public/admin-message",{
-   method:"GET",
-   headers:{"Accept":"application/json"},
-   cache:"no-store"
-  });
+
+  const response=await fetch(
+   API_BASE+"/public/admin-message",
+   {
+    method:"GET",
+    headers:{"Accept":"application/json"},
+    cache:"no-store"
+   }
+  );
 
   const data=await response.json().catch(()=>({}));
 
@@ -1441,49 +1435,68 @@ async function loadAnnouncement(){
   const message=data.message;
 
   if(!message||!message.text){
+
    text.textContent="There is currently no active announcement.";
+
    status.textContent="NO ACTIVE MESSAGE";
    status.style.color="#78869a";
    status.style.background="#edf0f5";
+
    date.textContent="";
    return;
   }
 
   text.textContent=message.text;
+
   status.textContent="● ACTIVE";
   status.style.color="";
   status.style.background="";
+
   date.textContent="Last updated: "+formatDate(
    message.updated_at||message.created_at
   );
 
  }catch(error){
+
   text.textContent="Unable to load the announcement at this moment.";
+
   status.textContent="UNAVAILABLE";
   status.style.color="#c34b4b";
   status.style.background="#fceaea";
+
   date.textContent="";
+
   console.error("Announcement loading error:",error);
  }
 }
 
-/* RECENT ORDERS */
+/* =====================================
+   RECENT ORDERS
+===================================== */
+
 function showOrders(orders){
+
  const body=$("ordersBody");
+
  body.replaceChildren();
 
  if(!Array.isArray(orders)||orders.length===0){
+
   const row=document.createElement("tr");
   const cell=document.createElement("td");
+
   cell.colSpan=6;
   cell.className="empty-state";
   cell.textContent="No orders found in the database.";
+
   row.appendChild(cell);
   body.appendChild(row);
+
   return;
  }
 
- orders.forEach(order=>{
+ orders.slice(0,10).forEach(order=>{
+
   const row=document.createElement("tr");
 
   const values=[
@@ -1496,31 +1509,40 @@ function showOrders(orders){
   ];
 
   values.forEach((value,index)=>{
+
    const cell=document.createElement("td");
 
    if(index===0){
+
     const strong=document.createElement("strong");
     strong.textContent=String(value);
+
     cell.appendChild(strong);
 
    }else if(index===4){
+
     const badge=document.createElement("span");
+
     badge.className="status";
 
     const status=String(value).toLowerCase();
 
     if(status==="pending"||status==="processing"){
      badge.classList.add("pending");
+
     }else if(status==="delivered"||status==="completed"){
      badge.classList.add("complete");
+
     }else if(status==="cancelled"){
      badge.classList.add("cancelled");
     }
 
     badge.textContent=String(value);
+
     cell.appendChild(badge);
 
    }else{
+
     cell.textContent=String(value);
    }
 
@@ -1531,16 +1553,33 @@ function showOrders(orders){
  });
 }
 
-/* PENDING DEPOSIT AND WITHDRAWAL CARDS */
-function updateRequestCard(cardId,valueId,noteId,count,label){
+/* =====================================
+   PENDING DEPOSIT / WITHDRAWAL
+===================================== */
+
+function updateRequestCard(
+ cardId,
+ valueId,
+ noteId,
+ count,
+ label
+){
+
  const card=$(cardId);
  const value=$(valueId);
  const note=$(noteId);
 
- if(count===null||count===undefined||!Number.isFinite(Number(count))){
+ if(
+  count===null||
+  count===undefined||
+  !Number.isFinite(Number(count))
+ ){
+
   value.textContent="—";
   note.textContent="Unable to load request count";
+
   card.classList.remove("has-pending");
+
   return;
  }
 
@@ -1549,18 +1588,31 @@ function updateRequestCard(cardId,valueId,noteId,count,label){
  value.textContent=formatNumber(total);
 
  if(total>0){
+
   card.classList.add("has-pending");
-  note.textContent=total+" "+label+" waiting · View →";
+
+  note.textContent=
+   total+" "+label+" waiting · View →";
+
  }else{
+
   card.classList.remove("has-pending");
+
   note.textContent="No pending requests · View →";
  }
 }
 
 async function loadPendingDepositCount(){
+
  try{
-  const data=await apiRequest("/wallet/admin/deposits?status=pending");
-  const deposits=Array.isArray(data.deposits)?data.deposits:null;
+
+  const data=await apiRequest(
+   "/wallet/admin/deposits?status=pending"
+  );
+
+  const deposits=Array.isArray(data.deposits)
+   ?data.deposits
+   :null;
 
   if(!deposits){
    throw new Error("Invalid deposit response");
@@ -1575,6 +1627,7 @@ async function loadPendingDepositCount(){
   );
 
  }catch(error){
+
   console.error("Pending deposit count error:",error);
 
   updateRequestCard(
@@ -1588,9 +1641,16 @@ async function loadPendingDepositCount(){
 }
 
 async function loadPendingWithdrawalCount(){
+
  try{
-  const data=await apiRequest("/wallet/admin/withdrawals?status=pending");
-  const withdrawals=Array.isArray(data.withdrawals)?data.withdrawals:null;
+
+  const data=await apiRequest(
+   "/wallet/admin/withdrawals?status=pending"
+  );
+
+  const withdrawals=Array.isArray(data.withdrawals)
+   ?data.withdrawals
+   :null;
 
   if(!withdrawals){
    throw new Error("Invalid withdrawal response");
@@ -1605,6 +1665,7 @@ async function loadPendingWithdrawalCount(){
   );
 
  }catch(error){
+
   console.error("Pending withdrawal count error:",error);
 
   updateRequestCard(
@@ -1617,8 +1678,12 @@ async function loadPendingWithdrawalCount(){
  }
 }
 
-/* COMMISSION REPORT */
+/* =====================================
+   COMMISSION ERROR
+===================================== */
+
 function showCommissionError(message){
+
  $("commissionError").style.display="block";
  $("commissionError").textContent=message;
 
@@ -1632,6 +1697,7 @@ function showCommissionError(message){
  $("commissionOrders").textContent="—";
 
  const body=$("commissionLevelsBody");
+
  body.replaceChildren();
 
  const row=document.createElement("tr");
@@ -1645,18 +1711,27 @@ function showCommissionError(message){
  body.appendChild(row);
 }
 
+/* =====================================
+   LEVEL-WISE COMMISSION
+===================================== */
+
 function showCommissionLevels(levels){
+
  const body=$("commissionLevelsBody");
+
  body.replaceChildren();
 
  if(!Array.isArray(levels)){
-  showCommissionError("The server returned an invalid commission levels report.");
+  showCommissionError(
+   "The server returned an invalid commission levels report."
+  );
   return;
  }
 
  const levelMap=new Map();
 
  levels.forEach(item=>{
+
   const level=Number(item.level);
 
   if(Number.isInteger(level)&&level>=1&&level<=10){
@@ -1665,7 +1740,9 @@ function showCommissionLevels(levels){
  });
 
  for(let level=1;level<=10;level++){
+
   const item=levelMap.get(level);
+
   const row=document.createElement("tr");
 
   const levelCell=document.createElement("td");
@@ -1673,64 +1750,111 @@ function showCommissionLevels(levels){
 
   pill.className="level-pill";
   pill.textContent="Level "+level;
+
   levelCell.appendChild(pill);
 
   const rateCell=document.createElement("td");
+
   const rate=item?.commission_rate??item?.rate;
 
   rateCell.textContent=
-   rate===null||rate===undefined?"—":formatNumber(rate)+"%";
+   rate===null||rate===undefined
+    ?"—"
+    :formatNumber(rate)+"%";
 
   const countCell=document.createElement("td");
-  countCell.textContent=formatNumber(item?.total_transactions);
+
+  countCell.textContent=formatNumber(
+   item?.total_transactions
+  );
 
   const amountCell=document.createElement("td");
+
   const strong=document.createElement("strong");
 
-  strong.textContent=formatMoney(item?.total_commission);
+  strong.textContent=formatMoney(
+   item?.total_commission
+  );
+
   amountCell.appendChild(strong);
 
-  row.append(levelCell,rateCell,countCell,amountCell);
+  row.append(
+   levelCell,
+   rateCell,
+   countCell,
+   amountCell
+  );
+
   body.appendChild(row);
  }
 }
 
+/* =====================================
+   COMMISSION REPORT
+===================================== */
+
 async function loadCommissionReport(){
+
  const button=$("refreshCommissionBtn");
+
+ if(commissionLoading)return;
+
+ commissionLoading=true;
 
  button.disabled=true;
  button.textContent="Loading...";
 
  try{
-  const data=await apiRequest("/commission/admin/report");
+
+  const data=await apiRequest(
+   "/commission/admin/report"
+  );
 
   const report=data.report||{};
   const totals=report.totals||{};
   const levels=report.levels||[];
 
   if(!Array.isArray(levels)){
-   throw new Error("Invalid commission levels returned by server.");
+   throw new Error(
+    "Invalid commission levels returned by server."
+   );
   }
 
   const distributed=levels.reduce((sum,item)=>{
+
    const amount=Number(item.total_commission);
+
    return sum+(Number.isFinite(amount)?amount:0);
+
   },0);
 
-  $("commissionGrossProfit").textContent=formatMoney(totals.gross_profit);
-  $("commissionCompanyShare").textContent=formatMoney(totals.company_share);
-  $("commissionDistributed").textContent=formatMoney(distributed);
-  $("commissionUnallocated").textContent=formatMoney(totals.unallocated_commission);
-  $("commissionOrders").textContent=formatNumber(totals.total_orders);
+  $("commissionGrossProfit").textContent=
+   formatMoney(totals.gross_profit);
+
+  $("commissionCompanyShare").textContent=
+   formatMoney(totals.company_share);
+
+  $("commissionDistributed").textContent=
+   formatMoney(distributed);
+
+  $("commissionUnallocated").textContent=
+   formatMoney(totals.unallocated_commission);
+
+  $("commissionOrders").textContent=
+   formatNumber(totals.total_orders);
 
   showCommissionLevels(levels);
 
   $("commissionError").style.display="none";
+
   $("commissionBadge").textContent="SERVER REPORT";
   $("commissionBadge").classList.remove("offline");
 
  }catch(error){
-  if(error.message.includes("session has expired"))return;
+
+  if(error.message.includes("session has expired")){
+   return;
+  }
 
   if(error.message.includes("administrator permission")){
    showError("Access Denied",error.message);
@@ -1738,23 +1862,36 @@ async function loadCommissionReport(){
   }
 
   showCommissionError(
-   error.message+" Please check the Commission API and database migration."
+   error.message+
+   " Please check the Commission API and database migration."
   );
 
  }finally{
+
+  commissionLoading=false;
+
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
 }
 
-/* MAIN DASHBOARD DATA */
+/* =====================================
+   MAIN DASHBOARD DATA
+===================================== */
+
 async function loadDashboardData(){
+
  const button=$("refreshBtn");
+
+ if(dashboardLoading)return false;
+
+ dashboardLoading=true;
 
  button.disabled=true;
  button.textContent="Loading...";
 
  try{
+
   const results=await Promise.all([
    apiRequest("/admin/dashboard"),
    apiRequest("/admin/orders")
@@ -1763,13 +1900,26 @@ async function loadDashboardData(){
   const dashboard=results[0].dashboard||{};
   const orders=results[1].orders||[];
 
-  $("totalUsers").textContent=formatNumber(dashboard.total_users);
-  $("activeUsers").textContent=formatNumber(dashboard.active_users);
-  $("totalProducts").textContent=formatNumber(dashboard.total_products);
-  $("activeProducts").textContent=formatNumber(dashboard.active_products);
-  $("totalOrders").textContent=formatNumber(dashboard.total_orders);
-  $("pendingOrders").textContent=formatNumber(dashboard.pending_orders);
-  $("deliveredOrders").textContent=formatNumber(dashboard.delivered_orders);
+  $("totalUsers").textContent=
+   formatNumber(dashboard.total_users);
+
+  $("activeUsers").textContent=
+   formatNumber(dashboard.active_users);
+
+  $("totalProducts").textContent=
+   formatNumber(dashboard.total_products);
+
+  $("activeProducts").textContent=
+   formatNumber(dashboard.active_products);
+
+  $("totalOrders").textContent=
+   formatNumber(dashboard.total_orders);
+
+  $("pendingOrders").textContent=
+   formatNumber(dashboard.pending_orders);
+
+  $("deliveredOrders").textContent=
+   formatNumber(dashboard.delivered_orders);
 
   showOrders(orders);
 
@@ -1779,136 +1929,240 @@ async function loadDashboardData(){
   return true;
 
  }catch(error){
+
   if(error.message.includes("administrator permission")){
+
    showError("Access Denied",error.message);
+
   }else if(error.message.includes("session has expired")){
+
    return false;
+
   }else{
-   $("serverBadge").textContent="● SERVER DATA UNAVAILABLE";
+
+   $("serverBadge").textContent=
+    "● SERVER DATA UNAVAILABLE";
+
    $("serverBadge").classList.add("offline");
 
    showOrders([]);
 
+   console.error("Dashboard API error:",error);
+
    showError(
     "Dashboard Data Error",
-    error.message+" Please check the backend deployment and API endpoints."
+    error.message+
+    " Please check the backend deployment and API endpoints."
    );
   }
 
   return false;
 
  }finally{
+
+  dashboardLoading=false;
+
   button.disabled=false;
   button.textContent="↻ Refresh";
  }
 }
 
-/* REFRESH ALL DASHBOARD INFORMATION */
+/* =====================================
+   REFRESH ALL DASHBOARD INFORMATION
+===================================== */
+
 async function refreshAllDashboardData(){
+
  await Promise.allSettled([
+
   loadDashboardData(),
+
   loadPendingDepositCount(),
+
   loadPendingWithdrawalCount(),
+
   loadCommissionReport()
+
  ]);
 }
 
-/* ADMIN AUTHENTICATION */
+/* =====================================
+   ADMIN AUTHENTICATION
+===================================== */
+
 async function initializeAdmin(){
- adminToken=sessionStorage.getItem("rubalia_token")||"";
+
+ adminToken=
+  sessionStorage.getItem("rubalia_token")||"";
 
  if(!adminToken){
+
   window.location.replace("login.html");
   return;
  }
 
  try{
+
   const data=await apiRequest("/auth/me");
+
   const user=data.user||data.profile;
 
   if(!user){
-   throw new Error("The server did not return account information.");
+
+   throw new Error(
+    "The server did not return account information."
+   );
   }
 
   if(String(user.role||"").toLowerCase()!=="admin"){
+
    window.location.replace("dashboard.html");
    return;
   }
 
-  const name=user.full_name||user.fullName||"Administrator";
+  const name=
+   user.full_name||
+   user.fullName||
+   "Administrator";
+
   const email=user.email||"";
 
   $("adminName").textContent=name;
   $("adminEmail").textContent=email;
+
   $("accountName").textContent=name;
   $("accountEmail").textContent=email;
-  $("adminAvatar").textContent=initials(name);
-  $("welcomeTitle").textContent="Welcome, "+name+"!";
 
-  $("year").textContent=new Date().getFullYear();
+  $("adminAvatar").textContent=initials(name);
+
+  $("welcomeTitle").textContent=
+   "Welcome, "+name+"!";
+
+  $("year").textContent=
+   new Date().getFullYear();
 
   $("loadingScreen").style.display="none";
+
   $("adminApp").hidden=false;
 
+  /* Load announcement */
   loadAnnouncement();
 
+  /* Load dashboard data */
   await Promise.allSettled([
+
    loadDashboardData(),
+
    loadPendingDepositCount(),
+
    loadPendingWithdrawalCount(),
+
    loadCommissionReport()
+
   ]);
 
  }catch(error){
+
+  console.error("Admin authentication error:",error);
+
   if(error.message.includes("administrator permission")){
+
    showError("Access Denied",error.message);
+
   }else{
-   showError("Unable to Verify Account",error.message);
+
+   showError(
+    "Unable to Verify Account",
+    error.message
+   );
   }
  }
 }
 
-/* LOGOUT */
+/* =====================================
+   LOGOUT
+===================================== */
+
 function logout(){
+
  sessionStorage.removeItem("rubalia_token");
  sessionStorage.removeItem("rubalia_user");
+
  window.location.replace("login.html");
 }
 
-/* EVENTS */
+/* =====================================
+   MOBILE MENU
+===================================== */
+
 $("menuBtn").addEventListener("click",()=>{
+
  $("sidebar").classList.toggle("open");
+
 });
 
-$("logoutBtn").addEventListener("click",logout);
-$("mainLogoutBtn").addEventListener("click",logout);
-
-$("refreshBtn").addEventListener("click",refreshAllDashboardData);
-$("refreshCommissionBtn").addEventListener("click",loadCommissionReport);
-
 document.querySelectorAll(".sidebar a").forEach(link=>{
+
  link.addEventListener("click",()=>{
+
   $("sidebar").classList.remove("open");
+
  });
+
 });
 
 document.addEventListener("click",event=>{
+
  const sidebar=$("sidebar");
  const menu=$("menuBtn");
 
  if(
-  window.innerWidth<=800 &&
-  sidebar.classList.contains("open") &&
-  !sidebar.contains(event.target) &&
+  window.innerWidth<=800&&
+  sidebar.classList.contains("open")&&
+  !sidebar.contains(event.target)&&
   !menu.contains(event.target)
  ){
+
   sidebar.classList.remove("open");
+
  }
+
 });
 
-/* START */
+/* =====================================
+   BUTTON EVENTS
+===================================== */
+
+$("logoutBtn").addEventListener(
+ "click",
+ logout
+);
+
+$("mainLogoutBtn").addEventListener(
+ "click",
+ logout
+);
+
+$("refreshBtn").addEventListener(
+ "click",
+ refreshAllDashboardData
+);
+
+$("refreshCommissionBtn").addEventListener(
+ "click",
+ loadCommissionReport
+);
+
+/* =====================================
+   START APPLICATION
+===================================== */
+
 initializeAdmin();
-<script src="push-notifications.js"></script>
+
 </script>
+
+<!-- PUSH NOTIFICATIONS -->
+<script src="push-notifications.js"></script>
+
 </body>
 </html>
