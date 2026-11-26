@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,7 @@
 html,body{
  width:100%;
  height:100%;
+ min-height:0;
  overflow:hidden;
  background:#071b36;
  font-family:Arial,sans-serif;
@@ -23,51 +25,65 @@ html,body{
 
 .slider{
  position:relative;
- width:100%;
- height:100%;
- min-height:42px;
- overflow:hidden;
- border-radius:9px;
- background:#071b36;
-}
-
-.frame{
- position:absolute;
- inset:0;
  display:block;
  width:100%;
  height:100%;
+ min-height:0;
+ max-height:100%;
+ overflow:hidden;
+ border-radius:0;
+ background:#071b36;
+ isolation:isolate;
+}
+
+/* All banners occupy exactly the same area */
+.frame{
+ position:absolute;
+ top:0;
+ left:0;
+ display:block;
+ width:100%;
+ height:100%;
+ min-width:100%;
+ min-height:100%;
+ max-width:100%;
+ max-height:100%;
+ margin:0;
+ padding:0;
  border:0;
+ outline:0;
+ overflow:hidden;
+ background:#071b36;
+
  opacity:0;
  visibility:hidden;
  pointer-events:none;
- transition:opacity .5s ease,visibility .5s ease;
- background:transparent;
+
+ transition:opacity .35s ease;
 }
 
 .frame.active{
  opacity:1;
  visibility:visible;
  pointer-events:auto;
+ z-index:2;
 }
 
 @media(max-width:500px){
- .slider{border-radius:7px}
+ .slider{border-radius:0}
 }
 </style>
 </head>
 
 <body>
 
-<div class="slider" id="slider" aria-label="RUBALIA banner slider"></div>
+<div class="slider" id="slider"
+     aria-label="RUBALIA banner slider"></div>
 
 <script>
 "use strict";
 
-/*
-  Banner HTML files found in the video folder.
-  Keep video-slider.html out of this list.
-*/
+/* Banner HTML files */
 const banners = [
  "buy.html",
  "diposit.html",
@@ -75,37 +91,51 @@ const banners = [
  "welcome.html"
 ];
 
-/* Change banner every 3 seconds */
-const SLIDE_TIME = 3000;
+/* 4 seconds */
+const SLIDE_TIME = 4000;
 
 const slider = document.getElementById("slider");
 
 let currentIndex = 0;
 let timer = null;
+let frames = [];
 
-/* Create banner frames */
+/* Create all banner frames */
 function createBanners(){
+
  slider.replaceChildren();
+ frames = [];
 
  banners.forEach((file,index)=>{
+
   const frame = document.createElement("iframe");
 
   frame.className = "frame";
   frame.src = file;
   frame.title = "RUBALIA Banner " + (index + 1);
-  frame.loading = index === 0 ? "eager" : "lazy";
+
+  frame.loading = "eager";
+  frame.setAttribute("scrolling","no");
+  frame.setAttribute("frameborder","0");
 
   /*
-    Allow each banner's own JavaScript to run,
-    including its in-page video popup.
-    No top-level navigation permission is granted.
-  */
-  frame.setAttribute("sandbox","allow-scripts");
+   * Keep banner scripts working.
+   * Prevent navigation of the parent page.
+   */
+  frame.setAttribute(
+   "sandbox",
+   "allow-scripts allow-same-origin"
+  );
+
+  frame.addEventListener("load",()=>{
+   frame.dataset.loaded = "true";
+  });
 
   frame.addEventListener("error",()=>{
    console.error("Unable to load banner:",file);
   });
 
+  frames.push(frame);
   slider.appendChild(frame);
  });
 
@@ -113,46 +143,58 @@ function createBanners(){
  startSlider();
 }
 
-/* Display selected banner */
+/* Show banner in the same fixed position */
 function showBanner(index){
- const frames = slider.querySelectorAll(".frame");
 
- if(!frames.length) return;
+ if(!frames.length)return;
 
  currentIndex = (index + frames.length) % frames.length;
 
  frames.forEach((frame,i)=>{
+
   const active = i === currentIndex;
+
   frame.classList.toggle("active",active);
-  frame.setAttribute("aria-hidden",active ? "false" : "true");
+
+  frame.setAttribute(
+   "aria-hidden",
+   active ? "false" : "true"
+  );
+
+  frame.style.zIndex = active ? "2" : "1";
  });
 }
 
 /* Next banner */
 function nextBanner(){
- if(banners.length <= 1) return;
+
+ if(frames.length <= 1)return;
+
  showBanner(currentIndex + 1);
 }
 
 /* Start automatic slider */
 function startSlider(){
+
  stopSlider();
 
- if(banners.length <= 1) return;
+ if(document.hidden || frames.length <= 1)return;
 
  timer = setInterval(nextBanner,SLIDE_TIME);
 }
 
-/* Stop timer */
+/* Stop automatic slider */
 function stopSlider(){
+
  if(timer !== null){
   clearInterval(timer);
   timer = null;
  }
 }
 
-/* Pause while browser tab is hidden */
+/* Pause when tab is hidden */
 document.addEventListener("visibilitychange",()=>{
+
  if(document.hidden){
   stopSlider();
  }else{
@@ -160,8 +202,9 @@ document.addEventListener("visibilitychange",()=>{
  }
 });
 
-/* Start */
+/* Initialize */
 createBanners();
+
 </script>
 
 </body>
