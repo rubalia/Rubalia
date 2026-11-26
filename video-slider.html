@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071b36">
+<title>RUBALIA Video Slider</title>
+
+<style>
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0
+}
+
+html,body{
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ font-family:Arial,Helvetica,sans-serif;
+ background:#071b36
+}
+
+.slider{
+ position:relative;
+ width:100%;
+ height:100%;
+ min-height:42px;
+ overflow:hidden;
+ border-radius:9px;
+ background:linear-gradient(120deg,#071b36,#174b78,#10294b);
+ isolation:isolate
+}
+
+.slides{
+ position:relative;
+ width:100%;
+ height:100%
+}
+
+.slide{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ opacity:0;
+ visibility:hidden;
+ transform:scale(1.025);
+ transition:opacity .65s ease,transform 1.2s ease,visibility .65s;
+ cursor:pointer;
+ overflow:hidden
+}
+
+.slide.active{
+ opacity:1;
+ visibility:visible;
+ transform:scale(1)
+}
+
+.slide img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ object-position:center;
+ background:#10294b
+}
+
+.slide::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+  90deg,
+  rgba(3,12,28,.72),
+  rgba(3,12,28,.12) 70%,
+  rgba(3,12,28,.08)
+ );
+ pointer-events:none
+}
+
+.slide-content{
+ position:absolute;
+ z-index:2;
+ left:5%;
+ top:50%;
+ transform:translateY(-50%);
+ max-width:65%;
+ color:#fff;
+ pointer-events:none
+}
+
+.slide-title{
+ font-size:clamp(10px,2.5vw,25px);
+ font-weight:900;
+ line-height:1.2;
+ text-shadow:0 2px 5px #000;
+ overflow-wrap:anywhere
+}
+
+.slide-subtitle{
+ margin-top:5px;
+ color:#ffe49a;
+ font-size:clamp(7px,1.2vw,12px);
+ font-weight:bold;
+ text-shadow:0 2px 4px #000
+}
+
+.play-badge{
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ margin-top:7px;
+ padding:5px 10px;
+ border-radius:20px;
+ border:1px solid #ffffff8c;
+ color:#fff;
+ background:linear-gradient(135deg,#e83d83,#9d246d);
+ font-size:clamp(7px,1vw,10px);
+ font-weight:900;
+ box-shadow:0 3px 8px #0005
+}
+
+.play-icon{
+ display:inline-grid;
+ place-items:center;
+ width:15px;
+ height:15px;
+ border-radius:50%;
+ color:#a51c58;
+ background:#fff;
+ font-size:9px
+}
+
+/* ARROWS */
+.arrow{
+ position:absolute;
+ z-index:5;
+ top:50%;
+ transform:translateY(-50%);
+ width:28px;
+ height:28px;
+ display:grid;
+ place-items:center;
+ border:1px solid #ffffff8c;
+ border-radius:50%;
+ color:#fff;
+ background:#071b36a8;
+ font-size:18px;
+ cursor:pointer;
+ transition:.2s;
+ backdrop-filter:blur(5px)
+}
+
+.arrow:hover{
+ background:#d6ad55;
+ color:#071b36
+}
+
+.arrow:active{
+ transform:translateY(-50%) scale(.9)
+}
+
+.arrow.prev{left:7px}
+.arrow.next{right:7px}
+
+/* INDICATORS */
+.indicators{
+ position:absolute;
+ z-index:6;
+ bottom:5px;
+ left:50%;
+ transform:translateX(-50%);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:5px;
+ max-width:80%;
+ overflow:hidden
+}
+
+.indicator{
+ width:6px;
+ height:6px;
+ flex:0 0 6px;
+ border:0;
+ border-radius:20px;
+ background:#ffffff8c;
+ cursor:pointer;
+ transition:width .25s,background .25s
+}
+
+.indicator.active{
+ width:18px;
+ flex-basis:18px;
+ background:#ffd978;
+ box-shadow:0 0 6px #ffd978
+}
+
+/* LOADING */
+.loading{
+ position:absolute;
+ inset:0;
+ z-index:10;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#fff;
+ font-size:11px;
+ font-weight:bold;
+ background:linear-gradient(120deg,#071b36,#174b78,#10294b)
+}
+
+.spinner{
+ width:14px;
+ height:14px;
+ margin-right:8px;
+ border:2px solid #ffffff50;
+ border-top-color:#ffd978;
+ border-radius:50%;
+ animation:spin .7s linear infinite
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+
+/* EMPTY */
+.empty{
+ position:absolute;
+ inset:0;
+ z-index:4;
+ display:none;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:5px;
+ color:#fff;
+ text-align:center;
+ background:linear-gradient(120deg,#071b36,#174b78,#10294b)
+}
+
+.empty-icon{
+ font-size:20px
+}
+
+.empty strong{
+ font-size:clamp(9px,1.6vw,14px);
+ color:#ffe49a
+}
+
+.empty span{
+ font-size:clamp(7px,1vw,10px);
+ color:#dce8f8
+}
+
+@media(max-width:500px){
+ .slider{border-radius:7px}
+ .arrow{
+  width:23px;
+  height:23px;
+  font-size:15px
+ }
+ .arrow.prev{left:4px}
+ .arrow.next{right:4px}
+ .slide-content{left:8%;max-width:72%}
+ .play-badge{margin-top:4px;padding:3px 7px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="slider" id="slider">
+
+ <div class="loading" id="loading">
+  <span class="spinner"></span>
+  Loading Videos...
+ </div>
+
+ <div class="slides" id="slides"></div>
+
+ <button class="arrow prev" id="prevBtn"
+         type="button" aria-label="Previous banner">‹</button>
+
+ <button class="arrow next" id="nextBtn"
+         type="button" aria-label="Next banner">›</button>
+
+ <div class="indicators" id="indicators"></div>
+
+ <div class="empty" id="empty">
+  <div class="empty-icon">🎬</div>
+  <strong>RUBALIA NETWORK</strong>
+  <span>New videos are coming soon</span>
+ </div>
+
+</div>
+
+<script>
+"use strict";
+
+/* API CONFIGURATION */
+const API_BASE="https://rubalia.onrender.com/api";
+const API_URL=API_BASE+"/video-slider";
+
+/* SLIDER SETTINGS */
+const SLIDE_INTERVAL=4000;
+
+let banners=[];
+let currentIndex=0;
+let slideTimer=null;
+let loading=false;
+
+const $=id=>document.getElementById(id);
+
+/* SAFE IMAGE URL */
+function safeImageURL(value){
+ if(!value)return "";
+
+ try{
+  const url=new URL(value);
+
+  if(url.protocol!=="https:"&&url.protocol!=="http:"){
+   return "";
+  }
+
+  return url.href;
+
+ }catch(error){
+  return "";
+ }
+}
+
+/* YOUTUBE VIDEO ID */
+function extractYouTubeId(value){
+ if(!value)return "";
+
+ try{
+  const url=new URL(value);
+  const host=url.hostname.replace(/^www\./,"").toLowerCase();
+
+  if(host==="youtu.be"){
+   return url.pathname.split("/").filter(Boolean)[0]||"";
+  }
+
+  if(
+   host==="youtube.com"||
+   host==="m.youtube.com"||
+   host==="youtube-nocookie.com"
+  ){
+   if(url.pathname==="/watch"){
+    return url.searchParams.get("v")||"";
+   }
+
+   const parts=url.pathname.split("/").filter(Boolean);
+
+   if(["embed","shorts","live"].includes(parts[0])){
+    return parts[1]||"";
+   }
+  }
+
+ }catch(error){
+  return "";
+ }
+
+ return "";
+}
+
+/* GET VIDEO LINK */
+function getVideoLink(item){
+ return String(
+  item.youtube_url||
+  item.youtubeUrl||
+  item.video_url||
+  item.videoUrl||
+  item.youtube_link||
+  ""
+ ).trim();
+}
+
+/* CREATE SLIDE */
+function createSlide(item,index){
+ const slide=document.createElement("div");
+ slide.className="slide";
+ slide.setAttribute("role","button");
+ slide.setAttribute("tabindex","0");
+ slide.setAttribute("aria-label","Play "+(item.title||"RUBALIA video"));
+
+ const imageURL=safeImageURL(
+  item.banner_image_url||
+  item.bannerImageUrl||
+  item.image_url||
+  item.image||
+  ""
+ );
+
+ if(!imageURL)return null;
+
+ const image=document.createElement("img");
+ image.src=imageURL;
+ image.alt=item.title||"RUBALIA Video Banner";
+ image.loading=index===0?"eager":"lazy";
+ image.draggable=false;
+
+ image.onerror=()=>{
+  slide.remove();
+  banners=banners.filter((banner)=>banner.id!==item.id);
+  renderIndicators();
+  if(!banners.length)showEmpty();
+ };
+
+ const content=document.createElement("div");
+ content.className="slide-content";
+
+ const title=document.createElement("div");
+ title.className="slide-title";
+ title.textContent=item.title||"RUBALIA NETWORK";
+
+ const subtitle=document.createElement("div");
+ subtitle.className="slide-subtitle";
+ subtitle.textContent="Watch Video";
+
+ const badge=document.createElement("div");
+ badge.className="play-badge";
+ badge.innerHTML='<span class="play-icon">▶</span> WATCH NOW';
+
+ content.append(title,subtitle,badge);
+ slide.append(image,content);
+
+ const openVideo=()=>{
+  const videoLink=getVideoLink(item);
+  const videoId=extractYouTubeId(videoLink);
+
+  if(!videoId){
+   console.warn("Invalid YouTube video link.");
+   return;
+  }
+
+  /* Open video inside RUBALIA */
+  const playerURL="video-player.html?video="+encodeURIComponent(videoId);
+
+  window.location.href=playerURL;
+ };
+
+ slide.addEventListener("click",openVideo);
+
+ slide.addEventListener("keydown",event=>{
+  if(event.key==="Enter"||event.key===" "){
+   event.preventDefault();
+   openVideo();
+  }
+ });
+
+ return slide;
+}
+
+/* INDICATORS */
+function renderIndicators(){
+ const container=$("indicators");
+ container.replaceChildren();
+
+ banners.forEach((item,index)=>{
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="indicator"+(index===currentIndex?" active":"");
+  button.setAttribute("aria-label","Go to banner "+(index+1));
+
+  button.addEventListener("click",()=>{
+   showSlide(index);
+   restartTimer();
+  });
+
+  container.appendChild(button);
+ });
+}
+
+/* SHOW SLIDE */
+function showSlide(index){
+ if(!banners.length)return;
+
+ currentIndex=(index+banners.length)%banners.length;
+
+ const slideElements=$("slides").querySelectorAll(".slide");
+
+ slideElements.forEach((slide,i)=>{
+  slide.classList.toggle("active",i===currentIndex);
+ });
+
+ $("indicators").querySelectorAll(".indicator").forEach((dot,i)=>{
+  dot.classList.toggle("active",i===currentIndex);
+ });
+}
+
+/* NEXT */
+function nextSlide(){
+ if(banners.length<=1)return;
+ showSlide(currentIndex+1);
+}
+
+/* PREVIOUS */
+function previousSlide(){
+ if(banners.length<=1)return;
+ showSlide(currentIndex-1);
+}
+
+/* TIMER */
+function startTimer(){
+ stopTimer();
+
+ if(banners.length<=1)return;
+
+ slideTimer=setInterval(()=>{
+  nextSlide();
+ },SLIDE_INTERVAL);
+}
+
+function stopTimer(){
+ if(slideTimer){
+  clearInterval(slideTimer);
+  slideTimer=null;
+ }
+}
+
+function restartTimer(){
+ startTimer();
+}
+
+/* EMPTY */
+function showEmpty(){
+ stopTimer();
+
+ $("loading").style.display="none";
+ $("slides").replaceChildren();
+ $("indicators").replaceChildren();
+
+ $("empty").style.display="flex";
+ $("prevBtn").style.display="none";
+ $("nextBtn").style.display="none";
+}
+
+/* RENDER BANNERS */
+function renderBanners(list){
+ const container=$("slides");
+ container.replaceChildren();
+
+ banners=list.filter(item=>{
+  return item&&
+   item.is_active!==false&&
+   item.isActive!==false;
+ });
+
+ if(!banners.length){
+  showEmpty();
+  return;
+ }
+
+ banners.forEach((item,index)=>{
+  const slide=createSlide(item,index);
+  if(slide)container.appendChild(slide);
+ });
+
+ const validSlides=container.querySelectorAll(".slide");
+
+ if(!validSlides.length){
+  banners=[];
+  showEmpty();
+  return;
+ }
+
+ banners=banners.filter(item=>{
+  return safeImageURL(
+   item.banner_image_url||
+   item.bannerImageUrl||
+   item.image_url||
+   item.image||
+   ""
+  );
+ });
+
+ $("loading").style.display="none";
+ $("empty").style.display="none";
+
+ $("prevBtn").style.display=banners.length>1?"grid":"none";
+ $("nextBtn").style.display=banners.length>1?"grid":"none";
+
+ currentIndex=0;
+
+ renderIndicators();
+ showSlide(0);
+ startTimer();
+}
+
+/* LOAD FROM SERVER */
+async function loadBanners(){
+ if(loading)return;
+
+ loading=true;
+
+ try{
+  const response=await fetch(API_URL,{
+   method:"GET",
+   headers:{
+    "Accept":"application/json"
+   },
+   cache:"no-store"
+  });
+
+  if(!response.ok){
+   throw new Error("Unable to load video banners.");
+  }
+
+  const data=await response.json();
+
+  if(data.success===false){
+   throw new Error(data.message||"Banner loading failed.");
+  }
+
+  let list=[];
+
+  if(Array.isArray(data)){
+   list=data;
+  }else if(Array.isArray(data.banners)){
+   list=data.banners;
+  }else if(Array.isArray(data.videos)){
+   list=data.videos;
+  }else if(Array.isArray(data.items)){
+   list=data.items;
+  }else if(Array.isArray(data.data)){
+   list=data.data;
+  }
+
+  renderBanners(list);
+
+ }catch(error){
+  console.error("Video slider error:",error);
+  showEmpty();
+
+ }finally{
+  loading=false;
+ }
+}
+
+/* BUTTON EVENTS */
+$("nextBtn").addEventListener("click",()=>{
+ nextSlide();
+ restartTimer();
+});
+
+$("prevBtn").addEventListener("click",()=>{
+ previousSlide();
+ restartTimer();
+});
+
+/* PAUSE WHEN HIDDEN */
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){
+  stopTimer();
+ }else{
+  startTimer();
+ }
+});
+
+/* INITIALIZE */
+loadBanners();
+
+/* REFRESH BANNERS PERIODICALLY */
+setInterval(()=>{
+ if(!document.hidden){
+  loadBanners();
+ }
+},60000);
+</script>
+
+</body>
+</html>
