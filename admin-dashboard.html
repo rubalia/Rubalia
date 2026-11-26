@@ -101,16 +101,10 @@ button{font:inherit;cursor:pointer}
 }
 .live-badge.offline{background:#fceaea;color:var(--red)}
 
-.welcome{
- background:var(--navy);color:white;border-radius:12px;padding:18px 20px;
- margin-bottom:17px;display:flex;justify-content:space-between;
- align-items:center;gap:12px;
+.announcement-card{
+ background:#fffaf0;border:1px solid #ead8ad;
+ border-radius:11px;padding:14px;margin-bottom:18px;
 }
-.welcome h2{margin:0 0 6px;font-size:18px}
-.welcome p{margin:0;color:#c8d5e5;font-size:11px;line-height:1.7}
-.welcome-icon{font-size:35px}
-
-.announcement-card{background:#fffaf0;border:1px solid #ead8ad;border-radius:11px;padding:14px;margin-bottom:18px}
 .announcement-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .announcement-title{display:flex;align-items:center;gap:8px;color:var(--navy);font-size:12px;font-weight:bold}
 .announcement-indicator{font-size:9px;font-weight:bold;color:var(--green);background:#e3f6eb;padding:5px 8px;border-radius:20px}
@@ -196,7 +190,9 @@ td strong{color:var(--navy)}
 .notice{background:#fff9eb;border:1px solid #f0dfb8;border-radius:9px;padding:12px;color:#76591e;font-size:10px;line-height:1.7;margin-top:15px}
 .footer{text-align:center;padding:18px;color:#9aa5b5;font-size:9px}
 
-@media(max-width:1100px){.management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1100px){
+ .management-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 @media(max-width:800px){
  .layout{grid-template-columns:1fr}
  .sidebar{display:none;padding:12px;min-height:auto;position:fixed;top:60px;left:0;right:0;bottom:0;overflow-y:auto;z-index:45}
@@ -214,10 +210,6 @@ td strong{color:var(--navy)}
  .main{padding:11px}
  .heading h1{font-size:20px}
  .heading p{font-size:10px}
- .welcome{padding:14px;border-radius:9px}
- .welcome h2{font-size:15px}
- .welcome p{font-size:10px}
- .welcome-icon{font-size:29px}
  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
  .stat-card{padding:6px;min-height:70px;border-radius:7px}
  .stat-name{font-size:8px}
@@ -346,26 +338,6 @@ td strong{color:var(--navy)}
   </div>
   <span class="live-badge" id="serverBadge">● CONNECTING TO SERVER</span>
  </div>
-
- <section class="welcome">
-  <div>
-   <h2 id="welcomeTitle">Welcome, Administrator!</h2>
-   <p>Manage Rubalia Network from one place.<br>Dashboard figures are loaded from PostgreSQL.</p>
-  </div>
-  <div class="welcome-icon">👑</div>
- </section>
-
- <section class="announcement-card">
-  <div class="announcement-top">
-   <div class="announcement-title"><span>📢</span> Active Admin Announcement</div>
-   <span class="announcement-indicator" id="announcementStatus">CHECKING...</span>
-  </div>
-  <div class="announcement-text" id="announcementText">Loading announcement...</div>
-  <div class="announcement-bottom">
-   <span class="announcement-date" id="announcementDate"></span>
-   <a href="admin/admin-announcements.html" class="announcement-link">Manage Announcements →</a>
-  </div>
- </section>
 
  <div class="section-head">
   <div>
@@ -503,6 +475,19 @@ td strong{color:var(--navy)}
   If an API is unavailable, its figures will remain unavailable rather than showing fabricated data.
  </div>
 
+ <!-- ANNOUNCEMENT: MOVED TO THE BOTTOM -->
+ <section class="announcement-card">
+  <div class="announcement-top">
+   <div class="announcement-title"><span>📢</span> Active Admin Announcement</div>
+   <span class="announcement-indicator" id="announcementStatus">CHECKING...</span>
+  </div>
+  <div class="announcement-text" id="announcementText">Loading announcement...</div>
+  <div class="announcement-bottom">
+   <span class="announcement-date" id="announcementDate"></span>
+   <a href="admin/admin-announcements.html" class="announcement-link">Manage Announcements →</a>
+  </div>
+ </section>
+
  <div style="text-align:center;margin:18px 0">
   <button class="refresh-btn" id="mainLogoutBtn" type="button">↪ Logout from Admin Panel</button>
  </div>
@@ -546,7 +531,6 @@ function clearLocalSession(){
   sessionStorage.removeItem(key);
  });
 
- /* Remove any legacy duplicate session data */
  sessionStorage.removeItem("token");
  localStorage.removeItem("token");
 }
@@ -985,7 +969,6 @@ async function initializeAdmin(){
   $("accountName").textContent=name;
   $("accountEmail").textContent=email;
   $("adminAvatar").textContent=initials(name);
-  $("welcomeTitle").textContent="Welcome, "+name+"!";
   $("year").textContent=new Date().getFullYear();
 
   $("loadingScreen").style.display="none";
@@ -1011,7 +994,7 @@ async function initializeAdmin(){
  }
 }
 
-/* LOGOUT - CLEAR BOTH STORAGE AREAS AND REVOKE SERVER SESSION */
+/* LOGOUT */
 
 async function logout(){
  if(logoutInProgress)return;
@@ -1019,7 +1002,6 @@ async function logout(){
 
  const token=adminToken||getStoredToken();
 
- /* Clear browser session immediately, so login page cannot auto-login */
  clearLocalSession();
  adminToken="";
 
