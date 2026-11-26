@@ -146,13 +146,18 @@ body.menu-open{overflow:hidden}
 }
 .menu-icon{width:23px;text-align:center;font-size:17px}
 
-/* MAIN */
-main{max-width:1450px;margin:auto;padding:8px 10px 14px}
+/* MAIN DASHBOARD - NARROWER WIDTH */
+main{
+ width:100%;
+ max-width:900px;
+ margin:0 auto;
+ padding:8px 12px 14px;
+}
 
 /* EXISTING PROMOTIONAL SLIDER */
 .slider-frame{
  display:block;width:100%;aspect-ratio:3/1;margin:0 0 9px;
- overflow:hidden;border-radius:13px;
+ overflow:hidden;border-radius:11px;
  background:linear-gradient(120deg,#24112f,#65164d,#a51e43);
  box-shadow:0 7px 20px #1f14311f
 }
@@ -160,20 +165,19 @@ main{max-width:1450px;margin:auto;padding:8px 10px 14px}
  display:block;width:100%;height:100%;border:0;background:transparent
 }
 
-/* VIDEO BANNER SLIDER - COMPACT RESPONSIVE HEIGHT */
+/* VIDEO BANNER SLIDER - SLIM SIZE */
 .video-slider-frame{
  display:block;
  position:relative;
  width:100%;
- height:clamp(88px,13vw,150px);
- aspect-ratio:auto;
+ height:105px;
  min-height:0;
- margin:0 0 13px;
+ margin:0 0 11px;
  padding:0;
  overflow:hidden;
- border-radius:9px;
+ border-radius:8px;
  background:#071b36;
- box-shadow:0 5px 13px #27123d35;
+ box-shadow:0 4px 12px #27123d30;
  isolation:isolate;
 }
 .video-slider-frame iframe{
@@ -340,14 +344,22 @@ footer strong{color:#f4d58c}
  .menu-toggle{width:35px;height:35px;font-size:19px}
  .announcement-ticker{height:27px;padding:2px 7px}
  .announcement-window{height:23px}
- main{padding:8px 5px 12px}
- .slider-frame{margin-bottom:7px;border-radius:9px}
- .video-slider-frame{
-  height:90px;
-  aspect-ratio:auto;
-  margin-bottom:10px;
-  border-radius:7px;
+
+ main{
+  width:100%;
+  max-width:100%;
+  padding:7px 7px 11px;
  }
+
+ .slider-frame{margin-bottom:7px;border-radius:8px}
+
+ .video-slider-frame{
+  height:68px;
+  min-height:68px;
+  margin-bottom:9px;
+  border-radius:6px;
+ }
+
  .product-category-frame{margin-bottom:8px;border-radius:12px}
  .section-heading{padding:0 5px}
  .section-heading h2{font-size:16px}
