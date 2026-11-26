@@ -166,27 +166,20 @@ async function sendPasswordResetEmail(
 
               <div style="padding:30px;color:#29243a;">
                 <h2 style="margin-top:0;">Reset Your Password</h2>
-
                 <p>Hello ${safeName},</p>
-
                 <p>
                   We received a request to reset your RUBALIA NETWORK
                   account password.
                 </p>
-
                 <p style="text-align:center;margin:30px 0;">
                   <a href="${safeLink}"
                      style="display:inline-block;padding:15px 28px;background:#a51e54;color:#ffffff;text-decoration:none;border-radius:9px;font-weight:bold;">
                     RESET PASSWORD
                   </a>
                 </p>
-
                 <p>This link expires in 15 minutes and can only be used once.</p>
-
                 <p>If you did not request this, you can safely ignore this email.</p>
-
                 <hr style="border:0;border-top:1px solid #eeeeee;margin:25px 0;">
-
                 <p style="font-size:12px;color:#858196;">
                   RUBALIA NETWORK — Grow With Trust
                 </p>
@@ -213,7 +206,6 @@ async function sendPasswordResetEmail(
 
 // =====================================================
 // POST /api/auth/register
-// Customer and Free Partner Registration
 // =====================================================
 
 router.post("/register", async (req, res, next) => {
@@ -514,8 +506,36 @@ router.post("/login", async (req, res, next) => {
 });
 
 // =====================================================
+// POST /api/auth/logout
+// Revoke current session
+// =====================================================
+
+router.post("/logout", authenticateToken, async (req, res, next) => {
+  try {
+    await pool.query(
+      `UPDATE user_sessions
+       SET revoked_at = NOW()
+       WHERE session_id = $1
+         AND user_id = $2
+         AND revoked_at IS NULL`,
+      [
+        req.auth.sid,
+        req.auth.id
+      ]
+    );
+
+    return res.json({
+      success: true,
+      message: "Logged out successfully."
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+});
+
+// =====================================================
 // POST /api/auth/forgot-password
-// Request password reset email
 // =====================================================
 
 router.post("/forgot-password", async (req, res, next) => {
