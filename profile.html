@@ -231,7 +231,6 @@ svg{display:block}
 .link-row .row-arrow{margin-left:auto;width:29px;height:29px;color:#fff}
 .link-row:active{transform:scale(.995)}
 footer{text-align:center;color:#a99acb;font-size:11px;padding:22px 0 0}
-footer strong{color:#ffdc36}
 
 /* DRAWER */
 .overlay{position:fixed;inset:0;background:rgba(3,0,17,.72);z-index:20;opacity:0;visibility:hidden;transition:.25s}
@@ -361,6 +360,7 @@ button:disabled{opacity:.55;cursor:wait}
 </head>
 
 <body>
+
 <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
   <symbol id="i-crown" viewBox="0 0 64 48"><path d="M7 37 2 12l15 12L31 3l14 21 17-12-7 25H7Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 43h46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="2" cy="10" r="3" fill="currentColor"/><circle cx="31" cy="3" r="3" fill="currentColor"/><circle cx="62" cy="10" r="3" fill="currentColor"/></symbol>
@@ -503,7 +503,6 @@ button:disabled{opacity:.55;cursor:wait}
       </div>
     </section>
 
-    <!-- QUICK ACTIONS -->
     <section class="quick-grid">
       <a class="quick-card" href="settings.html#profile">
         <svg class="icon"><use href="#i-user"/></svg>
@@ -520,7 +519,6 @@ button:disabled{opacity:.55;cursor:wait}
         <span>Wallet History</span>
       </a>
 
-      <!-- MEMBERSHIP REPLACED WITH DOWNLOAD APP -->
       <a class="quick-card"
          href="https://github.com/rubalia/Rubalia/releases/latest/download/Rubalia.apk"
          target="_blank"
@@ -570,12 +568,14 @@ button:disabled{opacity:.55;cursor:wait}
       <a class="link-row" href="team.html"><svg class="row-icon icon"><use href="#i-people"/></svg><span>My Team</span><svg class="row-arrow icon"><use href="#i-arrow"/></svg></a>
       <a class="link-row" href="settings.html"><svg class="row-icon icon"><use href="#i-settings"/></svg><span>Settings</span><svg class="row-arrow icon"><use href="#i-arrow"/></svg></a>
     </nav>
+
     <footer>© <strong>RUBALIA NETWORK</strong> · Member Profile</footer>
   </main>
 </div>
 
 <script>
 "use strict";
+
 const API_BASE = "https://rubalia.onrender.com/api";
 const $ = id => document.getElementById(id);
 let member = null;
@@ -586,6 +586,7 @@ function token(){
          sessionStorage.getItem("token") ||
          localStorage.getItem("token");
 }
+
 function logout(){
   sessionStorage.removeItem("rubalia_token");
   localStorage.removeItem("rubalia_token");
@@ -595,192 +596,404 @@ function logout(){
   localStorage.removeItem("rubalia_user");
   location.replace("login.html");
 }
+
 function initials(name){
   const parts = String(name || "Rubalia Network").trim().split(/\s+/);
-  return parts.length > 1 ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase() : parts[0].slice(0,2).toUpperCase();
+  return parts.length > 1
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : parts[0].slice(0,2).toUpperCase();
 }
+
 function fmtDate(value){
   if(!value) return "—";
   const d = new Date(value);
-  return Number.isNaN(d.getTime()) ? "—" : d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+  return Number.isNaN(d.getTime())
+    ? "—"
+    : d.toLocaleDateString("en-GB",{
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      });
 }
+
 async function api(path,options={}){
   const t = token();
-  if(!t){ logout(); throw new Error("Please log in again."); }
-  const headers = Object.assign({"Authorization":"Bearer "+t,"Accept":"application/json"},options.headers || {});
-  const response = await fetch(API_BASE+path,{...options,headers,cache:"no-store"});
+
+  if(!t){
+    logout();
+    throw new Error("Please log in again.");
+  }
+
+  const headers = Object.assign(
+    {
+      "Authorization":"Bearer "+t,
+      "Accept":"application/json"
+    },
+    options.headers || {}
+  );
+
+  const response = await fetch(API_BASE+path,{
+    ...options,
+    headers,
+    cache:"no-store"
+  });
+
   const data = await response.json().catch(()=>({}));
-  if(response.status===401 || response.status===403){ logout(); throw new Error("Session expired. Please log in again."); }
-  if(!response.ok || data.success===false) throw new Error(data.message || "Request failed.");
+
+  if(response.status===401 || response.status===403){
+    logout();
+    throw new Error("Session expired. Please log in again.");
+  }
+
+  if(!response.ok || data.success===false){
+    throw new Error(data.message || "Request failed.");
+  }
+
   return data;
 }
+
 function setPhoto(url,name){
   const text = initials(name);
-  const targets = [ $("profileAvatar"), $("drawerAvatar") ];
+  const targets = [
+    $("profileAvatar"),
+    $("drawerAvatar")
+  ];
+
   targets.forEach(el=>{
     if(!el) return;
+
     el.replaceChildren();
+
     if(url){
       const img = document.createElement("img");
-      img.src = url; img.alt = "Member profile photo"; img.referrerPolicy = "no-referrer";
+      img.src = url;
+      img.alt = "Member profile photo";
+      img.referrerPolicy = "no-referrer";
       img.onerror = ()=>{ el.textContent=text; };
       el.appendChild(img);
-    }else el.textContent=text;
+    }else{
+      el.textContent=text;
+    }
   });
 }
+
 function renderMember(user){
   member = user;
+
   const name = user.full_name || user.fullName || "Rubalia Member";
-  const memberId = user.memberId || (user.id ? "RUB"+String(user.id).padStart(6,"0") : "—");
+
+  const memberId = user.memberId ||
+    (user.id ? "RUB"+String(user.id).padStart(6,"0") : "—");
+
   $("memberName").textContent = name;
   $("memberId").textContent = memberId;
   $("joinedDate").textContent = fmtDate(user.created_at || user.createdAt);
   $("statusText").textContent = String(user.status || "Active");
+
   $("drawerName").textContent = name;
   $("drawerEmail").textContent = user.email || "Member account";
+
   setPhoto(user.avatar_url || user.avatarUrl || "",name);
+
   if(String(user.status || "active").toLowerCase() !== "active"){
     $("statusPill").style.background = "linear-gradient(100deg,#4c2800,#744000)";
     $("statusPill").style.borderColor = "#ffb43b";
     $("statusPill").style.color = "#ffd18b";
     $("statusPill").querySelector(".status-dot").style.background = "#ffb43b";
   }
+
   $("sponsorId").textContent = user.sponsorMemberId ||
     (user.sponsor_id ? "RUB"+String(user.sponsor_id).padStart(6,"0") : "—");
+
+  $("rankValue").textContent = user.rank || user.current_rank || "-";
 }
+
 async function loadWallet(){
   try{
     const data = await api("/wallet");
     const wallet = data.wallet || data;
     const balance = Number(wallet.balance);
+
     $("walletBalance").textContent = Number.isFinite(balance)
-      ? "৳ "+balance.toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})
+      ? "৳ "+balance.toLocaleString("en-BD",{
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        })
       : "৳ 0.00";
+
   }catch(err){
     console.warn("Wallet data:",err.message);
     $("walletBalance").textContent = "৳ --";
   }
 }
+
 function makeReferralLink(code){
   const url = new URL("register.html",location.href);
-  url.search = ""; url.searchParams.set("ref",code);
+  url.search = "";
+  url.searchParams.set("ref",code);
   return url.toString();
 }
+
 async function loadReferral(){
   try{
-    const [me,stats] = await Promise.all([api("/referral/me"),api("/referral/stats")]);
-    const code = String(me.referralCode || me.member?.referralCode || me.member?.memberId || member?.memberId || "").trim();
+    const [me,stats] = await Promise.all([
+      api("/referral/me"),
+      api("/referral/stats")
+    ]);
+
+    const code = String(
+      me.referralCode ||
+      me.member?.referralCode ||
+      me.member?.memberId ||
+      member?.memberId ||
+      ""
+    ).trim();
+
     $("referralCode").textContent = code || "Not available";
-    $("referralLink").textContent = code ? makeReferralLink(code) : "Not available";
-    if(me.member?.sponsorId) $("sponsorId").textContent = me.member.sponsorId;
+    $("referralLink").textContent = code
+      ? makeReferralLink(code)
+      : "Not available";
+
+    if(me.member?.sponsorId){
+      $("sponsorId").textContent = me.member.sponsorId;
+    }
 
     const direct = Number(stats.directMembers ?? stats.direct ?? 0);
     const total = Number(stats.totalMembers ?? stats.total ?? 0);
+
     $("directCount").textContent = direct.toLocaleString();
     $("teamCount").textContent = total.toLocaleString();
 
     const levels = Array.isArray(stats.levels) ? stats.levels : [];
-    const activeLevels = levels.filter(row => Number(row.members || row.count || 0) > 0).length;
+    const activeLevels = levels.filter(row =>
+      Number(row.members || row.count || 0) > 0
+    ).length;
+
     $("levelCount").textContent = Math.min(activeLevels,10)+"/10";
-    $("referralFootnote").textContent = "Direct: "+direct.toLocaleString()+"  ·  Team: "+total.toLocaleString();
+
+    $("referralFootnote").textContent =
+      "Direct: "+direct.toLocaleString()+
+      " · Team: "+total.toLocaleString();
+
   }catch(err){
     $("referralError").style.display = "block";
-    $("referralError").textContent = "Referral information unavailable: "+err.message;
+    $("referralError").textContent =
+      "Referral information unavailable: "+err.message;
+
+    $("referralCode").textContent = "Unavailable";
+    $("referralLink").textContent = "Unavailable";
+
+    console.error("Referral loading error:",err);
   }
 }
+
 async function uploadPhoto(file){
   if(!file) return;
+
   const note = $("uploadNote");
-  const allowed = ["image/jpeg","image/png","image/webp"];
-  if(!allowed.includes(file.type)){ note.textContent="Please choose a JPG, PNG or WEBP image.";note.classList.add("error");return; }
-  if(file.size>5*1024*1024){ note.textContent="Photo size must be 5 MB or less.";note.classList.add("error");return; }
+
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  if(!allowed.includes(file.type)){
+    note.textContent = "Please choose a JPG, PNG or WEBP image.";
+    note.classList.add("error");
+    return;
+  }
+
+  if(file.size>5*1024*1024){
+    note.textContent = "Photo size must be 5 MB or less.";
+    note.classList.add("error");
+    return;
+  }
+
   const button = $("avatarUploadBtn");
   button.disabled = true;
+
   note.classList.remove("error");
   note.textContent = "Uploading your profile photo...";
+
   try{
     const form = new FormData();
     form.append("image",file);
-    const data = await api("/upload/profile-image",{method:"POST",body:form});
+
+    const data = await api("/upload/profile-image",{
+      method:"POST",
+      body:form
+    });
+
     const url = data.image?.url || data.avatar_url || data.url;
-    if(!url) throw new Error("The server did not return the image URL.");
+
+    if(!url){
+      throw new Error("The server did not return the image URL.");
+    }
+
     member.avatar_url = url;
     member.avatarUrl = url;
+
     setPhoto(url,member.full_name || member.fullName);
+
     try{
       sessionStorage.setItem("rubalia_user",JSON.stringify(member));
       localStorage.setItem("rubalia_user",JSON.stringify(member));
     }catch(_){}
+
     note.textContent = "Your profile photo has been updated.";
+
   }catch(err){
     note.textContent = err.message || "Upload failed.";
     note.classList.add("error");
+
   }finally{
     button.disabled = false;
     $("avatarFile").value = "";
   }
 }
-$("avatarUploadBtn").addEventListener("click",()=>$("avatarFile").click());
-$("avatarFile").addEventListener("change",e=>uploadPhoto(e.target.files?.[0]));
+
+$("avatarUploadBtn").addEventListener(
+  "click",
+  ()=>$("avatarFile").click()
+);
+
+$("avatarFile").addEventListener(
+  "change",
+  e=>uploadPhoto(e.target.files?.[0])
+);
 
 document.querySelectorAll("[data-copy]").forEach(button=>{
   button.addEventListener("click",async()=>{
     const value = $(button.dataset.copy).textContent.trim();
-    if(!value || value==="Loading..." || value==="Not available") return;
+
+    if(!value || value==="Loading..." ||
+       value==="Not available" || value==="Unavailable"){
+      return;
+    }
+
     try{
       await navigator.clipboard.writeText(value);
       button.style.color="#00ff9c";
       setTimeout(()=>button.style.color="",1200);
+
     }catch(_){
-      const input=document.createElement("textarea");input.value=value;document.body.appendChild(input);input.select();document.execCommand("copy");input.remove();
+      const input=document.createElement("textarea");
+      input.value=value;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
     }
   });
 });
 
-const drawer=$("drawer"),overlay=$("overlay");
-function openDrawer(){drawer.classList.add("open");overlay.classList.add("show");}
-function closeDrawer(){drawer.classList.remove("open");overlay.classList.remove("show");}
+/* DRAWER */
+
+const drawer=$("drawer");
+const overlay=$("overlay");
+
+function openDrawer(){
+  drawer.classList.add("open");
+  overlay.classList.add("show");
+}
+
+function closeDrawer(){
+  drawer.classList.remove("open");
+  overlay.classList.remove("show");
+}
+
 $("menuOpen").addEventListener("click",openDrawer);
 $("drawerClose").addEventListener("click",closeDrawer);
 overlay.addEventListener("click",closeDrawer);
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
-$("logoutLink").addEventListener("click",e=>{e.preventDefault();if(confirm("Are you sure you want to log out?"))logout();});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeDrawer();
+});
+
+$("logoutLink").addEventListener("click",e=>{
+  e.preventDefault();
+
+  if(confirm("Are you sure you want to log out?")){
+    logout();
+  }
+});
+
+/* INITIALIZE PROFILE */
 
 async function init(){
-  if(!token()){logout();return;}
+
+  if(!token()){
+    logout();
+    return;
+  }
+
   try{
     const authData = await api("/auth/me");
-    if(!authData.user) throw new Error("Member profile was not returned.");
+
+    if(!authData.user){
+      throw new Error("Member profile was not returned.");
+    }
 
     let completeUser = {...authData.user};
+
     try{
       const profileData = await api("/profile");
-      const savedProfile = profileData.profile || profileData.user || profileData.data?.profile;
+
+      const savedProfile =
+        profileData.profile ||
+        profileData.user ||
+        profileData.data?.profile;
+
       if(savedProfile && typeof savedProfile === "object"){
-        completeUser = {...completeUser, ...savedProfile};
+        completeUser = {
+          ...completeUser,
+          ...savedProfile
+        };
       }else{
         throw new Error("The profile API did not return saved profile data.");
       }
+
     }catch(profileError){
-      console.error("Saved profile could not be loaded:", profileError);
+      console.error(
+        "Saved profile could not be loaded:",
+        profileError
+      );
+
       if(!completeUser.avatar_url && !completeUser.avatarUrl){
-        $("uploadNote").textContent = "Profile photo could not be loaded from the server. Please refresh or contact support.";
+        $("uploadNote").textContent =
+          "Profile photo could not be loaded from the server. Please refresh or contact support.";
+
         $("uploadNote").classList.add("error");
       }
     }
 
     renderMember(completeUser);
+
     loadWallet();
     loadReferral();
+
   }catch(err){
+
     $("memberName").textContent = "Unable to load profile";
-    $("uploadNote").textContent = err.message || "Unable to load your profile.";
+
+    $("uploadNote").textContent =
+      err.message || "Unable to load your profile.";
+
     $("uploadNote").classList.add("error");
-    console.error(err);
+
+    console.error("Profile initialization error:",err);
   }
 }
+
+/* START PROFILE */
+
 init();
-<script src="push-notifications.js"></script>
+
 </script>
+
+<!-- Push Notifications script MUST stay outside the main script -->
+<script src="push-notifications.js"></script>
+
 </body>
 </html>
