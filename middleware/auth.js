@@ -1,11 +1,17 @@
 
+"use strict";
+
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+// 24 hours inactivity limit
+const INACTIVITY_LIMIT = 24 * 60 * 60 * 1000;
+
 if (!JWT_SECRET || JWT_SECRET.length < 32) {
-  console.error("JWT_SECRET must be at least 32 characters.");
-  process.exit(1);
+  throw new Error(
+    "JWT_SECRET must be at least 32 characters."
+  );
 }
 
 function authenticateToken(req, res, next) {
@@ -15,6 +21,7 @@ function authenticateToken(req, res, next) {
   if (parts.length !== 2 || parts[0] !== "Bearer") {
     return res.status(401).json({
       success: false,
+      code: "AUTH_REQUIRED",
       message: "Authentication required."
     });
   }
@@ -24,14 +31,36 @@ function authenticateToken(req, res, next) {
       issuer: "rubalia-network"
     });
 
+    // Check required token information
+    if (!decoded.id || !decoded.email || !decoded.role) {
+      return res.status(401).json({
+        success: false,
+        code: "INVALID_TOKEN",
+        message: "Invalid authentication token."
+      });
+    }
+
+    /*
+      Inactivity validation will use the
+      lastActivityAt timestamp added by
+      the session system in the next step.
+
+      Until then, do not assume that token
+      issue time represents last activity.
+    */
+
     req.auth = decoded;
     next();
+
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired token."
+      code: "TOKEN_EXPIRED",
+      message: "Your session has expired. Please log in again."
     });
   }
 }
 
-module.exports = { authenticateToken };
+module.exports = {
+  authenticateToken
+};
