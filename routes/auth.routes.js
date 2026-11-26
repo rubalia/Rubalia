@@ -4,6 +4,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 const pool = require("../config/database");
 const { generateToken } = require("../utils/token");
@@ -43,6 +44,47 @@ function parseReferralCode(code) {
   }
 }
 
+// =====================================================
+// CREATE USER SESSION
+// =====================================================
+
+async function createUserSession(user, token, req) {
+  const decoded = jwt.decode(token);
+
+  if (!decoded || !decoded.sid) {
+    throw new Error(
+      "Unable to create session: token session ID is missing."
+    );
+  }
+
+  const deviceInfo = String(
+    req.get("user-agent") || ""
+  ).slice(0, 500);
+
+  await pool.query(
+    `INSERT INTO user_sessions (
+       session_id,
+       user_id,
+       last_activity_at,
+       expires_at,
+       device_info
+     )
+     VALUES (
+       $1,
+       $2,
+       NOW(),
+       NOW() + INTERVAL '30 days',
+       $3
+     )
+     ON CONFLICT (session_id) DO NOTHING`,
+    [
+      decoded.sid,
+      user.id,
+      deviceInfo
+    ]
+  );
+}
+
 function hashResetToken(token) {
   return crypto
     .createHash("sha256")
@@ -72,7 +114,10 @@ function getFrontendBaseUrl() {
 
   const url = new URL(firstUrl);
 
-  if (url.protocol !== "https:" && url.hostname !== "localhost") {
+  if (
+    url.protocol !== "https:" &&
+    url.hostname !== "localhost"
+  ) {
     throw new Error("FRONTEND_URL must use HTTPS.");
   }
 
@@ -83,73 +128,83 @@ function getFrontendBaseUrl() {
 // SEND PASSWORD RESET EMAIL USING RESEND
 // =====================================================
 
-async function sendPasswordResetEmail(email, fullName, resetLink) {
+async function sendPasswordResetEmail(
+  email,
+  fullName,
+  resetLink
+) {
   if (!RESEND_API_KEY || !RESEND_FROM_EMAIL) {
-    throw new Error("Resend email configuration is missing.");
+    throw new Error(
+      "Resend email configuration is missing."
+    );
   }
 
   const safeName = escapeHtml(fullName);
   const safeLink = escapeHtml(resetLink);
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${RESEND_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      from: RESEND_FROM_EMAIL,
-      to: [email],
-      subject: "Reset Your RUBALIA NETWORK Password",
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <body style="margin:0;padding:25px;background:#f7f3f8;font-family:Arial,sans-serif;">
-          <div style="max-width:520px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;">
-            <div style="padding:25px;text-align:center;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);color:#ffffff;">
-              <h1 style="margin:0;font-size:25px;">RUBALIA NETWORK</h1>
-              <p style="margin:8px 0 0;color:#f5dca4;letter-spacing:3px;">GROW WITH TRUST</p>
+  const response = await fetch(
+    "https://api.resend.com/emails",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: RESEND_FROM_EMAIL,
+        to: [email],
+        subject: "Reset Your RUBALIA NETWORK Password",
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <body style="margin:0;padding:25px;background:#f7f3f8;font-family:Arial,sans-serif;">
+            <div style="max-width:520px;margin:auto;background:#ffffff;border-radius:16px;overflow:hidden;">
+              <div style="padding:25px;text-align:center;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);color:#ffffff;">
+                <h1 style="margin:0;font-size:25px;">RUBALIA NETWORK</h1>
+                <p style="margin:8px 0 0;color:#f5dca4;letter-spacing:3px;">GROW WITH TRUST</p>
+              </div>
+
+              <div style="padding:30px;color:#29243a;">
+                <h2 style="margin-top:0;">Reset Your Password</h2>
+
+                <p>Hello ${safeName},</p>
+
+                <p>
+                  We received a request to reset your RUBALIA NETWORK
+                  account password.
+                </p>
+
+                <p style="text-align:center;margin:30px 0;">
+                  <a href="${safeLink}"
+                     style="display:inline-block;padding:15px 28px;background:#a51e54;color:#ffffff;text-decoration:none;border-radius:9px;font-weight:bold;">
+                    RESET PASSWORD
+                  </a>
+                </p>
+
+                <p>This link expires in 15 minutes and can only be used once.</p>
+
+                <p>If you did not request this, you can safely ignore this email.</p>
+
+                <hr style="border:0;border-top:1px solid #eeeeee;margin:25px 0;">
+
+                <p style="font-size:12px;color:#858196;">
+                  RUBALIA NETWORK — Grow With Trust
+                </p>
+              </div>
             </div>
-
-            <div style="padding:30px;color:#29243a;">
-              <h2 style="margin-top:0;">Reset Your Password</h2>
-
-              <p>Hello ${safeName},</p>
-
-              <p>
-                We received a request to reset your RUBALIA NETWORK
-                account password.
-              </p>
-
-              <p style="text-align:center;margin:30px 0;">
-                <a href="${safeLink}"
-                   style="display:inline-block;padding:15px 28px;background:#a51e54;color:#ffffff;text-decoration:none;border-radius:9px;font-weight:bold;">
-                  RESET PASSWORD
-                </a>
-              </p>
-
-              <p>This link expires in 15 minutes and can only be used once.</p>
-
-              <p>If you did not request this, you can safely ignore this email.</p>
-
-              <hr style="border:0;border-top:1px solid #eeeeee;margin:25px 0;">
-
-              <p style="font-size:12px;color:#858196;">
-                RUBALIA NETWORK — Grow With Trust
-              </p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `
-    })
-  });
+          </body>
+          </html>
+        `
+      })
+    }
+  );
 
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Password reset email could not be sent."
+      data.message ||
+      "Password reset email could not be sent."
     );
   }
 
@@ -189,11 +244,15 @@ router.post("/register", async (req, res, next) => {
 
   const cleanName = String(fullName).trim();
   const cleanEmail = String(email).trim().toLowerCase();
+
   const cleanReferralCode = String(
     referralCode || ""
   ).trim().toUpperCase();
 
-  if (cleanName.length < 2 || cleanName.length > 120) {
+  if (
+    cleanName.length < 2 ||
+    cleanName.length > 120
+  ) {
     return res.status(400).json({
       success: false,
       message: "Full name must be between 2 and 120 characters."
@@ -265,9 +324,6 @@ router.post("/register", async (req, res, next) => {
       }
     }
 
-    // FIX: Explicitly cast parameter $4 to VARCHAR
-    // to prevent PostgreSQL inconsistent parameter type error.
-
     const result = await client.query(
       `INSERT INTO users (
          full_name,
@@ -325,6 +381,8 @@ router.post("/register", async (req, res, next) => {
 
     const token = generateToken(user);
 
+    await createUserSession(user, token, req);
+
     return res.status(201).json({
       success: true,
       message:
@@ -334,7 +392,9 @@ router.post("/register", async (req, res, next) => {
       token,
       user,
       sponsor: sponsorId
-        ? { memberId: makeMemberId(sponsorId) }
+        ? {
+            memberId: makeMemberId(sponsorId)
+          }
         : null
     });
 
@@ -439,6 +499,8 @@ router.post("/login", async (req, res, next) => {
 
     const token = generateToken(user);
 
+    await createUserSession(user, token, req);
+
     return res.json({
       success: true,
       message: "Login successful.",
@@ -464,7 +526,11 @@ router.post("/forgot-password", async (req, res, next) => {
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email || email.length > 255 || !emailPattern.test(email)) {
+    if (
+      !email ||
+      email.length > 255 ||
+      !emailPattern.test(email)
+    ) {
       return res.status(400).json({
         success: false,
         message: "Please provide a valid email address."
@@ -530,6 +596,7 @@ router.post("/forgot-password", async (req, res, next) => {
         user.full_name,
         resetLink.toString()
       );
+
     } catch (emailError) {
       await pool.query(
         `DELETE FROM password_reset_tokens
@@ -555,11 +622,14 @@ router.post("/forgot-password", async (req, res, next) => {
 
 // =====================================================
 // POST /api/auth/reset-password
-// Set a new password using a valid reset token
 // =====================================================
 
 router.post("/reset-password", async (req, res, next) => {
-  const { token, password, confirmPassword } = req.body || {};
+  const {
+    token,
+    password,
+    confirmPassword
+  } = req.body || {};
 
   if (
     typeof token !== "string" ||
@@ -627,7 +697,10 @@ router.post("/reset-password", async (req, res, next) => {
        WHERE id = $2
          AND status = 'active'
        RETURNING id`,
-      [passwordHash, resetRecord.user_id]
+      [
+        passwordHash,
+        resetRecord.user_id
+      ]
     );
 
     if (!updateResult.rows.length) {
@@ -650,7 +723,10 @@ router.post("/reset-password", async (req, res, next) => {
       `DELETE FROM password_reset_tokens
        WHERE user_id = $1
          AND id <> $2`,
-      [resetRecord.user_id, resetRecord.id]
+      [
+        resetRecord.user_id,
+        resetRecord.id
+      ]
     );
 
     await client.query("COMMIT");
