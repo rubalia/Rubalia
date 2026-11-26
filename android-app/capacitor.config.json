@@ -10,5 +10,14 @@
       "rubalia.github.io",
       "rubalia.onrender.com"
     ]
+  },
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": [
+        "alert",
+        "sound",
+        "badge"
+      ]
+    }
   }
 }
