@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071b36">
 <title>RUBALIA Banner Slider</title>
 
@@ -26,6 +25,7 @@ html,body{
  position:relative;
  width:100%;
  height:100%;
+ min-height:42px;
  overflow:hidden;
  border-radius:9px;
  background:#071b36;
@@ -34,117 +34,134 @@ html,body{
 .frame{
  position:absolute;
  inset:0;
+ display:block;
  width:100%;
  height:100%;
  border:0;
  opacity:0;
  visibility:hidden;
- transition:opacity .5s ease;
  pointer-events:none;
+ transition:opacity .5s ease,visibility .5s ease;
+ background:transparent;
 }
 
 .frame.active{
  opacity:1;
  visibility:visible;
+ pointer-events:auto;
+}
+
+@media(max-width:500px){
+ .slider{border-radius:7px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="slider" id="slider"></div>
+<div class="slider" id="slider" aria-label="RUBALIA banner slider"></div>
 
 <script>
 "use strict";
 
-/* HTML BANNER FILE LIST */
-const banners=[
- "banner-1.html",
- "banner-2.html",
- "banner-3.html",
- "banner-4.html"
+/*
+  Banner HTML files found in the video folder.
+  Keep video-slider.html out of this list.
+*/
+const banners = [
+ "buy.html",
+ "diposit.html",
+ "reffer.html",
+ "welcome.html"
 ];
 
-/* SLIDE SETTINGS */
-const SLIDE_TIME=3000;
+/* Change banner every 3 seconds */
+const SLIDE_TIME = 3000;
 
-const slider=document.getElementById("slider");
+const slider = document.getElementById("slider");
 
-let currentIndex=0;
-let timer=null;
+let currentIndex = 0;
+let timer = null;
 
-/* CREATE HTML BANNERS */
+/* Create banner frames */
 function createBanners(){
-
  slider.replaceChildren();
 
  banners.forEach((file,index)=>{
+  const frame = document.createElement("iframe");
 
-  const frame=document.createElement("iframe");
+  frame.className = "frame";
+  frame.src = file;
+  frame.title = "RUBALIA Banner " + (index + 1);
+  frame.loading = index === 0 ? "eager" : "lazy";
 
-  frame.className="frame";
-  frame.src=file;
-  frame.title="RUBALIA Banner "+(index+1);
-
-  frame.setAttribute("loading",index===0?"eager":"lazy");
-
-  /* No clicking or navigation */
+  /*
+    Allow each banner's own JavaScript to run,
+    including its in-page video popup.
+    No top-level navigation permission is granted.
+  */
   frame.setAttribute("sandbox","allow-scripts");
 
-  slider.appendChild(frame);
+  frame.addEventListener("error",()=>{
+   console.error("Unable to load banner:",file);
+  });
 
+  slider.appendChild(frame);
  });
 
  showBanner(0);
  startSlider();
 }
 
-/* SHOW BANNER */
+/* Display selected banner */
 function showBanner(index){
+ const frames = slider.querySelectorAll(".frame");
 
- const frames=slider.querySelectorAll(".frame");
+ if(!frames.length) return;
 
- if(!frames.length)return;
-
- currentIndex=(index+frames.length)%frames.length;
+ currentIndex = (index + frames.length) % frames.length;
 
  frames.forEach((frame,i)=>{
-  frame.classList.toggle("active",i===currentIndex);
+  const active = i === currentIndex;
+  frame.classList.toggle("active",active);
+  frame.setAttribute("aria-hidden",active ? "false" : "true");
  });
-
 }
 
-/* NEXT BANNER */
+/* Next banner */
 function nextBanner(){
- showBanner(currentIndex+1);
+ if(banners.length <= 1) return;
+ showBanner(currentIndex + 1);
 }
 
-/* AUTO SLIDER */
+/* Start automatic slider */
 function startSlider(){
-
  stopSlider();
 
- if(banners.length<=1)return;
+ if(banners.length <= 1) return;
 
- timer=setInterval(()=>{
-  nextBanner();
- },SLIDE_TIME);
-
+ timer = setInterval(nextBanner,SLIDE_TIME);
 }
 
-/* STOP SLIDER */
+/* Stop timer */
 function stopSlider(){
-
- if(timer){
+ if(timer !== null){
   clearInterval(timer);
-  timer=null;
+  timer = null;
  }
-
 }
 
-/* INITIALIZE */
-createBanners();
+/* Pause while browser tab is hidden */
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){
+  stopSlider();
+ }else{
+  startSlider();
+ }
+});
 
+/* Start */
+createBanners();
 </script>
 
 </body>
