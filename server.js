@@ -39,6 +39,11 @@ const {
   runModeratorMigration
 } = require("./database/moderator-migration");
 
+// Firebase Push Notification Migration
+const {
+  runPushNotificationMigration
+} = require("./database/push-notification-migration");
+
 // Routes
 const authRoutes = require("./routes/auth.routes");
 const profileRoutes = require("./routes/profile.routes");
@@ -50,6 +55,7 @@ const walletRoutes = require("./routes/wallet.routes");
 const adminRoutes = require("./routes/admin.routes");
 const moderatorRoutes = require("./routes/moderator.routes");
 const notificationRoutes = require("./routes/notification.routes");
+const pushRoutes = require("./routes/push.routes");
 const uploadRoutes = require("./routes/upload.routes");
 const paymentRoutes = require("./routes/payment.routes");
 const referralRoutes = require("./routes/referral.routes");
@@ -274,7 +280,12 @@ app.use("/api/admin", adminRoutes);
 // Moderator management APIs
 app.use("/api/moderators", moderatorRoutes);
 
+// Existing in-app notifications
 app.use("/api/notifications", notificationRoutes);
+
+// Firebase Push Notification APIs
+app.use("/api/push", pushRoutes);
+
 app.use("/api/referral", referralRoutes);
 app.use("/api/commission", commissionRoutes);
 app.use("/api/refunds", refundRoutes);
@@ -361,6 +372,10 @@ async function startServer() {
     await runModeratorMigration();
     console.log("Moderator migration completed.");
 
+    // Firebase Push Notification Database Migration
+    await runPushNotificationMigration();
+    console.log("Push notification migration completed.");
+
     // Start Commission Worker
     startCommissionWorker(pool);
     console.log("Commission worker started.");
@@ -390,6 +405,11 @@ async function startServer() {
       console.log("Moderator management API enabled.");
       console.log("Moderator database migration enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
+
+      // Firebase Push Notification
+      console.log("Firebase push notification routes registered.");
+      console.log("Push device token registration API enabled.");
+      console.log("Admin push broadcast API enabled.");
     });
 
     // =================================================
