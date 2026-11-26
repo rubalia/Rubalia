@@ -8,19 +8,41 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;min-height:100%;background:transparent;font-family:Arial,Helvetica,sans-serif}
+html,body{
+ width:100%;
+ height:100%;
+ min-width:0;
+ min-height:0;
+ margin:0;
+ padding:0;
+ overflow:hidden;
+ background:transparent;
+ font-family:Arial,Helvetica,sans-serif;
+}
 .buy-banner{
  display:block;
+ position:relative;
  width:100%;
- aspect-ratio:2048/682;
+ height:100%;
+ min-width:0;
+ min-height:0;
+ max-width:100%;
+ max-height:100%;
+ aspect-ratio:auto;
  overflow:hidden;
+ cursor:pointer;
+ background:transparent;
  border:0;
  padding:0;
- background:transparent;
- cursor:pointer;
+ margin:0;
  -webkit-tap-highlight-color:transparent;
 }
-.buy-banner svg{display:block;width:100%;height:100%}
+.buy-banner svg{
+ display:block;
+ width:100%;
+ height:100%;
+}
+
 .buy-banner:focus-visible{outline:2px solid #d6ad55;outline-offset:3px}
 
 /* Video popup */
