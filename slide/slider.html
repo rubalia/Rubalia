@@ -39,12 +39,126 @@ html,body{
   background:transparent;
   opacity:0;
   visibility:hidden;
-  transition:opacity .6s ease;
+  pointer-events:none;
 }
 
 .slide-frame.active{
   opacity:1;
   visibility:visible;
+  pointer-events:auto;
+  z-index:2;
+}
+
+/* 1. Welcome - Zoom In */
+.slide-frame.anim-zoom.active{
+  animation:zoomIn 1s cubic-bezier(.2,.7,.3,1) both;
+}
+
+@keyframes zoomIn{
+  from{
+    opacity:0;
+    transform:scale(.65);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* 2. Alibaba - Right to Left */
+.slide-frame.anim-right.active{
+  animation:slideRight .8s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideRight{
+  from{
+    opacity:0;
+    transform:translateX(100%);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+/* 3. Campaign - Bottom to Top */
+.slide-frame.anim-up.active{
+  animation:slideUp .8s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideUp{
+  from{
+    opacity:0;
+    transform:translateY(100%);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* 4. Income - Left to Right */
+.slide-frame.anim-left.active{
+  animation:slideLeft .8s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideLeft{
+  from{
+    opacity:0;
+    transform:translateX(-100%);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+/* 5. Leader - Fade and Zoom */
+.slide-frame.anim-fade.active{
+  animation:fadeZoom 1s ease both;
+}
+
+@keyframes fadeZoom{
+  from{
+    opacity:0;
+    transform:scale(1.12);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* 6. Media - Top to Bottom */
+.slide-frame.anim-down.active{
+  animation:slideDown .8s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes slideDown{
+  from{
+    opacity:0;
+    transform:translateY(-100%);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* 7. Referral - Right with Zoom */
+.slide-frame.anim-right-zoom.active{
+  animation:rightZoom .9s cubic-bezier(.2,.7,.3,1) both;
+}
+
+@keyframes rightZoom{
+  from{
+    opacity:0;
+    transform:translateX(70%) scale(.85);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0) scale(1);
+  }
 }
 
 .loading,.error{
@@ -64,6 +178,12 @@ html,body{
     #a51e43
   );
 }
+
+@media(prefers-reduced-motion:reduce){
+  .slide-frame.active{
+    animation:none!important;
+  }
+}
 </style>
 </head>
 
@@ -81,21 +201,18 @@ html,body{
 /* ================================================
    RUBALIA NETWORK PROMOTION SLIDER
 
-   Static file list.
-   GitHub API is no longer required.
-
-   New slide add করলে নিচের SLIDE_FILES
-   array-তে filename যোগ করতে হবে।
+   প্রতিটি ফাইলের আলাদা অ্যানিমেশন।
+   নতুন ফাইল যোগ করতে নিচের তালিকায় যোগ করো।
 ================================================ */
 
 const SLIDE_FILES = [
-  "a.html",
-  "alibaba.html",
-  "campain.html",
-  "income.html",
-  "leader.html",
-  "media.html",
-  "reffer.html"
+  {file:"a.html", animation:"anim-zoom"},
+  {file:"alibaba.html", animation:"anim-right"},
+  {file:"campain.html", animation:"anim-up"},
+  {file:"income.html", animation:"anim-left"},
+  {file:"leader.html", animation:"anim-fade"},
+  {file:"media.html", animation:"anim-down"},
+  {file:"reffer.html", animation:"anim-right-zoom"}
 ];
 
 const SLIDE_DURATION = 4000;
@@ -132,14 +249,19 @@ function showSlide(index){
 
   if(!frames.length) return;
 
-  currentIndex = index;
+  currentIndex = (index + frames.length) % frames.length;
 
   frames.forEach((frame,i)=>{
 
-    frame.classList.toggle(
-      "active",
-      i === currentIndex
-    );
+    const active = i === currentIndex;
+
+    frame.classList.toggle("active",active);
+
+    if(!active){
+      frame.style.zIndex = "1";
+    }else{
+      frame.style.zIndex = "2";
+    }
 
   });
 
@@ -167,13 +289,14 @@ function buildSlides(){
   frames = [];
   currentIndex = 0;
 
-  const validFiles = SLIDE_FILES.filter(file =>
-    typeof file === "string" &&
-    file.toLowerCase().endsWith(".html") &&
-    file.toLowerCase() !== "slider.html"
+  const validSlides = SLIDE_FILES.filter(item =>
+    item &&
+    typeof item.file === "string" &&
+    item.file.toLowerCase().endsWith(".html") &&
+    item.file.toLowerCase() !== "slider.html"
   );
 
-  if(!validFiles.length){
+  if(!validSlides.length){
 
     showMessage(
       "No HTML promotion files configured.",
@@ -183,13 +306,13 @@ function buildSlides(){
     return;
   }
 
-  validFiles.forEach((file,index)=>{
+  validSlides.forEach((item,index)=>{
 
     const frame = document.createElement("iframe");
 
-    frame.className = "slide-frame";
+    frame.className = "slide-frame " + item.animation;
 
-    frame.src = "./" + encodeURIComponent(file);
+    frame.src = "./" + encodeURIComponent(item.file);
 
     frame.title = "Rubalia Promotion " + (index + 1);
 
@@ -203,7 +326,7 @@ function buildSlides(){
 
       console.log(
         "Rubalia slide loaded:",
-        file
+        item.file
       );
 
     });
@@ -212,7 +335,7 @@ function buildSlides(){
 
       console.error(
         "Rubalia slide failed:",
-        file
+        item.file
       );
 
     });
@@ -223,6 +346,7 @@ function buildSlides(){
 
   });
 
+  /* প্রথমে a.html Zoom In হবে */
   showSlide(0);
 }
 
