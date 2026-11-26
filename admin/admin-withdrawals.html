@@ -70,6 +70,7 @@ a{text-decoration:none;color:inherit}
  inset:64px auto 0 0;
  overflow-y:auto;
  z-index:40;
+ transition:transform .25s;
 }
 .brand{
  padding:5px 10px 22px;
@@ -750,6 +751,35 @@ let actionInProgress=false;
 const $=id=>document.getElementById(id);
 
 /* ======================================
+   STATUS NORMALIZATION
+====================================== */
+
+function normalizeStatus(value){
+ return String(value??"").trim().toLowerCase();
+}
+
+function normalizeMethod(value){
+ return String(value??"").trim().toLowerCase();
+}
+
+/* ======================================
+   TOKEN STORAGE
+====================================== */
+
+function getStoredToken(){
+ return localStorage.getItem(TOKEN_KEY) ||
+        sessionStorage.getItem(TOKEN_KEY) ||
+        "";
+}
+
+function clearStoredSession(){
+ localStorage.removeItem(TOKEN_KEY);
+ sessionStorage.removeItem(TOKEN_KEY);
+ localStorage.removeItem(USER_KEY);
+ sessionStorage.removeItem(USER_KEY);
+}
+
+/* ======================================
    UTILITIES
 ====================================== */
 
@@ -789,7 +819,7 @@ function methodName(value){
   rocket:"Rocket",
   bank:"Bank"
  };
- const key=String(value||"").toLowerCase();
+ const key=normalizeMethod(value);
  return methods[key]||String(value||"Unknown");
 }
 
@@ -798,7 +828,7 @@ function safeText(value){
 }
 
 function statusClass(status){
- const value=String(status||"").toLowerCase();
+ const value=normalizeStatus(status);
  const allowed=["pending","approved","processing","paid","rejected"];
  return allowed.includes(value)?value:"pending";
 }
@@ -818,14 +848,14 @@ function showAlert(message,type="error"){
 }
 
 function clearAlert(){
- $("pageAlert").className="alert";
- $("pageAlert").textContent="";
- $("pageAlert").style.display="none";
+ const alert=$("pageAlert");
+ alert.className="alert";
+ alert.textContent="";
+ alert.style.display="none";
 }
 
 function logout(){
- sessionStorage.removeItem(TOKEN_KEY);
- sessionStorage.removeItem(USER_KEY);
+ clearStoredSession();
  window.location.replace("../login.html");
 }
 
@@ -898,7 +928,7 @@ async function apiRequest(path,options={}){
 ====================================== */
 
 async function verifyAdmin(){
- token=sessionStorage.getItem(TOKEN_KEY)||"";
+ token=getStoredToken();
 
  if(!token){
   window.location.replace("../login.html");
@@ -913,7 +943,7 @@ async function verifyAdmin(){
    throw new Error("Administrator account information not returned.");
   }
 
-  if(String(user.role||"").toLowerCase()!=="admin"){
+  if(normalizeStatus(user.role)!=="admin"){
    window.location.replace("../dashboard.html");
    return false;
   }
@@ -955,7 +985,7 @@ async function loadWithdrawals(){
   const data=await apiRequest("/wallet/admin/withdrawals");
 
   if(!Array.isArray(data.withdrawals)){
-   throw new Error("Unexpected withdrawal response from backend.");
+   throw new Error("Unexpected withdrawal response from backend. Expected data.withdrawals array.");
   }
 
   withdrawals=data.withdrawals;
@@ -992,7 +1022,6 @@ async function loadWithdrawals(){
 
 /* ======================================
    STATISTICS
-   Calculated from loaded backend records.
 ====================================== */
 
 function updateStatistics(){
@@ -1004,22 +1033,20 @@ function updateStatistics(){
  $("totalAmount").textContent=money(totalAmount);
 
  $("pendingCount").textContent=numberText(
-  withdrawals.filter(x=>x.status==="pending").length
+  withdrawals.filter(x=>normalizeStatus(x.status)==="pending").length
  );
 
  $("approvedCount").textContent=numberText(
-  withdrawals.filter(x=>x.status==="approved").length
+  withdrawals.filter(x=>normalizeStatus(x.status)==="approved").length
  );
 
  $("rejectedCount").textContent=numberText(
-  withdrawals.filter(x=>x.status==="rejected").length
+  withdrawals.filter(x=>normalizeStatus(x.status)==="rejected").length
  );
 }
 
 /* ======================================
    FILTER AND RENDER
-   Search/method filters are client-side
-   because backend list supports status only.
 ====================================== */
 
 function renderWithdrawals(){
@@ -1027,8 +1054,8 @@ function renderWithdrawals(){
  body.replaceChildren();
 
  const query=$("searchInput").value.trim().toLowerCase();
- const method=$("methodFilter").value;
- const status=$("statusFilter").value;
+ const method=normalizeMethod($("methodFilter").value);
+ const status=normalizeStatus($("statusFilter").value);
 
  const filtered=withdrawals.filter(item=>{
   const searchable=[
@@ -1042,8 +1069,8 @@ function renderWithdrawals(){
   ].join(" ").toLowerCase();
 
   return (!query||searchable.includes(query))&&
-   (!method||String(item.payment_method).toLowerCase()===method)&&
-   (!status||String(item.status).toLowerCase()===status);
+   (!method||normalizeMethod(item.payment_method)===method)&&
+   (!status||normalizeStatus(item.status)===status);
  });
 
  if(!filtered.length){
@@ -1051,9 +1078,11 @@ function renderWithdrawals(){
   const cell=document.createElement("td");
   cell.colSpan=9;
   cell.className="empty";
+
   cell.textContent=withdrawals.length
    ?"No matching withdrawal requests found."
-   :"No withdrawal requests are available.";
+   :"No withdrawal requests are available from the server.";
+
   row.appendChild(cell);
   body.appendChild(row);
  }
@@ -1092,7 +1121,7 @@ function renderWithdrawals(){
    }else if(index===7){
     const badge=document.createElement("span");
     badge.className="status "+statusClass(value);
-    badge.textContent=safeText(value);
+    badge.textContent=safeText(normalizeStatus(value));
     cell.appendChild(badge);
    }else{
     cell.textContent=safeText(value);
@@ -1137,7 +1166,7 @@ function addDetail(label,value){
 }
 
 function openWithdrawal(id){
- const item=withdrawals.find(x=>Number(x.id)===Number(id));
+ const item=withdrawals.find(x=>String(x.id)===String(id));
  if(!item)return;
 
  selectedWithdrawal=item;
@@ -1157,7 +1186,7 @@ function openWithdrawal(id){
  addDetail("Payment Method",methodName(item.payment_method));
  addDetail("Account Name",item.account_name);
  addDetail("Account Number",item.account_number_masked);
- addDetail("Status",item.status);
+ addDetail("Status",normalizeStatus(item.status));
  addDetail("Request Date",dateText(item.requested_at));
  addDetail("Approved Date",dateText(item.approved_at));
  addDetail("Processing Date",dateText(item.processing_at));
@@ -1169,11 +1198,14 @@ function openWithdrawal(id){
  $("paymentDetails").textContent=
   "Full account number is protected. Load it only when the request is approved or processing.";
 
- const canViewDetails=["approved","processing"].includes(
-  String(item.status).toLowerCase()
- );
+ const currentStatus=normalizeStatus(item.status);
+
+ const canViewDetails=["approved","processing"].includes(currentStatus);
 
  $("loadPaymentDetailsBtn").hidden=!canViewDetails;
+ $("loadPaymentDetailsBtn").disabled=false;
+ $("loadPaymentDetailsBtn").textContent="View Full Payment Details";
+
  $("paymentReference").value="";
  $("adminNote").value="";
 
@@ -1197,7 +1229,7 @@ function renderModalActions(){
 
  if(!selectedWithdrawal)return;
 
- const status=String(selectedWithdrawal.status||"").toLowerCase();
+ const status=normalizeStatus(selectedWithdrawal.status);
 
  if(status==="pending"){
   addActionButton("Approve","btn-green",approveWithdrawal);
@@ -1235,7 +1267,6 @@ function addActionButton(label,className,callback){
 
 /* ======================================
    LOAD FULL PAYMENT DETAILS
-   GET /api/wallet/admin/withdrawals/:id/payment-details
 ====================================== */
 
 async function loadPaymentDetails(){
@@ -1327,7 +1358,6 @@ async function performAction(path,body,message){
 
 /* ======================================
    APPROVE
-   POST /api/wallet/admin/withdrawals/:id/approve
 ====================================== */
 
 function approveWithdrawal(){
@@ -1344,7 +1374,6 @@ function approveWithdrawal(){
 
 /* ======================================
    MARK PROCESSING
-   POST /api/wallet/admin/withdrawals/:id/processing
 ====================================== */
 
 function markProcessing(){
@@ -1361,7 +1390,6 @@ function markProcessing(){
 
 /* ======================================
    MARK PAID
-   POST /api/wallet/admin/withdrawals/:id/paid
 ====================================== */
 
 function markPaid(){
@@ -1386,16 +1414,12 @@ function markPaid(){
 
 /* ======================================
    REJECT
-   POST /api/wallet/admin/withdrawals/:id/reject
-
-   Backend returns reserved wallet amount.
 ====================================== */
 
 function rejectWithdrawal(){
  if(!selectedWithdrawal)return;
 
  const note=$("adminNote").value.trim();
-
  const id=selectedWithdrawal.id;
 
  performAction(
