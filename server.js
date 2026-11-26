@@ -19,30 +19,30 @@ const { runWalletMigration } = require("./database/wallet-migration");
 const { runSupportMigration } = require("./database/support-migration");
 const { runSettingsMigration } = require("./database/settings-migration");
 
-// Password Reset Migration
 const {
   runPasswordResetMigration
 } = require("./database/password-reset-migration");
 
-// Profile Image Migration
 const {
   runProfileImageMigration
 } = require("./database/profile-image-migration");
 
-// Monthly Financial Report Migration
 const {
   runMonthlyFinancialReportMigration
 } = require("./database/monthly-financial-report-migration");
 
-// Moderator Migration
 const {
   runModeratorMigration
 } = require("./database/moderator-migration");
 
-// Firebase Push Notification Migration
 const {
   runPushNotificationMigration
 } = require("./database/push-notification-migration");
+
+// NEW: User Session Migration
+const {
+  runSessionMigration
+} = require("./database/session-migration");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -64,7 +64,6 @@ const refundRoutes = require("./routes/refund.routes");
 const supportRoutes = require("./routes/support.routes");
 const settingsRoutes = require("./routes/settings.routes");
 
-// Monthly Financial Report Route
 const financialReportRoutes = require("./routes/financial-report.routes");
 
 // Commission Worker
@@ -274,16 +273,9 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/wallet", walletRoutes);
 
-// Admin APIs
 app.use("/api/admin", adminRoutes);
-
-// Moderator management APIs
 app.use("/api/moderators", moderatorRoutes);
-
-// Existing in-app notifications
 app.use("/api/notifications", notificationRoutes);
-
-// Firebase Push Notification APIs
 app.use("/api/push", pushRoutes);
 
 app.use("/api/referral", referralRoutes);
@@ -292,8 +284,6 @@ app.use("/api/refunds", refundRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/support", supportRoutes);
-
-// Member Settings API
 app.use("/api/settings", settingsRoutes);
 
 // =====================================================
@@ -356,25 +346,24 @@ async function startServer() {
     await runSettingsMigration();
     console.log("Settings migration completed.");
 
-    // Password Reset Database Migration
     await runPasswordResetMigration();
     console.log("Password reset migration completed.");
 
-    // Profile Image Database Migration
     await runProfileImageMigration();
     console.log("Profile image migration completed.");
 
-    // Monthly Financial Report Database Migration
     await runMonthlyFinancialReportMigration();
     console.log("Monthly financial report migration completed.");
 
-    // Moderator Database Migration
     await runModeratorMigration();
     console.log("Moderator migration completed.");
 
-    // Firebase Push Notification Database Migration
     await runPushNotificationMigration();
     console.log("Push notification migration completed.");
+
+    // NEW: Session Database Migration
+    await runSessionMigration();
+    console.log("User session migration completed.");
 
     // Start Commission Worker
     startCommissionWorker(pool);
@@ -386,6 +375,7 @@ async function startServer() {
 
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`Rubalia API running on port ${PORT}`);
+
       console.log("Cloudinary upload route registered.");
       console.log("Member profile photo upload API enabled.");
       console.log("Payment route registered.");
@@ -406,10 +396,12 @@ async function startServer() {
       console.log("Moderator database migration enabled.");
       console.log("Capacitor WebView CORS origins enabled.");
 
-      // Firebase Push Notification
       console.log("Firebase push notification routes registered.");
       console.log("Push device token registration API enabled.");
       console.log("Admin push broadcast API enabled.");
+
+      // NEW
+      console.log("User session database enabled.");
     });
 
     // =================================================
@@ -428,10 +420,7 @@ async function startServer() {
       console.log(`${signal} received. Shutting down...`);
 
       try {
-        // Stop Commission Worker
         await stopCommissionWorker();
-
-        // Stop Monthly Financial Report Worker
         await stopMonthlyFinancialReportWorker();
 
         server.close(async () => {
