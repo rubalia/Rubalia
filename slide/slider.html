@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,11 @@
 <title>Rubalia Promotion Slider</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 html,body{
   width:100%;
@@ -52,7 +57,12 @@ html,body{
   font-size:13px;
   text-align:center;
   padding:12px;
-  background:linear-gradient(120deg,#24112f,#4b104f,#a51e43);
+  background:linear-gradient(
+    120deg,
+    #24112f,
+    #4b104f,
+    #a51e43
+  );
 }
 </style>
 </head>
@@ -60,152 +70,207 @@ html,body{
 <body>
 
 <div class="slider" id="slider">
-  <div class="loading">Loading all Rubalia promotions...</div>
+  <div class="loading">
+    Loading all Rubalia promotions...
+  </div>
 </div>
 
 <script>
 "use strict";
 
-/*
-  RUBALIA AUTO PROMOTION SLIDER
+/* ================================================
+   RUBALIA NETWORK PROMOTION SLIDER
 
-  Automatically targets EVERY .html file inside this same /slide folder,
-  except slider.html itself.
+   Static file list.
+   GitHub API is no longer required.
 
-  New HTML files added to /slide will be included automatically.
-*/
+   New slide add করলে নিচের SLIDE_FILES
+   array-তে filename যোগ করতে হবে।
+================================================ */
 
-const GITHUB_API =
-  "https://api.github.com/repos/rubalia/Rubalia/contents/slide?ref=main";
+const SLIDE_FILES = [
+  "a.html",
+  "alibaba.html",
+  "campain.html",
+  "income.html",
+  "leader.html",
+  "media.html",
+  "reffer.html"
+];
 
 const SLIDE_DURATION = 4000;
-const REFRESH_DURATION = 5 * 60 * 1000;
 
 const slider = document.getElementById("slider");
 
-let slideFiles = [];
 let frames = [];
 let currentIndex = 0;
 let slideTimer = null;
-let refreshTimer = null;
-let isLoading = false;
 
-function showMessage(text, className = "loading"){
+/* ================================================
+   SHOW MESSAGE
+================================================ */
+
+function showMessage(message, className = "loading"){
+
   clearTimeout(slideTimer);
+
   slider.replaceChildren();
 
   const box = document.createElement("div");
+
   box.className = className;
-  box.textContent = text;
+  box.textContent = message;
 
   slider.appendChild(box);
 }
 
+/* ================================================
+   SHOW SLIDE
+================================================ */
+
 function showSlide(index){
+
   if(!frames.length) return;
 
   currentIndex = index;
 
-  frames.forEach((frame, i) => {
-    frame.classList.toggle("active", i === currentIndex);
+  frames.forEach((frame,i)=>{
+
+    frame.classList.toggle(
+      "active",
+      i === currentIndex
+    );
+
   });
 
   clearTimeout(slideTimer);
 
-  slideTimer = setTimeout(() => {
-    showSlide((currentIndex + 1) % frames.length);
-  }, SLIDE_DURATION);
+  slideTimer = setTimeout(()=>{
+
+    showSlide(
+      (currentIndex + 1) % frames.length
+    );
+
+  },SLIDE_DURATION);
 }
 
-function buildSlides(files){
+/* ================================================
+   BUILD SLIDES
+================================================ */
+
+function buildSlides(){
+
   clearTimeout(slideTimer);
 
   slider.replaceChildren();
+
   frames = [];
   currentIndex = 0;
 
-  slideFiles = files;
+  const validFiles = SLIDE_FILES.filter(file =>
+    typeof file === "string" &&
+    file.toLowerCase().endsWith(".html") &&
+    file.toLowerCase() !== "slider.html"
+  );
 
-  slideFiles.forEach((file, index) => {
+  if(!validFiles.length){
+
+    showMessage(
+      "No HTML promotion files configured.",
+      "error"
+    );
+
+    return;
+  }
+
+  validFiles.forEach((file,index)=>{
+
     const frame = document.createElement("iframe");
 
     frame.className = "slide-frame";
-    frame.src = "./" + encodeURIComponent(file);
-    frame.title = file;
-    frame.loading = "eager";
-    frame.setAttribute("scrolling", "no");
-    frame.setAttribute("allowfullscreen", "");
 
-    frame.addEventListener("error", () => {
-      console.error("Rubalia slide failed to load:", file);
+    frame.src = "./" + encodeURIComponent(file);
+
+    frame.title = "Rubalia Promotion " + (index + 1);
+
+    frame.loading = "eager";
+
+    frame.setAttribute("scrolling","no");
+
+    frame.setAttribute("allowfullscreen","");
+
+    frame.addEventListener("load",()=>{
+
+      console.log(
+        "Rubalia slide loaded:",
+        file
+      );
+
+    });
+
+    frame.addEventListener("error",()=>{
+
+      console.error(
+        "Rubalia slide failed:",
+        file
+      );
+
     });
 
     frames.push(frame);
+
     slider.appendChild(frame);
+
   });
 
-  if(frames.length){
-    showSlide(0);
-  }else{
-    showMessage("No HTML promotion files found in the slide folder.");
-  }
+  showSlide(0);
 }
 
-async function loadSlides(){
-  if(isLoading) return;
-  isLoading = true;
+/* ================================================
+   INITIALIZE
+================================================ */
+
+function initializeSlider(){
 
   try{
-    const response = await fetch(GITHUB_API, {
-      cache: "no-store",
-      headers: {
-        "Accept": "application/vnd.github+json"
-      }
-    });
 
-    if(!response.ok){
-      throw new Error("GitHub API returned " + response.status);
-    }
-
-    const items = await response.json();
-
-    const htmlFiles = items
-      .filter(item =>
-        item.type === "file" &&
-        item.name.toLowerCase().endsWith(".html") &&
-        item.name.toLowerCase() !== "slider.html"
-      )
-      .map(item => item.name)
-      .sort((a, b) => a.localeCompare(b));
-
-    const oldFiles = JSON.stringify(slideFiles);
-    const newFiles = JSON.stringify(htmlFiles);
-
-    if(oldFiles !== newFiles || frames.length === 0){
-      buildSlides(htmlFiles);
-    }
+    buildSlides();
 
   }catch(error){
-    console.error("Rubalia slider error:", error);
 
-    if(frames.length === 0){
-      showMessage(
-        "Could not load the slide folder. Check GitHub Pages or API access.",
-        "error"
-      );
-    }
+    console.error(
+      "Rubalia slider initialization error:",
+      error
+    );
 
-  }finally{
-    isLoading = false;
+    showMessage(
+      "Unable to initialize Rubalia promotions.",
+      "error"
+    );
+
   }
+
 }
 
-/* Load all current HTML files. */
-loadSlides();
+/* ================================================
+   START
+================================================ */
 
-/* Detect newly added or removed HTML files every five minutes. */
-refreshTimer = setInterval(loadSlides, REFRESH_DURATION);
+if(document.readyState === "loading"){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeSlider,
+    {once:true}
+  );
+
+}else{
+
+  initializeSlider();
+
+}
 
 </script>
+
 </body>
 </html>
