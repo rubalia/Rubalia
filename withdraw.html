@@ -13,8 +13,6 @@
   --navy2:#1B3261;
   --blue:#2455A4;
   --cyan:#35B9D5;
-  --cyan2:#70D9E9;
-  --silver:#D5DCE8;
   --bg:#F1F5FB;
   --text:#1D2D49;
   --muted:#77869E;
@@ -23,594 +21,182 @@
   --red:#D64B4B;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 body.menu-open{overflow:hidden}
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 
-/* HEADER */
-
 .topbar{
-  height:76px;
-  background:linear-gradient(110deg,#101D3B,#1B3261,#2455A4);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 25px;
-  color:white;
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:2px solid var(--cyan);
-  box-shadow:0 5px 20px rgba(16,29,59,.2);
+ height:76px;background:linear-gradient(110deg,#101D3B,#1B3261,#2455A4);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 25px;color:white;position:sticky;top:0;z-index:100;
+ border-bottom:2px solid var(--cyan);
+ box-shadow:0 5px 20px rgba(16,29,59,.2)
 }
-
-.top-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
+.top-left{display:flex;align-items:center;gap:13px}
 .menu-btn{
-  width:42px;
-  height:42px;
-  border:1px solid rgba(255,255,255,.23);
-  background:rgba(255,255,255,.08);
-  color:white;
-  border-radius:10px;
-  font-size:23px;
-  cursor:pointer;
+ width:42px;height:42px;border:1px solid #ffffff3b;
+ background:#ffffff15;color:white;border-radius:10px;
+ font-size:23px;cursor:pointer
 }
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:900;
-  letter-spacing:1px;
-  font-size:17px;
-}
-
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1px;font-size:17px}
 .brand-icon{
-  width:41px;
-  height:41px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#BDECF4,#54C9DD,#2584B8);
-  color:#10284D;
-  border-radius:11px;
-  font-size:23px;
-  box-shadow:0 4px 12px #0003;
+ width:41px;height:41px;display:grid;place-items:center;
+ background:linear-gradient(135deg,#BDECF4,#54C9DD,#2584B8);
+ color:#10284D;border-radius:11px;font-size:23px
 }
-
-.brand small{
-  display:block;
-  font-size:9px;
-  letter-spacing:4px;
-  color:#7DE2F1;
-  margin-top:3px;
+.brand small,.drawer-brand small{
+ display:block;font-size:9px;letter-spacing:4px;color:#7DE2F1;margin-top:3px
 }
-
-.page-label{
-  font-size:12px;
-  color:#85E4F2;
-  font-weight:900;
-  letter-spacing:1.5px;
-}
-
-/* DRAWER */
+.page-label{font-size:12px;color:#85E4F2;font-weight:900;letter-spacing:1.5px}
 
 .drawer-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(5,13,35,.65);
-  z-index:200;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
+ position:fixed;inset:0;background:#050d23a6;z-index:200;
+ opacity:0;visibility:hidden;transition:.25s
 }
-
-.drawer-overlay.show{
-  opacity:1;
-  visibility:visible;
-}
-
+.drawer-overlay.show{opacity:1;visibility:visible}
 .sidebar{
-  position:fixed;
-  top:0;
-  left:0;
-  width:285px;
-  max-width:85vw;
-  height:100vh;
-  height:100dvh;
-  background:linear-gradient(180deg,#101D3B,#1B3261,#2455A4);
-  color:white;
-  z-index:201;
-  transform:translateX(-105%);
-  transition:.28s;
-  overflow-y:auto;
-  padding:22px 15px;
-  box-shadow:10px 0 35px #0003;
+ position:fixed;top:0;left:0;width:285px;max-width:85vw;
+ height:100vh;height:100dvh;
+ background:linear-gradient(180deg,#101D3B,#1B3261,#2455A4);
+ color:white;z-index:201;transform:translateX(-105%);
+ transition:.28s;overflow-y:auto;padding:22px 15px
 }
-
 .sidebar.open{transform:translateX(0)}
-
-.drawer-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 8px 25px;
-  border-bottom:1px solid rgba(255,255,255,.14);
-}
-
-.drawer-brand{
-  font-size:20px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.drawer-brand small{
-  display:block;
-  color:#7DE2F1;
-  font-size:9px;
-  letter-spacing:4px;
-  margin-top:4px;
-}
-
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:5px 8px 25px;border-bottom:1px solid #ffffff24}
+.drawer-brand{font-size:20px;font-weight:900;letter-spacing:1px}
 .close-menu{
-  border:1px solid #ffffff25;
-  background:#ffffff12;
-  color:white;
-  width:36px;
-  height:36px;
-  border-radius:9px;
-  font-size:23px;
-  cursor:pointer;
+ border:1px solid #ffffff25;background:#ffffff12;color:white;
+ width:36px;height:36px;border-radius:9px;font-size:23px;cursor:pointer
 }
-
-.menu-title{
-  color:#91A9D0;
-  font-size:10px;
-  font-weight:bold;
-  padding:22px 12px 9px;
-  letter-spacing:1.5px;
-}
-
+.menu-title{color:#91A9D0;font-size:10px;font-weight:bold;padding:22px 12px 9px;letter-spacing:1.5px}
 .menu a{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 12px;
-  margin:4px 0;
-  border-radius:10px;
-  color:#E6EDFA;
-  font-size:13px;
-  transition:.2s;
+ display:flex;align-items:center;gap:12px;padding:13px 12px;
+ margin:4px 0;border-radius:10px;color:#E6EDFA;font-size:13px;transition:.2s
 }
-
-.menu a:hover,.menu a.active{
-  background:linear-gradient(110deg,#35B9D5,#70D9E9);
-  color:#10264C;
-  font-weight:900;
-  box-shadow:0 4px 12px #0002;
-}
-
-.menu a span{
-  width:22px;
-  text-align:center;
-  font-size:17px;
-}
-
-/* MAIN */
+.menu a:hover,.menu a.active{background:linear-gradient(110deg,#35B9D5,#70D9E9);color:#10264C;font-weight:900}
+.menu a span{width:22px;text-align:center;font-size:17px}
 
 .main{min-height:calc(100vh - 76px)}
-
-.content{
-  padding:28px;
-  max-width:1250px;
-  margin:auto;
-}
-
+.content{padding:28px;max-width:1250px;margin:auto}
 .heading{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-bottom:22px;
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px;flex-wrap:wrap;margin-bottom:22px
 }
-
-.heading h1{
-  font-size:26px;
-  color:var(--navy);
-  font-weight:900;
-}
-
-.heading p{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:7px;
-}
-
-.member-info{
-  font-size:11px;
-  color:var(--blue);
-  font-weight:bold;
-}
-
-/* NOTICE */
+.heading h1{font-size:26px;color:var(--navy);font-weight:900}
+.heading p{font-size:13px;color:var(--muted);margin-top:7px}
+.member-info{font-size:11px;color:var(--blue);font-weight:bold}
 
 .notice{
-  display:none;
-  border-radius:11px;
-  padding:14px 16px;
-  margin-bottom:20px;
-  font-size:12px;
-  line-height:1.7;
+ display:none;border-radius:11px;padding:14px 16px;margin-bottom:20px;
+ font-size:12px;line-height:1.7;overflow-wrap:anywhere
 }
-
 .notice.show{display:block}
-
-.notice.error{
-  background:#FFF0F0;
-  border:1px solid #F3C7C7;
-  color:#A52E2E;
-}
-
-.notice.success{
-  background:#EAF8F1;
-  border:1px solid #B8E6CF;
-  color:#176A49;
-}
-
-.notice.info{
-  background:#EAF5FF;
-  border:1px solid #BFD9F5;
-  color:#28568A;
-}
-
-/* WALLET BALANCE */
+.notice.error{background:#FFF0F0;border:1px solid #F3C7C7;color:#A52E2E}
+.notice.success{background:#EAF8F1;border:1px solid #B8E6CF;color:#176A49}
+.notice.info{background:#EAF5FF;border:1px solid #BFD9F5;color:#28568A}
 
 .balance{
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 90% 10%,rgba(53,185,213,.35),transparent 35%),
-    linear-gradient(125deg,#101D3B,#1B3261 55%,#2455A4);
-  border:1px solid #4268A0;
-  border-radius:17px;
-  padding:27px;
-  color:white;
-  margin-bottom:23px;
-  box-shadow:0 9px 25px rgba(16,29,59,.16);
+ position:relative;overflow:hidden;
+ background:radial-gradient(circle at 90% 10%,#35B9D559,transparent 35%),
+ linear-gradient(125deg,#101D3B,#1B3261 55%,#2455A4);
+ border:1px solid #4268A0;border-radius:17px;padding:27px;color:white;
+ margin-bottom:23px;box-shadow:0 9px 25px #101d3b29
 }
-
 .balance:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  right:-65px;
-  bottom:-115px;
-  border:1px solid #ffffff25;
-  border-radius:50%;
-  box-shadow:0 0 0 20px #ffffff08,0 0 0 40px #ffffff06;
+ content:"";position:absolute;width:180px;height:180px;right:-65px;bottom:-115px;
+ border:1px solid #ffffff25;border-radius:50%;
+ box-shadow:0 0 0 20px #ffffff08,0 0 0 40px #ffffff06
 }
+.balance-label{font-size:12px;color:#C8D9F1;font-weight:bold;letter-spacing:1.2px}
+.balance-amount{font-size:37px;font-weight:900;color:#75E2F0;margin:13px 0}
+.balance small{font-size:11px;color:#B9CBE4}
 
-.balance-label{
-  font-size:12px;
-  color:#C8D9F1;
-  font-weight:bold;
-  letter-spacing:1.2px;
-}
-
-.balance-amount{
-  font-size:37px;
-  font-weight:900;
-  color:#75E2F0;
-  margin:13px 0;
-  text-shadow:0 2px 10px #0003;
-}
-
-.balance small{
-  font-size:11px;
-  color:#B9CBE4;
-}
-
-/* GRID */
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1.4fr;
-  gap:20px;
-  align-items:start;
-}
-
+.grid{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;align-items:start}
 .card{
-  background:linear-gradient(145deg,#FFFFFF,#F9FBFE);
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:22px;
-  margin-bottom:22px;
-  box-shadow:0 5px 18px rgba(30,60,100,.055);
+ background:linear-gradient(145deg,#fff,#F9FBFE);
+ border:1px solid var(--border);border-radius:15px;padding:22px;
+ margin-bottom:22px;box-shadow:0 5px 18px #1e3c640e
 }
-
-.card h2{
-  font-size:17px;
-  color:var(--navy);
-  font-weight:900;
-}
-
-.card-sub{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:7px;
-  margin-bottom:19px;
-}
-
-/* SUMMARY */
+.card h2{font-size:17px;color:var(--navy);font-weight:900}
+.card-sub{font-size:11px;color:var(--muted);margin-top:7px;margin-bottom:19px}
 
 .stat-row{
-  display:flex;
-  justify-content:space-between;
-  padding:15px 0;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-  gap:10px;
+ display:flex;justify-content:space-between;padding:15px 0;
+ border-bottom:1px solid var(--border);font-size:12px;gap:10px
 }
-
 .stat-row:last-child{border-bottom:0}
-
 .stat-row span{color:var(--muted)}
-
-.stat-row strong{
-  color:var(--blue);
-  text-align:right;
-}
-
-/* FORM */
+.stat-row strong{color:var(--blue);text-align:right}
 
 .form-group{margin-bottom:17px}
-
-.form-group label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  color:#344A69;
-  margin-bottom:9px;
+.form-group label{display:block;font-size:12px;font-weight:800;color:#344A69;margin-bottom:9px}
+.form-group input,.form-group select{
+ width:100%;padding:13px;border:1px solid #DCE5F0;border-radius:10px;
+ background:#F9FBFE;outline:none;font-size:13px;color:var(--text);transition:.2s
 }
-
-.form-group input,
-.form-group select{
-  width:100%;
-  padding:13px;
-  border:1px solid #DCE5F0;
-  border-radius:10px;
-  background:#F9FBFE;
-  outline:none;
-  font-size:13px;
-  color:var(--text);
-  transition:.2s;
+.form-group input:focus,.form-group select:focus{
+ border-color:var(--cyan);background:white;box-shadow:0 0 0 3px #35B9D51a
 }
-
-.form-group input:focus,
-.form-group select:focus{
-  border-color:var(--cyan);
-  background:white;
-  box-shadow:0 0 0 3px #35B9D51A;
-}
-
-.help{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:7px;
-  line-height:1.6;
-}
-
+.help{font-size:10px;color:var(--muted);margin-top:7px;line-height:1.6}
 .submit-btn{
-  width:100%;
-  border:0;
-  background:linear-gradient(110deg,#2455A4,#168FBD,#35B9D5);
-  color:white;
-  padding:15px;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 5px 12px #2455A430;
-  transition:.2s;
+ width:100%;border:0;background:linear-gradient(110deg,#2455A4,#168FBD,#35B9D5);
+ color:white;padding:15px;border-radius:10px;font-size:13px;font-weight:900;
+ cursor:pointer;box-shadow:0 5px 12px #2455a430;transition:.2s
 }
-
-.submit-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 17px #2455A440;
-}
-
-.submit-btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-  transform:none;
-}
-
-/* REQUEST SUMMARY */
+.submit-btn:hover{transform:translateY(-2px)}
+.submit-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 
 .summary{
-  background:linear-gradient(145deg,#F0F6FD,#E9F4FA);
-  border:1px solid #D5E7F2;
-  border-radius:11px;
-  padding:16px;
-  margin:19px 0;
+ background:linear-gradient(145deg,#F0F6FD,#E9F4FA);
+ border:1px solid #D5E7F2;border-radius:11px;padding:16px;margin:19px 0
 }
-
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  padding:8px 0;
-  gap:10px;
-}
-
+.summary-row{display:flex;justify-content:space-between;font-size:12px;padding:8px 0;gap:10px}
 .summary-row span{color:var(--muted)}
-
-.summary-row strong{
-  color:var(--navy);
-  text-align:right;
-}
-
-/* HISTORY TABLE */
+.summary-row strong{color:var(--navy);text-align:right}
 
 .table-wrap{overflow-x:auto}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:720px;
-}
-
-th{
-  text-align:left;
-  background:#EAF1F9;
-  color:#49617E;
-  padding:14px;
-  font-size:11px;
-  white-space:nowrap;
-}
-
-td{
-  padding:15px 13px;
-  border-bottom:1px solid var(--border);
-  font-size:12px;
-  white-space:nowrap;
-}
-
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{text-align:left;background:#EAF1F9;color:#49617E;padding:14px;font-size:11px;white-space:nowrap}
+td{padding:15px 13px;border-bottom:1px solid var(--border);font-size:12px;white-space:nowrap}
 td strong{color:var(--navy)}
-
 tbody tr:hover{background:#F4F9FD}
-
-/* STATUS */
-
 .status{
-  display:inline-block;
-  padding:7px 11px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:900;
-  text-transform:capitalize;
-  background:#EDF0F5;
-  color:#526176;
+ display:inline-block;padding:7px 11px;border-radius:20px;
+ font-size:10px;font-weight:900;text-transform:capitalize;
+ background:#EDF0F5;color:#526176
 }
-
-.status.pending{
-  background:#FFF4D8;
-  color:#8A651C;
-}
-
-.status.approved{
-  background:#E2F0FF;
-  color:#245A9B;
-}
-
-.status.processing{
-  background:#F0EAFF;
-  color:#7042A4;
-}
-
-.status.paid{
-  background:#E3F7ED;
-  color:#16865B;
-}
-
-.status.rejected{
-  background:#FFEDED;
-  color:#C23D3D;
-}
-
-.empty{
-  text-align:center;
-  padding:32px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.loading{
-  text-align:center;
-  padding:28px;
-  color:var(--blue);
-  font-size:12px;
-}
-
+.status.pending{background:#FFF4D8;color:#8A651C}
+.status.approved{background:#E2F0FF;color:#245A9B}
+.status.processing{background:#F0EAFF;color:#7042A4}
+.status.paid{background:#E3F7ED;color:#16865B}
+.status.rejected{background:#FFEDED;color:#C23D3D}
+.empty,.loading{text-align:center;padding:32px;color:var(--muted);font-size:13px}
+.loading{color:var(--blue)}
 .footer{
-  text-align:center;
-  color:#C5D4E8;
-  font-size:11px;
-  padding:23px 15px;
-  background:linear-gradient(110deg,#101D3B,#1B3261,#2455A4);
-  border-top:2px solid var(--cyan);
+ text-align:center;color:#C5D4E8;font-size:11px;padding:23px 15px;
+ background:linear-gradient(110deg,#101D3B,#1B3261,#2455A4);
+ border-top:2px solid var(--cyan)
 }
-
 .footer strong{color:#75E2F0}
 
-/* RESPONSIVE */
-
-@media(max-width:950px){
-  .grid{grid-template-columns:1fr}
-}
-
+@media(max-width:950px){.grid{grid-template-columns:1fr}}
 @media(max-width:650px){
-
-  .topbar{
-    height:65px;
-    padding:0 12px;
-  }
-
-  .menu-btn{
-    width:39px;
-    height:39px;
-  }
-
-  .brand{
-    font-size:14px;
-    gap:8px;
-  }
-
-  .brand-icon{
-    width:36px;
-    height:36px;
-    font-size:21px;
-  }
-
-  .page-label{
-    font-size:10px;
-    letter-spacing:1px;
-  }
-
-  .content{padding:19px 13px}
-
-  .heading h1{font-size:22px}
-
-  .balance{
-    padding:22px;
-    border-radius:14px;
-  }
-
-  .balance-amount{font-size:31px}
-
-  .card{
-    padding:16px;
-    border-radius:13px;
-  }
+ .topbar{height:65px;padding:0 12px}
+ .menu-btn{width:39px;height:39px}
+ .brand{font-size:14px;gap:8px}
+ .brand-icon{width:36px;height:36px;font-size:21px}
+ .page-label{font-size:10px;letter-spacing:1px}
+ .content{padding:19px 13px}
+ .heading h1{font-size:22px}
+ .balance{padding:22px;border-radius:14px}
+ .balance-amount{font-size:31px}
+ .card{padding:16px;border-radius:13px}
 }
-
 @media(max-width:360px){
-  .brand{font-size:12px}
-  .page-label{font-size:9px}
-  .balance-amount{font-size:27px}
+ .brand{font-size:12px}
+ .page-label{font-size:9px}
+ .balance-amount{font-size:27px}
 }
 </style>
 </head>
@@ -618,224 +204,162 @@ tbody tr:hover{background:#F4F9FD}
 <body>
 
 <header class="topbar">
-  <div class="top-left">
-    <button class="menu-btn" id="menuBtn"
-      aria-label="Open navigation" aria-expanded="false">☰</button>
-
-    <div class="brand">
-      <div class="brand-icon">R</div>
-      <div>
-        RUBALIA
-        <small>NETWORK</small>
-      </div>
-    </div>
+ <div class="top-left">
+  <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+  <div class="brand">
+   <div class="brand-icon">R</div>
+   <div>RUBALIA<small>NETWORK</small></div>
   </div>
-
-  <span class="page-label">WITHDRAW</span>
+ </div>
+ <span class="page-label">WITHDRAW</span>
 </header>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
 
 <aside class="sidebar" id="sidebar">
-  <div class="drawer-head">
-    <div class="drawer-brand">
-      RUBALIA
-      <small>NETWORK</small>
-    </div>
-    <button class="close-menu" id="closeMenu"
-      aria-label="Close navigation">×</button>
-  </div>
-
-  <div class="menu-title">MAIN MENU</div>
-
-  <nav class="menu">
-    <a href="dashboard.html"><span>⌂</span> Dashboard</a>
-    <a href="profile.html"><span>♙</span> My Profile</a>
-    <a href="dashboard.html"><span>▣</span> Packages</a>
-    <a href="orders.html"><span>▤</span> My Orders</a>
-    <a href="team.html"><span>♧</span> My Team</a>
-    <a href="income.html"><span>৳</span> Income Details</a>
-    <a href="wallet.html"><span>◈</span> My Wallet</a>
-    <a href="withdraw.html" class="active"><span>⇧</span> Withdraw</a>
-  </nav>
-
-  <div class="menu-title">ACCOUNT</div>
-
-  <nav class="menu">
-    <a href="settings.html"><span>⚙</span> Settings</a>
-    <a href="contact.html"><span>✉</span> Contact Support</a>
-    <a href="#" id="logoutBtn"><span>↪</span> Logout</a>
-  </nav>
+ <div class="drawer-head">
+  <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+  <button class="close-menu" id="closeMenu" aria-label="Close navigation">×</button>
+ </div>
+ <div class="menu-title">MAIN MENU</div>
+ <nav class="menu">
+  <a href="dashboard.html"><span>⌂</span> Dashboard</a>
+  <a href="profile.html"><span>♙</span> My Profile</a>
+  <a href="dashboard.html"><span>▣</span> Packages</a>
+  <a href="orders.html"><span>▤</span> My Orders</a>
+  <a href="team.html"><span>♧</span> My Team</a>
+  <a href="income.html"><span>৳</span> Income Details</a>
+  <a href="wallet.html"><span>◈</span> My Wallet</a>
+  <a href="withdraw.html" class="active"><span>⇧</span> Withdraw</a>
+ </nav>
+ <div class="menu-title">ACCOUNT</div>
+ <nav class="menu">
+  <a href="settings.html"><span>⚙</span> Settings</a>
+  <a href="contact.html"><span>✉</span> Contact Support</a>
+  <a href="#" id="logoutBtn"><span>↪</span> Logout</a>
+ </nav>
 </aside>
 
 <main class="main">
 <div class="content">
 
-  <div class="heading">
-    <div>
-      <h1>Withdraw Request</h1>
-      <p>Request a withdrawal from your available wallet balance.</p>
-    </div>
-    <div class="member-info" id="memberInfo">Loading account...</div>
+ <div class="heading">
+  <div>
+   <h1>Withdraw Request</h1>
+   <p>Request a withdrawal from your available wallet balance.</p>
   </div>
+  <div class="member-info" id="memberInfo">Loading account...</div>
+ </div>
 
-  <div id="notice" class="notice"></div>
+ <div id="notice" class="notice" role="alert" aria-live="polite"></div>
 
-  <section class="balance">
-    <div class="balance-label">AVAILABLE WALLET BALANCE</div>
-    <div class="balance-amount" id="balanceAmount">৳0.00</div>
-    <small>Live balance from your Rubalia wallet</small>
-  </section>
+ <section class="balance">
+  <div class="balance-label">AVAILABLE WALLET BALANCE</div>
+  <div class="balance-amount" id="balanceAmount">৳0.00</div>
+  <small>Live balance from your Rubalia wallet</small>
+ </section>
 
-  <div class="grid">
-
-    <section class="card">
-      <h2>Withdrawal Summary</h2>
-      <p class="card-sub">Your current wallet and withdrawal information</p>
-
-      <div class="stat-row">
-        <span>Available Balance</span>
-        <strong id="summaryBalance">৳0.00</strong>
-      </div>
-
-      <div class="stat-row">
-        <span>Pending Withdrawal</span>
-        <strong id="pendingAmount">৳0.00</strong>
-      </div>
-
-      <div class="stat-row">
-        <span>Total Paid Withdrawals</span>
-        <strong id="totalWithdrawn">৳0.00</strong>
-      </div>
-
-      <div class="stat-row">
-        <span>Minimum Withdrawal</span>
-        <strong>Server controlled</strong>
-      </div>
-
-      <div class="stat-row">
-        <span>Withdrawal Fee</span>
-        <strong>Calculated by server</strong>
-      </div>
-
-      <p class="help" style="margin-top:15px">
-        The backend validates the minimum amount, maximum amount,
-        available balance and withdrawal fee before accepting a request.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Create Withdrawal Request</h2>
-      <p class="card-sub">Enter your payment details carefully.</p>
-
-      <form id="withdrawForm">
-
-        <div class="form-group">
-          <label for="method">Withdrawal Method</label>
-          <select id="method" required>
-            <option value="">Select Method</option>
-            <option value="bkash">bKash</option>
-            <option value="nagad">Nagad</option>
-            <option value="rocket">Rocket</option>
-            <option value="bank">Bank Transfer</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="amount">Withdrawal Amount (BDT)</label>
-          <input type="number" id="amount"
-            min="1" step="0.01"
-            placeholder="Enter amount" required>
-          <p class="help">
-            The server will check the permitted amount and your available balance.
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label for="accountName">Account Holder Name</label>
-          <input type="text" id="accountName"
-            maxlength="150"
-            placeholder="Enter account holder name" required>
-        </div>
-
-        <div class="form-group">
-          <label for="accountNumber">Account Number</label>
-          <input type="text" id="accountNumber"
-            minlength="5" maxlength="100"
-            autocomplete="off"
-            placeholder="Enter account number" required>
-          <p class="help">
-            Never enter your PIN, password, OTP or CVV.
-            Your account number is encrypted by the backend.
-          </p>
-        </div>
-
-        <div class="summary">
-          <div class="summary-row">
-            <span>Requested Amount</span>
-            <strong id="summaryAmount">৳0.00</strong>
-          </div>
-          <div class="summary-row">
-            <span>Withdrawal Fee</span>
-            <strong>Server calculated</strong>
-          </div>
-          <div class="summary-row">
-            <span>Expected Receive Amount</span>
-            <strong>Shown after server processing</strong>
-          </div>
-        </div>
-
-        <button type="submit" class="submit-btn" id="submitBtn">
-          Submit Withdrawal Request
-        </button>
-
-        <p class="help" style="text-align:center;margin-top:10px">
-          Your requested amount will be reserved from your wallet.
-          Payment is processed manually after Admin approval.
-        </p>
-
-      </form>
-    </section>
-
-  </div>
+ <div class="grid">
 
   <section class="card">
-    <h2>Withdrawal History</h2>
-    <p class="card-sub">Your latest withdrawal requests</p>
+   <h2>Withdrawal Summary</h2>
+   <p class="card-sub">Your current wallet and withdrawal information</p>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Request ID</th>
-            <th>Method</th>
-            <th>Amount</th>
-            <th>Fee</th>
-            <th>Receive</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
+   <div class="stat-row"><span>Available Balance</span><strong id="summaryBalance">৳0.00</strong></div>
+   <div class="stat-row"><span>Pending Withdrawal</span><strong id="pendingAmount">৳0.00</strong></div>
+   <div class="stat-row"><span>Total Paid Withdrawals</span><strong id="totalWithdrawn">৳0.00</strong></div>
+   <div class="stat-row"><span>Minimum Withdrawal</span><strong>Server controlled</strong></div>
+   <div class="stat-row"><span>Withdrawal Fee</span><strong>Server controlled</strong></div>
 
-        <tbody id="historyBody">
-          <tr>
-            <td colspan="7" class="loading">
-              Loading withdrawal history...
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+   <p class="help" style="margin-top:15px">
+    The backend validates the minimum amount, maximum amount,
+    available balance and withdrawal fee before accepting a request.
+   </p>
   </section>
+
+  <section class="card">
+   <h2>Create Withdrawal Request</h2>
+   <p class="card-sub">Enter your payment details carefully.</p>
+
+   <form id="withdrawForm">
+    <div class="form-group">
+     <label for="method">Withdrawal Method</label>
+     <select id="method" required>
+      <option value="">Select Method</option>
+      <option value="bkash">bKash</option>
+      <option value="nagad">Nagad</option>
+      <option value="rocket">Rocket</option>
+      <option value="bank">Bank Transfer</option>
+     </select>
+    </div>
+
+    <div class="form-group">
+     <label for="amount">Withdrawal Amount (BDT)</label>
+     <input type="number" id="amount" min="0.01" step="0.01"
+      placeholder="Enter amount" inputmode="decimal" required>
+     <p class="help">The server will check the permitted amount and available balance.</p>
+    </div>
+
+    <div class="form-group">
+     <label for="accountName">Account Holder Name</label>
+     <input type="text" id="accountName" maxlength="150"
+      autocomplete="name" placeholder="Enter account holder name" required>
+    </div>
+
+    <div class="form-group">
+     <label for="accountNumber">Account Number</label>
+     <input type="text" id="accountNumber" minlength="5" maxlength="100"
+      autocomplete="off" placeholder="Enter account number" required>
+     <p class="help">
+      Never enter your PIN, password, OTP or CVV.
+      Your account number is encrypted by the backend.
+     </p>
+    </div>
+
+    <div class="summary">
+     <div class="summary-row"><span>Requested Amount</span><strong id="summaryAmount">৳0.00</strong></div>
+     <div class="summary-row"><span>Withdrawal Fee</span><strong>Server calculated</strong></div>
+     <div class="summary-row"><span>Expected Receive Amount</span><strong>Server calculated</strong></div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+     Submit Withdrawal Request
+    </button>
+
+    <p class="help" style="text-align:center;margin-top:10px">
+     Your requested amount will be reserved from your wallet.
+     Payment is processed manually after Admin approval.
+    </p>
+   </form>
+  </section>
+
+ </div>
+
+ <section class="card">
+  <h2>Withdrawal History</h2>
+  <p class="card-sub">Your latest withdrawal requests</p>
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>Request ID</th><th>Method</th><th>Amount</th>
+      <th>Fee</th><th>Receive</th><th>Status</th><th>Date</th>
+     </tr>
+    </thead>
+    <tbody id="historyBody">
+     <tr><td colspan="7" class="loading">Loading withdrawal history...</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </section>
 
 </div>
 
 <footer class="footer">
-  © 2026 RUBALIA NETWORK. All Rights Reserved.
-  <br><br>
-  Secure Wallet · Backend Verified Withdrawal Requests
+ © 2026 RUBALIA NETWORK. All Rights Reserved.
+ <br><br>
+ Secure Wallet · Backend Verified Withdrawal Requests
 </footer>
-
 </main>
 
 <script>
@@ -844,446 +368,434 @@ tbody tr:hover{background:#F4F9FD}
 const API = "https://rubalia.onrender.com/api";
 const token = sessionStorage.getItem("rubalia_token");
 
-const balanceAmount = document.getElementById("balanceAmount");
-const summaryBalance = document.getElementById("summaryBalance");
-const pendingAmount = document.getElementById("pendingAmount");
-const totalWithdrawn = document.getElementById("totalWithdrawn");
-const summaryAmount = document.getElementById("summaryAmount");
-const amountInput = document.getElementById("amount");
-const notice = document.getElementById("notice");
-const historyBody = document.getElementById("historyBody");
-const submitBtn = document.getElementById("submitBtn");
+const $ = id => document.getElementById(id);
+
+const balanceAmount = $("balanceAmount");
+const summaryBalance = $("summaryBalance");
+const pendingAmount = $("pendingAmount");
+const totalWithdrawn = $("totalWithdrawn");
+const summaryAmount = $("summaryAmount");
+const amountInput = $("amount");
+const notice = $("notice");
+const historyBody = $("historyBody");
+const submitBtn = $("submitBtn");
+const withdrawForm = $("withdrawForm");
 
 let currentBalance = 0;
 let isSubmitting = false;
+let historyItems = [];
 
 function money(value){
-  const n = Number(value);
-  return "৳" + (Number.isFinite(n) ? n.toFixed(2) : "0.00");
+ const n = Number(value);
+ return "৳" + (Number.isFinite(n) ? n.toFixed(2) : "0.00");
 }
 
 function showNotice(message,type="info"){
-  notice.className = "notice show " + type;
-  notice.textContent = message;
-  notice.scrollIntoView({behavior:"smooth",block:"nearest"});
+ notice.className = "notice show " + type;
+ notice.textContent = message;
+ notice.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
 function hideNotice(){
-  notice.className = "notice";
-  notice.textContent = "";
+ notice.className = "notice";
+ notice.textContent = "";
 }
 
 function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g,function(char){
-    return {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[char];
-  });
+ return String(value ?? "").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;',"\'":"&#39;"
+ })[char]);
+}
+
+function getIdempotencyKey(payload){
+ const fingerprint = JSON.stringify(payload);
+ const storageKey = "rubalia_withdraw_attempt";
+
+ try{
+  const saved = JSON.parse(sessionStorage.getItem(storageKey) || "null");
+
+  if(saved && saved.fingerprint === fingerprint && saved.key){
+   return saved.key;
+  }
+
+  const key = "rubalia-withdraw-" +
+   Date.now() + "-" +
+   Math.random().toString(36).slice(2,14);
+
+  sessionStorage.setItem(storageKey,JSON.stringify({
+   fingerprint,
+   key
+  }));
+
+  return key;
+
+ }catch(error){
+  return "rubalia-withdraw-" + Date.now() + "-" +
+   Math.random().toString(36).slice(2,14);
+ }
+}
+
+function clearIdempotencyKey(){
+ sessionStorage.removeItem("rubalia_withdraw_attempt");
 }
 
 async function apiRequest(path,options={}){
-  const response = await fetch(API + path,{
-    ...options,
-    headers:{
-      "Authorization":"Bearer " + token,
-      ...(options.headers || {})
-    }
-  });
 
-  let data = {};
-
-  try{
-    data = await response.json();
-  }catch(e){
-    data = {};
+ const response = await fetch(API + path,{
+  ...options,
+  headers:{
+   "Authorization":"Bearer " + token,
+   ...(options.headers || {})
   }
+ });
 
-  if(response.status === 401 || response.status === 403){
-    sessionStorage.removeItem("rubalia_token");
-    sessionStorage.removeItem("rubalia_user");
-    location.href = "login.html";
-    throw new Error("Your session has expired. Please log in again.");
-  }
+ let data = {};
 
-  if(!response.ok || data.success === false){
-    throw new Error(data.message || "Request failed. Please try again.");
-  }
+ try{
+  data = await response.json();
+ }catch(error){
+  data = {};
+ }
 
-  return data;
+ if(response.status === 401 || response.status === 403){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  location.href = "login.html";
+  throw new Error("Your session has expired. Please log in again.");
+ }
+
+ if(!response.ok || data.success === false){
+  throw new Error(data.message || "Request failed. Please try again.");
+ }
+
+ return data;
 }
 
 /* AUTHENTICATION */
 
 async function checkAuth(){
 
-  if(!token){
-    location.href = "login.html";
-    return false;
-  }
+ if(!token){
+  location.href = "login.html";
+  return false;
+ }
 
-  try{
-    const data = await apiRequest("/auth/me");
-    const user = data.user || data.profile || {};
+ const data = await apiRequest("/auth/me");
+ const user = data.user || data.profile || {};
 
-    if(String(user.role || "").toLowerCase() === "admin"){
-      location.href = "admin-dashboard.html";
-      return false;
-    }
+ if(String(user.role || "").toLowerCase() === "admin"){
+  location.href = "admin-dashboard.html";
+  return false;
+ }
 
-    if(user.status && String(user.status).toLowerCase() !== "active"){
-      sessionStorage.removeItem("rubalia_token");
-      sessionStorage.removeItem("rubalia_user");
-      location.href = "login.html";
-      return false;
-    }
+ if(user.status && String(user.status).toLowerCase() !== "active"){
+  sessionStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_user");
+  location.href = "login.html";
+  return false;
+ }
 
-    sessionStorage.setItem("rubalia_user",JSON.stringify(user));
+ sessionStorage.setItem("rubalia_user",JSON.stringify(user));
 
-    document.getElementById("memberInfo").textContent =
-      user.memberId
-        ? "Member ID: " + user.memberId
-        : (user.full_name || "Member Account");
+ $("memberInfo").textContent =
+  user.memberId ? "Member ID: " + user.memberId :
+  (user.full_name || "Member Account");
 
-    return true;
-
-  }catch(error){
-
-    if(error.message){
-      showNotice(error.message,"error");
-    }
-
-    return false;
-  }
+ return true;
 }
 
 /* WALLET */
 
 async function loadWallet(){
 
-  const data = await apiRequest("/wallet");
-  const wallet = data.wallet || {};
+ const data = await apiRequest("/wallet");
+ const wallet = data.wallet || {};
+ const balance = Number(wallet.balance);
 
-  currentBalance = Number(wallet.balance || 0);
+ if(!Number.isFinite(balance) || balance < 0){
+  throw new Error("Invalid wallet balance received from server.");
+ }
 
-  if(!Number.isFinite(currentBalance)){
-    currentBalance = 0;
-  }
+ currentBalance = balance;
 
-  balanceAmount.textContent = money(currentBalance);
-  summaryBalance.textContent = money(currentBalance);
+ balanceAmount.textContent = money(currentBalance);
+ summaryBalance.textContent = money(currentBalance);
 }
 
 /* WITHDRAWAL HISTORY */
 
 function statusClass(status){
-
-  const allowed = [
-    "pending",
-    "approved",
-    "processing",
-    "paid",
-    "rejected"
-  ];
-
-  return allowed.includes(String(status).toLowerCase())
-    ? String(status).toLowerCase()
-    : "";
+ const allowed = ["pending","approved","processing","paid","rejected"];
+ const value = String(status || "").toLowerCase();
+ return allowed.includes(value) ? value : "";
 }
 
 function formatDate(value){
-
-  if(!value) return "—";
-
-  const date = new Date(value);
-
-  if(Number.isNaN(date.getTime())) return "—";
-
-  return date.toLocaleString();
+ if(!value) return "—";
+ const date = new Date(value);
+ if(Number.isNaN(date.getTime())) return "—";
+ return date.toLocaleString();
 }
 
 function renderHistory(items){
 
-  if(!Array.isArray(items) || !items.length){
+ if(!Array.isArray(items)){
+  throw new Error("Invalid withdrawal history received.");
+ }
 
-    historyBody.innerHTML =
-      '<tr><td colspan="7" class="empty">No withdrawal requests found.</td></tr>';
+ historyItems = items;
 
-    pendingAmount.textContent = money(0);
-    totalWithdrawn.textContent = money(0);
+ if(!items.length){
+  historyBody.innerHTML =
+   '<tr><td colspan="7" class="empty">No withdrawal requests found.</td></tr>';
 
-    return;
+  pendingAmount.textContent = money(0);
+  totalWithdrawn.textContent = money(0);
+  return;
+ }
+
+ let pending = 0;
+ let paid = 0;
+
+ items.forEach(item=>{
+
+  const amount = Number(item.amount || 0);
+  const net = Number(item.net_amount || 0);
+  const status = String(item.status || "").toLowerCase();
+
+  if(["pending","approved","processing"].includes(status)){
+   pending += Number.isFinite(amount) ? amount : 0;
   }
 
-  let pending = 0;
-  let paid = 0;
+  if(status === "paid"){
+   paid += Number.isFinite(net) ? net : 0;
+  }
+ });
 
-  items.forEach(item=>{
+ pendingAmount.textContent = money(pending);
+ totalWithdrawn.textContent = money(paid);
 
-    const amount = Number(item.amount || 0);
-    const status = String(item.status || "").toLowerCase();
+ historyBody.innerHTML = items.map(item=>{
 
-    if(["pending","approved","processing"].includes(status)){
-      pending += amount;
-    }
+  const status = String(item.status || "unknown").toLowerCase();
 
-    if(status === "paid"){
-      paid += amount;
-    }
-  });
-
-  pendingAmount.textContent = money(pending);
-  totalWithdrawn.textContent = money(paid);
-
-  historyBody.innerHTML = items.map(item=>{
-
-    const status = String(item.status || "unknown").toLowerCase();
-
-    return `
-      <tr>
-        <td>
-          <strong>${escapeHTML(item.request_reference || ("#" + item.id))}</strong>
-        </td>
-
-        <td>${escapeHTML(item.payment_method || "—")}</td>
-        <td>${money(item.amount)}</td>
-        <td>${money(item.fee)}</td>
-        <td>${money(item.net_amount)}</td>
-
-        <td>
-          <span class="status ${statusClass(status)}">
-            ${escapeHTML(status)}
-          </span>
-        </td>
-
-        <td>${escapeHTML(formatDate(item.requested_at))}</td>
-      </tr>
-    `;
-
-  }).join("");
+  return `
+   <tr>
+    <td><strong>${escapeHTML(item.request_reference || ("#" + item.id))}</strong></td>
+    <td>${escapeHTML(item.payment_method || "—")}</td>
+    <td>${money(item.amount)}</td>
+    <td>${money(item.fee)}</td>
+    <td>${money(item.net_amount)}</td>
+    <td><span class="status ${statusClass(status)}">${escapeHTML(status)}</span></td>
+    <td>${escapeHTML(formatDate(item.requested_at))}</td>
+   </tr>
+  `;
+ }).join("");
 }
 
 async function loadHistory(){
-
-  const data = await apiRequest("/wallet/withdrawals");
-
-  renderHistory(data.withdrawals || []);
+ const data = await apiRequest("/wallet/withdrawals");
+ renderHistory(data.withdrawals || []);
 }
 
-/* LIVE AMOUNT SUMMARY */
+/* AMOUNT SUMMARY */
 
 amountInput.addEventListener("input",function(){
 
-  const amount = Number(this.value);
+ const amount = Number(this.value);
 
-  summaryAmount.textContent =
-    money(Number.isFinite(amount) && amount > 0 ? amount : 0);
+ summaryAmount.textContent =
+  money(Number.isFinite(amount) && amount > 0 ? amount : 0);
 });
 
-/* SUBMIT WITHDRAWAL */
+/* WITHDRAWAL SUBMISSION */
 
-document.getElementById("withdrawForm").addEventListener("submit",async function(e){
+withdrawForm.addEventListener("submit",async function(e){
 
-  e.preventDefault();
+ e.preventDefault();
 
-  if(isSubmitting) return;
+ if(isSubmitting) return;
 
-  hideNotice();
+ hideNotice();
 
-  const method = document.getElementById("method").value;
-  const amount = Number(amountInput.value);
-  const accountName = document.getElementById("accountName").value.trim();
-  const accountNumber = document.getElementById("accountNumber").value.trim();
+ const method = $("method").value;
+ const amount = Number(amountInput.value);
+ const accountName = $("accountName").value.trim();
+ const accountNumber = $("accountNumber").value.trim();
 
-  if(!method){
-    showNotice("Please select a withdrawal method.","error");
-    return;
-  }
+ if(!["bkash","nagad","rocket","bank"].includes(method)){
+  showNotice("Please select a valid withdrawal method.","error");
+  return;
+ }
 
-  if(!Number.isFinite(amount) || amount <= 0){
-    showNotice("Please enter a valid withdrawal amount.","error");
-    return;
-  }
+ if(!Number.isFinite(amount) || amount <= 0){
+  showNotice("Please enter a valid withdrawal amount.","error");
+  return;
+ }
 
-  if(accountName.length < 2 || accountName.length > 150){
-    showNotice("Please enter a valid account holder name.","error");
-    return;
-  }
+ if(!Number.isInteger(amount * 100)){
+  showNotice("Maximum two decimal places are allowed.","error");
+  return;
+ }
 
-  if(accountNumber.length < 5 || accountNumber.length > 100){
-    showNotice("Please enter a valid account number.","error");
-    return;
-  }
+ if(accountName.length < 2 || accountName.length > 150){
+  showNotice("Please enter a valid account holder name.","error");
+  return;
+ }
 
-  if(amount > currentBalance){
-    showNotice("Your requested amount exceeds your available wallet balance.","error");
-    return;
-  }
+ if(accountNumber.length < 5 || accountNumber.length > 100){
+  showNotice("Please enter a valid account number.","error");
+  return;
+ }
 
-  const confirmed = confirm(
-    "Confirm your withdrawal request?\n\n" +
-    "Method: " + method.toUpperCase() + "\n" +
-    "Amount: " + money(amount) + "\n\n" +
-    "The amount will be reserved from your wallet."
+ if(amount > currentBalance){
+  showNotice("Your requested amount exceeds your available wallet balance.","error");
+  return;
+ }
+
+ const payload = {
+  amount:Number(amount.toFixed(2)),
+  payment_method:method,
+  account_name:accountName,
+  account_number:accountNumber
+ };
+
+ const confirmed = confirm(
+  "Confirm your withdrawal request?\n\n" +
+  "Method: " + method.toUpperCase() + "\n" +
+  "Amount: " + money(amount) + "\n\n" +
+  "The amount will be reserved from your wallet."
+ );
+
+ if(!confirmed) return;
+
+ isSubmitting = true;
+ submitBtn.disabled = true;
+ submitBtn.textContent = "Submitting...";
+
+ try{
+
+  const idempotencyKey = getIdempotencyKey(payload);
+
+  const data = await apiRequest("/wallet/withdraw",{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "Idempotency-Key":idempotencyKey
+   },
+   body:JSON.stringify(payload)
+  });
+
+  clearIdempotencyKey();
+
+  const request = data.request || {};
+
+  withdrawForm.reset();
+  summaryAmount.textContent = money(0);
+
+  showNotice(
+   (data.duplicate ? "Previous request found. " : "") +
+   (data.message || "Withdrawal request submitted successfully.") +
+   (request.request_reference ? " Reference: " + request.request_reference : ""),
+   "success"
   );
 
-  if(!confirmed) return;
+  await Promise.all([
+   loadWallet(),
+   loadHistory()
+  ]);
 
-  isSubmitting = true;
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
+ }catch(error){
 
-  try{
+  // Keep the same idempotency key for a retry of the same payload.
+  showNotice(
+   error.message || "Unable to submit withdrawal request. Please try again.",
+   "error"
+  );
 
-    const idempotencyKey =
-      "rubalia-withdraw-" +
-      Date.now() + "-" +
-      Math.random().toString(36).slice(2,14);
+ }finally{
 
-    const data = await apiRequest("/wallet/withdraw",{
-
-      method:"POST",
-
-      headers:{
-        "Content-Type":"application/json",
-        "Idempotency-Key":idempotencyKey
-      },
-
-      body:JSON.stringify({
-        amount:amount,
-        payment_method:method,
-        account_name:accountName,
-        account_number:accountNumber
-      })
-    });
-
-    const request = data.request || {};
-
-    document.getElementById("withdrawForm").reset();
-
-    summaryAmount.textContent = money(0);
-
-    showNotice(
-      data.message ||
-      ("Withdrawal request submitted successfully. Reference: " +
-      (request.request_reference || "Created")),
-      "success"
-    );
-
-    await Promise.all([
-      loadWallet(),
-      loadHistory()
-    ]);
-
-  }catch(error){
-
-    showNotice(
-      error.message || "Unable to submit withdrawal request.",
-      "error"
-    );
-
-  }finally{
-
-    isSubmitting = false;
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Withdrawal Request";
-  }
+  isSubmitting = false;
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Submit Withdrawal Request";
+ }
 });
 
-/* NAVIGATION DRAWER */
+/* NAVIGATION */
 
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("drawerOverlay");
-const menuBtn = document.getElementById("menuBtn");
+const sidebar = $("sidebar");
+const overlay = $("drawerOverlay");
+const menuBtn = $("menuBtn");
 
 function openMenu(){
-
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
-  document.body.classList.add("menu-open");
-
-  menuBtn.setAttribute("aria-expanded","true");
+ sidebar.classList.add("open");
+ overlay.classList.add("show");
+ document.body.classList.add("menu-open");
+ menuBtn.setAttribute("aria-expanded","true");
 }
 
 function closeMenu(){
-
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-  document.body.classList.remove("menu-open");
-
-  menuBtn.setAttribute("aria-expanded","false");
+ sidebar.classList.remove("open");
+ overlay.classList.remove("show");
+ document.body.classList.remove("menu-open");
+ menuBtn.setAttribute("aria-expanded","false");
 }
 
-menuBtn.addEventListener("click",function(){
-
-  if(sidebar.classList.contains("open")){
-    closeMenu();
-  }else{
-    openMenu();
-  }
+menuBtn.addEventListener("click",()=>{
+ sidebar.classList.contains("open") ? closeMenu() : openMenu();
 });
 
-document.getElementById("closeMenu").addEventListener("click",closeMenu);
-
+$("closeMenu").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
 
-document.addEventListener("keydown",function(e){
-
-  if(e.key === "Escape") closeMenu();
+document.addEventListener("keydown",e=>{
+ if(e.key === "Escape") closeMenu();
 });
 
 document.querySelectorAll(".menu a").forEach(link=>{
-
-  if(link.id !== "logoutBtn"){
-    link.addEventListener("click",closeMenu);
-  }
+ if(link.id !== "logoutBtn"){
+  link.addEventListener("click",closeMenu);
+ }
 });
 
 /* LOGOUT */
 
-document.getElementById("logoutBtn").addEventListener("click",function(e){
-
-  e.preventDefault();
-
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
-
-  location.href = "login.html";
+$("logoutBtn").addEventListener("click",e=>{
+ e.preventDefault();
+ sessionStorage.removeItem("rubalia_token");
+ sessionStorage.removeItem("rubalia_user");
+ sessionStorage.removeItem("rubalia_withdraw_attempt");
+ location.href = "login.html";
 });
 
 /* INITIALIZE */
 
 async function initialize(){
 
-  try{
+ try{
 
-    const authenticated = await checkAuth();
+  const authenticated = await checkAuth();
+  if(!authenticated) return;
 
-    if(!authenticated) return;
+  await Promise.all([
+   loadWallet(),
+   loadHistory()
+  ]);
 
-    await Promise.all([
-      loadWallet(),
-      loadHistory()
-    ]);
+ }catch(error){
 
-  }catch(error){
+  showNotice(
+   error.message || "Unable to load wallet information. Please refresh.",
+   "error"
+  );
 
-    showNotice(
-      error.message || "Unable to load wallet information. Please refresh.",
-      "error"
-    );
-
-    historyBody.innerHTML =
-      '<tr><td colspan="7" class="empty">Unable to load withdrawal history.</td></tr>';
-  }
+  historyBody.innerHTML =
+   '<tr><td colspan="7" class="empty">Unable to load withdrawal history.</td></tr>';
+ }
 }
 
 initialize();
 
 </script>
-
 </body>
 </html>
