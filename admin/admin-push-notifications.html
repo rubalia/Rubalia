@@ -106,10 +106,6 @@ input,textarea,select{font:inherit}
  font-size:9px;
  font-weight:bold;
 }
-.status-pill.offline{
- background:#fceaea;
- color:var(--red);
-}
 
 .intro{
  background:var(--navy);
@@ -396,10 +392,7 @@ input,textarea,select{font:inherit}
  margin-top:16px;
 }
 
-.history-list{
- display:grid;
- gap:12px;
-}
+.history-list{display:grid;gap:12px}
 .history-item{
  border:1px solid var(--border);
  border-radius:10px;
@@ -541,7 +534,10 @@ input,textarea,select{font:inherit}
  .result-card{padding:9px}
  .result-card strong{font-size:18px}
  .result-card small{font-size:8px}
- .primary-btn,.secondary-btn,.gold-btn{flex:1;text-align:center}
+ .primary-btn,.secondary-btn,.gold-btn{
+  flex:1;
+  text-align:center;
+ }
  .history-actions button{flex:1}
 }
 </style>
@@ -578,7 +574,7 @@ input,textarea,select{font:inherit}
  <div class="page-heading">
   <div>
    <h1>Push Notifications</h1>
-   <p>Manage, save and send notifications to RUBALIA NETWORK users.</p>
+   <p>Save multiple messages and share any notification whenever you want.</p>
   </div>
   <span class="status-pill" id="connectionStatus">● ADMIN VERIFIED</span>
  </div>
@@ -586,7 +582,7 @@ input,textarea,select{font:inherit}
  <section class="intro">
   <div>
    <h2>Notification Center</h2>
-   <p>Compose announcements, save drafts and manage<br>your notification history from the server.</p>
+   <p>Create multiple announcements, save drafts<br>and send any saved notification whenever needed.</p>
   </div>
   <div class="intro-icon">🔔</div>
  </section>
@@ -733,7 +729,7 @@ input,textarea,select{font:inherit}
   <div class="panel-title">
    <div>
     <h3>Saved Notifications</h3>
-    <small>Notification history stored on the server</small>
+    <small>All saved messages are stored separately on the server</small>
    </div>
 
    <button class="secondary-btn small-btn" id="refreshHistoryBtn" type="button">
@@ -858,8 +854,6 @@ async function initializePage(){
   console.error("Admin verification error:",error);
   showError("Unable to Verify Account",error.message);
  }
-
-/* END initializePage */
 }
 
 /* --------------------------------
@@ -1046,7 +1040,6 @@ function getFormData(){
 }
 
 function setBusy(button,busy,text,defaultText){
-
  button.disabled = busy;
  button.textContent = busy ? text : defaultText;
 }
@@ -1063,9 +1056,7 @@ function resetForm(){
  $("sendBtn").textContent = "🔔 Send Notification";
  $("saveDraftBtn").textContent = "Save Draft";
 
- $("previewTitle").textContent = "Your notification title";
- $("previewMessage").textContent = "Your notification message will appear here.";
-
+ updatePreview();
  clearMessages();
 }
 
@@ -1082,6 +1073,7 @@ $("clearBtn").addEventListener("click",()=>{
 
 /* --------------------------------
    SAVE OR UPDATE DRAFT
+   Multiple independent drafts
 -------------------------------- */
 
 async function saveDraft(){
@@ -1099,19 +1091,22 @@ async function saveDraft(){
 
  saving = true;
 
+ const isEditing = Boolean(editingId);
+ const currentId = editingId;
+
  setBusy(
   $("saveDraftBtn"),
   true,
   "Saving...",
-  editingId ? "Update Draft" : "Save Draft"
+  isEditing ? "Update Draft" : "Save Draft"
  );
+
+ $("sendBtn").disabled = true;
 
  try{
 
-  const isEditing = Boolean(editingId);
-
   const path = isEditing
-   ? "/push/messages/" + encodeURIComponent(editingId)
+   ? "/push/messages/" + encodeURIComponent(currentId)
    : "/push/messages";
 
   const data = await apiRequest(path,{
@@ -1122,26 +1117,27 @@ async function saveDraft(){
    body:JSON.stringify(payload)
   });
 
-  const saved = data.notification || data.messageRecord || data.data;
+  /*
+   * Reload server history so the newly saved
+   * notification appears in the saved list.
+   */
+  await loadHistory();
 
-  if(saved && saved.id){
-   editingId = saved.id;
-  }
+  /*
+   * Reset the form after successful saving.
+   * This allows another independent message
+   * to be created immediately.
+   */
+  resetForm();
 
   showMessage(
    "success",
-   data.message || (isEditing
-    ? "Draft updated successfully on the server."
-    : "Notification draft saved successfully on the server.")
+   data.message || (
+    isEditing
+     ? "Draft updated successfully. You can now create another notification."
+     : "New notification saved successfully. You can now create another notification."
+   )
   );
-
-  await loadHistory();
-
-  if(editingId){
-   $("formHeading").textContent = "Edit Notification Draft";
-   $("formMode").textContent = "Editing saved draft";
-   $("saveDraftBtn").textContent = "Update Draft";
-  }
 
  }catch(error){
 
@@ -1153,12 +1149,10 @@ async function saveDraft(){
   saving = false;
 
   $("saveDraftBtn").disabled = false;
+  $("saveDraftBtn").textContent = "Save Draft";
 
-  if(!editingId){
-   $("saveDraftBtn").textContent = "Save Draft";
-  }else{
-   $("saveDraftBtn").textContent = "Update Draft";
-  }
+  $("sendBtn").disabled = false;
+  $("sendBtn").textContent = "🔔 Send Notification";
 
  }
 
@@ -1167,7 +1161,43 @@ async function saveDraft(){
 $("saveDraftBtn").addEventListener("click",saveDraft);
 
 /* --------------------------------
-   SEND NOTIFICATION
+   SHOW BROADCAST RESULT
+-------------------------------- */
+
+function showBroadcastResult(data){
+
+ const result = data.result || data;
+
+ const total = Number(
+  result.total_devices ??
+  result.device_count ??
+  result.total ??
+  0
+ );
+
+ const sent = Number(
+  result.sent ??
+  result.success_count ??
+  result.pushSuccessCount ??
+  0
+ );
+
+ const failed = Number(
+  result.failed ??
+  result.failure_count ??
+  result.pushFailureCount ??
+  0
+ );
+
+ $("resultTotal").textContent = formatNumber(total);
+ $("resultSent").textContent = formatNumber(sent);
+ $("resultFailed").textContent = formatNumber(failed);
+
+ $("resultPanel").hidden = false;
+}
+
+/* --------------------------------
+   SEND NEW NOTIFICATION
 -------------------------------- */
 
 $("notificationForm").addEventListener("submit",async event=>{
@@ -1214,10 +1244,8 @@ $("notificationForm").addEventListener("submit",async event=>{
   if(editingId){
 
    /*
-    * First update the saved draft.
-    * Then send that saved server record.
+    * Update the existing draft first.
     */
-
    await apiRequest(
     "/push/messages/" + encodeURIComponent(editingId),
     {
@@ -1229,6 +1257,9 @@ $("notificationForm").addEventListener("submit",async event=>{
     }
    );
 
+   /*
+    * Send the selected saved notification.
+    */
    data = await apiRequest(
     "/push/messages/" + encodeURIComponent(editingId) + "/send",
     {
@@ -1244,9 +1275,8 @@ $("notificationForm").addEventListener("submit",async event=>{
 
    /*
     * Direct broadcast.
-    * Backend also stores the notification history.
+    * Backend should store the broadcast history.
     */
-
    data = await apiRequest("/push/broadcast",{
     method:"POST",
     headers:{
@@ -1257,42 +1287,19 @@ $("notificationForm").addEventListener("submit",async event=>{
 
   }
 
-  const result = data.result || data;
+  showBroadcastResult(data);
 
-  const total = Number(
-   result.total_devices ??
-   result.device_count ??
-   result.total ??
-   0
-  );
-
-  const sent = Number(
-   result.sent ??
-   result.success_count ??
-   result.pushSuccessCount ??
-   0
-  );
-
-  const failed = Number(
-   result.failed ??
-   result.failure_count ??
-   result.pushFailureCount ??
-   0
-  );
-
-  $("resultTotal").textContent = formatNumber(total);
-  $("resultSent").textContent = formatNumber(sent);
-  $("resultFailed").textContent = formatNumber(failed);
-
-  $("resultPanel").hidden = false;
+  /*
+   * Clear editing state and form only
+   * after a successful send response.
+   */
+  resetForm();
 
   showMessage(
    "success",
    data.message ||
    "Notification request processed. Check the broadcast result below."
   );
-
-  resetForm();
 
   await loadHistory();
 
@@ -1309,6 +1316,7 @@ $("notificationForm").addEventListener("submit",async event=>{
   $("sendBtn").textContent = "🔔 Send Notification";
 
   $("saveDraftBtn").disabled = false;
+  $("saveDraftBtn").textContent = "Save Draft";
 
  }
 
@@ -1356,7 +1364,8 @@ async function loadHistory(){
 
   const empty = document.createElement("div");
   empty.className = "history-empty";
-  empty.textContent = "Unable to load notification history. " + error.message;
+  empty.textContent =
+   "Unable to load notification history. " + error.message;
 
   $("historyList").appendChild(empty);
 
@@ -1420,7 +1429,6 @@ function renderHistory(records){
 
   const title = record.title || "Untitled notification";
   const message = record.message || "";
-
   const audience = record.audience || "all";
 
   const item = document.createElement("article");
@@ -1506,7 +1514,6 @@ function renderHistory(records){
 
     item.appendChild(linkElement);
    }
-
   }
 
   const actions = document.createElement("div");
@@ -1661,7 +1668,7 @@ $("historyList").addEventListener("click",async event=>{
  if(action === "send"){
 
   const confirmed = window.confirm(
-   "Send this notification again?\n\n" +
+   "Send this notification?\n\n" +
    "Title: " + (record.title || "") +
    "\nAudience: " + audienceLabel(record.audience)
   );
@@ -1684,21 +1691,7 @@ $("historyList").addEventListener("click",async event=>{
     }
    );
 
-   const result = data.result || data;
-
-   $("resultTotal").textContent = formatNumber(
-    result.total_devices ?? result.device_count ?? 0
-   );
-
-   $("resultSent").textContent = formatNumber(
-    result.sent ?? result.success_count ?? result.pushSuccessCount ?? 0
-   );
-
-   $("resultFailed").textContent = formatNumber(
-    result.failed ?? result.failure_count ?? result.pushFailureCount ?? 0
-   );
-
-   $("resultPanel").hidden = false;
+   showBroadcastResult(data);
 
    showHistoryMessage(
     "success",
@@ -1710,7 +1703,8 @@ $("historyList").addEventListener("click",async event=>{
   }catch(error){
 
    button.disabled = false;
-   button.textContent = "↻ Send Again";
+   button.textContent =
+    statusButtonText(record.status);
 
    showHistoryMessage("error",error.message);
 
@@ -1719,6 +1713,12 @@ $("historyList").addEventListener("click",async event=>{
  }
 
 });
+
+function statusButtonText(status){
+ return String(status || "").toLowerCase() === "draft"
+  ? "🔔 Send"
+  : "↻ Send Again";
+}
 
 /* --------------------------------
    REFRESH HISTORY
@@ -1737,46 +1737,6 @@ $("refreshHistoryBtn").addEventListener("click",async()=>{
  $("refreshHistoryBtn").textContent = "↻ Refresh";
 
 });
-
-/* --------------------------------
-   LOGOUT HELPER
--------------------------------- */
-
-async function logout(){
-
- const token = adminToken || getStoredToken();
-
- clearLocalSession();
- adminToken = "";
-
- try{
-
-  if(token){
-
-   await fetch(API_BASE + "/auth/logout",{
-    method:"POST",
-    headers:{
-     "Authorization":"Bearer " + token,
-     "Accept":"application/json"
-    },
-    cache:"no-store",
-    keepalive:true
-   });
-
-  }
-
- }catch(error){
-
-  console.warn("Server logout request failed.",error);
-
- }finally{
-
-  clearLocalSession();
-  window.location.replace("../login.html");
-
- }
-
-}
 
 /* --------------------------------
    START
