@@ -71,6 +71,10 @@ const settingsRoutes = require("./routes/settings.routes");
 
 const financialReportRoutes = require("./routes/financial-report.routes");
 
+// NEW: Recent Commission Route
+const recentCommissionRoutes =
+  require("./routes/recent-commission.routes");
+
 // NEW: API Management Route
 const apiManagementRoutes = require("./routes/api-management.routes");
 
@@ -315,6 +319,13 @@ app.use("/api/push", pushRoutes);
 
 app.use("/api/referral", referralRoutes);
 app.use("/api/commission", commissionRoutes);
+
+// NEW: RECENT COMMISSION API
+app.use(
+  "/api/recent-commissions",
+  recentCommissionRoutes
+);
+
 app.use("/api/refunds", refundRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/upload", uploadRoutes);
@@ -442,6 +453,7 @@ async function startServer() {
       console.log("Payment route registered.");
       console.log("Referral route registered.");
       console.log("Commission route registered.");
+      console.log("Recent commission route registered.");
       console.log("Refund route registered.");
       console.log("Product cost management enabled.");
       console.log("Package cost management enabled.");
