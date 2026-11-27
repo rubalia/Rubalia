@@ -11,6 +11,7 @@ const rateLimit = require("express-rate-limit");
 const pool = require("./config/database");
 const { initializeDatabase } = require("./database/init");
 
+// Existing Database Migrations
 const { runPartnerMigration } = require("./database/partner-migration");
 const { runCommissionSafetyMigration } = require("./database/commission-safety-migration");
 const { runProductCostMigration } = require("./database/product-cost-migration");
@@ -39,10 +40,14 @@ const {
   runPushNotificationMigration
 } = require("./database/push-notification-migration");
 
-// NEW: User Session Migration
 const {
   runSessionMigration
 } = require("./database/session-migration");
+
+// NEW: API Management Migration
+const {
+  runApiManagementMigration
+} = require("./database/api-management-migration");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -66,6 +71,12 @@ const settingsRoutes = require("./routes/settings.routes");
 
 const financialReportRoutes = require("./routes/financial-report.routes");
 
+// NEW: API Management Route
+const apiManagementRoutes = require("./routes/api-management.routes");
+
+// NEW: API Request Logger
+const apiLogger = require("./middleware/apiLogger");
+
 // Commission Worker
 const {
   startCommissionWorker,
@@ -83,6 +94,10 @@ const {
   notFoundHandler,
   errorHandler
 } = require("./middleware/errorHandler");
+
+// =====================================================
+// EXPRESS APP
+// =====================================================
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -131,6 +146,14 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "1mb" }));
+
+// =====================================================
+// API REQUEST LOGGER
+// =====================================================
+
+// Records API request method, endpoint, status and response time.
+// Does not store request bodies or query-string values.
+app.use(apiLogger);
 
 // =====================================================
 // RATE LIMITERS
@@ -273,7 +296,19 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/wallet", walletRoutes);
 
+// =====================================================
+// API MANAGEMENT ROUTE
+// =====================================================
+
+// Keep this before the general admin router.
+app.use(
+  "/api/admin/api-management",
+  apiManagementRoutes
+);
+
+// Existing Admin API
 app.use("/api/admin", adminRoutes);
+
 app.use("/api/moderators", moderatorRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/push", pushRoutes);
@@ -322,8 +357,17 @@ app.use((error, req, res, next) => {
 
 async function startServer() {
   try {
+
+    // -----------------------------------------------
+    // DATABASE INITIALIZATION
+    // -----------------------------------------------
+
     await initializeDatabase();
     console.log("Database initialization completed.");
+
+    // -----------------------------------------------
+    // EXISTING MIGRATIONS
+    // -----------------------------------------------
 
     await runPartnerMigration();
     console.log("Partner migration completed.");
@@ -361,19 +405,36 @@ async function startServer() {
     await runPushNotificationMigration();
     console.log("Push notification migration completed.");
 
-    // NEW: Session Database Migration
     await runSessionMigration();
     console.log("User session migration completed.");
 
-    // Start Commission Worker
+    // -----------------------------------------------
+    // NEW: API MANAGEMENT DATABASE MIGRATION
+    // -----------------------------------------------
+
+    await runApiManagementMigration();
+    console.log("API management migration completed.");
+
+    // -----------------------------------------------
+    // START COMMISSION WORKER
+    // -----------------------------------------------
+
     startCommissionWorker(pool);
     console.log("Commission worker started.");
 
-    // Start Monthly Financial Report Worker
+    // -----------------------------------------------
+    // START MONTHLY FINANCIAL REPORT WORKER
+    // -----------------------------------------------
+
     startMonthlyFinancialReportWorker(pool);
     console.log("Monthly financial report worker started.");
 
+    // -----------------------------------------------
+    // START EXPRESS SERVER
+    // -----------------------------------------------
+
     const server = app.listen(PORT, "0.0.0.0", () => {
+
       console.log(`Rubalia API running on port ${PORT}`);
 
       console.log("Cloudinary upload route registered.");
@@ -400,8 +461,12 @@ async function startServer() {
       console.log("Push device token registration API enabled.");
       console.log("Admin push broadcast API enabled.");
 
-      // NEW
       console.log("User session database enabled.");
+
+      // NEW API MANAGEMENT
+      console.log("API request logger enabled.");
+      console.log("API management database enabled.");
+      console.log("Admin API management routes registered.");
     });
 
     // =================================================
@@ -411,6 +476,7 @@ async function startServer() {
     let shuttingDown = false;
 
     async function shutdown(signal) {
+
       if (shuttingDown) {
         return;
       }
@@ -420,11 +486,14 @@ async function startServer() {
       console.log(`${signal} received. Shutting down...`);
 
       try {
+
         await stopCommissionWorker();
         await stopMonthlyFinancialReportWorker();
 
         server.close(async () => {
+
           try {
+
             await pool.end();
 
             console.log("Rubalia API shutdown completed.");
@@ -432,6 +501,7 @@ async function startServer() {
             process.exit(0);
 
           } catch (error) {
+
             console.error(
               "Database shutdown failed:",
               error.message
@@ -442,7 +512,9 @@ async function startServer() {
         });
 
       } catch (error) {
+
         console.error("Shutdown failed:", error.message);
+
         process.exit(1);
       }
     }
@@ -451,9 +523,15 @@ async function startServer() {
     process.once("SIGINT", () => shutdown("SIGINT"));
 
   } catch (error) {
+
     console.error("Startup failed:", error.message);
+
     process.exit(1);
   }
 }
+
+// =====================================================
+// RUN SERVER
+// =====================================================
 
 startServer();
