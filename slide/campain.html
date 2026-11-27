@@ -1,18 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#21002f">
+<meta name="description" content="Special Campaign | RUBALIA NETWORK">
 <title>Special Campaign | RUBALIA NETWORK</title>
+
 <style>
 *{box-sizing:border-box}
+
 html,body{
   margin:0;
   width:100%;
   min-height:100%;
   background:#160020;
 }
+
 body{
   min-height:100vh;
   display:flex;
@@ -21,57 +26,137 @@ body{
   overflow-x:hidden;
   perspective:1200px;
 }
+
 .campaign-stage{
   width:100%;
   max-width:1536px;
   margin:auto;
+  padding:4px;
   perspective:1200px;
   transform-style:preserve-3d;
 }
+
 .campaign-card{
+  position:relative;
   width:100%;
+  aspect-ratio:3/1;
+  overflow:hidden;
+  border-radius:10px;
   transform-style:preserve-3d;
   transform-origin:center center;
+  background:#160020;
+  box-shadow:
+    0 16px 22px rgba(0,0,0,.42),
+    0 0 0 1px rgba(255,214,117,.35);
   animation:campaignFloat 6s ease-in-out infinite;
   will-change:transform;
-  filter:drop-shadow(0 16px 22px rgba(0,0,0,.42));
 }
+
+.campaign-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(
+    115deg,
+    transparent 25%,
+    rgba(255,255,255,.20) 43%,
+    transparent 57%
+  );
+  transform:translateX(-120%);
+  animation:goldSweep 7s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+
+.campaign-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  border-radius:inherit;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,224,148,.4),
+    inset 0 0 24px rgba(255,204,87,.10);
+}
+
 .campaign-card svg{
   display:block;
   width:100%;
-  height:auto;
-  overflow:visible;
-  border-radius:2px;
+  height:100%;
+  overflow:hidden;
+  border-radius:inherit;
 }
-/* The original artwork remains embedded unchanged.
-   Only the complete banner's presentation gets a subtle 3D motion. */
+
+.campaign-card svg image{
+  width:100%;
+  height:100%;
+}
+
 @keyframes campaignFloat{
-  0%,100%{transform:rotateX(0deg) rotateY(0deg) translateY(0) scale(1)}
-  25%{transform:rotateX(1.2deg) rotateY(-1.1deg) translateY(-5px) scale(1.003)}
-  50%{transform:rotateX(0deg) rotateY(1.1deg) translateY(-8px) scale(1.005)}
-  75%{transform:rotateX(-1deg) rotateY(-.7deg) translateY(-4px) scale(1.002)}
+  0%,100%{
+    transform:rotateX(0deg) rotateY(0deg) translateY(0) scale(1);
+  }
+  25%{
+    transform:rotateX(1.2deg) rotateY(-1.1deg) translateY(-5px) scale(1.003);
+  }
+  50%{
+    transform:rotateX(0deg) rotateY(1.1deg) translateY(-8px) scale(1.005);
+  }
+  75%{
+    transform:rotateX(-1deg) rotateY(-.7deg) translateY(-4px) scale(1.002);
+  }
 }
-@media (prefers-reduced-motion:reduce){
-  .campaign-card{animation:none}
+
+@keyframes goldSweep{
+  0%,58%{transform:translateX(-120%)}
+  82%,100%{transform:translateX(120%)}
+}
+
+@media(max-width:600px){
+  .campaign-stage{padding:4px}
+  .campaign-card{border-radius:8px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .campaign-card,
+  .campaign-card::before{
+    animation:none!important;
+  }
 }
 </style>
 </head>
+
 <body>
-<main class="campaign-stage">
+
+<main class="campaign-stage" aria-label="Rubalia Network Special Campaign">
+
   <div class="campaign-card">
-    <!-- Original uploaded campaign banner embedded in SVG without editing. -->
-    <svg xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         viewBox="0 0 1536 512"
-         width="1536" height="512"
-         role="img"
-         aria-label="Rubalia Network Special Campaign promotional banner">
-      <image x="0" y="0" width="1536" height="512"
-             preserveAspectRatio="none"
-             href="assets/images/campaign-art-1.webp"
-             xlink:href="assets/images/campaign-art-1.webp"/>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 1536 512"
+      width="1536"
+      height="512"
+      role="img"
+      aria-label="Rubalia Network Special Campaign promotional banner"
+    >
+      <image
+        x="0"
+        y="0"
+        width="1536"
+        height="512"
+        preserveAspectRatio="none"
+        href="../assets/images/campaign-art-1.webp"
+        xlink:href="../assets/images/campaign-art-1.webp"
+      />
     </svg>
+
   </div>
+
 </main>
+
 </body>
 </html>
