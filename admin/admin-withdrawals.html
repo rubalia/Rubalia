@@ -86,9 +86,7 @@ button{cursor:pointer}
  border-radius:8px;padding:0 12px;outline:none;
  color:var(--text);background:#fff;font-size:12px;
 }
-.search input:focus,.toolbar select:focus{
- border-color:var(--gold);
-}
+.search input:focus,.toolbar select:focus{border-color:var(--gold)}
 .count{font-size:11px;color:var(--muted);font-weight:700}
 .table-wrap{
  background:#fff;border:1px solid var(--border);
@@ -131,6 +129,7 @@ tr:last-child td{border-bottom:0}
  font-size:9px;font-weight:900;white-space:nowrap;
 }
 .action.view{background:#edf2fa;color:#183c68}
+.action.payment{background:#e5f7ed;color:#168653}
 .action.approve{background:#e7f6ed;color:#168653}
 .action.process{background:#f1eaff;color:#7650b5}
 .action.paid{background:#fff4df;color:#9a6814}
@@ -202,6 +201,12 @@ tr:last-child td{border-bottom:0}
  color:var(--navy);overflow-wrap:anywhere;
  margin:8px 0;
 }
+.security-note{
+ background:#fff8e9;border:1px solid #f0dfb9;
+ color:#805c19;border-radius:8px;
+ padding:10px;margin-top:12px;
+ font-size:10px;line-height:1.6;
+}
 @media(max-width:900px){
  .stats{grid-template-columns:repeat(3,1fr)}
 }
@@ -217,6 +222,7 @@ tr:last-child td{border-bottom:0}
  .toolbar select{flex:1;min-width:120px}
  .search{min-width:100%;flex-basis:100%}
  .table-wrap{border-radius:9px}
+ .modal{max-height:88vh}
 }
 </style>
 </head>
@@ -327,7 +333,7 @@ tr:last-child td{border-bottom:0}
  <section class="modal">
   <div class="modal-head">
    <h2>Withdrawal Request Details</h2>
-   <button class="close" data-close="detailsModal">&times;</button>
+   <button class="close" data-close="detailsModal" type="button">&times;</button>
   </div>
   <div class="modal-body" id="detailsContent"></div>
  </section>
@@ -338,7 +344,7 @@ tr:last-child td{border-bottom:0}
  <section class="modal">
   <div class="modal-head">
    <h2>Secure Payment Details</h2>
-   <button class="close" data-close="paymentModal">&times;</button>
+   <button class="close" data-close="paymentModal" type="button">&times;</button>
   </div>
   <div class="modal-body" id="paymentContent"></div>
  </section>
@@ -349,7 +355,7 @@ tr:last-child td{border-bottom:0}
  <section class="modal">
   <div class="modal-head">
    <h2 id="actionTitle">Confirm Action</h2>
-   <button class="close" data-close="actionModal">&times;</button>
+   <button class="close" data-close="actionModal" type="button">&times;</button>
   </div>
   <div class="modal-body">
    <p id="actionDescription" class="sub"></p>
@@ -364,8 +370,8 @@ tr:last-child td{border-bottom:0}
      placeholder="Write a note..."></textarea>
    </div>
    <div class="modal-actions">
-    <button class="btn btn-light" data-close="actionModal">Cancel</button>
-    <button class="btn btn-primary" id="confirmAction">Confirm</button>
+    <button class="btn btn-light" data-close="actionModal" type="button">Cancel</button>
+    <button class="btn btn-primary" id="confirmAction" type="button">Confirm</button>
    </div>
   </div>
  </section>
@@ -532,47 +538,59 @@ function statusBadge(status){
  return `<span class="status ${escapeHTML(s)}">${escapeHTML(s)}</span>`;
 }
 
+function canViewPaymentDetails(status){
+ return ["pending","approved","processing"].includes(
+  String(status||"").toLowerCase()
+ );
+}
+
 function getActions(item){
  const id=encodeURIComponent(item.id);
  const status=String(item.status||"").toLowerCase();
 
  let buttons=`
- <button class="action view" data-action="view" data-id="${id}">Details</button>
+ <button class="action view" data-action="view" data-id="${id}" type="button">
+  Details
+ </button>
  `;
 
- if(["approved","processing"].includes(status)){
+ /*
+  * Pending, Approved and Processing:
+  * Admin can view the full account number.
+  */
+ if(canViewPaymentDetails(status)){
   buttons+=`
-  <button class="action view" data-action="payment" data-id="${id}">
+  <button class="action payment" data-action="payment" data-id="${id}" type="button">
    Payment Info
   </button>`;
  }
 
  if(status==="pending"){
   buttons+=`
-  <button class="action approve" data-action="approve" data-id="${id}">
+  <button class="action approve" data-action="approve" data-id="${id}" type="button">
    Approve
   </button>
-  <button class="action reject" data-action="reject" data-id="${id}">
+  <button class="action reject" data-action="reject" data-id="${id}" type="button">
    Reject
   </button>`;
  }
 
  if(status==="approved"){
   buttons+=`
-  <button class="action process" data-action="processing" data-id="${id}">
+  <button class="action process" data-action="processing" data-id="${id}" type="button">
    Processing
   </button>
-  <button class="action paid" data-action="paid" data-id="${id}">
+  <button class="action paid" data-action="paid" data-id="${id}" type="button">
    Mark Paid
   </button>
-  <button class="action reject" data-action="reject" data-id="${id}">
+  <button class="action reject" data-action="reject" data-id="${id}" type="button">
    Reject
   </button>`;
  }
 
  if(status==="processing"){
   buttons+=`
-  <button class="action paid" data-action="paid" data-id="${id}">
+  <button class="action paid" data-action="paid" data-id="${id}" type="button">
    Mark Paid
   </button>`;
  }
@@ -672,6 +690,14 @@ function findRequest(id){
 }
 
 function showDetails(item){
+ const status=String(item.status||"").toLowerCase();
+
+ const paymentButton=canViewPaymentDetails(status)
+  ? `<button class="btn btn-primary" id="detailsPaymentBtn" type="button">
+      View Full Account Number
+     </button>`
+  : "";
+
  $("detailsContent").innerHTML=`
   <div class="detail-row"><span>Member Name</span>
    <strong>${escapeHTML(item.full_name||"—")}</strong></div>
@@ -707,7 +733,15 @@ function showDetails(item){
    <strong>${escapeHTML(item.payment_reference||"—")}</strong></div>
   <div class="detail-row"><span>Admin Note</span>
    <strong>${escapeHTML(item.admin_note||"—")}</strong></div>
+  ${paymentButton ? `<div style="margin-top:16px">${paymentButton}</div>` : ""}
  `;
+
+ if(paymentButton){
+  $("detailsPaymentBtn").addEventListener("click",()=>{
+   closeModal("detailsModal");
+   showPaymentDetails(item);
+  });
+ }
 
  openModal("detailsModal");
 }
@@ -726,10 +760,14 @@ async function showPaymentDetails(item){
   const p=data.payment_details;
   if(!p)throw new Error("Payment details not received.");
 
+  if(!p.account_number){
+   throw new Error("Full account number is empty.");
+  }
+
   $("paymentContent").innerHTML=`
    <div class="detail-row">
     <span>Request Reference</span>
-    <strong>${escapeHTML(p.request_reference||"—")}</strong>
+    <strong>${escapeHTML(p.request_reference||item.request_reference||"—")}</strong>
    </div>
    <div class="detail-row">
     <span>Payment Method</span>
@@ -742,30 +780,47 @@ async function showPaymentDetails(item){
    <div class="account-box">
     <div class="sub">FULL PAYMENT ACCOUNT NUMBER</div>
     <div class="account-number" id="fullAccountNumber">
-     ${escapeHTML(p.account_number||"")}
+     ${escapeHTML(p.account_number)}
     </div>
     <button class="btn btn-primary" id="copyAccountBtn" type="button">
      Copy Account Number
     </button>
    </div>
-   <p class="sub" style="line-height:1.7;margin-top:15px">
-    Keep payment information confidential. Verify the recipient
-    before sending money.
-   </p>
+   <div class="security-note">
+    This full account number is confidential. Use it only to process
+    this member's withdrawal payment. Verify the account before sending money.
+   </div>
   `;
 
   $("copyAccountBtn").addEventListener("click",async()=>{
    try{
-    await navigator.clipboard.writeText(p.account_number||"");
-    $("copyAccountBtn").textContent="Copied";
+    if(navigator.clipboard&&window.isSecureContext){
+     await navigator.clipboard.writeText(p.account_number);
+    }else{
+     const input=document.createElement("textarea");
+     input.value=p.account_number;
+     input.style.position="fixed";
+     input.style.opacity="0";
+     document.body.appendChild(input);
+     input.select();
+     const copied=document.execCommand("copy");
+     input.remove();
+     if(!copied)throw new Error("Copy failed");
+    }
+
+    $("copyAccountBtn").textContent="Copied Successfully";
    }catch(e){
-    showNotice("error","Unable to copy. Please copy manually.");
+    showNotice("error","Unable to copy. Please select and copy the number manually.");
    }
   });
 
  }catch(error){
   $("paymentContent").innerHTML=`
-   <div class="notice show error">${escapeHTML(error.message)}</div>`;
+   <div class="notice show error">${escapeHTML(error.message)}</div>
+   <p class="sub" style="line-height:1.7">
+    If this request is Pending, check that the backend payment-details
+    route allows pending requests and that the encryption key is configured.
+   </p>`;
  }
 }
 
