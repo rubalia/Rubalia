@@ -32,6 +32,10 @@ const WITHDRAWAL_METHODS = [
 
 const ENCRYPTION_KEY = process.env.WALLET_ENCRYPTION_KEY || "";
 
+// =====================================================
+// MONEY HELPERS
+// =====================================================
+
 function moneyCents(value) {
   const number = Number(value);
 
@@ -83,8 +87,16 @@ function getIdempotencyKey(req) {
   return value.trim();
 }
 
+// =====================================================
+// ACCOUNT ENCRYPTION
+// =====================================================
+
+function isEncryptionKeyValid() {
+  return /^[a-fA-F0-9]{64}$/.test(ENCRYPTION_KEY);
+}
+
 function encryptAccountNumber(value) {
-  if (!/^[a-fA-F0-9]{64}$/.test(ENCRYPTION_KEY)) {
+  if (!isEncryptionKeyValid()) {
     throw new Error(
       "WALLET_ENCRYPTION_KEY must be a 64-character hexadecimal key."
     );
@@ -92,7 +104,12 @@ function encryptAccountNumber(value) {
 
   const iv = crypto.randomBytes(12);
   const key = Buffer.from(ENCRYPTION_KEY, "hex");
-  const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
+
+  const cipher = crypto.createCipheriv(
+    "aes-256-gcm",
+    key,
+    iv
+  );
 
   const encrypted = Buffer.concat([
     cipher.update(value, "utf8"),
@@ -109,17 +126,26 @@ function encryptAccountNumber(value) {
 }
 
 function decryptAccountNumber(value) {
-  if (!/^[a-fA-F0-9]{64}$/.test(ENCRYPTION_KEY)) {
+  if (!isEncryptionKeyValid()) {
     throw new Error("Wallet encryption key is not configured.");
   }
 
-  const parts = String(value).split(":");
+  const parts = String(value || "").split(":");
 
   if (parts.length !== 3) {
     throw new Error("Invalid encrypted account data.");
   }
 
   const [ivHex, tagHex, encryptedHex] = parts;
+
+  if (
+    !/^[a-fA-F0-9]{24}$/.test(ivHex) ||
+    !/^[a-fA-F0-9]{32}$/.test(tagHex) ||
+    !/^(?:[a-fA-F0-9]{2})+$/.test(encryptedHex)
+  ) {
+    throw new Error("Invalid encrypted account data.");
+  }
+
   const key = Buffer.from(ENCRYPTION_KEY, "hex");
 
   const decipher = crypto.createDecipheriv(
@@ -145,6 +171,10 @@ function maskAccount(value) {
 
   return `${"*".repeat(Math.max(4, text.length - 4))}${text.slice(-4)}`;
 }
+
+// =====================================================
+// WALLET HELPERS
+// =====================================================
 
 async function getOrCreateWallet(client, userId) {
   const result = await client.query(
@@ -211,11 +241,28 @@ async function createLedgerTransaction(client, data) {
   return result.rows[0] || null;
 }
 
+// Safe response for duplicate withdrawal requests.
+// Never expose encrypted account data or database internals.
+function safeWithdrawalResponse(request) {
+  return {
+    id: request.id,
+    request_reference: request.request_reference,
+    amount: request.amount,
+    fee: request.fee,
+    net_amount: request.net_amount,
+    payment_method: request.payment_method,
+    account_name: request.account_name,
+    account_number_masked: request.account_number_masked,
+    status: request.status,
+    requested_at: request.requested_at
+  };
+}
+
 // =====================================================
 // MEMBER WALLET
+// GET /api/wallet
 // =====================================================
 
-// GET /api/wallet
 router.get("/", authenticateToken, async (req, res, next) => {
   try {
     const wallet = await getOrCreateWallet(pool, req.auth.id);
@@ -229,7 +276,11 @@ router.get("/", authenticateToken, async (req, res, next) => {
   }
 });
 
+// =====================================================
+// GET WALLET TRANSACTIONS
 // GET /api/wallet/transactions
+// =====================================================
+
 router.get(
   "/transactions",
   authenticateToken,
@@ -278,9 +329,9 @@ router.get(
 
 // =====================================================
 // DEPOSIT METHODS
+// GET /api/wallet/deposit-methods
 // =====================================================
 
-// GET /api/wallet/deposit-methods
 router.get(
   "/deposit-methods",
   authenticateToken,
@@ -311,18 +362,20 @@ router.get(
 );
 
 // =====================================================
-// DEPOSIT REQUEST
-// Member submits payment reference.
-// Wallet is NOT credited until Admin approves.
+// MEMBER DEPOSIT REQUEST
+// POST /api/wallet/deposit
 // =====================================================
 
-// POST /api/wallet/deposit
 router.post(
   "/deposit",
   authenticateToken,
   async (req, res, next) => {
     const amountCents = validAmount(req.body.amount);
-    const gateway = String(req.body.gateway || "").trim().toLowerCase();
+
+    const gateway = String(
+      req.body.gateway || ""
+    ).trim().toLowerCase();
+
     const transactionReference = String(
       req.body.transaction_reference || ""
     ).trim();
@@ -377,7 +430,15 @@ router.post(
         return res.json({
           success: true,
           duplicate: true,
-          request: existing
+          request: {
+            id: existing.id,
+            request_reference: existing.request_reference,
+            gateway: existing.gateway,
+            transaction_reference: existing.transaction_reference,
+            amount: existing.amount,
+            status: existing.status,
+            created_at: existing.created_at
+          }
         });
       }
 
@@ -398,7 +459,10 @@ router.post(
         });
       }
 
-      const wallet = await getOrCreateWallet(client, req.auth.id);
+      const wallet = await getOrCreateWallet(
+        client,
+        req.auth.id
+      );
 
       const reference = makeReference("DEP");
 
@@ -414,7 +478,14 @@ router.post(
            status
          )
          VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending')
-         RETURNING *`,
+         RETURNING
+           id,
+           request_reference,
+           gateway,
+           transaction_reference,
+           amount,
+           status,
+           created_at`,
         [
           req.auth.id,
           wallet.id,
@@ -450,7 +521,11 @@ router.post(
   }
 );
 
+// =====================================================
+// MEMBER DEPOSIT HISTORY
 // GET /api/wallet/deposits
+// =====================================================
+
 router.get(
   "/deposits",
   authenticateToken,
@@ -485,19 +560,28 @@ router.get(
 );
 
 // =====================================================
-// WITHDRAWAL REQUEST
-// Amount is reserved from wallet immediately.
+// MEMBER WITHDRAWAL REQUEST
+// POST /api/wallet/withdraw
 // =====================================================
 
-// POST /api/wallet/withdraw
 router.post(
   "/withdraw",
   authenticateToken,
   async (req, res, next) => {
     const amountCents = validAmount(req.body.amount);
-    const method = String(req.body.payment_method || "").trim().toLowerCase();
-    const accountName = String(req.body.account_name || "").trim();
-    const accountNumber = String(req.body.account_number || "").trim();
+
+    const method = String(
+      req.body.payment_method || ""
+    ).trim().toLowerCase();
+
+    const accountName = String(
+      req.body.account_name || ""
+    ).trim();
+
+    const accountNumber = String(
+      req.body.account_number || ""
+    ).trim();
+
     const idempotencyKey = getIdempotencyKey(req);
 
     if (
@@ -575,11 +659,14 @@ router.post(
         return res.json({
           success: true,
           duplicate: true,
-          request: existing
+          request: safeWithdrawalResponse(existing)
         });
       }
 
-      const wallet = await getOrCreateWallet(client, req.auth.id);
+      const wallet = await getOrCreateWallet(
+        client,
+        req.auth.id
+      );
 
       const lockedWallet = await client.query(
         `SELECT id, balance
@@ -702,7 +789,11 @@ router.post(
   }
 );
 
+// =====================================================
+// MEMBER WITHDRAWAL HISTORY
 // GET /api/wallet/withdrawals
+// =====================================================
+
 router.get(
   "/withdrawals",
   authenticateToken,
@@ -744,13 +835,15 @@ router.get(
 );
 
 // =====================================================
-// ADMIN ROUTES
+// ADMIN AUTHENTICATION
 // =====================================================
 
 router.use("/admin", authenticateToken, requireAdmin);
 
-// ADMIN: DEPOSIT REQUEST LIST
+// =====================================================
+// ADMIN DEPOSIT LIST
 // GET /api/wallet/admin/deposits
+// =====================================================
 
 router.get("/admin/deposits", async (req, res, next) => {
   try {
@@ -793,8 +886,10 @@ router.get("/admin/deposits", async (req, res, next) => {
   }
 });
 
-// ADMIN: APPROVE DEPOSIT
+// =====================================================
+// ADMIN APPROVE DEPOSIT
 // POST /api/wallet/admin/deposits/:id/approve
+// =====================================================
 
 router.post(
   "/admin/deposits/:id/approve",
@@ -893,14 +988,18 @@ router.post(
   }
 );
 
-// ADMIN: REJECT DEPOSIT
+// =====================================================
+// ADMIN REJECT DEPOSIT
 // POST /api/wallet/admin/deposits/:id/reject
+// =====================================================
 
 router.post(
   "/admin/deposits/:id/reject",
   async (req, res, next) => {
     try {
-      const note = String(req.body.admin_note || "").trim();
+      const note = String(
+        req.body.admin_note || ""
+      ).trim();
 
       const result = await pool.query(
         `UPDATE wallet_deposit_requests
@@ -932,8 +1031,10 @@ router.post(
   }
 );
 
-// ADMIN: WITHDRAWAL REQUEST LIST
+// =====================================================
+// ADMIN WITHDRAWAL LIST
 // GET /api/wallet/admin/withdrawals
+// =====================================================
 
 router.get("/admin/withdrawals", async (req, res, next) => {
   try {
@@ -974,6 +1075,7 @@ router.get("/admin/withdrawals", async (req, res, next) => {
          w.approved_at,
          w.processing_at,
          w.paid_at,
+         w.rejected_at,
          u.full_name,
          u.email
        FROM withdrawal_requests w
@@ -993,8 +1095,10 @@ router.get("/admin/withdrawals", async (req, res, next) => {
   }
 });
 
-// ADMIN: APPROVE WITHDRAWAL
+// =====================================================
+// ADMIN APPROVE WITHDRAWAL
 // POST /api/wallet/admin/withdrawals/:id/approve
+// =====================================================
 
 router.post(
   "/admin/withdrawals/:id/approve",
@@ -1030,8 +1134,10 @@ router.post(
   }
 );
 
-// ADMIN: MARK AS PROCESSING
+// =====================================================
+// ADMIN MARK WITHDRAWAL PROCESSING
 // POST /api/wallet/admin/withdrawals/:id/processing
+// =====================================================
 
 router.post(
   "/admin/withdrawals/:id/processing",
@@ -1066,9 +1172,14 @@ router.post(
   }
 );
 
-// ADMIN: GET DECRYPTED PAYMENT DETAILS
+// =====================================================
+// ADMIN GET FULL PAYMENT DETAILS
 // GET /api/wallet/admin/withdrawals/:id/payment-details
-// Full account number is never included in the normal list.
+//
+// IMPORTANT:
+// Full account number is available to Admin only.
+// Allowed statuses: pending, approved, processing.
+// =====================================================
 
 router.get(
   "/admin/withdrawals/:id/payment-details",
@@ -1077,6 +1188,7 @@ router.get(
       const result = await pool.query(
         `SELECT
            id,
+           user_id,
            request_reference,
            payment_method,
            account_name,
@@ -1097,10 +1209,22 @@ router.get(
 
       const request = result.rows[0];
 
-      if (!["approved", "processing"].includes(request.status)) {
+      // FIX: Pending status is now allowed.
+      if (
+        !["pending", "approved", "processing"].includes(
+          String(request.status).toLowerCase()
+        )
+      ) {
         return res.status(409).json({
           success: false,
-          message: "Payment details are available only for approved requests."
+          message: "Payment details are not available for this withdrawal status."
+        });
+      }
+
+      if (!request.account_number_encrypted) {
+        return res.status(404).json({
+          success: false,
+          message: "Encrypted payment account was not found."
         });
       }
 
@@ -1123,10 +1247,13 @@ router.get(
   }
 );
 
-// ADMIN: MARK WITHDRAWAL AS PAID
+// =====================================================
+// ADMIN MARK WITHDRAWAL AS PAID
 // POST /api/wallet/admin/withdrawals/:id/paid
-// This records Admin-confirmed manual payment.
-// It does NOT send money automatically.
+//
+// Records manual payment.
+// Does NOT send money automatically.
+// =====================================================
 
 router.post(
   "/admin/withdrawals/:id/paid",
@@ -1176,8 +1303,11 @@ router.post(
   }
 );
 
-// ADMIN: REJECT WITHDRAWAL AND RETURN RESERVED BALANCE
+// =====================================================
+// ADMIN REJECT WITHDRAWAL
+// Reserved balance is returned to member.
 // POST /api/wallet/admin/withdrawals/:id/reject
+// =====================================================
 
 router.post(
   "/admin/withdrawals/:id/reject",
@@ -1215,13 +1345,17 @@ router.post(
         });
       }
 
-      await client.query(
+      const walletLock = await client.query(
         `SELECT id
          FROM wallets
          WHERE id = $1
          FOR UPDATE`,
         [request.wallet_id]
       );
+
+      if (!walletLock.rowCount) {
+        throw new Error("Wallet not found.");
+      }
 
       const amountCents = moneyCents(request.amount);
 
@@ -1280,8 +1414,9 @@ router.post(
 // =====================================================
 // WALLET RECONCILIATION
 // GET /api/wallet/reconciliation
-// Admin only. This endpoint reports mismatches;
-// it never changes wallet balances automatically.
+// Admin only.
+// This endpoint reports mismatches.
+// It never changes wallet balances automatically.
 // =====================================================
 
 router.get(
@@ -1315,10 +1450,19 @@ router.get(
       const reports = [];
 
       for (const row of result.rows) {
-        const recordedCents = moneyCents(row.recorded_balance);
-        const ledgerCents = Math.round(Number(row.ledger_balance) * 100);
-        const differenceCents = recordedCents - ledgerCents;
-        const status = differenceCents === 0 ? "matched" : "mismatch";
+        const recordedCents = moneyCents(
+          row.recorded_balance
+        );
+
+        const ledgerCents = Math.round(
+          Number(row.ledger_balance) * 100
+        );
+
+        const differenceCents =
+          recordedCents - ledgerCents;
+
+        const status =
+          differenceCents === 0 ? "matched" : "mismatch";
 
         await pool.query(
           `INSERT INTO wallet_reconciliation_logs (
@@ -1353,8 +1497,12 @@ router.get(
       return res.json({
         success: true,
         total_wallets: reports.length,
-        matched: reports.filter(x => x.status === "matched").length,
-        mismatched: reports.filter(x => x.status === "mismatch").length,
+        matched: reports.filter(
+          x => x.status === "matched"
+        ).length,
+        mismatched: reports.filter(
+          x => x.status === "mismatch"
+        ).length,
         reports
       });
     } catch (error) {
