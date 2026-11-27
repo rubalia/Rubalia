@@ -5,1522 +5,890 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
-<meta name="description" content="Rubalia Network Admin Withdrawal Management">
-<title>Withdrawals | RUBALIA NETWORK</title>
+<meta name="description" content="RUBALIA NETWORK Admin Withdrawal Management">
+<title>Withdrawal Management | RUBALIA NETWORK</title>
 
 <style>
 :root{
  --navy:#071a35;
  --navy2:#102b50;
  --gold:#d6ad55;
- --bg:#f3f6fb;
+ --light:#f4f6fa;
+ --text:#26354a;
+ --muted:#758195;
+ --border:#e0e5ed;
  --white:#fff;
- --text:#17243a;
- --muted:#758198;
- --border:#e4e9f1;
- --green:#16845b;
- --red:#bd3c46;
- --orange:#a46a0b;
- --blue:#315a9b;
+ --green:#168653;
+ --red:#c83d4b;
+ --orange:#c17a18;
+ --blue:#2765b5;
 }
 *{box-sizing:border-box}
 body{
- margin:0;
+ margin:0;background:var(--light);color:var(--text);
  font-family:Arial,Helvetica,sans-serif;
- background:var(--bg);
- color:var(--text);
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-a{text-decoration:none;color:inherit}
-[hidden]{display:none!important}
-
-/* TOPBAR */
 .topbar{
- min-height:64px;
- background:white;
- padding:10px 20px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:12px;
- border-bottom:1px solid var(--border);
- position:sticky;
- top:0;
- z-index:30;
+ height:65px;background:var(--navy);color:#fff;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 22px;position:sticky;top:0;z-index:20;
+ box-shadow:0 3px 12px #071a3525;
 }
-.top-left{display:flex;align-items:center;gap:12px;min-width:0}
-.topbar h3{margin:0;font-size:19px}
-.admin{font-size:12px;color:var(--muted);white-space:nowrap}
-.menu-btn{
- display:none;
- width:43px;height:43px;
- border:0;border-radius:9px;
- background:var(--navy);color:white;
- font-size:20px;
+.brand{font-size:18px;font-weight:900;letter-spacing:1px}
+.brand small{display:block;color:var(--gold);font-size:9px;letter-spacing:4px;margin-top:3px}
+.top-right{display:flex;align-items:center;gap:12px}
+.admin-label{font-size:11px;color:#e7edf6}
+.avatar{
+ width:36px;height:36px;border-radius:50%;
+ background:var(--gold);color:var(--navy);
+ display:grid;place-items:center;font-weight:900;
 }
-
-/* SIDEBAR */
-.sidebar{
- width:245px;
- background:var(--navy);
- color:white;
- padding:20px 14px;
- position:fixed;
- inset:64px auto 0 0;
- overflow-y:auto;
- z-index:40;
- transition:transform .25s;
+.layout{max-width:1450px;margin:auto;padding:22px}
+.page-head{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:15px;margin-bottom:20px;flex-wrap:wrap;
 }
-.brand{
- padding:5px 10px 22px;
- border-bottom:1px solid #ffffff20;
- margin-bottom:15px;
+.page-head h1{font-size:24px;color:var(--navy);margin:0 0 7px}
+.page-head p{font-size:12px;color:var(--muted);margin:0}
+.btn{
+ border:0;border-radius:8px;padding:11px 15px;
+ font-size:12px;font-weight:800;
 }
-.brand h2{margin:0;color:var(--gold);font-size:21px}
-.brand small{color:#b8c5d8;letter-spacing:1.5px;font-size:9px}
-.nav-title{
- color:#91a4bf;
- font-size:9px;
- letter-spacing:1.3px;
- padding:12px 11px 7px;
-}
-.nav a{
- display:flex;
- align-items:center;
- gap:10px;
- color:#dce5f2;
- padding:11px;
- border-radius:7px;
- margin:2px 0;
- font-size:12px;
-}
-.nav a.active,.nav a:hover{
- background:#ffffff16;
- color:var(--gold);
-}
-.main{margin-left:245px;width:calc(100% - 245px);min-width:0}
-.content{padding:22px;max-width:1450px;margin:auto}
-
-/* HEADING */
-.page-heading{
- display:flex;
- justify-content:space-between;
- align-items:center;
- flex-wrap:wrap;
- gap:12px;
- margin-bottom:18px;
-}
-.page-heading h1{font-size:24px;margin:0 0 6px}
-.page-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
-.connection-label{
- display:inline-flex;
- align-items:center;
- gap:7px;
- background:#e7f7ef;
- color:var(--green);
- border-radius:20px;
- padding:9px 12px;
- font-size:10px;
- font-weight:bold;
- white-space:nowrap;
-}
-.connection-label.offline{background:#fff0f0;color:var(--red)}
-.connection-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-
-/* ALERTS */
-.alert{
- display:none;
- padding:12px 14px;
- border-radius:8px;
- margin-bottom:14px;
- font-size:12px;
- line-height:1.6;
-}
-.alert.error{display:block;background:#fff0f0;color:var(--red);border:1px solid #f2cccc}
-.alert.success{display:block;background:#e7f7ef;color:var(--green);border:1px solid #c8ead8}
-.notice{
- background:#fff8e8;
- border:1px solid #f1dfb4;
- color:#85651e;
- padding:13px 15px;
- border-radius:9px;
- font-size:11px;
- line-height:1.7;
- margin-bottom:17px;
-}
-.notice strong{display:block;margin-bottom:4px}
-
-/* STATS */
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-light{background:#edf1f6;color:var(--navy)}
+.btn-danger{background:#fff0f1;color:var(--red)}
+.btn-success{background:#e8f7ef;color:var(--green)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 .stats{
- display:grid;
- grid-template-columns:repeat(4,minmax(0,1fr));
- gap:11px;
- margin-bottom:18px;
+ display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+ gap:13px;margin-bottom:20px;
 }
 .stat{
- background:white;
- border:1px solid var(--border);
- border-radius:11px;
- padding:13px;
- min-width:0;
+ background:#fff;border:1px solid var(--border);
+ border-radius:12px;padding:17px;
+ box-shadow:0 3px 12px #071a3505;
 }
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
-.stat-label{font-size:10px;color:var(--muted);line-height:1.4}
-.stat-icon{
- width:30px;height:30px;
- border-radius:8px;
- display:grid;place-items:center;
- background:#f4eddb;
- color:#98701f;
- font-size:15px;
- flex-shrink:0;
+.stat-label{font-size:11px;color:var(--muted);font-weight:700}
+.stat-value{font-size:23px;font-weight:900;color:var(--navy);margin-top:9px}
+.stat-value.gold{color:#b28a36}
+.toolbar{
+ background:white;border:1px solid var(--border);
+ border-radius:12px;padding:15px;
+ display:flex;gap:10px;align-items:center;
+ flex-wrap:wrap;margin-bottom:15px;
 }
-.stat-value{
- display:block;
- margin:9px 0 3px;
- color:var(--navy);
- font-size:21px;
- font-weight:800;
- overflow-wrap:anywhere;
+.search{flex:1;min-width:190px}
+.search input,.toolbar select{
+ width:100%;height:42px;border:1px solid var(--border);
+ border-radius:8px;padding:0 12px;outline:none;
+ color:var(--text);background:#fff;font-size:12px;
 }
-.stat small{font-size:9px;color:var(--muted);line-height:1.4}
-
-/* PANELS */
-.panel{
- background:white;
- border:1px solid var(--border);
- border-radius:11px;
- overflow:hidden;
- margin-bottom:17px;
+.search input:focus,.toolbar select:focus{
+ border-color:var(--gold);
 }
-.panel-head{
- padding:15px 16px;
- border-bottom:1px solid var(--border);
- display:flex;
- justify-content:space-between;
- align-items:center;
- flex-wrap:wrap;
- gap:10px;
+.count{font-size:11px;color:var(--muted);font-weight:700}
+.table-wrap{
+ background:#fff;border:1px solid var(--border);
+ border-radius:12px;overflow:hidden;
 }
-.panel-head h3{margin:0;font-size:15px;color:var(--navy)}
-.panel-head p{margin:5px 0 0;font-size:10px;color:var(--muted)}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
-.btn{
- border:0;
- padding:9px 12px;
- border-radius:7px;
- font-size:10px;
- font-weight:bold;
-}
-.btn-dark{background:var(--navy);color:white}
-.btn-gold{background:var(--gold);color:var(--navy)}
-.btn-light{background:#eef2f7;color:var(--navy)}
-.btn-green{background:#e7f7ef;color:var(--green)}
-.btn-red{background:#fff0f0;color:var(--red)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.refresh-btn{
- border:1px solid var(--border);
- background:white;
- color:var(--navy);
- padding:9px 12px;
- border-radius:7px;
- font-size:10px;
- font-weight:bold;
-}
-.refresh-btn:disabled{opacity:.5}
-
-/* FILTERS */
-.filters{
- display:grid;
- grid-template-columns:minmax(0,2fr) minmax(130px,1fr) minmax(130px,1fr) auto;
- gap:9px;
- padding:14px;
- border-bottom:1px solid var(--border);
-}
-.field{
- width:100%;
- min-width:0;
- height:40px;
- border:1px solid var(--border);
- background:white;
- border-radius:7px;
- padding:0 10px;
- color:var(--text);
- font-size:11px;
- outline:none;
-}
-.field:focus{border-color:var(--gold)}
-.field:disabled{background:#f4f6f9}
-
-/* TABLE */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;min-width:900px}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1050px}
 th{
- text-align:left;
- padding:12px 11px;
- background:#f8f9fc;
- color:var(--muted);
- font-size:9px;
- letter-spacing:.4px;
- white-space:nowrap;
+ background:#f6f8fb;color:#637187;
+ font-size:10px;text-align:left;
+ padding:14px 12px;white-space:nowrap;
+ border-bottom:1px solid var(--border);
 }
 td{
- padding:12px 11px;
- border-top:1px solid var(--border);
- font-size:10px;
- vertical-align:middle;
+ padding:14px 12px;border-bottom:1px solid #edf0f4;
+ font-size:11px;vertical-align:middle;
 }
-td strong{color:var(--navy)}
-.member-name{font-weight:bold;color:var(--navy)}
-.member-email{display:block;color:var(--muted);font-size:9px;margin-top:4px}
+tr:last-child td{border-bottom:0}
+.user-name{font-weight:800;color:var(--navy);margin-bottom:5px}
+.sub{font-size:10px;color:var(--muted)}
+.amount{font-weight:900;color:var(--navy);white-space:nowrap}
+.method{
+ display:inline-block;background:#f0f3f8;
+ padding:6px 9px;border-radius:6px;
+ font-size:10px;font-weight:800;text-transform:uppercase;
+}
 .status{
- display:inline-block;
- padding:5px 8px;
- border-radius:20px;
- font-size:9px;
- font-weight:bold;
- text-transform:capitalize;
+ display:inline-block;padding:6px 9px;border-radius:20px;
+ font-size:9px;font-weight:900;text-transform:uppercase;
  white-space:nowrap;
 }
-.status.pending{background:#fff2dc;color:var(--orange)}
-.status.approved{background:#e8efff;color:var(--blue)}
-.status.processing{background:#eee9ff;color:#6551a6}
-.status.paid{background:#e7f7ef;color:var(--green)}
-.status.rejected{background:#fceaea;color:var(--red)}
-.view-btn{
- border:0;
- background:var(--navy);
- color:white;
- padding:8px 10px;
- border-radius:6px;
- font-size:9px;
- font-weight:bold;
- white-space:nowrap;
+.status.pending{background:#fff4df;color:#a36a0d}
+.status.approved{background:#eaf2ff;color:#2765b5}
+.status.processing{background:#f1eaff;color:#7650b5}
+.status.paid{background:#e5f7ed;color:#168653}
+.status.rejected{background:#ffeded;color:#c83d4b}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
+.action{
+ border:0;border-radius:6px;padding:7px 9px;
+ font-size:9px;font-weight:900;white-space:nowrap;
 }
+.action.view{background:#edf2fa;color:#183c68}
+.action.approve{background:#e7f6ed;color:#168653}
+.action.process{background:#f1eaff;color:#7650b5}
+.action.paid{background:#fff4df;color:#9a6814}
+.action.reject{background:#fff0f1;color:#c83d4b}
 .empty{
- text-align:center;
- padding:28px 15px;
- color:var(--muted);
- font-size:11px;
- line-height:1.8;
+ text-align:center;padding:45px 15px;color:var(--muted);
+ font-size:12px;
 }
-.panel-footer{
- padding:12px 15px;
- border-top:1px solid var(--border);
- display:flex;
- justify-content:space-between;
- flex-wrap:wrap;
- gap:8px;
- font-size:10px;
- color:var(--muted);
+.notice{
+ display:none;padding:12px 14px;border-radius:9px;
+ margin-bottom:15px;font-size:12px;line-height:1.6;
 }
+.notice.show{display:block}
+.notice.error{background:#fff0f1;color:#a12b36;border:1px solid #f4cbd0}
+.notice.success{background:#effaf3;color:#17633b;border:1px solid #c6ead2}
+.notice.info{background:#edf4ff;color:#24558c;border:1px solid #d2e2fa}
+.loading{text-align:center;padding:30px;color:var(--muted);font-size:12px}
+.footer{text-align:center;padding:22px;color:var(--muted);font-size:10px}
 
 /* MODAL */
-.modal-bg{
- display:none;
- position:fixed;
- inset:0;
- z-index:100;
- background:#06152dcc;
- align-items:center;
- justify-content:center;
- padding:12px;
+.modal-backdrop{
+ position:fixed;inset:0;background:#071a3590;
+ z-index:50;display:none;align-items:center;
+ justify-content:center;padding:15px;
 }
-.modal-bg.show{display:flex}
+.modal-backdrop.open{display:flex}
 .modal{
- width:100%;
- max-width:550px;
- max-height:92vh;
- overflow:auto;
- background:white;
- border-radius:12px;
+ width:100%;max-width:470px;background:#fff;
+ border-radius:14px;overflow:hidden;
+ box-shadow:0 20px 60px #0003;
+ max-height:90vh;overflow-y:auto;
 }
 .modal-head{
- padding:15px 17px;
- border-bottom:1px solid var(--border);
- display:flex;
- align-items:center;
- justify-content:space-between;
- gap:10px;
- position:sticky;
- top:0;
- background:white;
- z-index:2;
+ background:var(--navy);color:#fff;padding:17px 19px;
+ display:flex;justify-content:space-between;align-items:center;
 }
-.modal-head h3{margin:0;font-size:15px;color:var(--navy)}
+.modal-head h2{font-size:15px;margin:0}
 .close{
- border:0;
- background:#eef1f6;
- width:31px;height:31px;
- border-radius:50%;
- font-size:18px;
+ background:transparent;border:0;color:white;
+ font-size:25px;line-height:1;
 }
-.modal-body{padding:16px}
-.detail-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:9px;
-}
-.detail{
- background:#f7f9fc;
- border:1px solid var(--border);
- border-radius:8px;
- padding:11px;
- min-width:0;
-}
-.detail small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
-.detail strong{
- display:block;
- color:var(--navy);
+.modal-body{padding:19px}
+.detail-row{
+ display:flex;justify-content:space-between;gap:15px;
+ padding:11px 0;border-bottom:1px solid #edf0f4;
  font-size:11px;
- overflow-wrap:anywhere;
 }
-.modal-section{margin-top:17px}
-.modal-section h4{font-size:12px;margin:0 0 9px;color:var(--navy)}
-.payment-details{
- background:#fff8e8;
- border:1px solid #f1dfb4;
- border-radius:8px;
- padding:12px;
- font-size:11px;
- line-height:1.8;
- overflow-wrap:anywhere;
+.detail-row span:first-child{color:var(--muted)}
+.detail-row strong{text-align:right;overflow-wrap:anywhere}
+.field{margin-bottom:14px}
+.field label{
+ display:block;font-size:11px;font-weight:800;
+ color:var(--navy);margin-bottom:7px;
 }
-.modal-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
-.modal-message{font-size:10px;color:var(--muted);line-height:1.6;margin-top:10px}
-.modal .field{margin-top:8px}
-.modal-label{font-size:10px;color:var(--muted);display:block;margin-top:10px}
-
-/* LOADING */
-.loading-screen,.error-screen{
- position:fixed;
- inset:0;
- z-index:1000;
- background:var(--bg);
- display:flex;
- align-items:center;
- justify-content:center;
- padding:18px;
+.field input,.field textarea{
+ width:100%;border:1px solid var(--border);
+ border-radius:8px;padding:11px;font-size:12px;
+ outline:none;
 }
-.loading-box,.error-card{
- width:100%;
- max-width:380px;
- background:white;
- border:1px solid var(--border);
- border-radius:12px;
- padding:25px;
- text-align:center;
+.field textarea{min-height:90px;resize:vertical}
+.modal-actions{display:flex;gap:9px;margin-top:17px}
+.modal-actions button{flex:1}
+.account-box{
+ background:#f5f7fa;border:1px solid var(--border);
+ border-radius:9px;padding:13px;margin-top:13px;
 }
-.loading-box strong,.error-card h2{color:var(--navy)}
-.loading-box p,.error-card p{color:var(--muted);font-size:12px;line-height:1.7}
-.error-screen{display:none}
-.error-card a,.error-card button{
- display:inline-block;
- margin:6px 3px 0;
- padding:10px 15px;
- border:0;
- border-radius:7px;
- background:var(--gold);
- color:var(--navy);
- font-size:11px;
- font-weight:bold;
+.account-number{
+ font-size:18px;font-weight:900;letter-spacing:1px;
+ color:var(--navy);overflow-wrap:anywhere;
+ margin:8px 0;
 }
-.footer{text-align:center;padding:16px;color:#9aa5b5;font-size:10px}
-
-/* TOAST */
-.toast{
- position:fixed;
- bottom:18px;
- right:18px;
- background:var(--navy);
- color:white;
- padding:12px 16px;
- border-radius:8px;
- font-size:11px;
- display:none;
- z-index:200;
- max-width:calc(100% - 36px);
+@media(max-width:900px){
+ .stats{grid-template-columns:repeat(3,1fr)}
 }
-.toast.show{display:block}
-
-@media(max-width:1050px){
- .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
- .filters{grid-template-columns:1fr 1fr}
- .filters input{grid-column:1/-1}
-}
-@media(max-width:760px){
- .sidebar{
-  transform:translateX(-100%);
-  width:255px;
-  top:64px;
- }
- .sidebar.open{transform:translateX(0)}
- .main{margin-left:0;width:100%}
- .menu-btn{display:block}
- .topbar{padding:10px 13px}
- .content{padding:16px 12px}
- .page-heading h1{font-size:22px}
-}
-@media(max-width:480px){
- .topbar{min-height:58px;padding:8px 11px}
- .sidebar{top:58px}
- .topbar h3{font-size:15px}
- .admin{font-size:9px}
- .content{padding:13px 10px}
- .page-heading h1{font-size:21px}
- .page-heading p{font-size:11px}
- .stats{gap:8px}
- .stat{padding:11px}
- .stat-value{font-size:19px}
- .stat-label{font-size:9px}
- .stat-icon{width:27px;height:27px;font-size:13px}
- .filters{grid-template-columns:1fr}
- .filters input{grid-column:auto}
- .panel-head{padding:13px}
- .panel-head h3{font-size:14px}
- .detail-grid{grid-template-columns:1fr 1fr}
- .modal-body{padding:12px}
- .modal-bg{padding:7px}
+@media(max-width:600px){
+ .topbar{height:59px;padding:0 13px}
+ .brand{font-size:15px}
+ .layout{padding:14px 10px}
+ .page-head h1{font-size:20px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .stat{padding:13px}
+ .stat-value{font-size:20px}
+ .toolbar{padding:11px}
+ .toolbar select{flex:1;min-width:120px}
+ .search{min-width:100%;flex-basis:100%}
+ .table-wrap{border-radius:9px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="loading-screen" id="loadingScreen">
- <div class="loading-box">
-  <strong>RUBALIA NETWORK</strong>
-  <p>Verifying administrator access...</p>
- </div>
-</div>
-
-<div class="error-screen" id="errorScreen">
- <div class="error-card">
-  <h2 id="errorTitle">Access Error</h2>
-  <p id="errorMessage">Unable to verify administrator access.</p>
-  <a href="../login.html">Login</a>
-  <button type="button" id="retryBtn">Try Again</button>
- </div>
-</div>
-
-<div id="adminApp" hidden>
-
 <header class="topbar">
- <div class="top-left">
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu">☰</button>
-  <h3>Withdrawal Management</h3>
+ <div class="brand">RUBALIA<small>NETWORK</small></div>
+ <div class="top-right">
+  <span class="admin-label">ADMIN PANEL</span>
+  <div class="avatar" id="adminAvatar">A</div>
  </div>
- <div class="admin">ADMIN PANEL</div>
 </header>
 
-<div class="layout">
+<main class="layout">
 
-<aside class="sidebar" id="sidebar">
- <div class="brand">
-  <h2>RUBALIA</h2>
-  <small>NETWORK ADMINISTRATION</small>
- </div>
-
- <nav class="nav">
-  <div class="nav-title">MAIN MENU</div>
-  <a href="../admin-dashboard.html">▦ Dashboard</a>
-  <a href="admin-users.html">♙ Users</a>
-  <a href="admin-partners.html">♧ Partners</a>
-  <a href="admin-applications.html">▤ Applications</a>
-
-  <div class="nav-title">COMMERCE</div>
-  <a href="admin-products.html">▣ Products</a>
-  <a href="admin-orders.html">▤ Orders</a>
-  <a href="admin-payments.html">৳ Payments</a>
-  <a class="active" href="admin-withdrawals.html">⇧ Withdrawals</a>
-  <a href="admin-commissions.html">％ Commissions</a>
-
-  <div class="nav-title">MANAGEMENT</div>
-  <a href="admin-announcements.html">♢ Announcements</a>
-  <a href="admin-support.html">☏ Support</a>
-  <a href="admin-settings.html">⚙ Settings</a>
-
-  <div class="nav-title">WEBSITE</div>
-  <a href="../index.html">⌂ Visit Website</a>
-  <a href="#" id="logoutBtn">↪ Logout</a>
- </nav>
-</aside>
-
-<main class="main">
-
-<section class="content">
-
- <div class="page-heading">
+ <section class="page-head">
   <div>
-   <h1>Withdrawals</h1>
+   <h1>Withdrawal Management</h1>
    <p>Review, approve and manage member withdrawal requests.</p>
   </div>
-  <span class="connection-label" id="connectionLabel">
-   <span class="connection-dot"></span> CONNECTING
-  </span>
- </div>
+  <button class="btn btn-primary" id="refreshBtn" type="button">
+   ↻ Refresh Requests
+  </button>
+ </section>
 
- <div class="alert" id="pageAlert" role="alert"></div>
+ <div class="notice" id="notice" role="status"></div>
 
- <div class="notice">
-  <strong>Withdrawal Processing</strong>
-  Withdrawal amounts are reserved from the member's wallet when a request is submitted.
-  Rejecting an eligible request returns the reserved amount to the member's wallet.
-  Marking a request as Paid records a manual payment; it does not automatically transfer money.
- </div>
-
- <!-- STATISTICS -->
  <section class="stats">
   <div class="stat">
-   <div class="stat-top">
-    <span class="stat-label">Loaded Withdrawal Amount</span>
-    <span class="stat-icon">৳</span>
-   </div>
-   <strong class="stat-value" id="totalAmount">—</strong>
-   <small>Sum of loaded records</small>
+   <div class="stat-label">TOTAL REQUESTS</div>
+   <div class="stat-value" id="totalCount">0</div>
   </div>
-
   <div class="stat">
-   <div class="stat-top">
-    <span class="stat-label">Pending Requests</span>
-    <span class="stat-icon">◷</span>
-   </div>
-   <strong class="stat-value" id="pendingCount">—</strong>
-   <small>Loaded records</small>
+   <div class="stat-label">PENDING</div>
+   <div class="stat-value gold" id="pendingCount">0</div>
   </div>
-
   <div class="stat">
-   <div class="stat-top">
-    <span class="stat-label">Approved Requests</span>
-    <span class="stat-icon">✓</span>
-   </div>
-   <strong class="stat-value" id="approvedCount">—</strong>
-   <small>Loaded records</small>
+   <div class="stat-label">APPROVED</div>
+   <div class="stat-value" id="approvedCount">0</div>
   </div>
-
   <div class="stat">
-   <div class="stat-top">
-    <span class="stat-label">Rejected Requests</span>
-    <span class="stat-icon">×</span>
-   </div>
-   <strong class="stat-value" id="rejectedCount">—</strong>
-   <small>Loaded records</small>
+   <div class="stat-label">PROCESSING</div>
+   <div class="stat-value" id="processingCount">0</div>
+  </div>
+  <div class="stat">
+   <div class="stat-label">PAID</div>
+   <div class="stat-value" id="paidCount">0</div>
   </div>
  </section>
 
- <!-- REQUEST LIST -->
- <section class="panel">
-
-  <div class="panel-head">
-   <div>
-    <h3>Withdrawal Request List</h3>
-    <p>Backend returns up to 200 latest requests.</p>
-   </div>
-   <button class="refresh-btn" id="refreshBtn" type="button">↻ Refresh</button>
+ <section class="toolbar">
+  <div class="search">
+   <input id="searchInput" type="search"
+    placeholder="Search name, email, reference or account...">
   </div>
 
-  <div class="filters">
-   <input class="field" id="searchInput" type="search"
-    placeholder="Search member, request ID or reference..." autocomplete="off">
+  <select id="statusFilter" aria-label="Filter by status">
+   <option value="">All Status</option>
+   <option value="pending">Pending</option>
+   <option value="approved">Approved</option>
+   <option value="processing">Processing</option>
+   <option value="paid">Paid</option>
+   <option value="rejected">Rejected</option>
+  </select>
 
-   <select class="field" id="methodFilter">
-    <option value="">All Methods</option>
-    <option value="bkash">bKash</option>
-    <option value="nagad">Nagad</option>
-    <option value="rocket">Rocket</option>
-    <option value="bank">Bank</option>
-   </select>
+  <select id="methodFilter" aria-label="Filter by payment method">
+   <option value="">All Methods</option>
+   <option value="bkash">bKash</option>
+   <option value="nagad">Nagad</option>
+   <option value="rocket">Rocket</option>
+   <option value="bank">Bank</option>
+  </select>
 
-   <select class="field" id="statusFilter">
-    <option value="">All Status</option>
-    <option value="pending">Pending</option>
-    <option value="approved">Approved</option>
-    <option value="processing">Processing</option>
-    <option value="paid">Paid</option>
-    <option value="rejected">Rejected</option>
-   </select>
+  <span class="count" id="resultCount">0 requests</span>
+ </section>
 
-   <button class="btn btn-dark" id="resetBtn" type="button">Reset</button>
-  </div>
-
-  <div class="table-wrap">
+ <section class="table-wrap">
+  <div class="table-scroll">
    <table>
     <thead>
      <tr>
-      <th>REQUEST ID</th>
       <th>MEMBER</th>
-      <th>METHOD</th>
-      <th>ACCOUNT</th>
+      <th>REQUEST REFERENCE</th>
+      <th>PAYMENT METHOD</th>
       <th>AMOUNT</th>
+      <th>FEE</th>
       <th>NET AMOUNT</th>
-      <th>REQUEST DATE</th>
       <th>STATUS</th>
-      <th>ACTION</th>
+      <th>REQUESTED</th>
+      <th>ACTIONS</th>
      </tr>
     </thead>
-    <tbody id="withdrawalRows">
-     <tr><td colspan="9" class="empty">Loading withdrawal requests...</td></tr>
+    <tbody id="withdrawalTable">
+     <tr><td colspan="9" class="loading">Loading withdrawal requests...</td></tr>
     </tbody>
    </table>
   </div>
-
-  <div class="panel-footer">
-   <span id="recordCount">Loading records...</span>
-   <span>Maximum 200 latest records from backend</span>
-  </div>
  </section>
 
- <div class="notice">
-  <strong>Financial Security</strong>
-  Full payment account details are requested from the protected Admin API only
-  when an approved or processing withdrawal is opened. Never request a member's
-  PIN, OTP, password, CVV or card security details.
+ <div class="footer">
+  © RUBALIA NETWORK — Secure Admin Withdrawal Management
  </div>
-
-</section>
-
-<footer class="footer">
- © <span id="year"></span> RUBALIA NETWORK — Withdrawal Management
-</footer>
-
 </main>
-</div>
-</div>
 
 <!-- DETAILS MODAL -->
-<div class="modal-bg" id="modalBg">
- <div class="modal">
+<div class="modal-backdrop" id="detailsModal">
+ <section class="modal">
   <div class="modal-head">
-   <h3 id="modalTitle">Withdrawal Details</h3>
-   <button class="close" id="closeModal" type="button">×</button>
+   <h2>Withdrawal Request Details</h2>
+   <button class="close" data-close="detailsModal">&times;</button>
   </div>
-  <div class="modal-body">
-
-   <div class="detail-grid" id="detailGrid"></div>
-
-   <div class="modal-section">
-    <h4>Payment Account Details</h4>
-    <div class="payment-details" id="paymentDetails">
-     Full account details are not loaded.
-    </div>
-    <button class="btn btn-light" id="loadPaymentDetailsBtn" type="button" hidden>
-     View Full Payment Details
-    </button>
-   </div>
-
-   <div class="modal-section">
-    <h4>Admin Note / Payment Reference</h4>
-    <label class="modal-label" for="adminNote">Admin note (for rejection)</label>
-    <textarea class="field" id="adminNote" rows="2"
-     placeholder="Optional reason or note"></textarea>
-
-    <label class="modal-label" for="paymentReference">Payment transaction reference (for Paid)</label>
-    <input class="field" id="paymentReference"
-     placeholder="Enter actual payment transaction reference">
-   </div>
-
-   <div class="modal-actions" id="modalActions"></div>
-   <div class="modal-message" id="modalMessage"></div>
-
-  </div>
- </div>
+  <div class="modal-body" id="detailsContent"></div>
+ </section>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- PAYMENT DETAILS MODAL -->
+<div class="modal-backdrop" id="paymentModal">
+ <section class="modal">
+  <div class="modal-head">
+   <h2>Secure Payment Details</h2>
+   <button class="close" data-close="paymentModal">&times;</button>
+  </div>
+  <div class="modal-body" id="paymentContent"></div>
+ </section>
+</div>
+
+<!-- ACTION MODAL -->
+<div class="modal-backdrop" id="actionModal">
+ <section class="modal">
+  <div class="modal-head">
+   <h2 id="actionTitle">Confirm Action</h2>
+   <button class="close" data-close="actionModal">&times;</button>
+  </div>
+  <div class="modal-body">
+   <p id="actionDescription" class="sub"></p>
+   <div class="field" id="referenceField" hidden>
+    <label>Payment Reference *</label>
+    <input id="paymentReference" maxlength="150"
+     placeholder="Enter transaction/payment reference">
+   </div>
+   <div class="field" id="noteField" hidden>
+    <label>Admin Note / Rejection Reason</label>
+    <textarea id="adminNote" maxlength="1000"
+     placeholder="Write a note..."></textarea>
+   </div>
+   <div class="modal-actions">
+    <button class="btn btn-light" data-close="actionModal">Cancel</button>
+    <button class="btn btn-primary" id="confirmAction">Confirm</button>
+   </div>
+  </div>
+ </section>
+</div>
 
 <script>
 "use strict";
 
-/* ======================================
-   CONFIGURATION
-====================================== */
-
 const API_BASE="https://rubalia.onrender.com/api";
 const TOKEN_KEY="rubalia_token";
 const USER_KEY="rubalia_user";
-const REQUEST_TIMEOUT=20000;
 
 let token="";
 let withdrawals=[];
-let selectedWithdrawal=null;
-let paymentDetailsLoaded=false;
-let searchTimer=null;
-let actionInProgress=false;
+let currentAction=null;
+let actionBusy=false;
 
 const $=id=>document.getElementById(id);
 
-/* ======================================
-   STATUS NORMALIZATION
-====================================== */
-
-function normalizeStatus(value){
- return String(value??"").trim().toLowerCase();
+function getToken(){
+ return localStorage.getItem(TOKEN_KEY)||
+        sessionStorage.getItem(TOKEN_KEY)||"";
 }
 
-function normalizeMethod(value){
- return String(value??"").trim().toLowerCase();
+function getStoredUser(){
+ try{
+  return JSON.parse(
+   localStorage.getItem(USER_KEY)||
+   sessionStorage.getItem(USER_KEY)||"null"
+  );
+ }catch(e){return null;}
 }
 
-/* ======================================
-   TOKEN STORAGE
-====================================== */
-
-function getStoredToken(){
- return localStorage.getItem(TOKEN_KEY) ||
-        sessionStorage.getItem(TOKEN_KEY) ||
-        "";
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ })[char]);
 }
-
-function clearStoredSession(){
- localStorage.removeItem(TOKEN_KEY);
- sessionStorage.removeItem(TOKEN_KEY);
- localStorage.removeItem(USER_KEY);
- sessionStorage.removeItem(USER_KEY);
-}
-
-/* ======================================
-   UTILITIES
-====================================== */
 
 function money(value){
- const number=Number(value);
- if(!Number.isFinite(number))return "—";
-
- return "৳"+number.toLocaleString("en-BD",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
+ const n=Number(value);
+ if(!Number.isFinite(n))return "৳0.00";
+ return "৳"+n.toLocaleString("en-BD",{
+  minimumFractionDigits:2,maximumFractionDigits:2
  });
 }
 
-function numberText(value){
- const number=Number(value);
- return Number.isFinite(number)?number.toLocaleString("en-US"):"—";
-}
-
-function dateText(value){
+function dateTime(value){
  if(!value)return "—";
- const date=new Date(value);
- if(Number.isNaN(date.getTime()))return "—";
-
- return date.toLocaleString("en-GB",{
-  day:"2-digit",
-  month:"short",
-  year:"numeric",
-  hour:"2-digit",
-  minute:"2-digit"
+ const d=new Date(value);
+ if(Number.isNaN(d.getTime()))return "—";
+ return d.toLocaleString("en-BD",{
+  day:"2-digit",month:"short",year:"numeric",
+  hour:"2-digit",minute:"2-digit"
  });
 }
 
-function methodName(value){
- const methods={
-  bkash:"bKash",
-  nagad:"Nagad",
-  rocket:"Rocket",
-  bank:"Bank"
- };
- const key=normalizeMethod(value);
- return methods[key]||String(value||"Unknown");
+function showNotice(type,message){
+ const box=$("notice");
+ box.className="notice show "+type;
+ box.textContent=message;
 }
 
-function safeText(value){
- return String(value===null||value===undefined||value===""?"—":value);
+function clearNotice(){
+ $("notice").className="notice";
+ $("notice").textContent="";
 }
 
-function statusClass(status){
- const value=normalizeStatus(status);
- const allowed=["pending","approved","processing","paid","rejected"];
- return allowed.includes(value)?value:"pending";
+function openModal(id){
+ $(id).classList.add("open");
 }
 
-function showToast(message){
- const toast=$("toast");
- toast.textContent=message;
- toast.classList.add("show");
- setTimeout(()=>toast.classList.remove("show"),3000);
+function closeModal(id){
+ $(id).classList.remove("open");
 }
 
-function showAlert(message,type="error"){
- const alert=$("pageAlert");
- alert.className="alert "+type;
- alert.textContent=message;
- alert.style.display="block";
-}
+document.querySelectorAll("[data-close]").forEach(button=>{
+ button.addEventListener("click",()=>{
+  closeModal(button.dataset.close);
+ });
+});
 
-function clearAlert(){
- const alert=$("pageAlert");
- alert.className="alert";
- alert.textContent="";
- alert.style.display="none";
-}
-
-function logout(){
- clearStoredSession();
- window.location.replace("../login.html");
-}
-
-/* ======================================
-   FETCH WITH TIMEOUT
-====================================== */
-
-async function fetchTimeout(url,options={}){
- const controller=new AbortController();
- const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT);
-
- try{
-  return await fetch(url,{
-   ...options,
-   signal:controller.signal,
-   cache:"no-store"
-  });
- }finally{
-  clearTimeout(timer);
- }
-}
-
-/* ======================================
-   API REQUEST
-====================================== */
+document.querySelectorAll(".modal-backdrop").forEach(backdrop=>{
+ backdrop.addEventListener("click",event=>{
+  if(event.target===backdrop)backdrop.classList.remove("open");
+ });
+});
 
 async function apiRequest(path,options={}){
+ if(!token)throw new Error("Login required.");
+
  const headers={
-  "Authorization":"Bearer "+token,
   "Accept":"application/json",
+  "Authorization":"Bearer "+token,
   ...(options.body?{"Content-Type":"application/json"}:{}),
   ...(options.headers||{})
  };
 
- let response;
-
- try{
-  response=await fetchTimeout(API_BASE+path,{
-   method:options.method||"GET",
-   headers,
-   body:options.body?JSON.stringify(options.body):undefined
-  });
- }catch(error){
-  if(error.name==="AbortError"){
-   throw new Error("Server request timed out. Please try again.");
-  }
-  throw new Error("Unable to connect to the Rubalia server.");
- }
+ const response=await fetch(API_BASE+path,{
+  ...options,headers,cache:"no-store"
+ });
 
  const data=await response.json().catch(()=>({}));
 
  if(response.status===401){
-  logout();
+  localStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(TOKEN_KEY);
+  location.replace("login.html");
   throw new Error("Your session has expired.");
  }
 
  if(response.status===403){
-  throw new Error("Administrator permission required.");
+  throw new Error("Admin permission required.");
  }
 
  if(!response.ok||data.success===false){
-  throw new Error(data.message||"Server request failed. HTTP "+response.status);
+  throw new Error(data.message||"Request failed.");
  }
 
  return data;
 }
 
-/* ======================================
-   ADMIN AUTHENTICATION
-====================================== */
-
 async function verifyAdmin(){
- token=getStoredToken();
+ token=getToken();
 
  if(!token){
-  window.location.replace("../login.html");
-  return false;
+  location.replace("login.html");
+  throw new Error("Login required.");
  }
 
- try{
-  const data=await apiRequest("/auth/me");
-  const user=data.user||data.profile||data;
+ const data=await apiRequest("/auth/me");
+ const user=data.user||data.profile;
 
-  if(!user){
-   throw new Error("Administrator account information not returned.");
-  }
-
-  if(normalizeStatus(user.role)!=="admin"){
-   window.location.replace("../dashboard.html");
-   return false;
-  }
-
-  return true;
-
- }catch(error){
-  if(error.message.includes("session has expired"))return false;
-
-  showFatalError("Unable to Verify Administrator",error.message);
-  return false;
+ if(!user){
+  throw new Error("Unable to verify your account.");
  }
+
+ if(String(user.role||"").toLowerCase()!=="admin"){
+  location.replace("dashboard.html");
+  throw new Error("Admin access required.");
+ }
+
+ const name=String(user.full_name||user.fullName||"Admin");
+ $("adminAvatar").textContent=
+  name.split(/\s+/).slice(0,2)
+  .map(x=>x[0]||"").join("").toUpperCase()||"A";
 }
 
-function showFatalError(title,message){
- $("loadingScreen").style.display="none";
- $("adminApp").hidden=true;
- $("errorTitle").textContent=title;
- $("errorMessage").textContent=message;
- $("errorScreen").style.display="flex";
+function updateStats(){
+ const count=status=>withdrawals.filter(
+  item=>String(item.status).toLowerCase()===status
+ ).length;
+
+ $("totalCount").textContent=withdrawals.length;
+ $("pendingCount").textContent=count("pending");
+ $("approvedCount").textContent=count("approved");
+ $("processingCount").textContent=count("processing");
+ $("paidCount").textContent=count("paid");
 }
 
-/* ======================================
-   LOAD WITHDRAWALS
-   GET /api/wallet/admin/withdrawals
-====================================== */
+function statusBadge(status){
+ const s=String(status||"pending").toLowerCase();
+ return `<span class="status ${escapeHTML(s)}">${escapeHTML(s)}</span>`;
+}
+
+function getActions(item){
+ const id=encodeURIComponent(item.id);
+ const status=String(item.status||"").toLowerCase();
+
+ let buttons=`
+ <button class="action view" data-action="view" data-id="${id}">Details</button>
+ `;
+
+ if(["approved","processing"].includes(status)){
+  buttons+=`
+  <button class="action view" data-action="payment" data-id="${id}">
+   Payment Info
+  </button>`;
+ }
+
+ if(status==="pending"){
+  buttons+=`
+  <button class="action approve" data-action="approve" data-id="${id}">
+   Approve
+  </button>
+  <button class="action reject" data-action="reject" data-id="${id}">
+   Reject
+  </button>`;
+ }
+
+ if(status==="approved"){
+  buttons+=`
+  <button class="action process" data-action="processing" data-id="${id}">
+   Processing
+  </button>
+  <button class="action paid" data-action="paid" data-id="${id}">
+   Mark Paid
+  </button>
+  <button class="action reject" data-action="reject" data-id="${id}">
+   Reject
+  </button>`;
+ }
+
+ if(status==="processing"){
+  buttons+=`
+  <button class="action paid" data-action="paid" data-id="${id}">
+   Mark Paid
+  </button>`;
+ }
+
+ return `<div class="actions">${buttons}</div>`;
+}
+
+function renderTable(){
+ const query=$("searchInput").value.trim().toLowerCase();
+ const status=$("statusFilter").value;
+ const method=$("methodFilter").value;
+
+ const filtered=withdrawals.filter(item=>{
+  const searchable=[
+   item.full_name,item.email,item.request_reference,
+   item.payment_method,item.account_name,
+   item.account_number_masked,item.payment_reference
+  ].join(" ").toLowerCase();
+
+  return (!query||searchable.includes(query))&&
+   (!status||String(item.status).toLowerCase()===status)&&
+   (!method||String(item.payment_method).toLowerCase()===method);
+ });
+
+ $("resultCount").textContent=filtered.length+" requests";
+
+ if(!filtered.length){
+  $("withdrawalTable").innerHTML=`
+   <tr><td colspan="9" class="empty">
+    No withdrawal requests found.
+   </td></tr>`;
+  return;
+ }
+
+ $("withdrawalTable").innerHTML=filtered.map(item=>`
+  <tr>
+   <td>
+    <div class="user-name">${escapeHTML(item.full_name||"Member")}</div>
+    <div class="sub">${escapeHTML(item.email||"")}</div>
+    <div class="sub">ID: ${escapeHTML(item.user_id??"—")}</div>
+   </td>
+   <td>
+    <strong>${escapeHTML(item.request_reference||"—")}</strong>
+   </td>
+   <td>
+    <span class="method">${escapeHTML(item.payment_method||"—")}</span>
+    <div class="sub" style="margin-top:5px">
+     ${escapeHTML(item.account_number_masked||"")}
+    </div>
+   </td>
+   <td><span class="amount">${money(item.amount)}</span></td>
+   <td>${money(item.fee)}</td>
+   <td><strong>${money(item.net_amount)}</strong></td>
+   <td>${statusBadge(item.status)}</td>
+   <td>${dateTime(item.requested_at)}</td>
+   <td>${getActions(item)}</td>
+  </tr>
+ `).join("");
+}
 
 async function loadWithdrawals(){
- const button=$("refreshBtn");
+ clearNotice();
+ $("refreshBtn").disabled=true;
+ $("refreshBtn").textContent="Loading...";
 
- button.disabled=true;
- button.textContent="Loading...";
- clearAlert();
-
- $("withdrawalRows").innerHTML=
-  '<tr><td colspan="9" class="empty">Loading withdrawal requests...</td></tr>';
+ $("withdrawalTable").innerHTML=`
+ <tr><td colspan="9" class="loading">
+  Loading withdrawal requests...
+ </td></tr>`;
 
  try{
   const data=await apiRequest("/wallet/admin/withdrawals");
 
   if(!Array.isArray(data.withdrawals)){
-   throw new Error("Unexpected withdrawal response from backend. Expected data.withdrawals array.");
+   throw new Error("Invalid withdrawal list received from server.");
   }
 
   withdrawals=data.withdrawals;
-
-  updateStatistics();
-  renderWithdrawals();
-
-  $("connectionLabel").classList.remove("offline");
-  $("connectionLabel").innerHTML=
-   '<span class="connection-dot"></span> LIVE SERVER DATA';
+  updateStats();
+  renderTable();
 
  }catch(error){
-  if(error.message.includes("session has expired"))return;
-
-  if(error.message.includes("Administrator permission")){
-   showFatalError("Access Denied",error.message);
-   return;
-  }
-
-  $("connectionLabel").classList.add("offline");
-  $("connectionLabel").innerHTML=
-   '<span class="connection-dot"></span> API UNAVAILABLE';
-
-  withdrawals=[];
-  updateStatistics();
-  renderWithdrawals();
-
-  showAlert(error.message);
+  console.error("Withdrawal loading error:",error);
+  $("withdrawalTable").innerHTML=`
+   <tr><td colspan="9" class="empty">
+    ${escapeHTML(error.message)}
+   </td></tr>`;
+  showNotice("error",error.message);
  }finally{
-  button.disabled=false;
-  button.textContent="↻ Refresh";
+  $("refreshBtn").disabled=false;
+  $("refreshBtn").textContent="↻ Refresh Requests";
  }
 }
 
-/* ======================================
-   STATISTICS
-====================================== */
-
-function updateStatistics(){
- const totalAmount=withdrawals.reduce((sum,item)=>{
-  const value=Number(item.amount);
-  return sum+(Number.isFinite(value)?value:0);
- },0);
-
- $("totalAmount").textContent=money(totalAmount);
-
- $("pendingCount").textContent=numberText(
-  withdrawals.filter(x=>normalizeStatus(x.status)==="pending").length
- );
-
- $("approvedCount").textContent=numberText(
-  withdrawals.filter(x=>normalizeStatus(x.status)==="approved").length
- );
-
- $("rejectedCount").textContent=numberText(
-  withdrawals.filter(x=>normalizeStatus(x.status)==="rejected").length
- );
+function findRequest(id){
+ return withdrawals.find(item=>String(item.id)===String(id));
 }
 
-/* ======================================
-   FILTER AND RENDER
-====================================== */
+function showDetails(item){
+ $("detailsContent").innerHTML=`
+  <div class="detail-row"><span>Member Name</span>
+   <strong>${escapeHTML(item.full_name||"—")}</strong></div>
+  <div class="detail-row"><span>Email</span>
+   <strong>${escapeHTML(item.email||"—")}</strong></div>
+  <div class="detail-row"><span>Reference</span>
+   <strong>${escapeHTML(item.request_reference||"—")}</strong></div>
+  <div class="detail-row"><span>Payment Method</span>
+   <strong>${escapeHTML(item.payment_method||"—")}</strong></div>
+  <div class="detail-row"><span>Account Name</span>
+   <strong>${escapeHTML(item.account_name||"—")}</strong></div>
+  <div class="detail-row"><span>Masked Account</span>
+   <strong>${escapeHTML(item.account_number_masked||"—")}</strong></div>
+  <div class="detail-row"><span>Withdrawal Amount</span>
+   <strong>${money(item.amount)}</strong></div>
+  <div class="detail-row"><span>Fee</span>
+   <strong>${money(item.fee)}</strong></div>
+  <div class="detail-row"><span>Net Amount</span>
+   <strong>${money(item.net_amount)}</strong></div>
+  <div class="detail-row"><span>Status</span>
+   <strong>${statusBadge(item.status)}</strong></div>
+  <div class="detail-row"><span>Requested</span>
+   <strong>${dateTime(item.requested_at)}</strong></div>
+  <div class="detail-row"><span>Approved</span>
+   <strong>${dateTime(item.approved_at)}</strong></div>
+  <div class="detail-row"><span>Processing</span>
+   <strong>${dateTime(item.processing_at)}</strong></div>
+  <div class="detail-row"><span>Paid</span>
+   <strong>${dateTime(item.paid_at)}</strong></div>
+  <div class="detail-row"><span>Rejected</span>
+   <strong>${dateTime(item.rejected_at)}</strong></div>
+  <div class="detail-row"><span>Payment Reference</span>
+   <strong>${escapeHTML(item.payment_reference||"—")}</strong></div>
+  <div class="detail-row"><span>Admin Note</span>
+   <strong>${escapeHTML(item.admin_note||"—")}</strong></div>
+ `;
 
-function renderWithdrawals(){
- const body=$("withdrawalRows");
- body.replaceChildren();
-
- const query=$("searchInput").value.trim().toLowerCase();
- const method=normalizeMethod($("methodFilter").value);
- const status=normalizeStatus($("statusFilter").value);
-
- const filtered=withdrawals.filter(item=>{
-  const searchable=[
-   item.request_reference,
-   item.id,
-   item.full_name,
-   item.email,
-   item.account_name,
-   item.account_number_masked,
-   item.payment_reference
-  ].join(" ").toLowerCase();
-
-  return (!query||searchable.includes(query))&&
-   (!method||normalizeMethod(item.payment_method)===method)&&
-   (!status||normalizeStatus(item.status)===status);
- });
-
- if(!filtered.length){
-  const row=document.createElement("tr");
-  const cell=document.createElement("td");
-  cell.colSpan=9;
-  cell.className="empty";
-
-  cell.textContent=withdrawals.length
-   ?"No matching withdrawal requests found."
-   :"No withdrawal requests are available from the server.";
-
-  row.appendChild(cell);
-  body.appendChild(row);
- }
-
- filtered.forEach(item=>{
-  const row=document.createElement("tr");
-
-  const values=[
-   item.request_reference||("#"+item.id),
-   item.full_name||"Member",
-   methodName(item.payment_method),
-   item.account_number_masked||"—",
-   money(item.amount),
-   money(item.net_amount),
-   dateText(item.requested_at),
-   item.status||"pending"
-  ];
-
-  values.forEach((value,index)=>{
-   const cell=document.createElement("td");
-
-   if(index===0){
-    const strong=document.createElement("strong");
-    strong.textContent=safeText(value);
-    cell.appendChild(strong);
-   }else if(index===1){
-    const name=document.createElement("span");
-    name.className="member-name";
-    name.textContent=safeText(value);
-
-    const email=document.createElement("span");
-    email.className="member-email";
-    email.textContent=safeText(item.email);
-
-    cell.append(name,email);
-   }else if(index===7){
-    const badge=document.createElement("span");
-    badge.className="status "+statusClass(value);
-    badge.textContent=safeText(normalizeStatus(value));
-    cell.appendChild(badge);
-   }else{
-    cell.textContent=safeText(value);
-   }
-
-   row.appendChild(cell);
-  });
-
-  const actionCell=document.createElement("td");
-  const viewButton=document.createElement("button");
-
-  viewButton.type="button";
-  viewButton.className="view-btn";
-  viewButton.textContent="View / Manage";
-  viewButton.addEventListener("click",()=>openWithdrawal(item.id));
-
-  actionCell.appendChild(viewButton);
-  row.appendChild(actionCell);
-  body.appendChild(row);
- });
-
- $("recordCount").textContent=
-  "Showing "+filtered.length+" of "+withdrawals.length+" loaded requests";
+ openModal("detailsModal");
 }
 
-/* ======================================
-   DETAILS MODAL
-====================================== */
-
-function addDetail(label,value){
- const box=document.createElement("div");
- box.className="detail";
-
- const small=document.createElement("small");
- small.textContent=label;
-
- const strong=document.createElement("strong");
- strong.textContent=safeText(value);
-
- box.append(small,strong);
- $("detailGrid").appendChild(box);
-}
-
-function openWithdrawal(id){
- const item=withdrawals.find(x=>String(x.id)===String(id));
- if(!item)return;
-
- selectedWithdrawal=item;
- paymentDetailsLoaded=false;
-
- $("modalTitle").textContent=
-  "Withdrawal "+(item.request_reference||("#"+item.id));
-
- $("detailGrid").replaceChildren();
-
- addDetail("Request ID",item.request_reference||item.id);
- addDetail("Member",item.full_name);
- addDetail("Email",item.email);
- addDetail("Amount",money(item.amount));
- addDetail("Fee",money(item.fee));
- addDetail("Net Amount",money(item.net_amount));
- addDetail("Payment Method",methodName(item.payment_method));
- addDetail("Account Name",item.account_name);
- addDetail("Account Number",item.account_number_masked);
- addDetail("Status",normalizeStatus(item.status));
- addDetail("Request Date",dateText(item.requested_at));
- addDetail("Approved Date",dateText(item.approved_at));
- addDetail("Processing Date",dateText(item.processing_at));
- addDetail("Paid Date",dateText(item.paid_at));
- addDetail("Rejected Date",dateText(item.rejected_at));
- addDetail("Payment Reference",item.payment_reference);
- addDetail("Admin Note",item.admin_note);
-
- $("paymentDetails").textContent=
-  "Full account number is protected. Load it only when the request is approved or processing.";
-
- const currentStatus=normalizeStatus(item.status);
-
- const canViewDetails=["approved","processing"].includes(currentStatus);
-
- $("loadPaymentDetailsBtn").hidden=!canViewDetails;
- $("loadPaymentDetailsBtn").disabled=false;
- $("loadPaymentDetailsBtn").textContent="View Full Payment Details";
-
- $("paymentReference").value="";
- $("adminNote").value="";
-
- $("modalMessage").textContent=
-  "Use the available actions according to the current withdrawal status.";
-
- renderModalActions();
-
- $("modalBg").classList.add("show");
-}
-
-function closeModal(){
- $("modalBg").classList.remove("show");
- selectedWithdrawal=null;
- paymentDetailsLoaded=false;
-}
-
-function renderModalActions(){
- const container=$("modalActions");
- container.replaceChildren();
-
- if(!selectedWithdrawal)return;
-
- const status=normalizeStatus(selectedWithdrawal.status);
-
- if(status==="pending"){
-  addActionButton("Approve","btn-green",approveWithdrawal);
-  addActionButton("Reject","btn-red",rejectWithdrawal);
- }
-
- if(status==="approved"){
-  addActionButton("Mark Processing","btn-dark",markProcessing);
-  addActionButton("Reject","btn-red",rejectWithdrawal);
- }
-
- if(status==="processing"){
-  addActionButton("Mark as Paid","btn-gold",markPaid);
- }
-
- if(status==="paid"){
-  $("modalMessage").textContent=
-   "This withdrawal has already been recorded as paid.";
- }
-
- if(status==="rejected"){
-  $("modalMessage").textContent=
-   "This withdrawal was rejected. Backend has returned the reserved amount to the wallet.";
- }
-}
-
-function addActionButton(label,className,callback){
- const button=document.createElement("button");
- button.type="button";
- button.className="btn "+className;
- button.textContent=label;
- button.addEventListener("click",callback);
- $("modalActions").appendChild(button);
-}
-
-/* ======================================
-   LOAD FULL PAYMENT DETAILS
-====================================== */
-
-async function loadPaymentDetails(){
- if(!selectedWithdrawal||paymentDetailsLoaded)return;
-
- const button=$("loadPaymentDetailsBtn");
- button.disabled=true;
- button.textContent="Loading...";
+async function showPaymentDetails(item){
+ $("paymentContent").innerHTML=`
+  <div class="loading">Loading secure payment details...</div>`;
+ openModal("paymentModal");
 
  try{
   const data=await apiRequest(
    "/wallet/admin/withdrawals/"+
-   encodeURIComponent(selectedWithdrawal.id)+
-   "/payment-details"
+   encodeURIComponent(item.id)+"/payment-details"
   );
 
-  const details=data.payment_details;
+  const p=data.payment_details;
+  if(!p)throw new Error("Payment details not received.");
 
-  if(!details){
-   throw new Error("Payment details were not returned.");
-  }
+  $("paymentContent").innerHTML=`
+   <div class="detail-row">
+    <span>Request Reference</span>
+    <strong>${escapeHTML(p.request_reference||"—")}</strong>
+   </div>
+   <div class="detail-row">
+    <span>Payment Method</span>
+    <strong>${escapeHTML(p.payment_method||"—")}</strong>
+   </div>
+   <div class="detail-row">
+    <span>Account Name</span>
+    <strong>${escapeHTML(p.account_name||"—")}</strong>
+   </div>
+   <div class="account-box">
+    <div class="sub">FULL PAYMENT ACCOUNT NUMBER</div>
+    <div class="account-number" id="fullAccountNumber">
+     ${escapeHTML(p.account_number||"")}
+    </div>
+    <button class="btn btn-primary" id="copyAccountBtn" type="button">
+     Copy Account Number
+    </button>
+   </div>
+   <p class="sub" style="line-height:1.7;margin-top:15px">
+    Keep payment information confidential. Verify the recipient
+    before sending money.
+   </p>
+  `;
 
-  $("paymentDetails").replaceChildren();
-
-  const lines=[
-   ["Request Reference",details.request_reference],
-   ["Payment Method",methodName(details.payment_method)],
-   ["Account Name",details.account_name],
-   ["Full Account Number",details.account_number]
-  ];
-
-  lines.forEach(([label,value])=>{
-   const div=document.createElement("div");
-   const strong=document.createElement("strong");
-   strong.textContent=label+": ";
-   div.append(strong,document.createTextNode(safeText(value)));
-   $("paymentDetails").appendChild(div);
+  $("copyAccountBtn").addEventListener("click",async()=>{
+   try{
+    await navigator.clipboard.writeText(p.account_number||"");
+    $("copyAccountBtn").textContent="Copied";
+   }catch(e){
+    showNotice("error","Unable to copy. Please copy manually.");
+   }
   });
 
-  paymentDetailsLoaded=true;
-  button.textContent="Payment Details Loaded";
-
  }catch(error){
-  $("paymentDetails").textContent=error.message;
-  button.textContent="View Full Payment Details";
-  showToast(error.message);
- }finally{
-  button.disabled=false;
+  $("paymentContent").innerHTML=`
+   <div class="notice show error">${escapeHTML(error.message)}</div>`;
  }
 }
 
-/* ======================================
-   ACTION REQUEST HELPER
-====================================== */
+function startAction(action,item){
+ currentAction={action,id:item.id};
 
-async function performAction(path,body,message){
- if(!selectedWithdrawal||actionInProgress)return;
+ $("referenceField").hidden=action!=="paid";
+ $("noteField").hidden=action!=="reject";
+ $("paymentReference").value="";
+ $("adminNote").value="";
 
- if(!confirm(message))return;
+ const titles={
+  approve:"Approve Withdrawal",
+  processing:"Mark as Processing",
+  paid:"Confirm Payment",
+  reject:"Reject Withdrawal"
+ };
 
- actionInProgress=true;
+ const descriptions={
+  approve:"Approve this withdrawal request? The reserved wallet amount will remain deducted.",
+  processing:"Mark this approved withdrawal as processing?",
+  paid:"Confirm that you have manually sent the payment to the member. This action only records the payment; it does not transfer money automatically.",
+  reject:"Reject this withdrawal? The backend will return the reserved withdrawal amount to the member's wallet."
+ };
 
- const buttons=$("modalActions").querySelectorAll("button");
- buttons.forEach(button=>button.disabled=true);
+ $("actionTitle").textContent=titles[action];
+ $("actionDescription").textContent=descriptions[action];
+ $("confirmAction").textContent=action==="reject"?"Reject Request":"Confirm";
+ $("confirmAction").className=
+  "btn "+(action==="reject"?"btn-danger":"btn-primary");
+
+ openModal("actionModal");
+}
+
+async function executeAction(){
+ if(!currentAction||actionBusy)return;
+
+ const {action,id}=currentAction;
+ const button=$("confirmAction");
+
+ let body={};
+
+ if(action==="paid"){
+  const reference=$("paymentReference").value.trim();
+  if(reference.length<3||reference.length>150){
+   showNotice("error","Enter a valid payment reference (3–150 characters).");
+   return;
+  }
+  body.payment_reference=reference;
+ }
+
+ if(action==="reject"){
+  body.admin_note=$("adminNote").value.trim().slice(0,1000);
+ }
+
+ const paths={
+  approve:"/approve",
+  processing:"/processing",
+  paid:"/paid",
+  reject:"/reject"
+ };
+
+ actionBusy=true;
+ button.disabled=true;
+ button.textContent="Processing...";
 
  try{
-  const data=await apiRequest(path,{
-   method:"POST",
-   body:body||{}
-  });
+  const data=await apiRequest(
+   "/wallet/admin/withdrawals/"+
+   encodeURIComponent(id)+paths[action],
+   {
+    method:"POST",
+    body:JSON.stringify(body)
+   }
+  );
 
-  showAlert(data.message||"Withdrawal updated successfully.","success");
-  showToast(data.message||"Withdrawal updated.");
+  closeModal("actionModal");
+  currentAction=null;
 
-  closeModal();
+  showNotice("success",data.message||"Withdrawal updated successfully.");
   await loadWithdrawals();
 
  }catch(error){
-  showAlert(error.message);
-  showToast(error.message);
-
-  if(selectedWithdrawal){
-   renderModalActions();
-  }
+  showNotice("error",error.message);
  }finally{
-  actionInProgress=false;
+  actionBusy=false;
+  button.disabled=false;
+  button.textContent="Confirm";
  }
 }
 
-/* ======================================
-   APPROVE
-====================================== */
+$("withdrawalTable").addEventListener("click",event=>{
+ const button=event.target.closest("[data-action]");
+ if(!button)return;
 
-function approveWithdrawal(){
- if(!selectedWithdrawal)return;
+ const item=findRequest(decodeURIComponent(button.dataset.id));
+ if(!item)return;
 
- const id=selectedWithdrawal.id;
+ const action=button.dataset.action;
 
- performAction(
-  "/wallet/admin/withdrawals/"+encodeURIComponent(id)+"/approve",
-  {},
-  "Approve this withdrawal request?"
- );
-}
-
-/* ======================================
-   MARK PROCESSING
-====================================== */
-
-function markProcessing(){
- if(!selectedWithdrawal)return;
-
- const id=selectedWithdrawal.id;
-
- performAction(
-  "/wallet/admin/withdrawals/"+encodeURIComponent(id)+"/processing",
-  {},
-  "Mark this approved withdrawal as processing?"
- );
-}
-
-/* ======================================
-   MARK PAID
-====================================== */
-
-function markPaid(){
- if(!selectedWithdrawal)return;
-
- const reference=$("paymentReference").value.trim();
-
- if(reference.length<3||reference.length>150){
-  showToast("Enter a valid payment transaction reference.");
-  $("paymentReference").focus();
-  return;
- }
-
- const id=selectedWithdrawal.id;
-
- performAction(
-  "/wallet/admin/withdrawals/"+encodeURIComponent(id)+"/paid",
-  {payment_reference:reference},
-  "Confirm that the actual payment has been sent and record it as PAID?"
- );
-}
-
-/* ======================================
-   REJECT
-====================================== */
-
-function rejectWithdrawal(){
- if(!selectedWithdrawal)return;
-
- const note=$("adminNote").value.trim();
- const id=selectedWithdrawal.id;
-
- performAction(
-  "/wallet/admin/withdrawals/"+encodeURIComponent(id)+"/reject",
-  {admin_note:note},
-  "Reject this withdrawal? The backend will return the reserved amount to the member's wallet."
- );
-}
-
-/* ======================================
-   FILTER EVENTS
-====================================== */
-
-$("searchInput").addEventListener("input",()=>{
- clearTimeout(searchTimer);
- searchTimer=setTimeout(renderWithdrawals,250);
+ if(action==="view")showDetails(item);
+ else if(action==="payment")showPaymentDetails(item);
+ else startAction(action,item);
 });
 
-$("methodFilter").addEventListener("change",renderWithdrawals);
-$("statusFilter").addEventListener("change",renderWithdrawals);
-
-$("resetBtn").addEventListener("click",()=>{
- $("searchInput").value="";
- $("methodFilter").value="";
- $("statusFilter").value="";
- renderWithdrawals();
-});
-
+$("confirmAction").addEventListener("click",executeAction);
 $("refreshBtn").addEventListener("click",loadWithdrawals);
-
-/* ======================================
-   MODAL EVENTS
-====================================== */
-
-$("closeModal").addEventListener("click",closeModal);
-$("loadPaymentDetailsBtn").addEventListener("click",loadPaymentDetails);
-
-$("modalBg").addEventListener("click",event=>{
- if(event.target===$("modalBg"))closeModal();
-});
-
-document.addEventListener("keydown",event=>{
- if(event.key==="Escape")closeModal();
-});
-
-/* ======================================
-   MOBILE MENU
-====================================== */
-
-$("menuBtn").addEventListener("click",()=>{
- $("sidebar").classList.toggle("open");
-});
-
-document.querySelectorAll(".sidebar a").forEach(link=>{
- link.addEventListener("click",()=>{
-  $("sidebar").classList.remove("open");
- });
-});
-
-document.addEventListener("click",event=>{
- if(
-  window.innerWidth<=760 &&
-  $("sidebar").classList.contains("open") &&
-  !$("sidebar").contains(event.target) &&
-  !$("menuBtn").contains(event.target)
- ){
-  $("sidebar").classList.remove("open");
- }
-});
-
-/* ======================================
-   LOGOUT AND RETRY
-====================================== */
-
-$("logoutBtn").addEventListener("click",event=>{
- event.preventDefault();
- logout();
-});
-
-$("retryBtn").addEventListener("click",()=>{
- location.reload();
-});
-
-/* ======================================
-   INITIALIZE
-====================================== */
+$("searchInput").addEventListener("input",renderTable);
+$("statusFilter").addEventListener("change",renderTable);
+$("methodFilter").addEventListener("change",renderTable);
 
 async function initialize(){
- $("year").textContent=new Date().getFullYear();
-
- const verified=await verifyAdmin();
- if(!verified)return;
-
- $("loadingScreen").style.display="none";
- $("adminApp").hidden=false;
-
- await loadWithdrawals();
+ try{
+  await verifyAdmin();
+  await loadWithdrawals();
+ }catch(error){
+  console.error(error);
+  showNotice("error",error.message||"Unable to initialize admin page.");
+ }
 }
 
 initialize();
-
 </script>
+
 </body>
 </html>
