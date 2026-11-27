@@ -449,7 +449,60 @@ body.video-guide-open{overflow:hidden}
  .referral-campaign-art img{max-height:100dvh;max-width:100vw}
 }
 
+/* RESPONSIVE */
+@media(max-width:700px){
+ .app-header{min-height:49px;padding:5px 7px 5px 54px;gap:5px}
+ .app-brand-name{font-size:13px;letter-spacing:.25px}
+ .profile-link{width:34px;height:34px}
+ .header-balance{min-width:72px;min-height:32px;padding:0 7px;font-size:12px}
+ .top-menu-bar{top:7px;left:8px}
+ .menu-toggle{width:35px;height:35px;font-size:19px}
+ .announcement-ticker{height:27px;padding:2px 7px}
+ .announcement-window{height:23px}
 
+ main{
+  width:100%;
+  max-width:100%;
+  padding:7px 7px 11px;
+ }
+
+ .slider-frame{margin-bottom:7px;border-radius:8px}
+
+ .video-slider-frame{
+  height:45px;
+  min-height:45px;
+  margin-bottom:4px;
+  border-radius:5px;
+ }
+
+ .product-category-frame{margin-bottom:8px;border-radius:12px}
+ .section-heading{padding:0 5px}
+ .section-heading h2{font-size:16px}
+ .search-section{padding:0 5px}
+ .package-grid{gap:8px;padding:0 3px}
+ .item-image{height:112px}
+ .item-body{padding:6px;gap:5px}
+ .item-type{padding:4px 9px;font-size:7px}
+ .item-title{padding:6px 7px;font-size:11px}
+ .item-description{min-height:28px;max-height:28px;padding:5px 7px;font-size:8px}
+ .item-bottom{padding:7px;gap:5px;border-radius:8px}
+ .item-price{font-size:11px}
+ .item-price small{font-size:6px}
+ .item-stock{font-size:7px;margin-top:4px}
+ .buy-btn{padding:8px 7px;font-size:8px;border-radius:7px}
+}
+@media(max-width:360px){
+ .app-header{padding-left:50px}
+ .app-brand-name{font-size:11px}
+ .profile-link{width:31px;height:31px}
+ .header-balance{min-width:65px;font-size:11px}
+ .item-image{height:88px}
+ .item-body{padding:5px;gap:5px}
+ .item-title{font-size:10px}
+ .item-description{font-size:7px}
+ .item-price{font-size:10px}
+ .buy-btn{padding:7px 5px;font-size:7px}
+}
 </style>
 </head>
 
@@ -1146,7 +1199,6 @@ async function verifySession(){
 /* AUTOMATIC REFERRAL CAMPAIGN POPUP */
 const referralCampaignOverlay=$("referralCampaignOverlay");
 const REFERRAL_CAMPAIGN_CLOSED_KEY="rubalia_referral_campaign_closed";
-
 
 function showReferralCampaignOncePerAppSession(){
  if(!referralCampaignOverlay)return;
