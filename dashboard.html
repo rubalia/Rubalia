@@ -449,6 +449,41 @@ body.video-guide-open{overflow:hidden}
  .referral-campaign-art img{max-height:100dvh;max-width:100vw}
 }
 
+
+/* LIVE RECENT COMMISSION PANEL */
+.recent-commission-panel{
+ position:fixed;right:12px;bottom:14px;z-index:15000;
+ width:min(360px,calc(100vw - 24px));max-height:min(65vh,520px);
+ display:none;flex-direction:column;overflow:hidden;
+ border:1px solid #d6ad55;border-radius:15px;
+ background:#fff;color:#26354a;box-shadow:0 12px 38px #071a3560;
+}
+.recent-commission-panel.show{display:flex}
+.recent-commission-head{
+ display:flex;align-items:center;justify-content:space-between;gap:8px;
+ padding:12px 13px;background:linear-gradient(110deg,#071a35,#173b65);
+ color:#ffe6a3;
+}
+.recent-commission-title{font-size:14px;font-weight:900;margin:0}
+.recent-commission-actions{display:flex;gap:6px}
+.recent-commission-actions button{
+ width:29px;height:29px;border:1px solid #d6ad55;border-radius:50%;
+ background:#102b50;color:#fff;font-size:17px;cursor:pointer;
+}
+.recent-commission-list{padding:7px 10px;overflow:auto}
+.recent-commission-item{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ padding:10px 3px;border-bottom:1px solid #e8edf3;
+}
+.recent-commission-item:last-child{border-bottom:0}
+.recent-commission-member{font-size:12px;font-weight:800;color:#102b50}
+.recent-commission-date{font-size:10px;color:#758195;margin-top:3px}
+.recent-commission-amount{font-size:13px;font-weight:900;color:#167448;white-space:nowrap}
+.recent-commission-state{padding:17px 12px;text-align:center;font-size:12px;color:#758195}
+@media(max-width:500px){
+ .recent-commission-panel{right:8px;bottom:8px;width:calc(100vw - 16px);max-height:55vh}
+}
+
 /* RESPONSIVE */
 @media(max-width:700px){
  .app-header{min-height:49px;padding:5px 7px 5px 54px;gap:5px}
@@ -690,6 +725,22 @@ body.video-guide-open{overflow:hidden}
   </div>
  </section>
 </div>
+
+
+<!-- ALL MEMBERS RECENT COMMISSIONS -->
+<section class="recent-commission-panel" id="recentCommissionPanel"
+         aria-label="সাম্প্রতিক কমিশন" aria-live="polite">
+ <div class="recent-commission-head">
+  <h2 class="recent-commission-title">🏆 RUBALIA সাম্প্রতিক কমিশন</h2>
+  <div class="recent-commission-actions">
+   <button type="button" id="recentCommissionRefresh" aria-label="রিফ্রেশ">↻</button>
+   <button type="button" id="recentCommissionClose" aria-label="বন্ধ করুন">×</button>
+  </div>
+ </div>
+ <div class="recent-commission-list" id="recentCommissionList">
+  <div class="recent-commission-state">কমিশনের তথ্য লোড হচ্ছে...</div>
+ </div>
+</section>
 
 <footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
 
@@ -1790,10 +1841,96 @@ async function loadPackages(force=false){
 
 $("refreshBtn").addEventListener("click",()=>loadPackages(true));
 
+
+
+/* ALL MEMBERS RECENT COMMISSION POPUP */
+const recentCommissionPanel=$("recentCommissionPanel");
+const recentCommissionList=$("recentCommissionList");
+const RECENT_COMMISSION_CLOSED_KEY="rubalia_recent_commission_closed";
+let recentCommissionLoaded=false;
+
+function formatCommissionDate(value){
+ const date=value?new Date(value):null;
+ if(!date||Number.isNaN(date.getTime()))return "সাম্প্রতিক";
+ return date.toLocaleString("bn-BD",{
+  day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"
+ });
+}
+
+function renderRecentCommissions(items){
+ recentCommissionList.replaceChildren();
+ if(!items.length){
+  const empty=document.createElement("div");
+  empty.className="recent-commission-state";
+  empty.textContent="এখনো কোনো নিশ্চিত কমিশন পাওয়া যায়নি।";
+  recentCommissionList.appendChild(empty);
+  return;
+ }
+ items.forEach(item=>{
+  const row=document.createElement("div");
+  row.className="recent-commission-item";
+  const info=document.createElement("div");
+  const member=document.createElement("div");
+  member.className="recent-commission-member";
+  member.textContent=item.memberName||"Member";
+  const date=document.createElement("div");
+  date.className="recent-commission-date";
+  date.textContent=formatCommissionDate(item.releasedAt||item.createdAt);
+  info.append(member,date);
+  const amount=document.createElement("div");
+  amount.className="recent-commission-amount";
+  const value=Number(item.amount);
+  amount.textContent="৳ "+(Number.isFinite(value)?value.toLocaleString("en-BD",{
+   minimumFractionDigits:2,maximumFractionDigits:2
+  }):"0.00");
+  row.append(info,amount);
+  recentCommissionList.appendChild(row);
+ });
+}
+
+async function loadRecentCommissions(){
+ if(!sessionToken)return;
+ recentCommissionList.innerHTML='<div class="recent-commission-state">কমিশনের তথ্য লোড হচ্ছে...</div>';
+ try{
+  const response=await fetch(API_BASE+"/recent-commissions",{
+   method:"GET",
+   headers:{"Accept":"application/json","Authorization":"Bearer "+sessionToken},
+   cache:"no-store"
+  });
+  if(response.status===401||response.status===403){
+   handleSessionExpired();return;
+  }
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||data.success===false){
+   throw new Error(data.message||"কমিশনের তথ্য পাওয়া যায়নি।");
+  }
+  renderRecentCommissions(Array.isArray(data.commissions)?data.commissions:[]);
+  recentCommissionLoaded=true;
+  recentCommissionPanel.classList.add("show");
+ }catch(error){
+  console.error("Recent commission loading error:",error);
+  recentCommissionList.innerHTML='<div class="recent-commission-state">কমিশনের তথ্য এখন পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।</div>';
+  recentCommissionPanel.classList.add("show");
+ }
+}
+
+$("recentCommissionClose").addEventListener("click",()=>{
+ recentCommissionPanel.classList.remove("show");
+ try{sessionStorage.setItem(RECENT_COMMISSION_CLOSED_KEY,"1");}catch(error){}
+});
+$("recentCommissionRefresh").addEventListener("click",loadRecentCommissions);
+
+function showRecentCommissionsIfAllowed(){
+ let closed=false;
+ try{closed=sessionStorage.getItem(RECENT_COMMISSION_CLOSED_KEY)==="1";}catch(error){}
+ if(!closed)loadRecentCommissions();
+}
+
 /* APPLICATION START */
 async function initializeDashboard(){
  try{
   await verifySession();
+  setTimeout(showRecentCommissionsIfAllowed,900);
   setTimeout(showReferralCampaignOncePerAppSession,450);
   await loadAdminAnnouncement();
   if(announcementTimer)clearInterval(announcementTimer);
