@@ -5,14 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#21002f">
 <title>Become a Leader | RUBALIA NETWORK</title>
+
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 html,body{
   margin:0;
   width:100%;
   min-height:100%;
   background:#160020;
 }
+
 body{
   min-height:100vh;
   display:flex;
@@ -21,6 +26,7 @@ body{
   overflow-x:hidden;
   perspective:1200px;
 }
+
 .leader-stage{
   width:100%;
   max-width:1536px;
@@ -28,6 +34,7 @@ body{
   perspective:1200px;
   transform-style:preserve-3d;
 }
+
 .leader-card{
   width:100%;
   transform-style:preserve-3d;
@@ -36,39 +43,67 @@ body{
   will-change:transform;
   filter:drop-shadow(0 16px 22px rgba(0,0,0,.42));
 }
+
 .leader-card svg{
   display:block;
   width:100%;
   height:auto;
   overflow:visible;
 }
+
 @keyframes leaderFloat{
-  0%,100%{transform:rotateX(0deg) rotateY(0deg) translateY(0) scale(1)}
-  25%{transform:rotateX(1.2deg) rotateY(-1.1deg) translateY(-5px) scale(1.003)}
-  50%{transform:rotateX(0deg) rotateY(1.1deg) translateY(-8px) scale(1.005)}
-  75%{transform:rotateX(-1deg) rotateY(-.7deg) translateY(-4px) scale(1.002)}
+  0%,100%{
+    transform:rotateX(0deg) rotateY(0deg) translateY(0) scale(1);
+  }
+  25%{
+    transform:rotateX(1.2deg) rotateY(-1.1deg) translateY(-5px) scale(1.003);
+  }
+  50%{
+    transform:rotateX(0deg) rotateY(1.1deg) translateY(-8px) scale(1.005);
+  }
+  75%{
+    transform:rotateX(-1deg) rotateY(-.7deg) translateY(-4px) scale(1.002);
+  }
 }
+
 @media(prefers-reduced-motion:reduce){
-  .leader-card{animation:none}
+  .leader-card{
+    animation:none;
+  }
 }
 </style>
 </head>
+
 <body>
+
 <main class="leader-stage">
+
   <div class="leader-card">
-    <!-- Original uploaded banner embedded in SVG without visual changes. -->
-    <svg xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
-         viewBox="0 0 1536 512"
-         width="1536" height="512"
-         role="img"
-         aria-label="Rubalia Network Become a Leader promotional banner">
-      <image x="0" y="0" width="1536" height="512"
-             preserveAspectRatio="none"
-             href="assets/images/leader-banner.webp"
-             xlink:href="assets/images/leader-banner.webp"/>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 1536 512"
+      width="1536"
+      height="512"
+      role="img"
+      aria-label="Rubalia Network Become a Leader promotional banner">
+
+      <image
+        x="0"
+        y="0"
+        width="1536"
+        height="512"
+        preserveAspectRatio="none"
+        href="../assets/images/leader-banner.webp"
+        xlink:href="../assets/images/leader-banner.webp"
+      />
+
     </svg>
+
   </div>
+
 </main>
+
 </body>
 </html>
