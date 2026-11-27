@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071a35">
+<title>API Management | RUBALIA NETWORK</title>
+
+<style>
+:root{
+ --navy:#071a35;
+ --navy2:#102b50;
+ --gold:#d6ad55;
+ --gold2:#f1d58e;
+ --bg:#f3f6fb;
+ --white:#fff;
+ --text:#17263d;
+ --muted:#7b8798;
+ --border:#e4eaf2;
+ --green:#16865b;
+ --red:#d84b4b;
+ --orange:#d58a25;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ font-family:Arial,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
+button,input,select{font:inherit}
+.sidebar{
+ width:245px;position:fixed;inset:0 auto 0 0;
+ background:var(--navy);color:white;
+ padding:20px 14px;overflow-y:auto;z-index:20;
+}
+.brand{
+ display:flex;align-items:center;gap:10px;
+ padding:8px 8px 22px;
+ border-bottom:1px solid #ffffff20;
+ margin-bottom:18px;
+}
+.logo{
+ width:42px;height:42px;border-radius:12px;
+ display:grid;place-items:center;
+ background:linear-gradient(135deg,var(--gold),#fff0bd);
+ color:var(--navy);font-weight:900;font-size:22px;
+}
+.brand h2{font-size:17px;letter-spacing:1px}
+.brand small{display:block;color:#b9c8dc;font-size:10px;margin-top:4px}
+.nav-title{
+ color:#8498b5;font-size:10px;font-weight:bold;
+ letter-spacing:1px;padding:13px 10px 7px;
+}
+.nav a{
+ display:block;padding:11px 12px;border-radius:8px;
+ color:#c5d2e4;text-decoration:none;font-size:12px;
+ margin:3px 0;
+}
+.nav a:hover,.nav a.active{
+ background:#d6ad5525;color:var(--gold2);
+}
+.main{margin-left:245px;min-height:100vh}
+.topbar{
+ height:68px;background:white;border-bottom:1px solid var(--border);
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 25px;position:sticky;top:0;z-index:10;
+}
+.topbar h3{font-size:16px;color:var(--navy)}
+.topbar small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.admin-avatar{
+ width:35px;height:35px;border-radius:50%;
+ background:var(--navy);color:var(--gold2);
+ display:grid;place-items:center;font-weight:bold;
+}
+.menu-btn{display:none;border:0;padding:9px;background:#edf2f8;border-radius:8px}
+.content{max-width:1450px;margin:auto;padding:24px}
+.heading{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;flex-wrap:wrap;margin-bottom:18px;
+}
+.heading h1{font-size:23px;color:var(--navy)}
+.heading p{font-size:11px;color:var(--muted);margin-top:6px}
+.btn{
+ border:0;border-radius:8px;padding:10px 14px;
+ font-size:11px;font-weight:bold;cursor:pointer;
+}
+.primary{background:var(--navy);color:white}
+.gold{background:var(--gold);color:var(--navy)}
+.light{background:#edf2f8;color:var(--navy)}
+.grid{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:13px;margin-bottom:18px;
+}
+.stat,.section{
+ background:white;border:1px solid var(--border);
+ border-radius:12px;padding:17px;
+}
+.stat small{font-size:11px;color:var(--muted)}
+.stat strong{
+ display:block;font-size:24px;color:var(--navy);
+ margin-top:12px;
+}
+.stat p{font-size:10px;color:var(--muted);margin-top:6px}
+.section{margin-bottom:18px}
+.section-head{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap;
+ margin-bottom:15px;
+}
+.section h3{font-size:14px;color:var(--navy)}
+.section-head p{font-size:10px;color:var(--muted);margin-top:5px}
+.badge{
+ padding:5px 9px;border-radius:20px;
+ font-size:9px;font-weight:bold;
+ background:#e8f7ef;color:var(--green);
+}
+.badge.warn{background:#fff2df;color:var(--orange)}
+.badge.bad{background:#fff0f0;color:var(--red)}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.toolbar input,.toolbar select{
+ border:1px solid var(--border);border-radius:8px;
+ padding:10px;font-size:11px;background:white;
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th{
+ background:#f6f8fb;color:#738096;text-align:left;
+ font-size:10px;padding:12px;white-space:nowrap;
+}
+td{
+ padding:12px;border-bottom:1px solid #edf0f5;
+ font-size:11px;white-space:nowrap;
+}
+.method{
+ background:#eaf2ff;color:#1765a8;
+ padding:5px 7px;border-radius:5px;font-weight:bold;
+ font-size:9px;
+}
+.code{font-family:monospace;color:var(--navy);font-weight:bold}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.info{
+ padding:12px;background:#fff9e9;border:1px solid #f0dfb7;
+ border-radius:9px;color:#87651e;font-size:11px;line-height:1.7;
+ margin-bottom:17px;
+}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info-row{
+ display:flex;justify-content:space-between;gap:10px;
+ padding:12px 0;border-bottom:1px solid #edf0f5;
+ font-size:11px;
+}
+.info-row:last-child{border:0}
+.info-row span{color:var(--muted)}
+.footer{text-align:center;color:#9aa5b4;font-size:10px;padding:20px}
+.toast{
+ position:fixed;bottom:20px;right:20px;
+ background:var(--navy);color:white;padding:13px 17px;
+ border-radius:9px;font-size:11px;display:none;z-index:50;
+}
+.toast.show{display:block}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){
+ .sidebar{transform:translateX(-100%);transition:.25s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin-left:0}
+ .menu-btn{display:block}
+ .topbar{padding:0 14px}
+ .content{padding:17px 13px}
+}
+@media(max-width:550px){
+ .grid{gap:9px}
+ .stat{padding:13px}
+ .stat strong{font-size:20px}
+ .two{grid-template-columns:1fr}
+ .heading h1{font-size:20px}
+ .toolbar input,.toolbar select{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+ <div class="brand">
+  <div class="logo">R</div>
+  <div>
+   <h2>RUBALIA</h2>
+   <small>NETWORK ADMIN PANEL</small>
+  </div>
+ </div>
+
+ <nav class="nav">
+  <div class="nav-title">MAIN MENU</div>
+  <a href="admin-dashboard.html">▦ Dashboard</a>
+  <a href="admin-users.html">♙ Users</a>
+  <a href="admin-partners.html">♧ Partners</a>
+  <div class="nav-title">BUSINESS MANAGEMENT</div>
+  <a href="admin-products.html">▣ Products</a>
+  <a href="admin-orders.html">▤ Orders</a>
+  <a href="admin-payments.html">৳ Payments</a>
+  <a href="admin-withdrawals.html">⇧ Withdrawals</a>
+  <a href="admin-commissions.html">％ Commissions</a>
+  <div class="nav-title">SYSTEM MANAGEMENT</div>
+  <a href="admin-settings.html">⚙ Settings</a>
+  <a href="admin-reports.html">▥ Reports</a>
+  <a href="admin-audit-logs.html">◷ Audit Logs</a>
+  <a href="admin-security.html">⬡ Security Center</a>
+  <a href="admin-system-health.html">♥ System Health</a>
+  <a class="active" href="admin-api-management.html">⌘ API Management</a>
+  <div class="nav-title">WEBSITE</div>
+  <a href="index.html">⌂ Visit Website</a>
+ </nav>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div style="display:flex;align-items:center;gap:12px">
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <div>
+   <h3>API Management</h3>
+   <small>System Management / API Center</small>
+  </div>
+ </div>
+ <div class="admin-avatar">A</div>
+</header>
+
+<div class="content">
+ <div class="heading">
+  <div>
+   <h1>API Management Center</h1>
+   <p>Live API monitoring and backend request statistics</p>
+  </div>
+  <button class="btn gold" id="refreshBtn">↻ Refresh Data</button>
+ </div>
+
+ <div class="info">
+  <strong>Live Monitoring:</strong>
+  Statistics and request logs below are retrieved from the RUBALIA PostgreSQL backend.
+  No API keys are generated or displayed here.
+ </div>
+
+ <div class="grid">
+  <div class="stat">
+   <small>Total API Requests</small>
+   <strong id="totalRequests">—</strong>
+   <p>Selected time period</p>
+  </div>
+  <div class="stat">
+   <small>Successful Requests</small>
+   <strong id="successRequests">—</strong>
+   <p>HTTP 2xx and 3xx</p>
+  </div>
+  <div class="stat">
+   <small>Error Requests</small>
+   <strong id="errorRequests">—</strong>
+   <p>HTTP 4xx and 5xx</p>
+  </div>
+  <div class="stat">
+   <small>Error Rate</small>
+   <strong id="errorRate">—</strong>
+   <p>Selected time period</p>
+  </div>
+ </div>
+
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h3>API Performance</h3>
+    <p>Real request response time and server health</p>
+   </div>
+   <select id="period">
+    <option value="24">Last 24 Hours</option>
+    <option value="168">Last 7 Days</option>
+    <option value="720">Last 30 Days</option>
+   </select>
+  </div>
+
+  <div class="two">
+   <div class="info-row">
+    <span>Average Response Time</span>
+    <strong id="avgTime">—</strong>
+   </div>
+   <div class="info-row">
+    <span>Maximum Response Time</span>
+    <strong id="maxTime">—</strong>
+   </div>
+   <div class="info-row">
+    <span>Database Status</span>
+    <strong id="dbStatus">Checking...</strong>
+   </div>
+   <div class="info-row">
+    <span>Server Uptime</span>
+    <strong id="uptime">—</strong>
+   </div>
+   <div class="info-row">
+    <span>Node Version</span>
+    <strong id="nodeVersion">—</strong>
+   </div>
+   <div class="info-row">
+    <span>Memory Usage</span>
+    <strong id="memory">—</strong>
+   </div>
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h3>API Endpoint Activity</h3>
+    <p>Endpoints observed in actual backend requests</p>
+   </div>
+   <span class="badge">LIVE DATA</span>
+  </div>
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>METHOD</th>
+      <th>ENDPOINT</th>
+      <th>REQUESTS</th>
+      <th>ERRORS</th>
+      <th>AVG TIME</th>
+     </tr>
+    </thead>
+    <tbody id="endpointBody">
+     <tr><td colspan="5" class="empty">Loading...</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="section-head">
+   <div>
+    <h3>API Request Logs</h3>
+    <p>Latest recorded backend requests</p>
+   </div>
+   <span class="badge">POSTGRESQL</span>
+  </div>
+
+  <div class="toolbar">
+   <input id="logSearch" placeholder="Search endpoint or IP">
+   <select id="statusFilter">
+    <option value="">All Status Codes</option>
+    <option value="200">200</option>
+    <option value="201">201</option>
+    <option value="400">400</option>
+    <option value="401">401</option>
+    <option value="403">403</option>
+    <option value="404">404</option>
+    <option value="429">429</option>
+    <option value="500">500</option>
+   </select>
+   <button class="btn light" id="searchBtn">Search</button>
+  </div>
+
+  <div class="table-wrap">
+   <table>
+    <thead>
+     <tr>
+      <th>TIME</th>
+      <th>METHOD</th>
+      <th>ENDPOINT</th>
+      <th>STATUS</th>
+      <th>RESPONSE</th>
+      <th>IP ADDRESS</th>
+     </tr>
+    </thead>
+    <tbody id="logBody">
+     <tr><td colspan="6" class="empty">Loading...</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </section>
+
+ <div class="two">
+  <section class="section">
+   <div class="section-head">
+    <div>
+     <h3>Active Rate Limit Policies</h3>
+     <p>Current server configuration</p>
+    </div>
+    <span class="badge">ACTIVE</span>
+   </div>
+   <div id="rateLimitBody">Loading...</div>
+  </section>
+
+  <section class="section">
+   <div class="section-head">
+    <div>
+     <h3>API Security</h3>
+     <p>Security features found in server configuration</p>
+    </div>
+   </div>
+   <div class="info-row"><span>Helmet Security Headers</span><b class="badge">Enabled</b></div>
+   <div class="info-row"><span>CORS Origin Validation</span><b class="badge">Enabled</b></div>
+   <div class="info-row"><span>JWT Authentication</span><b class="badge">Enabled</b></div>
+   <div class="info-row"><span>Database Session Validation</span><b class="badge">Enabled</b></div>
+   <div class="info-row"><span>Request Body Limit</span><b>1 MB</b></div>
+  </section>
+ </div>
+
+ <div class="footer">
+  © <span id="year"></span> RUBALIA NETWORK · API Management Center
+ </div>
+</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+const API_BASE="https://rubalia.onrender.com/api";
+
+function getToken(){
+ return localStorage.getItem("rubalia_token") ||
+        sessionStorage.getItem("rubalia_token") || "";
+}
+
+function toggleSidebar(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+function number(value){
+ return Number(value||0).toLocaleString("en-US");
+}
+
+function safe(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+function toast(message){
+ const el=document.getElementById("toast");
+ el.textContent=message;
+ el.classList.add("show");
+ setTimeout(()=>el.classList.remove("show"),3000);
+}
+
+async function api(path){
+ const token=getToken();
+
+ if(!token){
+  window.location.replace("login.html");
+  throw new Error("Admin login required.");
+ }
+
+ const response=await fetch(API_BASE+path,{
+  method:"GET",
+  headers:{
+   "Authorization":"Bearer "+token,
+   "Accept":"application/json"
+  },
+  cache:"no-store"
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401){
+  localStorage.removeItem("rubalia_token");
+  sessionStorage.removeItem("rubalia_token");
+  window.location.replace("login.html");
+  throw new Error("Session expired.");
+ }
+
+ if(!response.ok){
+  throw new Error(data.message||"API request failed.");
+ }
+
+ return data;
+}
+
+function formatUptime(seconds){
+ seconds=Number(seconds||0);
+ const days=Math.floor(seconds/86400);
+ const hours=Math.floor((seconds%86400)/3600);
+ const minutes=Math.floor((seconds%3600)/60);
+ return days+"d "+hours+"h "+minutes+"m";
+}
+
+function formatDate(value){
+ if(!value)return "—";
+ const date=new Date(value);
+ return Number.isNaN(date.getTime())?"—":date.toLocaleString();
+}
+
+async function loadOverview(){
+ const hours=document.getElementById("period").value;
+ const data=await api("/admin/api-management/overview?hours="+hours);
+ const o=data.overview||{};
+ const s=data.system||{};
+
+ document.getElementById("totalRequests").textContent=number(o.total_requests);
+ document.getElementById("successRequests").textContent=number(o.successful_requests);
+ document.getElementById("errorRequests").textContent=number(o.error_requests);
+ document.getElementById("errorRate").textContent=Number(o.error_rate||0)+"%";
+
+ document.getElementById("avgTime").textContent=Number(o.average_response_time||0)+" ms";
+ document.getElementById("maxTime").textContent=Number(o.maximum_response_time||0)+" ms";
+
+ document.getElementById("dbStatus").textContent=s.database||"Unknown";
+ document.getElementById("uptime").textContent=formatUptime(s.uptime_seconds);
+ document.getElementById("nodeVersion").textContent=s.node_version||"—";
+ document.getElementById("memory").textContent=number(s.memory_used_mb)+" MB";
+}
+
+async function loadEndpoints(){
+ const hours=document.getElementById("period").value;
+ const data=await api("/admin/api-management/endpoints?hours="+hours);
+ const body=document.getElementById("endpointBody");
+
+ body.replaceChildren();
+
+ if(!data.endpoints?.length){
+  body.innerHTML='<tr><td colspan="5" class="empty">No API requests recorded for this period.</td></tr>';
+  return;
+ }
+
+ data.endpoints.forEach(item=>{
+  const row=document.createElement("tr");
+  row.innerHTML=`
+   <td><span class="method">${safe(item.method)}</span></td>
+   <td class="code">${safe(item.endpoint)}</td>
+   <td>${number(item.total_requests)}</td>
+   <td>${number(item.errors)}</td>
+   <td>${number(item.average_response_time)} ms</td>
+  `;
+  body.appendChild(row);
+ });
+}
+
+async function loadLogs(){
+ const search=document.getElementById("logSearch").value.trim();
+ const status=document.getElementById("statusFilter").value;
+
+ const params=new URLSearchParams({limit:"50"});
+ if(search)params.set("search",search);
+ if(status)params.set("status",status);
+
+ const data=await api("/admin/api-management/logs?"+params.toString());
+ const body=document.getElementById("logBody");
+
+ body.replaceChildren();
+
+ if(!data.logs?.length){
+  body.innerHTML='<tr><td colspan="6" class="empty">No matching API logs found.</td></tr>';
+  return;
+ }
+
+ data.logs.forEach(log=>{
+  const statusCode=Number(log.status_code);
+  const color=statusCode>=500?"#d84b4b":
+              statusCode>=400?"#d58a25":"#16865b";
+
+  const row=document.createElement("tr");
+
+  row.innerHTML=`
+   <td>${safe(formatDate(log.created_at))}</td>
+   <td><span class="method">${safe(log.method)}</span></td>
+   <td class="code">${safe(log.endpoint)}</td>
+   <td><b style="color:${color}">${safe(statusCode)}</b></td>
+   <td>${Number(log.response_time_ms||0).toFixed(2)} ms</td>
+   <td>${safe(log.ip_address||"—")}</td>
+  `;
+
+  body.appendChild(row);
+ });
+}
+
+async function loadRateLimits(){
+ const data=await api("/admin/api-management/rate-limits");
+ const body=document.getElementById("rateLimitBody");
+ body.replaceChildren();
+
+ (data.policies||[]).forEach(policy=>{
+  const row=document.createElement("div");
+  row.className="info-row";
+
+  const left=document.createElement("span");
+  left.textContent=policy.name;
+
+  const right=document.createElement("strong");
+  right.textContent=policy.max_requests+" requests / "+policy.window_minutes+" min";
+
+  row.append(left,right);
+  body.appendChild(row);
+ });
+}
+
+async function refreshAll(){
+ const button=document.getElementById("refreshBtn");
+ button.disabled=true;
+ button.textContent="Loading...";
+
+ try{
+  await Promise.all([
+   loadOverview(),
+   loadEndpoints(),
+   loadLogs(),
+   loadRateLimits()
+  ]);
+  toast("Live API data refreshed.");
+ }catch(error){
+  console.error(error);
+  toast(error.message||"Unable to load API data.");
+ }finally{
+  button.disabled=false;
+  button.textContent="↻ Refresh Data";
+ }
+}
+
+document.getElementById("refreshBtn").addEventListener("click",refreshAll);
+document.getElementById("period").addEventListener("change",async()=>{
+ try{
+  await Promise.all([loadOverview(),loadEndpoints()]);
+ }catch(error){toast(error.message);}
+});
+document.getElementById("searchBtn").addEventListener("click",loadLogs);
+document.getElementById("logSearch").addEventListener("keydown",event=>{
+ if(event.key==="Enter")loadLogs();
+});
+document.getElementById("statusFilter").addEventListener("change",loadLogs);
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+refreshAll();
+</script>
+</body>
+</html>
