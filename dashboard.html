@@ -335,6 +335,52 @@ footer{
 footer strong{color:#f4d58c}
 
 
+/* REFERRAL SHARE POPUP */
+.referral-modal{
+ position:fixed;inset:0;z-index:11000;display:none;align-items:center;
+ justify-content:center;padding:14px;background:rgba(3,12,28,.82);
+}
+.referral-modal.open{display:flex}
+.referral-panel{
+ position:relative;width:min(440px,100%);max-height:90vh;overflow:auto;
+ padding:20px;border:1px solid #d6ad55;border-radius:17px;
+ color:#20324a;background:linear-gradient(145deg,#fff,#f4f7fc);
+ box-shadow:0 18px 55px #0008;
+}
+.referral-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.referral-head h2{margin:0;color:#102b50;font-size:19px}
+.referral-close{
+ width:34px;height:34px;flex:0 0 auto;border:0;border-radius:50%;
+ color:#fff;background:#102b50;font-size:22px;cursor:pointer
+}
+.referral-subtitle{margin:0 0 16px;color:#66758b;font-size:12px;line-height:1.6}
+.referral-label{display:block;margin:12px 0 6px;color:#41536b;font-size:11px;font-weight:800}
+.referral-value{
+ padding:11px;border:1px solid #dce4ef;border-radius:9px;
+ background:#f7f9fc;color:#18385c;font-size:12px;line-height:1.5;
+ overflow-wrap:anywhere;user-select:text
+}
+.referral-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}
+.referral-action{
+ min-height:42px;border:0;border-radius:9px;padding:10px 8px;
+ color:#fff;font-size:12px;font-weight:800;cursor:pointer
+}
+.referral-action.whatsapp{background:#168b50}
+.referral-action.messenger{background:#0866ff}
+.referral-action.imo{background:#168bd2}
+.referral-action.copy{background:#102b50}
+.referral-action:active{transform:translateY(1px)}
+.referral-status{min-height:18px;margin:12px 0 0;color:#167448;font-size:11px;text-align:center}
+.referral-loading{padding:20px;text-align:center;color:#68768b;font-size:12px}
+body.referral-open{overflow:hidden}
+@media(max-width:380px){
+ .referral-panel{padding:15px}
+ .referral-head h2{font-size:17px}
+ .referral-actions{gap:7px}
+ .referral-action{font-size:11px}
+}
+
+
 /* DASHBOARD VIDEO POPUP - OUTSIDE THE SMALL SLIDER IFRAME */
 .video-guide-modal{
  position:fixed;inset:0;z-index:10000;display:none;
@@ -480,6 +526,7 @@ body.video-guide-open{overflow:hidden}
   <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
   <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
   <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
+  <a href="#" id="referralOpenLink"><span class="menu-icon">🔗</span>রেফার করুন</a>
  </nav>
 
  <div class="menu-title">ACCOUNT</div>
@@ -555,6 +602,36 @@ body.video-guide-open{overflow:hidden}
  </section>
 </main>
 
+
+
+<!-- REFERRAL SHARE POPUP -->
+<div class="referral-modal" id="referralModal" aria-hidden="true">
+ <section class="referral-panel" role="dialog" aria-modal="true"
+          aria-labelledby="referralModalTitle">
+  <div class="referral-head">
+   <h2 id="referralModalTitle">🔗 রেফার করুন</h2>
+   <button class="referral-close" id="referralClose" type="button"
+           aria-label="Close referral popup">×</button>
+  </div>
+  <p class="referral-subtitle">
+   আপনার রেফার লিংকটি বন্ধুদের সঙ্গে শেয়ার করে RUBALIA NETWORK-এ আমন্ত্রণ জানান।
+  </p>
+  <span class="referral-label">আপনার Referral Code</span>
+  <div class="referral-value" id="referralCodeValue">লোড হচ্ছে...</div>
+  <span class="referral-label">আপনার Referral Link</span>
+  <div class="referral-value" id="referralLinkValue">লোড হচ্ছে...</div>
+  <div class="referral-actions">
+   <button class="referral-action whatsapp" id="referralWhatsApp" type="button">WhatsApp</button>
+   <button class="referral-action messenger" id="referralMessenger" type="button">Messenger</button>
+   <button class="referral-action imo" id="referralImo" type="button">IMO</button>
+   <button class="referral-action copy" id="referralCopy" type="button">লিংক কপি করুন</button>
+  </div>
+  <p class="referral-status" id="referralStatus" role="status"></p>
+  <div class="referral-loading" id="referralHint">
+   Messenger/IMO বাটনে চাপলে ফোনের Share অপশন খুলবে। সেখান থেকে অ্যাপ নির্বাচন করুন।
+  </div>
+ </section>
+</div>
 
 <!-- VIDEO GUIDE POPUP: rendered in the dashboard, not inside the 45px/70px iframe -->
 <div class="video-guide-modal" id="videoGuideModal"
@@ -1072,6 +1149,165 @@ async function verifySession(){
  startActivityTracking();
  return token;
 }
+
+
+/* REFERRAL SHARE POPUP */
+const referralModal=$("referralModal");
+let currentReferralCode="";
+let currentReferralLink="";
+let referralLoading=false;
+
+function makeDashboardReferralLink(code){
+ const url=new URL("register.html",location.href);
+ url.search="";
+ url.searchParams.set("ref",code);
+ return url.toString();
+}
+
+function setReferralStatus(message,isError=false){
+ const el=$("referralStatus");
+ el.textContent=message;
+ el.style.color=isError?"#b42332":"#167448";
+}
+
+async function loadDashboardReferral(){
+ if(referralLoading)return;
+ referralLoading=true;
+ $("referralCodeValue").textContent="লোড হচ্ছে...";
+ $("referralLinkValue").textContent="লোড হচ্ছে...";
+ setReferralStatus("");
+ try{
+  const response=await fetch(API_BASE+"/referral/me",{
+   method:"GET",
+   headers:{
+    "Accept":"application/json",
+    "Authorization":"Bearer "+sessionToken
+   },
+   cache:"no-store"
+  });
+  const data=await response.json().catch(()=>({}));
+  if(response.status===401){
+   handleSessionExpired();
+   throw new Error("আপনার লগইন সেশনের মেয়াদ শেষ হয়েছে।");
+  }
+  if(!response.ok||data.success===false){
+   throw new Error(data.message||"Referral তথ্য পাওয়া যায়নি।");
+  }
+  const cached=getStoredUser()||{};
+  const code=String(
+   data.referralCode||
+   data.member?.referralCode||
+   data.member?.memberId||
+   cached.referralCode||
+   cached.memberId||
+   ""
+  ).trim();
+  if(!code)throw new Error("আপনার Referral Code পাওয়া যায়নি।");
+  currentReferralCode=code;
+  currentReferralLink=makeDashboardReferralLink(code);
+  $("referralCodeValue").textContent=code;
+  $("referralLinkValue").textContent=currentReferralLink;
+ }catch(error){
+  $("referralCodeValue").textContent="পাওয়া যায়নি";
+  $("referralLinkValue").textContent="পাওয়া যায়নি";
+  setReferralStatus(error.message||"Referral তথ্য লোড করা যায়নি।",true);
+ }finally{
+  referralLoading=false;
+ }
+}
+
+function openReferralPopup(){
+ closeMenu();
+ referralModal.classList.add("open");
+ referralModal.setAttribute("aria-hidden","false");
+ document.body.classList.add("referral-open");
+ if(!currentReferralLink)loadDashboardReferral();
+ $("referralClose").focus();
+}
+
+function closeReferralPopup(){
+ referralModal.classList.remove("open");
+ referralModal.setAttribute("aria-hidden","true");
+ document.body.classList.remove("referral-open");
+}
+
+function referralShareText(){
+ return "আমি RUBALIA NETWORK-এ যুক্ত হয়েছি। আপনিও আমার রেফার লিংকের মাধ্যমে রেজিস্ট্রেশন করুন:\\n"+currentReferralLink;
+}
+
+async function copyReferralLink(){
+ if(!currentReferralLink){
+  await loadDashboardReferral();
+  if(!currentReferralLink)return;
+ }
+ try{
+  if(navigator.clipboard&&window.isSecureContext){
+   await navigator.clipboard.writeText(currentReferralLink);
+  }else{
+   const field=document.createElement("textarea");
+   field.value=currentReferralLink;
+   field.style.position="fixed";
+   field.style.opacity="0";
+   document.body.appendChild(field);
+   field.select();
+   const copied=document.execCommand("copy");
+   field.remove();
+   if(!copied)throw new Error("Copy failed");
+  }
+  setReferralStatus("Referral Link কপি হয়েছে।");
+ }catch(error){
+  setReferralStatus("লিংক কপি করা যায়নি। লিংকটি চেপে ধরে Copy করুন।",true);
+ }
+}
+
+function shareReferralWithNativeSheet(appName){
+ if(!currentReferralLink){
+  loadDashboardReferral();
+  setReferralStatus("Referral Link লোড হচ্ছে। আবার চাপুন।",true);
+  return;
+ }
+ if(navigator.share){
+  navigator.share({
+   title:"RUBALIA NETWORK",
+   text:referralShareText(),
+   url:currentReferralLink
+  }).then(()=>{
+   setReferralStatus(appName+" শেয়ার মেনু খোলা হয়েছে।");
+  }).catch(error=>{
+   if(error.name!=="AbortError")setReferralStatus("শেয়ার করা যায়নি। আবার চেষ্টা করুন।",true);
+  });
+ }else{
+  copyReferralLink();
+  setReferralStatus("আপনার ফোনে Share সুবিধা নেই। লিংক কপি হয়েছে; "+appName+" খুলে পেস্ট করুন।");
+ }
+}
+
+$("referralOpenLink").addEventListener("click",event=>{
+ event.preventDefault();
+ openReferralPopup();
+});
+$("referralClose").addEventListener("click",closeReferralPopup);
+referralModal.addEventListener("click",event=>{
+ if(event.target===referralModal)closeReferralPopup();
+});
+$("referralWhatsApp").addEventListener("click",()=>{
+ if(!currentReferralLink){loadDashboardReferral();return;}
+ const url="https://wa.me/?text="+encodeURIComponent(referralShareText());
+ window.open(url,"_blank","noopener,noreferrer");
+});
+$("referralMessenger").addEventListener("click",()=>{
+ shareReferralWithNativeSheet("Messenger");
+});
+$("referralImo").addEventListener("click",()=>{
+ shareReferralWithNativeSheet("IMO");
+});
+$("referralCopy").addEventListener("click",copyReferralLink);
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape"&&referralModal.classList.contains("open")){
+  closeReferralPopup();
+ }
+});
+
 
 /* ANNOUNCEMENT */
 async function loadAdminAnnouncement(){
