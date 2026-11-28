@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
+const { sendAdminPush } = require("../services/admin-push");
 
 const router = express.Router();
 
@@ -499,6 +500,14 @@ router.post(
 
       await client.query("COMMIT");
 
+      // Notify Admin after successful deposit request.
+      sendAdminPush("new_deposit", {
+        reference: reference,
+        message: `A new deposit request of ${centsMoney(amountCents)} has been submitted.`
+      }).catch(error => {
+        console.error("New deposit Admin push failed:", error.message);
+      });
+
       return res.status(201).json({
         success: true,
         message: "Deposit request submitted. Waiting for Admin verification.",
@@ -766,6 +775,14 @@ router.post(
       );
 
       await client.query("COMMIT");
+
+      // Notify Admin after successful withdrawal request.
+      sendAdminPush("new_withdrawal", {
+        reference: reference,
+        message: `A new withdrawal request of ${centsMoney(amountCents)} has been submitted.`
+      }).catch(error => {
+        console.error("New withdrawal Admin push failed:", error.message);
+      });
 
       return res.status(201).json({
         success: true,
