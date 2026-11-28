@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
+const { sendAdminPush } = require("../services/admin-push");
 
 const {
   prepareOrderCommission,
@@ -518,8 +519,25 @@ router.post("/", authenticateToken, async (req, res, next) => {
       ]
     );
 
+    // Commit order before sending notification.
     await client.query("COMMIT");
     transactionStarted = false;
+
+    // =================================================
+    // ADMIN PUSH: NEW ORDER
+    // Sends only after successful database commit.
+    // Push failure will not cancel the customer's order.
+    // =================================================
+
+    sendAdminPush("new_order", {
+      reference: orderNumber,
+      message: `A new order of ${totalAmount.toFixed(2)} has been placed.`
+    }).catch(error => {
+      console.error(
+        "New order Admin push failed:",
+        error.message
+      );
+    });
 
     return res.status(201).json({
       success: true,
