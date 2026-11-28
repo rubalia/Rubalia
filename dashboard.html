@@ -423,8 +423,8 @@ body.video-guide-open{overflow:hidden}
 .referral-campaign-overlay{
  position:fixed;inset:0;z-index:20000;display:none;
  align-items:center;justify-content:center;
- padding:10px;background:rgba(0,0,0,.48);
- backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+ padding:10px;background:transparent;
+ backdrop-filter:none;-webkit-backdrop-filter:none;
 }
 .referral-campaign-overlay.show{display:flex}
 .referral-campaign-art{
@@ -1224,9 +1224,15 @@ $("referralCampaignClose").addEventListener("click",closeReferralCampaign);
 referralCampaignOverlay.addEventListener("click",event=>{
  if(event.target===referralCampaignOverlay)closeReferralCampaign();
 });
-$("referralCampaignCta").addEventListener("click",()=>{
+$("referralCampaignCta").addEventListener("click",async()=>{
  closeReferralCampaign();
- openReferralPopup();
+ if(!currentReferralLink)await loadDashboardReferral();
+ if(currentReferralLink){
+  location.href=currentReferralLink;
+ }else{
+  openReferralPopup();
+  setReferralStatus("আপনার Referral Link পাওয়া যায়নি। আবার চেষ্টা করুন।",true);
+ }
 });
 
 /* REFERRAL SHARE POPUP */
