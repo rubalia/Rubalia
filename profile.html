@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,45 +99,31 @@ svg{display:block}
   background:radial-gradient(circle at 35% 25%,#fff6b7,#ffc735 54%,#f59d00 100%);
   color:#4b168d;font-size:57px;font-weight:900;border:2px solid rgba(255,255,255,.92);
 }
-.avatar-face img{width:100%;height:100%;object-fit:cover}
+.avatar-face img{width:100%;height:100%;object-fit:cover;display:block}
 .wreath{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 
 /* PROFILE PHOTO UPLOAD */
 .photo-upload-btn{
-  position:absolute;
-  right:5px;
-  bottom:8px;
-  z-index:5;
-  width:43px;
-  height:43px;
-  display:grid;
-  place-items:center;
-  border:2px solid #fff1a5;
-  border-radius:50%;
-  color:#fff;
+  position:absolute;right:5px;bottom:8px;z-index:5;
+  width:43px;height:43px;display:grid;place-items:center;
+  border:2px solid #fff1a5;border-radius:50%;color:#fff;
   background:linear-gradient(135deg,#ffbd18,#e87500);
-  box-shadow:0 0 13px rgba(255,190,0,.75);
-  cursor:pointer;
+  box-shadow:0 0 13px rgba(255,190,0,.75);cursor:pointer;
 }
 .photo-upload-btn svg{width:23px;height:23px}
 .photo-upload-btn:disabled{opacity:.6;cursor:wait}
 #profilePhotoInput{display:none}
 .photo-upload-status{
-  min-height:20px;
-  margin:7px auto 0;
-  color:#ffe36a;
-  font-size:13px;
-  font-weight:700;
-  text-align:center;
+  min-height:20px;margin:7px auto 0;color:#ffe36a;
+  font-size:13px;font-weight:700;text-align:center;
 }
 .photo-upload-status.error{color:#ff9db5}
 .photo-upload-status.success{color:#00ef9b}
 
-/* USER NAME BADGE */
+/* USER NAME */
 .member-label{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  margin:0 auto 9px;padding:9px 25px;
-  min-width:190px;max-width:100%;
+  margin:0 auto 9px;padding:9px 25px;min-width:190px;max-width:100%;
   border:2px solid #ffdc25;border-radius:30px;
   background:linear-gradient(90deg,rgba(74,18,116,.95),rgba(35,0,73,.95));
   color:#ffeb32;font-size:21px;font-weight:900;
@@ -147,8 +132,8 @@ svg{display:block}
 }
 .member-label .icon{width:21px;height:21px;fill:#ffe326;stroke:#ffe326}
 .member-meta{
-  display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;
-  margin-top:12px;font-size:20px;color:#fff
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  flex-wrap:wrap;margin-top:12px;font-size:20px;color:#fff
 }
 .meta-item{display:flex;align-items:center;gap:9px;white-space:nowrap}
 .meta-item .icon{width:27px;height:27px}
@@ -247,6 +232,15 @@ svg{display:block}
 .ref-value{font-size:19px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
 .copy-btn{border:0;background:transparent;color:#fff;padding:2px;display:grid;place-items:center;flex:0 0 auto}
 .copy-btn .icon{width:28px;height:28px}
+.share-btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;margin-top:14px;padding:12px 16px;
+  border:1px solid rgba(255,224,74,.8);border-radius:14px;
+  background:linear-gradient(135deg,#ffca27,#e78b00);
+  color:#35105d;font-weight:900;font-size:15px;
+  box-shadow:0 4px 13px rgba(255,177,0,.2);
+}
+.share-btn svg{width:20px;height:20px}
 .referral-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:13px;font-size:13px;color:#e7d8ff}
 .referral-bottom strong{color:#ffdf31}
 .ref-error{display:none;color:#ffb7d3;font-size:12px;margin-top:8px}
@@ -408,6 +402,7 @@ button:disabled{opacity:.55;cursor:wait}
   <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.8 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.8-1l-1.7.7-1.4-2.4L5.1 15a8 8 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.8-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.8 1l1.7-.7 1.4 2.4-1.4 1.1a8 8 0 0 1-.1 2Z"/></symbol>
   <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></symbol>
   <symbol id="i-menuclose" viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></symbol>
 </svg>
 
 <div class="overlay" id="overlay"></div>
@@ -521,11 +516,9 @@ button:disabled{opacity:.55;cursor:wait}
     </div>
   </div>
 
-  <input type="file" id="profilePhotoInput"
-         accept="image/jpeg,image/png,image/webp">
+  <input type="file" id="profilePhotoInput" accept="image/jpeg,image/png,image/webp">
 
-  <div id="photoUploadStatus" class="photo-upload-status"
-       role="status" aria-live="polite"></div>
+  <div id="photoUploadStatus" class="photo-upload-status" role="status" aria-live="polite"></div>
 
   <div class="member-label">
     <svg class="icon"><use href="#i-star"/></svg>
@@ -543,15 +536,12 @@ button:disabled{opacity:.55;cursor:wait}
       <span>Joined: <span id="joinedDate">—</span></span>
     </div>
   </div>
-
 </section>
 
 <!-- WALLET -->
 <section class="wallet-panel">
   <div class="wallet-info">
-    <svg class="wallet-icon" viewBox="0 0 64 64" aria-hidden="true">
-      <use href="#i-wallet"/>
-    </svg>
+    <svg class="wallet-icon" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-wallet"/></svg>
     <div>
       <div class="wallet-title">Wallet Balance</div>
       <div class="wallet-amount" id="walletBalance">৳ 0.00</div>
@@ -560,12 +550,10 @@ button:disabled{opacity:.55;cursor:wait}
 
   <div class="wallet-actions">
     <a class="action-btn" href="deposit.html">
-      <svg class="icon"><use href="#i-plus"/></svg>
-      Deposit
+      <svg class="icon"><use href="#i-plus"/></svg>Deposit
     </a>
     <a class="action-btn withdraw" href="withdraw.html">
-      <svg class="icon"><use href="#i-up"/></svg>
-      Withdraw
+      <svg class="icon"><use href="#i-up"/></svg>Withdraw
     </a>
   </div>
 </section>
@@ -608,15 +596,9 @@ button:disabled{opacity:.55;cursor:wait}
     <svg class="icon"><use href="#i-wallet"/></svg>
     <span>Wallet History</span>
   </a>
-  <a class="quick-card"
-     href="https://github.com/rubalia/Rubalia/releases/latest/download/Rubalia.apk"
-     target="_blank" rel="noopener">
-    <svg class="icon" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round"
-         aria-hidden="true">
-      <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/>
-      <path d="M5 17v3h14v-3"/>
+  <a class="quick-card" href="https://github.com/rubalia/Rubalia/releases/latest/download/Rubalia.apk" target="_blank" rel="noopener">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 17v3h14v-3"/>
     </svg>
     <span>Download App</span>
   </a>
@@ -634,15 +616,12 @@ button:disabled{opacity:.55;cursor:wait}
 
   <div class="referral-fields">
     <div class="ref-field">
-      <div class="ref-icon">
-        <svg class="icon"><use href="#i-qr"/></svg>
-      </div>
+      <div class="ref-icon"><svg class="icon"><use href="#i-qr"/></svg></div>
       <div class="ref-data">
         <div class="ref-label">Referral Code</div>
         <div class="ref-value-row">
           <span class="ref-value" id="referralCode">Loading...</span>
-          <button class="copy-btn" type="button"
-                  data-copy="referralCode" aria-label="Copy referral code">
+          <button class="copy-btn" type="button" data-copy="referralCode" aria-label="Copy referral code">
             <svg class="icon"><use href="#i-copy"/></svg>
           </button>
         </div>
@@ -650,21 +629,25 @@ button:disabled{opacity:.55;cursor:wait}
     </div>
 
     <div class="ref-field">
-      <div class="ref-icon">
-        <svg class="icon"><use href="#i-link"/></svg>
-      </div>
+      <div class="ref-icon"><svg class="icon"><use href="#i-link"/></svg></div>
       <div class="ref-data">
         <div class="ref-label">Referral Link</div>
         <div class="ref-value-row">
           <span class="ref-value" id="referralLink">Loading...</span>
-          <button class="copy-btn" type="button"
-                  data-copy="referralLink" aria-label="Copy referral link">
+          <button class="copy-btn" type="button" data-copy="referralLink" aria-label="Copy referral link">
             <svg class="icon"><use href="#i-copy"/></svg>
           </button>
         </div>
       </div>
     </div>
   </div>
+
+  <button type="button" class="share-btn" id="shareReferralBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <use href="#i-share"/>
+    </svg>
+    Share Referral Link
+  </button>
 
   <div class="referral-bottom">
     <span>Sponsor ID: <strong id="sponsorId">—</strong></span>
@@ -700,13 +683,11 @@ button:disabled{opacity:.55;cursor:wait}
 "use strict";
 
 const API_BASE = "https://rubalia.onrender.com/api";
-
-/* Backend route: POST /api/upload/profile-image */
 const PHOTO_UPLOAD_ENDPOINT = "/upload/profile-image";
-
 const $ = id => document.getElementById(id);
 
 let member = null;
+let currentReferralLink = "";
 
 /* TOKEN */
 function token(){
@@ -780,38 +761,79 @@ async function api(path,options={}){
   return data;
 }
 
-/* PROFILE PHOTO DISPLAY */
-function setPhoto(url,name){
-  const text = initials(name);
-
-  const targets = [
-    $("profileAvatar"),
-    $("drawerAvatar")
+/* FIND PHOTO URL FROM DIFFERENT API SHAPES */
+function findPhotoURL(...sources){
+  const keys = [
+    "avatar_url","avatarUrl","profile_image","profileImage",
+    "photo_url","photoUrl","image_url","imageUrl",
+    "profile_photo","profilePhoto","picture","photo"
   ];
 
-  targets.forEach(el=>{
+  for(const source of sources){
+    if(!source) continue;
+
+    if(typeof source === "string" && /^https?:\/\//i.test(source)){
+      return source;
+    }
+
+    if(typeof source !== "object") continue;
+
+    const candidates = [
+      ...keys.map(key=>source[key]),
+      source.image?.url,
+      source.data?.url,
+      source.data?.image?.url,
+      source.profile?.avatar_url,
+      source.profile?.avatarUrl,
+      source.user?.avatar_url,
+      source.user?.avatarUrl,
+      source.member?.avatar_url,
+      source.member?.avatarUrl,
+      source.url
+    ];
+
+    for(const value of candidates){
+      if(typeof value==="string" && /^https?:\/\//i.test(value.trim())){
+        return value.trim();
+      }
+    }
+  }
+
+  return "";
+}
+
+/* PHOTO DISPLAY */
+function setPhoto(url,name){
+  const text = initials(name);
+  const safeURL = typeof url==="string" ? url.trim() : "";
+
+  [$("profileAvatar"),$("drawerAvatar")].forEach(el=>{
     if(!el) return;
 
     el.replaceChildren();
 
-    if(url){
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Member profile photo";
-      img.referrerPolicy = "no-referrer";
-
-      img.onerror = ()=>{
-        el.textContent = text;
-      };
-
-      el.appendChild(img);
-    }else{
+    if(!safeURL){
       el.textContent = text;
+      return;
     }
+
+    const img = document.createElement("img");
+    img.src = safeURL;
+    img.alt = "Member profile photo";
+    img.loading = "eager";
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+
+    img.onerror = ()=>{
+      img.remove();
+      el.textContent = text;
+    };
+
+    el.appendChild(img);
   });
 }
 
-/* PROFILE PHOTO UPLOAD */
+/* PHOTO STATUS */
 const photoInput = $("profilePhotoInput");
 const photoButton = $("photoUploadBtn");
 const photoStatus = $("photoUploadStatus");
@@ -821,23 +843,17 @@ function photoMessage(message,type=""){
   photoStatus.className = "photo-upload-status "+type;
 }
 
+/* OPEN PHOTO PICKER */
 photoButton.addEventListener("click",()=>{
-  if(!photoButton.disabled){
-    photoInput.click();
-  }
+  if(!photoButton.disabled) photoInput.click();
 });
 
+/* UPLOAD PROFILE PHOTO */
 photoInput.addEventListener("change",async()=>{
-
   const file = photoInput.files && photoInput.files[0];
-
   if(!file) return;
 
-  const allowedTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp"
-  ];
+  const allowedTypes = ["image/jpeg","image/png","image/webp"];
 
   if(!allowedTypes.includes(file.type)){
     photoMessage("শুধু JPG, PNG অথবা WebP ছবি নির্বাচন করুন।","error");
@@ -845,57 +861,39 @@ photoInput.addEventListener("change",async()=>{
     return;
   }
 
-  if(file.size > 5 * 1024 * 1024){
+  if(file.size > 5*1024*1024){
     photoMessage("ছবির সাইজ সর্বোচ্চ 5 MB হতে পারবে।","error");
     photoInput.value = "";
     return;
   }
 
   const authToken = token();
-
   if(!authToken){
     logout();
     return;
   }
 
-  const oldPhoto =
-    member?.avatar_url ||
-    member?.avatarUrl ||
-    "";
-
-  const memberName =
-    member?.full_name ||
-    member?.fullName ||
-    member?.name ||
-    "Rubalia Member";
-
+  const oldPhoto = member?.avatar_url || member?.avatarUrl || "";
+  const memberName = member?.full_name || member?.fullName || member?.name || "Rubalia Member";
   const previewURL = URL.createObjectURL(file);
 
-  /* Upload চলাকালীন Preview */
   setPhoto(previewURL,memberName);
-
   photoButton.disabled = true;
   photoMessage("ছবি আপলোড হচ্ছে...");
 
   try{
-
     const formData = new FormData();
-
-    /* Backend expects field name: image */
     formData.append("image",file);
 
-    const response = await fetch(
-      API_BASE + PHOTO_UPLOAD_ENDPOINT,
-      {
-        method:"POST",
-        headers:{
-          "Authorization":"Bearer "+authToken,
-          "Accept":"application/json"
-        },
-        body:formData,
-        cache:"no-store"
-      }
-    );
+    const response = await fetch(API_BASE+PHOTO_UPLOAD_ENDPOINT,{
+      method:"POST",
+      headers:{
+        "Authorization":"Bearer "+authToken,
+        "Accept":"application/json"
+      },
+      body:formData,
+      cache:"no-store"
+    });
 
     const data = await response.json().catch(()=>({}));
 
@@ -908,126 +906,69 @@ photoInput.addEventListener("change",async()=>{
       throw new Error(data.message || "ছবি আপলোড করা যায়নি।");
     }
 
-    /*
-      Backend response:
-      {
-        success: true,
-        message: "...",
-        image: {
-          url: "...",
-          public_id: "...",
-          width: 900,
-          height: 900
-        }
-      }
-    */
-
-    const imageURL =
-      data.image?.url ||
-      data.avatar_url ||
-      data.avatarUrl ||
-      data.imageUrl ||
-      data.url ||
-      data.data?.image?.url ||
-      data.data?.avatar_url ||
-      data.data?.avatarUrl ||
-      data.data?.url ||
-      data.profile?.avatar_url ||
-      data.profile?.avatarUrl;
+    const imageURL = findPhotoURL(
+      data,
+      data.image,
+      data.data,
+      data.profile,
+      data.user
+    );
 
     if(!imageURL){
       throw new Error("সার্ভার থেকে ছবির URL পাওয়া যায়নি।");
     }
 
-    /* নতুন ছবি Member data-তে সংরক্ষণ */
     member = {
       ...member,
       avatar_url:imageURL,
       avatarUrl:imageURL
     };
 
-    /* Profile এবং Drawer-এ নতুন ছবি */
     setPhoto(imageURL,memberName);
 
-    /* Local cache-এ শুধু URL রাখা হচ্ছে, Base64 নয় */
     try{
-      const savedUser = JSON.parse(
-        localStorage.getItem("rubalia_user") || "{}"
-      );
-
+      const savedUser = JSON.parse(localStorage.getItem("rubalia_user") || "{}");
       savedUser.avatar_url = imageURL;
       savedUser.avatarUrl = imageURL;
-
-      localStorage.setItem(
-        "rubalia_user",
-        JSON.stringify(savedUser)
-      );
+      localStorage.setItem("rubalia_user",JSON.stringify(savedUser));
     }catch(_){}
 
-    photoMessage(
-      "প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে।",
-      "success"
-    );
+    photoMessage("প্রোফাইল ছবি সফলভাবে পরিবর্তন হয়েছে।","success");
 
   }catch(error){
-
-    /* Upload ব্যর্থ হলে আগের ছবি ফিরিয়ে আনা */
     setPhoto(oldPhoto,memberName);
-
-    photoMessage(
-      error.message || "ছবি আপলোড ব্যর্থ হয়েছে।",
-      "error"
-    );
-
+    photoMessage(error.message || "ছবি আপলোড ব্যর্থ হয়েছে।","error");
     console.error("Profile photo upload:",error);
 
   }finally{
-
     photoButton.disabled = false;
     photoInput.value = "";
     URL.revokeObjectURL(previewURL);
-
   }
 });
 
 /* MEMBER INFORMATION */
 function renderMember(user){
-
   member = user;
 
-  const name =
-    user.full_name ||
-    user.fullName ||
-    user.name ||
-    "Rubalia Member";
-
-  const memberId =
-    user.memberId ||
+  const name = user.full_name || user.fullName || user.name || "Rubalia Member";
+  const memberId = user.memberId ||
     (user.id ? "RUB"+String(user.id).padStart(6,"0") : "—");
 
   $("memberNameBadge").textContent = name;
   $("memberId").textContent = memberId;
-
-  $("joinedDate").textContent =
-    fmtDate(user.created_at || user.createdAt);
-
+  $("joinedDate").textContent = fmtDate(user.created_at || user.createdAt);
   $("drawerName").textContent = name;
-  $("drawerEmail").textContent =
-    user.email || "Member account";
+  $("drawerEmail").textContent = user.email || "Member account";
 
-  setPhoto(
-    user.avatar_url || user.avatarUrl || "",
-    name
-  );
+  const photoURL = findPhotoURL(user);
+  setPhoto(photoURL,name);
 
   $("sponsorId").textContent =
     user.sponsorMemberId ||
-    (user.sponsor_id
-      ? "RUB"+String(user.sponsor_id).padStart(6,"0")
-      : "—");
+    (user.sponsor_id ? "RUB"+String(user.sponsor_id).padStart(6,"0") : "—");
 
-  $("rankValue").textContent =
-    user.rank || user.current_rank || "-";
+  $("rankValue").textContent = user.rank || user.current_rank || "-";
 }
 
 /* WALLET */
@@ -1037,13 +978,12 @@ async function loadWallet(){
     const wallet = data.wallet || data;
     const balance = Number(wallet.balance);
 
-    $("walletBalance").textContent =
-      Number.isFinite(balance)
-        ? "৳ "+balance.toLocaleString("en-BD",{
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-          })
-        : "৳ 0.00";
+    $("walletBalance").textContent = Number.isFinite(balance)
+      ? "৳ "+balance.toLocaleString("en-BD",{
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        })
+      : "৳ 0.00";
 
   }catch(err){
     console.warn("Wallet data:",err.message);
@@ -1051,7 +991,7 @@ async function loadWallet(){
   }
 }
 
-/* REFERRAL LINK */
+/* BUILD REFERRAL LINK */
 function makeReferralLink(code){
   const url = new URL("register.html",location.href);
   url.search = "";
@@ -1059,7 +999,7 @@ function makeReferralLink(code){
   return url.toString();
 }
 
-/* REFERRAL DATA */
+/* LOAD REFERRAL */
 async function loadReferral(){
   try{
     const [me,stats] = await Promise.all([
@@ -1070,53 +1010,51 @@ async function loadReferral(){
     const code = String(
       me.referralCode ||
       me.member?.referralCode ||
+      me.member?.referral_code ||
       me.member?.memberId ||
-      member?.memberId ||
+      member?.referralCode ||
+      member?.referral_code ||
       ""
     ).trim();
 
-    $("referralCode").textContent =
-      code || "Not available";
+    $("referralCode").textContent = code || "Not available";
+
+    /* Prefer the backend referral URL */
+    const backendLink =
+      me.referralLink ||
+      me.referral_link ||
+      me.member?.referralLink ||
+      me.member?.referral_link ||
+      "";
+
+    currentReferralLink = backendLink || (code ? makeReferralLink(code) : "");
 
     $("referralLink").textContent =
-      code ? makeReferralLink(code) : "Not available";
+      currentReferralLink || "Not available";
 
-    if(me.member?.sponsorId){
-      $("sponsorId").textContent = me.member.sponsorId;
+    if(me.member?.sponsorId || me.member?.sponsor_id){
+      $("sponsorId").textContent =
+        me.member.sponsorId || me.member.sponsor_id;
     }
 
-    const direct = Number(
-      stats.directMembers ?? stats.direct ?? 0
-    );
+    const direct = Number(stats.directMembers ?? stats.direct ?? 0);
+    const total = Number(stats.totalMembers ?? stats.total ?? 0);
 
-    const total = Number(
-      stats.totalMembers ?? stats.total ?? 0
-    );
+    $("directCount").textContent = direct.toLocaleString();
+    $("teamCount").textContent = total.toLocaleString();
 
-    $("directCount").textContent =
-      direct.toLocaleString();
-
-    $("teamCount").textContent =
-      total.toLocaleString();
-
-    const levels =
-      Array.isArray(stats.levels) ? stats.levels : [];
-
-    const activeLevels = levels.filter(row =>
-      Number(row.members || row.count || 0) > 0
+    const levels = Array.isArray(stats.levels) ? stats.levels : [];
+    const activeLevels = levels.filter(row=>
+      Number(row.members || row.count || 0)>0
     ).length;
 
-    $("levelCount").textContent =
-      Math.min(activeLevels,10)+"/10";
+    $("levelCount").textContent = Math.min(activeLevels,10)+"/10";
 
     $("referralFootnote").textContent =
-      "Direct: "+direct.toLocaleString()+
-      " · Team: "+total.toLocaleString();
+      "Direct: "+direct.toLocaleString()+" · Team: "+total.toLocaleString();
 
   }catch(err){
-
     $("referralError").style.display = "block";
-
     $("referralError").textContent =
       "Referral information unavailable: "+err.message;
 
@@ -1127,32 +1065,81 @@ async function loadReferral(){
   }
 }
 
-/* COPY REFERRAL INFORMATION */
+/* COPY TEXT */
+async function copyText(value){
+  if(!value) return false;
+
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(value);
+      return true;
+    }
+  }catch(_){}
+
+  const input = document.createElement("textarea");
+  input.value = value;
+  input.style.position = "fixed";
+  input.style.opacity = "0";
+  document.body.appendChild(input);
+  input.select();
+
+  let copied = false;
+  try{
+    copied = document.execCommand("copy");
+  }catch(_){}
+
+  input.remove();
+  return copied;
+}
+
+/* COPY REFERRAL CODE AND LINK */
 document.querySelectorAll("[data-copy]").forEach(button=>{
   button.addEventListener("click",async()=>{
-    const value =
-      $(button.dataset.copy).textContent.trim();
+    const target = $(button.dataset.copy);
+    const value = target ? target.textContent.trim() : "";
 
-    if(!value ||
-       value==="Loading..." ||
-       value==="Not available" ||
-       value==="Unavailable"){
+    if(!value || ["Loading...","Not available","Unavailable"].includes(value)){
       return;
     }
 
-    try{
-      await navigator.clipboard.writeText(value);
-      button.style.color="#00ff9c";
+    const copied = await copyText(value);
+
+    if(copied){
+      button.style.color = "#00ff9c";
       setTimeout(()=>button.style.color="",1200);
-    }catch(_){
-      const input = document.createElement("textarea");
-      input.value = value;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("copy");
-      input.remove();
     }
   });
+});
+
+/* SHARE REFERRAL LINK */
+$("shareReferralBtn").addEventListener("click",async()=>{
+  const link = currentReferralLink ||
+    ($("referralLink").textContent.trim());
+
+  if(!link || ["Loading...","Not available","Unavailable"].includes(link)){
+    alert("Referral link এখনো পাওয়া যায়নি।");
+    return;
+  }
+
+  const shareData = {
+    title:"Join RUBALIA NETWORK",
+    text:"Join RUBALIA NETWORK using my referral link:",
+    url:link
+  };
+
+  try{
+    if(navigator.share){
+      await navigator.share(shareData);
+    }else{
+      const copied = await copyText(link);
+      alert(copied ? "Referral link copied!" : "Link copy করা যায়নি।");
+    }
+  }catch(error){
+    if(error.name!=="AbortError"){
+      const copied = await copyText(link);
+      if(copied) alert("Referral link copied!");
+    }
+  }
 });
 
 /* DRAWER */
@@ -1177,35 +1164,37 @@ document.addEventListener("keydown",e=>{
   if(e.key==="Escape") closeDrawer();
 });
 
-/* LOGOUT BUTTON */
+/* LOGOUT */
 $("logoutLink").addEventListener("click",e=>{
   e.preventDefault();
-
-  if(confirm("Are you sure you want to log out?")){
-    logout();
-  }
+  if(confirm("Are you sure you want to log out?")) logout();
 });
 
-/* INITIALIZE PROFILE */
+/* LOAD PROFILE */
 async function init(){
-
   if(!token()){
     logout();
     return;
   }
 
   try{
-
     const authData = await api("/auth/me");
 
     if(!authData.user){
       throw new Error("Member profile was not returned.");
     }
 
-    let completeUser = {...authData.user};
+    const authUser = authData.user;
+    let completeUser = {...authUser};
 
+    /* Read saved local user as photo fallback */
+    let cachedUser = {};
     try{
+      cachedUser = JSON.parse(localStorage.getItem("rubalia_user") || "{}");
+    }catch(_){}
 
+    /* Load saved database profile */
+    try{
       const profileData = await api("/profile");
 
       const savedProfile =
@@ -1213,24 +1202,23 @@ async function init(){
         profileData.user ||
         profileData.data?.profile;
 
-      if(savedProfile && typeof savedProfile === "object"){
-        completeUser = {
-          ...completeUser,
-          ...savedProfile
-        };
-      }else{
-        throw new Error(
-          "The profile API did not return saved profile data."
-        );
+      if(savedProfile && typeof savedProfile==="object"){
+        completeUser = {...completeUser,...savedProfile};
       }
-
     }catch(profileError){
+      console.warn("Saved profile could not be loaded:",profileError);
+    }
 
-      console.error(
-        "Saved profile could not be loaded:",
-        profileError
-      );
+    /* Keep the first available valid image URL */
+    const photoURL = findPhotoURL(
+      completeUser,
+      authUser,
+      cachedUser
+    );
 
+    if(photoURL){
+      completeUser.avatar_url = photoURL;
+      completeUser.avatarUrl = photoURL;
     }
 
     renderMember(completeUser);
@@ -1239,16 +1227,12 @@ async function init(){
     loadReferral();
 
   }catch(err){
-
-    $("memberNameBadge").textContent =
-      "Unable to load profile";
-
+    $("memberNameBadge").textContent = "Unable to load profile";
     console.error("Profile initialization error:",err);
-
   }
 }
 
-/* START PROFILE */
+/* START */
 init();
 
 </script>
