@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,25 +6,56 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#310d35">
 <title>Settings | RUBALIA NETWORK</title>
+
 <style>
-:root{--red:#a71952;--pink:#e72c76;--dark:#21172f;--gold:#e5bd68;--bg:#f7f5f9;--text:#29243a;--muted:#858196;--border:#eae6ee;--green:#16804b}
+:root{
+ --red:#a71952;--pink:#e72c76;--dark:#21172f;
+ --gold:#e5bd68;--bg:#f7f5f9;--text:#29243a;
+ --muted:#858196;--border:#eae6ee;--green:#16804b
+}
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
 a{text-decoration:none;color:inherit}
 button,input,textarea{font-family:inherit}
 body.menu-open{overflow:hidden}
-.app-header{height:76px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 22px;color:#fff;background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);box-shadow:0 4px 15px rgba(35,10,45,.18);position:relative;z-index:100}
+
+.app-header{
+ height:76px;display:flex;align-items:center;justify-content:space-between;
+ gap:12px;padding:0 22px;color:#fff;
+ background:linear-gradient(110deg,#24112f,#4b104f,#a51e43);
+ box-shadow:0 4px 15px rgba(35,10,45,.18);
+ position:relative;z-index:100
+}
 .header-left{display:flex;align-items:center;gap:13px;min-width:0}
-.menu-toggle{width:48px;height:48px;flex-shrink:0;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;font-size:25px;cursor:pointer}
+.menu-toggle{
+ width:48px;height:48px;flex-shrink:0;border:1px solid rgba(255,255,255,.22);
+ background:rgba(255,255,255,.08);color:#fff;border-radius:12px;
+ font-size:25px;cursor:pointer
+}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(140deg,#ffe58a,#e6a928);display:flex;justify-content:center;align-items:center;color:#512a83;font-size:27px;font-weight:900;flex-shrink:0}
+.brand-icon{
+ width:48px;height:48px;border-radius:14px;
+ background:linear-gradient(140deg,#ffe58a,#e6a928);
+ display:flex;justify-content:center;align-items:center;
+ color:#512a83;font-size:27px;font-weight:900;flex-shrink:0
+}
 .brand-text{font-size:17px;font-weight:900;letter-spacing:1px;white-space:nowrap}
 .brand-text span{color:#ffe58a}
 .brand-text small{display:block;font-size:9px;letter-spacing:3px;color:#f5dca4;margin-top:4px}
-.header-label{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;white-space:nowrap}
+.header-label{
+ border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);
+ color:#fff;border-radius:11px;padding:12px 15px;font-size:12px;font-weight:bold;white-space:nowrap
+}
+
 .drawer-overlay{position:fixed;inset:0;background:rgba(12,5,24,.58);z-index:200;opacity:0;visibility:hidden;transition:.25s}
 .drawer-overlay.show{opacity:1;visibility:visible}
-.sidebar{position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;overflow-y:auto;padding:20px 14px 25px;color:#fff;background:linear-gradient(180deg,#211653,#49217e,#7138a7);z-index:201;transform:translateX(-105%);transition:transform .28s ease;box-shadow:10px 0 35px rgba(0,0,0,.2)}
+.sidebar{
+ position:fixed;top:0;bottom:0;left:0;width:285px;max-width:85vw;
+ overflow-y:auto;padding:20px 14px 25px;color:#fff;
+ background:linear-gradient(180deg,#211653,#49217e,#7138a7);
+ z-index:201;transform:translateX(-105%);transition:transform .28s ease;
+ box-shadow:10px 0 35px rgba(0,0,0,.2)
+}
 .sidebar.open{transform:translateX(0)}
 .drawer-top{display:flex;align-items:center;justify-content:space-between;padding:4px 7px 22px}
 .drawer-brand{font-size:22px;font-weight:900;color:#ffe58a;letter-spacing:1px}
@@ -33,6 +65,7 @@ body.menu-open{overflow:hidden}
 .menu a{display:flex;align-items:center;gap:13px;padding:13px 12px;margin:3px 0;border-radius:9px;color:#eee8fa;font-size:13px;border-bottom:1px solid rgba(255,255,255,.08);transition:.2s}
 .menu a:hover,.menu a.active{background:linear-gradient(100deg,#e64c9a,#a14de0);color:#fff}
 .menu-icon{width:23px;text-align:center;font-size:17px}
+
 main{max-width:1150px;margin:auto;padding:25px 20px 50px}
 .heading{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:22px}
 .heading h1{font-size:25px;color:var(--dark);margin:0}
@@ -47,9 +80,12 @@ main{max-width:1150px;margin:auto;padding:25px 20px 50px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-group{margin-bottom:15px}
 .form-group label{display:block;font-size:12px;font-weight:bold;color:#44546a;margin-bottom:8px}
-.form-group input,.form-group textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:#fff;outline:none;font-size:13px;color:var(--text)}
+.form-group input,.form-group textarea{
+ width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;
+ background:#fff;outline:none;font-size:13px;color:var(--text)
+}
 .form-group textarea{min-height:85px;resize:vertical}
-.form-group input:focus,.form-group textarea:focus{border-color:var(--pink)}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(231,44,118,.08)}
 .form-group input[readonly]{background:#f5f7fa;color:#718096;cursor:not-allowed}
 .help{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
 .btn{border:0;background:linear-gradient(110deg,#e72c76,#9b164f);color:#fff;padding:12px 18px;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer}
@@ -83,136 +119,260 @@ main{max-width:1150px;margin:auto;padding:25px 20px 50px}
 .language-fixed strong{color:var(--dark)}
 footer{padding:25px 15px;background:linear-gradient(110deg,#17152f,#74133e);color:#d9cbd9;text-align:center;font-size:10px}
 footer strong{color:#f4d58c}
+
 @media(max-width:700px){
-.app-header{height:65px;padding:0 11px;gap:7px}
-.header-left{gap:9px}
-.menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
-.brand{gap:7px}
-.brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
-.brand-text{font-size:13px;letter-spacing:.5px}
-.brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
-.header-label{padding:10px 9px;font-size:10px;border-radius:9px}
-main{padding:18px 13px 35px}
-.heading h1{font-size:21px}
-.card{padding:16px}
-.form-grid{grid-template-columns:1fr;gap:0}
-.info-line{font-size:11px}
+ .app-header{height:65px;padding:0 11px;gap:7px}
+ .header-left{gap:9px}
+ .menu-toggle{width:41px;height:41px;font-size:22px;border-radius:10px}
+ .brand{gap:7px}
+ .brand-icon{width:40px;height:40px;font-size:23px;border-radius:12px}
+ .brand-text{font-size:13px;letter-spacing:.5px}
+ .brand-text small{font-size:7px;letter-spacing:2.5px;margin-top:3px}
+ .header-label{padding:10px 9px;font-size:10px;border-radius:9px}
+ main{padding:18px 13px 35px}
+ .heading h1{font-size:21px}
+ .card{padding:16px}
+ .form-grid{grid-template-columns:1fr;gap:0}
+ .info-line{font-size:11px}
 }
-@media(max-width:360px){.brand-text{font-size:11px}.brand-icon{width:36px;height:36px}.header-label{font-size:9px;padding:9px 7px}}
+@media(max-width:360px){
+ .brand-text{font-size:11px}
+ .brand-icon{width:36px;height:36px}
+ .header-label{font-size:9px;padding:9px 7px}
+}
 </style>
 </head>
+
 <body>
+
 <header class="app-header">
-  <div class="header-left">
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
-    <a href="dashboard.html" class="brand">
-      <div class="brand-icon">R</div>
-      <div class="brand-text">RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
-    </a>
-  </div>
-  <div class="header-label">⚙ Settings</div>
+ <div class="header-left">
+  <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+  <a href="dashboard.html" class="brand">
+   <div class="brand-icon">R</div>
+   <div class="brand-text">RUBALIA <span>NETWORK</span><small>GROW WITH TRUST</small></div>
+  </a>
+ </div>
+ <div class="header-label">⚙ Settings</div>
 </header>
 
 <div class="drawer-overlay" id="drawerOverlay"></div>
+
 <aside class="sidebar" id="sidebar">
-  <div class="drawer-top">
-    <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
-    <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
-  </div>
-  <div class="menu-title">MAIN MENU</div>
-  <nav class="menu">
-    <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
-    <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
-    <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
-    <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
-    <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
-    <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
-    <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
-    <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
-  </nav>
-  <div class="menu-title">ACCOUNT</div>
-  <nav class="menu">
-    <a href="settings.html" class="active"><span class="menu-icon">⚙</span>Settings</a>
-    <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
-    <a href="#" id="logoutLink"><span class="menu-icon">↪</span>Logout</a>
-  </nav>
+ <div class="drawer-top">
+  <div class="drawer-brand">RUBALIA<small>NETWORK</small></div>
+  <button class="drawer-close" id="drawerClose" type="button" aria-label="Close menu">×</button>
+ </div>
+
+ <div class="menu-title">MAIN MENU</div>
+ <nav class="menu">
+  <a href="dashboard.html"><span class="menu-icon">⌂</span>Dashboard</a>
+  <a href="profile.html"><span class="menu-icon">♙</span>My Profile</a>
+  <a href="dashboard.html"><span class="menu-icon">▣</span>Packages</a>
+  <a href="orders.html"><span class="menu-icon">▤</span>My Orders</a>
+  <a href="team.html"><span class="menu-icon">♧</span>My Team</a>
+  <a href="income.html"><span class="menu-icon">৳</span>Income Details</a>
+  <a href="wallet.html"><span class="menu-icon">◈</span>My Wallet</a>
+  <a href="withdraw.html"><span class="menu-icon">⇧</span>Withdraw</a>
+ </nav>
+
+ <div class="menu-title">ACCOUNT</div>
+ <nav class="menu">
+  <a href="settings.html" class="active"><span class="menu-icon">⚙</span>Settings</a>
+  <a href="contact.html"><span class="menu-icon">✉</span>Contact Support</a>
+  <a href="#" id="logoutLink"><span class="menu-icon">↪</span>Logout</a>
+ </nav>
 </aside>
 
 <main>
-  <div class="heading">
-    <div><h1>Account Settings</h1><p>Manage your account preferences and security.</p></div>
-    <span class="status-tag" id="connectionTag">CONNECTING...</span>
+
+ <div class="heading">
+  <div>
+   <h1>Account Settings</h1>
+   <p>Manage your account preferences and security.</p>
+  </div>
+  <span class="status-tag" id="connectionTag">CONNECTING...</span>
+ </div>
+
+ <div id="pageMessage" class="notice" role="status" aria-live="polite">
+  Loading your account information...
+ </div>
+
+ <!-- ACCOUNT INFORMATION -->
+ <section class="card">
+  <h2>Account Information</h2>
+  <p class="sub">Update your username, name and mobile number. Your email and Member ID cannot be changed here.</p>
+
+  <form id="profileForm">
+   <div class="form-grid">
+
+    <div class="form-group">
+     <label for="memberId">Member ID</label>
+     <input id="memberId" readonly>
+     <p class="help">Your permanent Rubalia Member ID.</p>
+    </div>
+
+    <div class="form-group">
+     <label for="accountRole">Account Role</label>
+     <input id="accountRole" readonly>
+    </div>
+
+    <div class="form-group">
+     <label for="username">Username *</label>
+     <input id="username" type="text" placeholder="Choose a username"
+      minlength="3" maxlength="30"
+      pattern="[A-Za-z][A-Za-z0-9_.]*"
+      autocomplete="username" required>
+     <p class="help">3–30 characters. Start with a letter. Letters, numbers, dots and underscores are allowed.</p>
+    </div>
+
+    <div class="form-group">
+     <label for="fullName">Full Name *</label>
+     <input id="fullName" type="text" placeholder="Enter your full name"
+      minlength="2" maxlength="120" autocomplete="name" required>
+    </div>
+
+    <div class="form-group">
+     <label for="phone">Phone Number</label>
+     <input id="phone" type="tel"
+      placeholder="01XXXXXXXXX or +8801XXXXXXXXX"
+      maxlength="20" autocomplete="tel">
+     <p class="help">Add or update your mobile number. Leave blank if you do not want to add one.</p>
+    </div>
+
+    <div class="form-group">
+     <label for="registeredEmail">Registered Email</label>
+     <input id="registeredEmail" type="email" readonly>
+     <p class="help">Email change is not available on this page.</p>
+    </div>
+
+    <div class="form-group">
+     <label for="accountStatus">Account Status</label>
+     <input id="accountStatus" readonly>
+    </div>
+
+   </div>
+
+   <div class="info-line">
+    <span>Account Created</span>
+    <strong id="createdAt">Not available</strong>
+   </div>
+
+   <button class="btn" id="saveProfileButton" type="submit">Save Changes</button>
+   <button class="btn btn-secondary" id="resetProfileButton" type="button" style="margin-left:7px">Reset</button>
+   <p id="profileMessage" class="inline-message" aria-live="polite"></p>
+  </form>
+ </section>
+
+ <!-- CHANGE PASSWORD -->
+ <section class="card">
+  <h2>Change Password</h2>
+  <p class="sub">Verify your current password before setting a new password.</p>
+
+  <form id="passwordForm">
+   <div class="form-grid">
+    <div class="form-group">
+     <label for="currentPassword">Current Password</label>
+     <input id="currentPassword" type="password" autocomplete="current-password" required maxlength="72">
+    </div>
+    <div class="form-group">
+     <label for="newPassword">New Password</label>
+     <input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required>
+     <p class="help">Use at least 8 characters.</p>
+    </div>
+    <div class="form-group">
+     <label for="confirmPassword">Confirm New Password</label>
+     <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required>
+    </div>
+   </div>
+   <button class="btn" id="passwordButton" type="submit">Update Password</button>
+   <p id="passwordMessage" class="inline-message" aria-live="polite"></p>
+  </form>
+ </section>
+
+ <!-- NOTIFICATION PREFERENCES -->
+ <section class="card">
+  <h2>Notification Preferences</h2>
+  <p class="sub">Choose which types of account notifications you want to receive.</p>
+
+  <div class="preference">
+   <div><strong>Order Notifications</strong><p>Updates about product orders and delivery.</p></div>
+   <label class="switch"><input type="checkbox" id="orderNotifications" checked><span class="slider"></span></label>
   </div>
 
-  <div id="pageMessage" class="notice" role="status" aria-live="polite">Loading your account information...</div>
+  <div class="preference">
+   <div><strong>Team Notifications</strong><p>Updates about your team and member activity.</p></div>
+   <label class="switch"><input type="checkbox" id="teamNotifications" checked><span class="slider"></span></label>
+  </div>
 
-  <section class="card">
-    <h2>Account Information</h2>
-    <p class="sub">These details are retrieved from your Rubalia account.</p>
-    <div class="form-grid">
-      <div class="form-group"><label>Member ID</label><input id="memberId" value="Loading..." readonly></div>
-      <div class="form-group"><label>Account Role</label><input id="accountRole" value="Loading..." readonly></div>
-      <div class="form-group"><label>Full Name</label><input id="fullName" value="Loading..." readonly></div>
-      <div class="form-group"><label>Registered Email</label><input id="registeredEmail" type="email" value="Loading..." readonly></div>
-      <div class="form-group"><label>Account Status</label><input id="accountStatus" value="Loading..." readonly></div>
-      <div class="form-group"><label>Registered Mobile</label><input value="Not provided by current API" readonly><p class="help">Mobile number is not currently returned by the account API.</p></div>
-    </div>
-    <div class="info-line"><span>Account Created</span><strong id="createdAt">Not available</strong></div>
-  </section>
+  <div class="preference">
+   <div><strong>Promotional Notifications</strong><p>Product announcements and company offers.</p></div>
+   <label class="switch"><input type="checkbox" id="promotionalNotifications" checked><span class="slider"></span></label>
+  </div>
 
-  <section class="card">
-    <h2>Change Password</h2>
-    <p class="sub">Verify your current password before setting a new password.</p>
-    <form id="passwordForm">
-      <div class="form-grid">
-        <div class="form-group"><label for="currentPassword">Current Password</label><input id="currentPassword" type="password" autocomplete="current-password" required maxlength="72"></div>
-        <div class="form-group"><label for="newPassword">New Password</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required><p class="help">Use at least 8 characters.</p></div>
-        <div class="form-group"><label for="confirmPassword">Confirm New Password</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></div>
-      </div>
-      <button class="btn" id="passwordButton" type="submit">Update Password</button>
-      <p id="passwordMessage" class="inline-message" aria-live="polite"></p>
-    </form>
-  </section>
+  <div class="preference">
+   <div><strong>Email Notifications</strong><p>Email notification preference for account updates.</p></div>
+   <label class="switch"><input type="checkbox" id="emailNotifications" checked><span class="slider"></span></label>
+  </div>
 
-  <section class="card">
-    <h2>Notification Preferences</h2>
-    <p class="sub">Choose which types of account notifications you want to receive.</p>
-    <div class="preference"><div><strong>Order Notifications</strong><p>Updates about product orders and delivery.</p></div><label class="switch"><input type="checkbox" id="orderNotifications" checked><span class="slider"></span></label></div>
-    <div class="preference"><div><strong>Team Notifications</strong><p>Updates about your team and member activity.</p></div><label class="switch"><input type="checkbox" id="teamNotifications" checked><span class="slider"></span></label></div>
-    <div class="preference"><div><strong>Promotional Notifications</strong><p>Product announcements and company offers.</p></div><label class="switch"><input type="checkbox" id="promotionalNotifications" checked><span class="slider"></span></label></div>
-    <div class="preference"><div><strong>Email Notifications</strong><p>Email notification preference for account updates.</p></div><label class="switch"><input type="checkbox" id="emailNotifications" checked><span class="slider"></span></label></div>
-    <button class="btn" id="savePreferences" type="button" style="margin-top:18px">Save Preferences</button>
-    <p id="preferencesMessage" class="inline-message" aria-live="polite"></p>
-    <p class="help">These settings store your preferences. They do not independently send or suppress email until the relevant notification delivery services use these preferences.</p>
-  </section>
+  <button class="btn" id="savePreferences" type="button" style="margin-top:18px">Save Preferences</button>
+  <p id="preferencesMessage" class="inline-message" aria-live="polite"></p>
+  <p class="help">These settings store your preferences. Notification delivery services must use these preferences to apply them.</p>
+ </section>
 
-  <section class="card">
-    <h2>Language</h2>
-    <p class="sub">RUBALIA NETWORK currently supports English only.</p>
-    <div class="language-fixed"><span>Website Language</span><strong>English</strong></div>
-  </section>
+ <!-- LANGUAGE -->
+ <section class="card">
+  <h2>Language</h2>
+  <p class="sub">RUBALIA NETWORK currently supports English only.</p>
+  <div class="language-fixed"><span>Website Language</span><strong>English</strong></div>
+ </section>
 
-  <section class="card">
-    <h2>Privacy & Security</h2>
-    <p class="sub">Important account security information.</p>
-    <div class="security-box"><strong>Password Security</strong><p>Use a strong, unique password. Never share your password, OTP or authentication token with anyone.</p></div>
-    <div class="security-box"><strong>Account Verification</strong><p>Your account status is retrieved from the backend. Additional identity verification controls are not available on this page.</p></div>
-    <div class="security-box"><strong>Login Sessions</strong><p>This version uses stateless JWT authentication. A list of active devices and remote session revocation are not available yet. Changing your password does not automatically revoke previously issued JWTs.</p></div>
-    <div class="security-box"><strong>Account Data</strong><p>Account information and preferences are requested from the Rubalia backend.</p></div>
-  </section>
+ <!-- PRIVACY AND SECURITY -->
+ <section class="card">
+  <h2>Privacy &amp; Security</h2>
+  <p class="sub">Important account security information.</p>
 
-  <section class="card">
-    <h2>Account Management</h2>
-    <p class="sub">Submit an account deactivation request for administrator review.</p>
-    <div class="danger">
-      <h3>Account Deactivation Request</h3>
-      <p>Submitting a request does not immediately deactivate or delete your account. An administrator must review it. Outstanding orders, wallet balances, commissions and other obligations may need to be settled first.</p>
-      <div class="form-group"><label for="deactivationReason">Reason (optional)</label><textarea id="deactivationReason" maxlength="1000" placeholder="Tell us why you want to deactivate your account..."></textarea></div>
-      <button id="deactivationButton" type="button">Submit Deactivation Request</button>
-      <p id="deactivationMessage" class="inline-message" aria-live="polite"></p>
-      <p class="help" id="deactivationStatus"></p>
-    </div>
-  </section>
+  <div class="security-box">
+   <strong>Password Security</strong>
+   <p>Use a strong, unique password. Never share your password, OTP or authentication token with anyone.</p>
+  </div>
+
+  <div class="security-box">
+   <strong>Account Verification</strong>
+   <p>Your account status is retrieved from the backend. Additional identity verification controls are not available on this page.</p>
+  </div>
+
+  <div class="security-box">
+   <strong>Login Sessions</strong>
+   <p>This version uses JWT authentication. A list of active devices and remote session revocation are not available yet.</p>
+  </div>
+
+  <div class="security-box">
+   <strong>Account Data</strong>
+   <p>Account information and preferences are requested from the Rubalia backend.</p>
+  </div>
+ </section>
+
+ <!-- ACCOUNT DEACTIVATION -->
+ <section class="card">
+  <h2>Account Management</h2>
+  <p class="sub">Submit an account deactivation request for administrator review.</p>
+
+  <div class="danger">
+   <h3>Account Deactivation Request</h3>
+   <p>Submitting a request does not immediately deactivate or delete your account. An administrator must review it. Outstanding orders, wallet balances, commissions and other obligations may need to be settled first.</p>
+
+   <div class="form-group">
+    <label for="deactivationReason">Reason (optional)</label>
+    <textarea id="deactivationReason" maxlength="1000" placeholder="Tell us why you want to deactivate your account..."></textarea>
+   </div>
+
+   <button id="deactivationButton" type="button">Submit Deactivation Request</button>
+   <p id="deactivationMessage" class="inline-message" aria-live="polite"></p>
+   <p class="help" id="deactivationStatus"></p>
+  </div>
+ </section>
+
 </main>
 
 <footer>© <strong>RUBALIA NETWORK</strong> — All Rights Reserved.</footer>
@@ -220,214 +380,445 @@ main{padding:18px 13px 35px}
 <script>
 "use strict";
 
-const API_BASE = "https://rubalia.onrender.com/api";
-const token = sessionStorage.getItem("rubalia_token");
-const $ = id => document.getElementById(id);
+const API_BASE="https://rubalia.onrender.com/api";
+const $=id=>document.getElementById(id);
 
-const sidebar = $("sidebar");
-const overlay = $("drawerOverlay");
-const menuToggle = $("menuToggle");
+let originalProfile=null;
+
+function getToken(){
+ return sessionStorage.getItem("rubalia_token")||
+        localStorage.getItem("rubalia_token")||
+        sessionStorage.getItem("token")||
+        localStorage.getItem("token");
+}
+
+function clearSessionAndRedirect(){
+ sessionStorage.removeItem("rubalia_token");
+ localStorage.removeItem("rubalia_token");
+ sessionStorage.removeItem("token");
+ localStorage.removeItem("token");
+ sessionStorage.removeItem("rubalia_user");
+ localStorage.removeItem("rubalia_user");
+ location.replace("login.html");
+}
+
+/* SIDEBAR */
+const sidebar=$("sidebar");
+const overlay=$("drawerOverlay");
+const menuToggle=$("menuToggle");
 
 function openMenu(){
-  sidebar.classList.add("open");
-  overlay.classList.add("show");
-  document.body.classList.add("menu-open");
-  menuToggle.setAttribute("aria-expanded","true");
+ sidebar.classList.add("open");
+ overlay.classList.add("show");
+ document.body.classList.add("menu-open");
+ menuToggle.setAttribute("aria-expanded","true");
 }
+
 function closeMenu(){
-  sidebar.classList.remove("open");
-  overlay.classList.remove("show");
-  document.body.classList.remove("menu-open");
-  menuToggle.setAttribute("aria-expanded","false");
+ sidebar.classList.remove("open");
+ overlay.classList.remove("show");
+ document.body.classList.remove("menu-open");
+ menuToggle.setAttribute("aria-expanded","false");
 }
-menuToggle.addEventListener("click",()=>sidebar.classList.contains("open")?closeMenu():openMenu());
+
+menuToggle.addEventListener("click",()=>{
+ sidebar.classList.contains("open")?closeMenu():openMenu();
+});
+
 $("drawerClose").addEventListener("click",closeMenu);
 overlay.addEventListener("click",closeMenu);
-document.addEventListener("keydown",event=>{if(event.key==="Escape")closeMenu();});
-sidebar.querySelectorAll("a").forEach(link=>{if(link.id!=="logoutLink")link.addEventListener("click",closeMenu);});
 
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape")closeMenu();
+});
+
+sidebar.querySelectorAll("a").forEach(link=>{
+ if(link.id!=="logoutLink")link.addEventListener("click",closeMenu);
+});
+
+/* MESSAGES */
 function showMessage(message,type="notice"){
-  const element=$("pageMessage");
-  element.className="notice";
-  if(type==="error")element.classList.add("error");
-  if(type==="success")element.classList.add("success");
-  element.textContent=message;
+ const el=$("pageMessage");
+ el.className="notice";
+ if(type==="error")el.classList.add("error");
+ if(type==="success")el.classList.add("success");
+ el.textContent=message;
 }
+
 function inlineMessage(id,message,type){
-  const element=$(id);
-  element.textContent=message||"";
-  element.className="inline-message"+(type?" "+type:"");
+ const el=$(id);
+ el.textContent=message||"";
+ el.className="inline-message"+(type?" "+type:"");
 }
-function setText(id,value,fallback="Not available"){
-  const element=$(id);
-  if(!element)return;
-  element.value=value===null||value===undefined||value===""?fallback:String(value);
+
+function setValue(id,value,fallback=""){
+ const el=$(id);
+ if(el)el.value=value===null||value===undefined?fallback:String(value);
 }
+
 function formatDate(value){
-  if(!value)return "Not available";
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime()))return "Not available";
-  return date.toLocaleString("en-BD",{year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"});
+ if(!value)return "Not available";
+ const date=new Date(value);
+ if(Number.isNaN(date.getTime()))return "Not available";
+ return date.toLocaleString("en-BD",{
+  year:"numeric",month:"long",day:"numeric",
+  hour:"2-digit",minute:"2-digit"
+ });
 }
-function clearSessionAndRedirect(){
-  sessionStorage.removeItem("rubalia_token");
-  sessionStorage.removeItem("rubalia_user");
-  window.location.replace("login.html");
-}
+
+/* API REQUEST */
 async function apiRequest(path,options={}){
-  const response=await fetch(`${API_BASE}${path}`,{
-    ...options,
-    headers:{
-      "Authorization":`Bearer ${token}`,
-      "Accept":"application/json",
-      ...(options.body?{"Content-Type":"application/json"}:{}),
-      ...(options.headers||{})
-    },
-    cache:"no-store"
-  });
-  let data={};
-  try{data=await response.json();}catch(error){throw new Error("The server returned an invalid response.");}
-  if(response.status===401){clearSessionAndRedirect();throw new Error("Your session has expired. Please log in again.");}
-  if(!response.ok||data.success===false)throw new Error(data.message||"The request could not be completed.");
-  return data;
+ const authToken=getToken();
+
+ if(!authToken){
+  clearSessionAndRedirect();
+  throw new Error("Please log in again.");
+ }
+
+ const headers={
+  "Authorization":"Bearer "+authToken,
+  "Accept":"application/json",
+  ...(options.body?{"Content-Type":"application/json"}:{}),
+  ...(options.headers||{})
+ };
+
+ const response=await fetch(API_BASE+path,{
+  ...options,headers,cache:"no-store"
+ });
+
+ const data=await response.json().catch(()=>({}));
+
+ if(response.status===401||response.status===403){
+  clearSessionAndRedirect();
+  throw new Error("Your session has expired. Please log in again.");
+ }
+
+ if(!response.ok||data.success===false){
+  throw new Error(data.message||"The request could not be completed.");
+ }
+
+ return data;
 }
 
+/* LOGOUT */
 $("logoutLink").addEventListener("click",event=>{
-  event.preventDefault();
-  if(confirm("Are you sure you want to log out?"))clearSessionAndRedirect();
+ event.preventDefault();
+ if(confirm("Are you sure you want to log out?")){
+  clearSessionAndRedirect();
+ }
 });
 
+/* LOAD ACCOUNT INFORMATION */
 async function loadAccountInformation(){
-  if(!token){window.location.replace("login.html");return;}
-  try{
-    const data=await apiRequest("/auth/me");
-    if(!data.user)throw new Error("Unable to load account information.");
-    const user=data.user;
-    setText("memberId",user.memberId);
-    setText("accountRole",user.role);
-    setText("fullName",user.full_name);
-    setText("registeredEmail",user.email);
-    setText("accountStatus",user.status);
-    $("createdAt").textContent=formatDate(user.created_at);
-    $("connectionTag").textContent="ACCOUNT CONNECTED";
-    $("connectionTag").style.background="#e7f6ef";
-    $("connectionTag").style.color="#16865b";
-    sessionStorage.setItem("rubalia_user",JSON.stringify({
-      id:user.id,memberId:user.memberId,full_name:user.full_name,
-      email:user.email,role:user.role,status:user.status
-    }));
-    showMessage("Your account information was successfully loaded from the Rubalia server.","success");
-  }catch(error){
-    console.error("Settings account loading error:",error);
-    $("connectionTag").textContent="CONNECTION ERROR";
-    $("connectionTag").style.background="#fff1f1";
-    $("connectionTag").style.color="#b83232";
-    showMessage(error.message||"Could not connect to the Rubalia server.","error");
-  }
-}
+ try{
+  const [authData,profileData]=await Promise.all([
+   apiRequest("/auth/me"),
+   apiRequest("/profile")
+  ]);
 
-async function loadPreferences(){
-  try{
-    const data=await apiRequest("/settings");
-    const s=data.settings||{};
-    $("orderNotifications").checked=s.order_notifications!==false;
-    $("teamNotifications").checked=s.team_notifications!==false;
-    $("promotionalNotifications").checked=s.promotional_notifications!==false;
-    $("emailNotifications").checked=s.email_notifications!==false;
-  }catch(error){
-    inlineMessage("preferencesMessage",error.message,"error");
-  }
-}
-
-$("passwordForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  const currentPassword=$("currentPassword").value;
-  const newPassword=$("newPassword").value;
-  const confirmPassword=$("confirmPassword").value;
-  if(newPassword.length<8){inlineMessage("passwordMessage","New password must be at least 8 characters.","error");return;}
-  if(newPassword!==confirmPassword){inlineMessage("passwordMessage","New password and confirmation do not match.","error");return;}
-  const button=$("passwordButton");
-  button.disabled=true;button.textContent="Updating...";
-  inlineMessage("passwordMessage","");
-  try{
-    const data=await apiRequest("/settings/change-password",{
-      method:"POST",
-      body:JSON.stringify({currentPassword,newPassword,confirmPassword})
-    });
-    inlineMessage("passwordMessage",data.message||"Password changed successfully.","success");
-    $("passwordForm").reset();
-  }catch(error){
-    inlineMessage("passwordMessage",error.message,"error");
-  }finally{
-    button.disabled=false;button.textContent="Update Password";
-  }
-});
-
-$("savePreferences").addEventListener("click",async()=>{
-  const button=$("savePreferences");
-  button.disabled=true;button.textContent="Saving...";
-  inlineMessage("preferencesMessage","");
-  const settings={
-    orderNotifications:$("orderNotifications").checked,
-    teamNotifications:$("teamNotifications").checked,
-    promotionalNotifications:$("promotionalNotifications").checked,
-    emailNotifications:$("emailNotifications").checked
+  const user={
+   ...(authData.user||{}),
+   ...(profileData.profile||{})
   };
-  try{
-    const data=await apiRequest("/settings",{
-      method:"PUT",
-      body:JSON.stringify(settings)
-    });
-    inlineMessage("preferencesMessage",data.message||"Preferences saved successfully.","success");
-  }catch(error){
-    inlineMessage("preferencesMessage",error.message,"error");
-  }finally{
-    button.disabled=false;button.textContent="Save Preferences";
-  }
+
+  if(!user.id)throw new Error("Unable to load account information.");
+
+  originalProfile={...user};
+
+  const memberId=user.memberId||
+   (user.id?"RUB"+String(user.id).padStart(6,"0"):"");
+
+  setValue("memberId",memberId);
+  setValue("accountRole",user.role);
+  setValue("username",user.username);
+  setValue("fullName",user.full_name||user.fullName);
+  setValue("phone",user.phone);
+  setValue("registeredEmail",user.email);
+  setValue("accountStatus",user.status);
+
+  $("createdAt").textContent=formatDate(user.created_at);
+
+  $("connectionTag").textContent="ACCOUNT CONNECTED";
+  $("connectionTag").style.background="#e7f6ef";
+  $("connectionTag").style.color="#16865b";
+
+  const cachedUser={
+   ...user,
+   memberId,
+   username:user.username||"",
+   full_name:user.full_name||"",
+   phone:user.phone||""
+  };
+
+  sessionStorage.setItem("rubalia_user",JSON.stringify(cachedUser));
+
+  showMessage(
+   "Your account information was successfully loaded from the Rubalia server.",
+   "success"
+  );
+
+ }catch(error){
+  console.error("Settings account loading error:",error);
+
+  $("connectionTag").textContent="CONNECTION ERROR";
+  $("connectionTag").style.background="#fff1f1";
+  $("connectionTag").style.color="#b83232";
+
+  showMessage(error.message||"Could not connect to the Rubalia server.","error");
+ }
+}
+
+/* RESET PROFILE FORM */
+function resetProfileForm(){
+ if(!originalProfile)return;
+
+ setValue("username",originalProfile.username);
+ setValue("fullName",originalProfile.full_name||originalProfile.fullName);
+ setValue("phone",originalProfile.phone);
+
+ inlineMessage("profileMessage","");
+}
+
+$("resetProfileButton").addEventListener("click",resetProfileForm);
+
+/* SAVE PROFILE */
+$("profileForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+
+ const username=$("username").value.trim().toLowerCase();
+ const fullName=$("fullName").value.trim();
+ const phone=$("phone").value.trim();
+ const phoneClean=phone.replace(/[\s()-]/g,"");
+
+ if(!/^[a-z][a-z0-9_.]{2,29}$/.test(username)){
+  inlineMessage(
+   "profileMessage",
+   "Username must be 3–30 characters, start with a letter and contain only letters, numbers, dots or underscores.",
+   "error"
+  );
+  $("username").focus();
+  return;
+ }
+
+ if(fullName.length<2||fullName.length>120){
+  inlineMessage("profileMessage","Full name must be between 2 and 120 characters.","error");
+  $("fullName").focus();
+  return;
+ }
+
+ if(phoneClean&&!/^\+?[0-9]{10,15}$/.test(phoneClean)){
+  inlineMessage("profileMessage","Enter a valid phone number with 10 to 15 digits.","error");
+  $("phone").focus();
+  return;
+ }
+
+ const button=$("saveProfileButton");
+ button.disabled=true;
+ button.textContent="Saving...";
+ inlineMessage("profileMessage","");
+
+ try{
+  const data=await apiRequest("/profile",{
+   method:"PUT",
+   body:JSON.stringify({
+    username,
+    fullName,
+    phone:phoneClean
+   })
+  });
+
+  const updated=data.profile||{};
+
+  originalProfile={...originalProfile,...updated};
+
+  setValue("username",updated.username||username);
+  setValue("fullName",updated.full_name||fullName);
+  setValue("phone",updated.phone||"");
+
+  const savedUser={
+   ...originalProfile,
+   username:updated.username||username,
+   full_name:updated.full_name||fullName,
+   phone:updated.phone||""
+  };
+
+  sessionStorage.setItem("rubalia_user",JSON.stringify(savedUser));
+  localStorage.setItem("rubalia_user",JSON.stringify(savedUser));
+
+  inlineMessage(
+   "profileMessage",
+   data.message||"Profile updated successfully.",
+   "success"
+  );
+
+  showMessage("Your profile information has been saved successfully.","success");
+
+ }catch(error){
+  inlineMessage("profileMessage",error.message||"Unable to update profile.","error");
+
+ }finally{
+  button.disabled=false;
+  button.textContent="Save Changes";
+ }
 });
 
+/* LOAD NOTIFICATION PREFERENCES */
+async function loadPreferences(){
+ try{
+  const data=await apiRequest("/settings");
+  const s=data.settings||{};
+
+  $("orderNotifications").checked=s.order_notifications!==false;
+  $("teamNotifications").checked=s.team_notifications!==false;
+  $("promotionalNotifications").checked=s.promotional_notifications!==false;
+  $("emailNotifications").checked=s.email_notifications!==false;
+
+ }catch(error){
+  inlineMessage("preferencesMessage",error.message,"error");
+ }
+}
+
+/* CHANGE PASSWORD */
+$("passwordForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+
+ const currentPassword=$("currentPassword").value;
+ const newPassword=$("newPassword").value;
+ const confirmPassword=$("confirmPassword").value;
+
+ if(newPassword.length<8){
+  inlineMessage("passwordMessage","New password must be at least 8 characters.","error");
+  return;
+ }
+
+ if(newPassword!==confirmPassword){
+  inlineMessage("passwordMessage","New password and confirmation do not match.","error");
+  return;
+ }
+
+ const button=$("passwordButton");
+ button.disabled=true;
+ button.textContent="Updating...";
+ inlineMessage("passwordMessage","");
+
+ try{
+  const data=await apiRequest("/settings/change-password",{
+   method:"POST",
+   body:JSON.stringify({currentPassword,newPassword,confirmPassword})
+  });
+
+  inlineMessage("passwordMessage",data.message||"Password changed successfully.","success");
+  $("passwordForm").reset();
+
+ }catch(error){
+  inlineMessage("passwordMessage",error.message,"error");
+
+ }finally{
+  button.disabled=false;
+  button.textContent="Update Password";
+ }
+});
+
+/* SAVE NOTIFICATION PREFERENCES */
+$("savePreferences").addEventListener("click",async()=>{
+ const button=$("savePreferences");
+ button.disabled=true;
+ button.textContent="Saving...";
+ inlineMessage("preferencesMessage","");
+
+ const settings={
+  orderNotifications:$("orderNotifications").checked,
+  teamNotifications:$("teamNotifications").checked,
+  promotionalNotifications:$("promotionalNotifications").checked,
+  emailNotifications:$("emailNotifications").checked
+ };
+
+ try{
+  const data=await apiRequest("/settings",{
+   method:"PUT",
+   body:JSON.stringify(settings)
+  });
+
+  inlineMessage("preferencesMessage",data.message||"Preferences saved successfully.","success");
+
+ }catch(error){
+  inlineMessage("preferencesMessage",error.message,"error");
+
+ }finally{
+  button.disabled=false;
+  button.textContent="Save Preferences";
+ }
+});
+
+/* LOAD DEACTIVATION STATUS */
 async function loadDeactivationStatus(){
-  try{
-    const data=await apiRequest("/settings/deactivation-request");
-    if(data.request){
-      const r=data.request;
-      $("deactivationStatus").textContent=`Latest request: ${String(r.status).toUpperCase()} — ${formatDate(r.created_at)}`;
-      if(r.status==="pending"){
-        $("deactivationButton").disabled=true;
-        $("deactivationButton").textContent="Request Pending Review";
-      }
-    }
-  }catch(error){
-    inlineMessage("deactivationMessage",error.message,"error");
+ try{
+  const data=await apiRequest("/settings/deactivation-request");
+
+  if(data.request){
+   const r=data.request;
+
+   $("deactivationStatus").textContent=
+    `Latest request: ${String(r.status).toUpperCase()} — ${formatDate(r.created_at)}`;
+
+   if(r.status==="pending"){
+    $("deactivationButton").disabled=true;
+    $("deactivationButton").textContent="Request Pending Review";
+   }
   }
+
+ }catch(error){
+  inlineMessage("deactivationMessage",error.message,"error");
+ }
 }
 
+/* SUBMIT DEACTIVATION REQUEST */
 $("deactivationButton").addEventListener("click",async()=>{
-  const reason=$("deactivationReason").value.trim();
-  if(!confirm("Submit an account deactivation request for administrator review? Your account will not be deactivated immediately."))return;
-  const button=$("deactivationButton");
-  button.disabled=true;button.textContent="Submitting...";
-  inlineMessage("deactivationMessage","");
-  try{
-    const data=await apiRequest("/settings/deactivation-request",{
-      method:"POST",
-      body:JSON.stringify({reason})
-    });
-    inlineMessage("deactivationMessage",data.message||"Request submitted successfully.","success");
-    $("deactivationStatus").textContent="Latest request: PENDING";
-    button.textContent="Request Pending Review";
-  }catch(error){
-    inlineMessage("deactivationMessage",error.message,"error");
-    button.disabled=false;button.textContent="Submit Deactivation Request";
-  }
+ const reason=$("deactivationReason").value.trim();
+
+ if(!confirm(
+  "Submit an account deactivation request for administrator review? Your account will not be deactivated immediately."
+ ))return;
+
+ const button=$("deactivationButton");
+ button.disabled=true;
+ button.textContent="Submitting...";
+ inlineMessage("deactivationMessage","");
+
+ try{
+  const data=await apiRequest("/settings/deactivation-request",{
+   method:"POST",
+   body:JSON.stringify({reason})
+  });
+
+  inlineMessage("deactivationMessage",data.message||"Request submitted successfully.","success");
+  $("deactivationStatus").textContent="Latest request: PENDING";
+  button.textContent="Request Pending Review";
+
+ }catch(error){
+  inlineMessage("deactivationMessage",error.message,"error");
+  button.disabled=false;
+  button.textContent="Submit Deactivation Request";
+ }
 });
 
+/* INITIALIZE */
 async function start(){
-  if(!token){window.location.replace("login.html");return;}
-  await loadAccountInformation();
-  await Promise.all([loadPreferences(),loadDeactivationStatus()]);
+ if(!getToken()){
+  clearSessionAndRedirect();
+  return;
+ }
+
+ await loadAccountInformation();
+
+ await Promise.all([
+  loadPreferences(),
+  loadDeactivationStatus()
+ ]);
 }
+
 start();
 </script>
+
 </body>
 </html>
