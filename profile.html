@@ -701,13 +701,7 @@ button:disabled{opacity:.55;cursor:wait}
 
 const API_BASE = "https://rubalia.onrender.com/api";
 
-/*
-  IMPORTANT:
-  এই Frontend ধরে নিচ্ছে Backend endpoint:
-  POST /api/upload/profile-image
-  FormData field: image
-*/
-
+/* Backend route: POST /api/upload/profile-image */
 const PHOTO_UPLOAD_ENDPOINT = "/upload/profile-image";
 
 const $ = id => document.getElementById(id);
@@ -857,7 +851,9 @@ photoInput.addEventListener("change",async()=>{
     return;
   }
 
-  if(!token()){
+  const authToken = token();
+
+  if(!authToken){
     logout();
     return;
   }
@@ -875,7 +871,7 @@ photoInput.addEventListener("change",async()=>{
 
   const previewURL = URL.createObjectURL(file);
 
-  // Upload চলাকালীন Preview দেখানো হবে
+  /* Upload চলাকালীন Preview */
   setPhoto(previewURL,memberName);
 
   photoButton.disabled = true;
@@ -884,6 +880,8 @@ photoInput.addEventListener("change",async()=>{
   try{
 
     const formData = new FormData();
+
+    /* Backend expects field name: image */
     formData.append("image",file);
 
     const response = await fetch(
@@ -891,7 +889,7 @@ photoInput.addEventListener("change",async()=>{
       {
         method:"POST",
         headers:{
-          "Authorization":"Bearer "+token(),
+          "Authorization":"Bearer "+authToken,
           "Accept":"application/json"
         },
         body:formData,
@@ -910,11 +908,27 @@ photoInput.addEventListener("change",async()=>{
       throw new Error(data.message || "ছবি আপলোড করা যায়নি।");
     }
 
+    /*
+      Backend response:
+      {
+        success: true,
+        message: "...",
+        image: {
+          url: "...",
+          public_id: "...",
+          width: 900,
+          height: 900
+        }
+      }
+    */
+
     const imageURL =
+      data.image?.url ||
       data.avatar_url ||
       data.avatarUrl ||
       data.imageUrl ||
       data.url ||
+      data.data?.image?.url ||
       data.data?.avatar_url ||
       data.data?.avatarUrl ||
       data.data?.url ||
@@ -925,16 +939,17 @@ photoInput.addEventListener("change",async()=>{
       throw new Error("সার্ভার থেকে ছবির URL পাওয়া যায়নি।");
     }
 
-    // নতুন ছবি Member data-তে সংরক্ষণ
+    /* নতুন ছবি Member data-তে সংরক্ষণ */
     member = {
       ...member,
       avatar_url:imageURL,
       avatarUrl:imageURL
     };
 
+    /* Profile এবং Drawer-এ নতুন ছবি */
     setPhoto(imageURL,memberName);
 
-    // Local cache-এ URL রাখার চেষ্টা
+    /* Local cache-এ শুধু URL রাখা হচ্ছে, Base64 নয় */
     try{
       const savedUser = JSON.parse(
         localStorage.getItem("rubalia_user") || "{}"
@@ -956,6 +971,7 @@ photoInput.addEventListener("change",async()=>{
 
   }catch(error){
 
+    /* Upload ব্যর্থ হলে আগের ছবি ফিরিয়ে আনা */
     setPhoto(oldPhoto,memberName);
 
     photoMessage(
