@@ -1,3 +1,4 @@
+
 "use strict";
 
 const express = require("express");
@@ -6,6 +7,7 @@ const crypto = require("crypto");
 const pool = require("../config/database");
 const { authenticateToken } = require("../middleware/auth");
 const { requireAdmin } = require("../middleware/admin");
+const { sendAdminPush } = require("../services/admin-push");
 
 const router = express.Router();
 
@@ -87,6 +89,8 @@ router.post("/tickets", async (req, res, next) => {
   try {
     await client.query("BEGIN");
 
+    const ticketReference = makeTicketReference();
+
     const ticketResult = await client.query(
       `INSERT INTO support_tickets
         (ticket_reference, user_id, subject, category, priority)
@@ -94,7 +98,7 @@ router.post("/tickets", async (req, res, next) => {
        RETURNING id, ticket_reference, subject, category,
                  priority, status, created_at, updated_at`,
       [
-        makeTicketReference(),
+        ticketReference,
         req.auth.id,
         subject,
         category,
@@ -112,6 +116,14 @@ router.post("/tickets", async (req, res, next) => {
     );
 
     await client.query("COMMIT");
+
+    // Notify Admin about a new member support message.
+    sendAdminPush("new_message", {
+      reference: ticket.ticket_reference,
+      message: `A new support message has been received: ${ticket.subject}`
+    }).catch(error => {
+      console.error("New support ticket Admin push failed:", error.message);
+    });
 
     return res.status(201).json({
       success: true,
@@ -198,7 +210,8 @@ router.post("/tickets/:id/messages", async (req, res, next) => {
     await client.query("BEGIN");
 
     const ticketResult = await client.query(
-      `SELECT id, status FROM support_tickets
+      `SELECT id, ticket_reference, subject, status
+       FROM support_tickets
        WHERE id = $1 AND user_id = $2
        FOR UPDATE`,
       [req.params.id, req.auth.id]
@@ -212,7 +225,9 @@ router.post("/tickets/:id/messages", async (req, res, next) => {
       });
     }
 
-    if (["resolved", "closed"].includes(ticketResult.rows[0].status)) {
+    const ticket = ticketResult.rows[0];
+
+    if (["resolved", "closed"].includes(ticket.status)) {
       await client.query("ROLLBACK");
       return res.status(409).json({
         success: false,
@@ -236,6 +251,14 @@ router.post("/tickets/:id/messages", async (req, res, next) => {
     );
 
     await client.query("COMMIT");
+
+    // Notify Admin about a new member reply.
+    sendAdminPush("new_message", {
+      reference: ticket.ticket_reference,
+      message: `A member sent a new message: ${ticket.subject}`
+    }).catch(error => {
+      console.error("Member message Admin push failed:", error.message);
+    });
 
     return res.status(201).json({
       success: true,
